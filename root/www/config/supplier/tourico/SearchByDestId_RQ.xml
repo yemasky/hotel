@@ -1,0 +1,35 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:m0="http://schemas.tourico.com/webservices/hotelv3">
+	<SOAP-ENV:Header>
+		<m:AuthenticationHeader xmlns:m="http://schemas.tourico.com/webservices/authentication">
+			<m:LoginName>XXXX</m:LoginName>
+			<m:Password>YYYY</m:Password>
+			<m:Culture>en_US</m:Culture>
+			<m:Version>5</m:Version>
+		</m:AuthenticationHeader>
+	</SOAP-ENV:Header>
+	<SOAP-ENV:Body>
+		<m:SearchHotelsByDestinationIds xmlns:m="http://tourico.com/webservices/hotelv3">
+			<m:request>
+				<m0:DestinationIdsInfo>
+					<m0:DestinationIdInfo id="7263"/>
+				</m0:DestinationIdsInfo>
+				<m0:CheckIn>2013-08-13</m0:CheckIn>
+				<m0:CheckOut>2013-08-17</m0:CheckOut>
+				<m0:RoomsInformation>
+					<m0:RoomInfo>
+						<m0:AdultNum>2</m0:AdultNum>
+						<m0:ChildNum>1</m0:ChildNum>
+						<m0:ChildAges>
+							<m0:ChildAge age="3"/>
+						</m0:ChildAges>
+					</m0:RoomInfo>
+				</m0:RoomsInformation>
+				<m0:MaxPrice>0</m0:MaxPrice>
+				<m0:StarLevel>0</m0:StarLevel>
+				<m0:AvailableOnly>true</m0:AvailableOnly>
+
+				<m0:ExactDestination>true</m0:ExactDestination>
+			</m:request>
+		</m:SearchHotelsByDestinationIds>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

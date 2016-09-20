@@ -1,0 +1,15 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:m0="http://tourico.com/travelservices/">
+	<SOAP-ENV:Header>
+		<m:LoginHeader xmlns:m="http://tourico.com/webservices/">
+			<m0:username>XXXX</m0:username>
+			<m0:password>YYYY</m0:password>
+			<m0:culture>en_US</m0:culture>
+			<m0:version>5</m0:version>
+		</m:LoginHeader>
+	</SOAP-ENV:Header>
+	<SOAP-ENV:Body>
+		<m:CancelReservation xmlns:m="http://tourico.com/webservices/">
+			<m:nResID>298265753</m:nResID>
+		</m:CancelReservation>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

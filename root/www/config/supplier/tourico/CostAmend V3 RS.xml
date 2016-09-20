@@ -1,0 +1,72 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<CostAmendResponse xmlns="http://tourico.com/webservices/hotelv3">
+			<CostAmendResult>
+				<Info version="8.5" culture="en-US" serverTime="2010-09-15T04:46:11.0211859-04:00" xmlns="http://schemas.tourico.com/webservices/hotelv3"/>
+				<AmendInfo version="8.5" xmlns="http://schemas.tourico.com/webservices/hotelv3">
+					<ResGroup rGID="9455807" rgldRefNum="Contact TouricoHolidays @ 18004303333">
+						<Reservation>
+							<ReservationResType reservationId="9837072" fromDate="2010-10-13T00:00:00" toDate="2010-10-18T00:00:00" amendmentPrice="58.66" type="Charge" currency="USD" status="Confirm" note="Change Checkin date by adding 1 day to Reservation" tranNum="9492267" agentRefNum="">
+								<HotelExtraInfo hotelId="4359" name="Comfort Suites Universal South" stars="3" hotelPhone="+1 407 351 5050" hotelFax="0577971181" provider="localTgsProvider"/>
+								<RoomExtraInfo roomId="1" name="Standard" dblBed="false" occupId="4359;5341;5339;2;3;1">
+									<Supplements>
+										<Supplement xsi:type="PerRoomSupplement" suppId="5" suppName="Resort Fee" supptType="8" suppIsMandatory="true" suppChargeType="AtProperty" price="17.50"/>
+									</Supplements>
+									<roomInfo>
+										<AdultNum>3</AdultNum>
+										<ChildNum>1</ChildNum>
+										<ChildAges>
+											<ChildAge age="6"/>
+										</ChildAges>
+									</roomInfo>
+									<hotelRoomTypeId>5341</hotelRoomTypeId>
+								</RoomExtraInfo>
+								<Passenger firstName="PassengerB" middleName="B" lastName="PassengerB" homePhone="44563432" mobilePhone="48435344" ageGroup="1"/>
+								<CancellationPolicies>
+									<OrigPolicy>
+										<HotelPolicy hotelId="4359">
+											<RoomTypePolicy hotelRoomTypeId="5341" checkIn="2010-10-13" checkOut="2010-10-17">
+												<CancelPolicy>
+													<CancelPenaltyType>
+														<Deadline offsetUnitMultiplier="96" offsetDropTime="BeforeArrival" offsetTimeUnit="Hour"/>
+														<AmountPercent currencyCode="USD" basisType="FullStay" amount="400"/>
+													</CancelPenaltyType>
+													<CancelPenaltyType>
+														<Deadline offsetUnitMultiplier="0" offsetDropTime="BeforeArrival" offsetTimeUnit="Hour"/>
+														<AmountPercent currencyCode="USD" basisType="FullStay" amount="400"/>
+													</CancelPenaltyType>
+												</CancelPolicy>
+											</RoomTypePolicy>
+										</HotelPolicy>
+									</OrigPolicy>
+									<NewPolicy>
+										<HotelPolicy hotelId="4359">
+											<RoomTypePolicy hotelRoomTypeId="5341" checkIn="2010-10-13" checkOut="2010-10-18">
+												<CancelPolicy>
+													<CancelPenaltyType>
+														<Deadline offsetUnitMultiplier="96" offsetDropTime="BeforeArrival" offsetTimeUnit="Hour"/>
+														<AmountPercent currencyCode="USD" basisType="FullStay" amount="400"/>
+													</CancelPenaltyType>
+													<CancelPenaltyType>
+														<Deadline offsetUnitMultiplier="0" offsetDropTime="BeforeArrival" offsetTimeUnit="Hour"/>
+														<AmountPercent currencyCode="USD" basisType="FullStay" amount="400"/>
+													</CancelPenaltyType>
+												</CancelPolicy>
+											</RoomTypePolicy>
+										</HotelPolicy>
+									</NewPolicy>
+								</CancellationPolicies>
+							</ReservationResType>
+						</Reservation>
+						<Billing>
+							<OrigPrice price="221.24" currency="USD"/>
+							<NewPrice price="279.90" currency="USD"/>
+							<Paid price="221.24" currency="USD"/>
+							<Balance price="58.66" currency="USD"/>
+						</Billing>
+					</ResGroup>
+				</AmendInfo>
+			</CostAmendResult>
+		</CostAmendResponse>
+	</s:Body>
+</s:Envelope>

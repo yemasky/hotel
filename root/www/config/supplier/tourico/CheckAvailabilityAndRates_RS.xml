@@ -1,0 +1,45 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<CheckAvailabilityAndPricesResponse xmlns="http://tourico.com/webservices/hotelv3">
+			<CheckAvailabilityAndPricesResult>
+				<Info version="5" culture="en-US" serverTime="2013-06-05T09:48:37.2199057-04:00" xmlns="http://schemas.tourico.com/webservices/hotelv3"/>
+				<HotelList xmlns="http://schemas.tourico.com/webservices/hotelv3">
+					<Hotel brandId="140" brandName="Crowne Plaza Hotels &amp; Resorts" category="Deluxe" PropertySubType="" NumOfRoom="770" minAverPublishPrice="317" PropertyType="Hotel" name="Crowne Plaza Times Square" bestValue="true" hotelId="791" provider="localTgsProvider" thumb="http://image1.urlforimages.com/791/exterior01_Thumbnailed.jpg" currency="USD" minAverPrice="317" starsLevel="4.5" desc="Location&#xD;&#xA;The hotel is situated in the heart of Manhattan, directly on the famous Times Square. A vast array of shops and entertainment venues, as well as cultural venues and sights, are located in the immediate vicinity and within easy reach. Broadway, the Rockefeller Center, and Radio City Music Hall are all waiting to be explored. The nearest subway station is just a few paces from the hotel.">
+						<Location countryCode="US" stateCode="NY" city="New York" searchingState="New York" searchingCity="New York" location="Manhattan - Midtown" address="1605 Broadway New York New York 10019" longitude="-73.9847" latitude="40.7611"/>
+						<RoomTypes>
+							<RoomType NumOfBathrooms="0" roomTypeCategory="Standard" roomTypeCategoryId="17" nights="4" name="Standard" productId="791;5;5" startDate="2013-08-13T00:00:00" hotelRoomTypeId="5" roomId="3" isAvailable="true">
+								<AvailabilityBreakdown>
+									<Availability offset="0" status="true"/>
+									<Availability offset="1" status="true"/>
+									<Availability offset="2" status="true"/>
+									<Availability offset="3" status="true"/>
+								</AvailabilityBreakdown>
+								<Occupancies>
+									<Occupancy taxPublish="177.5" occupPublishPrice="1268" occupId="791;5;5;2;2;1" avrNightPublishPrice="317" occupPrice="1268" maxChild="2" maxGuests="4" tax="177.5" avrNightPrice="317" bedding="3,2" isPublish="false">
+										<PriceBreakdown>
+											<Price offset="0" value="330.66" valuePublish="330.66"/>
+											<Price offset="1" value="330.66" valuePublish="330.66"/>
+											<Price offset="2" value="303.34" valuePublish="303.34"/>
+											<Price offset="3" value="303.34" valuePublish="303.34"/>
+										</PriceBreakdown>
+										<Rooms>
+											<Room seqNum="1">
+												<AdultNum>2</AdultNum>
+												<ChildNum>1</ChildNum>
+												<ChildAges>
+													<ChildAge age="0"/>
+												</ChildAges>
+											</Room>
+										</Rooms>
+										<SelctedSupplements/>
+										<BoardBases/>
+									</Occupancy>
+								</Occupancies>
+							</RoomType>
+						</RoomTypes>
+					</Hotel>
+				</HotelList>
+			</CheckAvailabilityAndPricesResult>
+		</CheckAvailabilityAndPricesResponse>
+	</s:Body>
+</s:Envelope>

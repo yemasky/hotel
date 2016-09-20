@@ -1,0 +1,17 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<SOAP-ENV:Header>
+		<m:AuthenticationHeader xmlns:m="http://schemas.tourico.com/webservices/authentication">
+			<m:LoginName>XXXX</m:LoginName>
+			<m:Password>YYYY</m:Password>
+			<m:Culture>en_US</m:Culture>
+			<m:Version>5</m:Version>
+		</m:AuthenticationHeader>
+	</SOAP-ENV:Header>
+	<SOAP-ENV:Body>
+		<m:GetHotelDetailsV3 xmlns:m="http://tourico.com/webservices/hotelv3">
+			<m:HotelIds>
+				<m:HotelID id="1216326"/>
+			</m:HotelIds>
+		</m:GetHotelDetailsV3>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

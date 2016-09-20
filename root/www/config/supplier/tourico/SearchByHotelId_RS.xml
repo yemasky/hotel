@@ -1,0 +1,95 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<SearchHotelsByIdResponse xmlns="http://tourico.com/webservices/hotelv3">
+			<SearchHotelsByIdResult>
+				<Info version="5" culture="en-US" serverTime="2013-06-05T09:13:52.2016641-04:00" xmlns="http://schemas.tourico.com/webservices/hotelv3"/>
+				<HotelList xmlns="http://schemas.tourico.com/webservices/hotelv3">
+					<Hotel brandId="0" brandName="" category="First Class" PropertySubType="" NumOfRoom="500" minAverPublishPrice="217.78" PropertyType="Hotel" name="Pre Production Test Hotel" bestValue="false" hotelId="1216326" provider="localTgsProvider" thumb="http://www.touricoholidays.com/en/Modules/customizable/images/photo-not-available-small.gif" currency="USD" minAverPrice="217.78" starsLevel="3.5" desc="">
+						<Location countryCode="US" stateCode="NY" city="New York" searchingState="New York" searchingCity="New York" location="" address="14 street avenue  New York New York 10009" longitude="-74.1153297" latitude="40.6712611"/>
+						<RoomTypes>
+							<RoomType NumOfBathrooms="0" roomTypeCategory="Deluxe" roomTypeCategoryId="9" nights="4" name="Deluxe" productId="1216326;11859597;2988402" startDate="2013-08-13T00:00:00" hotelRoomTypeId="11859597" roomId="21" isAvailable="true">
+								<AvailabilityBreakdown>
+									<Availability offset="0" status="true"/>
+									<Availability offset="1" status="true"/>
+									<Availability offset="2" status="true"/>
+									<Availability offset="3" status="true"/>
+								</AvailabilityBreakdown>
+								<Discount xsi:type="ProgressivePromotion" from="2013-08-13T00:00:00" to="2013-08-17T00:00:00" type="Percent" value="20" name="Special Deal"/>
+								<Occupancies>
+									<Occupancy taxPublish="0" occupPublishPrice="871.12" occupId="1216326;11859597;2988402;2;2;1" avrNightPublishPrice="217.78" occupPrice="871.12" maxChild="2" maxGuests="4" tax="0" avrNightPrice="217.78" bedding="3,2" isPublish="false">
+										<PriceBreakdown>
+											<Price offset="0" value="217.78" valuePublish="217.78"/>
+											<Price offset="1" value="217.78" valuePublish="217.78"/>
+											<Price offset="2" value="217.78" valuePublish="217.78"/>
+											<Price offset="3" value="217.78" valuePublish="217.78"/>
+										</PriceBreakdown>
+										<Rooms>
+											<Room seqNum="1">
+												<AdultNum>2</AdultNum>
+												<ChildNum>1</ChildNum>
+												<ChildAges>
+													<ChildAge age="3"/>
+												</ChildAges>
+											</Room>
+										</Rooms>
+										<SelctedSupplements>
+											<Supplement xsi:type="PerRoomSupplement" suppId="1000143" suppName="110 Open Bus Tour" supptType="2" suppIsMandatory="true" suppChargeType="Addition" price="11.12" publishPrice="11.12"/>
+											<Supplement xsi:type="PerPersonSupplement" suppId="1200028" suppName="Cleaning Fee" supptType="2" suppIsMandatory="true" suppChargeType="Addition" price="120.00" publishPrice="120.00">
+												<SuppAgeGroup>
+													<SupplementAge suppFrom="1" suppTo="99" suppQuantity="3" suppPrice="40.00"/>
+												</SuppAgeGroup>
+											</Supplement>
+										</SelctedSupplements>
+										<BoardBases>
+											<Boardbase bbId="4" bbName="Breakfast Buffet" bbPrice="133.33" bbPublishPrice="133.33"/>
+										</BoardBases>
+									</Occupancy>
+								</Occupancies>
+							</RoomType>
+							<RoomType NumOfBathrooms="0" roomTypeCategory="Standard" roomTypeCategoryId="17" nights="4" name="Standard" productId="1216326;1975682;2988402" startDate="2013-08-13T00:00:00" hotelRoomTypeId="1975682" roomId="3" isAvailable="true">
+								<AvailabilityBreakdown>
+									<Availability offset="0" status="true"/>
+									<Availability offset="1" status="true"/>
+									<Availability offset="2" status="true"/>
+									<Availability offset="3" status="true"/>
+								</AvailabilityBreakdown>
+								<Occupancies>
+									<Occupancy taxPublish="0" occupPublishPrice="1123.12" occupId="1216326;1975682;2988402;2;2;1" avrNightPublishPrice="280.78" occupPrice="1123.12" maxChild="2" maxGuests="4" tax="0" avrNightPrice="280.78" bedding="3,2" isPublish="false">
+										<PriceBreakdown>
+											<Price offset="0" value="280.78" valuePublish="280.78"/>
+											<Price offset="1" value="280.78" valuePublish="280.78"/>
+											<Price offset="2" value="280.78" valuePublish="280.78"/>
+											<Price offset="3" value="280.78" valuePublish="280.78"/>
+										</PriceBreakdown>
+										<Rooms>
+											<Room seqNum="1">
+												<AdultNum>2</AdultNum>
+												<ChildNum>1</ChildNum>
+												<ChildAges>
+													<ChildAge age="3"/>
+												</ChildAges>
+											</Room>
+										</Rooms>
+										<SelctedSupplements>
+											<Supplement xsi:type="PerRoomSupplement" suppId="1200028" suppName="Cleaning Fee" supptType="4" suppIsMandatory="true" suppChargeType="Included" price="0.00" publishPrice="0.00"/>
+											<Supplement xsi:type="PerRoomSupplement" suppId="1000112" suppName="One Way Trip Airport-Hotel Transfers-Private Van" supptType="1" suppIsMandatory="false" suppChargeType="Addition" price="66.68" publishPrice="66.68"/>
+											<Supplement xsi:type="PerPersonSupplement" suppId="1000615" suppName="City Tax " supptType="8" suppIsMandatory="true" suppChargeType="AtProperty" price="100.00" publishPrice="100.00">
+												<SuppAgeGroup>
+													<SupplementAge suppFrom="1" suppTo="7" suppQuantity="1" suppPrice="20.00"/>
+													<SupplementAge suppFrom="8" suppTo="99" suppQuantity="2" suppPrice="40.00"/>
+												</SuppAgeGroup>
+											</Supplement>
+										</SelctedSupplements>
+										<BoardBases>
+											<Boardbase bbId="1" bbName="Continental Breakfast" bbPrice="0" bbPublishPrice="0"/>
+										</BoardBases>
+									</Occupancy>
+								</Occupancies>
+							</RoomType>
+						</RoomTypes>
+					</Hotel>
+				</HotelList>
+			</SearchHotelsByIdResult>
+		</SearchHotelsByIdResponse>
+	</s:Body>
+</s:Envelope>

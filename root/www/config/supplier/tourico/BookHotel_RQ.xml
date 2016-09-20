@@ -1,0 +1,60 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:m0="http://schemas.tourico.com/webservices/hotelv3">
+	<SOAP-ENV:Header>
+		<m:AuthenticationHeader xmlns:m="http://schemas.tourico.com/webservices/authentication">
+			<m:LoginName>XXXX</m:LoginName>
+			<m:Password>YYYY</m:Password>
+			<m:Culture>en_US</m:Culture>
+			<m:Version>5</m:Version>
+		</m:AuthenticationHeader>
+	</SOAP-ENV:Header>
+	<SOAP-ENV:Body>
+		<m:BookHotelV3 xmlns:m="http://tourico.com/webservices/hotelv3">
+			<m:request>
+				<m0:RecordLocatorId>0</m0:RecordLocatorId>
+				<m0:HotelId>1216326</m0:HotelId>
+				<m0:HotelRoomTypeId>11859597</m0:HotelRoomTypeId>
+				<m0:CheckIn>2013-08-13</m0:CheckIn>
+				<m0:CheckOut>2013-08-17</m0:CheckOut>
+				<m0:RoomsInfo>
+					<m0:RoomReserveInfo>
+						<m0:RoomId>1</m0:RoomId>
+						<m0:ContactPassenger>
+							<m0:FirstName>aaa</m0:FirstName>
+							
+							<m0:LastName>bbb</m0:LastName>
+							<m0:HomePhone>12345678910</m0:HomePhone>
+							<m0:MobilePhone>12345678910</m0:MobilePhone>
+						</m0:ContactPassenger>
+						<m0:SelectedBoardBase>
+							<m0:Id>4</m0:Id>
+							<m0:Price>133.33</m0:Price>
+						</m0:SelectedBoardBase>
+						<m0:SelectedSupplements>
+							<m0:SupplementInfo suppId="1000143" supTotalPrice="11.12" suppType="2"/>
+								<m0:SupplementInfo suppId="1200028" supTotalPrice="120.00" suppType="2">
+								<m0:SupAgeGroup>
+									<m0:SuppAges suppFrom="1" suppTo="99" suppQuantity="3" suppPrice="40.00"/>
+								</m0:SupAgeGroup>
+							</m0:SupplementInfo>
+						</m0:SelectedSupplements>
+						<m0:Bedding>3,2</m0:Bedding>
+						<m0:Note>no smoking</m0:Note>
+						<m0:AdultNum>2</m0:AdultNum>
+						<m0:ChildNum>1</m0:ChildNum>
+						<m0:ChildAges>
+							<m0:ChildAge age="3"/>
+						</m0:ChildAges>
+					</m0:RoomReserveInfo>
+				</m0:RoomsInfo>
+				<m0:PaymentType>Obligo</m0:PaymentType>
+				<m0:AgentRefNumber></m0:AgentRefNumber>
+				<m0:ContactInfo></m0:ContactInfo>
+				<m0:RequestedPrice>1135.57</m0:RequestedPrice>
+				<m0:DeltaPrice>2</m0:DeltaPrice>
+				<m0:Currency>USD</m0:Currency>
+				<m0:IsOnlyAvailable>true</m0:IsOnlyAvailable>
+
+			</m:request>
+		</m:BookHotelV3>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

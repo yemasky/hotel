@@ -1,0 +1,58 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:m0="http://schemas.tourico.com/webservices/hotelv3">
+	<SOAP-ENV:Header>
+		<m:AuthenticationHeader xmlns:m="http://schemas.tourico.com/webservices/authentication">
+			<m:LoginName>******</m:LoginName>
+			<m:Password>******</m:Password>
+			<m:Culture>en_US</m:Culture>
+			<m:Version>8.5</m:Version>
+		</m:AuthenticationHeader>
+	</SOAP-ENV:Header>
+	<SOAP-ENV:Body>
+		<m:DoAmend xmlns:m="http://tourico.com/webservices/hotelv3">
+			<m:request>
+				<m0:RecordLocatorId>9455807</m0:RecordLocatorId>
+				<m0:HotelId>4359</m0:HotelId>
+				<m0:HotelRoomTypeId>5341</m0:HotelRoomTypeId>
+				<m0:CheckIn>2010-10-13</m0:CheckIn>
+				<m0:CheckOut>2010-10-18</m0:CheckOut>
+				<m0:SelectedReservations>
+					<m0:Reservation reservationId="9837072">
+						<m0:AdultsNum>3</m0:AdultsNum>
+						<m0:ChildNum>1</m0:ChildNum>
+						<m0:ChildAges>
+							<m0:ChildAge>6</m0:ChildAge>
+						</m0:ChildAges>
+						<m0:RoomReserveInfo>
+							<m0:ContactPassenger>
+								<m0:FirstName>PassengerB</m0:FirstName>
+								<m0:MiddleName>B</m0:MiddleName>
+								<m0:LastName>PassengerB</m0:LastName>
+								<m0:HomePhone>44563432</m0:HomePhone>
+								<m0:MobilePhone>48435344</m0:MobilePhone>
+							</m0:ContactPassenger>
+							<m0:SelectedBoardBase>
+								<m0:Id>0</m0:Id>
+								<m0:Price>0</m0:Price>
+							</m0:SelectedBoardBase>
+							<m0:SelectedSupplements>
+								<m0:SupplementInfo suppId="5" supTotalPrice="14" suppType="8">
+									<m0:SupAgeGroup>
+										<m0:SuppAges suppFrom="1" suppTo="99" suppQuantity="1" suppPrice="14"/>
+									</m0:SupAgeGroup>
+								</m0:SupplementInfo>
+							</m0:SelectedSupplements>
+							<m0:Note></m0:Note> <!--Because we added a night we are going to get a CHARGE for 1 Night-->
+						</m0:RoomReserveInfo>
+					</m0:Reservation>
+				</m0:SelectedReservations>
+				<m0:AmendmentPrice>58.66</m0:AmendmentPrice>
+				<m0:AmendType>Charge</m0:AmendType> <!--AmendType=Charge since we need to pay for 1 more night-->
+				<m0:DeltaPrice>3</m0:DeltaPrice>
+				<m0:Currency>USD</m0:Currency>
+				<m0:AgentRefNumber></m0:AgentRefNumber>
+				<m0:IsOnlyAvailable>true</m0:IsOnlyAvailable>
+				<m0:RgldRefNum></m0:RgldRefNum>
+			</m:request>
+		</m:DoAmend>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

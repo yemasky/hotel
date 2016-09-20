@@ -1,0 +1,21 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<PreviousReservationsResponse xmlns="http://tourico.com/webservices/reservation">
+			<PreviousReservationsResults xmlns="http://schemas.tourico.com/webservices/reservation">
+				<Info version="5" culture="en-US" numOfResults="1" serverTime="2013-06-05T11:00:31.4558048-04:00"/>
+				<ResGroups>
+					<ResGroup rgId="289602602" isPackage="false">
+						<Reservations>
+							<Reservation supplierId="1216326" toDate="2013-08-15" fromDate="2013-08-13" resId="298265753" resStatus="Confirm" supplierName="Pre Production Test Hotel" reservationDate="2013-06-05T10:03:08" price="682.2300" tax="0" serviceType="Hotel" currency="USD" commissionPercent="0" commission="0.00">
+								<Passengers>
+									<Passenger isMainContact="true" type="Adult" firstName="aaa" middleName="" lastName="bbb"/>
+									<Passenger isMainContact="false" type="Child" age="3"/>
+								</Passengers>
+							</Reservation>
+						</Reservations>
+					</ResGroup>
+				</ResGroups>
+			</PreviousReservationsResults>
+		</PreviousReservationsResponse>
+	</s:Body>
+</s:Envelope>

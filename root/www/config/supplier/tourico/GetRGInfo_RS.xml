@@ -1,0 +1,35 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<GetRGInfoResponse xmlns="http://tourico.com/webservices/hotelv3">
+			<GetRGInfoResult>
+				<Info version="5" culture="en-US" serverTime="2013-06-05T10:38:08.1936997-04:00" xmlns="http://schemas.tourico.com/webservices/hotelv3"/>
+				<ResGroup tranNum="299737208" rgRemark="" rgId="289602602" isPackage="false" currency="USD" totalPrice="682.23" xmlns="http://schemas.tourico.com/webservices/hotelv3">
+					<Reservations>
+						<Reservation reservationId="298265753" fromDate="2013-08-13T00:00:00" toDate="2013-08-15T00:00:00" totalTax="0.00" price="682.23" isPublish="false" currency="USD" status="Confirm" numOfAdults="2" numOfChildren="1" note="non smoking" tranNum="299737208">
+							<ProductInfo xsi:type="HotelInfo" NumOfRoom="0" PropertyType="NotSet" hotelId="1216326" thumb="IconPhotoNotAvailable" NumOfBathrooms="0" roomTypeCategory="Deluxe" category="First Class" address="14 street avenue " name="Pre Production Test Hotel" bestVal="false" roomTypeCategoryId="9" roomType="Deluxe" numOfStars="3.5">
+								<RoomExtraInfo hotelRoomTypeId="11859597" NumOfBathrooms="0" roomId="21" name="Deluxe" bedding="3,2">
+									<RoomInfo>
+										<AdultNum>2</AdultNum>
+										<ChildNum>1</ChildNum>
+										<ChildAges>
+											<ChildAge age="3"/>
+										</ChildAges>
+									</RoomInfo>
+									<SelectedSupplements>
+										<Supplement xsi:type="PerRoomSupplement" suppId="1000143" suppName="110 Open Bus Tour" supptType="2" suppIsMandatory="true" suppChargeType="Addition" price="11.12"/>
+										<Supplement xsi:type="PerPersonSupplement" suppId="1200028" suppName="Cleaning Fee" supptType="2" suppIsMandatory="true" suppChargeType="Addition" price="60.00">
+											<SuppAgeGroup>
+												<SupplementAge suppFrom="1" suppTo="99" suppQuantity="3" suppPrice="60.00"/>
+											</SuppAgeGroup>
+										</Supplement>
+									</SelectedSupplements>
+								</RoomExtraInfo>
+								<Passenger firstName="aaa" middleName="" lastName="bbb" homePhone="12345678910" mobilePhone="12345678910" ageGroup="1"/>
+							</ProductInfo>
+						</Reservation>
+					</Reservations>
+				</ResGroup>
+			</GetRGInfoResult>
+		</GetRGInfoResponse>
+	</s:Body>
+</s:Envelope>
