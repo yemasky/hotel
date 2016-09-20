@@ -2,7 +2,7 @@
 <html lang="en">
     
 <head>
-    <%include file="merchant/inc/head.tpl"%>
+    <%include file="hotel/inc/head.tpl"%>
     <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-login.css" />
     <link href="<%$__RESOURCE%>css/uniform.css" rel="stylesheet">
     <link href="<%$__RESOURCE%>css/select2.css" rel="stylesheet">
@@ -23,12 +23,12 @@
             <img src="<%$__RESOURCE%>img/login-logo.png" alt="" />
         </div>
         <div id="loginbox">
-            <form class="form-vertical" action="index.php?action=login" name="loginform" id="loginform" novalidate="novalidate" method="post">
-				 <div class="control-group normal_text"><h3>Maruti Admin Login</h3></div>
+            <form class="form-vertical" action="index.php?action=login" name="loginform" id="loginform" novalidate method="post">
+				 <div class="control-group normal_text"><h3>管理登录</h3></div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on"><i class="icon-user"></i></span><input type="text" placeholder="example@example.com"  id="username"  name="username"/>
+                            <span class="add-on"><i class="icon-user"></i></span><input type="text" placeholder="姓名/手机/email"  id="username"  name="username"/>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     <span class="pull-right"><input type="submit" class="btn btn-success" value="Login" /></span>
                 </div>
             </form>
-            <form id="recoverform" name="recoverform" action="#" class="form-vertical" novalidate="novalidate">
+            <form id="recoverform" name="recoverform" action="#" class="form-vertical" novalidate>
 				<p class="normal_text">Enter your e-mail address below and we will send you instructions <br/><font color="#FF6633">how to recover a password.</font></p>
 				
                     <div class="controls">

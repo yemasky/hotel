@@ -47,7 +47,7 @@ $(document).ready(function(){
         rules:{
             username:{
                 required:true,
-                email: true
+				minlength:2
             },
             password:{
                 required:true,

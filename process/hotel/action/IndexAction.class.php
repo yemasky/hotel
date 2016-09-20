@@ -56,8 +56,8 @@ class IndexAction extends \BaseAction {
     }
 
     protected function employee_login($objRequest, $objResponse) {
-        $arrayLoginInfo['employee_email'] = $objRequest->username;
-        $arrayLoginInfo['employee_password'] = $objRequest->password;
+        $arrayLoginInfo['username'] = trim($objRequest->username);
+        $arrayLoginInfo['employee_password'] = trim($objRequest->password);
         $remember_me = $objRequest->remember_me;
         $method = $objRequest->method;
         if($method == 'logout') {
@@ -65,11 +65,22 @@ class IndexAction extends \BaseAction {
             redirect(__WEB);
         }
         $error_login = 0;
-        if(!empty($arrayLoginInfo['employee_email']) && !empty($arrayLoginInfo['employee_password'])) {
-            $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_email'=>$arrayLoginInfo['employee_email']));
+        if(!empty($arrayLoginInfo['username']) && !empty($arrayLoginInfo['employee_password'])) {
+            $arrayEmployeeInfo = null;
+            if(strpos($arrayLoginInfo['username'], '@') !== false) {
+                $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_email'=>$arrayLoginInfo['username']));
+            } elseif (strlen($arrayLoginInfo['username']) == 11 && is_numeric($arrayLoginInfo['username'])) {
+                $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_mobile'=>$arrayLoginInfo['username']));
+            } else {
+                $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_name'=>$arrayLoginInfo['username']));
+            }
             if(!empty($arrayEmployeeInfo)) {
-                LoginService::setLoginEmployeeCookie($arrayEmployeeInfo, $remember_me);
-                redirect(__WEB);
+                if(md5(md5($arrayLoginInfo['employee_password']) . md5($arrayEmployeeInfo['employee_password_salt'])) == $arrayEmployeeInfo['employee_password']) {
+                    LoginService::setLoginEmployeeCookie($arrayEmployeeInfo, $remember_me);
+                    redirect(__WEB);
+                } else {
+                    $error_login = 1;
+                }
             } else {
                 $error_login = 1;
             }
