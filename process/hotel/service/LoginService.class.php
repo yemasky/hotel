@@ -7,15 +7,13 @@
  */
 namespace hotel;
 class LoginService extends \BaseService {
-    private static $loginKey = 'loginuser';
+    private static $loginKey = 'employee';
 
-    public static function loginUser($arrayLoginInfo){
-        //$objMerchantUserDao = new MerchantUserDao();
-        //return $objMerchantUserDao->getLoginUser($arrayLoginInfo);
+    public static function loginEmployee($arrayLoginInfo){
         return HotelEmployeeDao::instance('\hotel\HotelEmployeeDao')->getLoginEmployee($arrayLoginInfo);
     }
     
-    public static function getLoginUser($objCookie = NULL, $isSession = false) {
+    public static function getLoginEmployee($objCookie = NULL, $isSession = false) {
         if(!is_object($objCookie) && $isSession == false){
             $objCookie = new \Cookie;
         }
@@ -32,31 +30,31 @@ class LoginService extends \BaseService {
         }
 
         if(!empty($loginuser)) {
-            $arrUser = explode("\t", $loginuser);
-            $arrUserInfo['mu_id'] = $arrUser[0];
-            $arrUserInfo['m_id'] = $arrUser[1];
-            $arrUserInfo['mu_login_email'] = $arrUser[2];
-            $arrUserInfo['mu_nickname'] = $arrUser[3];
-            return $arrUserInfo;
+            $arrEmployee = explode("\t", $loginuser);
+            $arrEmployeeInfo['employee_id'] = $arrEmployee[0];
+            $arrEmployeeInfo['company_id'] = $arrEmployee[1];
+            $arrEmployeeInfo['hotel_id'] = $arrEmployee[2];
+            $arrEmployeeInfo['employee_name'] = $arrEmployee[3];
+            return $arrEmployeeInfo;
         }
         return NULL;
     }
 
-    public static function checkLoginUser($objCookie = NULL, $isSession = false) {
+    public static function checkLoginEmployee($objCookie = NULL, $isSession = false) {
         if(!is_object($objCookie) && $isSession == false){
             $objCookie = new \Cookie();
         }
         if($isSession == false) {
-            $arrUserInfo = self::getLoginUser($objCookie);
+            $arrEmployeeInfo = self::getLoginEmployee($objCookie);
         } else {
-            $arrUserInfo = self::getLoginUser(NULL, true);
+            $arrEmployeeInfo = self::getLoginEmployee(NULL, true);
         }
-        if(empty($arrUserInfo)) redirect(__WEB . 'index.php?action=login');
-        return $arrUserInfo;
+        if(empty($arrEmployeeInfo)) redirect(__WEB . 'index.php?action=login');
+        return $arrEmployeeInfo;
     }
 
-    public static function setLoginUserCookie($arrayLoginUserInfo, $remember_me = false) {
-        $cookieUser = $arrayLoginUserInfo['mu_id'] . "\t" . $arrayLoginUserInfo['m_id'] . "\t" . $arrayLoginUserInfo['mu_login_email'] . "\t" . $arrayLoginUserInfo['mu_nickname'];
+    public static function setLoginEmployeeCookie($arrayLoginEmployeeInfo, $remember_me = false) {
+        $cookieUser = $arrayLoginEmployeeInfo['employee_id'] . "\t" . $arrayLoginEmployeeInfo['company_id'] . "\t" . $arrayLoginEmployeeInfo['hotel_id'] . "\t" . $arrayLoginEmployeeInfo['employee_name'];
         $objCookie = new \Cookie();
         $time = NULL;
         $key = date("z");

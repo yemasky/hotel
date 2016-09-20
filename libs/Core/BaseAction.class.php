@@ -450,7 +450,6 @@ abstract class BaseAction{
 		$smarty->assign("__RESOURCE", __RESOURCE);
 		$smarty->assign("__USER_IMGWEB", __USER_IMGWEB);
 		$smarty->assign("__IMGWEB", __IMGWEB);
-		$smarty->assign("__PIC", __PIC);
 		
 		// bulk assign values
 		$smarty->assign($objResponse->getTplValues());

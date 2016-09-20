@@ -12,8 +12,7 @@ namespace hotel;
 class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
-            $objResponse->arrUserInfo = LoginService::checkLoginUser();
-            $objResponse->arrMerchantMenu = CommonService::getMerchantMenu($objResponse->arrUserInfo['mu_id']);
+            $objResponse->arrEmployeeInfo = LoginService::checkLoginEmployee();
         }
     }
 
@@ -23,13 +22,13 @@ class IndexAction extends \BaseAction {
                 $this->admin_content($objRequest, $objResponse);
                 break;
             case 'login':
-                $this->admin_login($objRequest, $objResponse);
+                $this->employee_login($objRequest, $objResponse);
                 break;
             case 'logout':
-                $this->admin_logout($objRequest, $objResponse);
+                $this->employee_login($objRequest, $objResponse);
                 break;
             case 'register':
-                $this->admin_register($objRequest, $objResponse);
+                $this->employee_register($objRequest, $objResponse);
                 break;
             default:
                 $this->doDefault($objRequest, $objResponse);
@@ -47,18 +46,18 @@ class IndexAction extends \BaseAction {
         $objResponse -> setTplValue('merchantMenu', $objResponse->arrMerchantMenu);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("merchant/index");
+        $objResponse -> setTplName("hotel/index");
     }
 
     protected function admin_content($objRequest, $objResponse) {
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("merchant/admin_content");
+        $objResponse -> setTplName("hotel/admin_content");
     }
 
-    protected function admin_login($objRequest, $objResponse) {
-        $arrayLoginInfo['mu_login_email'] = $objRequest->username;
-        $arrayLoginInfo['mu_login_password'] = $objRequest->password;
+    protected function employee_login($objRequest, $objResponse) {
+        $arrayLoginInfo['employee_email'] = $objRequest->username;
+        $arrayLoginInfo['employee_password'] = $objRequest->password;
         $remember_me = $objRequest->remember_me;
         $method = $objRequest->method;
         if($method == 'logout') {
@@ -66,11 +65,10 @@ class IndexAction extends \BaseAction {
             redirect(__WEB);
         }
         $error_login = 0;
-        if(!empty($arrayLoginInfo['mu_login_email']) && !empty($arrayLoginInfo['mu_login_password'])) {
-            $arrayUserInfo = LoginService::loginUser($arrayLoginInfo);
-            if(!empty($arrayUserInfo)) {
-                $arrayUserInfo['mu_login_email'] = $arrayLoginInfo['mu_login_email'];
-                LoginService::setLoginUserCookie($arrayUserInfo, $remember_me);
+        if(!empty($arrayLoginInfo['employee_email']) && !empty($arrayLoginInfo['employee_password'])) {
+            $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_email'=>$arrayLoginInfo['employee_email']));
+            if(!empty($arrayEmployeeInfo)) {
+                LoginService::setLoginEmployeeCookie($arrayEmployeeInfo, $remember_me);
                 redirect(__WEB);
             } else {
                 $error_login = 1;
@@ -79,6 +77,6 @@ class IndexAction extends \BaseAction {
         $objResponse -> setTplValue('error_login', $error_login);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("merchant/admin_login");
+        $objResponse -> setTplName("hotel/employee_login");
     }
 }

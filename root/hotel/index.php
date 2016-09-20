@@ -5,9 +5,9 @@
  */
 try {
 	require_once ("config.php");
-	$model = '\merchant\IndexAction';
+	$model = '\hotel\IndexAction';
 	if(isset($_REQUEST['model']))
-		$model = '\merchant\\' . ucwords($_REQUEST['model']) . 'Action';
+		$model = '\hotel\\' . ucwords($_REQUEST['model']) . 'Action';
 	$action = NULL;
 	if(isset($_REQUEST['action']))
 		$action = $_REQUEST['action'];
