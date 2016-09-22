@@ -13,6 +13,7 @@ class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
             $objResponse->arrayEmployeeInfo = LoginService::checkLoginEmployee();
+            $objResponse->arrMerchantMenu = CommonService::getRoleMenu($objResponse->arrayEmployeeInfo['employee_id']);
         }
     }
 

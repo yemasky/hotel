@@ -1,6 +1,6 @@
 <!--Header-part-->
 <div id="header">
-  <h1><a href="http://www.mafiashare.net">Shared on www.MafiaShare.net</a></h1>
+  <h1><a href="<%$__WEB%>">Smart Hotel</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -30,7 +30,7 @@
 </div>
 <!--close-top-Header-menu-->
 
-<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 管理后台</a>
+<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 智能酒店管理菜单</a>
   <ul>
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>管理首页</span></a></li>
     <li> <a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
