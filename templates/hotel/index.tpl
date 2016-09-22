@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-<%include file="merchant/inc/head.tpl"%>
+<%include file="hotel/inc/head.tpl"%>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="<%$__RESOURCE%>css/fullcalendar.css" />
 <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-style.css" />
 <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-media.css" class="skin-color" />
 </head>
 <body>
-<%include file="merchant/inc/top_menu.tpl"%>
+<%include file="hotel/inc/top_menu.tpl"%>
 
 
 <div id="content">
@@ -191,7 +191,7 @@
     
   </div>
 </div>
-<%include file="merchant/inc/footer.tpl"%>
+<%include file="hotel/inc/footer.tpl"%>
 <script src="<%$__RESOURCE%>js/excanvas.min.js"></script> 
 <script src="<%$__RESOURCE%>js/jquery.min.js"></script> 
 <script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script> 

@@ -12,7 +12,7 @@ namespace hotel;
 class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
-            $objResponse->arrEmployeeInfo = LoginService::checkLoginEmployee();
+            $objResponse->arrayEmployeeInfo = LoginService::checkLoginEmployee();
         }
     }
 
@@ -75,12 +75,15 @@ class IndexAction extends \BaseAction {
                 $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_name'=>$arrayLoginInfo['username']));
             }
             if(!empty($arrayEmployeeInfo)) {
-                if(md5(md5($arrayLoginInfo['employee_password']) . md5($arrayEmployeeInfo['employee_password_salt'])) == $arrayEmployeeInfo['employee_password']) {
-                    LoginService::setLoginEmployeeCookie($arrayEmployeeInfo, $remember_me);
-                    redirect(__WEB);
-                } else {
-                    $error_login = 1;
+                $lenght = count($arrayEmployeeInfo);
+                for($i = 0; $i < $lenght; $i++) {
+                    if (md5(md5($arrayLoginInfo['employee_password']) . md5($arrayEmployeeInfo[$i]['employee_password_salt'])) == $arrayEmployeeInfo[$i]['employee_password']) {
+                        LoginService::setLoginEmployeeCookie($arrayEmployeeInfo[$i], $remember_me);
+                        redirect(__WEB);
+                        break;
+                    }
                 }
+                $error_login = 1;
             } else {
                 $error_login = 1;
             }
