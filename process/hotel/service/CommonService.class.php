@@ -7,18 +7,10 @@
  */
 namespace hotel;
 class CommonService extends \BaseService {
-    public static function getRoleMenu($employee_id) {
-        $arrayUserModels = NULL;
-        $arrayAuthorize = self::getEmployeeRole($employee_id);
-        if(!empty($arrayAuthorize)) {
-            $arrayMc_id = array();
-            foreach($arrayAuthorize as $k => $v) {
-                $arrayMc_id[] = $v['mc_id'];
-            }
-            $objModulesAuthorizeDao = new ModulesAuthorizeDao();
-            $arrayUserModels = $objModulesAuthorizeDao->DBCache(1800)->getMerchantUserModules($arrayMc_id);
-        }
-        return $arrayUserModels;
+    public static function getEmployeeModules($employee_id) {
+        $conditions = \DbConfig::$db_query_conditions;
+        $conditions['where'] = array('employee_id'=>$employee_id);
+        return RoleDao::instance('\hotel\RoleDao')->DBCache(1800)->getRoleModulesEmployee($conditions);
     }
 
 

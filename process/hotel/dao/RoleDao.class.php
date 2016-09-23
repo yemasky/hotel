@@ -9,8 +9,8 @@
 namespace hotel;
 class RoleDao extends \BaseDao {
 
-    public function getRoleModulesEmployee($employee_id){
+    public function getRoleModulesEmployee($conditions){
         $fileid = 'modules_id, employee_id';
-        return \DBQuery::instance(\DbConfig::hotel_dsn_read)->setTable('role_modules_employee')->getList(array('employee_id'=>$employee_id), $fileid);
+        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('role_modules_employee')->getList($conditions, $fileid);
     }
 }

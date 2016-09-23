@@ -12,6 +12,6 @@ class DbConfig{
     const tourism_dsn_read = 'mysqli://root:@127.0.0.1:3306/heniba';
 	const tourism_dsn_write = 'mysqli://root:@127.0.0.1:3306/heniba';
 
-	public static $db_query_conditions = array('order'=>null, 'limit'=>null, 'condition'=>null, 'gropy'=>null, 'where'=>null);
+	public static $db_query_conditions = array('order'=>NULL, 'limit'=>NULL, 'group'=>NULL, 'where'=>NULL);
 
 }

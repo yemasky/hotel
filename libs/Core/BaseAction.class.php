@@ -570,7 +570,37 @@ class DBQuery{
         if(is_array($conditions)) {
             $join = array ();
             foreach($conditions as $key => $condition) {
-                $join[] = "`{$key}` = '{$condition}'";
+                if($key == 'like') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` LIKE '%{$condition_value}%'";
+                    }
+                } elseif ($key == '>') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` > '{$condition_value}'";
+                    }
+                } elseif ($key == '>=') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` >= '{$condition_value}'";
+                    }
+                } elseif ($key == '<') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` < '{$condition_value}'";
+                    }
+                } elseif ($key == '<=') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` <= '{$condition_value}'";
+                    }
+                } elseif ($key == '!=') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` != '{$condition_value}'";
+                    }
+                } elseif ($key == '<>') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` <> '{$condition_value}'";
+                    }
+                } else {
+                    $join[] = "`{$key}` = '{$condition}'";
+                }
             }
             $where = "WHERE " . join(" AND ", $join);
         } else {
@@ -601,7 +631,7 @@ class DBQuery{
 		if(!empty($this->order)) {
 			$order = "ORDER BY {$this->order}";
 		} else {
-			if($this->table_key != '*')
+			if($this->table_key != '*' && !empty($this->table_key))
 				$order = "ORDER BY {$this->table_key} DESC";
 		}
 		if(!empty($this->groupby)) {
@@ -627,14 +657,14 @@ class DBQuery{
 	 * @param
 	 *        	fields 返回的字段范围，默认为返回全部字段的值
 	 */
-	public function getRow($conditions = NULL, $fields = '*'){
-        $where = $this->where($conditions);
+	public function getRow($conditions_where = NULL, $fields = '*'){
+        $where = $this->where($conditions_where);
         $sql = "SELECT {$fields} FROM {$this->table_name} {$where};";
         return $this->conn->getQueryRowResult($sql);
 	}
 
-	public function getOne($conditions = NULL, $fields){
-        $where = $this->where($conditions);
+	public function getOne($conditions_where = NULL, $fields){
+        $where = $this->where($conditions_where);
         $sql = "SELECT {$fields} FROM {$this->table_name} {$where};";
         return $this->conn->getQueryOneResult($sql);
 	}
@@ -682,18 +712,8 @@ class DBQuery{
 	 * @param
 	 *        	conditions 数组形式，查找条件，此参数的格式用法与getOne/getList的查找条件参数是相同的。
 	 */
-	public function delete($conditions){
-		$where = "";
-		if(is_array($conditions)) {
-			$join = array ();
-			foreach($conditions as $key => $condition) {
-				$join[] = "{$key} = '{$condition}'";
-			}
-			$where = "WHERE ( " . join(" AND ", $join) . ")";
-		} else {
-			if(NULL != $conditions)
-				$where = "WHERE ( " . $conditions . ")";
-		}
+	public function delete($conditions_where){
+        $where = $this->where($conditions_where);
 		$sql = "DELETE FROM {$this->table_name} {$where}";
 		return $this->conn->execute($sql);
 		;
@@ -729,8 +749,8 @@ class DBQuery{
 	 *        	conditions 查找条件，数组array("字段名"=>"查找值")或字符串，
 	 *        	请注意在使用字符串时将需要开发者自行使用escape来对输入值进行过滤
 	 */
-	public function getCount($conditions = NULL){
-		$where = $this->where($conditions);
+	public function getCount($conditions_where = NULL){
+		$where = $this->where($conditions_where);
 		$sql = "SELECT COUNT({$this->table_key}) AS SP_COUNTER FROM {$this->table_name} {$where}";
 		$result = $this->conn->getQueryArrayResult($sql);
 		return $result[0]['SP_COUNTER'];
@@ -756,7 +776,12 @@ class DBQuery{
 		$sql = "UPDATE {$this->table_name } SET {$values} {$where}";
 		return $this->conn->execute($sql);
 	}
+    public function batchUpdate() {
 
+    }
+    public function batchInsert() {
+
+    }
 	public function explodeDsn($dsn){
 		// mysql://smartercn:any@192.168.100.239:3306/smartercn_FrontEnd
 		$arrValue = explode('://', $dsn);
@@ -827,17 +852,19 @@ class DBCache{
 	}
 
 	/**
+     * $func_args[1] 为空或等于0 为文件缓存
 	 * 魔术函数，支持多重函数式使用类的方法 不支持自定义缓存文件夹，系统将自动生成缓存文件夹
 	 */
 	public function __call($func_name, $func_args){ // var_dump($this->objModel);
+        //echo serialize($this->objModel) . json_encode($this->input_args) . $func_name . json_encode($func_args) . "\r\n";
 		$cache_id = md5(serialize($this->objModel) . json_encode($this->input_args) . $func_name . json_encode($func_args));
 		if($this->input_args[0] == -1)
 			return $this->deleteCache($cache_id);
-		if($this->input_args[0] >= 0) {
+        $display = isset($this->input_args[2]) ? $this->input_args[2] : false;
+        if($this->input_args[0] >= 0) {
 			$this->life_time = $this->input_args[0];
 			$this->cache_dir = $this->cache_dir . $this->life_time . '/';
 		}
-		$display = isset($this->input_args[2]) ? $this->input_args[2] : false;
 		if($this->isValid($cache_id, $this->life_time))
 			return $this->fetch($cache_id, $display);
 		return $this->cache($cache_id, call_user_func_array(array($this->objModel, $func_name), $func_args));
