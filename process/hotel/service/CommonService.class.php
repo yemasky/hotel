@@ -7,10 +7,11 @@
  */
 namespace hotel;
 class CommonService extends \BaseService {
-    public static function getEmployeeModules($employee_id) {
+    public static function getEmployeeModules($arrayLoginEmployeeInfo) {
         $conditions = \DbConfig::$db_query_conditions;
-        $conditions['where'] = array('employee_id'=>$employee_id);
-        return RoleDao::instance('\hotel\RoleDao')->DBCache(1800)->getRoleModulesEmployee($conditions);
+        $conditions['where'] = array('employee_id'=>$arrayLoginEmployeeInfo['employee_id']);
+        $arrayRoleModulesEmployee = RoleDao::instance('\hotel\RoleDao')->getRoleModulesEmployee($conditions);
+
     }
 
 

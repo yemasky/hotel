@@ -852,15 +852,24 @@ class DBCache{
 	}
 
 	/**
-     * $func_args[1] 为空或等于0 为文件缓存
-	 * 魔术函数，支持多重函数式使用类的方法 不支持自定义缓存文件夹，系统将自动生成缓存文件夹
+     * $func_args[1] 0 or null or 1 ：文件缓存；-1：删除文件缓存；  2：redis缓存；-2：删除redis缓存； 3：mencache缓存； -3：删除mencache缓存
+     * 魔术函数，支持多重函数式使用类的方法 不支持自定义缓存文件夹，系统将自动生成缓存文件夹
+     * $this->input_args[0] 缓存时间； 0 or 字符串 永久缓存
 	 */
 	public function __call($func_name, $func_args){ // var_dump($this->objModel);
-        //echo serialize($this->objModel) . json_encode($this->input_args) . $func_name . json_encode($func_args) . "\r\n";
-		$cache_id = md5(serialize($this->objModel) . json_encode($this->input_args) . $func_name . json_encode($func_args));
-		if($this->input_args[0] == -1)
-			return $this->deleteCache($cache_id);
-        $display = isset($this->input_args[2]) ? $this->input_args[2] : false;
+        //echo serialize($this->objModel) . $this->input_args[0] . $func_name . json_encode($func_args);
+        if(is_numeric($this->input_args[0])) {
+            $cache_id = md5(serialize($this->objModel) . $this->input_args[0] . $func_name . json_encode($func_args));
+        } else {
+            //没有缓存时间即为永久缓存
+            $cache_id = $this->input_args[0];//缓存时间不为字符串时，为自定义缓存
+            $this->input_args[0] = 0;//永久缓存
+        }
+		if(isset($this->input_args[1])) {
+            if($this->input_args[1] == -1) $this->deleteCache($cache_id);
+        }
+
+        $display = isset($this->input_args[3]) ? $this->input_args[3] : false;
         if($this->input_args[0] >= 0) {
 			$this->life_time = $this->input_args[0];
 			$this->cache_dir = $this->cache_dir . $this->life_time . '/';
@@ -907,7 +916,7 @@ class DBCache{
 	}
 
 	public function cachePage($cacheID, $contents, $renew_cachedir = true){
-		if(isset($contents['ioy_cooc_cache']) && $contents['ioy_cooc_cache'] == false) return;
+		//if(isset($contents['ioy_cooc_cache']) && $contents['ioy_cooc_cache'] == false) return;
 		$filepath = PathManager::createCacheDir($cacheID, $this->cache_dir, $renew_cachedir);
 		$contents = json_encode($contents);
 		return File::creatFile($cacheID, $contents, $filepath);

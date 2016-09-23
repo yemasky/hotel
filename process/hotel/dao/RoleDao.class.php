@@ -10,7 +10,8 @@ namespace hotel;
 class RoleDao extends \BaseDao {
 
     public function getRoleModulesEmployee($conditions){
+        $cacheId = md5('getRoleModulesEmployee' . json_encode($conditions));
         $fileid = 'modules_id, employee_id';
-        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('role_modules_employee')->getList($conditions, $fileid);
+        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('role_modules_employee')->DBCache($cacheId)->getList($conditions, $fileid);
     }
 }
