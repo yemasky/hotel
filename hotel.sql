@@ -75,6 +75,20 @@ CREATE TABLE `book_discount` (
 
 /*Data for the table `book_discount` */
 
+/*Table structure for table `book_setting` */
+
+DROP TABLE IF EXISTS `book_setting`;
+
+CREATE TABLE `book_setting` (
+  `book_setting_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '预定设置ID',
+  `hotel_id` int(11) NOT NULL,
+  `book_setting_name` varchar(50) NOT NULL,
+  `book_setting_value` varchar(50) NOT NULL,
+  PRIMARY KEY (`book_setting_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_setting` */
+
 /*Table structure for table `company` */
 
 DROP TABLE IF EXISTS `company`;
@@ -241,17 +255,20 @@ CREATE TABLE `hotel_images` (
 DROP TABLE IF EXISTS `hotel_modules`;
 
 CREATE TABLE `hotel_modules` (
-  `hotel_id` int(11) NOT NULL,
-  `modules_id` int(11) NOT NULL,
-  `modules_father_id` int(11) DEFAULT NULL COMMENT '父类ID',
+  `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `modules_id` int(11) NOT NULL COMMENT '模块ID',
+  `hotel_modules_father_id` int(11) DEFAULT NULL COMMENT '父类ID',
   `hotel_modules_name` varchar(100) NOT NULL DEFAULT '' COMMENT '酒店自定义名称',
   `hotel_modules_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `hotel_modules_action_permissions` enum('0','1') NOT NULL DEFAULT '0' COMMENT '增 删 改 查权限',
+  `hotel_modules_ico` varchar(50) DEFAULT NULL COMMENT '图标',
+  `hotel_modules_show` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否显示在菜单中',
   PRIMARY KEY (`hotel_id`,`modules_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `hotel_modules` */
 
-insert  into `hotel_modules`(`hotel_id`,`modules_id`,`modules_father_id`,`hotel_modules_name`,`hotel_modules_order`) values (1,1,1,'',0),(1,2,2,'',0),(1,3,3,'',0),(1,4,4,'',0),(1,5,5,'',0),(1,6,6,'',0),(1,7,7,'',0),(1,8,8,'',0),(1,9,9,'',0),(1,10,10,'',0),(1,11,11,'',0),(1,12,12,'',0),(1,13,13,'',0),(1,14,14,'',0);
+insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_order`,`hotel_modules_action_permissions`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'',0,'0','icon-home','1'),(1,2,2,'',0,'0','icon-inbox','1'),(1,3,3,'',0,'0','icon-home','1'),(1,4,4,'',0,'0','icon-home','1'),(1,5,5,'',0,'0','icon-inbox','1'),(1,6,6,'',0,'0','icon-home','1'),(1,7,7,'',0,'0','icon-inbox','1'),(1,8,8,'',0,'0','icon-inbox','1'),(1,9,9,'',0,'0','icon-home','1'),(1,10,10,'',0,'0','icon-home','1'),(1,11,11,'',0,'0','icon-home','1'),(1,12,12,'',0,'0','icon-home','1'),(1,13,13,'',0,'0','icon-home','1'),(1,14,14,'',0,'0','icon-home','1');
 
 /*Table structure for table `hotel_service` */
 
@@ -306,6 +323,7 @@ CREATE TABLE `modules` (
   `modules_id` int(11) NOT NULL AUTO_INCREMENT,
   `modules_father_id` int(11) NOT NULL COMMENT '父ID',
   `modules_name` varchar(100) NOT NULL COMMENT '模块名称',
+  `modules_order` int(11) NOT NULL COMMENT '排序',
   `modules_module` varchar(100) NOT NULL COMMENT '模块',
   `modules_action` varchar(100) NOT NULL COMMENT '模块action',
   `modules_action_field` text COMMENT '模块action field权限',
@@ -318,7 +336,7 @@ CREATE TABLE `modules` (
 
 /*Data for the table `modules` */
 
-insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_module`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'管理首页','Index','',NULL,'','','1'),(2,2,'前厅管理','FrontOffice','',NULL,'','','1'),(3,3,'客房管理','RoomsManagement','',NULL,'','','1'),(4,4,'餐饮管理','EntertainmentManagement','',NULL,'','','1'),(5,5,'娱乐管理','RestaurantManagement ','',NULL,'','','1'),(6,6,'保安管理','SecurityManagement','',NULL,'','','1'),(7,7,'销售管理','SalesManagement','',NULL,'','','1'),(8,8,'人事管理','PersonnelManagement','',NULL,'','','1'),(9,9,'财务管理','FinancialManagement','',NULL,'','','1'),(10,10,'后勤管理','LogisticsManagement','',NULL,'','','1'),(11,11,'行政管理','Administration','',NULL,'','','1'),(12,12,'工程管理','EngineeringManagement','',NULL,'','','1'),(13,13,'采购管理','PurchaseManagement','',NULL,'','','1'),(14,14,'酒店设置','HotelSettings','',NULL,'0','','1');
+insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'管理首页',0,'Index','',NULL,'','icon-home','1'),(2,2,'前厅管理',0,'FrontOffice','',NULL,'','icon-inbox','1'),(3,3,'客房管理',0,'RoomsManagement','',NULL,'','icon-home','1'),(4,4,'餐饮管理',0,'EntertainmentManagement','',NULL,'','icon-home','1'),(5,5,'娱乐管理',0,'RestaurantManagement ','',NULL,'','icon-inbox','1'),(6,6,'保安管理',0,'SecurityManagement','',NULL,'','icon-home','1'),(7,7,'销售管理',0,'SalesManagement','',NULL,'','icon-inbox','1'),(8,8,'人事管理',0,'PersonnelManagement','',NULL,'','icon-inbox','1'),(9,9,'财务管理',0,'FinancialManagement','',NULL,'','icon-home','1'),(10,10,'后勤管理',0,'LogisticsManagement','',NULL,'','icon-home','1'),(11,11,'行政管理',0,'Administration','',NULL,'','icon-home','1'),(12,12,'工程管理',0,'EngineeringManagement','',NULL,'','icon-home','1'),(13,13,'采购管理',0,'PurchaseManagement','',NULL,'','icon-home','1'),(14,14,'酒店设置',0,'HotelSettings','',NULL,'0','icon-home','1');
 
 /*Table structure for table `operate_log` */
 
@@ -367,6 +385,8 @@ CREATE TABLE `role_modules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `role_modules` */
+
+insert  into `role_modules`(`role_id`,`modules_id`) values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14);
 
 /*Table structure for table `role_modules_employee` */
 

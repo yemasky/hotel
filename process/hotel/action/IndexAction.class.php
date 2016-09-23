@@ -13,7 +13,7 @@ class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
             $objResponse->arrayLoginEmployeeInfo = LoginService::checkLoginEmployee();
-            $objResponse->arrMerchantMenu = CommonService::getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
+            $objResponse->arrayEmployeeModules = CommonService::getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
         }
     }
 
@@ -44,7 +44,8 @@ class IndexAction extends \BaseAction {
         //赋值
         //设置类别
         $objResponse -> nav = 'index';
-        $objResponse -> setTplValue('merchantMenu', $objResponse->arrMerchantMenu);
+        $objResponse -> setTplValue('nav', 'Index');
+        $objResponse -> setTplValue('arrayEmployeeModules', $objResponse->arrayEmployeeModules);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/index");

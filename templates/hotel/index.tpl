@@ -11,7 +11,6 @@
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
 
-
 <div id="content">
   <div id="content-header">
     <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>

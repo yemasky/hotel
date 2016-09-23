@@ -11,7 +11,7 @@ class BaseDao{
     private $dsn_read = '';
     private $dsn_write = '';
     private $table_key = '*';
-    private static $objBaseDao = null;
+    private static $objBase = null;
 
 
     public function __call($name, $args){
@@ -22,11 +22,11 @@ class BaseDao{
 
     public static function instance($objClass = ''){
         if(empty($objClass)) $objClass = 'BaseDao';
-        if(isset(self::$objBaseDao[$objClass]) && is_object(self::$objBaseDao[$objClass])) {
-            return self::$objBaseService[$objClass];
+        if(isset(self::$objBase[$objClass]) && is_object(self::$objBase[$objClass])) {
+            return self::$objBase[$objClass];
         }
-        self::$objBaseDao[$objClass] = new $objClass();
-        return self::$objBaseDao[$objClass];
+        self::$objBase[$objClass] = new $objClass();
+        return self::$objBase[$objClass];
     }
 
     public function setTable($table) {
@@ -49,11 +49,11 @@ class BaseDao{
         return $this;
     }
 
-    public function getList($conditions, $fields = NULL) {
+    public function getList($conditions, $fields = NULL, $hashKey = null) {
         if(empty($fields)) {
             $fields = '*';
         }
-        return DBQuery::instance($this->dsn_read)->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields);
+        return DBQuery::instance($this->dsn_read)->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields, $hashKey);
 
     }
 

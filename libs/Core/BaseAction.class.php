@@ -625,7 +625,7 @@ class DBQuery{
 	 *        	limit 返回的结果数量限制，等同于"LIMIT "，如$limit = " 3, 5"，即是从第3条记录（从0开始计算）开始获取，共获取5条记录
 	 *        	如果limit值只有一个数字，则是指代从0条记录开始。
 	 */
-	public function getList($conditions = NULL, $fields = '*'){
+	public function getList($conditions = NULL, $fields = '*', $hashKey = null){
 		$order = $groupby = "";
         $where = $this->where($conditions);
 		if(!empty($this->order)) {
@@ -643,7 +643,7 @@ class DBQuery{
 		}
 		if($this->limit_num != NULL)
 			$sql = $this->conn->setlimit($sql, $this->limit_num);
-		return $this->conn->getQueryArrayResult($sql);
+        return $this->conn->getQueryArrayResult($sql, $hashKey);
 	}
 
 	/**

@@ -11,7 +11,7 @@ class RoleDao extends \BaseDao {
 
     public function getRoleModulesEmployee($conditions){
         $cacheId = md5('getRoleModulesEmployee' . json_encode($conditions));
-        $fileid = 'modules_id, employee_id';
-        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('role_modules_employee')->DBCache($cacheId)->getList($conditions, $fileid);
+        $fileid = 'role_id, modules_id, employee_id';
+        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('role_modules_employee')->DBCache($cacheId)->getList($conditions, $fileid, 'modules_id');
     }
 }

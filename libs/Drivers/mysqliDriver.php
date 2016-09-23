@@ -39,13 +39,20 @@ class mysqliDriver {
 	 * @param
 	 *        	sql 执行的SQL语句
 	 */
-	public function getQueryArrayResult($sql){
+	public function getQueryArrayResult($sql, $hashKey = null){
 		$result = $this->execute($sql);
 		$rows = array ();
-		while($rows[] = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		}
+        if(empty($hashKey)) {
+            while($rows[] = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            }
+            array_pop($rows);
+        } else {
+            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $rows[$row[$hashKey]] = $row;
+            }
+        }
+
 		mysqli_free_result($result);
-		array_pop($rows);
 		return $rows;
 	}
 

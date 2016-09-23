@@ -32,6 +32,10 @@
 
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 智能酒店管理菜单</a>
   <ul>
+    <%section name=modules loop=$arrayEmployeeModules%>
+    <li<%if $nav==$arrayEmployeeModules[modules].modules_module%> class="active"<%/if%>><a href="index.html"><i class="icon <%$arrayEmployeeModules[modules].hotel_modules_ico%>"></i> <span><%$arrayEmployeeModules[modules].hotel_modules_name%></span></a></li>
+    <%/section%>
+<!--
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>管理首页</span></a></li>
     <li> <a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
     <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>Widgets</span></a> </li>
@@ -46,7 +50,7 @@
     </li>
     <li><a href="buttons.html"><i class="icon icon-tint"></i> <span>Buttons &amp; icons</span></a></li>
     <li><a href="interface.html"><i class="icon icon-pencil"></i> <span>Eelements</span></a></li>
-    
+
     <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Addons</span> <span class="icon-circle-arrow-down"></span></a>
       <ul>
         <li><a href="gallery.html">Gallery</a></li>
@@ -54,6 +58,6 @@
         <li><a href="chat.html">Chat option</a></li>
       </ul>
     </li>
-
+-->
   </ul>
 </div>

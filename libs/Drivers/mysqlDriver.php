@@ -42,13 +42,21 @@ class mysqlDriver{
 	 * @param
 	 *        	sql 执行的SQL语句
 	 */
-	public function getQueryArrayResult($sql){
+	public function getQueryArrayResult($sql, $hashKey = null){
 		$result = $this->execute($sql);
 		$rows = array ();
-		while($rows[] = mysql_fetch_array($result, MYSQL_ASSOC)) {
-		}
+        if(empty($hashKey)) {
+            while($rows[] = mysql_fetch_array($result, MYSQL_ASSOC)) {
+            }
+            array_pop($rows);
+        } else {
+            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                $rows[$row[$hashKey]] = $row;
+            }
+        }
+
 		mysql_free_result($result);
-		array_pop($rows);
+
 		return $rows;
 	}
 
