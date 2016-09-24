@@ -344,14 +344,14 @@ abstract class BaseAction{
 	/**
 	 * Controller层的调用入口函数,在scripts中调用
 	 */
-	public function execute($action = NULL){
+	public function execute($action = NULL, $objRequest = null, $objResponse = null){
 		$startTime = getMicrotime();
 		try {
 			$error_handler = set_error_handler("ErrorHandler");
-			$objRequest = new HttpRequest();
-			$objResponse = new HttpResponse();
+			if(!is_object($objRequest)) $objRequest = new HttpRequest();
+			if(!is_object($objResponse)) $objResponse = new HttpResponse();
 			// 指定action
-			if($action != NULL) {
+			if(!empty($action)) {
 				$objRequest->setAction($action);
 			}
 

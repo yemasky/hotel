@@ -5,7 +5,7 @@
  */
 try {
 	require_once ("config.php");
-	$objAction = new \hotel\IndexAction();
+	$objAction = new \hotel\Action();
 	$objAction->execute();//
 } catch(Exception $e) {
 	logError($e->getMessage(),__MODEL_EXCEPTION);

@@ -11,10 +11,6 @@ namespace hotel;
 
 class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        if($objRequest->getAction() != 'login') {
-            $objResponse->arrayLoginEmployeeInfo = LoginService::checkLoginEmployee();
-            $objResponse->arrayEmployeeModules = CommonService::getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
-        }
     }
 
     protected function service($objRequest, $objResponse) {
@@ -50,7 +46,6 @@ class IndexAction extends \BaseAction {
         //设置类别
         $objResponse -> nav = 'index';
         $objResponse -> setTplValue('nav', 'Index');
-        $objResponse -> setTplValue('arrayEmployeeModules', $objResponse->arrayEmployeeModules);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/index");
