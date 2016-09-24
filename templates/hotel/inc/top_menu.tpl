@@ -34,13 +34,14 @@
   <ul>
     <%section name=modules loop=$arrayEmployeeModules%>
     <%if $arrayEmployeeModules[modules].modules_id==$arrayEmployeeModules[modules].hotel_modules_father_id%> 
-    <li class="<%if $nav==$arrayEmployeeModules[modules].modules_module%>active<%/if%><%if !$smarty.section.modules.last &&  $arrayEmployeeModules[modules].modules_id==$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%> submenu<%/if%>"><a href="index.html"><i class="icon <%$arrayEmployeeModules[modules].hotel_modules_ico%>"></i> <span><%$arrayEmployeeModules[modules].hotel_modules_name%></span></a>
+    <li class="<%if $navigation==$arrayEmployeeModules[modules].hotel_modules_navigation%>active<%/if%><%if !$smarty.section.modules.last &&  $arrayEmployeeModules[modules].modules_id==$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%> submenu<%/if%>">
+        <a href="index.php?module=<%$arrayEmployeeModules[modules].modules_action%>"><i class="icon <%$arrayEmployeeModules[modules].hotel_modules_ico%>"></i> <span><%$arrayEmployeeModules[modules].hotel_modules_name%></span></a>
     	<%if !$smarty.section.modules.last && $arrayEmployeeModules[modules].modules_id==$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
         <span class="am-icon-chevron-circle-down"></span>
         <ul>
         <%/if%>
     <%else%>
-    	<li><a href="gallery.html"><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
+    	<li><a href="index.php?module=<%$arrayEmployeeModules[modules].modules_module%>&action=<%$arrayEmployeeModules[modules].modules_action%>"><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
         <%if $smarty.section.modules.last || $arrayEmployeeModules[modules].hotel_modules_father_id!=$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
         </ul>
         <%/if%>

@@ -4,9 +4,7 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="cs<%$__RESOURCE%>s/fullcalendar.css" />
-<link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-style.css" />
-<link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-media.css" class="skin-color" />
+<link rel="stylesheet" href="<%$__RESOURCE%>css/fullcalendar.css" />
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>

@@ -11,6 +11,8 @@ namespace hotel;
 
 class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
+        $objResponse -> navigation = 'index';
+        $objResponse -> setTplValue('navigation', 'index');
     }
 
     protected function service($objRequest, $objResponse) {
@@ -28,12 +30,7 @@ class IndexAction extends \BaseAction {
                 $this->employee_register($objRequest, $objResponse);
                 break;
             default:
-                $module = trim($objRequest->module);
-                if(!empty($module) && ucwords($module) != 'Index') {
-                    $this->excuteModule($objRequest, $objResponse);
-                } else {
-                    $this->doDefault($objRequest, $objResponse);
-                }
+                $this->doDefault($objRequest, $objResponse);
                 break;
         }
     }
@@ -44,8 +41,7 @@ class IndexAction extends \BaseAction {
     protected function doDefault($objRequest, $objResponse) {
         //赋值
         //设置类别
-        $objResponse -> nav = 'index';
-        $objResponse -> setTplValue('nav', 'Index');
+        
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/index");
@@ -94,15 +90,5 @@ class IndexAction extends \BaseAction {
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/employee_login");
-    }
-
-    protected function excuteModule($objRequest, $objResponse) {
-        $module = $objRequest->module;
-        $module = '\hotel\\' . ucwords($module) . 'Action';
-        $action = $objRequest->action;;
-        //if(isset($_REQUEST['action']))
-        //    $action = $_REQUEST['action'];
-        $objAction = new $module();
-        $objAction->execute($action);
     }
 }
