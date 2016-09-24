@@ -32,7 +32,12 @@ class IndexAction extends \BaseAction {
                 $this->employee_register($objRequest, $objResponse);
                 break;
             default:
-                $this->doDefault($objRequest, $objResponse);
+                $module = trim($objRequest->module);
+                if(!empty($module) && ucwords($module) != 'Index') {
+                    $this->excuteModule($objRequest, $objResponse);
+                } else {
+                    $this->doDefault($objRequest, $objResponse);
+                }
                 break;
         }
     }
@@ -94,5 +99,15 @@ class IndexAction extends \BaseAction {
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/employee_login");
+    }
+
+    protected function excuteModule($objRequest, $objResponse) {
+        $module = $objRequest->module;
+        $module = '\hotel\\' . ucwords($module) . 'Action';
+        $action = $objRequest->action;;
+        //if(isset($_REQUEST['action']))
+        //    $action = $_REQUEST['action'];
+        $objAction = new $module();
+        $objAction->execute($action);
     }
 }
