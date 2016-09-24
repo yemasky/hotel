@@ -24,7 +24,7 @@
         </div>
         <div id="loginbox">
             <form class="form-vertical" action="index.php?action=login" name="loginform" id="loginform" novalidate method="post">
-				 <div class="control-group normal_text"><h3>管理登录</h3></div>
+				 <div class="control-group normal_text"><h3>智能酒店管理登录</h3></div>
                 <div class="control-group<%if $error_login==1%> error<%/if%>">
                     <div class="controls">
                         <div class="main_input_box">

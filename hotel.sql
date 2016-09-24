@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
-MySQL - 10.1.16-MariaDB : Database - hotel
+SQLyog Ultimate v11.24 (32 bit)
+MySQL - 10.1.13-MariaDB : Database - hotel
 *********************************************************************
 */
 
@@ -12,8 +12,6 @@ MySQL - 10.1.16-MariaDB : Database - hotel
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`hotel` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
 USE `hotel`;
 
 /*Table structure for table `book` */
@@ -268,7 +266,7 @@ CREATE TABLE `hotel_modules` (
 
 /*Data for the table `hotel_modules` */
 
-insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_order`,`hotel_modules_action_permissions`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'',0,'0','icon-home','1'),(1,2,2,'',0,'0','icon-inbox','1'),(1,3,3,'',0,'0','icon-home','1'),(1,4,4,'',0,'0','icon-home','1'),(1,5,5,'',0,'0','icon-inbox','1'),(1,6,6,'',0,'0','icon-home','1'),(1,7,7,'',0,'0','icon-inbox','1'),(1,8,8,'',0,'0','icon-inbox','1'),(1,9,9,'',0,'0','icon-home','1'),(1,10,10,'',0,'0','icon-home','1'),(1,11,11,'',0,'0','icon-home','1'),(1,12,12,'',0,'0','icon-home','1'),(1,13,13,'',0,'0','icon-home','1'),(1,14,14,'',0,'0','icon-home','1');
+insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_order`,`hotel_modules_action_permissions`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'',0,'0','','1'),(1,2,2,'',0,'0','','1'),(1,3,3,'',0,'0','','1'),(1,4,4,'',0,'0','','1'),(1,5,5,'',0,'0','','1'),(1,6,6,'',0,'0','','1'),(1,7,7,'',0,'0','','1'),(1,8,8,'',0,'0','','1'),(1,9,9,'',0,'0','','1'),(1,10,8,'',0,'0','','1'),(1,11,8,'',0,'0','','1'),(1,12,12,'',0,'0','','1'),(1,13,13,'',0,'0','','1'),(1,14,14,'',0,'0','','1');
 
 /*Table structure for table `hotel_service` */
 
@@ -336,7 +334,7 @@ CREATE TABLE `modules` (
 
 /*Data for the table `modules` */
 
-insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'管理首页',0,'Index','',NULL,'','icon-home','1'),(2,2,'前厅管理',0,'FrontOffice','',NULL,'','icon-inbox','1'),(3,3,'客房管理',0,'RoomsManagement','',NULL,'','icon-home','1'),(4,4,'餐饮管理',0,'EntertainmentManagement','',NULL,'','icon-home','1'),(5,5,'娱乐管理',0,'RestaurantManagement ','',NULL,'','icon-inbox','1'),(6,6,'保安管理',0,'SecurityManagement','',NULL,'','icon-home','1'),(7,7,'销售管理',0,'SalesManagement','',NULL,'','icon-inbox','1'),(8,8,'人事管理',0,'PersonnelManagement','',NULL,'','icon-inbox','1'),(9,9,'财务管理',0,'FinancialManagement','',NULL,'','icon-home','1'),(10,10,'后勤管理',0,'LogisticsManagement','',NULL,'','icon-home','1'),(11,11,'行政管理',0,'Administration','',NULL,'','icon-home','1'),(12,12,'工程管理',0,'EngineeringManagement','',NULL,'','icon-home','1'),(13,13,'采购管理',0,'PurchaseManagement','',NULL,'','icon-home','1'),(14,14,'酒店设置',0,'HotelSettings','',NULL,'0','icon-home','1');
+insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'Index','',NULL,'','icon-home','1'),(2,2,'前厅',0,'FrontOffice','',NULL,'','icon-reception','1'),(3,3,'客房',0,'RoomsManagement','',NULL,'','icon-rooms-management','1'),(4,4,'餐饮',0,'RestaurantManagement ','',NULL,'','icon-restaurant','1'),(5,5,'娱乐',0,'EntertainmentManagement','',NULL,'','icon-entertainment','1'),(6,6,'保安',0,'SecurityManagement','',NULL,'','icon-security','1'),(7,7,'销售',0,'SalesManagement','',NULL,'','icon-sales','1'),(8,8,'行政',0,'Administration','',NULL,'','icon-administration','1'),(9,9,'财务',0,'FinancialManagement','',NULL,'','icon-financial','1'),(10,8,'后勤',0,'LogisticsManagement','',NULL,'','icon-home','1'),(11,8,'人事',0,'PersonnelManagement','',NULL,'','icon-personnel-management','1'),(12,12,'工程',0,'EngineeringManagement','',NULL,'','icon-magnet','1'),(13,13,'采购',0,'PurchaseManagement','',NULL,'','icon-inbox','1'),(14,14,'酒店设置',0,'HotelSettings','',NULL,'0','icon-cog','1');
 
 /*Table structure for table `operate_log` */
 

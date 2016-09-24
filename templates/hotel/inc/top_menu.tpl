@@ -33,7 +33,21 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 智能酒店管理菜单</a>
   <ul>
     <%section name=modules loop=$arrayEmployeeModules%>
-    <li<%if $nav==$arrayEmployeeModules[modules].modules_module%> class="active"<%/if%>><a href="index.html"><i class="icon <%$arrayEmployeeModules[modules].hotel_modules_ico%>"></i> <span><%$arrayEmployeeModules[modules].hotel_modules_name%></span></a></li>
+    <%if $arrayEmployeeModules[modules].modules_id==$arrayEmployeeModules[modules].hotel_modules_father_id%> 
+    <li class="<%if $nav==$arrayEmployeeModules[modules].modules_module%>active<%/if%><%if !$smarty.section.modules.last &&  $arrayEmployeeModules[modules.index_next].modules_id==$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%> submenu<%/if%>"><a href="index.html"><i class="icon <%$arrayEmployeeModules[modules].hotel_modules_ico%>"></i> <span><%$arrayEmployeeModules[modules].hotel_modules_name%></span></a>
+    	<%if !$smarty.section.modules.last && $arrayEmployeeModules[modules].modules_id==$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
+        <span class="am-icon-caret-down"></span>
+        <ul>
+        <%/if%>
+    <%else%>
+    	<li><a href="gallery.html"><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
+        <%if $smarty.section.modules.last || $arrayEmployeeModules[modules].hotel_modules_father_id!=$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
+        </ul>
+        <%/if%>
+    <%/if%>
+    <%if $smarty.section.modules.last || $arrayEmployeeModules[modules].hotel_modules_father_id!=$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
+    </li>
+    <%/if%>
     <%/section%>
 <!--
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>管理首页</span></a></li>

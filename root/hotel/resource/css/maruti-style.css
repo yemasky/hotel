@@ -73,7 +73,7 @@ a:hover {
 #sidebar > ul li ul li { list-style-type:none; margin:0px; font-size:12px;line-height:30px;  } 
 #sidebar > ul li ul li a { display:block; padding:5px 10px; color:#fff; text-decoration:none; font-weight:bold; } 
 #sidebar > ul li ul li:hover a{ background-color:#606060; border-radius:3px;} 
-#sidebar > ul li span { cursor:pointer; margin:0px 2px 0 5px; font-weight:bold; color:#fff; font-size:11px; }
+#sidebar > ul li span { cursor:pointer; margin:0px 2px 0 5px; font-weight:bold; color:#fff; font-size:12px; }
 #sidebar > ul li a i{ background-image: url("../img/glyphicons-halflings-white.png");     margin-top:4px;    vertical-align: top;}
 #my_menu_input{ display:none;}
 #user-nav {
