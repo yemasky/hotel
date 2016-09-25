@@ -9,10 +9,10 @@
 namespace hotel;
 
 
-class CompanyAction extends \BaseAction {
+class FrontOfficeAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        $objResponse -> navigation = 'hotelSetting';
-        $objResponse -> setTplValue('navigation', 'hotelSetting');
+        $objResponse -> navigation = 'frontOffice';
+        $objResponse -> setTplValue('navigation', 'frontOffice');
     }
 
     protected function service($objRequest, $objResponse) {
