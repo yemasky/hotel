@@ -137,8 +137,8 @@ DROP TABLE IF EXISTS `employee`;
 
 CREATE TABLE `employee` (
   `employee_id` int(11) NOT NULL AUTO_INCREMENT,
-  `company_id` int(11) NOT NULL,
-  `hotel_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL COMMENT '默认公司',
+  `hotel_id` int(11) NOT NULL COMMENT '默认酒店',
   `employee_name` varchar(50) NOT NULL,
   `employee_mobile` bigint(11) NOT NULL,
   `employee_email` varchar(200) DEFAULT NULL,
