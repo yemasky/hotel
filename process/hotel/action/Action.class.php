@@ -13,19 +13,31 @@ class Action extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
             $objResponse->arrayLoginEmployeeInfo = LoginService::checkLoginEmployee();
-            $arrayEmployeeModules = CommonService::getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
-            $objResponse -> setTplValue('arrayEmployeeModules', $arrayEmployeeModules);
+            $objResponse->arrayEmployeeModules = CommonService::getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
+            $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
         }
     }
 
     protected function service($objRequest, $objResponse) {
-        $module = trim($objRequest->module);
+        $module_id = decode(trim($objRequest->module));
         $action = $objRequest->action;
         $this->setDisplay();
-        if(!empty($module)) {
-            $module = '\hotel\\' . ucwords($_REQUEST['module']) . 'Action';
-        } else {
-            $module = '\hotel\IndexAction';
+        $module = '\hotel\IndexAction';
+        if(!empty($module_id)) {
+            $arrayRoleModulesEmployee = RoleService::getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
+            if(!isset($arrayRoleModulesEmployee[$module_id])) {
+                //无权限
+                $action = 'noPermission';
+            } else {
+                $arrayModules = ModulesService::getModules();
+                if(isset($arrayModules[$module_id])) {
+                    $arrayModule = $arrayModules[$module_id];
+                    $module = '\hotel\\' . ucwords($arrayModule['modules_module']) . 'Action';
+                    if(!empty($arrayModule['modules_action'])) {
+                        $action = $arrayModule['modules_action'];
+                    }
+                }
+            }
         }
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//

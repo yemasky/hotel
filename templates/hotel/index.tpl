@@ -22,7 +22,6 @@
           <li> <a href="#"> <i class="icon-calendar"></i> Manage Events </a> </li>
         </ul>
   </div>
-  <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >网页模板</a></div>
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span12"> 

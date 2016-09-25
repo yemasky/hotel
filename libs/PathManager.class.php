@@ -8,39 +8,6 @@ class PathManager {
 	public function __construct() {
 	}
 	/*去web路径*/
-
-	public static function getHtmlUrl($name, $arrValue = NULL) {
-		$htmlurl = '';
-		if(!empty($arrValue) && is_array($arrValue)) {
-			foreach($arrValue as $k => $v) {
-				if(is_array($v)) {
-					foreach($v as $vk => $vv) {
-						if(!empty($vv)) $htmlurl .= '--' . $vk . '-' . urlencode($vv); 
-					}
-				} else {
-					if(!empty($v)) $htmlurl .= '--' . $k . '-' . urlencode($v); 
-				}
-			}
-		}
-		return $name . $htmlurl . '.html';
-	}
-
-	public static function getRegisterUrl() {
-		return self::getHtmlUrl('register');
-	}
-	
-	public static function getSiteUrl($channel, $pn = NULL, $videoId = NULL, $tagOrSeries = NULL) {
-		if($channel == 'search') return __WEB . $channel . '.html?s=' . $videoId . '&pn=' . $pn;
-		if($tagOrSeries != '' && $videoId == NULL) $tagOrSeries = $tagOrSeries . '-';
-		if($pn) return __WEB . $channel . '/' . $tagOrSeries . $pn . '.html';
-		if($tagOrSeries > 0 && $videoId > 0) $tagOrSeries = '-' . $tagOrSeries;
-		if($videoId > 0) return __WEB . $channel . '/view/' . $videoId . $tagOrSeries . '.html';
-		return __WEB . $channel . '/';
-	}
-	
-	public static function getPlayUrl($channel, $videoId, $series) {
-		return __WEB . $channel . '/video/' . $videoId . '-' . $series . '.html';
-	}
 	
 	public static function getPageArray($allpage, $pn, $pass_pn = 5, $pn_length = 10) {
 		$arrPages = NULL;

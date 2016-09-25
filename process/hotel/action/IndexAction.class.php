@@ -29,6 +29,9 @@ class IndexAction extends \BaseAction {
             case 'register':
                 $this->employee_register($objRequest, $objResponse);
                 break;
+            case 'noPermission':
+                $this->doNoPermission($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -45,6 +48,18 @@ class IndexAction extends \BaseAction {
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/index");
+    }
+
+    /**
+     * 首页显示
+     */
+    protected function doNoPermission($objRequest, $objResponse) {
+        //赋值
+        //设置类别
+
+        //设置Meta(共通)
+        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        $objResponse -> setTplName("hotel/noPermission");
     }
 
     protected function admin_content($objRequest, $objResponse) {
