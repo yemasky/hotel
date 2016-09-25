@@ -1,0 +1,9 @@
+<script src="<%$__RESOURCE%>js/jquery.min.js"></script>
+<script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
+<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
+<script src="<%$__RESOURCE%>js/bootstrap-colorpicker.js"></script>
+<script src="<%$__RESOURCE%>js/bootstrap-datepicker.js"></script>
+<script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
+<script src="<%$__RESOURCE%>js/select2.min.js"></script>
+<script src="<%$__RESOURCE%>js/maruti.js"></script>
+<script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>

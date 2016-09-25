@@ -17,17 +17,11 @@ class IndexAction extends \BaseAction {
 
     protected function service($objRequest, $objResponse) {
         switch($objRequest->getAction()) {
-            case 'admin_content':
-                $this->admin_content($objRequest, $objResponse);
-                break;
             case 'login':
                 $this->employee_login($objRequest, $objResponse);
                 break;
             case 'logout':
                 $this->employee_login($objRequest, $objResponse);
-                break;
-            case 'register':
-                $this->employee_register($objRequest, $objResponse);
                 break;
             case 'noPermission':
                 $this->doNoPermission($objRequest, $objResponse);
@@ -47,7 +41,6 @@ class IndexAction extends \BaseAction {
         
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("hotel/index");
     }
 
     /**
@@ -59,13 +52,6 @@ class IndexAction extends \BaseAction {
 
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("hotel/noPermission");
-    }
-
-    protected function admin_content($objRequest, $objResponse) {
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("hotel/admin_content");
     }
 
     protected function employee_login($objRequest, $objResponse) {

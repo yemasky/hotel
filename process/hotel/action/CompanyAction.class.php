@@ -35,16 +35,5 @@ class CompanyAction extends \BaseAction {
 
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("hotel/company");
-    }
-
-    protected function excuteModule($objRequest, $objResponse) {
-        $module = $objRequest->module;
-        $module = '\hotel\\' . ucwords($module) . 'Action';
-        $action = $objRequest->action;;
-        //if(isset($_REQUEST['action']))
-        //    $action = $_REQUEST['action'];
-        $objAction = new $module();
-        $objAction->execute($action);
     }
 }

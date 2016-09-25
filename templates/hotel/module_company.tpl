@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-	
-<head>
-		<%include file="hotel/inc/head.tpl"%>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="<%$__RESOURCE%>css/colorpicker.css" />
-        <link rel="stylesheet" href="<%$__RESOURCE%>css/datepicker.css" />
-		<link rel="stylesheet" href="<%$__RESOURCE%>css/uniform.css" />
-		<link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />		
-</head>
-<body>
-<%include file="hotel/inc/top_menu.tpl"%> 
-		
-<div id="content">
 			<div id="content-header">
                 <div id="breadcrumb">
                     <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
@@ -195,17 +180,3 @@
                 
                 </div>
 			</div>
-		</div>
-<%include file="hotel/inc/footer.tpl"%>
-            <script src="<%$__RESOURCE%>js/jquery.min.js"></script>
-            <script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-            <script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
-            <script src="<%$__RESOURCE%>js/bootstrap-colorpicker.js"></script>
-            <script src="<%$__RESOURCE%>js/bootstrap-datepicker.js"></script>
-            <script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
-            <script src="<%$__RESOURCE%>js/select2.min.js"></script>
-            <script src="<%$__RESOURCE%>js/maruti.js"></script>
-            <script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>
-	</body>
-
-</html>

@@ -36,9 +36,12 @@ class Action extends \BaseAction {
                     if(!empty($arrayModule['modules_action'])) {
                         $action = $arrayModule['modules_action'];
                     }
+                    $module_action = empty($action) ? $arrayModule['modules_module'] : $action;
+                    $objResponse->setTplValue('action', $module_action);
                 }
             }
         }
+        $objResponse->setTplName("hotel/modules");
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//
     }

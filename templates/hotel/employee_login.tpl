@@ -3,11 +3,6 @@
     
 <head>
     <%include file="hotel/inc/head.tpl"%>
-    <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-login.css" />
-    <link href="<%$__RESOURCE%>css/uniform.css" rel="stylesheet">
-    <link href="<%$__RESOURCE%>css/select2.css" rel="stylesheet">
-    <link href="<%$__RESOURCE%>css/maruti-style.css" rel="stylesheet">
-    <link href="<%$__RESOURCE%>css/maruti-media.css" rel="stylesheet" class="skin-color">
     <script src="<%$__RESOURCE%>js/jquery.min.js"></script>
     <script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
     <script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
