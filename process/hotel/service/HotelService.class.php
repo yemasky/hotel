@@ -7,10 +7,10 @@
  */
 namespace hotel;
 class HotelService extends \BaseService {
-    public static function getHotelModules($hotel_id) {
+    public static function getHotelModules($hotel_id, $hashKey = null) {
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
-        return HotelDao::instance('\hotel\HotelDao')->getHotelModules($conditions);
+        return HotelDao::instance('\hotel\HotelDao')->getHotelModules($conditions, $hashKey);
     }
 
 
