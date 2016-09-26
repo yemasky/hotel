@@ -6,4 +6,3 @@
 <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-style.css" />
 <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-media.css" class="skin-color" />	
 <link rel="stylesheet" href="<%$__RESOURCE%>css/icon.css" />
-<%include file="hotel/inc/css_$action.tpl"%>

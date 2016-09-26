@@ -51,8 +51,8 @@ class Action extends \BaseAction {
         }
 
         $module_action = empty($action) ? $defaultAction : $action;
-        $objResponse->setTplValue('action', $module_action);
-        $objResponse->setTplName("hotel/modules");
+        //$objResponse->setTplValue('action', $module_action);
+        $objResponse->setTplName("hotel/modules_" . $module_action);
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//
     }

@@ -5,5 +5,5 @@
         	<a href="<%$arrayNavigation[nav].url%>" class="<%if $smarty.section.nav.last%>current<%else%>tip-bottom<%/if%>"><%$arrayNavigation[nav].hotel_modules_name%></a>
         <%/section%>
     </div>
-    <h1>Common Form Elements</h1>
+    <!-- <h1>Common Form Elements</h1> -->
 </div>

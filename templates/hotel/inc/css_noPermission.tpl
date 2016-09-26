@@ -1,1 +1,0 @@
-<link rel="stylesheet" href="<%$__RESOURCE%>css/fullcalendar.css" />

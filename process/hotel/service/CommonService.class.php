@@ -16,7 +16,7 @@ class CommonService extends \BaseService {
         $arrayEmployeeModules = array();
         $i_length = count($arrayHotelModules);
         for($i = 0; $i <$i_length; $i++) {
-            if(isset($arrayRoleModulesEmployee[$arrayHotelModules[$i]['modules_id']])) {
+            if(isset($arrayRoleModulesEmployee[$arrayHotelModules[$i]['modules_id']]) && $arrayHotelModules[$i]['hotel_modules_show'] == '1') {
                 $arrayHotelModules[$i]['hotel_modules_name'] = empty($arrayHotelModules[$i]['hotel_modules_name']) ? $arrayModules[$arrayHotelModules[$i]['modules_id']]['modules_name'] : $arrayHotelModules[$i]['hotel_modules_name'];
                 $arrayHotelModules[$i]['modules_module'] = $arrayModules[$arrayHotelModules[$i]['modules_id']]['modules_module'];
                 $arrayHotelModules[$i]['hotel_modules_ico'] = $arrayModules[$arrayHotelModules[$i]['modules_id']]['modules_ico'];
