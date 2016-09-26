@@ -41,7 +41,7 @@
         <ul>
         <%/if%>
     <%else%>
-    	<li><a href="<%$arrayEmployeeModules[modules].url%>"><span class="am-icon-bolt"></span><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
+    	<li><a href="<%$arrayEmployeeModules[modules].url%>"><span class="icon-cog"></span><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
         <%if $smarty.section.modules.last || $arrayEmployeeModules[modules].hotel_modules_father_id!=$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
         </ul>
         <%/if%>
