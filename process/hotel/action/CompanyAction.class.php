@@ -27,9 +27,11 @@ class CompanyAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        //赋值
-        //设置类别
 
+        //设置类别
+        $arrayCompany = CompanyService::getCompany($objResponse->arrayLoginEmployeeInfo['employee_id']);
+        //赋值
+        $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }

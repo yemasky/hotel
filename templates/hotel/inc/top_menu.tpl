@@ -24,10 +24,10 @@
     <li class=""><a title="" href="index.php?action=logout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
   </ul>
 </div>
-<div id="search">
+<!--<div id="search">
   <input type="text" placeholder="Search here..."/>
   <button type="submit" class="tip-left" title="Search"><i class="icon-search icon-white"></i></button>
-</div>
+</div>-->
 <!--close-top-Header-menu-->
 
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 智能酒店管理菜单</a>
@@ -41,7 +41,7 @@
         <ul>
         <%/if%>
     <%else%>
-    	<li><a href="<%$arrayEmployeeModules[modules].url%>"><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
+    	<li><a href="<%$arrayEmployeeModules[modules].url%>"><span class="am-icon-bolt"></span><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
         <%if $smarty.section.modules.last || $arrayEmployeeModules[modules].hotel_modules_father_id!=$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
         </ul>
         <%/if%>

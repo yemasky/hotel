@@ -289,7 +289,7 @@ CREATE TABLE `hotel_modules` (
 
 /*Data for the table `hotel_modules` */
 
-insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_navigation`,`hotel_modules_order`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'','index',0,'','1'),(1,2,2,'','frontOffice',0,'','1'),(1,3,3,'','rooms',0,'','1'),(1,4,4,'','restaurant',0,'','1'),(1,5,5,'','entertainment',0,'','1'),(1,6,6,'','security',0,'','1'),(1,7,7,'','sales',0,'','1'),(1,8,8,'','administration',0,'','1'),(1,9,9,'','financial',0,'','1'),(1,10,8,'','administration',0,'','1'),(1,11,8,'','administration',0,'','1'),(1,12,12,'','engineering',0,'','1'),(1,13,13,'','purchase',0,'','1'),(1,14,14,'','hotelSetting',0,'','1'),(1,15,14,'','hotelSetting',0,NULL,'1');
+insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_navigation`,`hotel_modules_order`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'','index',0,'','1'),(1,2,2,'','frontOffice',0,'','1'),(1,3,3,'','roomsManagement',0,'','1'),(1,4,4,'','restaurant',0,'','1'),(1,5,5,'','entertainment',0,'','1'),(1,6,6,'','security',0,'','1'),(1,7,7,'','sales',0,'','1'),(1,8,8,'','administration',0,'','1'),(1,9,9,'','financial',0,'','1'),(1,10,8,'','administration',0,'','1'),(1,11,8,'','administration',0,'','1'),(1,12,12,'','engineering',0,'','1'),(1,13,13,'','purchase',0,'','1'),(1,14,14,'','hotelSetting',0,'','1'),(1,15,14,'','hotelSetting',0,'','1'),(1,16,14,'','hotelSetting',0,'','1'),(1,17,14,'','hotelSetting',0,'','1'),(1,18,14,'','hotelSetting',0,'','1'),(1,19,14,'','hotelSetting',0,'','1'),(1,20,14,'','hotelSetting',0,'','1'),(1,21,14,'','hotelSetting',0,'','1');
 
 /*Table structure for table `hotel_service` */
 
@@ -353,11 +353,11 @@ CREATE TABLE `modules` (
   `modules_ico` varchar(50) NOT NULL COMMENT '图标',
   `modules_show` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否显示在菜单中',
   PRIMARY KEY (`modules_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 /*Data for the table `modules` */
 
-insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_describe`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'index','index','',NULL,'','icon-home','1'),(2,2,'前厅',0,'frontOffice','frontOffice','',NULL,'','icon-reception','1'),(3,3,'客房',0,'rooms','rooms','',NULL,'','icon-rooms-management','1'),(4,4,'餐饮',0,'restaurant','restaurant','',NULL,'','icon-restaurant','1'),(5,5,'娱乐',0,'entertainment','entertainment','',NULL,'','icon-entertainment','1'),(6,6,'保安',0,'security','security','',NULL,'','icon-security','1'),(7,7,'销售',0,'sales','sales','',NULL,'','icon-sales','1'),(8,8,'行政',0,'administration','administration','',NULL,'','icon-administration','1'),(9,9,'财务',0,'financial','financial','',NULL,'','icon-financial','1'),(10,8,'后勤',0,'logistics','logistics','',NULL,'','icon-home','1'),(11,8,'人事',0,'personnel','personnel','',NULL,'','icon-personnel-management','1'),(12,12,'工程',0,'engineering','engineering','',NULL,'','icon-magnet','1'),(13,13,'采购',0,'purchase','purchase','',NULL,'','icon-inbox','1'),(14,14,'酒店设置',0,'hotelSetting','hotelSetting','',NULL,'0','icon-cog','1'),(15,14,'公司设置',0,'company','company','',NULL,'0','','1');
+insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_describe`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'index','index','',NULL,'','icon-home','1'),(2,2,'前厅',0,'frontOffice','frontOffice','',NULL,'','icon-reception','1'),(3,3,'客房',0,'roomsManagement','roomsManagement','',NULL,'','icon-rooms-management','1'),(4,4,'餐饮',0,'restaurant','restaurant','',NULL,'','icon-restaurant','1'),(5,5,'娱乐',0,'entertainment','entertainment','',NULL,'','icon-entertainment','1'),(6,6,'保安',0,'security','security','',NULL,'','icon-security','1'),(7,7,'销售',0,'sales','sales','',NULL,'','icon-sales','1'),(8,8,'行政',0,'administration','administration','',NULL,'','icon-administration','1'),(9,9,'财务',0,'financial','financial','',NULL,'','icon-financial','1'),(10,8,'后勤',0,'logistics','logistics','',NULL,'','icon-home','1'),(11,8,'人事',0,'personnel','personnel','',NULL,'','icon-personnel-management','1'),(12,12,'工程',0,'engineering','engineering','',NULL,'','icon-magnet','1'),(13,13,'采购',0,'purchase','purchase','',NULL,'','icon-inbox','1'),(14,14,'酒店信息管理',0,'hotelSetting','hotelSetting','',NULL,'0','icon-cog','1'),(15,14,'公司信息设置',0,'company','company','',NULL,'0','','1'),(16,14,'酒店信息设置',0,'hotel','hotel','',NULL,'0','','1'),(17,14,'客房信息设置',0,'roomsSetting','roomsSetting','',NULL,'0','','1'),(18,14,'会员基本设置',0,'memberSetting','memberSetting','',NULL,'0','','1'),(19,14,'设置价格种类',0,'priceCategory','priceCategory','',NULL,'0','','1'),(20,14,'设置取消政策',0,'cancellationPolicy ','cancellationPolicy ','',NULL,'0','','1'),(21,14,'设置付款方式',0,'modeOfPayment','modeOfPayment','',NULL,'0','','1');
 
 /*Table structure for table `multi_laguage_page` */
 
@@ -374,7 +374,7 @@ CREATE TABLE `multi_laguage_page` (
 
 /*Data for the table `multi_laguage_page` */
 
-insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','company','company_address','公司地址'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式');
+insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置');
 
 /*Table structure for table `operate_log` */
 
@@ -424,7 +424,7 @@ CREATE TABLE `role_modules` (
 
 /*Data for the table `role_modules` */
 
-insert  into `role_modules`(`role_id`,`modules_id`) values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14);
+insert  into `role_modules`(`role_id`,`modules_id`) values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21);
 
 /*Table structure for table `role_modules_employee` */
 
@@ -440,7 +440,7 @@ CREATE TABLE `role_modules_employee` (
 
 /*Data for the table `role_modules_employee` */
 
-insert  into `role_modules_employee`(`role_id`,`modules_id`,`employee_id`,`role_modules_action_permissions`) values (1,1,1,'1'),(1,2,1,'1'),(1,3,1,'1'),(1,4,1,'1'),(1,5,1,'1'),(1,6,1,'1'),(1,7,1,'1'),(1,8,1,'1'),(1,9,1,'1'),(1,10,1,'1'),(1,11,1,'1'),(1,12,1,'1'),(1,13,1,'1'),(1,14,1,'1'),(1,15,1,'1');
+insert  into `role_modules_employee`(`role_id`,`modules_id`,`employee_id`,`role_modules_action_permissions`) values (1,1,1,'1'),(1,2,1,'1'),(1,3,1,'1'),(1,4,1,'1'),(1,5,1,'1'),(1,6,1,'1'),(1,7,1,'1'),(1,8,1,'1'),(1,9,1,'1'),(1,10,1,'1'),(1,11,1,'1'),(1,12,1,'1'),(1,13,1,'1'),(1,14,1,'1'),(1,15,1,'1'),(1,16,1,'1'),(1,17,1,'1'),(1,18,1,'1'),(1,19,1,'1'),(1,20,1,'1'),(1,21,1,'1');
 
 /*Table structure for table `room` */
 

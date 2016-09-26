@@ -11,13 +11,12 @@ namespace hotel;
 
 class HotelAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
+        $objResponse -> navigation = 'hotelSetting';
+        $objResponse -> setTplValue('navigation', 'hotelSetting');
     }
 
     protected function service($objRequest, $objResponse) {
         switch($objRequest->getAction()) {
-            case 'register':
-                $this->employee_register($objRequest, $objResponse);
-                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -33,16 +32,5 @@ class HotelAction extends \BaseAction {
 
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        $objResponse -> setTplName("hotel/index");
-    }
-
-    protected function excuteModule($objRequest, $objResponse) {
-        $module = $objRequest->module;
-        $module = '\hotel\\' . ucwords($module) . 'Action';
-        $action = $objRequest->action;;
-        //if(isset($_REQUEST['action']))
-        //    $action = $_REQUEST['action'];
-        $objAction = new $module();
-        $objAction->execute($action);
     }
 }
