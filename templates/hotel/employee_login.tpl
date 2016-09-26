@@ -2,16 +2,7 @@
 <html lang="en">
     
 <head>
-    <%include file="hotel/inc/head.tpl"%>
-    <script src="<%$__RESOURCE%>js/jquery.min.js"></script>
-    <script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-    <script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
-    <script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
-    <script src="<%$__RESOURCE%>js/select2.min.js"></script>
-    <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
-    <script src="<%$__RESOURCE%>js/maruti.js"></script>
-    <script src="<%$__RESOURCE%>js/maruti.form_validation.js"></script>
-    <script src="<%$__RESOURCE%>js.model/login.js"></script>
+<%include file="hotel/inc/head.tpl"%>
 </head>
     <body>
         <div id="logo">

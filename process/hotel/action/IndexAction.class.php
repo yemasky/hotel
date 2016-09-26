@@ -21,6 +21,7 @@ class IndexAction extends \BaseAction {
                 $this->employee_login($objRequest, $objResponse);
                 break;
             case 'logout':
+                $objRequest -> method = 'logout';
                 $this->employee_login($objRequest, $objResponse);
                 break;
             case 'noPermission':

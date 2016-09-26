@@ -23,6 +23,7 @@ class Action extends \BaseAction {
         $action = $objRequest->action;
         $this->setDisplay();
         $module = '\hotel\IndexAction';
+        $defaultAction = 'index';
         if(!empty($module_id)) {
             $arrayRoleModulesEmployee = RoleService::getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
             if(!isset($arrayRoleModulesEmployee[$module_id])) {
@@ -36,11 +37,12 @@ class Action extends \BaseAction {
                     if(!empty($arrayModule['modules_action'])) {
                         $action = $arrayModule['modules_action'];
                     }
-                    $module_action = empty($action) ? $arrayModule['modules_module'] : $action;
-                    $objResponse->setTplValue('action', $module_action);
+                    $defaultAction = $arrayModule['modules_module'];
                 }
             }
         }
+        $module_action = empty($action) ? $defaultAction : $action;
+        $objResponse->setTplValue('action', $module_action);
         $objResponse->setTplName("hotel/modules");
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//
