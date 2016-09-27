@@ -598,6 +598,15 @@ class DBQuery{
                     foreach($condition as $condition_key => $condition_value) {
                         $join[] = "`{$condition_key}` <> '{$condition_value}'";
                     }
+                } elseif ($key == 'IN') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        if(is_array($condition_value)) $condition_value = implode("','", $condition_value);
+                        $join[] = "`{$condition_key}` IN ('{$condition_value}')";
+                    }
+                } elseif ($key == '=') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        $join[] = "`{$condition_key}` = '{$condition_value}'";
+                    }
                 } else {
                     $join[] = "`{$key}` = '{$condition}'";
                 }

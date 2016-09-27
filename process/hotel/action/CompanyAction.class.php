@@ -27,11 +27,24 @@ class CompanyAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        //$pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
+        $arrayCompanyId = EmployeeService::getEmployeeCompany($objResponse->arrayLoginEmployeeInfo['employee_id']);
+        $conditions = \DbConfig::$db_query_conditions;
+        $arrayCompany = null;
+        if(!empty($arrayCompanyId)) {
+            $stringCompanyId = '';
+            foreach($arrayCompanyId as $k => $v) {
+                $stringCompanyId .= $v['company_id'] . ',';
+            }
+            $stringCompanyId = trim($stringCompanyId, ',');
+            $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
+            $arrayCompany = CompanyService::getCompany($conditions);
+        }
 
         //设置类别
-        $arrayCompany = CompanyService::getCompany($objResponse->arrayLoginEmployeeInfo['employee_id']);
+
         //赋值
-        $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
+        $objResponse -> setTplValue("arrayCompany", $arrayCompany);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }

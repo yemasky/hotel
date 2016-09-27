@@ -25,39 +25,30 @@
                     <span class="icon">
                         <i class="icon-th-list"></i>
                     </span>
-                    <h5>Recent Posts</h5>
+                    <h5><%$arrayLaguage['list_of_companies']['page_laguage_value']%></h5>
+                    <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
+                    <div class="buttons">
+                        <a class="btn btn-primary btn-mini" href="#" id="add_company"><i class="icon-plus-sign"></i><%$arrayLaguage['company_add']['page_laguage_value']%></a>
+                    </div>
+                    <%/if%>
                 </div>
                 <div class="widget-content nopadding">
                     <ul class="recent-posts">
+                      <%section name=company loop=$arrayCompany%>
                       <li>
-                        <div class="user-thumb"> <img width="40" height="40" alt="User" src="<%$__RESOURCE%>img/icons/50/company.jpg"> </div>
-                        <div class="article-post"> 
-                            <div class="fr"><a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Publish</a> <a href="#" class="btn btn-danger btn-mini">Delete</a></div>
-                          <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
-                          <p><a href="#">This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
-                          
-                          </div>
-                      </li>
-                      <li>
-                        <div class="user-thumb"> <img width="40" height="40" alt="User" src="<%$__RESOURCE%>img/icons/50/company.jpg"> </div>
-                        <div class="article-post"> 
-                          <div class="fr"><a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Publish</a> <a href="#" class="btn btn-danger btn-mini">Delete</a></div>
-                          <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
-                          <p><a href="#">This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
-                          </div>
-                      </li>
-                      <li>
-                        <div class="user-thumb"> <img width="40" height="40" alt="User" src="<%$__RESOURCE%>img/icons/50/company.jpg"> </div>
+                        <div class="user-thumb"> <img width="50" height="50" alt="User" src="<%$__RESOURCE%>img/icons/50/company.jpg"> </div>
                         <div class="article-post">
                           <div class="fr"><a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Publish</a> <a href="#" class="btn btn-danger btn-mini">Delete</a></div>
-                          <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
-                          <p><a href="#">This is a much longer one that will go on for a few lines.Itaffle to pad out the comment.</a> </p>
+                          <h5><%$arrayCompany[company].company_name%></h5>
+                          <p><span class="am-icon-phone"></span>事实上 <span class="am-icon-mobile"></span>dddd</p>
                           
-                          </div>
-                         
-                     <li><button class="btn btn-warning btn-mini">View All</button></li>
+                        </div>
+                      </li>
+                      <%/section%>
+                      
+                      <li><button class="btn btn-warning btn-mini">View All</button></li>
                     </ul> 
-  					<div class="pagination">
+  					<div class="pagination  pagination-centered">
                       <ul>
                         <li><a href="#">Prev</a></li>
                         <li class="active"> <a href="#">1</a> </li>

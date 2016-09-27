@@ -61,7 +61,7 @@ class CommonService extends \BaseService {
 
     public static function getPageModuleLaguage($modules_module, $laguage = '简体中文') {
         $conditions = \DbConfig::$db_query_conditions;
-        $conditions['where'] = array('page_module'=>$modules_module, 'laguage'=>$laguage);
+        $conditions['where'] = array('IN'=>array('page_module'=>array($modules_module, 'common')), 'laguage'=>$laguage);
         return LaguageDao::instance('\hotel\LaguageDao')->getPageModuleLaguage($conditions);
     }
 
