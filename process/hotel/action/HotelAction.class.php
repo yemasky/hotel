@@ -47,8 +47,8 @@ class HotelAction extends \BaseAction {
             $arrayHotel = HotelService::getHotel($conditions);
             foreach ($arrayHotel as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
-                $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(22), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
-                $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(33), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
+                $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
+                $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesHotel['delete']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
             }
         }
 

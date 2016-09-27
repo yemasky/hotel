@@ -7,6 +7,7 @@
  * Time: 17:00
  */
 class ModulesConfig{
-	public static $modulesModule = array('company'=>array('edit'=>22, 'delete'=>23));
+	public static $modulesCompany = array('edit'=>22, 'delete'=>23, 'add'=>26);
+	public static $modulesHotel = array('edit'=>24, 'delete'=>25, 'add'=>27);
 
 }

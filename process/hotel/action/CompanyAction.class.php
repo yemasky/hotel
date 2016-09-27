@@ -49,8 +49,8 @@ class CompanyAction extends \BaseAction {
             $arrayCompany = CompanyService::getCompany($conditions);
             foreach ($arrayCompany as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
-                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesModule['company']['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesModule['company']['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));;
+                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));;
             }
         }
 
