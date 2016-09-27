@@ -27,25 +27,35 @@ class HotelAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        //赋值
-        $arrayHotelId = EmployeeService::getEmployeeHotel($objResponse->arrayLoginEmployeeInfo['employee_id']);
+        $pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
+        $pn_rows = $objRequest->pn_rows;
+
         $conditions = \DbConfig::$db_query_conditions;
-        $arrayCompany = null;
-        if(!empty($arrayHotelId)) {
+        $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
+        $parameters['module'] = encode(decode($objRequest->module));
+
+        $arrayPageHotelId = EmployeeService::pageEmployeeHotel($conditions, $pn, $pn_rows, $parameters);
+
+        $arrayHotel = null;
+        if(!empty($arrayPageHotelId['list_data'])) {
             $stringHotelId = '';
-            foreach($arrayHotelId as $k => $v) {
+            foreach($arrayPageHotelId['list_data'] as $k => $v) {
                 $stringHotelId .= $v['hotel_id'] . ',';
             }
             $stringHotelId = trim($stringHotelId, ',');
             $conditions['where'] = array('IN'=>array('hotel_id'=>$stringHotelId));
-            $arrayCompany = CompanyService::getCompany($conditions);
-            foreach ($arrayCompany as $k => $v) {
+            $arrayHotel = HotelService::getHotel($conditions);
+            foreach ($arrayHotel as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
-                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(22), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'action'=>'delete', 'company_id'=>encode($arrayCompany[$k]['company_id'])));;
+                $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(22), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
+                $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(33), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
             }
         }
 
+        //赋值
+        $objResponse -> setTplValue("arrayHotel", $arrayHotel);
+        $objResponse -> setTplValue("page", $arrayPageHotelId['page']);
+        $objResponse -> setTplValue("pn", $pn);
         //设置类别
 
         //设置Meta(共通)

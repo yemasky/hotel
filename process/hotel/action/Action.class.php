@@ -29,7 +29,9 @@ class Action extends \BaseAction {
         $module_action_tpl = 'index';
 
         if(!empty($objRequest->company_id)) {//公司权限
-            $arrayCompanyId = EmployeeService::getEmployeeCompany($objResponse->arrayLoginEmployeeInfo['employee_id'], 'company_id');
+            $conditions = \DbConfig::$db_query_conditions;
+            $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
+            $arrayCompanyId = EmployeeService::getEmployeeCompany($conditions, 'company_id');
             $company_id = decode($objRequest->company_id);
             if(!isset($arrayCompanyId[$company_id])) {
                 $action = 'noPermission';

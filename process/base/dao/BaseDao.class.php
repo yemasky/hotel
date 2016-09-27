@@ -59,7 +59,9 @@ class BaseDao{
 
     public function getCount($conditions, $fields = NULL) {
         if(empty($fields)) {
-            $fields = 'COUNT('. $this->table_key .')';
+            $fields = 'COUNT('. $this->table_key .') count_num';
+        } else {
+            $fields = 'COUNT('. $fields .') count_num ';
         }
         return DBQuery::instance($this->dsn_read)->setTable($this->table)->getOne($conditions, $fields);
     }

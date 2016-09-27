@@ -311,7 +311,7 @@ if(!defined("INC_FUNC_COMMON")) {
 		return substr($str, 0, $loop);
 	}
 
-	function page($pn, $all_page_num, $show_pages = 10) {
+	function page($pn, $all_page_num, $list_data, $parameters, $show_pages = 10) {
 		$arrayResultPage = "";
 		$mod_pn = $pn % $show_pages;
 		if($mod_pn != 0) {
@@ -319,9 +319,12 @@ if(!defined("INC_FUNC_COMMON")) {
 			$mod_pn = $show_pages;
 		}
 		if($pn > $show_pages) {
-			$arrayResultPage[0] = $pn - $mod_pn - $show_pages + 1;
+			$arrayResultPage[0]['pn'] = $pn - $mod_pn - $show_pages + 1;
+			$parameters['pn'] = $arrayResultPage[0]['pn'];
+			$arrayResultPage[0]['url'] = \BaseUrlUtil::Url($parameters);
 		} else {
-			$arrayResultPage[0] = '';
+			$arrayResultPage[0]['pn'] = '';
+			$arrayResultPage[0]['url'] = '#no_page';
 		}
 		if(($all_page_num -  $pn) < $show_pages) {
 			if($mod_pn <= ($all_page_num % $show_pages)) {
@@ -329,14 +332,19 @@ if(!defined("INC_FUNC_COMMON")) {
 			}
 		}
 		for($i = 1; $i <= $show_pages; $i++) {
-			$arrayResultPage[$i] = $pn - $mod_pn + $i;
+			$arrayResultPage[$i]['pn'] = $pn - $mod_pn + $i;
+			$parameters['pn'] = $arrayResultPage[$i]['pn'];
+			$arrayResultPage[$i]['url'] = \BaseUrlUtil::Url($parameters);
 		}
 		if($pn < ($all_page_num - $show_pages)) {
-			$arrayResultPage[$i] = $arrayResultPage[$i -1] + 1;
+			$arrayResultPage[$i]['pn'] = $arrayResultPage[$i -1]['pn'] + 1;
+			$parameters['pn'] = $arrayResultPage[$i]['pn'];
+			$arrayResultPage[$i]['url'] = \BaseUrlUtil::Url($parameters);
 		} else {
-			$arrayResultPage[$i] = '';
+			$arrayResultPage[$i]['pn'] = '';
+			$arrayResultPage[$i]['url'] = '#no_page';
 		}
-		return $arrayResultPage;
+		return array('page'=>$arrayResultPage, 'list_data'=>$list_data);
 	}
 
 	function getModelByUri(){
