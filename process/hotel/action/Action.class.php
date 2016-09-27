@@ -26,12 +26,22 @@ class Action extends \BaseAction {
         $action = $objRequest->action;
         $this->setDisplay();
         $module = '\hotel\IndexAction';
-        $defaultAction = 'index';
+        $module_action_tpl = 'index';
+
+        if(!empty($objRequest->company_id)) {//公司权限
+            $arrayCompanyId = EmployeeService::getEmployeeCompany($objResponse->arrayLoginEmployeeInfo['employee_id'], 'company_id');
+            $company_id = decode($objRequest->company_id);
+            if(!isset($arrayCompanyId[$company_id])) {
+                $action = 'noPermission';
+                $modules_id = null;
+            }
+        }
+
         if(!empty($modules_id)) {
             $arrayRoleModulesEmployee = RoleService::getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
             if(!isset($arrayRoleModulesEmployee[$modules_id])) {
                 //无权限
-                $action = 'noPermission';
+                $module_action_tpl = $action = 'noPermission';
             } else {
                 $arrayModules = ModulesService::getModules();
                 if(isset($arrayModules[$modules_id])) {
@@ -40,7 +50,7 @@ class Action extends \BaseAction {
                     if(!empty($arrayModule['modules_action'])) {
                         $action = $arrayModule['modules_action'];
                     }
-                    $defaultAction = $arrayModule['modules_module'];
+                    $module_action_tpl = empty($action) ? $arrayModule['modules_module'] : $arrayModule['modules_module'] . '_' . $action;
                     $arrayLaguage = CommonService::getPageModuleLaguage($arrayModule['modules_module']);
                     //权限
                     $objResponse->setTplValue('arrayRoleModulesEmployee', $arrayRoleModulesEmployee[$modules_id]);
@@ -50,9 +60,8 @@ class Action extends \BaseAction {
             }
         }
 
-        $module_action = empty($action) ? $defaultAction : $action;
         //$objResponse->setTplValue('action', $module_action);
-        $objResponse->setTplName("hotel/modules_" . $module_action);
+        $objResponse->setTplName("hotel/modules_" . $module_action_tpl);
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//
     }

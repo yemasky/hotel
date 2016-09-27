@@ -28,7 +28,7 @@
                     <h5><%$arrayLaguage['list_of_companies']['page_laguage_value']%></h5>
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                     <div class="buttons">
-                        <a class="btn btn-primary btn-mini" href="#" id="add_company"><i class="icon-plus-sign"></i><%$arrayLaguage['company_add']['page_laguage_value']%></a>
+                        <a class="btn btn-primary btn-mini" href="#" id="add_company"><i class="am-icon-plus-square"></i> <%$arrayLaguage['company_add']['page_laguage_value']%></a>
                     </div>
                     <%/if%>
                 </div>
@@ -38,15 +38,26 @@
                       <li>
                         <div class="user-thumb"> <img width="50" height="50" alt="User" src="<%$__RESOURCE%>img/icons/50/company.jpg"> </div>
                         <div class="article-post">
-                          <div class="fr"><a href="#" class="btn btn-primary btn-mini">Edit</a> <a href="#" class="btn btn-success btn-mini">Publish</a> <a href="#" class="btn btn-danger btn-mini">Delete</a></div>
+                          <div class="fr">
+                            <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 1%>
+                          	<a href="<%$arrayCompany[company].edit_url%>" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i> Edit</a> 
+                            <%/if%>
+                            <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 2%>
+                            <a href="<%$arrayCompany[company].delete_url%>" class="btn btn-danger btn-mini"><i class="am-icon-trash-o"></i> Delete</a>
+                            <%/if%>
+                          </div>
                           <h5><%$arrayCompany[company].company_name%></h5>
-                          <p><span class="am-icon-phone"></span>事实上 <span class="am-icon-mobile"></span>dddd</p>
+                          <p>
+                          	<span class="icon-time" title="添加时间"></span> <%$arrayCompany[company].company_add_date%> 　
+                          	<%if $arrayCompany[company].company_phone!=''%><span class="am-icon-phone"></span> <%$arrayCompany[company].company_phone%><%/if%> 　
+                          	<%if $arrayCompany[company].company_mobile!=''%><span class="am-icon-mobile"></span> <%$arrayCompany[company].company_mobile%><%/if%> 　
+                          </p>
                           
                         </div>
                       </li>
                       <%/section%>
                       
-                      <li><button class="btn btn-warning btn-mini">View All</button></li>
+                      <li></li>
                     </ul> 
   					<div class="pagination  pagination-centered">
                       <ul>

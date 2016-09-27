@@ -10,7 +10,7 @@
 <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
 <style type="text/css">
-#allmap {height: 500px;width:97%;overflow: hidden;}
+#allmap {height: 300px;width:60%;overflow: hidden;}
 </style>
 </head>
 <body>
@@ -34,7 +34,7 @@
                     <%/if%>
                 </div>
                 <div class="widget-content nopadding">
-                    <form id="company" action="#" method="get" class="form-horizontal">
+                    <form id="company" action="<%$company_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data">
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['company_name']['page_laguage_value']%> :</label>
                             <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['company_name']['page_laguage_value']%>" name="company_name" value="<%$arrayCompany['company_name']%>" /> </div>
@@ -42,24 +42,24 @@
                         <div class="control-group">
 							<label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
 							<div class="controls">
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_mobile']['page_laguage_value']%>"/>
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>"/> 
+                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_mobile']['page_laguage_value']%>" name="company_mobile" value="<%$arrayCompany['company_mobile']%>" />
+                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>" name="company_phone" value="<%$arrayCompany['company_phone']%>" /> 
                             </div>
 						</div>
                         <div class="control-group">
 							<label class="control-label"><%$arrayLaguage['company_fax']['page_laguage_value']%> :</label>
 							<div class="controls">
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_fax']['page_laguage_value']%>"/> 
+                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_fax']['page_laguage_value']%>" name="company_fax" value="<%$arrayCompany['company_fax']%>" /> 
                             </div>
 						</div>
                         <div class="control-group">
 							<label class="control-label"><%$arrayLaguage['company_email']['page_laguage_value']%> :</label>
 							<div class="controls">
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_email']['page_laguage_value']%>"/> 
+                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_email']['page_laguage_value']%>" name="company_email" value="<%$arrayCompany['company_email']%>" /> 
                             </div>
 						</div>
                         <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['company_location']['page_laguage_value']%></label>
+                            <label class="control-label"><%$arrayLaguage['company_location']['page_laguage_value']%> :</label>
                             <div class="controls ">
                                 <select id="DropProvince" style="width:120px;">
                                     <option><%$arrayLaguage['please_select']['page_laguage_value']%></option>
@@ -75,7 +75,7 @@
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['company_address']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input type="text"  class="span6" id="cityName" placeholder="<%$arrayLaguage['company_address']['page_laguage_value']%>"  /> 
+                                <input type="text"  class="span6" id="company_address" placeholder="<%$arrayLaguage['company_address']['page_laguage_value']%>"  name="company_address" value="<%$arrayCompany['company_address']%>"  /> 
                                 <button class="btn btn-primary" type="button" onclick="theLocation()"><%$arrayLaguage['search_map']['page_laguage_value']%></button>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['company_introduction']['page_laguage_value']%></label>
                             <div class="controls">
-                                <textarea class="span20"  placeholder="<%$arrayLaguage['company_introduction']['page_laguage_value']%>" ></textarea>
+                                <textarea class="span6" style="height:300px;"  placeholder="<%$arrayLaguage['company_introduction']['page_laguage_value']%>" name="company_introduction" value="<%$arrayCompany['company_introduction']%>" ></textarea>
                             </div>
                         </div>
                        
@@ -186,7 +186,7 @@
 	map.centerAndZoom(point,11);
 
 	function theLocation(){
-		var city = document.getElementById("cityName").value;
+		var city = document.getElementById("company_address").value;
 		if(city != ""){
 			map.centerAndZoom(city,18);      // 用城市名设置地图中心点
 		}
@@ -197,7 +197,7 @@
 	}
 	
 	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-		{"input" : "cityName"
+		{"input" : "company_address"
 		,"location" : map
 	});
 	
@@ -242,7 +242,10 @@
 		});
 		local.search(myValue);
 	}	
-	
+	function showInfo(e){
+		//alert(e.point.lng + ", " + e.point.lat);
+	}
+	map.addEventListener("click", showInfo);
 </script>
 </body>
 </html>

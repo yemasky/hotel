@@ -17,6 +17,9 @@ class CompanyAction extends \BaseAction {
 
     protected function service($objRequest, $objResponse) {
         switch($objRequest->getAction()) {
+            case 'edit':
+                $this->doEdit($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -39,12 +42,31 @@ class CompanyAction extends \BaseAction {
             $stringCompanyId = trim($stringCompanyId, ',');
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
             $arrayCompany = CompanyService::getCompany($conditions);
+            foreach ($arrayCompany as $k => $v) {
+                //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
+                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(22), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'action'=>'delete', 'company_id'=>encode($arrayCompany[$k]['company_id'])));;
+            }
         }
 
         //设置类别
 
         //赋值
         $objResponse -> setTplValue("arrayCompany", $arrayCompany);
+        //设置Meta(共通)
+        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+    }
+
+    protected function doEdit($objRequest, $objResponse) {
+        print_r($objRequest);
+        print_r($objRequest->getPost());
+        $company_id = decode($objRequest->company_id);
+        $conditions = \DbConfig::$db_query_conditions;
+        $conditions['where'] = array('company_id'=>$company_id);
+        $arrayCompany = CompanyService::getCompany($conditions);
+        //赋值
+        $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
+        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(22), 'company_id'=>encode($company_id))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
