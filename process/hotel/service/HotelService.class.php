@@ -13,5 +13,10 @@ class HotelService extends \BaseService {
         return HotelDao::instance('\hotel\HotelDao')->getHotelModules($conditions, $hashKey);
     }
 
+    public static function getHotel($conditions, $hashKey = null) {
+        //分页
+        return HotelDao::instance('\hotel\HotelDao')->getHotelModules($conditions, $hashKey);
+    }
+
 
 }

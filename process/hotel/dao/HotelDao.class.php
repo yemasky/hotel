@@ -15,4 +15,12 @@ class HotelDao extends \BaseDao {
         $conditions['order'] = 'hotel_modules_father_id ASC, hotel_modules_order ASC, modules_id ASC';
         return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('hotel_modules')->getList($conditions, $fileid, $hashKey);//->DBCache($cacheId)
     }
+
+    public function getHotel($conditions, $hashKey = null){
+        $cacheId = md5('getHotel' . json_encode($conditions) . $hashKey);
+        $fileid = 'hotel_id, company_id, company_group, hotel_group, hotel_name, hotel_address, hotel_phone, hotel_mobile, hotel_fax, hotel_longitude, '
+                 .'hotel_latitude, hotel_country, hotel_province, hotel_city, hotel_town, hotel_introduce_short, hotel_introduce, hotel_type, hotel_star, '
+                 .'hotel_brand, hotel_wifi';
+        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('hotel')->getList($conditions, $fileid, $hashKey);//->DBCache($cacheId)
+    }
 }

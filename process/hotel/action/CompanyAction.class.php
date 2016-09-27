@@ -58,9 +58,12 @@ class CompanyAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
-        print_r($objRequest);
-        print_r($objRequest->getPost());
+        $arrayPostValue= $objRequest->getPost();
         $company_id = decode($objRequest->company_id);
+
+        if($arrayPostValue) {
+
+        }
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>$company_id);
         $arrayCompany = CompanyService::getCompany($conditions);
