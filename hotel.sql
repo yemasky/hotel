@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.24 (32 bit)
-MySQL - 10.1.13-MariaDB : Database - hotel
+SQLyog Ultimate v12.08 (64 bit)
+MySQL - 10.1.16-MariaDB : Database - hotel
 *********************************************************************
 */
 
@@ -12,6 +12,8 @@ MySQL - 10.1.13-MariaDB : Database - hotel
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`hotel` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
 USE `hotel`;
 
 /*Table structure for table `book` */
@@ -94,19 +96,19 @@ DROP TABLE IF EXISTS `company`;
 CREATE TABLE `company` (
   `company_id` int(11) NOT NULL AUTO_INCREMENT,
   `company_group` int(11) DEFAULT NULL COMMENT '公司群 company_id == company_group 为母公司',
-  `company_name` varchar(200) NOT NULL COMMENT '公司名称',
-  `company_address` varchar(200) NOT NULL COMMENT '公司地址',
-  `company_mobile` bigint(19) NOT NULL COMMENT '移动电话',
-  `company_phone` varchar(50) DEFAULT NULL COMMENT '公司电话',
-  `company_fax` varchar(50) DEFAULT NULL COMMENT '公司传真',
-  `company_email` varchar(100) DEFAULT NULL COMMENT '公司email',
-  `company_introduction` text COMMENT '公司介绍',
+  `company_name` varchar(200) NOT NULL DEFAULT '' COMMENT '公司名称',
+  `company_address` varchar(200) NOT NULL DEFAULT '' COMMENT '公司地址',
+  `company_mobile` bigint(19) DEFAULT NULL COMMENT '移动电话',
+  `company_phone` varchar(50) DEFAULT '' COMMENT '公司电话',
+  `company_fax` varchar(50) DEFAULT '' COMMENT '公司传真',
+  `company_email` varchar(100) DEFAULT '' COMMENT '公司email',
+  `company_introduction` text NOT NULL COMMENT '公司介绍',
   `company_longitude` float NOT NULL COMMENT '经度',
   `company_latitude` float NOT NULL COMMENT '纬度',
-  `company_country` varchar(50) NOT NULL COMMENT '国家',
-  `company_province` varchar(50) NOT NULL COMMENT '省',
-  `company_city` varchar(50) NOT NULL COMMENT '市、县',
-  `company_town` varchar(50) NOT NULL COMMENT '城镇',
+  `company_country` varchar(50) NOT NULL DEFAULT '' COMMENT '国家',
+  `company_province` varchar(50) NOT NULL DEFAULT '' COMMENT '省、直辖市',
+  `company_city` varchar(50) NOT NULL DEFAULT '' COMMENT '市、直辖市下级类型',
+  `company_town` varchar(50) NOT NULL DEFAULT '' COMMENT '县\\城镇\\区',
   `company_add_date` date NOT NULL,
   `company_add_time` time NOT NULL,
   PRIMARY KEY (`company_id`)
@@ -114,7 +116,7 @@ CREATE TABLE `company` (
 
 /*Data for the table `company` */
 
-insert  into `company`(`company_id`,`company_group`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (1,1,'北京欣得酒店管理有限公司','北京北河路',18566669985,'010-56542547','010-56542547','yuding@hotmail.com',NULL,0,0,'','','','','2016-09-27','00:00:00');
+insert  into `company`(`company_id`,`company_group`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'','',NULL,NULL,NULL,NULL,'',0,0,'','','','','0000-00-00','00:00:00'),(1,1,'北京欣得酒店管理有限公司','北京北河路',18566669985,'010-56542547','010-56542547','yuding@hotmail.com','',0,0,'','','','','2016-09-27','00:00:00');
 
 /*Table structure for table `company_multi_laguage` */
 
@@ -443,7 +445,7 @@ CREATE TABLE `role_modules_employee` (
 
 /*Data for the table `role_modules_employee` */
 
-insert  into `role_modules_employee`(`role_id`,`modules_id`,`employee_id`,`role_modules_action_permissions`) values (1,1,1,'3'),(1,2,1,'3'),(1,3,1,'3'),(1,4,1,'3'),(1,5,1,'3'),(1,6,1,'3'),(1,7,1,'3'),(1,8,1,'3'),(1,9,1,'3'),(1,10,1,'3'),(1,11,1,'3'),(1,12,1,'3'),(1,13,1,'3'),(1,14,1,'3'),(1,15,1,'3'),(1,16,1,'3'),(1,17,1,'3'),(1,18,1,'3'),(1,19,1,'3'),(1,20,1,'3'),(1,21,1,'3'),(1,22,1,'3'),(1,23,1,'3'),(1,24,1,'3');
+insert  into `role_modules_employee`(`role_id`,`modules_id`,`employee_id`,`role_modules_action_permissions`) values (1,1,1,'3'),(1,2,1,'3'),(1,3,1,'3'),(1,4,1,'3'),(1,5,1,'3'),(1,6,1,'3'),(1,7,1,'3'),(1,8,1,'3'),(1,9,1,'3'),(1,10,1,'3'),(1,11,1,'3'),(1,12,1,'3'),(1,13,1,'3'),(1,14,1,'3'),(1,15,1,'3'),(1,16,1,'3'),(1,17,1,'3'),(1,18,1,'3'),(1,19,1,'3'),(1,20,1,'3'),(1,21,1,'3'),(1,22,1,'3'),(1,23,1,'3'),(1,24,1,'3'),(1,25,1,'0'),(1,26,1,'3');
 
 /*Table structure for table `room` */
 

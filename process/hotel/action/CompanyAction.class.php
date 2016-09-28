@@ -20,6 +20,12 @@ class CompanyAction extends \BaseAction {
             case 'edit':
                 $this->doEdit($objRequest, $objResponse);
                 break;
+            case 'add':
+                $this->doAdd($objRequest, $objResponse);
+                break;
+            case 'delete':
+                $this->doDelete($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -50,13 +56,13 @@ class CompanyAction extends \BaseAction {
             foreach ($arrayCompany as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
                 $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));;
+                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
             }
         }
-
         //设置类别
-
         //赋值
+        $objResponse -> setTplValue("addCompanyPermission", $objResponse->arrayRoleModulesEmployeePermissions[\ModulesConfig::$modulesCompany['add']]);
+        $objResponse -> setTplValue("addCompanyUrl", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['add']))));
         $objResponse -> setTplValue("arrayCompany", $arrayCompany);
         $objResponse -> setTplValue("page", $arrayPageCompanyId['page']);
         $objResponse -> setTplValue("pn", $pn);
@@ -73,8 +79,22 @@ class CompanyAction extends \BaseAction {
         $arrayCompany = CompanyService::getCompany($conditions);
         //赋值
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(22), 'company_id'=>encode($company_id))));
+        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+    }
+
+    protected function doAdd($objRequest, $objResponse) {
+        $arrayPostValue= $objRequest->getPost();
+
+        $conditions = \DbConfig::$db_query_conditions;
+        $conditions['where'] = array('company_id'=>0);
+        $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache('company_default')->getCompany($conditions);
+        //赋值
+        $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
+        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['add']))));
+        //设置Meta(共通)
+        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        //更改tpl
     }
 }

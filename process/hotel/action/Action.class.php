@@ -40,8 +40,8 @@ class Action extends \BaseAction {
         }
 
         if(!empty($modules_id)) {
-            $arrayRoleModulesEmployee = RoleService::getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
-            if(!isset($arrayRoleModulesEmployee[$modules_id])) {
+            $arrayRoleModulesEmployeePermissions = RoleService::getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
+            if(!isset($arrayRoleModulesEmployeePermissions[$modules_id])) {
                 //无权限
                 $module_action_tpl = $action = 'noPermission';
             } else {
@@ -55,7 +55,8 @@ class Action extends \BaseAction {
                     $module_action_tpl = empty($action) ? $arrayModule['modules_module'] : $arrayModule['modules_module'] . '_' . $action;
                     $arrayLaguage = CommonService::getPageModuleLaguage($arrayModule['modules_module']);
                     //权限
-                    $objResponse->setTplValue('arrayRoleModulesEmployee', $arrayRoleModulesEmployee[$modules_id]);
+                    $objResponse->arrayRoleModulesEmployeePermissions = $arrayRoleModulesEmployeePermissions;
+                    $objResponse->setTplValue('arrayRoleModulesEmployee', $arrayRoleModulesEmployeePermissions[$modules_id]);
                     //语言
                     $objResponse->setTplValue('arrayLaguage', $arrayLaguage);
                 }
@@ -63,6 +64,7 @@ class Action extends \BaseAction {
         }
 
         //$objResponse->setTplValue('action', $module_action);
+        //$objResponse->setTplValue("hashKey", \Encrypt::instance()->decode(date("Y-m-d") . __WEB_KEY));
         $objResponse->setTplName("hotel/modules_" . $module_action_tpl);
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//

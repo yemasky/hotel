@@ -4,16 +4,9 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-login.css" />
-<link href="<%$__RESOURCE%>css/uniform.css" rel="stylesheet">
-<link href="<%$__RESOURCE%>css/select2.css" rel="stylesheet">
-<script src="<%$__RESOURCE%>js/jquery.min.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
 <script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.form_validation.js"></script>
 <script src="<%$__RESOURCE%>js.model/login.js"></script>
 </head>
     <body>
@@ -22,7 +15,7 @@
         </div>
         <div id="loginbox">
             <form class="form-vertical" action="index.php?action=login" name="loginform" id="loginform" novalidate method="post">
-				 <div class="control-group normal_text"><h3>智能酒店管理登录</h3></div>
+				 <div class="control-group normal_text"><h3><img src="<%$__RESOURCE%>img/logo-login-title.png" alt="" /></h3></div>
                 <div class="control-group<%if $error_login==1%> error<%/if%>">
                     <div class="controls">
                         <div class="main_input_box">

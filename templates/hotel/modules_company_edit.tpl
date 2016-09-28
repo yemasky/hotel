@@ -33,74 +33,7 @@
 					</div>
                     <%/if%>
                 </div>
-                <div class="widget-content nopadding">
-                    <form id="company" action="<%$company_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data">
-                        <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['company_name']['page_laguage_value']%> :</label>
-                            <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['company_name']['page_laguage_value']%>" name="company_name" value="<%$arrayCompany['company_name']%>" /> </div>
-                        </div>
-                        <div class="control-group">
-							<label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
-							<div class="controls">
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_mobile']['page_laguage_value']%>" name="company_mobile" value="<%$arrayCompany['company_mobile']%>" />
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>" name="company_phone" value="<%$arrayCompany['company_phone']%>" /> 
-                            </div>
-						</div>
-                        <div class="control-group">
-							<label class="control-label"><%$arrayLaguage['company_fax']['page_laguage_value']%> :</label>
-							<div class="controls">
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_fax']['page_laguage_value']%>" name="company_fax" value="<%$arrayCompany['company_fax']%>" /> 
-                            </div>
-						</div>
-                        <div class="control-group">
-							<label class="control-label"><%$arrayLaguage['company_email']['page_laguage_value']%> :</label>
-							<div class="controls">
-                                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_email']['page_laguage_value']%>" name="company_email" value="<%$arrayCompany['company_email']%>" /> 
-                            </div>
-						</div>
-                        <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['company_location']['page_laguage_value']%> :</label>
-                            <div class="controls ">
-                                <select id="DropProvince" style="width:120px;">
-                                    <option><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                </select>
-                                <select id="sCity" style="width:120px;">
-                                    <option><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                </select>
-                                <select id="sArea" style="width:120px;">
-                                    <option><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['company_address']['page_laguage_value']%> :</label>
-                            <div class="controls">
-                                <input type="text"  class="span6" id="company_address" placeholder="<%$arrayLaguage['company_address']['page_laguage_value']%>"  name="company_address" value="<%$arrayCompany['company_address']%>"  /> 
-                                <button class="btn btn-primary" type="button" onclick="theLocation()"><%$arrayLaguage['search_map']['page_laguage_value']%></button>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['company_map']['page_laguage_value']%> :</label>
-                            <div class="controls">
-                                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-                                <div id="allmap"></div>
-                                </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['company_introduction']['page_laguage_value']%></label>
-                            <div class="controls">
-                                <textarea class="span6" style="height:300px;"  placeholder="<%$arrayLaguage['company_introduction']['page_laguage_value']%>" name="company_introduction" value="<%$arrayCompany['company_introduction']%>" ></textarea>
-                            </div>
-                        </div>
-                       
- 
-                        
-                        <div class="form-actions pagination-centered">
-                        	
-                            <button type="submit" id="save_company_info" class="btn btn-success pagination-centered">Save</button>
-                        </div>
-                    </form>
-                </div>
+                <%include file="hotel/inc/company_edit.tpl"%>
             </div>						
         </div>
     </div>
@@ -109,143 +42,23 @@
 </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
-<script src="<%$__RESOURCE%>js/jquery.min.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-colorpicker.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-datepicker.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
-<script src="<%$__RESOURCE%>js/select2.min.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>
-<script type="text/javascript">
+<%include file="hotel/inc/company_js.tpl"%>
+<script language="javascript">
 	$("form input,textarea,select").prop("readonly", true);
 	$('#cancel_edit_company').hide();
 	$('#save_company_info').hide();
-	$(document).ready(function(){
-		//省
-		var xml_data;
-		$.ajax({url:"static/area/Area.xml",
-			success:function(xml){
-				xml_data = xml;
-				$(xml).find("province").each(function(){
-					var t = $(this).attr("name");//this->
-					$("#DropProvince").append("<option>"+t+"</option>");
-				});
-			},
-			error: function(e) {
-				alert(e);
-			} 
-		});
-		//市
-		$("#DropProvince").change(function(){
-			$("#sCity>option").remove();
-			$("#DropProvince").next().find('span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
-			$("#sArea>option").remove();
-			$("#sCity").next().find('span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
-			var pname = $("#DropProvince").val();
-			$(xml_data).find("province[name='"+pname+"']>city").each(function(){
-				var city = $(this).attr("name");//this->
-				$("#sCity").append("<option>"+city+"</option>");
-			});
-			///查找<city>下的所有第一级子元素(即区域)
-			var cname = $("#sCity").val();
-			$(xml_data).find("city[name='"+cname+"']>country").each(function(){
-				var area = $(this).attr("name");//this->
-				$("#sArea").append("<option>"+area+"</option>");
-			});
-		});
-		//区
-		$("#sCity").change(function(){
-			$("#sArea>option").remove();
-			$("#sCity").next().find('span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
-			var cname = $("#sCity").val();
-			$(xml_data).find("city[name='"+cname+"']>country").each(function(){
-				var area = $(this).attr("name");//this->
-				$("#sArea").append("<option>"+area+"</option>");
-			});
-		});
-		$('#edit_company').click(function(e) {
+	$('#edit_company').click(function(e) {
             $("form input,textarea,select").prop("readonly", false);
 			$(this).hide();
 			$('#cancel_edit_company').show();
 			$('#save_company_info').show();
-        });
-		$('#cancel_edit_company').click(function(e) {
-            $("form input,textarea,select").prop("readonly", true);
-			$(this).hide();
-			$('#edit_company').show();
-			$('#save_company_info').hide();
-        });
 	});
-	
-</script>
-<script type="text/javascript">
-	var map = new BMap.Map("allmap");
-	var point = new BMap.Point(116.331398,39.897445);
-	map.centerAndZoom(point,11);
-
-	function theLocation(){
-		var city = document.getElementById("company_address").value;
-		if(city != ""){
-			map.centerAndZoom(city,18);      // 用城市名设置地图中心点
-		}
-	}
-	
-	function G(id) {
-		return document.getElementById(id);
-	}
-	
-	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-		{"input" : "company_address"
-		,"location" : map
+	$('#cancel_edit_company').click(function(e) {
+		$("form input,textarea,select").prop("readonly", true);
+		$(this).hide();
+		$('#edit_company').show();
+		$('#save_company_info').hide();
 	});
-	
-	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-	var str = "";
-		var _value = e.fromitem.value;
-		var value = "";
-		if (e.fromitem.index > -1) {
-			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		}    
-		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
-		
-		value = "";
-		if (e.toitem.index > -1) {
-			_value = e.toitem.value;
-			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		}    
-		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-		G("searchResultPanel").innerHTML = str;
-	});
-	
-	var myValue;
-	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-	var _value = e.item.value;
-		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-		
-		setPlace();
-	});
-
-	function setPlace(){
-		map.clearOverlays();    //清除地图上所有覆盖物
-		function myFun(){
-			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-			map.centerAndZoom(pp, 18);
-			marker = new BMap.Marker(pp);
-			marker.enableDragging();
-			map.addOverlay(marker);    //添加标注
-		}
-		var local = new BMap.LocalSearch(map, { //智能搜索
-		  onSearchComplete: myFun
-		});
-		local.search(myValue);
-	}	
-	function showInfo(e){
-		//alert(e.point.lng + ", " + e.point.lat);
-	}
-	map.addEventListener("click", showInfo);
 </script>
 </body>
 </html>
