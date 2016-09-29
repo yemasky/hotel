@@ -26,12 +26,13 @@
                         <i class="icon-align-justify"></i>									
                     </span>
                     <h5><%$arrayLaguage['company_information']['page_laguage_value']%></h5>
-                    <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 1%>
                     <div class="buttons">
-						<a class="btn btn-primary btn-mini" href="#" id="edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_edit']['page_laguage_value']%></a>	
-                        <a class="btn btn-primary btn-mini" href="#" id="cancel_edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_cancel_edit']['page_laguage_value']%></a>
-					</div>
+                    <a class="btn btn-primary btn-mini" href="javascript:history.back(-1);" id="back_company"><i class="am-icon-arrow-circle-left"></i> <%$arrayLaguage['back']['page_laguage_value']%></a>	
+                    <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 1%>
+						<a class="btn btn-primary btn-mini" id="edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_edit']['page_laguage_value']%></a>	
+                        <a class="btn btn-primary btn-mini" id="cancel_edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_cancel_edit']['page_laguage_value']%></a>
                     <%/if%>
+					</div>
                 </div>
                 <%include file="hotel/inc/company_edit.tpl"%>
             </div>						
@@ -44,9 +45,13 @@
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/company_js.tpl"%>
 <script language="javascript">
+	<%if $view==1%>
 	$("form input,textarea,select").prop("readonly", true);
-	$('#cancel_edit_company').hide();
 	$('#save_company_info').hide();
+	$('#cancel_edit_company').hide();
+	<%else%>
+	$('#edit_company').hide();
+	<%/if%>
 	$('#edit_company').click(function(e) {
             $("form input,textarea,select").prop("readonly", false);
 			$(this).hide();

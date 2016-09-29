@@ -113,11 +113,11 @@ CREATE TABLE `company` (
   `company_add_date` date NOT NULL,
   `company_add_time` time NOT NULL,
   PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `company` */
 
-insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,NULL,NULL,NULL,'',0,0,'','','','','0000-00-00','00:00:00'),(1,1,'\0','北京欣得酒店管理有限公司','北京北河路',18566669985,'010-56542547','010-56542547','yuding@hotmail.com','',0,0,'','','','','2016-09-27','00:00:00'),(2,NULL,'\0','北京和平大街有限公司','北京市朝阳区和平大厦写字楼',18600323551,'','','','这是公司介绍',116.517,40.0305,'','北京市','北京辖区','宣武区','0000-00-00','00:00:00'),(3,NULL,'\0','北京和平大街科技有限公司','北京市西城区全聚德(和平门店)',18600323551,'010-56458564','010-86545685','','这是公司介绍',116.392,39.9056,'','北京市','北京辖县','延庆县','2016-09-29','11:02:49');
+insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','',0,0,'','','','','0000-00-00','00:00:00'),(1,NULL,'','11','11',NULL,'','','','',0,0,'','','','','0000-00-00','00:00:00'),(2,NULL,'','22','',NULL,'','','','',0,0,'','','','','0000-00-00','00:00:00'),(3,NULL,'\0','222','',NULL,'','','','',0,0,'','','','','0000-00-00','00:00:00');
 
 /*Table structure for table `company_multi_laguage` */
 
@@ -381,7 +381,7 @@ CREATE TABLE `multi_laguage_page` (
 
 /*Data for the table `multi_laguage_page` */
 
-insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','edit','编辑'),('简体中文','common','hotel_add','添加酒店'),('简体中文','common','view ','查看'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置'),('简体中文','hotel','list_of_hotel','酒店列表');
+insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','back','返回上一页'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','edit','编辑'),('简体中文','common','hotel_add','添加酒店'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置'),('简体中文','hotel','list_of_hotel','酒店列表');
 
 /*Table structure for table `operate_log` */
 

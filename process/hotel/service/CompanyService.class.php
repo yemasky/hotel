@@ -19,4 +19,8 @@ class CompanyService extends \BaseService {
         return CompanyDao::instance('\hotel\CompanyDao')->update($where, $row);
     }
 
+    public static function deleteCompany($where) {
+        return CompanyDao::instance('\hotel\CompanyDao')->delete($where);
+    }
+
 }

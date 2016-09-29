@@ -77,19 +77,32 @@ class CompanyAction extends \BaseAction {
 
     protected function view($objRequest, $objResponse) {
         $this->doEdit($objRequest, $objResponse);
+        $objResponse->view = 1;
         $objResponse->setTplName("hotel/modules_company_edit");
     }
-    protected function doEdit($objRequest, $objResponse) {
-        $arrayPostValue= $objRequest->getPost();
-        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
 
-        }
+    protected function doDelete($objRequest, $objResponse) {
+        $this->setDisplay();
         $company_id = decode($objRequest->company_id);
+        if(empty($company_id)) {
+            return $this->errorResponse('操作失败，公司ID不正确！');
+        }
+        CompanyService::updateCompany(array('company_id'=>$company_id), array('company_is_delet'=>true));
+        return $this->successResponse('删除公司成功');
+    }
+
+    protected function doEdit($objRequest, $objResponse) {
+        $company_id = decode($objRequest->company_id);
+        $arrayPostValue= $objRequest->getPost();
+        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $company_id > 0) {
+            CompanyService::updateCompany(array('company_id'=>$company_id), $arrayPostValue);
+        }
 
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>$company_id);
         $arrayCompany = CompanyService::getCompany($conditions);
         //赋值
+        $objResponse->view = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
         $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
         //设置Meta(共通)
@@ -103,7 +116,7 @@ class CompanyAction extends \BaseAction {
             $arrayPostValue['company_add_time'] = getTime();
             $company_id = CompanyService::saveCompany($arrayPostValue);
             if($company_id > 0) {
-                CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
+                //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
             }
             $url = 'index.php?action=excute_success&success_id=' . decode($company_id);
             redirect($url);

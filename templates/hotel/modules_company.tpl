@@ -31,12 +31,14 @@
                         <div class="user-thumb"> <img width="50" height="50" alt="User" src="<%$__RESOURCE%>img/icons/50/company.jpg"> </div>
                         <div class="article-post">
                           <div class="fr">
-                          	<a href="<%$arrayCompany[company].view_url%>" class="btn btn-primary btn-mini"><i class="am-icon-eye"></i> <%$arrayLaguage['view ']['page_laguage_value']%></a> 
+                          	<a href="<%$arrayCompany[company].view_url%>" class="btn btn-primary btn-mini"><i class="am-icon-eye"></i> 
+                            	<%$arrayLaguage['view']['page_laguage_value']%>
+                            </a> 
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 1%>
                           	<a href="<%$arrayCompany[company].edit_url%>" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i> Edit</a> 
                             <%/if%>
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 2%>
-                            <a href="#delete" class="btn btn-danger btn-mini" data-toggle="modal" url="<%$arrayCompany[company].delete_url%>"><i class="am-icon-trash-o"></i> Delete</a>
+                            <a href="#modal_delete" url="<%$arrayCompany[company].delete_url%>" class="btn btn-danger btn-mini" data-toggle="modal"><i class="am-icon-trash-o"></i> Delete</a>
                             <%/if%>
                           </div>
                           <h5><%$arrayCompany[company].company_name%></h5>
@@ -77,15 +79,30 @@
 </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
-<div id="delete" class="modal hide">
-  <div class="modal-header">
-    <button data-dismiss="modal" class="close" type="button">×</button>
-    <h3>Alert modal</h3>
-  </div>
-  <div class="modal-body">
-    <p>Lorem ipsum dolor sit amet...</p>
-  </div>
-  <div class="modal-footer"> <a data-dismiss="modal" class="btn btn-primary" href="#">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
-</div>
+<%include file="hotel/inc/modal_box.tpl"%>
+<script laguage="javascript">
+$(document).ready(function(){
+	var company_delete_url = '';
+	// Form Validation
+    $("#delete_sumbit").click(function(){
+		$.getJSON(company_delete_url,function(data, status){
+			//alert("Data: " + data + "\nStatus: " + status);
+			if(data.success == 1) {
+				$('#modal_success').modal('show');
+				$('#modal_success_message').html(data.message);
+			} else {
+				$('#modal_fail').modal('show');
+				$('#modal_fail_message').html(data.message);
+			}
+		});
+	});
+	$(".btn.btn-danger.btn-mini").click(function(){
+		company_delete_url = $(this).attr("url");
+	});
+	$('#myModal').on('hide.bs.modal', function() {
+        window.location.reload();
+    });
+})
+</script>
 </body>
 </html>

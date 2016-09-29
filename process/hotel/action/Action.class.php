@@ -28,13 +28,13 @@ class Action extends \BaseAction {
         $module = '\hotel\IndexAction';
         $module_action_tpl = 'index';
 
-        if(!empty($objRequest->company_id)) {//公司权限
+        if(!empty(decode($objRequest->company_id))) {//公司权限
             $conditions = \DbConfig::$db_query_conditions;
             $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
             $arrayCompanyId = EmployeeService::getEmployeeCompany($conditions, 'company_id');
             $company_id = decode($objRequest->company_id);
             if(!isset($arrayCompanyId[$company_id])) {
-                $action = 'noPermission';
+                $module_action_tpl = $action = 'noPermission';
                 $modules_id = null;
             }
         }
@@ -52,6 +52,7 @@ class Action extends \BaseAction {
                     if(!empty($arrayModule['modules_action'])) {
                         $action = $arrayModule['modules_action'];
                     }
+
                     $module_action_tpl = empty($action) ? $arrayModule['modules_module'] : $arrayModule['modules_module'] . '_' . $action;
                     $arrayLaguage = CommonService::getPageModuleLaguage($arrayModule['modules_module']);
                     //权限
@@ -62,7 +63,6 @@ class Action extends \BaseAction {
                 }
             }
         }
-
         //$objResponse->setTplValue('action', $module_action);
         //$objResponse->setTplValue("hashKey", \Encrypt::instance()->decode(date("Y-m-d") . __WEB_KEY));
         $objResponse->setTplName("hotel/modules_" . $module_action_tpl);

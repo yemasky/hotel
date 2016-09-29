@@ -341,6 +341,15 @@ abstract class BaseAction{
 		$this->redirect_url['time'] = $time;
 	}
 
+    public function successResponse($message, $arrayReturnDate = null) {
+        $arrayResule = array('success'=>1,'message'=>$message, 'data'=>$arrayReturnDate);
+        echo json_encode($arrayResule);
+    }
+
+    public function errorResponse($message, $arrayReturnDate = null) {
+        $arrayResule = array('success'=>0,'message'=>$message, 'data'=>$arrayReturnDate);
+        echo json_encode($arrayResule);
+    }
 	/**
 	 * Controller层的调用入口函数,在scripts中调用
 	 */
@@ -411,8 +420,12 @@ abstract class BaseAction{
 			// 最终处理
 			$this->finalexecute($objRequest, $objResponse);
 			// set_exception_handler('exception_handler');
-			if($this->showErrorPage && __Debug == false)
-				redirect(__WEB . "404.htm");
+            if($this->displayDisabled == false) {
+                if ($this->showErrorPage && __Debug == false)
+                    redirect(__WEB . "404.htm");
+            } else {
+                $this->errorResponse('系统异常', array($e->getMessage()));
+            }
 		}
 		// debug...
 		if(__Debug) {
@@ -786,14 +799,19 @@ class DBQuery{
 	 *        	此参数的格式用法与insertData的$row是相同的。在符合条件的记录中，将对$row设置的字段的数据进行修改。
 	 */
 	public function update($conditions_where, $row){
-		$where = $this->where($conditions_where);
+        $this->where($conditions_where);
+        $where = $this->whereCondition;
 		if(empty($row))
 			return false;
 		foreach($row as $key => $value) {
-			$vals[] = "`{$key}` = '{$value}'";
+		    if(is_bool($value)) {
+                $vals[] = "`{$key}` = " . $value;
+            } else {
+                $vals[] = "`{$key}` = '{$value}'";
+            }
 		}
 		$values = join(", ", $vals);
-		$sql = "UPDATE {$this->table_name } SET {$values} {$where}";
+		$sql = "UPDATE {$this->table_name} SET {$values} {$where}";
 		return $this->conn->execute($sql);
 	}
     public function batchUpdate() {
