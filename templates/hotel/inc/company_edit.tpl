@@ -50,6 +50,8 @@
                 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
                 <div id="allmap"></div>
                 </div>
+                <input type="hidden" name="company_longitude" id="company_longitude" value="" />
+                <input type="hidden" name="company_latitude" id="company_latitude" value="" />
         </div>
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_introduction']['page_laguage_value']%></label>
@@ -61,6 +63,7 @@
 
         
         <div class="form-actions pagination-centered">
+        	<%if $arrayCompany['company_id'] > 0%><input type="hidden" name="company_id" value="<%$arrayCompany['company_id']%>" /><%/if%>
             <button type="submit" id="save_company_info" class="btn btn-success pagination-centered">Save</button>
         </div>
     </form>

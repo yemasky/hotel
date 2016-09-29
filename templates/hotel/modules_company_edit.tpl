@@ -26,7 +26,7 @@
                         <i class="icon-align-justify"></i>									
                     </span>
                     <h5><%$arrayLaguage['company_information']['page_laguage_value']%></h5>
-                    <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
+                    <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 1%>
                     <div class="buttons">
 						<a class="btn btn-primary btn-mini" href="#" id="edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_edit']['page_laguage_value']%></a>	
                         <a class="btn btn-primary btn-mini" href="#" id="cancel_edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_cancel_edit']['page_laguage_value']%></a>

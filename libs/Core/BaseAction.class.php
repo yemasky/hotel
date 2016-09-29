@@ -334,7 +334,7 @@ abstract class BaseAction{
 		return $numeric;
 	}
 
-	protected function redirect($url, $status = '302', $time = 0) {
+	protected function setRedirect($url, $status = '302', $time = 0) {
 		$this->setDisplay();
 		$this->redirect_url['url'] = $url;
 		$this->redirect_url['status'] = $status;
@@ -489,6 +489,7 @@ class NotFound extends BaseAction{
 class DBQuery{
 	private $dsn = NULL;
 	private $conn = NULL;
+    private $whereCondition = NULL;
 	private $limit_num = NULL;
 	private $order = NULL;
 	private static $instances = array ();
@@ -532,7 +533,8 @@ class DBQuery{
 		if(isset(self::$instances[$dsn])) {
 			$instance = self::$instances[$dsn];
 			if(!empty($instance) && is_object($instance)) {
-				return $instance;
+                $instance->whereCondition = null;
+                return $instance;
 			}
 		}
 		$instance = new DBQuery($dsn);
@@ -566,7 +568,7 @@ class DBQuery{
     }
 
     public function where($conditions){
-        $where = '';
+        //$where = '';
         if(is_array($conditions)) {
             $join = array ();
             foreach($conditions as $key => $condition) {
@@ -611,13 +613,20 @@ class DBQuery{
                     $join[] = "`{$key}` = '{$condition}'";
                 }
             }
-            $where = "WHERE " . join(" AND ", $join);
+            if(empty($this->whereCondition)) {
+                $this->whereCondition = "WHERE " . join(" AND ", $join);
+            } else {
+                $this->whereCondition .= ' AND '. join(" AND ", $join);
+            }
         } else {
             if(!empty($conditions))
-                $where = "WHERE " . $conditions;
+                if(empty($this->whereCondition)) {
+                    $this->whereCondition = "WHERE " . $conditions;
+                } else {
+                    $this->whereCondition .= $conditions;
+                }
         }
-        //$this->where = $where;
-        return $where;
+        return $this;
     }
 
 	/**
@@ -634,10 +643,11 @@ class DBQuery{
 	 *        	limit 返回的结果数量限制，等同于"LIMIT "，如$limit = " 3, 5"，即是从第3条记录（从0开始计算）开始获取，共获取5条记录
 	 *        	如果limit值只有一个数字，则是指代从0条记录开始。
 	 */
-	public function getList($conditions = NULL, $fields = '*', $hashKey = null){
+	public function getList($conditions_where = NULL, $fields = '*', $hashKey = null){
 		$order = $groupby = "";
-        $where = $this->where($conditions);
-		if(!empty($this->order)) {
+        $this->where($conditions_where);
+        $where = $this->whereCondition;
+        if(!empty($this->order)) {
 			$order = "ORDER BY {$this->order}";
 		} else {
 			if($this->table_key != '*' && !empty($this->table_key))
@@ -647,9 +657,6 @@ class DBQuery{
 			$groupby = "GROUP BY" . $this->groupby;
 		}
 		$sql = "SELECT {$fields} FROM {$this->table_name} {$where} {$groupby} {$order} ";
-		if(__Debug) {
-			writeLog('sql.debug', $sql);
-		}
 		if($this->limit_num != NULL)
 			$sql = $this->conn->setlimit($sql, $this->limit_num);
         return $this->conn->getQueryArrayResult($sql, $hashKey);
@@ -667,13 +674,15 @@ class DBQuery{
 	 *        	fields 返回的字段范围，默认为返回全部字段的值
 	 */
 	public function getRow($conditions_where = NULL, $fields = '*'){
-        $where = $this->where($conditions_where);
+        $this->where($conditions_where);
+        $where = $this->whereCondition;
         $sql = "SELECT {$fields} FROM {$this->table_name} {$where};";
         return $this->conn->getQueryRowResult($sql);
 	}
 
 	public function getOne($conditions_where = NULL, $fields){
-        $where = $this->where($conditions_where);
+        $this->where($conditions_where);
+        $where = $this->whereCondition;
         $sql = "SELECT {$fields} FROM {$this->table_name} {$where};";
         return $this->conn->getQueryOneResult($sql);
 	}
@@ -758,9 +767,11 @@ class DBQuery{
 	 *        	conditions 查找条件，数组array("字段名"=>"查找值")或字符串，
 	 *        	请注意在使用字符串时将需要开发者自行使用escape来对输入值进行过滤
 	 */
-	public function getCount($conditions_where = NULL){
-		$where = $this->where($conditions_where);
-		$sql = "SELECT COUNT({$this->table_key}) AS SP_COUNTER FROM {$this->table_name} {$where}";
+	public function getCount($conditions_where = NULL, $fields = null){
+        $this->where($conditions_where);
+        $where = $this->whereCondition;
+        $fields = empty($fields) ? $this->table_key : $fields;
+        $sql = "SELECT COUNT({$fields}) AS SP_COUNTER FROM {$this->table_name} {$where}";
 		$result = $this->conn->getQueryArrayResult($sql);
 		return $result[0]['SP_COUNTER'];
 	}
@@ -831,6 +842,9 @@ class DBQuery{
 		 * }
 		 */
 	}
+
+    public function __destruct() {
+    }
 }
 class DBCache{
 	/**

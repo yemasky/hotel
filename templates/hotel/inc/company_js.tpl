@@ -7,7 +7,6 @@
 <script src="<%$__RESOURCE%>js/maruti.js"></script>
 <script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
-<script src="<%$__RESOURCE%>js.model/company.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		//省
@@ -56,16 +55,23 @@
 	
 </script>
 <script type="text/javascript">
+	var longitude = "<%$arrayCompany['company_longitude']%>";
+	var latitude = "<%$arrayCompany['company_latitude']%>";
 	var map = new BMap.Map("allmap");
-	var point = new BMap.Point(121.480174,31.236428);
+	
+	longitude = longitude == 0 ? 121.480174 : longitude;
+	latitude = latitude == 0 ? 31.236428 : latitude;
+	var point = new BMap.Point(longitude, latitude);
 	map.centerAndZoom(point,11);
 	function myLocation(result){
 		var cityName = result.name;
 		map.setCenter(cityName);
 		//alert("当前定位城市:"+cityName);
 	}
-	var myCity = new BMap.LocalCity();
-	myCity.get(myLocation);
+	if(longitude == '121.480174' || latitude == '31.236428') {
+		var myCity = new BMap.LocalCity();
+		myCity.get(myLocation);
+	}
 	
 	function theLocation(){
 		var city = document.getElementById("company_address").value;
@@ -118,7 +124,9 @@
 			marker = new BMap.Marker(pp);
 			marker.enableDragging();
 			map.addOverlay(marker);    //添加标注
-			alert(pp.lng);
+			//alert(pp.lng lat);
+			$('#company_longitude').val(pp.lng);
+			$('#company_latitude').val(pp.lat);
 		}
 		var local = new BMap.LocalSearch(map, { //智能搜索
 		  onSearchComplete: mySetMap
@@ -126,4 +134,44 @@
 		local.search(myValue);
 	}	
 
+</script>
+<script language="javascript">
+$(document).ready(function(){
+	// Form Validation
+    $("#company_form").validate({
+		rules:{
+			company_name:{
+				required:true
+			},
+			company_town:{
+				required:true
+			},
+			company_mobile:{
+				required:true,
+				number:true,
+				isMobile:true
+			},
+			company_address:{
+				required:true,
+				minlength:5,
+			}
+		},
+		messages: {
+			company_name:"请输入公司名称",
+			company_town:"请选择所在位置",
+			company_mobile:"请输入正确移动电话号码",
+			company_address:"请输入公司地址"
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+	
+});
 </script>

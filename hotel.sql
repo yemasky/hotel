@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
+SQLyog Ultimate v12.09 (64 bit)
 MySQL - 10.1.16-MariaDB : Database - hotel
 *********************************************************************
 */
@@ -96,6 +96,7 @@ DROP TABLE IF EXISTS `company`;
 CREATE TABLE `company` (
   `company_id` int(11) NOT NULL AUTO_INCREMENT,
   `company_group` int(11) DEFAULT NULL COMMENT '公司群 company_id == company_group 为母公司',
+  `company_is_delet` bit(1) NOT NULL DEFAULT b'0' COMMENT '公司是否被删除',
   `company_name` varchar(200) NOT NULL DEFAULT '' COMMENT '公司名称',
   `company_address` varchar(200) NOT NULL DEFAULT '' COMMENT '公司地址',
   `company_mobile` bigint(19) DEFAULT NULL COMMENT '移动电话',
@@ -103,8 +104,8 @@ CREATE TABLE `company` (
   `company_fax` varchar(50) DEFAULT '' COMMENT '公司传真',
   `company_email` varchar(100) DEFAULT '' COMMENT '公司email',
   `company_introduction` text NOT NULL COMMENT '公司介绍',
-  `company_longitude` float NOT NULL COMMENT '经度',
-  `company_latitude` float NOT NULL COMMENT '纬度',
+  `company_longitude` float NOT NULL DEFAULT '0' COMMENT '经度',
+  `company_latitude` float NOT NULL DEFAULT '0' COMMENT '纬度',
   `company_country` varchar(50) NOT NULL DEFAULT '' COMMENT '国家',
   `company_province` varchar(50) NOT NULL DEFAULT '' COMMENT '省、直辖市',
   `company_city` varchar(50) NOT NULL DEFAULT '' COMMENT '市、直辖市下级类型',
@@ -112,11 +113,11 @@ CREATE TABLE `company` (
   `company_add_date` date NOT NULL,
   `company_add_time` time NOT NULL,
   PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `company` */
 
-insert  into `company`(`company_id`,`company_group`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'','',NULL,NULL,NULL,NULL,'',0,0,'','','','','0000-00-00','00:00:00'),(1,1,'北京欣得酒店管理有限公司','北京北河路',18566669985,'010-56542547','010-56542547','yuding@hotmail.com','',0,0,'','','','','2016-09-27','00:00:00');
+insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,NULL,NULL,NULL,'',0,0,'','','','','0000-00-00','00:00:00'),(1,1,'\0','北京欣得酒店管理有限公司','北京北河路',18566669985,'010-56542547','010-56542547','yuding@hotmail.com','',0,0,'','','','','2016-09-27','00:00:00'),(2,NULL,'\0','北京和平大街有限公司','北京市朝阳区和平大厦写字楼',18600323551,'','','','这是公司介绍',116.517,40.0305,'','北京市','北京辖区','宣武区','0000-00-00','00:00:00'),(3,NULL,'\0','北京和平大街科技有限公司','北京市西城区全聚德(和平门店)',18600323551,'010-56458564','010-86545685','','这是公司介绍',116.392,39.9056,'','北京市','北京辖县','延庆县','2016-09-29','11:02:49');
 
 /*Table structure for table `company_multi_laguage` */
 
@@ -188,12 +189,12 @@ CREATE TABLE `employee_department` (
   `hotel_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `department_id` int(11) NOT NULL,
-  PRIMARY KEY (`employee_id`,`department_id`)
+  PRIMARY KEY (`company_id`,`hotel_id`,`employee_id`,`department_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `employee_department` */
 
-insert  into `employee_department`(`company_id`,`hotel_id`,`employee_id`,`department_id`) values (1,1,1,1);
+insert  into `employee_department`(`company_id`,`hotel_id`,`employee_id`,`department_id`) values (1,1,1,1),(2,0,1,0),(3,0,1,0);
 
 /*Table structure for table `hotel` */
 
@@ -204,6 +205,7 @@ CREATE TABLE `hotel` (
   `company_id` int(11) NOT NULL COMMENT '属于公司ID',
   `company_group` int(11) DEFAULT NULL COMMENT '属于公司集团',
   `hotel_group` varchar(50) DEFAULT NULL COMMENT '酒店群',
+  `hotel_is_delet` bit(1) NOT NULL DEFAULT b'0' COMMENT '酒店是否被删除',
   `hotel_name` varchar(200) DEFAULT NULL COMMENT '酒店名称',
   `hotel_address` varchar(200) DEFAULT NULL COMMENT '酒店地址',
   `hotel_phone` varchar(50) DEFAULT NULL COMMENT '酒店电话',
@@ -228,7 +230,7 @@ CREATE TABLE `hotel` (
 
 /*Data for the table `hotel` */
 
-insert  into `hotel`(`hotel_id`,`company_id`,`company_group`,`hotel_group`,`hotel_name`,`hotel_address`,`hotel_phone`,`hotel_mobile`,`hotel_fax`,`hotel_longitude`,`hotel_latitude`,`hotel_country`,`hotel_province`,`hotel_city`,`hotel_town`,`hotel_introduce_short`,`hotel_introduce`,`hotel_type`,`hotel_star`,`hotel_brand`,`hotel_wifi`,`hotel_add_date`,`hotel_add_time`) values (1,1,1,'1','欣得酒店上地店',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'',0,NULL,'','2016-09-27','00:00:00');
+insert  into `hotel`(`hotel_id`,`company_id`,`company_group`,`hotel_group`,`hotel_is_delet`,`hotel_name`,`hotel_address`,`hotel_phone`,`hotel_mobile`,`hotel_fax`,`hotel_longitude`,`hotel_latitude`,`hotel_country`,`hotel_province`,`hotel_city`,`hotel_town`,`hotel_introduce_short`,`hotel_introduce`,`hotel_type`,`hotel_star`,`hotel_brand`,`hotel_wifi`,`hotel_add_date`,`hotel_add_time`) values (1,1,1,'1','','欣得酒店上地店',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'',0,NULL,'','2016-09-27','00:00:00');
 
 /*Table structure for table `hotel_attribute` */
 
@@ -354,7 +356,7 @@ CREATE TABLE `modules` (
   `modules_describe` varchar(200) NOT NULL DEFAULT '' COMMENT '模块描述',
   `modules_action` varchar(100) NOT NULL COMMENT '模块action',
   `modules_action_field` text COMMENT '模块action field权限',
-  `modules_action_permissions` enum('0','1','2','3') NOT NULL DEFAULT '0' COMMENT '增 删 改 查权限',
+  `modules_action_permissions` enum('0','1','2','3') NOT NULL DEFAULT '0' COMMENT '查 增 改 删 权限',
   `modules_ico` varchar(50) NOT NULL COMMENT '图标',
   `modules_show` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否显示在菜单中',
   PRIMARY KEY (`modules_id`)
@@ -362,7 +364,7 @@ CREATE TABLE `modules` (
 
 /*Data for the table `modules` */
 
-insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_describe`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'index','index','',NULL,'','icon-home','1'),(2,2,'前厅',0,'frontOffice','frontOffice','',NULL,'','icon-reception','1'),(3,3,'客房',0,'roomsManagement','roomsManagement','',NULL,'','icon-rooms-management','1'),(4,4,'餐饮',0,'restaurant','restaurant','',NULL,'','icon-restaurant','1'),(5,5,'娱乐',0,'entertainment','entertainment','',NULL,'','icon-entertainment','1'),(6,6,'保安',0,'security','security','',NULL,'','icon-security','1'),(7,7,'销售',0,'sales','sales','',NULL,'','icon-sales','1'),(8,8,'行政',0,'administration','administration','',NULL,'','icon-administration','1'),(9,9,'财务',0,'financial','financial','',NULL,'','icon-financial','1'),(10,8,'后勤',0,'logistics','logistics','',NULL,'','icon-home','1'),(11,8,'人事',0,'personnel','personnel','',NULL,'','icon-personnel-management','1'),(12,12,'工程',0,'engineering','engineering','',NULL,'','icon-magnet','1'),(13,13,'采购',0,'purchase','purchase','',NULL,'','icon-inbox','1'),(14,14,'酒店信息管理',0,'hotelSetting','hotelSetting','',NULL,'0','icon-th','1'),(15,14,'公司信息设置',0,'company','company','',NULL,'0','','1'),(16,14,'酒店信息设置',0,'hotel','hotel','',NULL,'0','','1'),(17,14,'客房信息设置',0,'roomsSetting','roomsSetting','',NULL,'0','','1'),(18,14,'会员基本设置',0,'memberSetting','memberSetting','',NULL,'0','','1'),(19,14,'设置价格种类',0,'priceCategory','priceCategory','',NULL,'0','','1'),(20,14,'设置取消政策',0,'cancellationPolicy ','cancellationPolicy ','',NULL,'0','','1'),(21,14,'设置付款方式',0,'modeOfPayment','modeOfPayment','',NULL,'0','','1'),(22,14,'编辑公司信息',0,'company','company_edit','edit',NULL,'0','','0'),(23,14,'删除公司信息',0,'company','company_delete','delete',NULL,'0','','0'),(24,14,'编辑酒店信息',0,'hotel','hotel_edit','edit',NULL,'0','','0'),(25,14,'删除酒店信息',0,'hotel','hotel_delete','delete',NULL,'0','','0'),(26,14,'添加公司信息',0,'company','company_add','add',NULL,'0','','0'),(27,14,'添加酒店信息',0,'hotel','hotel_add','add',NULL,'0','','0');
+insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_describe`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'index','index','',NULL,'3','icon-home','1'),(2,2,'前厅',0,'frontOffice','frontOffice','',NULL,'3','icon-reception','1'),(3,3,'客房',0,'roomsManagement','roomsManagement','',NULL,'3','icon-rooms-management','1'),(4,4,'餐饮',0,'restaurant','restaurant','',NULL,'3','icon-restaurant','1'),(5,5,'娱乐',0,'entertainment','entertainment','',NULL,'3','icon-entertainment','1'),(6,6,'保安',0,'security','security','',NULL,'3','icon-security','1'),(7,7,'销售',0,'sales','sales','',NULL,'3','icon-sales','1'),(8,8,'行政',0,'administration','administration','',NULL,'3','icon-administration','1'),(9,9,'财务',0,'financial','financial','',NULL,'3','icon-financial','1'),(10,8,'后勤',0,'logistics','logistics','',NULL,'3','icon-home','1'),(11,8,'人事',0,'personnel','personnel','',NULL,'3','icon-personnel-management','1'),(12,12,'工程',0,'engineering','engineering','',NULL,'3','icon-magnet','1'),(13,13,'采购',0,'purchase','purchase','',NULL,'3','icon-inbox','1'),(14,14,'酒店信息管理',0,'hotelSetting','hotelSetting','',NULL,'3','icon-th','1'),(15,14,'公司信息设置',0,'company','company','',NULL,'3','','1'),(16,14,'酒店信息设置',0,'hotel','hotel','',NULL,'3','','1'),(17,14,'客房信息设置',0,'roomsSetting','roomsSetting','',NULL,'3','','1'),(18,14,'会员基本设置',0,'memberSetting','memberSetting','',NULL,'3','','1'),(19,14,'设置价格种类',0,'priceCategory','priceCategory','',NULL,'3','','1'),(20,14,'设置取消政策',0,'cancellationPolicy ','cancellationPolicy ','',NULL,'3','','1'),(21,14,'设置付款方式',0,'modeOfPayment','modeOfPayment','',NULL,'3','','1'),(22,14,'编辑公司信息',0,'company','company_edit','edit',NULL,'3','','0'),(23,14,'删除公司信息',0,'company','company_delete','delete',NULL,'3','','0'),(24,14,'编辑酒店信息',0,'hotel','hotel_edit','edit',NULL,'3','','0'),(25,14,'删除酒店信息',0,'hotel','hotel_delete','delete',NULL,'3','','0'),(26,14,'添加公司信息',0,'company','company_add','add',NULL,'3','','0'),(27,14,'添加酒店信息',0,'hotel','hotel_add','add',NULL,'3','','0');
 
 /*Table structure for table `multi_laguage_page` */
 
@@ -379,7 +381,7 @@ CREATE TABLE `multi_laguage_page` (
 
 /*Data for the table `multi_laguage_page` */
 
-insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','delete','删除'),('简体中文','common','edit','编辑'),('简体中文','common','hotel_add','添加酒店'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置'),('简体中文','hotel','list_of_hotel','酒店列表');
+insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','edit','编辑'),('简体中文','common','hotel_add','添加酒店'),('简体中文','common','view ','查看'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置'),('简体中文','hotel','list_of_hotel','酒店列表');
 
 /*Table structure for table `operate_log` */
 

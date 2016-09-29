@@ -36,6 +36,10 @@ class CompanyAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        if(decode($objRequest->company_id) > 0) {
+            $this->view($objRequest, $objResponse);
+            return;
+        }
         $pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
         $pn_rows = $objRequest->pn_rows;
 
@@ -48,13 +52,14 @@ class CompanyAction extends \BaseAction {
         if(!empty($arrayPageCompanyId['list_data'])) {
             $stringCompanyId = '';
             foreach($arrayPageCompanyId['list_data'] as $k => $v) {
-                $stringCompanyId .= $v['company_id'] . ',';
+                $stringCompanyId .= $v['company_id'] . "','";
             }
-            $stringCompanyId = trim($stringCompanyId, ',');
+            $stringCompanyId = trim($stringCompanyId, ",'");
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
             $arrayCompany = CompanyService::getCompany($conditions);
             foreach ($arrayCompany as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
+                $arrayCompany[$k]['view_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
                 $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
                 $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
             }
@@ -70,8 +75,15 @@ class CompanyAction extends \BaseAction {
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
+    protected function view($objRequest, $objResponse) {
+        $this->doEdit($objRequest, $objResponse);
+        $objResponse->setTplName("hotel/modules_company_edit");
+    }
     protected function doEdit($objRequest, $objResponse) {
         $arrayPostValue= $objRequest->getPost();
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+
+        }
         $company_id = decode($objRequest->company_id);
 
         $conditions = \DbConfig::$db_query_conditions;
@@ -86,6 +98,16 @@ class CompanyAction extends \BaseAction {
 
     protected function doAdd($objRequest, $objResponse) {
         $arrayPostValue= $objRequest->getPost();
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            $arrayPostValue['company_add_date'] = date("Y-m-d");
+            $arrayPostValue['company_add_time'] = getTime();
+            $company_id = CompanyService::saveCompany($arrayPostValue);
+            if($company_id > 0) {
+                CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
+            }
+            $url = 'index.php?action=excute_success&success_id=' . decode($company_id);
+            redirect($url);
+        }
 
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>0);

@@ -11,5 +11,12 @@ class CompanyService extends \BaseService {
         return CompanyDao::instance('\hotel\CompanyDao')->getCompany($conditions, $hashKey);
     }
 
+    public static function saveCompany($arrayData) {
+        return CompanyDao::instance('\hotel\CompanyDao')->insert($arrayData);
+    }
+
+    public static function updateCompany($where, $row) {
+        return CompanyDao::instance('\hotel\CompanyDao')->update($where, $row);
+    }
 
 }

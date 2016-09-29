@@ -91,11 +91,14 @@ class mysqliDriver {
 	 *        	sql 需要执行的SQL语句
 	 */
 	public function execute($sql){
+        if(__Debug) {
+            writeLog('sql.debug', $sql);
+        }
 		if($result = mysqli_query($this->conn, $sql)) {
 			return $result;
 		} else {
 			// print_r( mysql_error());
-			throw new SQLException("{$sql}<br />执行错误:" . mysqli_error($this->conn));
+			throw new SQLException("{$sql}\r\n<br />执行错误:" . mysqli_error($this->conn));
 		}
 	}
 

@@ -7,11 +7,11 @@
  * Time: 18:04
  */
 class BaseDao{
-    private $table = '';
-    private $dsn_read = '';
-    private $dsn_write = '';
-    private $table_key = '*';
-    private static $objBase = null;
+    protected $table = '';
+    protected $dsn_read = '';
+    protected $dsn_write = '';
+    protected $table_key = '*';
+    protected static $objBase = null;
 
 
     public function __call($name, $args){
@@ -74,7 +74,7 @@ class BaseDao{
         return DBQuery::instance($this->dsn_write)->setTable($this->table)->update($where, $row);
     }
 
-    public function delete($conditions) {
-        return DBQuery::instance($this->dsn_write)->setTable($this->table)->delete($conditions);
+    public function delete($where) {
+        return DBQuery::instance($this->dsn_write)->setTable($this->table)->delete($where);
     }
 }
