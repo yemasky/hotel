@@ -1,4 +1,5 @@
 <?php
+phpinfo();
 $aa = "sss";
 $bb = "aaa_bbb";
 

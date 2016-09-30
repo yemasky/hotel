@@ -59,10 +59,10 @@
 	var latitude = "<%$arrayCompany['company_latitude']%>";
 	var map = new BMap.Map("allmap");
 	
-	longitude = longitude == 0 ? 121.480174 : longitude;
-	latitude = latitude == 0 ? 31.236428 : latitude;
+	longitude = longitude == '' ? 121.480174 : longitude;
+	latitude = latitude == '' ? 31.236428 : latitude;
 	var point = new BMap.Point(longitude, latitude);
-	map.centerAndZoom(point,11);
+	map.centerAndZoom(point,18);
 	function myLocation(result){
 		var cityName = result.name;
 		map.setCenter(cityName);
@@ -90,7 +90,7 @@
 	});
 	
 	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-	var str = "";
+		var str = "";
 		var _value = e.fromitem.value;
 		var value = "";
 		if (e.fromitem.index > -1) {
@@ -109,7 +109,7 @@
 	
 	var myValue;
 	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-	var _value = e.item.value;
+		var _value = e.item.value;
 		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
 		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 		

@@ -40,7 +40,7 @@
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_address']['page_laguage_value']%> :</label>
             <div class="controls">
-                <input type="text"  class="span6" id="company_address" name="company_address" placeholder="<%$arrayLaguage['company_address']['page_laguage_value']%>" value="<%$arrayCompany['company_address']%>"  /> 
+                <input type="text"  class="span6" id="company_address" name="company_address" placeholder="<%if $arrayCompany['company_address']==''%><%$arrayLaguage['company_address']['page_laguage_value']%>" value="<%$arrayCompany['company_address']%><%else%><%$arrayCompany['company_address']%><%/if%>"  /> 
                 <!--<button class="btn btn-primary" type="button" onclick="theLocation()"><%$arrayLaguage['search_map']['page_laguage_value']%></button>-->
             </div>
         </div>
@@ -48,7 +48,7 @@
             <label class="control-label"><%$arrayLaguage['company_map']['page_laguage_value']%> :</label>
             <div class="controls">
                 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-                <div id="allmap"></div>
+                <div id="allmap" class="span6"></div>
                 </div>
                 <input type="hidden" name="company_longitude" id="company_longitude" value="" />
                 <input type="hidden" name="company_latitude" id="company_latitude" value="" />
@@ -63,7 +63,6 @@
 
         
         <div class="form-actions pagination-centered">
-        	<%if $arrayCompany['company_id'] > 0%><input type="hidden" name="company_id" value="<%$arrayCompany['company_id']%>" /><%/if%>
             <button type="submit" id="save_company_info" class="btn btn-success pagination-centered">Save</button>
         </div>
     </form>

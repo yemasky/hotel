@@ -50,6 +50,6 @@ define('__DEFAULT_DSN','mysqli://root:@127.0.0.1:3306/hotel');
 
 //debug
 define('__Debug',true);
-require_once ("../../etc/define.php");
+require_once (__WWW_PATH . "../../etc/define.php");
 }
 ?>
