@@ -40,7 +40,7 @@
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_address']['page_laguage_value']%> :</label>
             <div class="controls">
-                <input type="text"  class="span6" id="company_address" name="company_address" placeholder="<%if $arrayCompany['company_address']==''%><%$arrayLaguage['company_address']['page_laguage_value']%>" value="<%$arrayCompany['company_address']%><%else%><%$arrayCompany['company_address']%><%/if%>"  /> 
+                <input type="text" id="company_address" name="company_address" class="span6" placeholder="<%if $arrayCompany['company_address']==''%><%$arrayLaguage['company_address']['page_laguage_value']%><%else%><%$arrayCompany['company_address']%><%/if%>" value="<%$arrayCompany['company_address']%>"  /> 
                 <!--<button class="btn btn-primary" type="button" onclick="theLocation()"><%$arrayLaguage['search_map']['page_laguage_value']%></button>-->
             </div>
         </div>
@@ -50,8 +50,8 @@
                 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
                 <div id="allmap" class="span6"></div>
                 </div>
-                <input type="hidden" name="company_longitude" id="company_longitude" value="" />
-                <input type="hidden" name="company_latitude" id="company_latitude" value="" />
+                <input type="hidden" name="company_longitude" id="company_longitude" value="<%$arrayCompany['company_longitude']%>" />
+                <input type="hidden" name="company_latitude" id="company_latitude" value="<%$arrayCompany['company_latitude']%>" />
         </div>
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_introduction']['page_laguage_value']%></label>

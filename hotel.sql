@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.09 (64 bit)
-MySQL - 10.1.16-MariaDB : Database - hotel
+SQLyog Ultimate v11.24 (32 bit)
+MySQL - 10.1.13-MariaDB : Database - hotel
 *********************************************************************
 */
 
@@ -12,8 +12,6 @@ MySQL - 10.1.16-MariaDB : Database - hotel
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`hotel` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
 USE `hotel`;
 
 /*Table structure for table `book` */
@@ -117,7 +115,7 @@ CREATE TABLE `company` (
 
 /*Data for the table `company` */
 
-insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','','','','','','','','0000-00-00','00:00:00'),(1,NULL,'','北京和平大街科技有限公司','北京市石景山区石景山区',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.229603','39.911344','','北京市','北京辖县','延庆县','0000-00-00','00:00:00'),(2,NULL,'','北京和平大街有限公司','北京市东城区首都大酒店',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.414951','39.908468','','北京市','北京辖区','西城区','0000-00-00','00:00:00'),(3,NULL,'\0','222','',NULL,'','','','','','','','','','','0000-00-00','00:00:00');
+insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','','','','','','','','0000-00-00','00:00:00'),(1,NULL,'','北京和平大街科技有限公司','北京市石景山区石景山区',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.229603','39.911344','','北京市','北京辖县','延庆县','0000-00-00','00:00:00'),(2,NULL,'','北京和平大街有限公司','青岛市黄岛区青岛金沙滩希尔顿酒店',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','120.243509','35.963383','',' ',' ','','0000-00-00','00:00:00'),(3,NULL,'\0','222','',NULL,'','','','','','','','','','','0000-00-00','00:00:00');
 
 /*Table structure for table `company_multi_laguage` */
 

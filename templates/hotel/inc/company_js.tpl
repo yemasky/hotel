@@ -7,53 +7,7 @@
 <script src="<%$__RESOURCE%>js/maruti.js"></script>
 <script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		//省
-		var xml_data;
-		$.ajax({url:"static/area/Area.xml",
-			success:function(xml){
-				xml_data = xml;
-				$(xml).find("province").each(function(){
-					var t = $(this).attr("name");//this->
-					$("#company_province").append("<option value='"+t+"'>"+t+"</option>");
-				});
-			},
-			error: function(e) {
-				alert(e);
-			} 
-		});
-		//市
-		$("#company_province").change(function(){
-			$("#company_city>option").remove();
-			$("#company_province").next().find('span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
-			$("#company_town>option").remove();
-			$("#company_city").next().find('span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
-			var pname = $("#company_province").val();
-			$(xml_data).find("province[name='"+pname+"']>city").each(function(){
-				var city = $(this).attr("name");//this->
-				$("#company_city").append("<option value='"+city+"'>"+city+"</option>");
-			});
-			///查找<city>下的所有第一级子元素(即区域)
-			var cname = $("#company_city").val();
-			$(xml_data).find("city[name='"+cname+"']>country").each(function(){
-				var area = $(this).attr("name");//this->
-				$("#company_town").append("<option value='"+area+"'>"+area+"</option>");
-			});
-		});
-		//区
-		$("#company_city").change(function(){
-			$("#company_town>option").remove();
-			$("#company_city").next().find('span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
-			var cname = $("#company_city").val();
-			$(xml_data).find("city[name='"+cname+"']>country").each(function(){
-				var area = $(this).attr("name");//this->
-				$("#company_town").append("<option value='"+area+"'>"+area+"</option>");
-			});
-		});
-	});
-	
-</script>
+<%include file="hotel/inc/location_js.tpl"%>
 <script type="text/javascript">
 	var longitude = "<%$arrayCompany['company_longitude']%>";
 	var latitude = "<%$arrayCompany['company_latitude']%>";
@@ -63,6 +17,11 @@
 	latitude = latitude == '' ? 31.236428 : latitude;
 	var point = new BMap.Point(longitude, latitude);
 	map.centerAndZoom(point,18);
+	
+	var marker = new BMap.Marker(point);  // 创建标注
+	map.addOverlay(marker);               // 将标注添加到地图中
+	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	
 	function myLocation(result){
 		var cityName = result.name;
 		map.setCenter(cityName);
@@ -112,7 +71,6 @@
 		var _value = e.item.value;
 		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
 		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-		
 		setPlace();
 	});
 
@@ -132,6 +90,7 @@
 		  onSearchComplete: mySetMap
 		});
 		local.search(myValue);
+		$('#company_address').val(myValue);
 	}	
 
 </script>
@@ -143,7 +102,7 @@ $(document).ready(function(){
 			company_name:{
 				required:true
 			},
-			company_town:{
+			company_province:{
 				required:true
 			},
 			company_mobile:{
@@ -172,6 +131,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
+	$('#company_address').val('<%$arrayCompany['company_address']%>');
 	
 });
 </script>

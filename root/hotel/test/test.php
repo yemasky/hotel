@@ -38,32 +38,35 @@ function insertLocation() {
 }
 
 function exportLocationXml() {
-    $arrayLocation = DBQuery::instance(\DbConfig::hotel_dsn_write)->setTable('locations')->getList();
+    $arrayLocation = DBQuery::instance(\DbConfig::hotel_dsn_write)->setTable('locations')->order('province_id ASC ,city_id ASC, locations_id ASC')->getList();
     //print_r($arrayLocation);
-    $xml = '<?xml version="1.0" encoding="UTF-8"?><address>';
+    header("Content-type:text/xml");
+    $xml = '<?xml version="1.0" encoding="UTF-8"?><address>' . "\r\n";
     foreach ($arrayLocation as $k => $v) {
-        if($k > 0) {
-            if($arrayLocation[$k - 1]['locations_type'] != $arrayLocation[$k]['locations_type']) {
-                if($arrayLocation[$k - 1]['locations_type'] == 'town') {
-                    $xml .= '</town>';
-                }
-                if($arrayLocation[$k - 1]['locations_type'] == 'city') {
-                    $xml .= '</city>';
-                }
-                if($arrayLocation[$k - 1]['locations_type'] == 'province') {
-                    $xml .= '</province>';
+        if($v['locations_id'] == $v['province_id'] && $v['locations_type'] == 'province') {//省
+            if($k > 0) {
+                $xml .= "</province>\r\n";
+            }
+            $xml .= '<province location="'.$v['locations_id'].'" name="'.$v['location_name'].'">' . "\r\n";
+        } elseif($v['locations_type'] == 'city') {//市
+            $xml .= '<city location="'.$v['locations_id'].'" name="'.$v['location_name'].'">' . "\r\n";
+            if(!isset($arrayLocation[$k + 1])) {
+                $xml .= "</city>\r\n";
+            } else {
+                if ($arrayLocation[$k + 1]['locations_type'] != 'town') {
+                    $xml .= "</city>\r\n";
                 }
             }
-        }
-        if($v['locations_id'] == $v['province_id'] && $v['locations_type'] == 'province') {//省
-            $xml .= '<province name="'.$v['location_name'].'">';
-        } elseif($v['locations_type'] == 'city') {
-            $xml .= '<city name="'.$v['location_name'].'">';
-        } elseif ($v['locations_type'] == 'town') {
-            $xml .= '<country name="'.$v['location_name'].'" />';
+        } elseif ($v['locations_type'] == 'town') {//区
+            $xml .= '<country location="'.$v['locations_id'].'" name="'.$v['location_name'].'" />' . "\r\n";
+            if(!isset($arrayLocation[$k + 1])) {
+                $xml .= "</city>\r\n";
+            } elseif ($arrayLocation[$k + 1]['locations_type'] != 'town') {
+                $xml .= "</city>\r\n";
+            }
         }
     }
-    $xml .= '</address>';
+    $xml .= '</province></address>';
     return $xml;
 }
 
