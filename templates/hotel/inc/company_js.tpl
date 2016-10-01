@@ -132,6 +132,7 @@ $(document).ready(function(){
 		}
 	});
 	$('#company_address').val('<%$arrayCompany['company_address']%>');
+
 	
 });
 </script>

@@ -53,10 +53,10 @@
 	$('#edit_company').hide();
 	<%/if%>
 	$('#edit_company').click(function(e) {
-            $("form input,textarea,select").prop("readonly", false);
-			$(this).hide();
-			$('#cancel_edit_company').show();
-			$('#save_company_info').show();
+		$("form input,textarea,select").prop("readonly", false);
+		$(this).hide();
+		$('#cancel_edit_company').show();
+		$('#save_company_info').show();
 	});
 	$('#cancel_edit_company').click(function(e) {
 		$("form input,textarea,select").prop("readonly", true);

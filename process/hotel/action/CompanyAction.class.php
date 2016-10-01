@@ -104,6 +104,9 @@ class CompanyAction extends \BaseAction {
         //赋值
         $objResponse->view = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
+        $objResponse -> setTplValue("location_province", $arrayCompany[0]['company_province']);
+        $objResponse -> setTplValue("location_city", $arrayCompany[0]['company_city']);
+        $objResponse -> setTplValue("location_town", $arrayCompany[0]['company_town']);
         $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
