@@ -10,7 +10,7 @@ class LoginService extends \BaseService {
     private static $loginKey = 'employee';
 
     public static function loginEmployee($arrayLoginInfo){
-        $conditions = \DbConfig::$db_query_conditions;
+        $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = $arrayLoginInfo;
         return EmployeeDao::instance('\hotel\EmployeeDao')->getEmployee($conditions);
     }

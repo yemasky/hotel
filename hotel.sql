@@ -111,11 +111,11 @@ CREATE TABLE `company` (
   `company_add_date` date NOT NULL,
   `company_add_time` time NOT NULL,
   PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `company` */
 
-insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','','','','','','','','0000-00-00','00:00:00'),(1,NULL,'','北京和平大街科技有限公司','北京市石景山区石景山区',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.229603','39.911344','','北京市','北京辖县','延庆县','0000-00-00','00:00:00'),(2,NULL,'','北京和平大街有限公司','青岛市黄岛区青岛金沙滩希尔顿酒店',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','120.243509','35.963383','',' ',' ','','0000-00-00','00:00:00'),(3,NULL,'\0','222','',NULL,'','','','','','','','','','','0000-00-00','00:00:00');
+insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','','','','','','','','0000-00-00','00:00:00'),(1,NULL,'','北京和平大街科技有限公司','北京市石景山区石景山区',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.229603','39.911344','','北京市','北京辖县','延庆县','0000-00-00','00:00:00'),(2,NULL,'','北京和平大街有限公司','青岛市黄岛区青岛金沙滩希尔顿酒店',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','120.243509','35.963383','','150000','150200','150202','0000-00-00','00:00:00'),(3,NULL,'\0','北京和平大街科技有限公司','西安市未央区陕西警官职业学院新校区',18533353661,'','','kefu@hotel.com','','109.013801','34.412584','','140000','140700','140721','0000-00-00','00:00:00'),(4,NULL,'\0','天津和平大街科技有限公司','上海市黄浦区天津银行(汉口路支行)',18533353661,'','','kefu@hotel.com','','121.494584','31.24235','','120000','120100','120104','2016-10-02','10:25:05'),(5,NULL,'\0','天津和平大街科技有限公司','天津市滨海新区天津生态城世茂希尔顿酒店',18533353661,'','010-86545685','kefu@hotel.com','','117.750511','39.132469','','120000','120100','120102','2016-10-02','10:28:53');
 
 /*Table structure for table `company_multi_laguage` */
 

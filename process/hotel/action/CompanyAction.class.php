@@ -43,7 +43,7 @@ class CompanyAction extends \BaseAction {
         $pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
         $pn_rows = $objRequest->pn_rows;
 
-        $conditions = \DbConfig::$db_query_conditions;
+        $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $parameters['module'] = encode(decode($objRequest->module));
         $arrayPageCompanyId = EmployeeService::pageEmployeeCompany($conditions, $pn, $pn_rows, $parameters);
@@ -60,14 +60,14 @@ class CompanyAction extends \BaseAction {
             foreach ($arrayCompany as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
                 $arrayCompany[$k]['view_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
             }
         }
         //设置类别
         //赋值
-        $objResponse -> setTplValue("addCompanyPermission", $objResponse->arrayRoleModulesEmployeePermissions[\ModulesConfig::$modulesCompany['add']]);
-        $objResponse -> setTplValue("addCompanyUrl", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['add']))));
+        $objResponse -> setTplValue("addCompanyPermission", $objResponse->arrayRoleModulesEmployeePermissions[ModulesConfig::$modulesCompany['add']]);
+        $objResponse -> setTplValue("addCompanyUrl", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
         $objResponse -> setTplValue("arrayCompany", $arrayCompany);
         $objResponse -> setTplValue("page", $arrayPageCompanyId['page']);
         $objResponse -> setTplValue("pn", $pn);
@@ -98,7 +98,7 @@ class CompanyAction extends \BaseAction {
             CompanyService::updateCompany(array('company_id'=>$company_id), $arrayPostValue);
         }
 
-        $conditions = \DbConfig::$db_query_conditions;
+        $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>$company_id);
         $arrayCompany = CompanyService::getCompany($conditions);
         //赋值
@@ -107,7 +107,7 @@ class CompanyAction extends \BaseAction {
         $objResponse -> setTplValue("location_province", $arrayCompany[0]['company_province']);
         $objResponse -> setTplValue("location_city", $arrayCompany[0]['company_city']);
         $objResponse -> setTplValue("location_town", $arrayCompany[0]['company_town']);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
+        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
@@ -119,18 +119,21 @@ class CompanyAction extends \BaseAction {
             $arrayPostValue['company_add_time'] = getTime();
             $company_id = CompanyService::saveCompany($arrayPostValue);
             if($company_id > 0) {
+                CompanyService::saveEmployeeDepartment();
                 //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
+            } else {
+                throw new \Exception('添加失败！');
             }
-            $url = 'index.php?action=excute_success&success_id=' . decode($company_id);
+            $url = 'index.php?action=excute_success&success_id=' . encode($company_id);
             redirect($url);
         }
 
-        $conditions = \DbConfig::$db_query_conditions;
+        $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>0);
-        $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache('company_default')->getCompany($conditions);
+        $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache(ModulesConfig::$modulesCompanyCacheKey['company_default_id'])->getCompany($conditions);
         //赋值
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesCompany['add']))));
+        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl

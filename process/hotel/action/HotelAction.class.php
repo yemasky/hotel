@@ -30,7 +30,7 @@ class HotelAction extends \BaseAction {
         $pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
         $pn_rows = $objRequest->pn_rows;
 
-        $conditions = \DbConfig::$db_query_conditions;
+        $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $parameters['module'] = encode(decode($objRequest->module));
 
@@ -47,8 +47,8 @@ class HotelAction extends \BaseAction {
             $arrayHotel = HotelService::getHotel($conditions);
             foreach ($arrayHotel as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
-                $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
-                $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(\ModulesConfig::$modulesHotel['delete']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
+                $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
+                $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['delete']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
             }
         }
 

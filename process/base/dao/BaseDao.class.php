@@ -6,13 +6,16 @@
  * Date: 2015/12/9
  * Time: 18:04
  */
-class BaseDao{
+abstract class BaseDao{
     protected $table = '';
     protected $dsn_read = '';
     protected $dsn_write = '';
     protected $table_key = '*';
     protected static $objBase = null;
 
+    abstract function getDsnRead();
+
+    abstract function getDsnWrite();
 
     public function __call($name, $args){
         $objCallName = new $name($args);
@@ -53,7 +56,7 @@ class BaseDao{
         if(empty($fields)) {
             $fields = '*';
         }
-        return DBQuery::instance($this->dsn_read)->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields, $hashKey);
+        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields, $hashKey);
 
     }
 
@@ -63,18 +66,18 @@ class BaseDao{
         } else {
             $fields = 'COUNT('. $fields .') count_num ';
         }
-        return DBQuery::instance($this->dsn_read)->setTable($this->table)->getOne($conditions, $fields);
+        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->getOne($conditions, $fields);
     }
 
     public function insert($arrayData, $insert_type = 'INSERT') {
-        return DBQuery::instance($this->dsn_write)->setTable($this->table)->insert($arrayData, $insert_type)->getInsertId();
+        return DBQuery::instance($this->getDsnWrite())->setTable($this->table)->insert($arrayData, $insert_type)->getInsertId();
     }
 
     public function update($where, $row) {
-        return DBQuery::instance($this->dsn_write)->setTable($this->table)->update($where, $row);
+        return DBQuery::instance($this->getDsnWrite())->setTable($this->table)->update($where, $row);
     }
 
     public function delete($where) {
-        return DBQuery::instance($this->dsn_write)->setTable($this->table)->delete($where);
+        return DBQuery::instance($this->getDsnWrite())->setTable($this->table)->delete($where);
     }
 }

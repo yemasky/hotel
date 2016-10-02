@@ -9,9 +9,19 @@
 namespace hotel;
 class LaguageDao extends \BaseDao {
 
+    public function getDsnRead() {
+        // TODO: Implement getDsnRead() method.
+        return DbConfig::dsnRead();
+    }
+
+    public function getDsnWrite() {
+        // TODO: Implement getDsnWrite() method.
+        return DbConfig::dsnWrite();
+    }
+    
     public function getPageModuleLaguage($conditions){
         $cacheId = md5('getPageModuleLaguage' . json_encode($conditions));
         $fileid = 'laguage, page_module, page_laguage_key, page_laguage_value';
-        return $this->setDsnRead(\DbConfig::hotel_dsn_read)->setTable('multi_laguage_page')->getList($conditions, $fileid, 'page_laguage_key');//->DBCache($cacheId)
+        return $this->setDsnRead($this->getDsnRead())->setTable('multi_laguage_page')->getList($conditions, $fileid, 'page_laguage_key');//->DBCache($cacheId)
     }
 }
