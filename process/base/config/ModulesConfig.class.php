@@ -6,6 +6,6 @@
  * Date: 2015/12/6
  * Time: 17:00
  */
-class ModulesConfig {
+abstract class ModulesConfig {
 
 }
