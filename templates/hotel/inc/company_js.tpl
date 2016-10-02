@@ -117,7 +117,7 @@ $(document).ready(function(){
 		},
 		messages: {
 			company_name:"请输入公司名称",
-			company_town:"请选择所在位置",
+			company_province:"",
 			company_mobile:"请输入正确移动电话号码",
 			company_address:"请输入公司地址"
 		},

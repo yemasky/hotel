@@ -36,7 +36,7 @@ class EmployeeService extends \BaseService {
         return page($pn, $all_page_num, $arrayEmployeeHotel, $parameters);
     }
     
-    public static function saveEmployeeDepartment() {
-        
+    public static function saveEmployeeDepartment($arrayData) {
+        return EmployeeDao::instance('\hotel\EmployeeDao')->saveEmployeeDepartment($arrayData);
     }
 }

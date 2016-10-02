@@ -119,7 +119,7 @@ class CompanyAction extends \BaseAction {
             $arrayPostValue['company_add_time'] = getTime();
             $company_id = CompanyService::saveCompany($arrayPostValue);
             if($company_id > 0) {
-                CompanyService::saveEmployeeDepartment();
+                EmployeeService::saveEmployeeDepartment(array('company_id'=>$company_id, 'employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']));
                 //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
             } else {
                 throw new \Exception('添加失败！');

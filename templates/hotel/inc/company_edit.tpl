@@ -26,13 +26,13 @@
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_location']['page_laguage_value']%> :</label>
             <div class="controls ">
-                <select id="company_province" name="company_province" style="width:120px;">
+                <select id="location_province" name="company_province" style="width:120px;">
                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                 </select>
-                <select id="company_city" name="company_city" style="width:120px;">
+                <select id="location_city" name="company_city" style="width:120px;">
                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                 </select>
-                <select id="company_town" name="company_town" style="width:120px;">
+                <select id="location_town" name="company_town" style="width:120px;">
                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                 </select>
             </div>

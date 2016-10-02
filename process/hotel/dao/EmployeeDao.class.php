@@ -33,8 +33,7 @@ class EmployeeDao extends \BaseDao {
         return $this->setDsnRead($this->getDsnRead())->setTable('employee_department')->getCount($conditions_where, $fileid);
     }
 
-    public function saveEmployeeDepartment($conditions, $fileid = null, $hashKey = null){
-        if(empty($fileid)) $fileid = 'company_id, hotel_id, employee_id, department_id';
-        return $this->setDsnRead($this->getDsnRead())->setTable('employee_department')->getList($conditions, $fileid, $hashKey);
+    public function saveEmployeeDepartment($arrayData){
+        return $this->setDsnWrite($this->getDsnWrite())->setTable('employee_department')->insert($arrayData);
     }
 }
