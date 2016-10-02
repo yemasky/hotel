@@ -21,9 +21,9 @@
                     <span class="icon">
                         <i class="icon-align-justify"></i>									
                     </span>
-                    <h5><%$arrayLaguage['company_information']['page_laguage_value']%></h5>                   
+                    <h5><%$arrayLaguage['hotel_information']['page_laguage_value']%></h5>                   
                 </div>
-                <%include file="hotel/inc/company_edit.tpl"%>
+                <%include file="hotel/inc/hotel_edit.tpl"%>
             </div>						
         </div>
     </div>

@@ -13,6 +13,6 @@ class ModulesConfig extends \ModulesConfig {
 	public static $modulesHotel = array('edit'=>24, 'delete'=>25, 'add'=>27);
 
 	public static $modulesCompanyCacheKey = array('company_default_id'=>'company_default_id', 'delete'=>23, 'add'=>26);
-	public static $modulesHotelCacheKey = array();
+	public static $modulesHotelCacheKey = array('hotel_default_id'=>'hotel_default_id');
 
 }

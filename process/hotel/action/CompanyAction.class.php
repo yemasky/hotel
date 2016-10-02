@@ -66,7 +66,7 @@ class CompanyAction extends \BaseAction {
         }
         //设置类别
         //赋值
-        $objResponse -> setTplValue("addCompanyPermission", $objResponse->arrayRoleModulesEmployeePermissions[ModulesConfig::$modulesCompany['add']]);
+        //$objResponse -> setTplValue("addCompanyPermission", $objResponse->arrayRoleModulesEmployeePermissions[ModulesConfig::$modulesCompany['add']]);
         $objResponse -> setTplValue("addCompanyUrl", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
         $objResponse -> setTplValue("arrayCompany", $arrayCompany);
         $objResponse -> setTplValue("page", $arrayPageCompanyId['page']);

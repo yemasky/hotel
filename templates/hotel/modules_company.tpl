@@ -18,9 +18,7 @@
                     <h5><%$arrayLaguage['list_of_companies']['page_laguage_value']%></h5>
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                     <div class="buttons">
-                    	<%if $addCompanyPermission['role_modules_action_permissions'] > 1%>
                         <a class="btn btn-primary btn-mini" href="<%$addCompanyUrl%>" id="add_company"><i class="am-icon-plus-square"></i> <%$arrayLaguage['company_add']['page_laguage_value']%></a>
-                        <%/if%>
                     </div>
                     <%/if%>
                 </div>
@@ -80,29 +78,5 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<script laguage="javascript">
-$(document).ready(function(){
-	var company_delete_url = '';
-	// Form Validation
-    $("#delete_sumbit").click(function(){
-		$.getJSON(company_delete_url,function(data, status){
-			//alert("Data: " + data + "\nStatus: " + status);
-			if(data.success == 1) {
-				$('#modal_success').modal('show');
-				$('#modal_success_message').html(data.message);
-			} else {
-				$('#modal_fail').modal('show');
-				$('#modal_fail_message').html(data.message);
-			}
-		});
-	});
-	$(".btn.btn-danger.btn-mini").click(function(){
-		company_delete_url = $(this).attr("url");
-	});
-	$('#myModal').on('hide.bs.modal', function() {
-        window.location.reload();
-    });
-})
-</script>
 </body>
 </html>

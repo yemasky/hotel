@@ -111,11 +111,11 @@ CREATE TABLE `company` (
   `company_add_date` date NOT NULL,
   `company_add_time` time NOT NULL,
   PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `company` */
 
-insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','','','','','','','','0000-00-00','00:00:00'),(1,NULL,'','北京和平大街科技有限公司','北京市石景山区石景山区',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.229603','39.911344','','北京市','北京辖县','延庆县','0000-00-00','00:00:00'),(2,NULL,'','北京和平大街有限公司','青岛市黄岛区青岛金沙滩希尔顿酒店',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','120.243509','35.963383','','150000','150200','150202','0000-00-00','00:00:00'),(3,NULL,'\0','北京和平大街科技有限公司','西安市未央区陕西警官职业学院新校区',18533353661,'','','kefu@hotel.com','','109.013801','34.412584','','140000','140700','140721','0000-00-00','00:00:00'),(4,NULL,'\0','天津和平大街科技有限公司','上海市黄浦区天津银行(汉口路支行)',18533353661,'','','kefu@hotel.com','','121.494584','31.24235','','120000','120100','120104','2016-10-02','10:25:05'),(5,NULL,'\0','天津和平大街科技有限公司','天津市滨海新区天津生态城世茂希尔顿酒店',18533353661,'','010-86545685','kefu@hotel.com','','117.750511','39.132469','','120000','120100','120102','2016-10-02','10:28:53');
+insert  into `company`(`company_id`,`company_group`,`company_is_delet`,`company_name`,`company_address`,`company_mobile`,`company_phone`,`company_fax`,`company_email`,`company_introduction`,`company_longitude`,`company_latitude`,`company_country`,`company_province`,`company_city`,`company_town`,`company_add_date`,`company_add_time`) values (0,NULL,'\0','','',NULL,'','','','','','','','','','','0000-00-00','00:00:00'),(1,NULL,'','北京和平大街科技有限公司','北京市石景山区石景山区',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','116.229603','39.911344','','北京市','北京辖县','延庆县','0000-00-00','00:00:00'),(2,NULL,'','北京和平大街有限公司','青岛市黄岛区青岛金沙滩希尔顿酒店',18533353661,'010-56458564','010-86545685','kefu@hotel.com','','120.243509','35.963383','','150000','150200','150202','0000-00-00','00:00:00'),(3,NULL,'\0','北京和平大街科技有限公司','西安市未央区陕西警官职业学院新校区',18533353661,'','','kefu@hotel.com','','109.013801','34.412584','','140000','140700','140721','0000-00-00','00:00:00'),(4,NULL,'\0','天津和平大街科技有限公司','上海市黄浦区天津银行(汉口路支行)',18533353661,'','','kefu@hotel.com','','121.494584','31.24235','','120000','120100','120104','2016-10-02','10:25:05'),(5,NULL,'\0','天津和平大街科技有限公司','天津市滨海新区天津生态城世茂希尔顿酒店',18533353661,'','010-86545685','kefu@hotel.com','','117.750511','39.132469','','120000','120100','120102','2016-10-02','10:28:53'),(6,NULL,'\0','江苏和平大街科技有限公司','苏州市太仓市江苏太仓万达广场',18533353661,'010-56458564','010-86545685','','','121.144655','31.465703','','320000','320200','320202','2016-10-02','15:07:43'),(7,NULL,'\0','北京和平大街科技有限公司','上海市黄浦区北京东路/河南中路(路口)',18533353661,'','010-86545685','kefu@hotel.com','','121.490388','31.246267','','110000','110100','110102','2016-10-02','15:16:00');
 
 /*Table structure for table `company_multi_laguage` */
 
@@ -184,15 +184,15 @@ DROP TABLE IF EXISTS `employee_department`;
 
 CREATE TABLE `employee_department` (
   `company_id` int(11) NOT NULL,
-  `hotel_id` int(11) NOT NULL,
+  `hotel_id` int(11) DEFAULT NULL,
   `employee_id` int(11) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  PRIMARY KEY (`company_id`,`hotel_id`,`employee_id`,`department_id`)
+  `department_id` int(11) DEFAULT NULL,
+  UNIQUE KEY `company_id` (`company_id`,`hotel_id`,`employee_id`,`department_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `employee_department` */
 
-insert  into `employee_department`(`company_id`,`hotel_id`,`employee_id`,`department_id`) values (1,1,1,1),(2,0,1,0),(3,0,1,0);
+insert  into `employee_department`(`company_id`,`hotel_id`,`employee_id`,`department_id`) values (1,1,1,1),(2,NULL,1,NULL),(3,NULL,1,NULL),(4,NULL,1,NULL),(5,NULL,1,NULL),(6,NULL,1,NULL),(7,NULL,1,NULL);
 
 /*Table structure for table `hotel` */
 
@@ -224,11 +224,11 @@ CREATE TABLE `hotel` (
   `hotel_add_date` date NOT NULL,
   `hotel_add_time` time NOT NULL,
   PRIMARY KEY (`hotel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `hotel` */
 
-insert  into `hotel`(`hotel_id`,`company_id`,`company_group`,`hotel_group`,`hotel_is_delet`,`hotel_name`,`hotel_address`,`hotel_phone`,`hotel_mobile`,`hotel_fax`,`hotel_longitude`,`hotel_latitude`,`hotel_country`,`hotel_province`,`hotel_city`,`hotel_town`,`hotel_introduce_short`,`hotel_introduce`,`hotel_type`,`hotel_star`,`hotel_brand`,`hotel_wifi`,`hotel_add_date`,`hotel_add_time`) values (1,1,1,'1','','欣得酒店上地店',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'',0,NULL,'','2016-09-27','00:00:00');
+insert  into `hotel`(`hotel_id`,`company_id`,`company_group`,`hotel_group`,`hotel_is_delet`,`hotel_name`,`hotel_address`,`hotel_phone`,`hotel_mobile`,`hotel_fax`,`hotel_longitude`,`hotel_latitude`,`hotel_country`,`hotel_province`,`hotel_city`,`hotel_town`,`hotel_introduce_short`,`hotel_introduce`,`hotel_type`,`hotel_star`,`hotel_brand`,`hotel_wifi`,`hotel_add_date`,`hotel_add_time`) values (0,0,NULL,NULL,'\0',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'hotel',0,NULL,'','0000-00-00','00:00:00'),(1,1,1,'1','','欣得酒店上地店',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'',0,NULL,'','2016-09-27','00:00:00');
 
 /*Table structure for table `hotel_attribute` */
 
@@ -294,7 +294,7 @@ CREATE TABLE `hotel_modules` (
 
 /*Data for the table `hotel_modules` */
 
-insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_navigation`,`hotel_modules_order`,`hotel_modules_ico`,`hotel_modules_show`) values (0,34,14,'','hotelSetting',0,'','1'),(0,36,NULL,'','',0,NULL,'1'),(1,1,1,'','index',0,'','1'),(1,2,2,'','frontOffice',0,'','1'),(1,3,3,'','roomsManagement',0,'','1'),(1,4,4,'','restaurant',0,'','1'),(1,5,5,'','entertainment',0,'','1'),(1,6,6,'','security',0,'','1'),(1,7,7,'','sales',0,'','1'),(1,8,8,'','administration',0,'','1'),(1,9,9,'','financial',0,'','1'),(1,10,8,'','administration',0,'','1'),(1,11,8,'','administration',0,'','1'),(1,12,12,'','engineering',0,'','1'),(1,13,13,'','purchase',0,'','1'),(1,14,14,'','hotelSetting',0,'','1'),(1,15,14,'','hotelSetting',0,'','1'),(1,16,14,'','hotelSetting',0,'','1'),(1,17,14,'','hotelSetting',0,'','1'),(1,18,14,'','hotelSetting',0,'','1'),(1,19,14,'','hotelSetting',0,'','1'),(1,20,14,'','hotelSetting',0,'','1'),(1,21,14,'','hotelSetting',0,'','1'),(1,22,14,'','hotelSetting',0,'','0'),(1,23,14,'','hotelSetting',0,'','0'),(1,24,14,'','hotelSetting',0,'','0'),(1,25,14,'','hotelSetting',0,'','0'),(1,26,14,'','hotelSetting',0,'','0'),(1,27,14,'','hotelSetting',0,'','0'),(1,28,14,'','hotelSetting',0,'','0'),(1,29,14,'','hotelSetting',0,'','0'),(1,30,14,'','hotelSetting',0,'','0'),(1,31,14,'','hotelSetting',0,'','0'),(1,32,14,'','hotelSetting',0,'','0'),(1,35,14,'','hotelSetting',0,'','0');
+insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_navigation`,`hotel_modules_order`,`hotel_modules_ico`,`hotel_modules_show`) values (0,36,NULL,'','',0,NULL,'1'),(1,1,1,'','index',0,'','1'),(1,2,2,'','frontOffice',0,'','1'),(1,3,3,'','roomsManagement',0,'','1'),(1,4,4,'','restaurant',0,'','1'),(1,5,5,'','entertainment',0,'','1'),(1,6,6,'','security',0,'','1'),(1,7,7,'','sales',0,'','1'),(1,8,8,'','administration',0,'','1'),(1,9,9,'','financial',0,'','1'),(1,10,8,'','administration',0,'','1'),(1,11,8,'','administration',0,'','1'),(1,12,12,'','engineering',0,'','1'),(1,13,13,'','purchase',0,'','1'),(1,14,14,'','hotelSetting',0,'','1'),(1,15,14,'','hotelSetting',0,'','1'),(1,16,14,'','hotelSetting',0,'','1'),(1,17,14,'','hotelSetting',0,'','1'),(1,18,14,'','hotelSetting',0,'','1'),(1,19,14,'','hotelSetting',0,'','1'),(1,20,14,'','hotelSetting',0,'','1'),(1,21,14,'','hotelSetting',0,'','1'),(1,22,14,'','hotelSetting',0,'','0'),(1,23,14,'','hotelSetting',0,'','0'),(1,24,14,'','hotelSetting',0,'','0'),(1,25,14,'','hotelSetting',0,'','0'),(1,26,14,'','hotelSetting',0,'','0'),(1,27,14,'','hotelSetting',0,'','0'),(1,28,14,'','hotelSetting',0,'','0'),(1,29,14,'','hotelSetting',0,'','0'),(1,30,14,'','hotelSetting',0,'','0'),(1,31,14,'','hotelSetting',0,'','0'),(1,32,14,'','hotelSetting',0,'','0'),(1,34,14,'','hotelSetting',0,'','0'),(1,35,14,'','hotelSetting',0,'','0');
 
 /*Table structure for table `hotel_service` */
 
@@ -397,7 +397,7 @@ CREATE TABLE `multi_laguage_page` (
 
 /*Data for the table `multi_laguage_page` */
 
-insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','back','返回上一页'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','edit','编辑'),('简体中文','common','hotel_add','添加酒店'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置'),('简体中文','hotel','list_of_hotel','酒店列表');
+insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','back','返回上一页'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','edit','编辑'),('简体中文','common','excute_success','恭喜你，操作成功！'),('简体中文','common','hotel_add','添加酒店'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','no_permission','您没有权限，请分配权限。'),('简体中文','common','reminder','提示信息'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','company','please_select','请选择'),('简体中文','company','search_map','查询地图位置'),('简体中文','hotel','hotel_information','酒店信息'),('简体中文','hotel','list_of_hotel','酒店列表');
 
 /*Table structure for table `operate_log` */
 
@@ -463,7 +463,7 @@ CREATE TABLE `role_modules_employee` (
 
 /*Data for the table `role_modules_employee` */
 
-insert  into `role_modules_employee`(`role_id`,`modules_id`,`employee_id`,`role_modules_action_permissions`) values (1,1,1,'3'),(1,2,1,'3'),(1,3,1,'3'),(1,4,1,'3'),(1,5,1,'3'),(1,6,1,'3'),(1,7,1,'3'),(1,8,1,'3'),(1,9,1,'3'),(1,10,1,'3'),(1,11,1,'3'),(1,12,1,'3'),(1,13,1,'3'),(1,14,1,'3'),(1,15,1,'3'),(1,16,1,'3'),(1,17,1,'3'),(1,18,1,'3'),(1,19,1,'3'),(1,20,1,'3'),(1,21,1,'3'),(1,22,1,'3'),(1,23,1,'3'),(1,24,1,'3'),(1,25,1,'0'),(1,26,1,'3');
+insert  into `role_modules_employee`(`role_id`,`modules_id`,`employee_id`,`role_modules_action_permissions`) values (1,1,1,'3'),(1,2,1,'3'),(1,3,1,'3'),(1,4,1,'3'),(1,5,1,'3'),(1,6,1,'3'),(1,7,1,'3'),(1,8,1,'3'),(1,9,1,'3'),(1,10,1,'3'),(1,11,1,'3'),(1,12,1,'3'),(1,13,1,'3'),(1,14,1,'3'),(1,15,1,'3'),(1,16,1,'3'),(1,17,1,'3'),(1,18,1,'3'),(1,19,1,'3'),(1,20,1,'3'),(1,21,1,'3'),(1,22,1,'3'),(1,23,1,'3'),(1,24,1,'3'),(1,25,1,'3'),(1,26,1,'3'),(1,27,1,'3');
 
 /*Table structure for table `room` */
 

@@ -27,6 +27,9 @@ class IndexAction extends \BaseAction {
             case 'noPermission':
                 $this->doNoPermission($objRequest, $objResponse);
                 break;
+            case 'excute_success':
+                $this->doExcuteSuccess($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -44,6 +47,14 @@ class IndexAction extends \BaseAction {
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
+    protected function doExcuteSuccess($objRequest, $objResponse) {
+        //赋值
+        //设置类别
+
+        //设置Meta(共通)
+        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        $objResponse->setTplName("hotel/modules_excuteSuccess");
+    }
     /**
      * 首页显示
      */

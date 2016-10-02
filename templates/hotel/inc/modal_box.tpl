@@ -36,3 +36,27 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<script laguage="javascript">
+$(document).ready(function(){
+	var delete_url = '';
+	// Form Validation
+    $("#delete_sumbit").click(function(){
+		$.getJSON(delete_url,function(data, status){
+			//alert("Data: " + data + "\nStatus: " + status);
+			if(data.success == 1) {
+				$('#modal_success').modal('show');
+				$('#modal_success_message').html(data.message);
+			} else {
+				$('#modal_fail').modal('show');
+				$('#modal_fail_message').html(data.message);
+			}
+		});
+	});
+	$(".btn.btn-danger.btn-mini").click(function(){
+		delete_url = $(this).attr("url");
+	});
+	$('#myModal').on('hide.bs.modal', function() {
+        window.location.reload();
+    });
+})
+</script>

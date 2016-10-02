@@ -22,7 +22,7 @@
                     <h5><%$arrayLaguage['list_of_hotel']['page_laguage_value']%></h5>
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                     <div class="buttons">
-                        <a class="btn btn-primary btn-mini" href="#" id="add_company"><i class="am-icon-plus-square"></i> <%$arrayLaguage['hotel_add']['page_laguage_value']%></a>
+                        <a class="btn btn-primary btn-mini" href="<%$addHotelUrl%>" id="add_company"><i class="am-icon-plus-square"></i> <%$arrayLaguage['hotel_add']['page_laguage_value']%></a>
                     </div>
                     <%/if%>
                 </div>
@@ -88,14 +88,5 @@
   </div>
   <div class="modal-footer"> <a data-dismiss="modal" class="btn btn-primary" href="#">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
 </div>
-<script src="<%$__RESOURCE%>js/jquery.min.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-colorpicker.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-datepicker.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
-<script src="<%$__RESOURCE%>js/select2.min.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>
 </body>
 </html>

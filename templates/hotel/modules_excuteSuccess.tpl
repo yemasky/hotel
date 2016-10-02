@@ -26,9 +26,9 @@
             <h5><%$arrayLaguage['reminder']['page_laguage_value']%></h5>
           </div>
           <div class="widget-content">
-            <div class="alert alert-block"> 
-              <h4 class="alert-heading">Warning!</h4>
-             <%$arrayLaguage['no_permission']['page_laguage_value']%>
+            <div class="alert alert-success alert-block">  
+              <h4 class="alert-heading"><%$arrayLaguage['excute_success']['page_laguage_value']%></h4>
+             You're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. 
             </div>
           </div>
         </div>    
