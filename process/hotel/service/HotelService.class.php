@@ -14,8 +14,12 @@ class HotelService extends \BaseService {
     }
 
     public static function getHotel($conditions, $hashKey = null) {
+        $conditions['order'] = 'hotel_id DESC';
         return HotelDao::instance('\hotel\HotelDao')->getHotel($conditions, $hashKey);
     }
 
+    public static function updateHotel($where, $row) {
+        return HotelDao::instance('\hotel\HotelDao')->setTable('hotel')->update($where, $row);
+    }
 
 }

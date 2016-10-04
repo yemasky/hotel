@@ -18,6 +18,7 @@ class EmployeeService extends \BaseService {
         $all_page_num = ceil($count/$pn_rows);
         $pn = $pn > $all_page_num ? $all_page_num : $pn;
         $conditions['limit'] = ($pn - 1) * $pn_rows . ',' . $pn_rows;
+        $conditions['order'] = 'company_id DESC';
         $arrayEmployeeCompany = self::getEmployeeCompany($conditions);
         return page($pn, $all_page_num, $arrayEmployeeCompany, $parameters);
     }

@@ -11,10 +11,15 @@
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label"><%$arrayLaguage['company_phone']['page_laguage_value']%> :</label>
+            <div class="controls">
+                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>" name="company_phone" value="<%$arrayCompany['company_phone']%>" /> 
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_fax']['page_laguage_value']%> :</label>
             <div class="controls">
                 <input type="text" class="span3" placeholder="<%$arrayLaguage['company_fax']['page_laguage_value']%>" name="company_fax" value="<%$arrayCompany['company_fax']%>" /> 
-                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>" name="company_phone" value="<%$arrayCompany['company_phone']%>" /> 
             </div>
         </div>
         <div class="control-group">

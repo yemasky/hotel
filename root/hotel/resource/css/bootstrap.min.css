@@ -14,7 +14,7 @@ video { display:inline-block; *display:inline;
 *zoom:1
 }
 audio:not([controls]) { display:none }
-html { font-size:100%; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100% }
+html { font-size:100%; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; font-family:"Microsoft YaHei UI", "Microsoft YaHei UI Light", "Courier New", Courier;}
 a:focus { outline:thin dotted #333; outline:5px auto -webkit-focus-ring-color; outline-offset:-2px }
 a:hover,
 a:active { outline:0 }
@@ -52,7 +52,7 @@ textarea { overflow:auto; vertical-align:top }
 .clearfix:after { clear:both }
 .hide-text { font:0/0 a; color:transparent; text-shadow:none; background-color:transparent; border:0 }
 .input-block-level { display:block; width:100%; min-height:30px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box }
-body { margin:0; font-family:Arial, sans-serif; font-size:13px; line-height:20px; color:#5F5F5F; background-color:#fff }
+body { margin:0; font-family:"Microsoft YaHei UI", "Microsoft YaHei UI Light", "Courier New", Courier, Arial, sans-serif; font-size:13px; line-height:20px; color:#5F5F5F; background-color:#fff }
 a { color:#666; text-decoration:none }
 a:hover { color:#F77825; text-decoration:underline }
 .img-rounded { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px }
@@ -213,7 +213,7 @@ h2,
 h3,
 h4,
 h5,
-h6 { margin:10px 0; font-family:inherit; font-weight:bold; line-height:20px; color:inherit; text-rendering:optimizelegibility }
+h6 { margin:10px 0; font-family:"Microsoft YaHei UI", "Microsoft YaHei UI Light", "Courier New", inherit; font-weight:bold; line-height:20px; color:inherit; text-rendering:optimizelegibility }
 h1 small,
 h2 small,
 h3 small,
@@ -292,7 +292,7 @@ textarea { font-size:14px; font-weight:normal; line-height:20px }
 input,
 button,
 select,
-textarea { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif }
+textarea { font-family:"Microsoft YaHei UI", "Microsoft YaHei UI Light", "Courier New", "Helvetica Neue", Helvetica, Arial, sans-serif }
 label { display:block; margin-bottom:5px }
 select,
 textarea,

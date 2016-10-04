@@ -88,22 +88,22 @@ class HotelAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
-        $company_id = decode($objRequest->company_id);
+        $hotel_id = decode($objRequest->hotel_id);
         $arrayPostValue= $objRequest->getPost();
-        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $company_id > 0) {
-            CompanyService::updateCompany(array('company_id'=>$company_id), $arrayPostValue);
+        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $hotel_id > 0) {
+            HotelService::updateHotel(array('hotel_id'=>$hotel_id), $arrayPostValue);
         }
 
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('company_id'=>$company_id);
-        $arrayCompany = CompanyService::getCompany($conditions);
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayHotel = HotelService::getHotel($conditions);
         //赋值
         $objResponse->view = 0;
-        $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
-        $objResponse -> setTplValue("location_province", $arrayCompany[0]['company_province']);
-        $objResponse -> setTplValue("location_city", $arrayCompany[0]['company_city']);
-        $objResponse -> setTplValue("location_town", $arrayCompany[0]['company_town']);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
+        $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
+        $objResponse -> setTplValue("location_province", $arrayHotel[0]['hotel_province']);
+        $objResponse -> setTplValue("location_city", $arrayHotel[0]['hotel_city']);
+        $objResponse -> setTplValue("location_town", $arrayHotel[0]['hotel_town']);
+        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($hotel_id))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
@@ -129,7 +129,7 @@ class HotelAction extends \BaseAction {
         $arrayHotel = HotelService::instance('\hotel\HotelService')->DBcache(ModulesConfig::$modulesHotelCacheKey['hotel_default_id'])->getHotel($conditions);
         //赋值
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
+        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['add']))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl

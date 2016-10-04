@@ -32,6 +32,6 @@
 </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
-<%include file="hotel/inc/company_js.tpl"%>
+<%include file="hotel/inc/hotel_js.tpl"%>
 </body>
 </html>

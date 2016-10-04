@@ -1,16 +1,8 @@
-<!--<script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-colorpicker.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-datepicker.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
-<script src="<%$__RESOURCE%>js/select2.min.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <%include file="hotel/inc/location_js.tpl"%>
 <script type="text/javascript">
-	var longitude = "<%$arrayCompany['company_longitude']%>";
-	var latitude = "<%$arrayCompany['company_latitude']%>";
+	var longitude = "<%$arrayDataInfo['hotel_longitude']%>";
+	var latitude = "<%$arrayDataInfo['hotel_latitude']%>";
 	var map = new BMap.Map("allmap");
 	
 	longitude = longitude == '' ? 121.480174 : longitude;
@@ -33,7 +25,7 @@
 	}
 	
 	function theLocation(){
-		var city = document.getElementById("company_address").value;
+		var city = document.getElementById("address").value;
 		if(city != ""){
 			map.centerAndZoom(city,18);      // 用城市名设置地图中心点
 		}
@@ -44,7 +36,7 @@
 	}
 	
 	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-		{"input" : "company_address"
+		{"input" : "address"
 		,"location" : map
 	});
 	
@@ -83,43 +75,43 @@
 			marker.enableDragging();
 			map.addOverlay(marker);    //添加标注
 			//alert(pp.lng lat);
-			$('#company_longitude').val(pp.lng);
-			$('#company_latitude').val(pp.lat);
+			$('#hotel_longitude').val(pp.lng);
+			$('#hotel_latitude').val(pp.lat);
 		}
 		var local = new BMap.LocalSearch(map, { //智能搜索
 		  onSearchComplete: mySetMap
 		});
 		local.search(myValue);
-		$('#company_address').val(myValue);
+		$('#address').val(myValue);
 	}	
 
 </script>
 <script language="javascript">
 $(document).ready(function(){
 	// Form Validation
-    $("#company_form").validate({
+    $("#hotel_form").validate({
 		rules:{
-			company_name:{
+			hotel_name:{
 				required:true
 			},
-			company_province:{
+			hotel_province:{
 				required:true
 			},
-			company_mobile:{
+			hotel_mobile:{
 				required:true,
 				number:true,
 				isMobile:true
 			},
-			company_address:{
+			address:{
 				required:true,
 				minlength:5,
 			}
 		},
 		messages: {
-			company_name:"请输入公司名称",
-			company_province:"",
-			company_mobile:"请输入正确移动电话号码",
-			company_address:"请输入公司地址"
+			hotel_name:"请输入酒店名称",
+			hotel_province:"",
+			hotel_mobile:"请输入正确移动电话号码",
+			address:"请输入酒店地址"
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -131,7 +123,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	$('#company_address').val("<%$arrayCompany['company_address']%>");
+	$('#address').val("<%$arrayDataInfo['hotel_address']%>");
 
 	
 });
