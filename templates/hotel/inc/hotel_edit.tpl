@@ -108,7 +108,7 @@
 
         
         <div class="form-actions pagination-centered">
-            <button type="submit" id="save_company_info" class="btn btn-success pagination-centered">Save</button>
+            <button type="submit" id="save_hotel_info" class="btn btn-success pagination-centered">Save</button>
         </div>
     </form>
 </div>

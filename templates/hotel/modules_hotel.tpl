@@ -34,6 +34,9 @@
                         <div class="user-thumb"> <img width="50" height="50" alt="User" src="<%$__RESOURCE%>img/icons/50/hotel.jpg"> </div>
                         <div class="article-post">
                           <div class="fr">
+                          	<a href="<%$arrayHotel[hotel].view_url%>" class="btn btn-primary btn-mini"><i class="am-icon-eye"></i> 
+                            	<%$arrayLaguage['view']['page_laguage_value']%>
+                            </a>
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 1%>
                           	<a href="<%$arrayHotel[hotel].edit_url%>" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i> Edit</a> 
                             <%/if%>

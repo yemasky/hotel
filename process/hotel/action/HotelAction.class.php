@@ -36,6 +36,10 @@ class HotelAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        if(decode($objRequest->hotel_id) > 0) {
+            $this->view($objRequest, $objResponse);
+            return;
+        }
         $pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
         $pn_rows = $objRequest->pn_rows;
 
@@ -55,6 +59,7 @@ class HotelAction extends \BaseAction {
             $arrayHotel = HotelService::getHotel($conditions);
             foreach ($arrayHotel as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
+                $arrayHotel[$k]['view_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
                 $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
                 $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['delete']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
             }
@@ -71,12 +76,6 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
-    protected function view($objRequest, $objResponse) {
-        $this->doEdit($objRequest, $objResponse);
-        $objResponse->view = 1;
-        $objResponse->setTplName("hotel/modules_company_edit");
-    }
-
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
         $company_id = decode($objRequest->company_id);
@@ -85,6 +84,12 @@ class HotelAction extends \BaseAction {
         }
         CompanyService::updateCompany(array('company_id'=>$company_id), array('company_is_delet'=>true));
         return $this->successResponse('删除公司成功');
+    }
+
+    protected function view($objRequest, $objResponse) {
+        $this->doEdit($objRequest, $objResponse);
+        $objResponse->view = 1;
+        $objResponse->setTplName("hotel/modules_hotel_edit");
     }
 
     protected function doEdit($objRequest, $objResponse) {
