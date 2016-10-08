@@ -6,7 +6,7 @@
 <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
 <style type="text/css">
-#allmap {height: 300px;width:48.5%;overflow: hidden; margin-left:0px;}
+#allmap {height: 300px; min-width:48.5%;overflow: hidden; margin-left:0px;}
 </style>
 </head>
 <body>
@@ -23,10 +23,13 @@
                     </span>
                     <h5><%$arrayLaguage['company_information']['page_laguage_value']%></h5>
                     <div class="buttons">
-                    <a class="btn btn-primary btn-mini" href="javascript:history.back(-1);" id="back_company"><i class="am-icon-arrow-circle-left"></i> <%$arrayLaguage['back']['page_laguage_value']%></a>	
+                    <a class="btn btn-primary btn-mini" href="javascript:history.back(-1);" id="back_company"><i class="am-icon-arrow-circle-left"></i> 
+                    　<%$arrayLaguage['back']['page_laguage_value']%></a>	
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 1%>
-						<a class="btn btn-primary btn-mini" id="edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_edit']['page_laguage_value']%></a>	
-                        <a class="btn btn-primary btn-mini" id="cancel_edit_company"><i class="icon-pencil"></i><%$arrayLaguage['company_cancel_edit']['page_laguage_value']%></a>
+						<a class="btn btn-primary btn-mini" id="edit_company"><i class="icon-pencil"></i>
+                        　<%$arrayLaguage['company_edit']['page_laguage_value']%></a>	
+                        <a class="btn btn-primary btn-mini" id="cancel_edit_company"><i class="icon-pencil"></i>
+                        　<%$arrayLaguage['company_cancel_edit']['page_laguage_value']%></a>
                     <%/if%>
 					</div>
                 </div>

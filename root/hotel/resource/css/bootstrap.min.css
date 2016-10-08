@@ -213,7 +213,7 @@ h2,
 h3,
 h4,
 h5,
-h6 { margin:10px 0; font-family:"Microsoft YaHei UI", "Microsoft YaHei UI Light", "Courier New", inherit; font-weight:bold; line-height:20px; color:inherit; text-rendering:optimizelegibility }
+h6 { margin:10px 0; font-family:"Microsoft YaHei UI", "Microsoft YaHei UI Light", "Courier New", inherit; font-weight:normal; line-height:20px; color:inherit; text-rendering:optimizelegibility }
 h1 small,
 h2 small,
 h3 small,

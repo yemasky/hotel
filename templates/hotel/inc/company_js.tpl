@@ -12,11 +12,14 @@
 	var longitude = "<%$arrayCompany['company_longitude']%>";
 	var latitude = "<%$arrayCompany['company_latitude']%>";
 	var map = new BMap.Map("allmap");
+	var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM});
 	
 	longitude = longitude == '' ? 121.480174 : longitude;
 	latitude = latitude == '' ? 31.236428 : latitude;
 	var point = new BMap.Point(longitude, latitude);
 	map.centerAndZoom(point,18);
+	map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+	map.addControl(top_right_navigation);    
 	
 	var marker = new BMap.Marker(point);  // 创建标注
 	map.addOverlay(marker);               // 将标注添加到地图中
@@ -80,8 +83,10 @@
 			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
 			map.centerAndZoom(pp, 18);
 			marker = new BMap.Marker(pp);
-			marker.enableDragging();
 			map.addOverlay(marker);    //添加标注
+			map.addControl(top_right_navigation);    
+			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+			marker.enableDragging();
 			//alert(pp.lng lat);
 			$('#company_longitude').val(pp.lng);
 			$('#company_latitude').val(pp.lat);

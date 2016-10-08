@@ -8,3 +8,4 @@
 <link rel="stylesheet" href="<%$__RESOURCE%>css/icon.css" />
 <script src="<%$__RESOURCE%>js/jquery.min.js"></script>
 <script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
+<script src="<%$__RESOURCE%>js/maruti.js"></script>

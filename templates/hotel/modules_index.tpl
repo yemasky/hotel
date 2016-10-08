@@ -184,14 +184,11 @@
   </div>
 <%include file="hotel/inc/footer.tpl"%>
 <script src="<%$__RESOURCE%>js/excanvas.min.js"></script> 
-<script src="<%$__RESOURCE%>js/jquery.min.js"></script> 
 <script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script> 
-<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script> 
 <script src="<%$__RESOURCE%>js/jquery.flot.min.js"></script> 
 <script src="<%$__RESOURCE%>js/jquery.flot.resize.min.js"></script> 
 <script src="<%$__RESOURCE%>js/jquery.peity.min.js"></script> 
 <script src="<%$__RESOURCE%>js/fullcalendar.min.js"></script> 
-<script src="<%$__RESOURCE%>js/maruti.js"></script> 
 <script src="<%$__RESOURCE%>js/maruti.dashboard.js"></script> 
 <script src="<%$__RESOURCE%>js/maruti.chat.js"></script> 
 <script type="text/javascript">
