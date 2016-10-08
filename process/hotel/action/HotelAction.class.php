@@ -47,14 +47,13 @@ class HotelAction extends \BaseAction {
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $parameters['module'] = encode(decode($objRequest->module));
         $arrayPageHotelId = EmployeeService::pageEmployeeHotel($conditions, $pn, $pn_rows, $parameters);
-
         $arrayHotel = null;
         if(!empty($arrayPageHotelId['list_data'])) {
             $stringHotelId = '';
             foreach($arrayPageHotelId['list_data'] as $k => $v) {
-                $stringHotelId .= $v['hotel_id'] . ',';
+                $stringHotelId .= $v['hotel_id'] . "','";
             }
-            $stringHotelId = trim($stringHotelId, ',');
+            $stringHotelId = trim($stringHotelId, ",'");
             $conditions['where'] = array('IN'=>array('hotel_id'=>$stringHotelId));
             $arrayHotel = HotelService::getHotel($conditions);
             foreach ($arrayHotel as $k => $v) {
@@ -76,14 +75,46 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
-    protected function doDelete($objRequest, $objResponse) {
-        $this->setDisplay();
-        $company_id = decode($objRequest->company_id);
-        if(empty($company_id)) {
-            return $this->errorResponse('操作失败，公司ID不正确！');
+    protected function doAdd($objRequest, $objResponse) {
+        $arrayPostValue= $objRequest->getPost();
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            $arrayPostValue['hotel_add_date'] = date("Y-m-d");
+            $arrayPostValue['hotel_add_time'] = getTime();
+            $hotel_id = HotelService::saveHotel($arrayPostValue);
+            if($hotel_id > 0) {
+                //EmployeeService::saveEmployeeDepartment(array('company_id'=>$hotel_id, 'employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']));
+                //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
+            } else {
+                throw new \Exception('添加失败！');
+            }
+            $url = 'index.php?action=excute_success&success_id=' . encode($hotel_id);
+            redirect($url);
         }
-        CompanyService::updateCompany(array('company_id'=>$company_id), array('company_is_delet'=>true));
-        return $this->successResponse('删除公司成功');
+
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>0);
+        $arrayHotel = HotelService::instance('\hotel\HotelService')->DBcache(ModulesConfig::$modulesHotelCacheKey['hotel_default_id'])->getHotel($conditions);
+
+        $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
+        $arrayEmployeeCompany = EmployeeService::getEmployeeCompany($conditions);
+        $arrayCompany = null;
+        if(!empty($arrayEmployeeCompany)) {
+            $stringCompanyId = '';
+            foreach($arrayEmployeeCompany as $k => $v) {
+                $stringCompanyId .= $v['company_id'] . "','";
+            }
+            $stringCompanyId = trim($stringCompanyId, ",'");
+            $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
+            $arrayCompany = CompanyService::getCompany($conditions);
+        }
+        //赋值
+        $objResponse->update_success = 0;
+        $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
+        $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
+        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['add']))));
+        //设置Meta(共通)
+        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        //更改tpl
     }
 
     protected function view($objRequest, $objResponse) {
@@ -95,13 +126,30 @@ class HotelAction extends \BaseAction {
     protected function doEdit($objRequest, $objResponse) {
         $hotel_id = decode($objRequest->hotel_id);
         $arrayPostValue= $objRequest->getPost();
+
+        $objResponse->update_success = 0;
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && $hotel_id > 0) {
             HotelService::updateHotel(array('hotel_id'=>$hotel_id), $arrayPostValue);
+            $objResponse->update_success = 1;
         }
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
         $arrayHotel = HotelService::getHotel($conditions);
+
+        $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
+        $arrayEmployeeCompany = EmployeeService::getEmployeeCompany($conditions);
+        $arrayCompany = null;
+
+        if(!empty($arrayEmployeeCompany)) {
+            $stringCompanyId = '';
+            foreach($arrayEmployeeCompany as $k => $v) {
+                $stringCompanyId .= $v['company_id'] . "','";
+            }
+            $stringCompanyId = trim($stringCompanyId, ",'");
+            $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
+            $arrayCompany = CompanyService::getCompany($conditions);
+        }
         //赋值
         $objResponse->view = 0;
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
@@ -109,34 +157,20 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("location_city", $arrayHotel[0]['hotel_city']);
         $objResponse -> setTplValue("location_town", $arrayHotel[0]['hotel_town']);
         $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($hotel_id))));
+        $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
+
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
-    protected function doAdd($objRequest, $objResponse) {
-        $arrayPostValue= $objRequest->getPost();
-        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
-            $arrayPostValue['hotel_add_date'] = date("Y-m-d");
-            $arrayPostValue['hotel_add_time'] = getTime();
-            $company_id = CompanyService::saveCompany($arrayPostValue);
-            if($company_id > 0) {
-                EmployeeService::saveEmployeeDepartment(array('company_id'=>$company_id, 'employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']));
-                //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
-            } else {
-                throw new \Exception('添加失败！');
-            }
-            $url = 'index.php?action=excute_success&success_id=' . encode($company_id);
-            redirect($url);
+    protected function doDelete($objRequest, $objResponse) {
+        $this->setDisplay();
+        $hotel_id = decode($objRequest->hotel_id);
+        if(empty($hotel_id)) {
+            return $this->errorResponse('操作失败，酒店ID不正确！');
         }
-
-        $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>0);
-        $arrayHotel = HotelService::instance('\hotel\HotelService')->DBcache(ModulesConfig::$modulesHotelCacheKey['hotel_default_id'])->getHotel($conditions);
-        //赋值
-        $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
-        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['add']))));
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
-        //更改tpl
+        HotelService::updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
+        return $this->successResponse('删除酒店成功');
     }
+
 }

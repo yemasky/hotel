@@ -94,8 +94,11 @@ class CompanyAction extends \BaseAction {
     protected function doEdit($objRequest, $objResponse) {
         $company_id = decode($objRequest->company_id);
         $arrayPostValue= $objRequest->getPost();
+
+        $objResponse->update_success = 0;
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && $company_id > 0) {
             CompanyService::updateCompany(array('company_id'=>$company_id), $arrayPostValue);
+            $objResponse->update_success = 1;
         }
 
         $conditions = DbConfig::$db_query_conditions;
@@ -132,6 +135,7 @@ class CompanyAction extends \BaseAction {
         $conditions['where'] = array('company_id'=>0);
         $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache(ModulesConfig::$modulesCompanyCacheKey['company_default_id'])->getCompany($conditions);
         //赋值
+        $objResponse->update_success = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
         $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
         //设置Meta(共通)

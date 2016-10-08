@@ -1,5 +1,20 @@
 <div class="widget-content nopadding">
+<%if $update_success==1%>
+<div class="alert alert-success alert-block">  
+  <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
+</div>
+<%/if%>
     <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_form" id="hotel_form" novalidate> 
+        <div class="control-group">
+            <label class="control-label"><%$arrayLaguage['belong_to_company']['page_laguage_value']%> :</label>
+            <div class="controls">
+                <select id="company_id" name="company_id" class="span3">
+                	<%section name=company loop=$arrayEmployeeCompany%>
+                    <option value="<%$arrayEmployeeCompany[company].company_id%>"<%if $arrayEmployeeCompany[company].company_id==$arrayDataInfo['company_id']%> selected="selected"<%/if%>><%$arrayEmployeeCompany[company].company_name%></option>
+                    <%/section%>
+                </select>
+            </div>
+        </div>
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['hotel_name']['page_laguage_value']%> :</label>
             <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['hotel_name']['page_laguage_value']%>" name="hotel_name" id="hotel_name" value="<%$arrayDataInfo['hotel_name']%>" /> </div>
@@ -63,7 +78,7 @@
             <label class="control-label"><%$arrayLaguage['hotel_type']['page_laguage_value']%> :</label>
             <div class="controls">
                 <select id="hotel_type" name="hotel_type" style="width:120px;">
-                    <option value="hotel"><%$arrayLaguage['hotel']['page_laguage_value']%></option>
+                    <option value="hotel"<%if $arrayDataInfo['hotel_type']=='hotel'%> selected="selected"<%/if%>><%$arrayLaguage['hotel']['page_laguage_value']%></option>
                 </select>
             </div>
         </div>

@@ -18,8 +18,16 @@ class HotelService extends \BaseService {
         return HotelDao::instance('\hotel\HotelDao')->getHotel($conditions, $hashKey);
     }
 
+    public static function saveHotel($arrayData) {
+        return HotelDao::instance('\hotel\HotelDao')->setTable('hotel')->insert($arrayData);
+    }
+
     public static function updateHotel($where, $row) {
         return HotelDao::instance('\hotel\HotelDao')->setTable('hotel')->update($where, $row);
+    }
+
+    public static function deleteHotel($where) {
+        return HotelDao::instance('\hotel\HotelDao')->setTable('hotel')->delete($where);
     }
 
 }

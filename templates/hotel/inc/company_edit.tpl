@@ -1,4 +1,9 @@
 <div class="widget-content nopadding">
+<%if $update_success==1%>
+<div class="alert alert-success alert-block">  
+  <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
+</div>
+<%/if%>
     <form action="<%$company_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="company_form" id="company_form" novalidate> 
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_name']['page_laguage_value']%> :</label>

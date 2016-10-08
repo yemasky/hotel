@@ -41,7 +41,7 @@
                           	<a href="<%$arrayHotel[hotel].edit_url%>" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i> Edit</a> 
                             <%/if%>
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 2%>
-                            <a href="#delete" class="btn btn-danger btn-mini" data-toggle="modal" url="<%$arrayHotel[hotel].delete_url%>"><i class="am-icon-trash-o"></i> Delete</a>
+                            <a href="#modal_delete" url="<%$arrayHotel[hotel].delete_url%>" class="btn btn-danger btn-mini" data-toggle="modal" ><i class="am-icon-trash-o"></i> Delete</a>
                             <%/if%>
                           </div>
                           <h5><%$arrayHotel[hotel].hotel_name%></h5>
@@ -82,15 +82,6 @@
 </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
-<div id="delete" class="modal hide">
-  <div class="modal-header">
-    <button data-dismiss="modal" class="close" type="button">×</button>
-    <h3>Alert modal</h3>
-  </div>
-  <div class="modal-body">
-    <p>Lorem ipsum dolor sit amet...</p>
-  </div>
-  <div class="modal-footer"> <a data-dismiss="modal" class="btn btn-primary" href="#">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
-</div>
+<%include file="hotel/inc/modal_box.tpl"%>
 </body>
 </html>
