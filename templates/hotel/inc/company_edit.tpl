@@ -61,7 +61,7 @@
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_introduction']['page_laguage_value']%></label>
             <div class="controls">
-                <textarea class="span6" style="height:300px;"  placeholder="<%$arrayLaguage['company_introduction']['page_laguage_value']%>" name="company_introduction" value="<%$arrayCompany['company_introduction']%>" ></textarea>
+                <textarea class="span6" style="height:300px;"  placeholder="<%$arrayLaguage['company_introduction']['page_laguage_value']%>" name="company_introduction" value="<%$arrayCompany['company_introduction']%>" ><%$arrayCompany['company_introduction']%></textarea>
             </div>
         </div>
        

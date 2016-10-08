@@ -6,7 +6,7 @@
 <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
 <style type="text/css">
-#allmap {height: 300px;width:48.5%;overflow: hidden; margin-left:0px;}
+#allmap {height: 300px;min-width:48.5%;overflow: hidden; margin-left:0px;}
 </style>
 </head>
 <body>

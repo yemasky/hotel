@@ -22,7 +22,8 @@
                     <h5><%$arrayLaguage['list_of_hotel']['page_laguage_value']%></h5>
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                     <div class="buttons">
-                        <a class="btn btn-primary btn-mini" href="<%$addHotelUrl%>" id="add_company"><i class="am-icon-plus-square"></i> <%$arrayLaguage['hotel_add']['page_laguage_value']%></a>
+                        <a class="btn btn-primary btn-mini" href="<%$addHotelUrl%>" id="add_company"><i class="am-icon-plus-square"></i> 
+                        　<%$arrayLaguage['hotel_add']['page_laguage_value']%></a>
                     </div>
                     <%/if%>
                 </div>
