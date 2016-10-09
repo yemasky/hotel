@@ -1,17 +1,22 @@
-<form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_form" id="hotel_form" novalidate> 
-<div class="widget-content tab-content nopadding ui-accordion-container" id="stepForm">
+<div class="widget-title">
+    <ul class="nav nav-tabs">
+        <li class="active" id="hotel_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['hotel_setting']['page_laguage_value']%></a></li>
+        <li id="hotel_attribute_setting"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['hotel_attribute_setting']['page_laguage_value']%></a></li>
+    </ul>
+</div>
+<div class="widget-content tab-content nopadding">
 <%if $update_success==1%>
 <div class="alert alert-success alert-block">  
   <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
 </div>
 <%/if%>
-    <div id="hotel_setting" class="tab-pane active">  
-    	<a href='#' class="ui-accordion-link"></a>
-        <div>  
+    <div id="tab1" class="tab-pane active">
+        <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_form" id="hotel_form" novalidate> 
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['belong_to_company']['page_laguage_value']%> :</label>
                 <div class="controls">
                     <select id="company_id" name="company_id" class="span3">
+                    	<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                         <%section name=company loop=$arrayEmployeeCompany%>
                         <option value="<%$arrayEmployeeCompany[company].company_id%>"<%if $arrayEmployeeCompany[company].company_id==$arrayDataInfo['company_id']%> selected="selected"<%/if%>><%$arrayEmployeeCompany[company].company_name%></option>
                         <%/section%>
@@ -49,13 +54,13 @@
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_location']['page_laguage_value']%> :</label>
                 <div class="controls ">
-                    <select id="location_province" name="hotel_province" style="width:120px;">
+                    <select id="location_province" name="hotel_province" class="span2">
                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                     </select>
-                    <select id="location_city" name="hotel_city" style="width:120px;">
+                    <select id="location_city" name="hotel_city" class="span2">
                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                     </select>
-                    <select id="location_town" name="hotel_town" style="width:120px;">
+                    <select id="location_town" name="hotel_town" class="span2">
                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                     </select>
                 </div>
@@ -70,7 +75,7 @@
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_map']['page_laguage_value']%> :</label>
                 <div class="controls">
-                    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    <div id="searchResultPanel" class="span6" style="border:1px solid #C0C0C0;height:auto; display:none;"></div>
                     <div id="allmap" class="span6"></div>
                     </div>
                     <input type="hidden" name="hotel_longitude" id="hotel_longitude" value="<%$arrayDataInfo['hotel_longitude']%>" />
@@ -80,7 +85,7 @@
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_type']['page_laguage_value']%> :</label>
                 <div class="controls">
-                    <select id="hotel_type" name="hotel_type" style="width:120px;">
+                    <select id="hotel_type" name="hotel_type" class="span3">
                         <option value="hotel"<%if $arrayDataInfo['hotel_type']=='hotel'%> selected="selected"<%/if%>><%$arrayLaguage['hotel']['page_laguage_value']%></option>
                     </select>
                 </div>
@@ -88,7 +93,7 @@
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_star']['page_laguage_value']%> :</label>
                 <div class="controls">
-                    <select id="hotel_star" name="hotel_star" style="width:120px;">
+                    <select id="hotel_star" name="hotel_star" class="span2">
                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                         <option value="1"<%if $arrayDataInfo['hotel_star'] == 1%> selected="selected"<%/if%>>★</option>
                         <option value="2"<%if $arrayDataInfo['hotel_star'] == 2%> selected="selected"<%/if%>>★★</option>
@@ -103,7 +108,7 @@
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_wifi']['page_laguage_value']%> :</label>
                 <div class="controls">
-                    <select id="hotel_wifi" name="hotel_wifi" style="width:120px;">
+                    <select id="hotel_wifi" name="hotel_wifi" class="span3">
                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                         <option value="1"<%if $arrayDataInfo['hotel_wifi'] == 1%> selected="selected"<%/if%>><%$arrayLaguage['have']['page_laguage_value']%></option>
                         <option value="0"<%if $arrayDataInfo['hotel_wifi'] == 0%> selected="selected"<%/if%>><%$arrayLaguage['not_have']['page_laguage_value']%></option>
@@ -117,26 +122,43 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label"><%$arrayLaguage['hotel_booking_notes']['page_laguage_value']%> :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span3" placeholder="<%if $arrayDataInfo['hotel_booking_notes']==''%><%$arrayLaguage['hotel_booking_notes']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_booking_notes']%><%/if%>" value="<%$arrayDataInfo['hotel_booking_notes']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_introduce']['page_laguage_value']%></label>
                 <div class="controls">
                     <textarea class="span6" style="height:300px;"  placeholder="<%$arrayLaguage['hotel_introduce']['page_laguage_value']%>" name="hotel_introduce" value="<%$arrayDataInfo['hotel_introduce']%>" ><%$arrayDataInfo['hotel_introduce']%></textarea>
                 </div>
             </div>
            
-    
             
-            <div class="form-actions pagination-centered">
-                <input name="formNext1" type="button" class="open1 nextbutton" value="Next" alt="Next" title="Next">
-                <!--<button type="submit" id="save_hotel_info" class="btn btn-success pagination-centered">Save</button>-->
+            <div class="form-actions pagination-centered btn-icon-pg">
+            	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->
+                <button type="submit" id="save_hotel_info" class="btn btn-success pagination-centered"><%$arrayLaguage['hotel_attribute_setting_next']['page_laguage_value']%></button>
             </div>
-       </div>
+         </form>
     </div>
-    <div id="hotel_attribute_setting">
-       <a href='#' class="ui-accordion-link"></a>
-       <div>
-       <p> waffle to pad out the comment. Usually, you just wish these sorts of comments would come to an end.multiple paragraphs and is full of waffle to pad out the comment. Usually, you just wish these sorts of comments would come to an end. </p>  
-       </div>       
-              
+    <div id="tab2" class="tab-pane">
+       	  <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_attr_form" id="hotel_attr_form" novalidate> 
+       		<%section name=attr loop=$arrayAttribute%>
+                <div class="control-group">
+                    <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
+                    <div class="controls">
+                        <ul class="stat-boxes stat-boxes2">
+                        <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
+                          <li>
+                            <div class="left peity_bar_good"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%></div>
+                            <div class="right"> <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span3" placeholder="" value=""  /></div>
+                          </li>
+                        <%/section%>
+                        </ul>
+                    </div>
+                </div>
+            <%/section%>
+                <button type="submit" id="save_hotel_attr_info" class="btn btn-success pagination-centered">Save</button>
+           </form>
     </div>
 </div>
-</form>

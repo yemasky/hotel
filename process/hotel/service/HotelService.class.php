@@ -30,4 +30,23 @@ class HotelService extends \BaseService {
         return HotelDao::instance('\hotel\HotelDao')->setTable('hotel')->delete($where);
     }
 
+    public static function getAttribute($hotel_id) {
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $hotel_id)));
+        $cache_id = ModulesConfig::$modulesHotelCacheKey['hotel_attribute'] . $hotel_id;
+        $conditions['order'] = 'hotel_attribute_father_id ASC, hotel_attribute_order ASC, hotel_attribute_id ASC';
+        $arrayAttr =  HotelDao::instance('\hotel\HotelDao')->setTable('hotel_attribute')->DBCache($cache_id)->getList($conditions);
+        $arrarResult = array();
+        foreach ($arrayAttr as $k => $v) {
+            if($v['hotel_attribute_id'] == $v['hotel_attribute_father_id']) {
+                $arrarResult[$v['hotel_attribute_father_id']] = $v;
+                $arrarResult[$v['hotel_attribute_father_id']]['childen'] = array();
+            } else {
+                $arrarResult[$v['hotel_attribute_father_id']]['childen'][] = $v;
+            }
+        }
+        sort($arrarResult);
+        return $arrarResult;
+    }
+
 }

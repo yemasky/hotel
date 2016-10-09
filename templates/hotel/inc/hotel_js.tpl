@@ -1,5 +1,4 @@
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
-<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 <%include file="hotel/inc/location_js.tpl"%>
 <script type="text/javascript">
 	var longitude = "<%$arrayDataInfo['hotel_longitude']%>";
@@ -90,10 +89,14 @@
 <script language="javascript">
 $(document).ready(function(){
 	// Form Validation
-    $("#hotel_form_bak").validate({
+    var v = $("#hotel_form").validate({
 		rules:{
-			hotel_name:{
+			company_id: {
 				required:true
+			},
+			hotel_name:{
+				required:true,
+				maxlength:200
 			},
 			hotel_province:{
 				required:true
@@ -103,70 +106,24 @@ $(document).ready(function(){
 				number:true,
 				isMobile:true
 			},
-			address:{
+			hotel_address:{
 				required:true,
 				minlength:5,
+				maxlength:200
+			},
+			hotel_booking_notes:{
+				required:true,
+				minlength:5,
+				maxlength:1000
 			}
 		},
 		messages: {
+			company_id:"请选择属于公司",
 			hotel_name:"请输入酒店名称",
 			hotel_province:"",
 			hotel_mobile:"请输入正确移动电话号码",
-			address:"请输入酒店地址"
-		},
-		errorClass: "help-inline",
-		errorElement: "span",
-		highlight:function(element, errorClass, validClass) {
-			$(element).parents('.control-group').addClass('error');
-		},
-		unhighlight: function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('error');
-			$(element).parents('.control-group').addClass('success');
-		}
-	});
-	$('#address').val("<%$arrayDataInfo['hotel_address']%>");
-	//////////////////////////////
-	//////////////////////////////
-	//////////////////////////////
-	// accordion functions
-	var accordion = $("#stepForm").accordion();
-	var current = 0;
-
-	$.validator.addMethod("pageRequired", function(value, element) {
-		var $element = $(element)
-
-			function match(index) {
-				return current == index && $(element).parents("#sf" + (index + 1)).length;
-			}
-		if (match(0) || match(1) || match(2)) {
-			return !this.optional(element);
-		}
-		return "dependency-mismatch";
-	}, $.validator.messages.required)
-
-	var v = $("#hotel_form").validate({
-		rules:{
-			hotel_name:{
-				required:true
-			},
-			hotel_province:{
-				required:true
-			},
-			hotel_mobile:{
-				required:true,
-				number:true,
-				isMobile:true
-			},
-			address:{
-				required:true,
-				minlength:5,
-			}
-		},
-		messages: {
-			hotel_name:"请输入酒店名称",
-			hotel_province:"",
-			hotel_mobile:"请输入正确移动电话号码",
-			address:"请输入酒店地址"
+			hotel_address:"请输入酒店地址",
+			hotel_booking_notes: "请输入预定须知"
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -178,36 +135,30 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-			alert("Submitted, thanks!");
+			//alert(1);
+			$('#hotel_attribute_setting a').tab('show');
+			/*var param = $("#hotel_form").serialize();
+			$.ajax({
+				url : "<%$hotel_update_url%>",
+				type : "post",
+				dataType : "json",
+				data: param,
+				success : function(result) {
+					if(result=='success') {
+						//location.href='allRequisitionList.action';
+					} else {
+						var jsonObj = eval('('+result+')');
+					}
+				}
+			});*/
 		}
 	});
-
-	// back buttons do not need to run validation
-	$("#hotel_attribute_setting .prevbutton").click(function() {
-		accordion.accordion("option", "active", 0);
-		current = 0;
-	});
-	/*$("#sf3 .prevbutton").click(function() {
-		accordion.accordion("option", "active", 1);
-		current = 1;
-	});
-	// these buttons all run the validation, overridden by specific targets above
-	$(".open2").click(function() {
+	$('#address').val("<%$arrayDataInfo['hotel_address']%>");
+	$('#hotel_attribute_setting').click(function() {
 		if (v.form()) {
-			accordion.accordion("option", "active", 2);
-			current = 2;
-		}
-	});*/
-	$(".open1").click(function() {
-		if (v.form()) {
-			accordion.accordion("option", "active", 1);
-			current = 1;
-		}
-	});
-	$(".open0").click(function() {
-		if (v.form()) {
-			accordion.accordion("option", "active", 0);
-			current = 0;
+			
+		} else {
+			return false;
 		}
 	});
 	

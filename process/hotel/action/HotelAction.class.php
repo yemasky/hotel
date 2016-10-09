@@ -77,6 +77,7 @@ class HotelAction extends \BaseAction {
 
     protected function doAdd($objRequest, $objResponse) {
         $arrayPostValue= $objRequest->getPost();
+        $hotel_id = 0;
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $arrayPostValue['hotel_add_date'] = date("Y-m-d");
             $arrayPostValue['hotel_add_time'] = getTime();
@@ -87,8 +88,16 @@ class HotelAction extends \BaseAction {
             } else {
                 throw new \Exception('添加失败！');
             }
-            $url = 'index.php?action=excute_success&success_id=' . encode($hotel_id);
-            redirect($url);
+            //$url = 'index.php?action=excute_success&success_id=' . encode($hotel_id);
+            //redirect($url);
+            if(empty($hotel_id)) {
+                return $this->errorResponse('保存失败，请检查数据！');
+            }
+            $this->setDisplay();
+            //$hotel_id = encode($hotel_id);
+            //HotelService::updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
+            return $this->successResponse('保存酒店成功');
+
         }
 
         $conditions = DbConfig::$db_query_conditions;
@@ -108,7 +117,8 @@ class HotelAction extends \BaseAction {
             $arrayCompany = CompanyService::getCompany($conditions);
         }
         //赋值
-        $objResponse->update_success = 0;
+        $objResponse -> update_success = 0;
+        $objResponse -> setTplValue("arrayAttribute", HotelService::getAttribute($hotel_id));
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['add']))));
@@ -152,6 +162,7 @@ class HotelAction extends \BaseAction {
         }
         //赋值
         $objResponse->view = 0;
+        $objResponse -> setTplValue("arrayAttribute", HotelService::getAttribute($hotel_id));
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("location_province", $arrayHotel[0]['hotel_province']);
         $objResponse -> setTplValue("location_city", $arrayHotel[0]['hotel_city']);
