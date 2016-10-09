@@ -148,7 +148,7 @@
             
             <div class="form-actions pagination-centered btn-icon-pg">
             	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->
-                <button type="submit" id="save_hotel_info" class="btn btn-success pagination-centered"><%$arrayLaguage['hotel_attribute_setting_next']['page_laguage_value']%></button>
+                <button type="submit" id="save_hotel_info" class="btn btn-primary pagination-centered"><%$arrayLaguage['hotel_attribute_setting_next']['page_laguage_value']%></button>
             </div>
          </form>
     </div>
@@ -169,12 +169,12 @@
                 </div>
             <%/section%>
             <div class="form-actions pagination-centered btn-icon-pg">
-                <button type="submit" id="save_hotel_attr_info" class="btn btn-success pagination-centered">Save</button>
+                <button type="button" id="save_hotel_attr_info" class="btn btn-primary pagination-centered">下一步</button>
             </div>
            </form>
     </div>
     <div id="tab3" class="tab-pane">
-       	  <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_attr_form" id="hotel_attr_form" novalidate> 
+       	  <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_service_form" id="hotel_service_form" novalidate>
        		<%section name=attr loop=$arrayAttribute%>
                 <div class="control-group">
                     <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
@@ -190,7 +190,7 @@
                 </div>
             <%/section%>
             <div class="form-actions pagination-centered btn-icon-pg">
-                <button type="submit" id="save_hotel_attr_info" class="btn btn-success pagination-centered">Save</button>
+                <button type="submit" id="save_hotel_service_info" class="btn btn-success pagination-centered">Save</button>
             </div>
            </form>
     </div>

@@ -141,6 +141,10 @@ class HotelAction extends \BaseAction {
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && $hotel_id > 0) {
             HotelService::updateHotel(array('hotel_id'=>$hotel_id), $arrayPostValue);
             $objResponse->update_success = 1;
+            $this->setDisplay();
+            //$hotel_id = encode($hotel_id);
+            //HotelService::updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
+            return $this->successResponse('保存酒店成功');
         }
 
         $conditions = DbConfig::$db_query_conditions;

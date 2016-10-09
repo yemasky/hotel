@@ -41,5 +41,6 @@
 	$('#save_hotel_info').hide();
 	<%/if%>
 </script>
+<%include file="hotel/inc/modal_box.tpl"%>
 </body>
 </html>

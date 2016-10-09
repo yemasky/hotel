@@ -169,7 +169,29 @@ $(document).ready(function(){
 			return false;
 		}
 	});
-	
+	$('#save_hotel_attr_info').click(function() {
+		$('#hotel_service_setting a').tab('show');
+	});
+	var v_server = $('#hotel_service_form').validate({
+		submitHandler: function() {
+			var param = $("#hotel_form").serialize();
+			$.ajax({
+			   url : "<%$hotel_update_url%>",
+			   type : "post",
+			   dataType : "json",
+			   data: param,
+			   success : function(result) {
+			       if(result.success == 1) {
+					   $('#modal_success').modal('show');
+					   $('#modal_success_message').html(data.message);
+			       } else {
+					   $('#modal_fail').modal('show');
+					   $('#modal_fail_message').html(data.message);
+			       }
+			   }
+			 });
+		}
+	});
 });
 </script>
 <script language="javascript">
