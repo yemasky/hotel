@@ -96,7 +96,7 @@ class RoomsSettingAction extends \BaseAction {
             $this->setDisplay();
             //$hotel_id = encode($hotel_id);
             //HotelService::updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
-            return $this->successResponse('保存酒店成功');
+            return $this->successResponse('保存酒店成功', array('hotel_id'=>decode($hotel_id)));
 
         }
 
