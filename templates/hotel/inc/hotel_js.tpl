@@ -96,6 +96,7 @@ $(document).ready(function(){
 			},
 			hotel_name:{
 				required:true,
+				minlength:5,
 				maxlength:200
 			},
 			hotel_province:{
@@ -119,11 +120,11 @@ $(document).ready(function(){
 		},
 		messages: {
 			company_id:"请选择属于公司",
-			hotel_name:"请输入酒店名称",
+			hotel_name:"请输入正确的酒店名称",
 			hotel_province:"",
 			hotel_mobile:"请输入正确移动电话号码",
-			hotel_address:"请输入酒店地址",
-			hotel_booking_notes: "请输入预定须知"
+			hotel_address:"请输入正确的酒店地址",
+			hotel_booking_notes: "请输入正确的预定须知"
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -161,6 +162,26 @@ $(document).ready(function(){
 			return false;
 		}
 	});
+	$('#hotel_service_setting').click(function() {
+		if (v.form()) {
+			
+		} else {
+			return false;
+		}
+	});
 	
+});
+</script>
+<script language="javascript">
+$.datetimepicker.setLocale('en');
+$('#hotel_checkout').datetimepicker({
+	datepicker:false,
+	format:'H:i',
+	step:30
+});
+$('#hotel_checkin').datetimepicker({
+	datepicker:false,
+	format:'H:i',
+	step:30
 });
 </script>

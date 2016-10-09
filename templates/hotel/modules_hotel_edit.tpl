@@ -8,6 +8,8 @@
 <style type="text/css">
 #allmap {height: 300px;min-width:48.5%;overflow: hidden; margin-left:0px;}
 </style>
+<link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
+<script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>

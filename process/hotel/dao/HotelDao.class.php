@@ -32,7 +32,7 @@ class HotelDao extends \BaseDao {
                  .'hotel_longitude, '
                  .'hotel_latitude, hotel_country, hotel_province, hotel_city, hotel_town, hotel_introduce_short, hotel_introduce, hotel_booking_notes, '
 				 .'hotel_type, hotel_star, '
-                 .'hotel_brand, hotel_wifi, hotel_add_date';
+                 .'hotel_brand, hotel_wifi,hotel_checkout,hotel_checkin, hotel_add_date';
         return $this->setDsnRead($this->getDsnRead())->setTable('hotel')->getList($conditions, $fileid, $hashKey);//->DBCache($cacheId)
     }
 }

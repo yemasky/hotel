@@ -2,13 +2,12 @@
     <ul class="nav nav-tabs">
         <li class="active" id="hotel_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['hotel_setting']['page_laguage_value']%></a></li>
         <li id="hotel_attribute_setting"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['hotel_attribute_setting']['page_laguage_value']%></a></li>
+        <li id="hotel_service_setting"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['hotel_service_setting']['page_laguage_value']%></a></li>
     </ul>
 </div>
 <div class="widget-content tab-content nopadding">
 <%if $update_success==1%>
-<div class="alert alert-success alert-block">  
-  <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
-</div>
+<%include file="hotel/inc/success_alert.tpl"%>
 <%/if%>
     <div id="tab1" class="tab-pane active">
         <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_form" id="hotel_form" novalidate> 
@@ -122,9 +121,21 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label"><%$arrayLaguage['hotel_checkin']['page_laguage_value']%> :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_checkin" name="hotel_checkin" class="span1" placeholder="<%if $arrayDataInfo['hotel_checkin']==''%><%$arrayLaguage['hotel_checkin']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_checkin']%><%/if%>" value="<%$arrayDataInfo['hotel_checkin']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><%$arrayLaguage['hotel_checkout']['page_laguage_value']%> :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_checkout" name="hotel_checkout" class="span1" placeholder="<%if $arrayDataInfo['hotel_checkout']==''%><%$arrayLaguage['hotel_checkout']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_checkout']%><%/if%>" value="<%$arrayDataInfo['hotel_checkout']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_booking_notes']['page_laguage_value']%> :</label>
                 <div class="controls">
-                    <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span3" placeholder="<%if $arrayDataInfo['hotel_booking_notes']==''%><%$arrayLaguage['hotel_booking_notes']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_booking_notes']%><%/if%>" value="<%$arrayDataInfo['hotel_booking_notes']%>"  /> 
+                    <textarea class="span6" style="height:300px;" id="hotel_booking_notes" name="hotel_booking_notes" placeholder="<%if $arrayDataInfo['hotel_booking_notes']==''%><%$arrayLaguage['hotel_booking_notes']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_booking_notes']%><%/if%>" value="<%$arrayDataInfo['hotel_booking_notes']%>"  ><%$arrayDataInfo['hotel_booking_notes']%></textarea> 
                 </div>
             </div>
             <div class="control-group">
@@ -147,18 +158,40 @@
                 <div class="control-group">
                     <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
                     <div class="controls">
-                        <ul class="stat-boxes stat-boxes2">
-                        <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
-                          <li>
-                            <div class="left peity_bar_good"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%></div>
-                            <div class="right"> <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span3" placeholder="" value=""  /></div>
-                          </li>
-                        <%/section%>
-                        </ul>
+                    <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
+                    <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%> :</label>
+                    <div class="controls">
+                        <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span2" placeholder="" value=""  />
+                        <span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span>
+                    </div>
+                    <%/section%>
                     </div>
                 </div>
             <%/section%>
+            <div class="form-actions pagination-centered btn-icon-pg">
                 <button type="submit" id="save_hotel_attr_info" class="btn btn-success pagination-centered">Save</button>
+            </div>
+           </form>
+    </div>
+    <div id="tab3" class="tab-pane">
+       	  <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_attr_form" id="hotel_attr_form" novalidate> 
+       		<%section name=attr loop=$arrayAttribute%>
+                <div class="control-group">
+                    <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
+                    <div class="controls">
+                    <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
+                    <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%> :</label>
+                    <div class="controls">
+                        <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span2" placeholder="" value=""  />
+                        <span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span>
+                    </div>
+                    <%/section%>
+                    </div>
+                </div>
+            <%/section%>
+            <div class="form-actions pagination-centered btn-icon-pg">
+                <button type="submit" id="save_hotel_attr_info" class="btn btn-success pagination-centered">Save</button>
+            </div>
            </form>
     </div>
 </div>
