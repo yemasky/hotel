@@ -33,7 +33,22 @@ class RoomService extends \BaseService {
     }
 
     public static function getAttribute($hotel_id) {
-
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $hotel_id)));
+        $cache_id = ModulesConfig::$modulesHotelCacheKey['room_attribute'] . $hotel_id;
+        $conditions['order'] = 'room_layout_attribute_father_id ASC, room_layout_attribute_order ASC, room_layout_attribute_id ASC';
+        $arrayAttr =  RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute')->DBCache($cache_id)->getList($conditions);
+        $arrarResult = array();
+        foreach ($arrayAttr as $k => $v) {
+            if($v['room_layout_attribute_id'] == $v['room_layout_attribute_father_id']) {
+                $arrarResult[$v['room_layout_attribute_father_id']] = $v;
+                $arrarResult[$v['room_layout_attribute_father_id']]['childen'] = array();
+            } else {
+                $arrarResult[$v['room_layout_attribute_father_id']]['childen'][] = $v;
+            }
+        }
+        sort($arrarResult);
+        return $arrarResult;
     }
 
 }

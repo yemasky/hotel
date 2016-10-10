@@ -246,13 +246,13 @@ CREATE TABLE `hotel_attribute` (
   `hotel_attribute_father_id` int(11) NOT NULL COMMENT '父ID 2级总共',
   `hotel_attribute_name` varchar(200) NOT NULL COMMENT '属性名称',
   `hotel_attribute_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `hotel_attribute_type` enum('time','date','datetime','text') DEFAULT NULL,
+  `hotel_attribute_value_type` enum('time','date','datetime','text') DEFAULT NULL,
   PRIMARY KEY (`hotel_attribute_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `hotel_attribute` */
 
-insert  into `hotel_attribute`(`hotel_attribute_id`,`hotel_id`,`hotel_attribute_father_id`,`hotel_attribute_name`,`hotel_attribute_order`,`hotel_attribute_type`) values (1,0,1,'订前必读',0,NULL),(2,0,1,'儿童和加床',0,NULL),(3,0,1,'宠物',0,NULL),(4,0,4,'酒店设施',0,NULL),(5,0,4,'商务设施',0,NULL),(6,0,4,'活动设施',0,NULL),(7,0,7,'酒店周边',0,NULL),(8,0,7,'附近地标',0,NULL),(9,0,7,'附近交通',0,NULL);
+insert  into `hotel_attribute`(`hotel_attribute_id`,`hotel_id`,`hotel_attribute_father_id`,`hotel_attribute_name`,`hotel_attribute_order`,`hotel_attribute_value_type`) values (1,0,1,'订前必读',0,NULL),(2,0,1,'儿童和加床',0,NULL),(3,0,1,'宠物',0,NULL),(4,0,4,'酒店设施',0,NULL),(5,0,4,'商务设施',0,NULL),(6,0,4,'活动设施',0,NULL),(7,0,7,'酒店周边',0,NULL),(8,0,7,'附近地标',0,NULL),(9,0,7,'附近交通',0,NULL);
 
 /*Table structure for table `hotel_attribute_multi_laguage` */
 
@@ -330,7 +330,7 @@ CREATE TABLE `hotel_modules` (
 
 /*Data for the table `hotel_modules` */
 
-insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_navigation`,`hotel_modules_order`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'','index',0,'','1'),(1,2,2,'','frontOffice',0,'','1'),(1,3,3,'','roomsManagement',0,'','1'),(1,4,4,'','restaurant',0,'','1'),(1,5,5,'','entertainment',0,'','1'),(1,6,6,'','security',0,'','1'),(1,7,7,'','sales',0,'','1'),(1,8,8,'','administration',0,'','1'),(1,9,9,'','financial',0,'','1'),(1,10,8,'','administration',0,'','1'),(1,11,8,'','administration',0,'','1'),(1,12,12,'','engineering',0,'','1'),(1,13,13,'','purchase',0,'','1'),(1,14,14,'','hotelSetting',0,'','1'),(1,15,14,'','hotelSetting',0,'','1'),(1,16,14,'','hotelSetting',0,'','1'),(1,17,14,'','hotelSetting',0,'','1'),(1,18,14,'','hotelSetting',0,'','1'),(1,19,3,'','hotelSetting',0,'','1'),(1,20,14,'','hotelSetting',0,'','1'),(1,21,14,'','hotelSetting',0,'','1'),(1,22,14,'','hotelSetting',0,'','1'),(1,23,14,'','hotelSetting',0,'','1'),(1,24,14,'','hotelSetting',0,'','0'),(1,25,14,'','hotelSetting',0,'','0'),(1,26,14,'','hotelSetting',0,'','0'),(1,27,14,'','hotelSetting',0,'','0'),(1,28,14,'','hotelSetting',0,'','0'),(1,29,14,'','hotelSetting',0,'','0'),(1,30,14,'','hotelSetting',0,'','1'),(1,31,14,'','hotelSetting',0,'','1'),(1,32,14,'','hotelSetting',0,'','0'),(1,34,14,'','hotelSetting',0,'','0'),(1,35,14,'','hotelSetting',0,'','0'),(1,36,14,'','hotelSetting',0,'','0');
+insert  into `hotel_modules`(`hotel_id`,`modules_id`,`hotel_modules_father_id`,`hotel_modules_name`,`hotel_modules_navigation`,`hotel_modules_order`,`hotel_modules_ico`,`hotel_modules_show`) values (1,1,1,'','index',0,'','1'),(1,2,2,'','frontOffice',0,'','1'),(1,3,3,'','roomsManagement',0,'','1'),(1,4,4,'','restaurant',0,'','1'),(1,5,5,'','entertainment',0,'','1'),(1,6,6,'','security',0,'','1'),(1,7,7,'','sales',0,'','1'),(1,8,8,'','administration',0,'','1'),(1,9,9,'','financial',0,'','1'),(1,10,8,'','administration',0,'','1'),(1,11,8,'','administration',0,'','1'),(1,12,12,'','engineering',0,'','1'),(1,13,13,'','purchase',0,'','1'),(1,14,14,'','hotelSetting',0,'','1'),(1,15,14,'','hotelSetting',0,'','1'),(1,16,14,'','hotelSetting',0,'','1'),(1,17,14,'','hotelSetting',0,'','1'),(1,18,14,'','hotelSetting',0,'','1'),(1,19,3,'','roomsManagement',0,'','1'),(1,20,14,'','hotelSetting',0,'','1'),(1,21,14,'','hotelSetting',0,'','1'),(1,22,14,'','hotelSetting',0,'','1'),(1,23,14,'','hotelSetting',0,'','1'),(1,24,14,'','hotelSetting',0,'','0'),(1,25,14,'','hotelSetting',0,'','0'),(1,26,14,'','hotelSetting',0,'','0'),(1,27,14,'','hotelSetting',0,'','0'),(1,28,14,'','hotelSetting',0,'','0'),(1,29,14,'','hotelSetting',0,'','0'),(1,30,14,'','hotelSetting',0,'','1'),(1,31,14,'','hotelSetting',0,'','1'),(1,32,14,'','hotelSetting',0,'','0'),(1,33,3,'','roomsManagement',0,'','0'),(1,34,14,'','hotelSetting',0,'','0'),(1,35,14,'','hotelSetting',0,'','0'),(1,36,14,'','hotelSetting',0,'','0');
 
 /*Table structure for table `hotel_multi_laguage` */
 
@@ -381,19 +381,6 @@ CREATE TABLE `hotel_service_price` (
 
 /*Data for the table `hotel_service_price` */
 
-/*Table structure for table `hotels_attribute` */
-
-DROP TABLE IF EXISTS `hotels_attribute`;
-
-CREATE TABLE `hotels_attribute` (
-  `hotel_layout_id` int(11) NOT NULL,
-  `hotel_attribute_id` int(11) NOT NULL,
-  `hotel_id` int(11) NOT NULL,
-  PRIMARY KEY (`hotel_layout_id`,`hotel_attribute_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `hotels_attribute` */
-
 /*Table structure for table `locations` */
 
 DROP TABLE IF EXISTS `locations`;
@@ -429,11 +416,11 @@ CREATE TABLE `modules` (
   `modules_ico` varchar(50) NOT NULL COMMENT '图标',
   `modules_show` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否显示在菜单中',
   PRIMARY KEY (`modules_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 /*Data for the table `modules` */
 
-insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_describe`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'index','index','',NULL,'3','icon-home','1'),(2,2,'前厅',0,'frontOffice','frontOffice','',NULL,'3','icon-reception','1'),(3,3,'客房',0,'roomsManagement','roomsManagement','',NULL,'3','icon-rooms-management','1'),(4,4,'餐饮',0,'restaurant','restaurant','',NULL,'3','icon-restaurant','1'),(5,5,'娱乐',0,'entertainment','entertainment','',NULL,'3','icon-entertainment','1'),(6,6,'保安',0,'security','security','',NULL,'3','icon-security','1'),(7,7,'销售',0,'sales','sales','',NULL,'3','icon-sales','1'),(8,8,'行政',0,'administration','administration','',NULL,'3','icon-administration','1'),(9,9,'财务',0,'financial','financial','',NULL,'3','icon-financial','1'),(10,8,'后勤',0,'logistics','logistics','',NULL,'3','icon-home','1'),(11,8,'人事',0,'personnel','personnel','',NULL,'3','icon-personnel-management','1'),(12,12,'工程',0,'engineering','engineering','',NULL,'3','icon-magnet','1'),(13,13,'采购',0,'purchase','purchase','',NULL,'3','icon-inbox','1'),(14,14,'酒店信息管理',0,'hotelSetting','hotelSetting','',NULL,'3','icon-th','1'),(15,14,'公司信息设置',0,'company','company','',NULL,'3','','1'),(16,14,'酒店信息设置',0,'hotel','hotel','',NULL,'3','','1'),(18,14,'酒店房间信息设置',0,'roomsSetting','roomsSetting','',NULL,'3','','1'),(20,14,'会员基本设置',0,'memberSetting','memberSetting','',NULL,'3','','1'),(21,14,'设置价格种类',0,'priceCategory','priceCategory','',NULL,'3','','1'),(22,14,'设置酒店取消政策',0,'cancellationPolicy ','cancellationPolicy ','',NULL,'3','','1'),(23,14,'设置付款方式',0,'modeOfPayment','modeOfPayment','',NULL,'3','','1'),(24,14,'编辑公司信息',0,'company','company_edit','edit',NULL,'3','','0'),(25,14,'删除公司信息',0,'company','company_delete','delete',NULL,'3','','0'),(26,14,'编辑酒店信息',0,'hotel','hotel_edit','edit',NULL,'3','','0'),(27,14,'删除酒店信息',0,'hotel','hotel_delete','delete',NULL,'3','','0'),(28,14,'添加公司信息',0,'company','company_add','add',NULL,'3','','0'),(29,14,'添加酒店信息',0,'hotel','hotel_add','add',NULL,'3','','0'),(19,3,'客房属性设置',0,'roomsAttribute','roomsAttribute','',NULL,'3','','1'),(17,14,'酒店属性设置',0,'hotelAttribute','hotelAttribute','',NULL,'3','','1'),(30,14,'酒店部门管理',0,'department','department','',NULL,'3','','1'),(31,14,'酒店员工管理',0,'employee','employee','',NULL,'3','','1'),(32,14,'添加酒店房间信息',0,'roomsSetting','roomsSetting','add',NULL,'3','','0');
+insert  into `modules`(`modules_id`,`modules_father_id`,`modules_name`,`modules_order`,`modules_module`,`modules_describe`,`modules_action`,`modules_action_field`,`modules_action_permissions`,`modules_ico`,`modules_show`) values (1,1,'智能酒店管理',0,'index','index','',NULL,'3','icon-home','1'),(2,2,'前厅',0,'frontOffice','frontOffice','',NULL,'3','icon-reception','1'),(3,3,'客房',0,'roomsManagement','roomsManagement','',NULL,'3','icon-rooms-management','1'),(4,4,'餐饮',0,'restaurant','restaurant','',NULL,'3','icon-restaurant','1'),(5,5,'娱乐',0,'entertainment','entertainment','',NULL,'3','icon-entertainment','1'),(6,6,'保安',0,'security','security','',NULL,'3','icon-security','1'),(7,7,'销售',0,'sales','sales','',NULL,'3','icon-sales','1'),(8,8,'行政',0,'administration','administration','',NULL,'3','icon-administration','1'),(9,9,'财务',0,'financial','financial','',NULL,'3','icon-financial','1'),(10,8,'后勤',0,'logistics','logistics','',NULL,'3','icon-home','1'),(11,8,'人事',0,'personnel','personnel','',NULL,'3','icon-personnel-management','1'),(12,12,'工程',0,'engineering','engineering','',NULL,'3','icon-magnet','1'),(13,13,'采购',0,'purchase','purchase','',NULL,'3','icon-inbox','1'),(14,14,'酒店信息管理',0,'hotelSetting','hotelSetting','',NULL,'3','icon-th','1'),(15,14,'公司信息设置',0,'company','company','',NULL,'3','','1'),(16,14,'酒店信息设置',0,'hotel','hotel','',NULL,'3','','1'),(18,14,'酒店房间信息设置',0,'roomsSetting','roomsSetting','',NULL,'3','','1'),(20,14,'会员基本设置',0,'memberSetting','memberSetting','',NULL,'3','','1'),(21,14,'设置价格种类',0,'priceCategory','priceCategory','',NULL,'3','','1'),(22,14,'设置酒店取消政策',0,'cancellationPolicy ','cancellationPolicy ','',NULL,'3','','1'),(23,14,'设置付款方式',0,'modeOfPayment','modeOfPayment','',NULL,'3','','1'),(24,14,'编辑公司信息',0,'company','company_edit','edit',NULL,'3','','0'),(25,14,'删除公司信息',0,'company','company_delete','delete',NULL,'3','','0'),(26,14,'编辑酒店信息',0,'hotel','hotel_edit','edit',NULL,'3','','0'),(27,14,'删除酒店信息',0,'hotel','hotel_delete','delete',NULL,'3','','0'),(28,14,'添加公司信息',0,'company','company_add','add',NULL,'3','','0'),(29,14,'添加酒店信息',0,'hotel','hotel_add','add',NULL,'3','','0'),(19,3,'客房属性设置',0,'roomsAttribute','roomsAttribute','',NULL,'3','','1'),(17,14,'酒店属性设置',0,'hotelAttribute','hotelAttribute','',NULL,'3','','1'),(30,14,'酒店部门管理',0,'department','department','',NULL,'3','','1'),(31,14,'酒店员工管理',0,'employee','employee','',NULL,'3','','1'),(32,14,'添加酒店房间信息',0,'roomsSetting','roomsSetting','add',NULL,'3','','0'),(33,3,'添加酒店房间属性',0,'roomsAttribute','roomsAttribute','add',NULL,'0','','0'),(34,14,'编辑酒店房间信息',0,'roomsSetting','roomsSetting','edit',NULL,'0','','0'),(35,14,'删除酒店房间',0,'roomsSetting','roomsSetting','delete',NULL,'0','','0');
 
 /*Table structure for table `multi_laguage_page` */
 
@@ -441,7 +428,7 @@ DROP TABLE IF EXISTS `multi_laguage_page`;
 
 CREATE TABLE `multi_laguage_page` (
   `laguage` enum('简体中文','English') NOT NULL DEFAULT '简体中文' COMMENT '语言',
-  `page_module` enum('common','company','hotel','roomsSetting') NOT NULL COMMENT '页面模块，一个模块一个页面',
+  `page_module` enum('common','company','hotel','roomsSetting','roomsAttribute') NOT NULL COMMENT '页面模块，一个模块一个页面',
   `page_laguage_key` varchar(100) NOT NULL COMMENT '页面的多语言的key',
   `page_laguage_value` varchar(100) NOT NULL COMMENT '多语言的值',
   PRIMARY KEY (`laguage`,`page_module`,`page_laguage_key`),
@@ -450,7 +437,7 @@ CREATE TABLE `multi_laguage_page` (
 
 /*Data for the table `multi_laguage_page` */
 
-insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','add_attribute_value','增加属性值'),('简体中文','common','back','返回上一页'),('简体中文','common','back_list','返回列表'),('简体中文','common','brand','品牌'),('简体中文','common','cancel_edit','取消编辑'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','describe','描述'),('简体中文','common','edit','编辑'),('简体中文','common','excute_success','恭喜你，操作成功！'),('简体中文','common','excute_update_success','恭喜你，更新信息成功！'),('简体中文','common','have','有'),('简体中文','common','hotel','酒店'),('简体中文','common','hotel_checkin','入住时间'),('简体中文','common','hotel_checkout','退房时间'),('简体中文','common','hotel_star','酒店星级'),('简体中文','common','hotel_wifi','酒店wifi'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','not_have','无'),('简体中文','common','no_permission','您没有权限，请分配权限。'),('简体中文','common','please_select','请选择'),('简体中文','common','reminder','提示信息'),('简体中文','common','room_area','房间面积'),('简体中文','common','room_floor','楼层'),('简体中文','common','room_number','房间号'),('简体中文','common','search_map','查询地图位置'),('简体中文','common','store','仓库'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','hotel','belong_to_company','属于公司'),('简体中文','hotel','hotel_add','添加酒店'),('简体中文','hotel','hotel_address','酒店地址'),('简体中文','hotel','hotel_attribute_setting','属性信息'),('简体中文','hotel','hotel_attribute_setting_next','下一步,设置酒店属性信息'),('简体中文','hotel','hotel_booking_notes','预定须知'),('简体中文','hotel','hotel_email','酒店email'),('简体中文','hotel','hotel_fax','酒店传真'),('简体中文','hotel','hotel_information','酒店信息'),('简体中文','hotel','hotel_introduce','酒店介绍'),('简体中文','hotel','hotel_location','所在位置'),('简体中文','hotel','hotel_map','酒店地图'),('简体中文','hotel','hotel_mobile','酒店移动电话'),('简体中文','hotel','hotel_name','酒店名称'),('简体中文','hotel','hotel_phone','酒店联系电话'),('简体中文','hotel','hotel_service_setting','酒店服务'),('简体中文','hotel','hotel_setting','酒店基本信息'),('简体中文','hotel','hotel_type','酒店类型'),('简体中文','hotel','list_of_hotel','酒店列表'),('简体中文','roomsSetting','add_hotel_rooms','添加酒店房间信息'),('简体中文','roomsSetting','dining','厨房'),('简体中文','roomsSetting','list_of_rooms','酒店所有房间信息'),('简体中文','roomsSetting','office','办公室'),('简体中文','roomsSetting','restaurant','餐厅'),('简体中文','roomsSetting','room','客房'),('简体中文','roomsSetting','room_mansion','楼栋编号'),('简体中文','roomsSetting','room_name','名称'),('简体中文','roomsSetting','room_setting_type','类别'),('简体中文','roomsSetting','varia','杂物房');
+insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','add_attribute_value','增加属性值'),('简体中文','common','back','返回上一页'),('简体中文','common','back_list','返回列表'),('简体中文','common','brand','品牌'),('简体中文','common','cancel_edit','取消编辑'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','describe','描述'),('简体中文','common','edit','编辑'),('简体中文','common','excute_success','恭喜你，操作成功！'),('简体中文','common','excute_update_success','恭喜你，更新信息成功！'),('简体中文','common','have','有'),('简体中文','common','hotel','酒店'),('简体中文','common','hotel_checkin','入住时间'),('简体中文','common','hotel_checkout','退房时间'),('简体中文','common','hotel_star','酒店星级'),('简体中文','common','hotel_wifi','酒店wifi'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','not_have','无'),('简体中文','common','no_permission','您没有权限，请分配权限。'),('简体中文','common','please_select','请选择'),('简体中文','common','reminder','提示信息'),('简体中文','common','room_area','房间面积'),('简体中文','common','room_floor','楼层'),('简体中文','common','room_number','房间号'),('简体中文','common','search_map','查询地图位置'),('简体中文','common','store','仓库'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','hotel','belong_to_company','属于公司'),('简体中文','hotel','hotel_add','添加酒店'),('简体中文','hotel','hotel_address','酒店地址'),('简体中文','hotel','hotel_attribute_setting','属性信息'),('简体中文','hotel','hotel_attribute_setting_next','下一步,设置酒店属性信息'),('简体中文','hotel','hotel_booking_notes','预定须知'),('简体中文','hotel','hotel_email','酒店email'),('简体中文','hotel','hotel_fax','酒店传真'),('简体中文','hotel','hotel_information','酒店信息'),('简体中文','hotel','hotel_introduce','酒店介绍'),('简体中文','hotel','hotel_location','所在位置'),('简体中文','hotel','hotel_map','酒店地图'),('简体中文','hotel','hotel_mobile','酒店移动电话'),('简体中文','hotel','hotel_name','酒店名称'),('简体中文','hotel','hotel_phone','酒店联系电话'),('简体中文','hotel','hotel_service_setting','酒店服务'),('简体中文','hotel','hotel_setting','酒店基本信息'),('简体中文','hotel','hotel_type','酒店类型'),('简体中文','hotel','list_of_hotel','酒店列表'),('简体中文','roomsSetting','add_hotel_rooms','添加酒店房间信息'),('简体中文','roomsSetting','dining','厨房'),('简体中文','roomsSetting','list_of_rooms','酒店所有房间信息'),('简体中文','roomsSetting','office','办公室'),('简体中文','roomsSetting','restaurant','餐厅'),('简体中文','roomsSetting','room','客房'),('简体中文','roomsSetting','room_mansion','楼栋编号'),('简体中文','roomsSetting','room_name','名称'),('简体中文','roomsSetting','room_setting_type','类别'),('简体中文','roomsSetting','varia','杂物房'),('简体中文','roomsAttribute','add_attribute_setting','增加客房属性'),('简体中文','roomsAttribute','attribute_setting','客房属性设置');
 
 /*Table structure for table `operate_log` */
 
@@ -570,13 +557,31 @@ DROP TABLE IF EXISTS `room_layout_attribute`;
 
 CREATE TABLE `room_layout_attribute` (
   `room_layout_attribute_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '客房属性',
-  `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `hotel_id` int(11) NOT NULL DEFAULT '0' COMMENT '酒店ID',
   `room_layout_attribute_father_id` int(11) NOT NULL COMMENT '父类 2级总共',
   `room_layout_attribute_name` varchar(100) NOT NULL COMMENT '客房属性名称',
+  `room_layout_attribute_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `room_layout_attribute_value_type` enum('time','date','datetime','text') DEFAULT NULL,
   PRIMARY KEY (`room_layout_attribute_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_attribute` */
+
+insert  into `room_layout_attribute`(`room_layout_attribute_id`,`hotel_id`,`room_layout_attribute_father_id`,`room_layout_attribute_name`,`room_layout_attribute_order`,`room_layout_attribute_value_type`) values (1,0,1,'客房设施',0,NULL),(2,0,1,'浴室',0,NULL),(3,0,1,'朝向',0,NULL),(4,0,1,'床型',0,NULL),(5,0,5,'婚房布置',0,NULL),(6,0,5,'提前预定',0,NULL),(7,0,7,'商务设施',0,NULL),(8,0,7,'网络/wifi',0,NULL),(9,0,9,'便利短租',0,NULL),(10,0,9,'提前预定',0,NULL),(11,0,9,'退房时限',0,NULL);
+
+/*Table structure for table `room_layout_attribute_multi_laguage` */
+
+DROP TABLE IF EXISTS `room_layout_attribute_multi_laguage`;
+
+CREATE TABLE `room_layout_attribute_multi_laguage` (
+  `room_layout_attribute_id` int(11) NOT NULL DEFAULT '0' COMMENT '客房属性',
+  `multi_laguage` enum('English') DEFAULT NULL,
+  `room_layout_attribute_name` varchar(100) NOT NULL COMMENT '客房属性名称'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `room_layout_attribute_multi_laguage` */
+
+insert  into `room_layout_attribute_multi_laguage`(`room_layout_attribute_id`,`multi_laguage`,`room_layout_attribute_name`) values (1,NULL,'客房设施'),(2,NULL,'浴室');
 
 /*Table structure for table `room_layout_attribute_value` */
 
@@ -591,6 +596,18 @@ CREATE TABLE `room_layout_attribute_value` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_attribute_value` */
+
+/*Table structure for table `room_layout_attribute_value_multi_laguage` */
+
+DROP TABLE IF EXISTS `room_layout_attribute_value_multi_laguage`;
+
+CREATE TABLE `room_layout_attribute_value_multi_laguage` (
+  `room_layout_attribute_value_id` int(11) NOT NULL DEFAULT '0',
+  `multi_laguage` enum('English') DEFAULT NULL,
+  `room_layout_attribute_value` varchar(200) NOT NULL COMMENT '属性值'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `room_layout_attribute_value_multi_laguage` */
 
 /*Table structure for table `room_layout_images` */
 

@@ -186,6 +186,7 @@
                         <span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span>
                     </div>
                     <%/section%>
+                    <label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span></label>
                     </div>
                 </div>
             <%/section%>

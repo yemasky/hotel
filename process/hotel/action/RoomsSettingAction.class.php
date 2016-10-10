@@ -13,7 +13,6 @@ class RoomsSettingAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $objResponse -> navigation = 'hotelSetting';
         $objResponse -> setTplValue('navigation', 'hotelSetting');
-        $objResponse -> add_room_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['add']), 'room_id'=>$objRequest->room_id));
         $objResponse -> back_lis_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['view'])));
     }
 
@@ -50,6 +49,7 @@ class RoomsSettingAction extends \BaseAction {
 
         //赋值
         $objResponse -> arrayDataInfo = $arrayRoomHash;
+        $objResponse -> add_room_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['add']), 'room_id'=>$objRequest->room_id));
         //设置类别
 
         //设置Meta(共通)
@@ -98,6 +98,7 @@ class RoomsSettingAction extends \BaseAction {
         $objResponse -> arrayDataInfo = $arrayRoom[0][0];
         $objResponse -> arayRoomType = ModulesConfig::$modulesRoomsSetting['room_type'];
         $objResponse->view = 0;
+        $objResponse -> add_room_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['edit']), 'room_id'=>$objRequest->room_id));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }

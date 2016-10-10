@@ -11,10 +11,9 @@ namespace hotel;
 
 class RoomsAttributeAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        $objResponse -> navigation = 'hotelSetting';
-        $objResponse -> setTplValue('navigation', 'hotelSetting');
-        $objResponse -> add_room_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['add']), 'room_id'=>$objRequest->room_id));
-        $objResponse -> back_lis_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['view'])));
+        $objResponse -> navigation = 'roomsManagement';
+        $objResponse -> setTplValue('navigation', 'roomsManagement');
+        $objResponse -> add_room_attribute_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsAttribute['add']), 'room_id'=>$objRequest->room_id));
     }
 
     protected function service($objRequest, $objResponse) {
@@ -43,13 +42,10 @@ class RoomsAttributeAction extends \BaseAction {
             return;
         }
 
-        $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-        $conditions['order'] = 'room_type ASC, room_mansion ASC, room_floor ASC, room_number ASC, room_id ASC ';
-        $arrayRoomHash = RoomService::getRoom($conditions);
+        $arrayRoomAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id']);
 
         //赋值
-        $objResponse -> arrayDataInfo = $arrayRoomHash;
+        $objResponse -> arrayAttribute = $arrayRoomAttribute;
         //设置类别
 
         //设置Meta(共通)
