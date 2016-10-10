@@ -9,7 +9,7 @@
 namespace hotel;
 
 
-class RoomsSettingAction extends \BaseAction {
+class RoomsAttributeAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $objResponse -> navigation = 'hotelSetting';
         $objResponse -> setTplValue('navigation', 'hotelSetting');

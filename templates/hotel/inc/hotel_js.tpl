@@ -129,6 +129,7 @@ $(document).ready(function(){
 		errorClass: "help-inline",
 		errorElement: "span",
 		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('success');
 			$(element).parents('.control-group').addClass('error');
 		},
 		unhighlight: function(element, errorClass, validClass) {
@@ -180,8 +181,8 @@ $(document).ready(function(){
 			   type : "post",
 			   dataType : "json",
 			   data: param,
-			   success : function(result) {
-			       if(result.success == 1) {
+			   success : function(data) {
+			       if(data.success == 1) {
 					   $('#modal_success').modal('show');
 					   $('#modal_success_message').html(data.message);
 			       } else {

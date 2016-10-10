@@ -341,13 +341,13 @@ abstract class BaseAction{
 		$this->redirect_url['time'] = $time;
 	}
 
-    public function successResponse($message, $arrayReturnDate = null) {
-        $arrayResule = array('success'=>1,'message'=>$message, 'data'=>$arrayReturnDate);
+    public function successResponse($message, $arrayReturnDate = '', $redirect_url = '') {
+        $arrayResule = array('success'=>1,'message'=>$message, 'data'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
 
-    public function errorResponse($message, $arrayReturnDate = null) {
-        $arrayResule = array('success'=>0,'message'=>$message, 'data'=>$arrayReturnDate);
+    public function errorResponse($message, $arrayReturnDate = '', $redirect_url = '') {
+        $arrayResule = array('success'=>0,'message'=>$message, 'data'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
 	/**
@@ -667,7 +667,7 @@ class DBQuery{
 				$order = "ORDER BY {$this->table_key} DESC";
 		}
 		if(!empty($this->groupby)) {
-			$groupby = "GROUP BY" . $this->groupby;
+			$groupby = "GROUP BY {$this->groupby}";
 		}
 		$sql = "SELECT {$fields} FROM {$this->table_name} {$where} {$groupby} {$order} ";
 		if($this->limit_num != NULL)
