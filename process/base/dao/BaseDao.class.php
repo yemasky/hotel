@@ -60,6 +60,14 @@ abstract class BaseDao{
 
     }
 
+    public function getRow($conditions_where, $fields = NULL) {
+        if(empty($fields)) {
+            $fields = '*';
+        }
+        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->getRow($conditions_where, $fields);
+
+    }
+
     public function getCount($conditions, $fields = NULL) {
         if(empty($fields)) {
             $fields = 'COUNT('. $this->table_key .') count_num';

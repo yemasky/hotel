@@ -15,7 +15,8 @@ class BaseUrlUtil {
                 $url .= $vk . '=' . $vv;
             }
         }
-        return 'index.php?'.$url;
+        return $url;
+        //return 'index.php?'.$url;
     }
     public static function getHtmlUrl($name, $arrValue = NULL) {
         $htmlurl = '';

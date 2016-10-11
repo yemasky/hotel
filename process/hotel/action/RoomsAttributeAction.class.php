@@ -36,14 +36,17 @@ class RoomsAttributeAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $arrayRoomAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $room_type = $objRequest->room_type;
+        $room_type = empty($room_type) ? 'room' : $room_type;
+        $arrayRoomAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
 
         //赋值
         $objResponse -> arrayAttribute = $arrayRoomAttribute;
         $objResponse -> add_room_attribute_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add']), 'room_id'=>$objRequest->room_id));
+        $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         //设置类别
-
+        $objResponse -> room_type = $room_type;
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
@@ -56,7 +59,7 @@ class RoomsAttributeAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
-        
+
         $objResponse -> add_room_attribute_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit']), 'room_id'=>$objRequest->room_id));
         //设置Meta(共通)

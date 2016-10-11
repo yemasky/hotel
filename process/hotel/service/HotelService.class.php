@@ -33,7 +33,7 @@ class HotelService extends \BaseService {
     public static function getAttribute($hotel_id) {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $hotel_id)));
-        $cache_id = ModulesConfig::$modulesHotelCacheKey['hotel_attribute'] . $hotel_id;
+        $cache_id = ModulesConfig::$cacheKey['hotel']['hotel_attribute'] . $hotel_id;
         $conditions['order'] = 'hotel_attribute_father_id ASC, hotel_attribute_order ASC, hotel_attribute_id ASC';
         $arrayAttr =  HotelDao::instance('\hotel\HotelDao')->setTable('hotel_attribute')->DBCache($cache_id)->getList($conditions);
         $arrarResult = array();

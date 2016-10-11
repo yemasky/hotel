@@ -342,12 +342,12 @@ abstract class BaseAction{
 	}
 
     public function successResponse($message, $arrayReturnDate = '', $redirect_url = '') {
-        $arrayResule = array('success'=>1,'message'=>$message, 'data'=>$arrayReturnDate, 'redirect'=>$redirect_url);
+        $arrayResule = array('success'=>1,'message'=>$message, 'itemDate'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
 
     public function errorResponse($message, $arrayReturnDate = '', $redirect_url = '') {
-        $arrayResule = array('success'=>0,'message'=>$message, 'data'=>$arrayReturnDate, 'redirect'=>$redirect_url);
+        $arrayResule = array('success'=>0,'message'=>$message, 'itemDate'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
 	/**
@@ -444,6 +444,8 @@ abstract class BaseAction{
 	private function display($objResponse, $compiler = true){
 		if($this->isHeader == false) {
 			header("Content-type: text/html; charset=" . __CHARSET);
+            header("Server: IIS/16.0 (Win64) OpenSSL/1.0.2h ASP.NET/20.3.6");
+            header("X-Powered-By: ASP.NET/20.3.6");
 		}
 		$tplName = $objResponse->getTplName();
 		if(empty($tplName)) {

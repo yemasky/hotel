@@ -9,7 +9,6 @@
 namespace hotel;
 class RoomDao extends \BaseDao {
     protected $table = 'room';
-    protected $table_key = 'room_id';
 
     public function getDsnRead() {
         return DbConfig::dsnRead();

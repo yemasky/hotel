@@ -19,7 +19,7 @@
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                     <div class="buttons">
                         <a class="btn btn-primary btn-mini" href="<%$addCompanyUrl%>" id="add_company"><i class="am-icon-plus-square"></i>
-                        　<%$arrayLaguage['company_add']['page_laguage_value']%></a>
+                        &#12288;<%$arrayLaguage['company_add']['page_laguage_value']%></a>
                     </div>
                     <%/if%>
                 </div>

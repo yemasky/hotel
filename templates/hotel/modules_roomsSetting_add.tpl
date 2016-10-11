@@ -19,7 +19,7 @@
                     <h5><%$arrayLaguage['add_hotel_rooms']['page_laguage_value']%></h5>
                     <div class="buttons">
                     <a class="btn btn-primary btn-mini" href="<%$back_lis_url%>" id="back_list"><i class="am-icon-arrow-circle-left"></i> 
-                    　<%$arrayLaguage['back_list']['page_laguage_value']%></a>	
+                    &#12288;<%$arrayLaguage['back_list']['page_laguage_value']%></a>	
                     <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 1%>
 						<a class="btn btn-primary btn-mini" id="edit_info"><i class="icon-pencil"></i>
                         　<%$arrayLaguage['edit']['page_laguage_value']%></a>	
@@ -33,11 +33,11 @@
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['room_setting_type']['page_laguage_value']%> :</label>
                             <div class="controls ">
-                                <select id="room_type" name="room_type" style="width:120px;">
+                                <select id="room_type" name="room_type" class="span1">
                                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                    <%section name=type loop=$arayRoomType%>
-                                    <option value="<%$arayRoomType[type]%>"<%if $arayRoomType[type]==$arrayDataInfo['room_type']%> selected<%/if%>><%$arrayLaguage[$arayRoomType[type]]['page_laguage_value']%></option>
-                                    <%/section%>
+                                    <%foreach key=type_key item=item from=$arayRoomType%>
+                                    <option value="<%$type_key%>"<%if $type_key==$room_type%> selected<%/if%>><%$arrayLaguage[$type_key]['page_laguage_value']%></option>
+                                    <%/foreach%>
                                 </select>
                             </div>
                         </div>

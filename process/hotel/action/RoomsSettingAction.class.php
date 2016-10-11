@@ -45,7 +45,7 @@ class RoomsSettingAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-        $conditions['order'] = 'room_type ASC, room_mansion ASC, room_floor ASC, room_number ASC, room_id ASC ';
+        $conditions['order'] = 'room_type ASC, room_mansion ASC, room_floor ASC, room_number ASC, room_name ASC, room_id ASC ';
         $arrayRoomHash = RoomService::getRoom($conditions);
 
         //赋值
@@ -65,6 +65,10 @@ class RoomsSettingAction extends \BaseAction {
     }
 
     protected function doAdd($objRequest, $objResponse) {
+        $room_id = decode($objRequest -> room_id);
+        if(!empty($room_id)) {
+            throw new \Exception('系统异常！');
+        }
         $this->doEdit($objRequest, $objResponse);
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));

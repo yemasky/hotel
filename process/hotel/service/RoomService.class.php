@@ -33,9 +33,9 @@ class RoomService extends \BaseService {
         return RoomDao::instance('\hotel\RoomDao')->setTable('room')->delete($where);
     }
 
-    public static function getAttribute($hotel_id) {
+    public static function getAttribute($hotel_id, $room_type = 'room') {
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $hotel_id)));
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $hotel_id)), 'room_type'=>$room_type);
         $cache_id = ModulesConfig::$cacheKey['hotel']['room_attribute'] . $hotel_id;
         $conditions['order'] = 'room_layout_attribute_father_id ASC, room_layout_attribute_order ASC, room_layout_attribute_id ASC';
         $arrayAttr =  RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute')->DBCache($cache_id)->getList($conditions);
@@ -51,5 +51,22 @@ class RoomService extends \BaseService {
         sort($arrarResult);
         return $arrarResult;
     }
+
+    public static function getRoomLayout($conditions, $hashKey = null) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout')->getList($conditions, $hashKey);
+    }
+
+    public static function saveRoomLayout($arrayData) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout')->insert($arrayData);
+    }
+
+    public static function updateRoomLayout($where, $row) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout')->update($where, $row);
+    }
+
+    public static function deleteRoomLayout($where) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout')->delete($where);
+    }
+
 
 }
