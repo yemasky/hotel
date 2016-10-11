@@ -718,7 +718,9 @@ class DBQuery{
 			$cols .= '`' . $key . '`,';
 			if($value == 'NULL') {
 				$vals .= "NULL" . ',';
-			} else {
+			} elseif(is_bool($value)) {
+                $vals .= $value . ',';
+            } else {
 				$vals .= "'{$value}',";
 			}
 		}
@@ -746,7 +748,8 @@ class DBQuery{
 	 *        	conditions 数组形式，查找条件，此参数的格式用法与getOne/getList的查找条件参数是相同的。
 	 */
 	public function delete($conditions_where){
-        $where = $this->where($conditions_where);
+        $this->where($conditions_where);
+        $where = $this->whereCondition;
 		$sql = "DELETE FROM {$this->table_name} {$where}";
 		return $this->conn->execute($sql);
 		;
@@ -817,9 +820,39 @@ class DBQuery{
 		return $this->conn->execute($sql);
 	}
     public function batchUpdate() {
-
     }
-    public function batchInsert() {
+
+    public function batchInsert($arrayValues, $insert_type = 'INSERT') {
+        //批量插入 insert into(key) values(val),(val) ......
+        if(!is_array($arrayValues))
+            return FALSE;
+        if(empty($arrayValues))
+            return FALSE;
+        $cols = $vals = $field = '';
+
+        foreach($arrayValues as $i => $arrayValue) {
+            $vals .= '(';
+            foreach ($arrayValue as $key=>$value) {
+                if($field == '') $cols .= '`' . $key . '`,';
+                if($value == 'NULL') {
+                    $vals .= "NULL" . ',';
+                } elseif(is_bool($value)) {
+                    $vals .= $value . ',';
+                } else {
+                    $vals .= "'{$value}',";
+                }
+            }
+            $field = '1';
+            $vals = trim($vals, ',');
+            $vals .= '),';
+
+        }
+        $vals = trim($vals, ',');
+        $cols = trim($cols, ',');
+
+        $sql = $insert_type . " INTO {$this->table_name} ({$cols}) VALUES {$vals};";
+        $this->conn->execute($sql);
+        return $this;
 
     }
 	public function explodeDsn($dsn){

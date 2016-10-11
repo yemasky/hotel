@@ -65,7 +65,7 @@
                         	<%section name=attr_childen loop=$arrayAttribute[attr].childen%>
                         	 <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_name%> :</label>
                              <div class="controls">
-                             	<input type="text" class="span1" value="">
+                             	<input type="text" name="<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>[]" class="span2" value="">
                              	<a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
                              </div>
                         	<%/section%>
@@ -75,7 +75,7 @@
                     </div>
                 <%/section%>
                 <div class="form-actions pagination-centered btn-icon-pg">
-                    <button type="submit" id="save_info" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                    <button type="submit" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
                 </div>
               </form>
            </div>
@@ -93,7 +93,8 @@
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
-var room_layout_id = '';
+var room_layout_id = '<%$room_layout_id%>';
+var url = '<%$add_room_layout_url%>';
 $(document).ready(function(){
 	// Form Validation
     var v = $("#add_room_layout_form").validate({
@@ -127,17 +128,22 @@ $(document).ready(function(){
 		submitHandler: function() {
 			var param = $("#add_room_layout_form").serialize();
 			$.ajax({
-			   url : "<%$add_room_layout_url%>",
+			   url : url,
 			   type : "post",
 			   dataType : "json",
 			   data: param,
 			   success : function(data) {
 			       if(data.success == 1) {
+					   $('#modal_fail').modal('hide');
 					   $('#modal_success').modal('show');
 					   $('#modal_success_message').html(data.message);
 					   room_layout_id = data.itemDate.room_layout_id;
-					   $('#room_layout_attr a').tab('show');
+					   url = data.redirect;
+					   $('#modal_success').on('hidden.bs.modal', function () {
+							$('#room_layout_attr a').tab('show');
+					   })
 			       } else {
+					   $('#modal_success').modal('hide');
 					   $('#modal_fail').modal('show');
 					   $('#modal_fail_message').html(data.message);
 			       }
@@ -147,28 +153,48 @@ $(document).ready(function(){
 	});
 	$('#room_layout_attr').click(function() {
 		if (v.form()) {
-			
+			if(room_layout_id == '') return false;
 		} else {
 			return false;
 		}
 	});
 	$('#room_layout_images').click(function() {
 		if (v.form()) {
-			
+			if(room_layout_id == '') return false;
 		} else {
 			return false;
 		}
 	});
 	$('#room_layout_price_setting').click(function() {
 		if (v.form()) {
-			
+			if(room_layout_id == '') return false;
 		} else {
 			return false;
 		}
 	});
 	var v_server = $('#add_room_layout_attr_form').validate({
 		submitHandler: function() {
-			
+			var param = $("#add_room_layout_attr_form").serialize();
+			$.ajax({
+			   url : '<%$add_room_layout_attr_url%>&room_layout_id=' + room_layout_id,
+			   type : "post",
+			   dataType : "json",
+			   data: param,
+			   success : function(data) {
+			       if(data.success == 1) {
+					   $('#modal_fail').modal('hide');
+					   $('#modal_success').modal('show');
+					   $('#modal_success_message').html(data.message)
+					   $('#modal_success').on('hidden.bs.modal', function () {
+							$('#room_layout_images a').tab('show');
+					   })
+			       } else {
+					   $('#modal_success').modal('hide');
+					   $('#modal_fail').modal('show');
+					   $('#modal_fail_message').html(data.message);
+			       }
+			   }
+			 });
 		}
 	});
 });

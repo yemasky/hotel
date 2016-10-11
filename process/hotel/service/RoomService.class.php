@@ -68,5 +68,25 @@ class RoomService extends \BaseService {
         return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout')->delete($where);
     }
 
+    public static function getRoomLayoutAttrValue($conditions, $hashKey = null) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute_value')->getList($conditions, $hashKey);
+    }
+
+    public static function saveRoomLayoutAttrValue($arrayData) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute_value')->insert($arrayData);
+    }
+
+    public static function batchSaveRoomLayoutAttrValue($arrayData) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute_value')->batchInsert($arrayData);
+    }
+
+    public static function updateRoomLayoutAttrValue($where, $row) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute_value')->update($where, $row);
+    }
+
+    public static function deleteRoomLayoutAttrValue($where) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute_value')->delete($where);
+    }
+
 
 }

@@ -88,4 +88,8 @@ abstract class BaseDao{
     public function delete($where) {
         return DBQuery::instance($this->getDsnWrite())->setTable($this->table)->delete($where);
     }
+
+    public function batchInsert($arrayValues, $insert_type = 'INSERT') {
+        return DBQuery::instance($this->getDsnWrite())->setTable($this->table)->batchInsert($arrayValues, $insert_type);
+    }
 }
