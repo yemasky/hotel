@@ -58,14 +58,17 @@ class HotelAction extends \BaseAction {
             $arrayHotel = HotelService::getHotel($conditions);
             foreach ($arrayHotel as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
-                $arrayHotel[$k]['view_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
-                $arrayHotel[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
-                $arrayHotel[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['delete']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
+                $arrayHotel[$k]['view_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
+                $arrayHotel[$k]['edit_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['edit']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));
+                $arrayHotel[$k]['delete_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['delete']), 'hotel_id'=>encode($arrayHotel[$k]['hotel_id'])));;
             }
         }
 
         //赋值
-        $objResponse -> setTplValue("addHotelUrl", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['add']))));
+        $objResponse -> setTplValue("addHotelUrl", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['add']))));
         $objResponse -> setTplValue("arrayHotel", $arrayHotel);
         $objResponse -> setTplValue("page", $arrayPageHotelId['page']);
         $objResponse -> setTplValue("pn", $pn);
@@ -102,7 +105,7 @@ class HotelAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>0);
-        $arrayHotel = HotelService::instance('\hotel\HotelService')->DBcache(ModulesConfig::$modulesHotelCacheKey['hotel_default_id'])->getHotel($conditions);
+        $arrayHotel = HotelService::instance('\hotel\HotelService')->DBcache(ModulesConfig::$cacheKey['hotel']['hotel_default_id'])->getHotel($conditions);
 
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $arrayEmployeeCompany = EmployeeService::getEmployeeCompany($conditions);
@@ -121,7 +124,7 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("arrayAttribute", HotelService::getAttribute($hotel_id));
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
-        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['add']))));
+        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['add']))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl
@@ -171,7 +174,7 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("location_province", $arrayHotel[0]['hotel_province']);
         $objResponse -> setTplValue("location_city", $arrayHotel[0]['hotel_city']);
         $objResponse -> setTplValue("location_town", $arrayHotel[0]['hotel_town']);
-        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesHotel['edit']), 'hotel_id'=>encode($hotel_id))));
+        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['edit']), 'hotel_id'=>encode($hotel_id))));
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
 
         //设置Meta(共通)

@@ -59,15 +59,18 @@ class CompanyAction extends \BaseAction {
             $arrayCompany = CompanyService::getCompany($conditions);
             foreach ($arrayCompany as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
-                $arrayCompany[$k]['view_url'] = \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
-                $arrayCompany[$k]['delete_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['view_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(decode($objRequest->module)), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['edit_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['edit']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
+                $arrayCompany[$k]['delete_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['delete']), 'company_id'=>encode($arrayCompany[$k]['company_id'])));
             }
         }
         //设置类别
         //赋值
         //$objResponse -> setTplValue("addCompanyPermission", $objResponse->arrayRoleModulesEmployeePermissions[ModulesConfig::$modulesCompany['add']]);
-        $objResponse -> setTplValue("addCompanyUrl", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
+        $objResponse -> setTplValue("addCompanyUrl", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['add']))));
         $objResponse -> setTplValue("arrayCompany", $arrayCompany);
         $objResponse -> setTplValue("page", $arrayPageCompanyId['page']);
         $objResponse -> setTplValue("pn", $pn);
@@ -110,7 +113,8 @@ class CompanyAction extends \BaseAction {
         $objResponse -> setTplValue("location_province", $arrayCompany[0]['company_province']);
         $objResponse -> setTplValue("location_city", $arrayCompany[0]['company_city']);
         $objResponse -> setTplValue("location_town", $arrayCompany[0]['company_town']);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['edit']), 'company_id'=>encode($company_id))));
+        $objResponse -> setTplValue("company_update_url",
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['edit']), 'company_id'=>encode($company_id))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
@@ -133,11 +137,11 @@ class CompanyAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>0);
-        $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache(ModulesConfig::$modulesCompanyCacheKey['company_default_id'])->getCompany($conditions);
+        $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache(ModulesConfig::$cacheKey['company']['company_default_id'])->getCompany($conditions);
         //赋值
         $objResponse->update_success = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
-        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesCompany['add']))));
+        $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['add']))));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl

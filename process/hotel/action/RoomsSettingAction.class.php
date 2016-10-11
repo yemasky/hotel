@@ -13,7 +13,8 @@ class RoomsSettingAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $objResponse -> navigation = 'hotelSetting';
         $objResponse -> setTplValue('navigation', 'hotelSetting');
-        $objResponse -> back_lis_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['view'])));
+        $objResponse -> back_lis_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['view'])));
     }
 
     protected function service($objRequest, $objResponse) {
@@ -49,7 +50,8 @@ class RoomsSettingAction extends \BaseAction {
 
         //赋值
         $objResponse -> arrayDataInfo = $arrayRoomHash;
-        $objResponse -> add_room_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['add']), 'room_id'=>$objRequest->room_id));
+        $objResponse -> add_room_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['add']), 'room_id'=>$objRequest->room_id));
         //设置类别
 
         //设置Meta(共通)
@@ -82,7 +84,8 @@ class RoomsSettingAction extends \BaseAction {
                 $arrayPostValue['room_add_time'] = getTime();
                 $room_id = RoomService::saveRoom($arrayPostValue);
             }
-            $redirect_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['view']), 'room_id'=>encode($room_id)));
+            $redirect_url =
+                \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['view']), 'room_id'=>encode($room_id)));
             $this->setDisplay();
             return $this->successResponse('保存酒店房间成功', '', $redirect_url);
         }
@@ -96,9 +99,10 @@ class RoomsSettingAction extends \BaseAction {
         $arrayRoom = RoomService::getRoom($conditions);
         sort($arrayRoom);
         $objResponse -> arrayDataInfo = $arrayRoom[0][0];
-        $objResponse -> arayRoomType = ModulesConfig::$modulesRoomsSetting['room_type'];
+        $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         $objResponse->view = 0;
-        $objResponse -> add_room_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesRoomsSetting['edit']), 'room_id'=>$objRequest->room_id));
+        $objResponse -> add_room_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['edit']), 'room_id'=>$objRequest->room_id));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
@@ -107,10 +111,11 @@ class RoomsSettingAction extends \BaseAction {
         $this->setDisplay();
         $room_id = decode($objRequest->room_id);
         if(empty($room_id)) {
-            return $this->errorResponse('操作失败，酒店ID不正确！');
+            logError('$room_id:' . $room_id . ',操作失败，参数不正确！');
+            return $this->errorResponse('操作失败，参数不正确！');
         }
-        RoomService::updateHotel(array('room_id'=>$room_id), array('room_status'=>'-1'));
-        return $this->successResponse('删除酒店成功');
+        RoomService::saveRoom(array('room_id'=>$room_id), array('room_status'=>'-1'));
+        return $this->successResponse('删除成功');
     }
 
 }

@@ -9,15 +9,18 @@
 namespace hotel;
 
 class ModulesConfig extends \ModulesConfig {
-	public static $modulesCompany = array('edit'=>24, 'delete'=>25, 'add'=>28);
-	public static $modulesHotel = array('edit'=>26, 'delete'=>27, 'add'=>29);
-    public static $modulesRoomsSetting = array('view'=>18,'edit'=>34, 'delete'=>35, 'add'=>32,
-        'room_type'=>array('room','office','store','varia','dining','restaurant'));
-    public static $modulesRoomsAttribute = array('edit'=>000, 'delete'=>000, 'add'=>33);
+	public static $modulesConfig = array(
+	    'company'        => array('edit'=>24, 'delete'=>25, 'add'=>28),
+	    'hotel'          => array('edit'=>26, 'delete'=>27, 'add'=>29),
+        'roomsSetting'   => array('edit'=>34, 'delete'=>35, 'add'=>32, 'view'=>18,
+                                  'room_type'=>array('room','office','store','varia','dining','restaurant')),
+        'roomsAttribute' => array('edit'=>000, 'delete'=>000, 'add'=>33)
+    );
 
-
-    public static $modulesCompanyCacheKey = array('company_default_id'=>'company_default_id_');
-	public static $modulesHotelCacheKey = array('hotel_default_id'=>'hotel_default_id_','hotel_attribute'=>'hotel_attribute_',
-                                                'room_attribute'=>'room_attribute_');
+    public static $cacheKey = array(
+        'company' => array('company_default_id'=>'company_default_id_'),
+	    'hotel'   => array('hotel_default_id'=>'hotel_default_id_','hotel_attribute'=>'hotel_attribute_',
+                           'room_attribute'=>'room_attribute_')
+    );
 
 }
