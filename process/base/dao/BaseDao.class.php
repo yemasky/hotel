@@ -57,7 +57,6 @@ abstract class BaseDao{
             $fields = '*';
         }
         return DBQuery::instance($this->getDsnRead())->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields, $hashKey);
-
     }
 
     public function getRow($conditions_where, $fields = NULL) {

@@ -41,19 +41,41 @@ class RoomsLayoutAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $room_type = $objRequest->room_type;
-        $room_type = empty($room_type) ? 'room' : $room_type;
-        $arrayRoomAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
+        if(decode($objRequest->room_layout_id) > 0) {
+            $this->view($objRequest, $objResponse);
+            return;
+        }
 
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['order'] = 'room_layout_valid DESC';
+        $arrayRoomLayout = RoomService::getRoomLayout($conditions);
+        if(!empty($arrayRoomLayout)) {
+            foreach ($arrayRoomLayout as $i => $v) {
+                $arrayRoomLayout[$i]['view_url'] =
+                    \BaseUrlUtil::Url(array('module'=>$objRequest->module, 'room_layout_id'=>encode($v['room_layout_id'])));
+                $arrayRoomLayout[$i]['edit_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
+                        'room_layout_id'=>encode($v['room_layout_id'])));
+                $arrayRoomLayout[$i]['delete_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['delete']),
+                        'room_layout_id'=>encode($v['room_layout_id'])));
+            }
+        }
         //赋值
-        $objResponse -> arrayAttribute = $arrayRoomAttribute;
+        $objResponse -> arrayDataInfo = $arrayRoomLayout;
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['add'])));
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         //设置类别
-        $objResponse -> room_type = $room_type;
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+    }
+
+    protected function view($objRequest, $objResponse) {
+        $this->doEdit($objRequest, $objResponse);
+        $objResponse->view = 1;
+        $objResponse->setTplName("hotel/modules_roomsLayout_add");
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -100,7 +122,8 @@ class RoomsLayoutAction extends \BaseAction {
                 $room_layout_id = RoomService::saveRoomLayout($arrayPostValue);
             }
             $redirect_url =
-                \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']), 'room_layout_id'=>encode($room_layout_id)));
+                \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
+                    'room_layout_id'=>encode($room_layout_id)));
             return $this->successResponse('保存售卖房型成功', array('room_layout_id'=>encode($room_layout_id)), $redirect_url);
         }
 
@@ -110,16 +133,32 @@ class RoomsLayoutAction extends \BaseAction {
             $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         }
         $arrayRoomLayout = RoomService::getRoomLayout($conditions);
+
+        //房型图片
+        $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $objResponse -> arrayDataImages = RoomService::getRoomLayoutImages($conditions);
         //赋值
+        $objResponse -> view = 0;
+        $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
         $objResponse -> room_layout_id = encode($room_layout_id);
         $objResponse -> arrayAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], 'room');
         $objResponse -> arrayDataInfo = $arrayRoomLayout[0];
         $objResponse -> add_room_layout_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']), 'room_layout_id'=>$objRequest->room_layout_id));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
+                'room_layout_id'=>$objRequest->room_layout_id));
         $objResponse -> add_room_layout_attr_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['saveAttrValue'])));
+        $objResponse -> upload_images_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
+                'upload_type'=>ModulesConfig::$modulesConfig['roomsLayout']['upload_type'],
+                'room_layout_id'=>encode($room_layout_id)));
+        $objResponse -> upload_manager_img_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
+                'upload_type'=>ModulesConfig::$modulesConfig['roomsLayout']['upload_type'],
+                'room_layout_id'=>encode($room_layout_id),'act'=>'manager_img'));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        $objResponse -> setTplName("hotel/modules_roomsLayout_add");
     }
 
     protected function doDelete($objRequest, $objResponse) {

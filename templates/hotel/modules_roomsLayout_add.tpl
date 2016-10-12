@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
+<%include file="hotel/inc/editor_upload_images.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
 <body>
@@ -16,7 +17,7 @@
              <span class="icon"><i class="icon-th"></i></span> 
             <h5><%$arrayLaguage['add_rooms_layout']['page_laguage_value']%></h5>
             <div class="buttons" id="btn_room_layout">
-                <a class="btn btn-primary btn-mini" href="<%$back_lis_url%>" id="add_room_layout"><i class="am-icon-plus-square"></i> 
+                <a class="btn btn-primary btn-mini" href="<%$back_lis_url%>" id="add_room_layout"><i class="am-icon-arrow-circle-left"></i> 
                 &#12288;<%$arrayLaguage['back_list']['page_laguage_value']%></a>
             </div>
           </div>
@@ -25,7 +26,7 @@
                 <li class="active" id="rooms_layout_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['rooms_layout_setting']['page_laguage_value']%></a></li>
                 <li id="room_layout_attr"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['room_layout_attr']['page_laguage_value']%></a></li>
                 <li id="room_layout_images"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
-                <li id="room_layout_price_setting"><a href="#tab3"><%$arrayLaguage['room_layout_price_setting']['page_laguage_value']%></a></li>
+                <!--<li id="room_layout_price_setting"><a href="#tab3"><%$arrayLaguage['room_layout_price_setting']['page_laguage_value']%></a></li>-->
             </ul>
         </div>
           <div class="widget-content tab-content nopadding">
@@ -49,10 +50,20 @@
                     <label class="control-label"><%$arrayLaguage['area']['page_laguage_value']%> :</label>
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['area']['page_laguage_value']%>" name="room_layout_area" id="room_layout_area" value="<%$arrayDataInfo['room_layout_area']%>" /> </div>
                 </div>
-                
+                <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['orientations']['page_laguage_value']%> :</label>
+                    <div class="controls">
+                    	<select name="room_layout_orientations" id="room_layout_orientations" class="span1">
+                        	<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                            <%section name=direction loop=$orientations%>
+                            	<option value="<%$orientations[direction]%>"<%if $orientations[direction]==$arrayDataInfo['room_layout_orientations']%> selected<%/if%>><%$arrayLaguage[$orientations[direction]]['page_laguage_value']%></option>
+                            <%/section%>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-actions pagination-centered btn-icon-pg">
             	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->
-                    <button type="submit" id="save_info" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                    <button type="submit" id="save_info" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
                 </div>
             </form>
            </div>
@@ -75,12 +86,35 @@
                     </div>
                 <%/section%>
                 <div class="form-actions pagination-centered btn-icon-pg">
-                    <button type="submit" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                    <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
                 </div>
               </form>
            </div>
            <div id="tab3" class="tab-pane">
-           		ddddddddddddd
+               <div class="widget-content">
+                <ul class="thumbnails">
+                	<%section name=images loop=$arrayDataImages%>
+                    <li class="span2">
+                        <a class="thumbnail lightbox_trigger" href="<%$__IMGWEB%><%$arrayDataImages[images].room_layout_images_path%>">
+                            <img id="room_layout_<%$arrayDataImages[images].room_layout_images_id%>" src="<%$__IMGWEB%><%$arrayDataImages[images].room_layout_images_path%>" alt="" >
+                        </a>
+                        <div class="actions">
+                            <a title="" href="#"><i class="icon-pencil icon-white"></i></a>
+                            <a title="" href="#"><i class="icon-remove icon-white"></i></a>
+                        </div>
+                    </li>
+                    <%/section%>
+                 </ul>
+                </div>
+           		<form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate> 
+                <div class="control-group">
+                	<label class="control-label"><%$arrayLaguage['upload_room_layout_images']['page_laguage_value']%> :</label>
+                    <div class="controls">
+           			<p><input type="text" id="upload_images_url" value="" /> <input type="button" id="upload_images" value="选择图片" /></p>
+                    </div>
+                </div>
+                </form>
+            </div>
            </div>
           </div>
         </div>   
@@ -108,12 +142,17 @@ $(document).ready(function(){
 				required:true
 			},
 			room_layout_area:{
+				required:true,
 				digits:true
+			},
+			room_layout_orientations:{
+				required:true
 			}
 		},
 		messages: {
 			room_layout_name:"请输入房型名称，2~50个字符",
-			room_layout_area:"必须是整数"
+			room_layout_area:"必须是整数",
+			room_layout_orientations:"请选择朝向"
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -198,6 +237,27 @@ $(document).ready(function(){
 		}
 	});
 });
+</script>
+<%if $view=='1'%>
+<script language="javascript">
+$("form input,textarea,select").prop("readonly", true);
+$('.save_info').hide();
+$('#upload_images').hide();
+</script>
+<%/if%>
+<script language="javascript">
+function uploadSuccess(url, id) {
+	if(id == '') {
+		url = url.replace('/data/images/', '');//<%$upload_images_url%>
+		
+	}
+	var html = '<li class="span2"><a class="thumbnail lightbox_trigger" href="'+url+'"><img id="room_layout_'+id+'" src="<%$__IMGWEB%>'+url+'" alt="" ></a>'
+              +'<div class="actions">'
+              +'<a title="" href="#"><i class="icon-pencil icon-white"></i></a>'
+              +'<a title="" href="#"><i class="icon-remove icon-white"></i></a>'
+              +'</div></li>';
+	$('.thumbnails').append(html);
+}
 </script>
 </body>
 </html>

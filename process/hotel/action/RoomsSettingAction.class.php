@@ -46,7 +46,15 @@ class RoomsSettingAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $conditions['order'] = 'room_type ASC, room_mansion ASC, room_floor ASC, room_number ASC, room_name ASC, room_id ASC ';
-        $arrayRoomHash = RoomService::getRoom($conditions);
+        $arrayRoom = RoomService::getRoom($conditions);
+        $arrayRoomHash = null;
+        if(!empty($arrayRoom)) {
+            foreach ($arrayRoom as $i => $v) {
+                $v['url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['view']), 'room_id'=>encode($v['room_id'])));
+                $arrayRoomHash[$v['room_type']][] = $v;
+            }
+        }
 
         //赋值
         $objResponse -> arrayDataInfo = $arrayRoomHash;
@@ -101,8 +109,7 @@ class RoomsSettingAction extends \BaseAction {
             $conditions['where'] = array('room_id'=>$room_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         }
         $arrayRoom = RoomService::getRoom($conditions);
-        sort($arrayRoom);
-        $objResponse -> arrayDataInfo = $arrayRoom[0][0];
+        $objResponse -> arrayDataInfo = $arrayRoom[0];
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         $objResponse->view = 0;
         $objResponse -> add_room_url =

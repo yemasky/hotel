@@ -9,14 +9,15 @@
 class BaseUrlUtil {
     public static function Url($arrayValues) {
         $url = '';
+        $mobule = '';
         foreach($arrayValues as $vk => $vv) {
             if(!empty($vv)) {
                 if(!empty($url)) $url .= '&';
                 $url .= $vk . '=' . $vv;
             }
         }
-        return $url;
-        //return 'index.php?'.$url;
+        //return $url;
+        return 'index.php?'.$url;
     }
     public static function getHtmlUrl($name, $arrValue = NULL) {
         $htmlurl = '';

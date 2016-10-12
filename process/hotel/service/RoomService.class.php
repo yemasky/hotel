@@ -9,16 +9,7 @@ namespace hotel;
 class RoomService extends \BaseService {
 
     public static function getRoom($conditions, $hashKey = null) {
-        $arrayRoom = RoomDao::instance('\hotel\RoomDao')->getRoom($conditions, $hashKey);
-        $arrayRoomHash = null;
-        if(!empty($arrayRoom)) {
-            foreach ($arrayRoom as $i => $v) {
-                $v['url'] =
-                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['view']), 'room_id'=>encode($v['room_id'])));
-                $arrayRoomHash[$v['room_type']][] = $v;
-            }
-        }
-        return $arrayRoomHash;
+        return RoomDao::instance('\hotel\RoomDao')->getRoom($conditions, $hashKey);
     }
 
     public static function saveRoom($arrayData) {
@@ -86,6 +77,18 @@ class RoomService extends \BaseService {
 
     public static function deleteRoomLayoutAttrValue($where) {
         return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_attribute_value')->delete($where);
+    }
+
+    public static function getRoomLayoutImages($conditions, $hashKey = null) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_images')->getList($conditions, $hashKey);
+    }
+
+    public static function saveRoomLayoutImages($arrayData) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_images')->insert($arrayData);
+    }
+
+    public static function deleteRoomLayoutImages($where) {
+        return RoomDao::instance('\hotel\RoomDao')->setTable('room_layout_images')->delete($where);
     }
 
 

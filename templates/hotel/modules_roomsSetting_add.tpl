@@ -118,7 +118,7 @@ $(document).ready(function(){
 			}
 		},
 		messages: {
-			room_type:"情现在房间类型",
+			room_type:"请选择房间类型",
 			room_number:"请输入房间号，只能包括英文字母、数字和-",
 			room_name:"请输入房间名称",
 			room_floor:"请输入房间楼层，只能包括英文字母、数字和-",

@@ -89,6 +89,10 @@ if(!defined("INC_FUNC_COMMON")) {
 		return date("H:i:s", strtotime("$d HOUR")); // GMT+8
 	}
 
+	function getDay($d = 0) {
+		return date("Y-m-d", strtotime("$d HOUR"));
+	}
+
 	function getHis(){
 		return date("His");
 	}
