@@ -601,7 +601,7 @@ CREATE TABLE `room_layout_attribute_value` (
 
 /*Data for the table `room_layout_attribute_value` */
 
-insert  into `room_layout_attribute_value`(`room_layout_id`,`room_layout_attribute_id`,`hotel_id`,`room_layout_attribute_value`) values (20,2,1,'123456一');
+insert  into `room_layout_attribute_value`(`room_layout_id`,`room_layout_attribute_id`,`hotel_id`,`room_layout_attribute_value`) values (1,2,1,'effeqrfe'),(20,2,1,'123456一');
 
 /*Table structure for table `room_layout_attribute_value_multi_laguage` */
 
@@ -630,11 +630,11 @@ CREATE TABLE `room_layout_images` (
   `room_layout_images_add_date` date NOT NULL,
   `room_layout_images_add_time` time NOT NULL,
   PRIMARY KEY (`room_layout_images_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_images` */
 
-insert  into `room_layout_images`(`room_layout_images_id`,`hotel_id`,`room_layout_id`,`room_layout_images_path`,`room_layout_images_is_main`,`room_layout_images_recommend`,`room_layout_images_filesize`,`room_layout_images_add_date`,`room_layout_images_add_time`) values (9,1,11,'2016/1012/20161012162859_72712.png','\0','0',93215,'2016-10-12','16:28:59'),(10,1,11,'2016/1012/20161012164422_43813.png','\0','0',93215,'2016-10-12','16:44:22'),(11,1,11,'2016/1012/20161012164458_27745.png','\0','0',93215,'2016-10-12','16:44:58'),(12,1,11,'2016/1012/20161012165234_42198.png','\0','0',93215,'2016-10-12','16:52:34'),(13,1,11,'2016/1012/20161012165312_96835.png','\0','0',93215,'2016-10-12','16:53:12'),(14,1,11,'2016/1012/20161012165557_49619.png','\0','0',93215,'2016-10-12','16:55:57'),(15,1,11,'2016/1012/20161012170406_84132.png','\0','0',93215,'2016-10-12','17:04:06'),(16,1,11,'2016/1012/20161012170948_17440.png','\0','0',93215,'2016-10-12','17:09:48'),(17,1,11,'2016/1012/20161012172513_51981.png','\0','0',93215,'2016-10-12','17:25:13');
+insert  into `room_layout_images`(`room_layout_images_id`,`hotel_id`,`room_layout_id`,`room_layout_images_path`,`room_layout_images_is_main`,`room_layout_images_recommend`,`room_layout_images_filesize`,`room_layout_images_add_date`,`room_layout_images_add_time`) values (9,1,11,'2016/1012/20161012162859_72712.png','\0','0',93215,'2016-10-12','16:28:59'),(10,1,11,'2016/1012/20161012164422_43813.png','\0','0',93215,'2016-10-12','16:44:22'),(11,1,11,'2016/1012/20161012164458_27745.png','\0','0',93215,'2016-10-12','16:44:58'),(12,1,11,'2016/1012/20161012165234_42198.png','\0','0',93215,'2016-10-12','16:52:34'),(13,1,11,'2016/1012/20161012165312_96835.png','\0','0',93215,'2016-10-12','16:53:12'),(14,1,11,'2016/1012/20161012165557_49619.png','\0','0',93215,'2016-10-12','16:55:57'),(15,1,11,'2016/1012/20161012170406_84132.png','\0','0',93215,'2016-10-12','17:04:06'),(16,1,11,'2016/1012/20161012170948_17440.png','\0','0',93215,'2016-10-12','17:09:48'),(17,1,11,'2016/1012/20161012172513_51981.png','\0','0',93215,'2016-10-12','17:25:13'),(18,1,1,'2016/1012/20161012165557_49619.png','\0','0',NULL,'2016-10-12','18:08:45'),(19,1,1,'2016/1012/20161012164422_43813.png','\0','0',NULL,'2016-10-12','18:09:07'),(20,1,1,'2016/1012/20161012164458_27745.png','\0','0',NULL,'2016-10-12','18:14:23'),(21,1,1,'2016/1012/20161012165234_42198.png','\0','0',NULL,'2016-10-12','18:18:52'),(22,1,1,'2016/1012/20161012165312_96835.png','\0','0',NULL,'2016-10-12','18:19:28'),(23,1,1,'2016/1012/20161012162859_72712.png','\0','0',NULL,'2016-10-12','18:21:31'),(24,1,1,'2016/1012/20161012170406_84132.png','\0','0',NULL,'2016-10-12','18:22:06'),(25,1,1,'2016/1012/20161012182340_18324.png','\0','0',77150,'2016-10-12','18:23:40');
 
 /*Table structure for table `room_layout_price` */
 

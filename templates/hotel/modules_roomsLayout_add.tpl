@@ -80,11 +80,18 @@
                              	<a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
                              </div>
                         	<%/section%>
-                        	<label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>
+                        	<!--<label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>-->
                             
                         </div>
                     </div>
                 <%/section%>
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>
+                        
+                    </div>
+                </div>
                 <div class="form-actions pagination-centered btn-icon-pg">
                     <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
                 </div>
@@ -246,12 +253,29 @@ $('#upload_images').hide();
 </script>
 <%/if%>
 <script language="javascript">
-function uploadSuccess(url, id) {
+function uploadSuccess(img_url, id) {
 	if(id == '') {
-		url = url.replace('/data/images/', '');//<%$upload_images_url%>
-		
+		img_url = img_url.replace('/data/images/', '');//<%$upload_images_url%>
+		$.getJSON(url + '&act=updateLayoutImages&room_layout_id=' 
+				  + room_layout_id + '&url=' + img_url, function(data){
+			if(data.success == 1) {
+			   id = data.itemDate.room_layout_images_id;
+			   addLayoutImages(img_url, id);
+			} else {
+			   $('#modal_success').modal('hide');
+			   $('#modal_fail').modal('show');
+			   $('#modal_fail_message').html(data.message);
+			}
+		});
+	} else {
+		addLayoutImages(img_url, id);
 	}
-	var html = '<li class="span2"><a class="thumbnail lightbox_trigger" href="'+url+'"><img id="room_layout_'+id+'" src="<%$__IMGWEB%>'+url+'" alt="" ></a>'
+
+}
+
+function addLayoutImages(img_url, id) {
+	var html = '<li class="span2"><a class="thumbnail lightbox_trigger" href="'+img_url
+	          +'"><img id="room_layout_'+id+'" src="<%$__IMGWEB%>'+img_url+'" alt="" ></a>'
               +'<div class="actions">'
               +'<a title="" href="#"><i class="icon-pencil icon-white"></i></a>'
               +'<a title="" href="#"><i class="icon-remove icon-white"></i></a>'

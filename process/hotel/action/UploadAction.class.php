@@ -37,14 +37,15 @@ class UploadAction extends \BaseAction {
     }
 
     protected function doUploadImages($objRequest, $objResponse) {
+        $this->setDisplay();
         if($objRequest -> act == 'manager_img') {
             $this->doManagerImages($objRequest, $objResponse);
             return;
         }
+
         $upload_type = $objRequest->upload_type;
         $room_layout_id = decode($objRequest->room_layout_id);
 
-        $this->setDisplay();
         //定义允许上传的文件扩展名
         $ext_arr = array(
             'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp')

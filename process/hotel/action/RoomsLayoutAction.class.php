@@ -93,6 +93,28 @@ class RoomsLayoutAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
+        if($objRequest -> act == 'updateLayoutImages') {
+            $url = $objRequest->url;
+            $room_layout_id = decode($objRequest->room_layout_id);
+            if(empty($room_layout_id)) return $this->errorResponse('错误的ID号，请检查');
+
+            $conditions = DbConfig::$db_query_conditions;
+            $this->setDisplay();
+            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                'room_layout_images_path'=>$url, 'room_layout_id'=>$room_layout_id);
+            $arrayLayoutImage = RoomService::getRoomLayoutImages($conditions);
+            if (!empty($arrayLayoutImage)) {
+                return $this->errorResponse('此房型已经添加此图片');
+            }
+            $room_layout_images_id = RoomService::saveRoomLayoutImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                'room_layout_images_path'=>$objRequest->url,
+                'room_layout_id'=>$room_layout_id,
+                'room_layout_images_filesize'=>0,
+                'room_layout_images_add_date'=>getDay(),
+                'room_layout_images_add_time'=>getTime()));
+            return $this->successResponse('', array('room_layout_images_id'=>$room_layout_images_id));
+        }
+
         $room_layout_id = decode($objRequest -> room_layout_id);
         $arrayPostValue= $objRequest->getPost();
 
