@@ -8,6 +8,15 @@
  */
 namespace hotel;
 class ModulesDao extends \BaseDao {
+    private static $objDao = null;
+
+    public static function instance() {
+        if(is_object(self::$objDao)) {
+            return self::$objDao;
+        }
+        self::$objDao = new ModulesDao();
+        return self::$objDao;
+    }
 
     public function getDsnRead() {
         // TODO: Implement getDsnRead() method.

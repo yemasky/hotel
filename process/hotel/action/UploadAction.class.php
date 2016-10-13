@@ -172,7 +172,7 @@ class UploadAction extends \BaseAction {
             $file_url = $save_url . $new_file_name;
             $id = '';
             if($upload_type == 'rooms_layout') {
-                $id = RoomService::saveRoomLayoutImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                $id = RoomService::instance()->saveRoomLayoutImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                     'room_layout_images_path'=>$relative_file,
                     'room_layout_id'=>$room_layout_id,
                     'room_layout_images_filesize'=>$file_size,
@@ -239,7 +239,7 @@ class UploadAction extends \BaseAction {
             } elseif (strpos($path, $room_layout) !== false) {
                 $conditions = DbConfig::$db_query_conditions;
                 $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-                $arrarImages = RoomService::getRoomLayoutImages($conditions);
+                $arrarImages = RoomService::instance()->getRoomLayoutImages($conditions);
                 if(!empty($arrarImages)) {
                     foreach ($arrarImages as $k => $v) {
                         $file_list[$k]['is_dir'] = false;

@@ -7,8 +7,17 @@
  */
 namespace hotel;
 class ModulesService extends \BaseService {
-    public static function getModules($module_id = null) {
-        $arrayModules = ModulesDao::instance('\hotel\ModulesDao')->getModules(\DbConfig::$db_query_conditions);
+    private static $objService = null;
+    public static function instance() {
+        if(is_object(self::$objService)) {
+            return self::$objService;
+        }
+        self::$objService = new ModulesService();
+        return self::$objService;
+    }
+
+    public function getModules($module_id = null) {
+        $arrayModules = ModulesDao::instance()->getModules(\DbConfig::$db_query_conditions);
         if(!empty($module_id)) {
             return $arrayModules[$module_id];
         }

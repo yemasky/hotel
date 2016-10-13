@@ -72,24 +72,24 @@ class IndexAction extends \BaseAction {
         $remember_me = $objRequest->remember_me;
         $method = $objRequest->method;
         if($method == 'logout') {
-            LoginService::logout();
+            LoginService::instance()->logout();
             redirect(__WEB);
         }
         $error_login = 0;
         if(!empty($arrayLoginInfo['username']) && !empty($arrayLoginInfo['employee_password'])) {
             $arrayEmployeeInfo = null;
             if(strpos($arrayLoginInfo['username'], '@') !== false) {
-                $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_email'=>$arrayLoginInfo['username']));
+                $arrayEmployeeInfo = LoginService::instance()->loginEmployee(array('employee_email'=>$arrayLoginInfo['username']));
             } elseif (strlen($arrayLoginInfo['username']) == 11 && is_numeric($arrayLoginInfo['username'])) {
-                $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_mobile'=>$arrayLoginInfo['username']));
+                $arrayEmployeeInfo = LoginService::instance()->loginEmployee(array('employee_mobile'=>$arrayLoginInfo['username']));
             } else {
-                $arrayEmployeeInfo = LoginService::loginEmployee(array('employee_name'=>$arrayLoginInfo['username']));
+                $arrayEmployeeInfo = LoginService::instance()->loginEmployee(array('employee_name'=>$arrayLoginInfo['username']));
             }
             if(!empty($arrayEmployeeInfo)) {
                 $lenght = count($arrayEmployeeInfo);
                 for($i = 0; $i < $lenght; $i++) {
                     if (md5(md5($arrayLoginInfo['employee_password']) . md5($arrayEmployeeInfo[$i]['employee_password_salt'])) == $arrayEmployeeInfo[$i]['employee_password']) {
-                        LoginService::setLoginEmployeeCookie($arrayEmployeeInfo[$i], $remember_me);
+                        LoginService::instance()->setLoginEmployeeCookie($arrayEmployeeInfo[$i], $remember_me);
                         redirect(__WEB);
                         break;
                     }

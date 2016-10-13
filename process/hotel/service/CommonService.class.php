@@ -7,11 +7,20 @@
  */
 namespace hotel;
 class CommonService extends \BaseService {
+    private static $objService = null;
+    public static function instance() {
+        if(is_object(self::$objService)) {
+            return self::$objService;
+        }
+        self::$objService = new CommonService();
+        return self::$objService;
+    }
+
     //取得登录用户权限模块
-    public static function getEmployeeModules($arrayLoginEmployeeInfo) {
-        $arrayRoleModulesEmployee = RoleService::getRoleModulesEmployee($arrayLoginEmployeeInfo['employee_id']);
-        $arrayHotelModules = HotelService::getHotelModules($arrayLoginEmployeeInfo['hotel_id']);
-        $arrayModules = ModulesService::getModules();
+    public function getEmployeeModules($arrayLoginEmployeeInfo) {
+        $arrayRoleModulesEmployee = RoleService::instance()->getRoleModulesEmployee($arrayLoginEmployeeInfo['employee_id']);
+        $arrayHotelModules = HotelService::instance()->getHotelModules($arrayLoginEmployeeInfo['hotel_id']);
+        $arrayModules = ModulesService::instance()->getModules();
 
         $arrayEmployeeModules = array();
         $i_length = count($arrayHotelModules);
@@ -29,13 +38,13 @@ class CommonService extends \BaseService {
     }
 
     //网站导航
-    public static function getNavigation($arrayLoginEmployeeInfo, $modules_id) {
+    public function getNavigation($arrayLoginEmployeeInfo, $modules_id) {
         $arrayNavigation = array();
         if(empty($modules_id) || empty($arrayLoginEmployeeInfo)) {
             return $arrayNavigation;
         }
-        $arrayHotelModules = HotelService::getHotelModules($arrayLoginEmployeeInfo['hotel_id'], 'modules_id');
-        $arrayModules = ModulesService::getModules();
+        $arrayHotelModules = HotelService::instance()->getHotelModules($arrayLoginEmployeeInfo['hotel_id'], 'modules_id');
+        $arrayModules = ModulesService::instance()->getModules();
         if(!isset($arrayHotelModules[$modules_id])) {
             return $arrayNavigation;
         }
@@ -59,10 +68,10 @@ class CommonService extends \BaseService {
         return $arrayNavigation;
     }
 
-    public static function getPageModuleLaguage($modules_module, $laguage = '简体中文') {
+    public function getPageModuleLaguage($modules_module, $laguage = '简体中文') {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('page_module'=>array($modules_module, 'common')), 'laguage'=>$laguage);
-        return LaguageDao::instance('\hotel\LaguageDao')->getPageModuleLaguage($conditions);
+        return LaguageDao::instance()->getPageModuleLaguage($conditions);
     }
 
 }

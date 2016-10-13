@@ -7,20 +7,29 @@
  */
 namespace hotel;
 class CompanyService extends \BaseService {
-    public static function getCompany($conditions, $hashKey = null) {
-        return CompanyDao::instance('\hotel\CompanyDao')->getCompany($conditions, $hashKey);
+    private static $objService = null;
+    public static function instance() {
+        if(is_object(self::$objService)) {
+            return self::$objService;
+        }
+        self::$objService = new CompanyService();
+        return self::$objService;
     }
 
-    public static function saveCompany($arrayData) {
-        return CompanyDao::instance('\hotel\CompanyDao')->insert($arrayData);
+    public function getCompany($conditions, $hashKey = null) {
+        return CompanyDao::instance()->getCompany($conditions, $hashKey);
     }
 
-    public static function updateCompany($where, $row) {
-        return CompanyDao::instance('\hotel\CompanyDao')->update($where, $row);
+    public function saveCompany($arrayData) {
+        return CompanyDao::instance()->insert($arrayData);
     }
 
-    public static function deleteCompany($where) {
-        return CompanyDao::instance('\hotel\CompanyDao')->delete($where);
+    public function updateCompany($where, $row) {
+        return CompanyDao::instance()->update($where, $row);
+    }
+
+    public function deleteCompany($where) {
+        return CompanyDao::instance()->delete($where);
     }
 
 }

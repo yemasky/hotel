@@ -46,7 +46,7 @@ class RoomsSettingAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $conditions['order'] = 'room_type ASC, room_mansion ASC, room_floor ASC, room_number ASC, room_name ASC, room_id ASC ';
-        $arrayRoom = RoomService::getRoom($conditions);
+        $arrayRoom = RoomService::instance()->getRoom($conditions);
         $arrayRoomHash = null;
         if(!empty($arrayRoom)) {
             foreach ($arrayRoom as $i => $v) {
@@ -89,12 +89,12 @@ class RoomsSettingAction extends \BaseAction {
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             if ($room_id > 0) {
-                RoomService::updateRoom(array('room_id' => $room_id), $arrayPostValue);
+                RoomService::instance()->updateRoom(array('room_id' => $room_id), $arrayPostValue);
             } else {
                 $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayPostValue['room_add_date'] = date("Y-m-d");
                 $arrayPostValue['room_add_time'] = getTime();
-                $room_id = RoomService::saveRoom($arrayPostValue);
+                $room_id = RoomService::instance()->saveRoom($arrayPostValue);
             }
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['view']), 'room_id'=>encode($room_id)));
@@ -108,7 +108,7 @@ class RoomsSettingAction extends \BaseAction {
         } else {
             $conditions['where'] = array('room_id'=>$room_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         }
-        $arrayRoom = RoomService::getRoom($conditions);
+        $arrayRoom = RoomService::instance()->getRoom($conditions);
         $objResponse -> arrayDataInfo = $arrayRoom[0];
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         $objResponse->view = 0;
@@ -125,7 +125,7 @@ class RoomsSettingAction extends \BaseAction {
             logError('$room_id:' . $room_id . ',操作失败，参数不正确！');
             return $this->errorResponse('操作失败，参数不正确！');
         }
-        RoomService::saveRoom(array('room_id'=>$room_id), array('room_status'=>'-1'));
+        RoomService::instance()->updateRoom(array('room_id'=>$room_id), array('room_status'=>'-1'));
         return $this->successResponse('删除成功');
     }
 

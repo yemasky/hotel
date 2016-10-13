@@ -10,6 +10,15 @@ namespace hotel;
 class CompanyDao extends \BaseDao {
     protected $table = 'company';
     protected $table_key = 'company_id';
+    private static $objDao = null;
+
+    public static function instance() {
+        if(is_object(self::$objDao)) {
+            return self::$objDao;
+        }
+        self::$objDao = new CompanyDao();
+        return self::$objDao;
+    }
 
     public function getDsnRead() {
         // TODO: Implement getDsnRead() method.

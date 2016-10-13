@@ -38,7 +38,7 @@ class RoomsAttributeAction extends \BaseAction {
     protected function doDefault($objRequest, $objResponse) {
         $room_type = $objRequest->room_type;
         $room_type = empty($room_type) ? 'room' : $room_type;
-        $arrayRoomAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
+        $arrayRoomAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
 
         //赋值
         $objResponse -> arrayAttribute = $arrayRoomAttribute;

@@ -49,7 +49,7 @@ class RoomsLayoutAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $conditions['order'] = 'room_layout_valid DESC';
-        $arrayRoomLayout = RoomService::getRoomLayout($conditions);
+        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
         if(!empty($arrayRoomLayout)) {
             foreach ($arrayRoomLayout as $i => $v) {
                 $arrayRoomLayout[$i]['view_url'] =
@@ -154,16 +154,26 @@ class RoomsLayoutAction extends \BaseAction {
         } else {
             $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         }
-        $arrayRoomLayout = RoomService::getRoomLayout($conditions);
+        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
 
         //房型图片
         $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-        $objResponse -> arrayDataImages = RoomService::getRoomLayoutImages($conditions);
+        $objResponse -> arrayDataImages = RoomService::instance()->getRoomLayoutImages($conditions);
+        //属性
+        $arrayAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], 'room');
+        $arrayAttributeValue = RoomService::instance()->getRoomLayoutAttrValue($conditions);
+        if(!empty($arrayAttribute)) {
+            if(!empty($arrayAttributeValue)) {
+                foreach ($arrayAttributeValue as $attr => $value) {
+
+                }
+            }
+        }
         //赋值
         $objResponse -> view = 0;
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
         $objResponse -> room_layout_id = encode($room_layout_id);
-        $objResponse -> arrayAttribute = RoomService::getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], 'room');
+        $objResponse -> arrayAttribute = $arrayAttribute;
         $objResponse -> arrayDataInfo = $arrayRoomLayout[0];
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
@@ -195,22 +205,25 @@ class RoomsLayoutAction extends \BaseAction {
         $arrayPostValue= $objRequest->getPost();
         if(!empty($arrayPostValue) && $room_layout_id > 0) {
             $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            RoomService::deleteRoomLayoutAttrValue(array('room_layout_id'=>$room_layout_id,
+            RoomService::instance()->deleteRoomLayoutAttrValue(array('room_layout_id'=>$room_layout_id,
                 'hotel_id'=>$hotel_id));
             $arrayInsertValue = array();
             $i = 0;
             foreach ($arrayPostValue as $key => $val) {
                 foreach ($val as $k => $v) {
                     if(empty($v)) continue;
+                    if(isset($arrarAttrHash[$room_layout_id][$v])) continue;//消除相同属性的属性值
                     $arrayInsertValue[$i]['hotel_id'] = $hotel_id;
                     $arrayInsertValue[$i]['room_layout_id'] = $room_layout_id;
                     $arrayInsertValue[$i]['room_layout_attribute_id'] = $key;
                     $arrayInsertValue[$i]['room_layout_attribute_value'] = $v;
+                    //消除相同属性的属性值
+                    $arrarAttrHash[$room_layout_id][$v] = 0;
                     $i++;
                 }
             }
             if(!empty($arrayInsertValue)) {
-                RoomService::batchSaveRoomLayoutAttrValue($arrayInsertValue);
+                RoomService::instance()->batchSaveRoomLayoutAttrValue($arrayInsertValue);
                 return $this->successResponse('保存售卖房型属性成功');
             }
         }

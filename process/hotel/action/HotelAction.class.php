@@ -46,7 +46,7 @@ class HotelAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $parameters['module'] = encode(decode($objRequest->module));
-        $arrayPageHotelId = EmployeeService::pageEmployeeHotel($conditions, $pn, $pn_rows, $parameters);
+        $arrayPageHotelId = EmployeeService::instance()->pageEmployeeHotel($conditions, $pn, $pn_rows, $parameters);
         $arrayHotel = null;
         if(!empty($arrayPageHotelId['list_data'])) {
             $stringHotelId = '';
@@ -55,7 +55,7 @@ class HotelAction extends \BaseAction {
             }
             $stringHotelId = trim($stringHotelId, ",'");
             $conditions['where'] = array('IN'=>array('hotel_id'=>$stringHotelId));
-            $arrayHotel = HotelService::getHotel($conditions);
+            $arrayHotel = HotelService::instance()->getHotel($conditions);
             foreach ($arrayHotel as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
                 $arrayHotel[$k]['view_url'] =
@@ -84,7 +84,7 @@ class HotelAction extends \BaseAction {
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $arrayPostValue['hotel_add_date'] = date("Y-m-d");
             $arrayPostValue['hotel_add_time'] = getTime();
-            $hotel_id = HotelService::saveHotel($arrayPostValue);
+            $hotel_id = HotelService::instance()->saveHotel($arrayPostValue);
             if($hotel_id > 0) {
                 //EmployeeService::saveEmployeeDepartment(array('company_id'=>$hotel_id, 'employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']));
                 //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
@@ -105,10 +105,10 @@ class HotelAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>0);
-        $arrayHotel = HotelService::instance('\hotel\HotelService')->DBcache(ModulesConfig::$cacheKey['hotel']['hotel_default_id'])->getHotel($conditions);
+        $arrayHotel = HotelService::instance()->DBcache(ModulesConfig::$cacheKey['hotel']['hotel_default_id'])->getHotel($conditions);
 
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
-        $arrayEmployeeCompany = EmployeeService::getEmployeeCompany($conditions);
+        $arrayEmployeeCompany = EmployeeService::instance()->getEmployeeCompany($conditions);
         $arrayCompany = null;
         if(!empty($arrayEmployeeCompany)) {
             $stringCompanyId = '';
@@ -117,11 +117,11 @@ class HotelAction extends \BaseAction {
             }
             $stringCompanyId = trim($stringCompanyId, ",'");
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
-            $arrayCompany = CompanyService::getCompany($conditions);
+            $arrayCompany = CompanyService::instance()->getCompany($conditions);
         }
         //赋值
         $objResponse -> update_success = 0;
-        $objResponse -> setTplValue("arrayAttribute", HotelService::getAttribute($hotel_id));
+        $objResponse -> setTplValue("arrayAttribute", HotelService::instance()->getAttribute($hotel_id));
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['add']))));
@@ -142,7 +142,7 @@ class HotelAction extends \BaseAction {
 
         $objResponse->update_success = 0;
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && $hotel_id > 0) {
-            HotelService::updateHotel(array('hotel_id'=>$hotel_id), $arrayPostValue);
+            HotelService::instance()->updateHotel(array('hotel_id'=>$hotel_id), $arrayPostValue);
             $objResponse->update_success = 1;
             $this->setDisplay();
             //$hotel_id = encode($hotel_id);
@@ -152,10 +152,10 @@ class HotelAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
-        $arrayHotel = HotelService::getHotel($conditions);
+        $arrayHotel = HotelService::instance()->getHotel($conditions);
 
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
-        $arrayEmployeeCompany = EmployeeService::getEmployeeCompany($conditions);
+        $arrayEmployeeCompany = EmployeeService::instance()->getEmployeeCompany($conditions);
         $arrayCompany = null;
 
         if(!empty($arrayEmployeeCompany)) {
@@ -165,11 +165,11 @@ class HotelAction extends \BaseAction {
             }
             $stringCompanyId = trim($stringCompanyId, ",'");
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
-            $arrayCompany = CompanyService::getCompany($conditions);
+            $arrayCompany = CompanyService::instance()->getCompany($conditions);
         }
         //赋值
         $objResponse->view = 0;
-        $objResponse -> setTplValue("arrayAttribute", HotelService::getAttribute($hotel_id));
+        $objResponse -> setTplValue("arrayAttribute", HotelService::instance()->getAttribute($hotel_id));
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("location_province", $arrayHotel[0]['hotel_province']);
         $objResponse -> setTplValue("location_city", $arrayHotel[0]['hotel_city']);
@@ -187,7 +187,7 @@ class HotelAction extends \BaseAction {
         if(empty($hotel_id)) {
             return $this->errorResponse('操作失败，酒店ID不正确！');
         }
-        HotelService::updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
+        HotelService::instance()->updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
         return $this->successResponse('删除酒店成功');
     }
 

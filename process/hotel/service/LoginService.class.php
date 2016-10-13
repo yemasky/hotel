@@ -8,14 +8,22 @@
 namespace hotel;
 class LoginService extends \BaseService {
     private static $loginKey = 'employee';
+    private static $objService = null;
+    public static function instance() {
+        if(is_object(self::$objService)) {
+            return self::$objService;
+        }
+        self::$objService = new LoginService();
+        return self::$objService;
+    }
 
-    public static function loginEmployee($arrayLoginInfo){
+    public function loginEmployee($arrayLoginInfo){
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = $arrayLoginInfo;
-        return EmployeeDao::instance('\hotel\EmployeeDao')->getEmployee($conditions);
+        return EmployeeDao::instance()->getEmployee($conditions);
     }
     
-    public static function getLoginEmployee($objCookie = NULL, $isSession = false) {
+    public function getLoginEmployee($objCookie = NULL, $isSession = false) {
         if(!is_object($objCookie) && $isSession == false){
             $objCookie = new \Cookie;
         }
@@ -42,20 +50,20 @@ class LoginService extends \BaseService {
         return NULL;
     }
 
-    public static function checkLoginEmployee($objCookie = NULL, $isSession = false) {
+    public function checkLoginEmployee($objCookie = NULL, $isSession = false) {
         if(!is_object($objCookie) && $isSession == false){
             $objCookie = new \Cookie();
         }
         if($isSession == false) {
-            $arrEmployeeInfo = self::getLoginEmployee($objCookie);
+            $arrEmployeeInfo = $this->getLoginEmployee($objCookie);
         } else {
-            $arrEmployeeInfo = self::getLoginEmployee(NULL, true);
+            $arrEmployeeInfo = $this->getLoginEmployee(NULL, true);
         }
         if(empty($arrEmployeeInfo)) redirect(__WEB . 'index.php?action=login');
         return $arrEmployeeInfo;
     }
 
-    public static function setLoginEmployeeCookie($arrayLoginEmployeeInfo, $remember_me = false) {
+    public function setLoginEmployeeCookie($arrayLoginEmployeeInfo, $remember_me = false) {
         $cookieUser = $arrayLoginEmployeeInfo['employee_id'] . "\t" . $arrayLoginEmployeeInfo['company_id'] . "\t" . $arrayLoginEmployeeInfo['hotel_id'] . "\t" . $arrayLoginEmployeeInfo['employee_name'];
         $objCookie = new \Cookie();
         $time = NULL;
@@ -67,7 +75,7 @@ class LoginService extends \BaseService {
         $objCookie->setCookie(self::$loginKey . $key, $cookieUser, $time);
     }
 
-    public static function logout() {
+    public function logout() {
         $objCookie = new \Cookie();
         $loginKey = self::$loginKey . 2592000;//一个月
         unset($objCookie->$loginKey);

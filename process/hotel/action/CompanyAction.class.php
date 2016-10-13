@@ -46,7 +46,7 @@ class CompanyAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $parameters['module'] = encode(decode($objRequest->module));
-        $arrayPageCompanyId = EmployeeService::pageEmployeeCompany($conditions, $pn, $pn_rows, $parameters);
+        $arrayPageCompanyId = EmployeeService::instance()->pageEmployeeCompany($conditions, $pn, $pn_rows, $parameters);
 
         $arrayCompany = null;
         if(!empty($arrayPageCompanyId['list_data'])) {
@@ -56,7 +56,7 @@ class CompanyAction extends \BaseAction {
             }
             $stringCompanyId = trim($stringCompanyId, ",'");
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
-            $arrayCompany = CompanyService::getCompany($conditions);
+            $arrayCompany = CompanyService::instance()->getCompany($conditions);
             foreach ($arrayCompany as $k => $v) {
                 //\BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
                 $arrayCompany[$k]['view_url'] =
@@ -90,7 +90,7 @@ class CompanyAction extends \BaseAction {
         if(empty($company_id)) {
             return $this->errorResponse('操作失败，公司ID不正确！');
         }
-        CompanyService::updateCompany(array('company_id'=>$company_id), array('company_is_delet'=>true));
+        CompanyService::instance()->updateCompany(array('company_id'=>$company_id), array('company_is_delet'=>true));
         return $this->successResponse('删除公司成功');
     }
 
@@ -100,13 +100,13 @@ class CompanyAction extends \BaseAction {
 
         $objResponse->update_success = 0;
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && $company_id > 0) {
-            CompanyService::updateCompany(array('company_id'=>$company_id), $arrayPostValue);
+            CompanyService::instance()->updateCompany(array('company_id'=>$company_id), $arrayPostValue);
             $objResponse->update_success = 1;
         }
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>$company_id);
-        $arrayCompany = CompanyService::getCompany($conditions);
+        $arrayCompany = CompanyService::instance()->getCompany($conditions);
         //赋值
         $objResponse->view = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
@@ -124,9 +124,9 @@ class CompanyAction extends \BaseAction {
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $arrayPostValue['company_add_date'] = date("Y-m-d");
             $arrayPostValue['company_add_time'] = getTime();
-            $company_id = CompanyService::saveCompany($arrayPostValue);
+            $company_id = CompanyService::instance()->saveCompany($arrayPostValue);
             if($company_id > 0) {
-                EmployeeService::saveEmployeeDepartment(array('company_id'=>$company_id, 'employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']));
+                EmployeeService::instance()->saveEmployeeDepartment(array('company_id'=>$company_id, 'employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']));
                 //CompanyService::updateCompany(array('company_id'=>$company_id), array(''));
             } else {
                 throw new \Exception('添加失败！');
@@ -137,7 +137,7 @@ class CompanyAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('company_id'=>0);
-        $arrayCompany = CompanyService::instance('\hotel\CompanyService')->DBcache(ModulesConfig::$cacheKey['company']['company_default_id'])->getCompany($conditions);
+        $arrayCompany = CompanyService::instance()->DBcache(ModulesConfig::$cacheKey['company']['company_default_id'])->getCompany($conditions);
         //赋值
         $objResponse->update_success = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);

@@ -12,9 +12,9 @@ namespace hotel;
 class Action extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
-            $objResponse->arrayLoginEmployeeInfo = LoginService::checkLoginEmployee();
-            $objResponse->arrayEmployeeModules = CommonService::getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
-            $arrayNavigation = CommonService::getNavigation($objResponse->arrayLoginEmployeeInfo, decode(trim($objRequest->module)));
+            $objResponse->arrayLoginEmployeeInfo = LoginService::instance()->checkLoginEmployee();
+            $objResponse->arrayEmployeeModules = CommonService::instance()->getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
+            $arrayNavigation = CommonService::instance()->getNavigation($objResponse->arrayLoginEmployeeInfo, decode(trim($objRequest->module)));
             //
             $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
             $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
@@ -32,7 +32,7 @@ class Action extends \BaseAction {
         if(!empty(decode($objRequest->company_id))) {//公司权限
             $conditions = \DbConfig::$db_query_conditions;
             $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
-            $arrayCompanyId = EmployeeService::getEmployeeCompany($conditions, 'company_id');
+            $arrayCompanyId = EmployeeService::instance()->getEmployeeCompany($conditions, 'company_id');
             $company_id = decode($objRequest->company_id);
             if(!isset($arrayCompanyId[$company_id])) {
                 $module_action_tpl = $action = 'noPermission';
@@ -41,12 +41,12 @@ class Action extends \BaseAction {
         }
 
         if(!empty($modules_id)) {
-            $arrayRoleModulesEmployeePermissions = RoleService::getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
+            $arrayRoleModulesEmployeePermissions = RoleService::instance()->getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
             if(!isset($arrayRoleModulesEmployeePermissions[$modules_id])) {
                 //无权限
                 $module_action_tpl = $action = 'noPermission';
             } else {
-                $arrayModules = ModulesService::getModules();
+                $arrayModules = ModulesService::instance()->getModules();
                 if(isset($arrayModules[$modules_id])) {
                     $arrayModule = $arrayModules[$modules_id];
                     $module = '\hotel\\' . ucwords($arrayModule['modules_module']) . 'Action';
@@ -64,7 +64,7 @@ class Action extends \BaseAction {
                 }
             }
         }
-        $arrayLaguage = CommonService::getPageModuleLaguage($modules_module);
+        $arrayLaguage = CommonService::instance()->getPageModuleLaguage($modules_module);
         $objResponse->setTplValue('arrayLaguage', $arrayLaguage);
         //$objResponse->setTplValue('action', $module_action);
         //$objResponse->setTplValue("hashKey", \Encrypt::instance()->decode(date("Y-m-d") . __WEB_KEY));
