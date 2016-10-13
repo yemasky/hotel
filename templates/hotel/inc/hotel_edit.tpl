@@ -2,7 +2,7 @@
     <ul class="nav nav-tabs">
         <li class="active" id="hotel_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['hotel_setting']['page_laguage_value']%></a></li>
         <li id="hotel_attribute_setting"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['hotel_attribute_setting']['page_laguage_value']%></a></li>
-        <li id="hotel_service_setting"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['hotel_service_setting']['page_laguage_value']%></a></li>
+        <li id="hotel_service_setting"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
     </ul>
 </div>
 <div class="widget-content tab-content nopadding">
@@ -174,25 +174,28 @@
            </form>
     </div>
     <div id="tab3" class="tab-pane">
-       	  <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_service_form" id="hotel_service_form" novalidate>
-       		<%section name=attr loop=$arrayAttribute%>
-                <div class="control-group">
-                    <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
-                    <div class="controls">
-                    <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
-                    <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%> :</label>
-                    <div class="controls">
-                        <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span2" placeholder="" value=""  />
-                        <span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span>
+        <div class="widget-content">
+            <ul class="thumbnails">
+                <%section name=images loop=$arrayDataImages%>
+                <li class="span2">
+                    <a class="thumbnail lightbox_trigger" href="<%$__IMGWEB%><%$arrayDataImages[images].room_layout_images_path%>">
+                        <img id="room_layout_<%$arrayDataImages[images].room_layout_images_id%>" src="<%$__IMGWEB%><%$arrayDataImages[images].room_layout_images_path%>" alt="" >
+                    </a>
+                    <div class="actions">
+                        <a title="" href="#"><i class="icon-pencil icon-white"></i></a>
+                        <a title="" href="#"><i class="icon-remove icon-white"></i></a>
                     </div>
-                    <%/section%>
-                    <label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span></label>
-                    </div>
+                </li>
+                <%/section%>
+            </ul>
+        </div>
+        <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
+            <div class="control-group">
+                <label class="control-label"><%$arrayLaguage['upload_room_layout_images']['page_laguage_value']%> :</label>
+                <div class="controls">
+                    <p><input type="text" id="upload_images_url" value="" /> <input type="button" id="upload_images" value="选择图片" /></p>
                 </div>
-            <%/section%>
-            <div class="form-actions pagination-centered btn-icon-pg">
-                <button type="submit" id="save_hotel_service_info" class="btn btn-success pagination-centered">Save</button>
             </div>
-           </form>
+        </form>
     </div>
 </div>

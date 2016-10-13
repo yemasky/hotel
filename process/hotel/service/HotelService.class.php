@@ -44,18 +44,44 @@ class HotelService extends \BaseService {
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $hotel_id)));
         $cache_id = ModulesConfig::$cacheKey['hotel']['hotel_attribute'] . $hotel_id;
         $conditions['order'] = 'hotel_attribute_father_id ASC, hotel_attribute_order ASC, hotel_attribute_id ASC';
-        $arrayAttr =  HotelDao::instance()->setTable('hotel_attribute')->DBCache($cache_id)->getList($conditions);
+        $arrayAttr =  HotelDao::instance()->setTable('hotel_attribute')->getList($conditions);//->DBCache($cache_id)
         $arrarResult = array();
         foreach ($arrayAttr as $k => $v) {
             if($v['hotel_attribute_id'] == $v['hotel_attribute_father_id']) {
                 $arrarResult[$v['hotel_attribute_father_id']] = $v;
+                $arrarResult[$v['hotel_attribute_father_id']]['hotel_attribute_id'] = encode($v['hotel_attribute_id']);
                 $arrarResult[$v['hotel_attribute_father_id']]['childen'] = array();
             } else {
+                $encodeV = $v;
+                $encodeV['hotel_attribute_id'] = encode($v['hotel_attribute_id']);
                 $arrarResult[$v['hotel_attribute_father_id']]['childen'][] = $v;
             }
         }
-        sort($arrarResult);
         return $arrarResult;
+    }
+
+    public function saveHotelAttr($arrayData) {
+        return RoomDao::instance()->setTable('hotel_attribute')->insert($arrayData);
+    }
+
+    public function updateHotelAttr($where, $row) {
+        return RoomDao::instance()->setTable('hotel_attribute')->update($where, $row);
+    }
+
+    public function deleteHotelAttr($where) {
+        return RoomDao::instance()->setTable('hotel_attribute')->delete($where);
+    }
+
+    public function getHotelImages($conditions, $hashKey = null) {
+        return RoomDao::instance()->setTable('hotel_images')->getList($conditions, '', $hashKey);
+    }
+
+    public function saveHotelImages($arrayData) {
+        return RoomDao::instance()->setTable('hotel_images')->insert($arrayData);
+    }
+
+    public function deleteHotelImages($where) {
+        return RoomDao::instance()->setTable('hotel_images')->delete($where);
     }
 
 }

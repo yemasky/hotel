@@ -13,6 +13,8 @@ class HotelAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $objResponse -> navigation = 'hotelSetting';
         $objResponse -> setTplValue('navigation', 'hotelSetting');
+        $objResponse -> back_lis_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['view'])));
     }
 
     protected function service($objRequest, $objResponse) {
@@ -119,9 +121,11 @@ class HotelAction extends \BaseAction {
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
             $arrayCompany = CompanyService::instance()->getCompany($conditions);
         }
+        $arrarHotelAttribute = HotelService::instance()->getAttribute($hotel_id);
+        sort($arrarHotelAttribute, SORT_NUMERIC);
         //赋值
         $objResponse -> update_success = 0;
-        $objResponse -> setTplValue("arrayAttribute", HotelService::instance()->getAttribute($hotel_id));
+        $objResponse -> setTplValue("arrayAttribute", $arrarHotelAttribute);
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['add']))));
@@ -167,14 +171,27 @@ class HotelAction extends \BaseAction {
             $conditions['where'] = array('IN'=>array('company_id'=>$stringCompanyId));
             $arrayCompany = CompanyService::instance()->getCompany($conditions);
         }
+
+        $arrarHotelAttribute = HotelService::instance()->getAttribute($hotel_id);
+        sort($arrarHotelAttribute, SORT_NUMERIC);
         //赋值
+        //图片
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $objResponse -> arrayDataImages = HotelService::instance()->getHotelImages($conditions);
         $objResponse->view = 0;
-        $objResponse -> setTplValue("arrayAttribute", HotelService::instance()->getAttribute($hotel_id));
+        $objResponse -> setTplValue("arrayAttribute", $arrarHotelAttribute);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("location_province", $arrayHotel[0]['hotel_province']);
         $objResponse -> setTplValue("location_city", $arrayHotel[0]['hotel_city']);
         $objResponse -> setTplValue("location_town", $arrayHotel[0]['hotel_town']);
-        $objResponse -> setTplValue("hotel_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['edit']), 'hotel_id'=>encode($hotel_id))));
+        $objResponse -> setTplValue("hotel_update_url", 
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['edit']), 'hotel_id'=>encode($hotel_id))));
+        $objResponse -> upload_images_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
+                'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type']));
+        $objResponse -> upload_manager_img_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
+                'upload_type'=>ModulesConfig::$modulesConfig['roomsLayout']['upload_type'],'act'=>'manager_img'));
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
 
         //设置Meta(共通)

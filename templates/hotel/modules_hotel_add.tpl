@@ -10,6 +10,7 @@
 </style>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
+<%include file="hotel/inc/editor_upload_images.tpl"%>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -23,7 +24,11 @@
                     <span class="icon">
                         <i class="icon-align-justify"></i>									
                     </span>
-                    <h5><%$arrayLaguage['hotel_information']['page_laguage_value']%></h5>                   
+                    <h5><%$arrayLaguage['hotel_information']['page_laguage_value']%></h5>
+                    <div class="buttons">
+                        <a class="btn btn-primary btn-mini" href="<%$back_lis_url%>" id="add_room_layout"><i class="am-icon-arrow-circle-left"></i>
+                            &#12288;<%$arrayLaguage['back_list']['page_laguage_value']%></a>
+                    </div>
                 </div>
                 <%include file="hotel/inc/hotel_edit.tpl"%>
             </div>						
