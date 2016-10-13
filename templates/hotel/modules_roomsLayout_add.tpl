@@ -76,8 +76,11 @@
                         	<%section name=attr_childen loop=$arrayAttribute[attr].childen%>
                         	 <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_name%> :</label>
                              <div class="controls">
-                             	<input type="text" name="<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>[]" class="span2" value="">
-                             	<a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
+                             	<%section name=attrValue loop=$arrayAttribute[attr].childen[attr_childen].values%>
+                             	<input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>][]" class="span2" 
+                                	value="<%$arrayAttribute[attr].childen[attr_childen].values[attrValue].room_layout_attribute_value%>">
+                                <%/section%>
+                                <input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>][]" class="span2" value=""> <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
                              </div>
                         	<%/section%>
                         	<!--<label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>-->
@@ -243,6 +246,10 @@ $(document).ready(function(){
 			 });
 		}
 	});
+	
+	$('.addAttr').click(function(e) {
+		$(this).before(" ").prev().clone().insertBefore(this).after(" ");
+    });
 });
 </script>
 <%if $view=='1'%>

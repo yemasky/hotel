@@ -47,12 +47,11 @@ class RoomService extends \BaseService {
                 $arrarResult[$v['room_layout_attribute_father_id']]['childen'][] = $v;
             }
         }
-        sort($arrarResult);
         return $arrarResult;
     }
 
     public function getRoomLayout($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout')->getList($conditions, $hashKey);
+        return RoomDao::instance()->setTable('room_layout')->getList($conditions, '', $hashKey);
     }
 
     public function saveRoomLayout($arrayData) {
@@ -67,8 +66,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout')->delete($where);
     }
 
-    public function getRoomLayoutAttrValue($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout_attribute_value')->getList($conditions, $hashKey);
+    public function getRoomLayoutAttrValue($conditions, $hashKey = null, $multiple = false) {
+        return RoomDao::instance()->setTable('room_layout_attribute_value')->getList($conditions, '', $hashKey, $multiple);
     }
 
     public function saveRoomLayoutAttrValue($arrayData) {
@@ -88,7 +87,7 @@ class RoomService extends \BaseService {
     }
 
     public function getRoomLayoutImages($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout_images')->getList($conditions, $hashKey);
+        return RoomDao::instance()->setTable('room_layout_images')->getList($conditions, '', $hashKey);
     }
 
     public function saveRoomLayoutImages($arrayData) {

@@ -109,9 +109,10 @@ class RoomsSettingAction extends \BaseAction {
             $conditions['where'] = array('room_id'=>$room_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         }
         $arrayRoom = RoomService::instance()->getRoom($conditions);
+        //
         $objResponse -> arrayDataInfo = $arrayRoom[0];
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
-        $objResponse->view = 0;
+        $objResponse -> view = 0;
         $objResponse -> add_room_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['edit']), 'room_id'=>$objRequest->room_id));
         //设置Meta(共通)

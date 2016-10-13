@@ -55,7 +55,7 @@ $(document).ready(function(){
 	$(".btn.btn-danger.btn-mini").click(function(){
 		delete_url = $(this).attr("url");
 	});
-	$('#myModal').on('hide.bs.modal', function() {
+	$('#modal_delete').on('hide.bs.modal', function() {
         window.location.reload();
     });
 })

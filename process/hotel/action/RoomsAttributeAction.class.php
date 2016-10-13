@@ -39,8 +39,8 @@ class RoomsAttributeAction extends \BaseAction {
         $room_type = $objRequest->room_type;
         $room_type = empty($room_type) ? 'room' : $room_type;
         $arrayRoomAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
-
         //赋值
+        sort($arrayRoomAttribute);
         $objResponse -> arrayAttribute = $arrayRoomAttribute;
         $objResponse -> add_room_attribute_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add']), 'room_id'=>$objRequest->room_id));
