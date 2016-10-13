@@ -91,7 +91,7 @@
                 <div class="control-group">
                     <label class="control-label"></label>
                     <div class="controls">
-                        <label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>
+                        <label class="control-label"><span><a href="<%$room_attribute_url%>" target="_blank" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>
                         
                     </div>
                 </div>

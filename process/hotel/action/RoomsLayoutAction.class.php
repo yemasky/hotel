@@ -177,7 +177,7 @@ class RoomsLayoutAction extends \BaseAction {
                 }
             }
         }
-        sort($arrayAttribute);
+        sort($arrayAttribute, SORT_NUMERIC);
         //赋值
         $objResponse -> view = 0;
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
@@ -197,6 +197,8 @@ class RoomsLayoutAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
                 'upload_type'=>ModulesConfig::$modulesConfig['roomsLayout']['upload_type'],
                 'room_layout_id'=>encode($room_layout_id),'act'=>'manager_img'));
+        $objResponse -> room_attribute_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['view'])));
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/modules_roomsLayout_add");

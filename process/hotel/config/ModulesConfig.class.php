@@ -15,7 +15,7 @@ class ModulesConfig extends \ModulesConfig {
                                   'upload_type'=>'hotel'),
         'roomsSetting'   => array('edit'=>34, 'delete'=>35, 'add'=>32, 'view'=>18,
                                   'room_type'=>array('room'=>1,'office'=>0,'store'=>0,'varia'=>0,'dining'=>0,'restaurant'=>1)),
-        'roomsAttribute' => array('edit'=>000,'delete'=>000,'add'=>33),
+        'roomsAttribute' => array('edit'=>000,'delete'=>43, 'add'=>33, 'view'=>19),
         'roomsLayout'    => array('edit'=>38, 'delete'=>39, 'add'=>37, 'view'=>36, 'saveAttrValue'=>41,
                                   'orientations'=>array('east','south','west','north','southeast','northeast','southwest','northwest'),
                                   'upload_type'=>'rooms_layout'),

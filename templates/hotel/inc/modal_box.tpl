@@ -8,6 +8,16 @@
   </div>
   <div class="modal-footer"> <a data-dismiss="modal" id="delete_sumbit" class="btn btn-primary" href="#sumbit">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
 </div>
+<div id="modal_update" class="modal hide">
+  <div class="modal-header">
+    <button data-dismiss="modal" class="close" type="button">×</button>
+    <h5><i class="am-icon-warning am-icon-md am-yellow-EBC012"></i> <%$arrayLaguage['warning']['page_laguage_value']%></h5>
+  </div>
+  <div class="modal-body">
+    <p class="alert alert-block" id="modal_delete_message"><%$arrayLaguage['warning_confirm_update']['page_laguage_value']%></p>
+  </div>
+  <div class="modal-footer"> <a data-dismiss="modal" id="update_sumbit" class="btn btn-primary" href="#sumbit">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
+</div>
 <div class="modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -51,6 +61,9 @@ $(document).ready(function(){
 				$('#modal_fail_message').html(data.message);
 			}
 		});
+	});
+	$("#update_sumbit").click(function(){
+		update_sumbit();
 	});
 	$(".btn.btn-danger.btn-mini").click(function(){
 		delete_url = $(this).attr("url");

@@ -36,7 +36,7 @@ $(document).ready(function(){
                     <%/if%>
                 </div>
                 <div class="widget-content tab-content nopadding">
-                <form class="form-horizontal" enctype="multipart/form-data" novalidate>
+                <form class="form-horizontal" enctype="multipart/form-data" name="modify_attr_classes" id="modify_attr_classes" novalidate>
                 <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['room_setting_type']['page_laguage_value']%> :</label>
                     <div class="controls ">
@@ -51,16 +51,23 @@ $(document).ready(function(){
                 </div>
                 <%section name=attr loop=$arrayAttribute%>
                     <div class="control-group">
-                        <label class="control-label"><%$arrayAttribute[attr].room_layout_attribute_name%> :</label>
+                        <label class="control-label">
+                        <%if $arrayAttribute[attr].hotel_id==0%><%$arrayAttribute[attr].room_layout_attribute_name%><%else%>
+                        <input type="text" class="span5" value="<%$arrayAttribute[attr].room_layout_attribute_name%>" name="<%$arrayAttribute[attr].room_layout_attribute_id%>" />
+                        <%/if%> :
+                        </label>
                         <div class="controls">
                         <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
-                            <input type="text" class="span1" placeholder="" value="<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_name%>"<%if $arrayAttribute[attr].childen[attr_childen].hotel_id==0%> readonly<%/if%> />
+                            <input type="text" class="span1" value="<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_name%>"<%if $arrayAttribute[attr].childen[attr_childen].hotel_id==0%> disabled<%else%> name="<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>"<%/if%> />
                         <%/section%>
                         </div>
                     </div>
                 <%/section%>
                 <div class="controls">
-                    <a href="#addLayoutAttr" class="btn btn-primary btn-mini" data-toggle="modal"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a>
+                    <a href="#addLayoutAttr" class="btn btn-primary btn-mini" data-toggle="modal"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a> 
+                    <%if $arrayRoleModulesEmployee['role_modules_action_permissions'] > 2%>
+                    <a href="#modal_update" class="btn btn-primary btn-mini" data-toggle="modal"><i class="icon-wrench"></i> <%$arrayLaguage['modify_customize_attr']['page_laguage_value']%></a>
+                    <%/if%>
                 </div>
                 <div class="form-actions pagination-centered btn-icon-pg"></div>
                </form>
@@ -87,7 +94,7 @@ $(document).ready(function(){
                     <div class="controls">
                         <select id="room_layout_attribute_id" name="room_layout_attribute_id" class="span2">
                             <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                            <option value="0"><%$arrayLaguage['add_attr_classes']['page_laguage_value']%></option>
+                            <!--<option value="0"><%$arrayLaguage['add_attr_classes']['page_laguage_value']%></option>-->
                             <%section name=attr loop=$arrayAttribute%>
                             <option value="<%$arrayAttribute[attr].room_layout_attribute_id%>"><%$arrayAttribute[attr].room_layout_attribute_name%></option>
                             <%/section%>
@@ -162,6 +169,30 @@ $(document).ready(function(){
 		}
 	});
 });//add_attr_classes
+
+function update_sumbit() {		
+	var param = $("#modify_attr_classes").serialize();
+	$.ajax({
+	   url : "<%$delete_room_attribute_url%>",
+	   type : "post",
+	   dataType : "json",
+	   data: param,
+	   success : function(data) {
+		   if(data.success == 1) {
+			   $('#addLayoutAttr').modal('hide');
+			   $('#modal_success').modal('show');
+			   $('#modal_success_message').html(data.message);
+			   $('#modal_success').on('hide.bs.modal', function () {
+					window.location.reload();
+			   });
+			   $('#room_layout_attribute_name').val('');
+		   } else {
+			   $('#modal_fail').modal('show');
+			   $('#modal_fail_message').html(data.message);
+		   }
+	   }
+	 });
+}
 </script>
 
 </body>

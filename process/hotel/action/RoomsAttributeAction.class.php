@@ -40,10 +40,13 @@ class RoomsAttributeAction extends \BaseAction {
         $room_type = empty($room_type) ? 'room' : $room_type;
         $arrayRoomAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
         //赋值
-        sort($arrayRoomAttribute);
+        sort($arrayRoomAttribute, SORT_NUMERIC);
+        //
         $objResponse -> arrayAttribute = $arrayRoomAttribute;
         $objResponse -> add_room_attribute_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add'])));
+        $objResponse -> delete_room_attribute_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['delete'])));
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         //设置类别
         $objResponse -> room_type = $room_type;
@@ -91,7 +94,20 @@ class RoomsAttributeAction extends \BaseAction {
 
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
-
+        $arrayPostValue= $objRequest->getPost();
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            $arrayUpdateData = array();
+            foreach($arrayPostValue as $attrId => $attrVal) {
+                if(!empty($attrVal) && decode($attrId) > 0) {
+                    RoomService::instance()->updateRoomLayoutAttr(array('room_layout_attribute_id'=>decode($attrId), 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']),
+                                                                  array('room_layout_attribute_name'=>$attrVal));
+                } else if(empty($attrVal) && decode($attrId) > 0) {
+                    RoomService::instance()->deleteRoomLayoutAttr(array('room_layout_attribute_id'=>decode($attrId), 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']));
+                }
+            }
+            return $this->successResponse('修改成功！');
+        }
+        return $this->errorResponse('修改失败，请检查！');
     }
 
 }
