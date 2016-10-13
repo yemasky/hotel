@@ -138,21 +138,21 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-			var param = $("#add_room_form").serialize();
+			var param = $("#add_attr_classes").serialize();
 			$.ajax({
-			   url : "<%$add_room_url%>",
+			   url : "<%$add_room_attribute_url%>",
 			   type : "post",
 			   dataType : "json",
 			   data: param,
 			   success : function(data) {
 			       if(data.success == 1) {
+					   $('#addLayoutAttr').modal('hide');
 					   $('#modal_success').modal('show');
 					   $('#modal_success_message').html(data.message);
-					   if(data.redirect != '') {
-							$('#modal_success').on('hide.bs.modal', function () {
-								window.location = data.redirect;
-							})
-					   }
+					   $('#modal_success').on('hide.bs.modal', function () {
+							window.location.reload();
+					   });
+					   $('#room_layout_attribute_name').val('');
 			       } else {
 					   $('#modal_fail').modal('show');
 					   $('#modal_fail_message').html(data.message);

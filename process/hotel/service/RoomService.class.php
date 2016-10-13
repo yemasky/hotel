@@ -40,14 +40,28 @@ class RoomService extends \BaseService {
         $arrayAttr =  RoomDao::instance()->setTable('room_layout_attribute')->getList($conditions);//DBCache($cache_id)->
         $arrarResult = array();
         foreach ($arrayAttr as $k => $v) {
-            if($v['room_layout_attribute_id'] == $v['room_layout_attribute_father_id']) {
+            if($v['room_layout_attribute_id'] == $v['room_layout_attribute_father_id'] || empty($v['room_layout_attribute_father_id'])) {
+                $v['room_layout_attribute_id'] = encode($v['room_layout_attribute_id']);
                 $arrarResult[$v['room_layout_attribute_father_id']] = $v;
                 $arrarResult[$v['room_layout_attribute_father_id']]['childen'] = array();
             } else {
+                $v['room_layout_attribute_id'] = encode($v['room_layout_attribute_id']);
                 $arrarResult[$v['room_layout_attribute_father_id']]['childen'][] = $v;
             }
         }
         return $arrarResult;
+    }
+
+    public function saveRoomLayoutAttr($arrayData) {
+        return RoomDao::instance()->setTable('room_layout_attribute')->insert($arrayData);
+    }
+
+    public function updateRoomLayoutAttr($where, $row) {
+        return RoomDao::instance()->setTable('room_layout_attribute')->update($where, $row);
+    }
+
+    public function deleteRoomLayoutAttr($where) {
+        return RoomDao::instance()->setTable('room_layout_attribute')->delete($where);
     }
 
     public function getRoomLayout($conditions, $hashKey = null) {

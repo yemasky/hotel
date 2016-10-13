@@ -43,7 +43,7 @@ class RoomsAttributeAction extends \BaseAction {
         sort($arrayRoomAttribute);
         $objResponse -> arrayAttribute = $arrayRoomAttribute;
         $objResponse -> add_room_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add']), 'room_id'=>$objRequest->room_id));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add'])));
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         //设置类别
         $objResponse -> room_type = $room_type;
@@ -52,18 +52,41 @@ class RoomsAttributeAction extends \BaseAction {
     }
 
     protected function doAdd($objRequest, $objResponse) {
-        //$this->doEdit($objRequest, $objResponse);
+        $this->doEdit($objRequest, $objResponse);
         //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl
     }
 
     protected function doEdit($objRequest, $objResponse) {
+        $this->setDisplay();
+        $room_layout_attribute_id = decode($objRequest -> room_layout_attribute_id);
+        $edit_id = decode($objRequest -> edit_id);
+        $arrayPostValue= $objRequest->getPost();
 
-        $objResponse -> add_room_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit']), 'room_id'=>$objRequest->room_id));
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            unset($arrayPostValue['room_layout_attribute_id']);
+            if ($edit_id > 0) {
+                RoomService::instance()->updateRoomLayoutAttr(array('room_layout_attribute_id' => $room_layout_attribute_id), $arrayPostValue);
+                return $this->successResponse('保存客房属性成功');
+            } else {
+                if($room_layout_attribute_id > 0) {
+                    $arrayPostValue['room_layout_attribute_father_id'] = $room_layout_attribute_id;
+                }
+                $arrayPostValue['room_type'] = 'room';
+                $attribute_id = RoomService::instance()->saveRoomLayoutAttr($arrayPostValue);
+                if($objRequest -> room_layout_attribute_id == '0') {
+                    RoomService::instance()->updateRoomLayoutAttr(array('room_layout_attribute_id'=>$attribute_id), array('room_layout_attribute_father_id'=>$attribute_id));
+                }
+                return $this->successResponse('保存客房属性成功');
+                //$room_layout_attribute_id = RoomService::instance()->saveRoom($arrayPostValue);
+            }
+
+        }
+        return $this->errorResponse('没有保存任何客房属性');
+        //$objResponse -> add_room_attribute_url =
+        //    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit'])));
         //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function doDelete($objRequest, $objResponse) {
