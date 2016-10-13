@@ -153,7 +153,7 @@
          </form>
     </div>
     <div id="tab2" class="tab-pane">
-       	  <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_attr_form" id="hotel_attr_form" novalidate> 
+       	  <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_attr_form" id="hotel_attr_form" novalidate> 
        		<%section name=attr loop=$arrayAttribute%>
                 <div class="control-group">
                     <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
@@ -161,8 +161,8 @@
                     <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
                     <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%> :</label>
                     <div class="controls">
-                        <input type="text" id="hotel_booking_notes" name="hotel_booking_notes" class="span2" placeholder="" value=""  />
-                        <span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a></span>
+                        <input type="text" class="span2" value=""  />
+                        <a href="#add" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
                     </div>
                     <%/section%>
                     </div>
@@ -174,7 +174,7 @@
            </form>
     </div>
     <div id="tab3" class="tab-pane">
-       	  <form action="<%$hotel_update_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_service_form" id="hotel_service_form" novalidate>
+       	  <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="hotel_service_form" id="hotel_service_form" novalidate>
        		<%section name=attr loop=$arrayAttribute%>
                 <div class="control-group">
                     <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>

@@ -137,22 +137,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-			//alert(1);
 			$('#hotel_attribute_setting a').tab('show');
-			/*var param = $("#hotel_form").serialize();
-			$.ajax({
-				url : "<%$hotel_update_url%>",
-				type : "post",
-				dataType : "json",
-				data: param,
-				success : function(result) {
-					if(result=='success') {
-						//location.href='allRequisitionList.action';
-					} else {
-						var jsonObj = eval('('+result+')');
-					}
-				}
-			});*/
 		}
 	});
 	$('#address').val("<%$arrayDataInfo['hotel_address']%>");
@@ -193,6 +178,10 @@ $(document).ready(function(){
 			 });
 		}
 	});
+});
+
+$('.addAttr').click(function(e) {
+	$(this).before(" ").prev().clone().insertBefore(this).after(" ");
 });
 </script>
 <script language="javascript">
