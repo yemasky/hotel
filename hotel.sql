@@ -22,12 +22,14 @@ DROP TABLE IF EXISTS `book`;
 
 CREATE TABLE `book` (
   `book_id` bigint(19) NOT NULL AUTO_INCREMENT,
+  `book_type_id` int(11) NOT NULL COMMENT '预定类型',
   `user_id` bigint(19) NOT NULL,
   `hotel_id` int(11) NOT NULL,
   `room_id` int(11) DEFAULT NULL COMMENT '真实房号',
   `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
   `book_price` double NOT NULL COMMENT '支付价格',
   `book_discount_id` int(11) NOT NULL COMMENT '折扣ID',
+  `book_discount_customize` double NOT NULL DEFAULT '0' COMMENT '自定折扣',
   `book_discount_describe` varchar(2000) NOT NULL DEFAULT '' COMMENT '折扣描述',
   `book_order_number` varchar(50) NOT NULL COMMENT '订单号',
   `book_check_int` datetime NOT NULL COMMENT '入住时间',
@@ -67,6 +69,7 @@ DROP TABLE IF EXISTS `book_discount`;
 
 CREATE TABLE `book_discount` (
   `book_discount_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '折扣ID',
+  `book_discount_type` enum('user_grade') DEFAULT NULL,
   `book_discount_name` varchar(50) NOT NULL COMMENT '折扣名称',
   `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
   `book_discount` double NOT NULL DEFAULT '100' COMMENT '折扣',
@@ -75,19 +78,35 @@ CREATE TABLE `book_discount` (
 
 /*Data for the table `book_discount` */
 
-/*Table structure for table `book_setting` */
+/*Table structure for table `book_type` */
 
-DROP TABLE IF EXISTS `book_setting`;
+DROP TABLE IF EXISTS `book_type`;
 
-CREATE TABLE `book_setting` (
-  `book_setting_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '预定设置ID',
-  `hotel_id` int(11) NOT NULL,
-  `book_setting_name` varchar(50) NOT NULL,
-  `book_setting_value` varchar(50) NOT NULL,
-  PRIMARY KEY (`book_setting_id`)
+CREATE TABLE `book_type` (
+  `book_type_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '预定类型：前台预定或电   协议公司预订  团队预定  渠道纸质订单',
+  `book_type_father_id` int(11) DEFAULT NULL COMMENT '父ID',
+  `hotel_id` int(11) NOT NULL DEFAULT '0',
+  `book_type_name` varchar(50) NOT NULL COMMENT '名称',
+  `book_type_describe` varchar(1000) DEFAULT NULL COMMENT '描述',
+  `book_type_comments` varchar(1000) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`book_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_type` */
+
+insert  into `book_type`(`book_type_id`,`book_type_father_id`,`hotel_id`,`book_type_name`,`book_type_describe`,`book_type_comments`) values (1,1,0,'散客',NULL,''),(2,1,0,'散客步入',NULL,''),(3,1,0,'电话预订',NULL,NULL),(4,4,0,'协议公司预订',NULL,NULL),(5,5,0,'团队预定',NULL,NULL);
+
+/*Table structure for table `book_type_multi_laguage` */
+
+DROP TABLE IF EXISTS `book_type_multi_laguage`;
+
+CREATE TABLE `book_type_multi_laguage` (
+  `book_type_id` int(11) NOT NULL DEFAULT '0' COMMENT '预定类型：前台预定或电   协议公司预订  团队预定  渠道纸质订单',
+  `multi_laguage` enum('English') DEFAULT NULL,
+  `book_type_name` varchar(50) NOT NULL COMMENT '名称'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `book_setting` */
+/*Data for the table `book_type_multi_laguage` */
 
 /*Table structure for table `company` */
 
@@ -645,7 +664,7 @@ insert  into `room_layout_images`(`room_layout_images_id`,`hotel_id`,`room_layou
 DROP TABLE IF EXISTS `room_layout_price`;
 
 CREATE TABLE `room_layout_price` (
-  `room_layout_price_id` bigint(19) NOT NULL AUTO_INCREMENT,
+  `room_layout_price_id` bigint(19) NOT NULL AUTO_INCREMENT COMMENT '原始价格ID',
   `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
   `hotel_id` int(11) NOT NULL,
   `room_layout_price` double NOT NULL,
@@ -702,6 +721,30 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
+/*Table structure for table `user_grade` */
+
+DROP TABLE IF EXISTS `user_grade`;
+
+CREATE TABLE `user_grade` (
+  `user_id` bigint(19) NOT NULL,
+  `user_grade_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `user_grade` */
+
+/*Table structure for table `user_grade_type` */
+
+DROP TABLE IF EXISTS `user_grade_type`;
+
+CREATE TABLE `user_grade_type` (
+  `user_grade_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_grade_type_name` varchar(50) DEFAULT NULL COMMENT '会员等级类别名称',
+  PRIMARY KEY (`user_grade_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `user_grade_type` */
+
 /*Table structure for table `user_login` */
 
 DROP TABLE IF EXISTS `user_login`;
@@ -711,6 +754,7 @@ CREATE TABLE `user_login` (
   `user_password` varchar(50) NOT NULL COMMENT '密码',
   `user_salt` varchar(50) NOT NULL COMMENT '盐',
   `user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '登录名字',
+  `user_id_card` varchar(50) DEFAULT NULL COMMENT '身份证',
   `user_email` varchar(100) NOT NULL DEFAULT '' COMMENT '登录email',
   `user_email_confirm` bit(1) NOT NULL DEFAULT b'0' COMMENT 'email是否确认',
   `user_mobile` int(11) NOT NULL COMMENT '登录mobile',
