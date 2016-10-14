@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.09 (64 bit)
-MySQL - 10.1.16-MariaDB : Database - hotel
+SQLyog Ultimate v11.24 (32 bit)
+MySQL - 10.1.13-MariaDB : Database - hotel
 *********************************************************************
 */
 
@@ -12,8 +12,6 @@ MySQL - 10.1.16-MariaDB : Database - hotel
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`hotel` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
 USE `hotel`;
 
 /*Table structure for table `book` */
@@ -77,6 +75,20 @@ CREATE TABLE `book_discount` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_discount` */
+
+/*Table structure for table `book_setting` */
+
+DROP TABLE IF EXISTS `book_setting`;
+
+CREATE TABLE `book_setting` (
+  `book_setting_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '预定设置ID',
+  `hotel_id` int(11) NOT NULL,
+  `book_setting_name` varchar(50) NOT NULL,
+  `book_setting_value` varchar(50) NOT NULL,
+  PRIMARY KEY (`book_setting_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_setting` */
 
 /*Table structure for table `book_type` */
 
@@ -405,6 +417,19 @@ CREATE TABLE `hotel_service_price` (
 
 /*Data for the table `hotel_service_price` */
 
+/*Table structure for table `hotels_attribute` */
+
+DROP TABLE IF EXISTS `hotels_attribute`;
+
+CREATE TABLE `hotels_attribute` (
+  `hotel_layout_id` int(11) NOT NULL,
+  `hotel_attribute_id` int(11) NOT NULL,
+  `hotel_id` int(11) NOT NULL,
+  PRIMARY KEY (`hotel_layout_id`,`hotel_attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `hotels_attribute` */
+
 /*Table structure for table `locations` */
 
 DROP TABLE IF EXISTS `locations`;
@@ -461,7 +486,7 @@ CREATE TABLE `multi_laguage_page` (
 
 /*Data for the table `multi_laguage_page` */
 
-insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','add_attribute_value','增加属性值'),('简体中文','common','add_customize_attr','增加自定属性'),('简体中文','common','area','面积'),('简体中文','common','back','返回上一页'),('简体中文','common','back_list','返回列表'),('简体中文','common','brand','品牌'),('简体中文','common','cancel_edit','取消编辑'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','describe','描述'),('简体中文','common','dining','厨房'),('简体中文','common','east','东'),('简体中文','common','edit','编辑'),('简体中文','common','excute_success','恭喜你，操作成功！'),('简体中文','common','excute_update_success','恭喜你，更新信息成功！'),('简体中文','common','have','有'),('简体中文','common','hotel','酒店'),('简体中文','common','hotel_attribute_setting_next',''),('简体中文','common','hotel_checkin','入住时间'),('简体中文','common','hotel_checkout','退房时间'),('简体中文','common','hotel_star','酒店星级'),('简体中文','common','hotel_wifi','酒店wifi'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','north','北'),('简体中文','common','northeast','东北'),('简体中文','common','northwest','西北'),('简体中文','common','not_have','无'),('简体中文','common','no_avail','无效'),('简体中文','common','no_permission','您没有权限，请分配权限。'),('简体中文','common','office','办公室'),('简体中文','common','operate','操作'),('简体中文','common','orientations','朝向'),('简体中文','common','please_select','请选择'),('简体中文','common','reminder','提示信息'),('简体中文','common','restaurant','餐厅'),('简体中文','common','room','客房'),('简体中文','common','room_area','房间面积'),('简体中文','common','room_floor','楼层'),('简体中文','common','room_layout','房型'),('简体中文','common','room_layout_attr','房型属性'),('简体中文','common','room_layout_name','房型名称'),('简体中文','common','room_layout_price','房型价格'),('简体中文','common','room_layout_room_number','房间号'),('简体中文','common','room_number','房间号'),('简体中文','common','room_setting_type','类别'),('简体中文','common','save_next','保存，下一步'),('简体中文','common','search_map','查询地图位置'),('简体中文','common','south','南'),('简体中文','common','southeast','东南'),('简体中文','common','southwest','西南'),('简体中文','common','status','状态'),('简体中文','common','store','仓库'),('简体中文','common','upload_images','上传图片'),('简体中文','common','valid','有效'),('简体中文','common','varia','杂物房'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','common','warning_confirm_update','您确定要更新信息吗？'),('简体中文','common','west','西'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','hotel','belong_to_company','属于公司'),('简体中文','hotel','hotel_add','添加酒店'),('简体中文','hotel','hotel_address','酒店地址'),('简体中文','hotel','hotel_attribute_setting','属性信息'),('简体中文','hotel','hotel_attribute_setting_next','下一步,设置酒店属性信息'),('简体中文','hotel','hotel_booking_notes','预定须知'),('简体中文','hotel','hotel_email','酒店email'),('简体中文','hotel','hotel_fax','酒店传真'),('简体中文','hotel','hotel_information','酒店信息'),('简体中文','hotel','hotel_introduce','酒店介绍'),('简体中文','hotel','hotel_location','所在位置'),('简体中文','hotel','hotel_map','酒店地图'),('简体中文','hotel','hotel_mobile','酒店移动电话'),('简体中文','hotel','hotel_name','酒店名称'),('简体中文','hotel','hotel_phone','酒店联系电话'),('简体中文','hotel','hotel_service_setting','酒店服务'),('简体中文','hotel','hotel_setting','酒店基本信息'),('简体中文','hotel','hotel_type','酒店类型'),('简体中文','hotel','list_of_hotel','酒店列表'),('简体中文','hotel','upload_holte_images','上传酒店图片'),('简体中文','roomsSetting','add_hotel_rooms','添加酒店房间信息'),('简体中文','roomsSetting','list_of_rooms','酒店所有房间信息'),('简体中文','roomsSetting','room_mansion','楼栋编号'),('简体中文','roomsSetting','room_name','名称'),('简体中文','roomsAttribute','add_attribute_setting','增加客房属性'),('简体中文','roomsAttribute','add_attr_classes','增加新属性类别'),('简体中文','roomsAttribute','attribute_setting','客房属性设置'),('简体中文','roomsAttribute','attr_classes','属性类别'),('简体中文','roomsAttribute','attr_name','属性名称'),('简体中文','roomsAttribute','modify_customize_attr','批量修改属性，清空为删除'),('简体中文','roomsLayout','add_rooms_layout','增加售卖房型'),('简体中文','roomsLayout','next_rooms_attribute_setting','下一步,设置房型属性信息'),('简体中文','roomsLayout','rooms_layout_setting','房型基本信息'),('简体中文','roomsLayout','room_layout_price_setting','设置房型售卖价格'),('简体中文','roomsLayout','room_layout_valid','房型是否有效'),('简体中文','roomsLayout','upload_room_layout_images','上传房型图片'),('简体中文','hotelAttribute','add_hotel_attribute','增加酒店属性'),('简体中文','hotelAttribute','attr_classes','属性类别'),('简体中文','hotelAttribute','attr_name','属性名称'),('简体中文','hotelAttribute','hotel_attribute_setting','酒店属性设置'),('简体中文','hotelAttribute','modify_customize_attr','批量修改属性，清空为删除'),('简体中文','department','department_role_setting','部门权限设置'),('简体中文','department','hotel_department_manage','酒店部门管理');
+insert  into `multi_laguage_page`(`laguage`,`page_module`,`page_laguage_key`,`page_laguage_value`) values ('简体中文','common','add_attribute_value','增加属性值'),('简体中文','common','add_customize_attr','增加自定属性'),('简体中文','common','area','面积'),('简体中文','common','back','返回上一页'),('简体中文','common','back_list','返回列表'),('简体中文','common','brand','品牌'),('简体中文','common','cancel_edit','取消编辑'),('简体中文','common','close','关闭'),('简体中文','common','confirm','确定'),('简体中文','common','delete','删除'),('简体中文','common','describe','描述'),('简体中文','common','dining','厨房'),('简体中文','common','east','东'),('简体中文','common','edit','编辑'),('简体中文','common','excute_success','恭喜你，操作成功！'),('简体中文','common','excute_update_success','恭喜你，更新信息成功！'),('简体中文','common','have','有'),('简体中文','common','hotel','酒店'),('简体中文','common','hotel_attribute_setting_next',''),('简体中文','common','hotel_checkin','入住时间'),('简体中文','common','hotel_checkout','退房时间'),('简体中文','common','hotel_star','酒店星级'),('简体中文','common','hotel_wifi','酒店wifi'),('简体中文','common','modal_fail','操作失败'),('简体中文','common','modal_success','操作成功'),('简体中文','common','north','北'),('简体中文','common','northeast','东北'),('简体中文','common','northwest','西北'),('简体中文','common','not_have','无'),('简体中文','common','no_avail','无效'),('简体中文','common','no_permission','您没有权限，请分配权限。'),('简体中文','common','office','办公室'),('简体中文','common','operate','操作'),('简体中文','common','orientations','朝向'),('简体中文','common','please_select','请选择'),('简体中文','common','reminder','提示信息'),('简体中文','common','restaurant','餐厅'),('简体中文','common','room','客房'),('简体中文','common','room_area','房间面积'),('简体中文','common','room_floor','楼层'),('简体中文','common','room_layout','房型'),('简体中文','common','room_layout_attr','房型属性'),('简体中文','common','room_layout_name','房型名称'),('简体中文','common','room_layout_price','房型价格'),('简体中文','common','room_layout_room_number','房间号'),('简体中文','common','room_number','房间号'),('简体中文','common','room_setting_type','类别'),('简体中文','common','save_next','保存，下一步'),('简体中文','common','search_map','查询地图位置'),('简体中文','common','south','南'),('简体中文','common','southeast','东南'),('简体中文','common','southwest','西南'),('简体中文','common','status','状态'),('简体中文','common','store','仓库'),('简体中文','common','upload_images','上传图片'),('简体中文','common','valid','有效'),('简体中文','common','varia','杂物房'),('简体中文','common','view','查看'),('简体中文','common','warning','警告'),('简体中文','common','warning_confirm_delete','您确定要删除吗?'),('简体中文','common','warning_confirm_update','您确定要更新信息吗？'),('简体中文','common','west','西'),('简体中文','company','company_add','添加公司'),('简体中文','company','company_address','公司地址'),('简体中文','company','company_cancel_edit','取消编辑公司资料'),('简体中文','company','company_edit','点击编辑公司资料'),('简体中文','company','company_email','公司联系email'),('简体中文','company','company_fax','公司传真号码'),('简体中文','company','company_information','公司信息'),('简体中文','company','company_introduction','公司介绍'),('简体中文','company','company_location','所在位置'),('简体中文','company','company_map','公司地图位置'),('简体中文','company','company_mobile','公司移动电话'),('简体中文','company','company_name','公司名称'),('简体中文','company','company_phone','公司联系电话'),('简体中文','company','contact_information','联系方式'),('简体中文','company','list_of_companies','公司列表'),('简体中文','hotel','belong_to_company','属于公司'),('简体中文','hotel','hotel_add','添加酒店'),('简体中文','hotel','hotel_address','酒店地址'),('简体中文','hotel','hotel_attribute_setting','属性信息'),('简体中文','hotel','hotel_attribute_setting_next','下一步,设置酒店属性信息'),('简体中文','hotel','hotel_booking_notes','预定须知'),('简体中文','hotel','hotel_email','酒店email'),('简体中文','hotel','hotel_fax','酒店传真'),('简体中文','hotel','hotel_information','酒店信息'),('简体中文','hotel','hotel_introduce','酒店介绍'),('简体中文','hotel','hotel_location','所在位置'),('简体中文','hotel','hotel_map','酒店地图'),('简体中文','hotel','hotel_mobile','酒店移动电话'),('简体中文','hotel','hotel_name','酒店名称'),('简体中文','hotel','hotel_phone','酒店联系电话'),('简体中文','hotel','hotel_service_setting','酒店服务'),('简体中文','hotel','hotel_setting','酒店基本信息'),('简体中文','hotel','hotel_type','酒店类型'),('简体中文','hotel','list_of_hotel','酒店列表'),('简体中文','hotel','upload_holte_images','上传酒店图片'),('简体中文','roomsSetting','add_hotel_rooms','添加酒店房间信息'),('简体中文','roomsSetting','list_of_rooms','酒店所有房间信息'),('简体中文','roomsSetting','room_mansion','楼栋编号'),('简体中文','roomsSetting','room_name','名称'),('简体中文','roomsAttribute','add_attribute_setting','增加客房属性'),('简体中文','roomsAttribute','add_attr_classes','增加新属性类别'),('简体中文','roomsAttribute','attribute_setting','客房属性设置'),('简体中文','roomsAttribute','attr_classes','属性类别'),('简体中文','roomsAttribute','attr_name','属性名称'),('简体中文','roomsAttribute','modify_customize_attr','批量修改属性，清空为删除'),('简体中文','roomsLayout','add_rooms_layout','增加售卖房型'),('简体中文','roomsLayout','next_rooms_attribute_setting','下一步,设置房型属性信息'),('简体中文','roomsLayout','rooms_layout_setting','房型基本信息'),('简体中文','roomsLayout','room_layout_price_setting','设置房型售卖价格'),('简体中文','roomsLayout','room_layout_valid','房型是否有效'),('简体中文','roomsLayout','upload_room_layout_images','上传房型图片'),('简体中文','hotelAttribute','add_hotel_attribute','增加酒店属性'),('简体中文','hotelAttribute','attr_classes','属性类别'),('简体中文','hotelAttribute','attr_name','属性名称'),('简体中文','hotelAttribute','hotel_attribute_setting','酒店属性设置'),('简体中文','hotelAttribute','modify_customize_attr','批量修改属性，清空为删除'),('简体中文','department','department_role_setting','部门权限'),('简体中文','department','employee_manage','员工管理'),('简体中文','department','hotel_department_manage','部门管理');
 
 /*Table structure for table `operate_log` */
 
@@ -555,6 +580,50 @@ CREATE TABLE `room` (
 /*Data for the table `room` */
 
 insert  into `room`(`room_id`,`hotel_id`,`room_type`,`room_on_sell`,`room_status`,`room_name`,`room_describe`,`room_mansion`,`room_number`,`room_floor`,`room_area`,`room_add_date`,`room_add_time`) values (0,0,'room','\0','0','','',NULL,NULL,NULL,NULL,NULL,NULL),(6,1,'restaurant','\0','0','中餐厅','','A1','201','2',100,NULL,NULL),(8,1,'room','\0','0','302客房','','A1','302','3',50,'2016-10-10','14:49:14'),(11,1,'restaurant','\0','0','大堂吧','','A1','103','1',50,'2016-10-10','14:56:29'),(13,1,'restaurant','\0','0','西餐厅','','A1','2901','29',150,'2016-10-10','14:57:13'),(14,1,'room','\0','0','301客房','301客房','A1','301','3',50,'2016-10-10','15:04:11'),(15,1,'varia','\0','0','杂物房','','A1','101','-1',30,'2016-10-10','15:25:20'),(16,1,'office','\0','0','销售部办公室','销售部办公室','A1','8010','8',50,'2016-10-10','15:28:51'),(18,1,'room','\0','0','305客房','','A1','305','3',50,'2016-10-10','16:11:05'),(19,1,'room','\0','0','303客房','','A1','303','3',50,'2016-10-10','16:16:27');
+
+/*Table structure for table `room_attribute` */
+
+DROP TABLE IF EXISTS `room_attribute`;
+
+CREATE TABLE `room_attribute` (
+  `room_attribute_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '客房属性',
+  `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `room_attribute_father_id` int(11) NOT NULL COMMENT '父类 2级总共',
+  `room_attribute_name` varchar(100) NOT NULL COMMENT '客房属性名称',
+  PRIMARY KEY (`room_attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `room_attribute` */
+
+/*Table structure for table `room_attribute_value` */
+
+DROP TABLE IF EXISTS `room_attribute_value`;
+
+CREATE TABLE `room_attribute_value` (
+  `room_attribute_value_id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_attribute_id` int(11) NOT NULL,
+  `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `room_attribute_value` varchar(200) NOT NULL COMMENT '属性值',
+  PRIMARY KEY (`room_attribute_value_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `room_attribute_value` */
+
+/*Table structure for table `room_images` */
+
+DROP TABLE IF EXISTS `room_images`;
+
+CREATE TABLE `room_images` (
+  `room_images_id` bigint(19) NOT NULL AUTO_INCREMENT,
+  `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `room_layout_id` int(11) NOT NULL COMMENT '房型ID',
+  `room_images_path` varchar(200) NOT NULL DEFAULT '' COMMENT '路径',
+  `room_images_is_main` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否是主图',
+  `room_images_recommend` enum('0','1','2','3','4','5','6','7','8','9') NOT NULL DEFAULT '0' COMMENT '推荐图片，越高越排前',
+  PRIMARY KEY (`room_images_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `room_images` */
 
 /*Table structure for table `room_layout` */
 
@@ -690,6 +759,26 @@ CREATE TABLE `room_layout_room` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_room` */
+
+/*Table structure for table `room_price` */
+
+DROP TABLE IF EXISTS `room_price`;
+
+CREATE TABLE `room_price` (
+  `room_price_id` bigint(19) NOT NULL AUTO_INCREMENT,
+  `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
+  `hotel_id` int(11) NOT NULL,
+  `room_price` double NOT NULL,
+  `room_price_begin_datetime` datetime NOT NULL COMMENT '开售时间',
+  `room_price_end_datetime` datetime NOT NULL COMMENT '结束时间',
+  `room_price_ahead_datetime` smallint(6) NOT NULL DEFAULT '0' COMMENT '提前预定时间 0 不限制',
+  `room_price_add_time` time NOT NULL COMMENT '房价添加时间',
+  `room_price_add_date` date NOT NULL COMMENT '房价添加时间',
+  `employee_id` int(11) NOT NULL COMMENT '操作员工',
+  PRIMARY KEY (`room_price_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `room_price` */
 
 /*Table structure for table `rooms_layout_attribute` */
 
