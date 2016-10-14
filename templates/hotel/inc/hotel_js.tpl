@@ -89,6 +89,7 @@
 <script language="javascript">
 $(document).ready(function(){
 	// Form Validation
+	var hotel_id = "<%$hotel_id%>";
     var v = $("#hotel_form").validate({
 		rules:{
 			company_id: {
@@ -148,17 +149,15 @@ $(document).ready(function(){
 			return false;
 		}
 	});
-	$('#hotel_service_setting').click(function() {
+	$('#hotel_images_upload').click(function() {
 		if (v.form()) {
-			
+			if(hotel_id == '' || hotel_id == '0') return false;
 		} else {
 			return false;
 		}
 	});
-	$('#save_hotel_attr_info').click(function() {
-		$('#hotel_service_setting a').tab('show');
-	});
-	var v_server = $('#hotel_service_form').validate({
+
+	var v_server = $('#hotel_attr_form').validate({
 		submitHandler: function() {
 			var param = $("#hotel_form").serialize();
 			$.ajax({
@@ -167,9 +166,9 @@ $(document).ready(function(){
 			   dataType : "json",
 			   data: param,
 			   success : function(data) {
-			       if(data.success == 1) {
-					   $('#modal_success').modal('show');
-					   $('#modal_success_message').html(data.message);
+			       if(data.success == '1') {
+					   hotel_id = data.itemDate.hotel_id;
+					   saveHotelAttr();
 			       } else {
 					   $('#modal_fail').modal('show');
 					   $('#modal_fail_message').html(data.message);
@@ -178,6 +177,28 @@ $(document).ready(function(){
 			 });
 		}
 	});
+	
+	function saveHotelAttr() {
+		var param = $("#hotel_attr_form").serialize();
+		$.ajax({
+		   url : "<%$add_hotel_layout_attr_url%>&hotel_id=" + hotel_id,
+		   type : "post",
+		   dataType : "json",
+		   data: param,
+		   success : function(data) {
+			   if(data.success == 1) {
+				   $('#modal_success').modal('show');
+				   $('#modal_success_message').html(data.message);
+				   $('#modal_success').on('hidden.bs.modal', function () {
+						$('#hotel_images_upload a').tab('show');
+				   })					
+			   } else {
+				   $('#modal_fail').modal('show');
+				   $('#modal_fail_message').html(data.message);
+			   }
+		   }
+	   });
+	}
 });
 
 $('.addAttr').click(function(e) {

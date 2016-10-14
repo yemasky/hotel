@@ -2,7 +2,7 @@
     <ul class="nav nav-tabs">
         <li class="active" id="hotel_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['hotel_setting']['page_laguage_value']%></a></li>
         <li id="hotel_attribute_setting"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['hotel_attribute_setting']['page_laguage_value']%></a></li>
-        <li id="hotel_service_setting"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
+        <li id="hotel_images_upload"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
     </ul>
 </div>
 <div class="widget-content tab-content nopadding">
@@ -169,7 +169,7 @@
                 </div>
             <%/section%>
             <div class="form-actions pagination-centered btn-icon-pg">
-                <button type="button" id="save_hotel_attr_info" class="btn btn-primary pagination-centered">下一步</button>
+                <button type="submit" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
             </div>
            </form>
     </div>

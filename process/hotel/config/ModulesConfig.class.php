@@ -11,7 +11,7 @@ namespace hotel;
 class ModulesConfig extends \ModulesConfig {
 	public static $modulesConfig = array(
 	    'company'        => array('edit'=>24, 'delete'=>25, 'add'=>28),
-	    'hotel'          => array('edit'=>26, 'delete'=>27, 'add'=>29, 'view'=>16,
+	    'hotel'          => array('edit'=>26, 'delete'=>27, 'add'=>29, 'view'=>16, 'saveAttrValue'=>46,
                                   'upload_type'=>'hotel'),
         'hotelAttribute' => array('edit'=>00, 'delete'=>45, 'add'=>44),
         'roomsSetting'   => array('edit'=>34, 'delete'=>35, 'add'=>32, 'view'=>18,

@@ -179,8 +179,8 @@ class UploadAction extends \BaseAction {
                     'room_layout_images_add_date'=>getDay(),
                     'room_layout_images_add_time'=>getTime()));
             }
-            if($upload_type == 'hotel') {
-                $id = HotelService::instance()->saveHotelImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            if($upload_type == 'hotel' && decode($objRequest -> hotel_id) > 0) {
+                $id = HotelService::instance()->saveHotelImages(array('hotel_id'=>decode($objRequest -> hotel_id),
                     'hotel_images_path'=>$relative_file,
                     'hotel_images_filesize'=>$file_size,
                     'hotel_images_add_date'=>getDay(),
@@ -241,24 +241,26 @@ class UploadAction extends \BaseAction {
             $arrarImages = null;
             $conditions = DbConfig::$db_query_conditions;
             if(strpos($path, $hotel) !== false) {
-                $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-                $arrarImages = HotelService::instance()->getHotelImages($conditions);
-                if(!empty($arrarImages)) {
-                    foreach ($arrarImages as $k => $v) {
-                        $file_list[$k]['is_dir'] = false;
-                        $file_list[$k]['has_file'] = false;
-                        $file_list[$k]['filesize'] = $v['hotel_images_filesize'];
-                        $file_list[$k]['is_photo'] = true;
-                        $temp_arr = explode(".", $v['hotel_images_path']);
-                        $file_ext = strtolower(trim(array_pop($temp_arr)));
-                        $file_list[$k]['filetype'] = $file_ext;
-                        $temp_arr = explode("/", $v['hotel_images_path']);
-                        //$file_list[$k]['filename'] = array_pop($temp_arr); //文件名，包含扩展名
-                        $file_list[$k]['filename'] = $v['hotel_images_path'];
-                        array_pop($temp_arr);
-                        $file_list[$k]['dir_path'] = implode('/', $temp_arr) . '/';
-                        $file_list[$k]['datetime'] = $v['hotel_images_add_date'] . ' ' . $v['hotel_images_add_time']; //文件最后修改时间
-                        $file_list[$k]['id'] = $v['hotel_images_id'];
+                if(decode($objRequest ->hotel_id) > 0) {
+                    $conditions['where'] = array('hotel_id'=>decode($objRequest ->hotel_id));
+                    $arrarImages = HotelService::instance()->getHotelImages($conditions);
+                    if(!empty($arrarImages)) {
+                        foreach ($arrarImages as $k => $v) {
+                            $file_list[$k]['is_dir'] = false;
+                            $file_list[$k]['has_file'] = false;
+                            $file_list[$k]['filesize'] = $v['hotel_images_filesize'];
+                            $file_list[$k]['is_photo'] = true;
+                            $temp_arr = explode(".", $v['hotel_images_path']);
+                            $file_ext = strtolower(trim(array_pop($temp_arr)));
+                            $file_list[$k]['filetype'] = $file_ext;
+                            $temp_arr = explode("/", $v['hotel_images_path']);
+                            //$file_list[$k]['filename'] = array_pop($temp_arr); //文件名，包含扩展名
+                            $file_list[$k]['filename'] = $v['hotel_images_path'];
+                            array_pop($temp_arr);
+                            $file_list[$k]['dir_path'] = implode('/', $temp_arr) . '/';
+                            $file_list[$k]['datetime'] = $v['hotel_images_add_date'] . ' ' . $v['hotel_images_add_time']; //文件最后修改时间
+                            $file_list[$k]['id'] = $v['hotel_images_id'];
+                        }
                     }
                 }
             } elseif (strpos($path, $room_layout) !== false) {

@@ -84,4 +84,24 @@ class HotelService extends \BaseService {
         return RoomDao::instance()->setTable('hotel_images')->delete($where);
     }
 
+    public function getHotelAttrValue($conditions, $hashKey = null, $multiple = false) {
+        return RoomDao::instance()->setTable('hotel_attribute_value')->getList($conditions, '', $hashKey, $multiple);
+    }
+
+    public function saveHotelAttrValue($arrayData) {
+        return RoomDao::instance()->setTable('hotel_attribute_value')->insert($arrayData);
+    }
+
+    public function batchSaveHotelAttrValue($arrayData, $insert_type = 'INSERT') {
+        return RoomDao::instance()->setTable('hotel_attribute_value')->batchInsert($arrayData, $insert_type);
+    }
+
+    public function updateHotelAttrValue($where, $row) {
+        return RoomDao::instance()->setTable('hotel_attribute_value')->update($where, $row);
+    }
+
+    public function deleteHotelAttrValue($where) {
+        return RoomDao::instance()->setTable('hotel_attribute_value')->delete($where);
+    }
+
 }
