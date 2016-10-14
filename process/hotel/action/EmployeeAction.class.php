@@ -9,7 +9,7 @@
 namespace hotel;
 
 
-class RoomsAttributeAction extends \BaseAction {
+class EmployeeAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $objResponse -> navigation = 'roomsManagement';
         $objResponse -> setTplValue('navigation', 'roomsManagement');
@@ -88,20 +88,7 @@ class RoomsAttributeAction extends \BaseAction {
 
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
-        $arrayPostValue= $objRequest->getPost();
-        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
-            foreach($arrayPostValue as $attrId => $attrVal) {
-                if(!empty($attrVal) && decode($attrId) > 0) {
-                    RoomService::instance()->updateRoomLayoutAttr(array('room_layout_attribute_id'=>decode($attrId),
-                        'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']),array('room_layout_attribute_name'=>$attrVal));
-                } else if(empty($attrVal) && decode($attrId) > 0) {
-                    RoomService::instance()->deleteRoomLayoutAttr(array('room_layout_attribute_id'=>decode($attrId),
-                        'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']));
-                }
-            }
-            return $this->successResponse('修改成功！');
-        }
-        return $this->errorResponse('修改失败，请检查！');
+
     }
 
 }

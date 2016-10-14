@@ -240,10 +240,10 @@ class RoomsLayoutAction extends \BaseAction {
             }
             if(!empty($arrayInsertValue)) {
                 RoomService::instance()->batchSaveRoomLayoutAttrValue($arrayInsertValue);
-                return $this->successResponse('保存售卖房型属性成功');
+                return $this->successResponse('保存房型及房型属性成功！');
             }
         }
-        return $this->errorResponse('保存售卖房型属性失败！请检查属性值。');
+        return $this->successResponse('保存房型成功！');
     }
 
 }
