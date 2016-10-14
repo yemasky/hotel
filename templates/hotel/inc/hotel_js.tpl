@@ -201,10 +201,9 @@ $('#hotel_checkin').datetimepicker({
 	function uploadSuccess(img_url, id) {
 		if(id == '') {
 			img_url = img_url.replace('/data/images/', '');//<%$upload_images_url%>
-			$.getJSON(url + '&act=updateLayoutImages&room_layout_id='
-					+ room_layout_id + '&url=' + img_url, function(data){
+			$.getJSON('<%$hotel_update_url%>&act=updateImages&url=' + img_url, function(data){
 				if(data.success == 1) {
-					id = data.itemDate.room_layout_images_id;
+					id = data.itemDate.hotel_images_id;
 					addLayoutImages(img_url, id);
 				} else {
 					$('#modal_success').modal('hide');
@@ -220,7 +219,7 @@ $('#hotel_checkin').datetimepicker({
 
 	function addLayoutImages(img_url, id) {
 		var html = '<li class="span2"><a class="thumbnail lightbox_trigger" href="'+img_url
-				+'"><img id="room_layout_'+id+'" src="<%$__IMGWEB%>'+img_url+'" alt="" ></a>'
+				+'"><img id="hotel_'+id+'" src="<%$__IMGWEB%>'+img_url+'" alt="" ></a>'
 				+'<div class="actions">'
 				+'<a title="" href="#"><i class="icon-pencil icon-white"></i></a>'
 				+'<a title="" href="#"><i class="icon-remove icon-white"></i></a>'

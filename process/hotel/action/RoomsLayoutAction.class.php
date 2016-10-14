@@ -102,11 +102,11 @@ class RoomsLayoutAction extends \BaseAction {
             $this->setDisplay();
             $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                 'room_layout_images_path'=>$url, 'room_layout_id'=>$room_layout_id);
-            $arrayLayoutImage = RoomService::getRoomLayoutImages($conditions);
+            $arrayLayoutImage = RoomService::instance()->getRoomLayoutImages($conditions);
             if (!empty($arrayLayoutImage)) {
                 return $this->errorResponse('此房型已经添加此图片');
             }
-            $room_layout_images_id = RoomService::saveRoomLayoutImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            $room_layout_images_id = RoomService::instance()->saveRoomLayoutImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                 'room_layout_images_path'=>$objRequest->url,
                 'room_layout_id'=>$room_layout_id,
                 'room_layout_images_filesize'=>0,

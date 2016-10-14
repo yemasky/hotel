@@ -179,7 +179,7 @@
                 <%section name=images loop=$arrayDataImages%>
                 <li class="span2">
                     <a class="thumbnail lightbox_trigger" href="<%$__IMGWEB%><%$arrayDataImages[images].room_layout_images_path%>">
-                        <img id="room_layout_<%$arrayDataImages[images].room_layout_images_id%>" src="<%$__IMGWEB%><%$arrayDataImages[images].room_layout_images_path%>" alt="" >
+                        <img id="room_layout_<%$arrayDataImages[images].hotel_images_id%>" src="<%$__IMGWEB%><%$arrayDataImages[images].hotel_images_path%>" alt="" >
                     </a>
                     <div class="actions">
                         <a title="" href="#"><i class="icon-pencil icon-white"></i></a>
@@ -191,7 +191,7 @@
         </div>
         <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
             <div class="control-group">
-                <label class="control-label"><%$arrayLaguage['upload_room_layout_images']['page_laguage_value']%> :</label>
+                <label class="control-label"><%$arrayLaguage['upload_holte_images']['page_laguage_value']%> :</label>
                 <div class="controls">
                     <p><input type="text" id="upload_images_url" value="" /> <input type="button" id="upload_images" value="选择图片" /></p>
                 </div>

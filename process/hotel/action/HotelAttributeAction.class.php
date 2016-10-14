@@ -44,9 +44,9 @@ class HotelAttributeAction extends \BaseAction {
         //
         $objResponse -> arrayAttribute = $arrayHotelAttribute;
         $objResponse -> add_hotel_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add'])));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotelAttribute']['add'])));
         $objResponse -> delete_hotel_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['delete'])));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotelAttribute']['delete'])));
         //设置类别
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
@@ -59,11 +59,12 @@ class HotelAttributeAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
+
         $this->setDisplay();
         $hotel_attribute_id = decode($objRequest -> hotel_attribute_id);
         $arrayPostValue= $objRequest->getPost();
 
-        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $objRequest -> hotel_attribute_id != '') {
             $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
             unset($arrayPostValue['hotel_attribute_id']);
             if($hotel_attribute_id > 0) {
@@ -92,7 +93,7 @@ class HotelAttributeAction extends \BaseAction {
                     HotelService::instance()->updateHotelAttr(array('hotel_attribute_id'=>decode($attrId), 
                         'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']), array('hotel_attribute_name'=>$attrVal));
                 } else if(empty($attrVal) && decode($attrId) > 0) {
-                    HotelService::instance()->deleteRoomLayoutAttr(array('hotel_attribute_id'=>decode($attrId), 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']));
+                    HotelService::instance()->deleteHotelAttr(array('hotel_attribute_id'=>decode($attrId), 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']));
                 }
             }
             return $this->successResponse('修改成功！');

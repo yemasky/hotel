@@ -2,17 +2,10 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
-<!--<link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />	-->
 <style type="text/css">
 .modal-body{ padding:1px;}
 .widget-box{margin-bottom:1px; margin-top:1px;}
 </style>
-<!--<script src="<%$__RESOURCE%>js/select2.min.js"></script>
-<script language="javascript">
-$(document).ready(function(){	
-	$('select').select2();
-});
-</script>-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
 <body>
