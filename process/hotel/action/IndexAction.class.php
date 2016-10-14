@@ -11,8 +11,7 @@ namespace hotel;
 
 class IndexAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        $objResponse -> navigation = 'index';
-        $objResponse -> setTplValue('navigation', 'index');
+
     }
 
     protected function service($objRequest, $objResponse) {

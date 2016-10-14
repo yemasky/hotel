@@ -11,8 +11,7 @@ namespace hotel;
 
 class RoomsAttributeAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        $objResponse -> navigation = 'roomsManagement';
-        $objResponse -> setTplValue('navigation', 'roomsManagement');
+
     }
 
     protected function service($objRequest, $objResponse) {

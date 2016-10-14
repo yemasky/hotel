@@ -11,8 +11,7 @@ namespace hotel;
 
 class RestaurantAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        $objResponse -> navigation = 'restaurant';
-        $objResponse -> setTplValue('navigation', 'restaurant');
+
     }
 
     protected function service($objRequest, $objResponse) {

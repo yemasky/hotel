@@ -9,9 +9,9 @@
 namespace hotel;
 
 
-class SecurityAction extends \BaseAction {
+class RoomLayoutPriceAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-
+        
     }
 
     protected function service($objRequest, $objResponse) {

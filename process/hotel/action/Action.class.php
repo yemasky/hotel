@@ -66,6 +66,8 @@ class Action extends \BaseAction {
         }
         $arrayLaguage = CommonService::instance()->getPageModuleLaguage($modules_module);
         $objResponse->setTplValue('arrayLaguage', $arrayLaguage);
+        $objResponse -> navigation = 'sales';
+        $objResponse -> setTplValue('navigation', 'sales');
         //$objResponse->setTplValue('action', $module_action);
         //$objResponse->setTplValue("hashKey", \Encrypt::instance()->decode(date("Y-m-d") . __WEB_KEY));
         $objResponse->setTplName("hotel/modules_" . $module_action_tpl);

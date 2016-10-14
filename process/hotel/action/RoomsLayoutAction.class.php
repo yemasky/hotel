@@ -11,8 +11,6 @@ namespace hotel;
 
 class RoomsLayoutAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
-        $objResponse -> navigation = 'roomsManagement';
-        $objResponse -> setTplValue('navigation', 'roomsManagement');
         $objResponse -> back_lis_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['view'])));
     }
