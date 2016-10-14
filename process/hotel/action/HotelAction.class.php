@@ -90,6 +90,7 @@ class HotelAction extends \BaseAction {
         $this->doEdit($objRequest, $objResponse);
         $objResponse -> setTplValue("hotel_update_url",
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['add']))));
+        $objResponse->view = 'add';
         $objResponse->setTplName("hotel/modules_hotel_edit");
         return;
         /*
@@ -131,7 +132,7 @@ class HotelAction extends \BaseAction {
 
     protected function view($objRequest, $objResponse) {
         $this->doEdit($objRequest, $objResponse);
-        $objResponse->view = 1;
+        $objResponse->view = '1';
         $objResponse->setTplName("hotel/modules_hotel_edit");
     }
 
@@ -157,7 +158,7 @@ class HotelAction extends \BaseAction {
                     'hotel_images_add_time'=>getTime()));
                 return $this->successResponse('保存成功！', array('hotel_images_id'=>$hotel_images_id));
             } else {
-                return $this->errorResponse('保存失败，无法识别！');
+                return $this->errorResponse('保存失败，ID无法识别！');
 
             }
 
@@ -186,13 +187,9 @@ class HotelAction extends \BaseAction {
                 } else {
                     throw new \Exception('添加失败！');
                 }
-                //$url = 'index.php?action=excute_success&success_id=' . encode($hotel_id);
-                //redirect($url);
                 if(empty($hotel_id)) {
                     return $this->errorResponse('保存失败，请检查数据！');
                 }
-                //$hotel_id = encode($hotel_id);
-                //HotelService::updateHotel(array('hotel_id'=>$hotel_id), array('hotel_is_delet'=>true));
                 return $this->successResponse('保存酒店成功', array('hotel_id'=>encode($hotel_id)));
             }
         }
@@ -221,7 +218,7 @@ class HotelAction extends \BaseAction {
         //图片
         $conditions['where'] = array('hotel_id'=>$hotel_id);
         $objResponse -> arrayDataImages = HotelService::instance()->getHotelImages($conditions);
-        $objResponse->view = 0;
+        $objResponse->view = '0';
         $objResponse -> setTplValue("arrayAttribute", $arrarHotelAttribute);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
         $objResponse -> setTplValue("location_province", $arrayHotel[0]['hotel_province']);
@@ -235,10 +232,11 @@ class HotelAction extends \BaseAction {
         $objResponse -> upload_manager_img_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
                 'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type'],'act'=>'manager_img','hotel_id'=>encode($hotel_id)));
-        $objResponse -> add_hotel_layout_attr_url =
+        $objResponse -> add_hotel_attr_val_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['saveAttrValue'])));
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> hotel_id = empty($hotel_id) ? '' : encode($hotel_id);
+        $objResponse -> step = $objRequest -> step;
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
@@ -257,34 +255,40 @@ class HotelAction extends \BaseAction {
         $this->setDisplay();
         $hotel_id = decode($objRequest->hotel_id);
         $arrayPostValue= $objRequest->getPost();
-        if(!empty($arrayPostValue) && $hotel_id > 0) {
-            HotelService::instance()->deleteHotelAttrValue(array('hotel_id'=>$hotel_id));
-            $arrayInsertValue = array();
-            $i = 0;
-            $arrarAttrHash = array();
-            foreach ($arrayPostValue as $key => $val) {
-                foreach ($val as $k => $v) {
-                    if(empty($v)) continue;
-                    foreach($v as $attr => $attrValue) {
-                        if(empty($attrValue)) continue;
-                        if(isset($arrarAttrHash[$k][$attrValue])) continue;//消除相同属性的属性值
-                        $arrayInsertValue[$i]['hotel_id'] = $hotel_id;
-                        $arrayInsertValue[$i]['hotel_attribute_father_id'] = $key;
-                        $arrayInsertValue[$i]['hotel_attribute_id'] = $k;
-                        $arrayInsertValue[$i]['hotel_attribute_value'] = $attrValue;
-                        //消除相同属性的属性值
-                        $arrarAttrHash[$k][$attrValue] = 0;
-                        $i++;
-                    }
+        if($hotel_id > 0) {
+            $redirect_url =  \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['hotel']['edit']),
+                'step'=>'upload_images','hotel_id'=>encode($hotel_id)));
+            if(!empty($arrayPostValue)) {
+                HotelService::instance()->deleteHotelAttrValue(array('hotel_id'=>$hotel_id));
+                $arrayInsertValue = array();
+                $i = 0;
+                $arrarAttrHash = array();
+                foreach ($arrayPostValue as $key => $val) {
+                    foreach ($val as $k => $v) {
+                        if(empty($v)) continue;
+                        foreach($v as $attr => $attrValue) {
+                            if(empty($attrValue)) continue;
+                            if(isset($arrarAttrHash[$k][$attrValue])) continue;//消除相同属性的属性值
+                            $arrayInsertValue[$i]['hotel_id'] = $hotel_id;
+                            $arrayInsertValue[$i]['hotel_attribute_father_id'] = $key;
+                            $arrayInsertValue[$i]['hotel_attribute_id'] = $k;
+                            $arrayInsertValue[$i]['hotel_attribute_value'] = $attrValue;
+                            //消除相同属性的属性值
+                            $arrarAttrHash[$k][$attrValue] = 0;
+                            $i++;
+                        }
 
+                    }
+                }
+                if(!empty($arrayInsertValue)) {
+                    HotelService::instance()->batchSaveHotelAttrValue($arrayInsertValue);
+                    return $this->successResponse('保存酒店及属性成功', '', $redirect_url);
                 }
             }
-            if(!empty($arrayInsertValue)) {
-                HotelService::instance()->batchSaveHotelAttrValue($arrayInsertValue);
-                return $this->successResponse('保存成功');
-            }
+            return $this->successResponse('保存酒店成功。', '', $redirect_url);
         }
-        return $this->successResponse('保存成功。');
+        return $this->errorResponse('保存失败，未识别ID');
+
     }
 
 }

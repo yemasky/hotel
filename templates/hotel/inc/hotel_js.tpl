@@ -89,7 +89,6 @@
 <script language="javascript">
 $(document).ready(function(){
 	// Form Validation
-	var hotel_id = "<%$hotel_id%>";
     var v = $("#hotel_form").validate({
 		rules:{
 			company_id: {
@@ -181,7 +180,7 @@ $(document).ready(function(){
 	function saveHotelAttr() {
 		var param = $("#hotel_attr_form").serialize();
 		$.ajax({
-		   url : "<%$add_hotel_layout_attr_url%>&hotel_id=" + hotel_id,
+		   url : "<%$add_hotel_attr_val_url%>&hotel_id=" + hotel_id,
 		   type : "post",
 		   dataType : "json",
 		   data: param,
@@ -190,7 +189,13 @@ $(document).ready(function(){
 				   $('#modal_success').modal('show');
 				   $('#modal_success_message').html(data.message);
 				   $('#modal_success').on('hidden.bs.modal', function () {
-						$('#hotel_images_upload a').tab('show');
+					    <%if $view == 'add'%>
+						if(data.redirect != '') {
+						   window.location = data.redirect;
+						}
+						<%else%>
+							$('#hotel_images_upload a').tab('show');
+						<%/if%>
 				   })					
 			   } else {
 				   $('#modal_fail').modal('show');
@@ -199,6 +204,7 @@ $(document).ready(function(){
 		   }
 	   });
 	}
+	<%if $step == 'upload_images'%>$('#hotel_images_upload a').tab('show');<%/if%>
 });
 
 $('.addAttr').click(function(e) {

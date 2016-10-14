@@ -210,7 +210,6 @@ $(document).ready(function(){
 			   success : function(data) {
 			       if(data.success == 1) {
 					   room_layout_id = data.itemDate.room_layout_id;
-					   url = data.redirect;
 					   saveRoomLayoutAttrValue();
 					   /*$('#modal_fail').modal('hide');
 					   $('#modal_success').modal('show');
@@ -242,7 +241,13 @@ $(document).ready(function(){
 				   $('#modal_success').modal('show');
 				   $('#modal_success_message').html(data.message)
 				   $('#modal_success').on('hidden.bs.modal', function () {
-						$('#room_layout_images a').tab('show');
+					    <%if $view == 'add'%>
+						if(data.redirect != '') {
+						   window.location = data.redirect;
+						}
+						<%else%>
+							$('#room_layout_images a').tab('show');
+						<%/if%>
 				   })
 			   } else {
 				   $('#modal_success').modal('hide');
@@ -252,6 +257,7 @@ $(document).ready(function(){
 		   }
 		 });
 	}
+	<%if $step == 'upload_images'%>$('#room_layout_images a').tab('show');<%/if%>
 	$('.addAttr').click(function(e) {
 		$(this).before(" ").prev().clone().insertBefore(this).after(" ");
     });

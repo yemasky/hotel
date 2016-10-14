@@ -8,6 +8,9 @@
 <style type="text/css">
 #allmap {height: 300px;min-width:48.5%;overflow: hidden; margin-left:0px;}
 </style>
+<script language="javascript">
+	var hotel_id = "<%$hotel_id%>";
+</script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <%include file="hotel/inc/editor_upload_images.tpl"%>
@@ -44,6 +47,8 @@
 	<%if $view==1%>
 	$("form input,textarea,select").prop("readonly", true);
 	$('#save_hotel_info').hide();
+	$('#save_hotel_attr_val_info').hide();
+	$('#upload_images').hide();
 	<%/if%>
 </script>
 <%include file="hotel/inc/modal_box.tpl"%>

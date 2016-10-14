@@ -169,7 +169,7 @@
                 </div>
             <%/section%>
             <div class="form-actions pagination-centered btn-icon-pg">
-                <button type="submit" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                <button type="submit" id="save_hotel_attr_val_info" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
             </div>
            </form>
     </div>

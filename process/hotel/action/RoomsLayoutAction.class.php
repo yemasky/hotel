@@ -74,7 +74,7 @@ class RoomsLayoutAction extends \BaseAction {
 
     protected function view($objRequest, $objResponse) {
         $this->doEdit($objRequest, $objResponse);
-        $objResponse->view = 1;
+        $objResponse->view = '1';
         $objResponse->setTplName("hotel/modules_roomsLayout_add");
     }
 
@@ -87,6 +87,7 @@ class RoomsLayoutAction extends \BaseAction {
         //
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['add'])));
+        $objResponse->view = 'add';
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl
@@ -94,12 +95,12 @@ class RoomsLayoutAction extends \BaseAction {
 
     protected function doEdit($objRequest, $objResponse) {
         if($objRequest -> act == 'updateLayoutImages') {
+            $this->setDisplay();
             $url = $objRequest->url;
             $room_layout_id = decode($objRequest->room_layout_id);
             if(empty($room_layout_id)) return $this->errorResponse('错误的ID号，请检查');
 
             $conditions = DbConfig::$db_query_conditions;
-            $this->setDisplay();
             $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                 'room_layout_images_path'=>$url, 'room_layout_id'=>$room_layout_id);
             $arrayLayoutImage = RoomService::instance()->getRoomLayoutImages($conditions);
@@ -179,7 +180,7 @@ class RoomsLayoutAction extends \BaseAction {
         }
         sort($arrayAttribute, SORT_NUMERIC);
         //赋值
-        $objResponse -> view = 0;
+        $objResponse -> view = '0';
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
         $objResponse -> room_layout_id = encode($room_layout_id);
         $objResponse -> arrayAttribute = $arrayAttribute;
@@ -199,6 +200,7 @@ class RoomsLayoutAction extends \BaseAction {
                 'room_layout_id'=>encode($room_layout_id),'act'=>'manager_img'));
         $objResponse -> room_attribute_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['view'])));
+        $objResponse -> step = $objRequest -> step;
         //设置Meta(共通)
         $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse -> setTplName("hotel/modules_roomsLayout_add");
@@ -206,44 +208,47 @@ class RoomsLayoutAction extends \BaseAction {
 
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
-
     }
 
     protected function doSaveAttrValue($objRequest, $objResponse) {
         $this->setDisplay();
         $room_layout_id = decode($objRequest->room_layout_id);
         $arrayPostValue= $objRequest->getPost();
-        if(!empty($arrayPostValue) && $room_layout_id > 0) {
-            $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            RoomService::instance()->deleteRoomLayoutAttrValue(array('room_layout_id'=>$room_layout_id,
-                'hotel_id'=>$hotel_id));
-            $arrayInsertValue = array();
-            $i = 0;
-            $arrarAttrHash = array();
-            foreach ($arrayPostValue as $key => $val) {
-                foreach ($val as $k => $v) {
-                    if(empty($v)) continue;
-                    foreach($v as $attr => $attrValue) {
-                        if(empty($attrValue)) continue;
-                        if(isset($arrarAttrHash[$k][$attrValue])) continue;//消除相同属性的属性值
-                        $arrayInsertValue[$i]['hotel_id'] = $hotel_id;
-                        $arrayInsertValue[$i]['room_layout_id'] = $room_layout_id;
-                        $arrayInsertValue[$i]['room_layout_attribute_father_id'] = $key;
-                        $arrayInsertValue[$i]['room_layout_attribute_id'] = $k;
-                        $arrayInsertValue[$i]['room_layout_attribute_value'] = $attrValue;
-                        //消除相同属性的属性值
-                        $arrarAttrHash[$k][$attrValue] = 0;
-                        $i++;
+        if($room_layout_id > 0) {
+            if(!empty($arrayPostValue)) {
+                $redirect_url =  \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
+                    'step'=>'upload_images','room_layout_id'=>encode($room_layout_id)));
+                $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                RoomService::instance()->deleteRoomLayoutAttrValue(array('room_layout_id'=>$room_layout_id,
+                    'hotel_id'=>$hotel_id));
+                $arrayInsertValue = array();
+                $i = 0;
+                $arrarAttrHash = array();
+                foreach ($arrayPostValue as $key => $val) {
+                    foreach ($val as $k => $v) {
+                        if(empty($v)) continue;
+                        foreach($v as $attr => $attrValue) {
+                            if(empty($attrValue)) continue;
+                            if(isset($arrarAttrHash[$k][$attrValue])) continue;//消除相同属性的属性值
+                            $arrayInsertValue[$i]['hotel_id'] = $hotel_id;
+                            $arrayInsertValue[$i]['room_layout_id'] = $room_layout_id;
+                            $arrayInsertValue[$i]['room_layout_attribute_father_id'] = $key;
+                            $arrayInsertValue[$i]['room_layout_attribute_id'] = $k;
+                            $arrayInsertValue[$i]['room_layout_attribute_value'] = $attrValue;
+                            //消除相同属性的属性值
+                            $arrarAttrHash[$k][$attrValue] = 0;
+                            $i++;
+                        }
                     }
-
+                }
+                if(!empty($arrayInsertValue)) {
+                    RoomService::instance()->batchSaveRoomLayoutAttrValue($arrayInsertValue);
+                    return $this->successResponse('保存房型及房型属性成功！', '', $redirect_url);
                 }
             }
-            if(!empty($arrayInsertValue)) {
-                RoomService::instance()->batchSaveRoomLayoutAttrValue($arrayInsertValue);
-                return $this->successResponse('保存房型及房型属性成功！');
-            }
+            return $this->successResponse('保存房型成功！', '', $redirect_url);
         }
-        return $this->successResponse('保存房型成功！');
+        return $this->errorResponse('保存失败！未识别');
     }
 
 }
