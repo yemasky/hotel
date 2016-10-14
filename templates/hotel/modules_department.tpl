@@ -29,6 +29,7 @@
         </div>
           <div class="widget-content tab-content">
            <div id="tab1" class="tab-pane active">
+               <!--<div class="widget-title"></div>-->
                <div class="content_wrap">
                    <div class="zTreeDemoBackground left">
                        <ul id="treeDemo" class="ztree"></ul>
@@ -46,10 +47,20 @@
                </div>
            </div>
     	   <div id="tab2" class="tab-pane">
-              
+               <form action="#" method="get" class="form-horizontal">
+                   <div class="control-group">
+                       <label class="control-label">First Name :</label>
+                       <div class="controls"><input type="text" class="span20" placeholder="First name" /></div>
+                   </div>
+               </form>
            </div>
            <div id="tab3" class="tab-pane">
-
+               <form action="#" method="get" class="form-horizontal">
+                   <div class="control-group">
+                       <label class="control-label">First Name :</label>
+                       <div class="controls"><input type="text" class="span20" placeholder="First name" /></div>
+                   </div>
+               </form>
            </div>
            
            </div>

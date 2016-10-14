@@ -56,6 +56,8 @@ CREATE TABLE `book_change` (
   `book_id` bigint(19) NOT NULL,
   `book_change_type` enum('change_room') DEFAULT NULL COMMENT '改变类型',
   `book_change_reason` varchar(500) DEFAULT NULL COMMENT '改变原因',
+  `book_change_date` date DEFAULT NULL,
+  `book_change_time` time DEFAULT NULL,
   PRIMARY KEY (`book_change_id`,`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -495,12 +497,12 @@ DROP TABLE IF EXISTS `operate_log`;
 CREATE TABLE `operate_log` (
   `operate_log_id` bigint(19) NOT NULL AUTO_INCREMENT COMMENT '操作日志ID',
   `employee_id` bigint(19) NOT NULL COMMENT '操作人ID',
-  `operate_user_id` bigint(19) NOT NULL DEFAULT '0' COMMENT '被操作人ID',
-  `operate_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '操作类型',
-  `operate_describe` varchar(1000) NOT NULL COMMENT '操作描述',
-  `operate_remarks` varchar(2000) DEFAULT NULL COMMENT '备注',
-  `add_date` date NOT NULL COMMENT '添加日期',
-  `add_time` time NOT NULL COMMENT '添加时间',
+  `operate_log_url_referer` varchar(200) DEFAULT NULL,
+  `operate_log_url` varbinary(200) NOT NULL DEFAULT '0' COMMENT '被操作URL',
+  `operate_log_type` varchar(50) NOT NULL DEFAULT '0' COMMENT '操作类型',
+  `operate_log_remarks` varchar(2000) DEFAULT NULL COMMENT '备注',
+  `operate_log_add_date` date NOT NULL COMMENT '添加日期',
+  `operate_log_add_time` time NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`operate_log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
