@@ -156,7 +156,8 @@ $(document).ready(function(){
 		
 	});
 	
-	$('#lightbox').live('click', function() { 
+	//$('#lightbox').live('click', function() { //1.7.3
+	$('#lightbox').on('click', function() { //1.9.0
 		$('#lightbox').hide(200);
 	});
 	
