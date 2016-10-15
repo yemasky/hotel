@@ -29,7 +29,10 @@
         </div>
           <div class="widget-content tab-content">
            <div id="tab1" class="tab-pane active">
-               <!--<div class="widget-title"></div>-->
+               <div class="btn-group pagination">
+               <button class="btn btn-primary">btn-primary</button>
+               <button class="btn btn-warning">btn-primary</button> <button class="btn btn-danger">btn-primary</button>
+               </div>
                <div class="content_wrap">
                    <div class="zTreeDemoBackground left">
                        <ul id="treeDemo" class="ztree"></ul>
