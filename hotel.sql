@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.24 (32 bit)
-MySQL - 10.1.13-MariaDB : Database - hotel
+SQLyog Ultimate v12.09 (64 bit)
+MySQL - 10.1.16-MariaDB : Database - hotel
 *********************************************************************
 */
 
@@ -12,6 +12,8 @@ MySQL - 10.1.13-MariaDB : Database - hotel
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`hotel` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
 USE `hotel`;
 
 /*Table structure for table `book` */
@@ -178,10 +180,9 @@ DROP TABLE IF EXISTS `department`;
 
 CREATE TABLE `department` (
   `department_id` int(11) NOT NULL AUTO_INCREMENT,
-  `company_id` int(11) NOT NULL,
   `hotel_id` int(11) NOT NULL,
-  `department_sort_id` int(11) NOT NULL COMMENT '最高级 department_id',
-  `department_sort_depth` mediumint(6) NOT NULL DEFAULT '0' COMMENT '深度',
+  `department_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `department` int(11) DEFAULT NULL COMMENT '同属源父类ID',
   `department_father_id` int(11) NOT NULL DEFAULT '0' COMMENT '父类ID',
   `department_name` varchar(100) NOT NULL COMMENT '部门名称',
   PRIMARY KEY (`department_id`)
@@ -189,7 +190,7 @@ CREATE TABLE `department` (
 
 /*Data for the table `department` */
 
-insert  into `department`(`department_id`,`company_id`,`hotel_id`,`department_sort_id`,`department_sort_depth`,`department_father_id`,`department_name`) values (1,1,1,1,1,1,'系统管理员');
+insert  into `department`(`department_id`,`hotel_id`,`department_order`,`department`,`department_father_id`,`department_name`) values (1,1,1,NULL,1,'系统管理员');
 
 /*Table structure for table `employee` */
 
@@ -283,7 +284,7 @@ CREATE TABLE `hotel_attribute` (
   `hotel_attribute_value_type` enum('time','date','datetime','text') DEFAULT NULL,
   `hotel_attribute_is_filter` enum('0','1') DEFAULT '0' COMMENT '作为筛选',
   PRIMARY KEY (`hotel_attribute_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `hotel_attribute` */
 
