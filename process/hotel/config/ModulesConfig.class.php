@@ -29,4 +29,6 @@ class ModulesConfig extends \ModulesConfig {
                            'room_attribute'=>'room_attribute_')
     );
 
+    public static $idCardType = array('id_card', 'passport', 'certificate_officers', 'other');
+
 }

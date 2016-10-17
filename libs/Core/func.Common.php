@@ -319,7 +319,7 @@ if(!defined("INC_FUNC_COMMON")) {
 		return substr($str, 0, $loop);
 	}
 
-	function page($pn, $all_page_num, $list_data, $parameters, $show_pages = 10) {
+	function page($pn, $all_page_num, $list_data, $parameters, $show_pages = 5) {
 		$arrayResultPage = "";
 		$mod_pn = $pn % $show_pages;
 		if($mod_pn != 0) {
