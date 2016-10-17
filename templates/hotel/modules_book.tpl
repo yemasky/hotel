@@ -7,6 +7,11 @@
 .widget-box{margin-bottom:1px; margin-top:1px;}
 </style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
+<link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
+<script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
+<!--<script src="<%$__RESOURCE%>js/jquery.dataTables.min.js"></script>-->
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -33,10 +38,57 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['booking_information']['page_laguage_value']%> :</label>
+                            <label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                
+                                <input type="text" class="span2" id="book_check_int" name="book_check_int"/>
+                                <%$arrayLaguage['checkout']['page_laguage_value']%> : 
+                                <input type="text" class="span2" id="book_check_out" name="book_check_out "/>
+                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
+                        </div>
+             <div class="control-group">
+             	<div class="controls">
+                 <table class="table table-bordered data-table" id="room_layout">
+                  <thead>
+                    <tr>
+                      <th><%$arrayLaguage['room_layout_name']['page_laguage_value']%></th>
+                      <th><%$arrayLaguage['price']['page_laguage_value']%></th>
+                      <th><%$arrayLaguage['book']['page_laguage_value']%></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="gradeX">
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 4.0</td>
+                      <td>Win 95+</td>
+                    </tr>
+                    <tr class="gradeC">
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 5.0</td>
+                      <td>Win 95+</td>
+                    </tr>
+                    <tr class="gradeA">
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 5.5</td>
+                      <td>Win 95+</td>
+                    </tr>
+                    <tr class="gradeA">
+                      <td>Trident</td>
+                      <td>Internet
+                        Explorer 6</td>
+                      <td>Win 98+</td>
+                    </tr>
+                    <tr class="gradeA">
+                      <td>Trident</td>
+                      <td>Internet Explorer 7</td>
+                      <td>Win XP SP2+</td>
+                    </tr>
+                  </tbody>
+                </table>  
+                          </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
@@ -79,39 +131,6 @@
     
     </div>
 </div>
-</div>
-<div id="addLayoutAttr" class="modal hide" style="display: none;" aria-hidden="true">
-<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_attr_classes" id="add_attr_classes" novalidate>
-  <div class="modal-header">
-    <button data-dismiss="modal" class="close" type="button">×</button>
-    <h3><%$arrayLaguage['add_customize_attr']['page_laguage_value']%></h3>
-  </div>
-  <div class="modal-body">
-      <div class="widget-box">
-        <div class="widget-content tab-content nopadding">
-                <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['attr_classes']['page_laguage_value']%> :</label>
-                    <div class="controls">
-                        <select id="room_layout_attribute_id" name="room_layout_attribute_id" class="span2">
-                            <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                            <!--<option value="0"><%$arrayLaguage['add_attr_classes']['page_laguage_value']%></option>-->
-                            <%section name=attr loop=$arrayAttribute%>
-                            <option value="<%$arrayAttribute[attr].room_layout_attribute_id%>"><%$arrayAttribute[attr].room_layout_attribute_name%></option>
-                            <%/section%>
-                         </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['attr_name']['page_laguage_value']%> :</label>
-                    <div class="controls">
-                        <input id="room_layout_attribute_name" name="room_layout_attribute_name" class="span2" placeholder="" value="" type="text">
-                    </div>
-                </div>
-         </div>
-      </div>
-  </div>
-  <div class="modal-footer"> <button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
-</form>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
@@ -168,6 +187,24 @@ $(document).ready(function(){
 			 });
 		}
 	});
+	$.datetimepicker.setLocale('ch');
+	var dateToDisable = new Date();
+	dateToDisable.setDate(dateToDisable.getDate() - 1);
+	$('#book_check_int').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
+		beforeShowDay: function(date) {
+			if (date.getMonth() < dateToDisable.getMonth() || (date.getMonth() == dateToDisable.getMonth() && date.getDate() <= dateToDisable.getDate())) {
+				return [false, ""];
+			}
+			return [true, ""];
+		}
+	});
+	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s'});
+	
+	$('#search_room_layout').click(function(e) {
+        
+    });
+	
+	$('#room_layout').DataTable({"paging": false});
 });//add_attr_classes
 
 function update_sumbit() {		

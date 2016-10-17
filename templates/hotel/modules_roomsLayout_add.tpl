@@ -51,6 +51,19 @@
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['area']['page_laguage_value']%>" name="room_layout_area" id="room_layout_area" value="<%$arrayDataInfo['room_layout_area']%>" /> </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['room_layout_max_people']['page_laguage_value']%> :</label>
+                    <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_max_people']['page_laguage_value']%>" name="room_layout_max_people" id="room_layout_max_people" value="<%$arrayDataInfo['room_layout_max_people']%>" /> </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['room_layout_max_children']['page_laguage_value']%> :</label>
+                    <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_max_children']['page_laguage_value']%>" name="room_layout_max_children" id="room_layout_max_children" value="<%$arrayDataInfo['room_layout_max_children']%>" /> </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%> :</label>
+                    <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>" name="room_layout_extra_bed" id="room_layout_extra_bed" value="<%$arrayDataInfo['room_layout_extra_bed']%>" /> </div>
+                </div>
+                
+                <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['orientations']['page_laguage_value']%> :</label>
                     <div class="controls">
                     	<select name="room_layout_orientations" id="room_layout_orientations" class="span1">
