@@ -9,9 +9,9 @@
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
-<!--<script src="<%$__RESOURCE%>js/jquery.dataTables.min.js"></script>-->
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+<script src="<%$__RESOURCE%>js/jquery.dataTables.min.1.10.12.js"></script>
+<!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
+<link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.dataTables.min.1.10.12.css" />
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -43,51 +43,53 @@
                                 <input type="text" class="span2" id="book_check_int" name="book_check_int"/>
                                 <%$arrayLaguage['checkout']['page_laguage_value']%> : 
                                 <input type="text" class="span2" id="book_check_out" name="book_check_out "/>
-                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                <!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> : 
+                                <input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
+                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
                         </div>
-             <div class="control-group">
-             	<div class="controls">
-                 <table class="table table-bordered data-table" id="room_layout">
-                  <thead>
-                    <tr>
-                      <th><%$arrayLaguage['room_layout_name']['page_laguage_value']%></th>
-                      <th><%$arrayLaguage['price']['page_laguage_value']%></th>
-                      <th><%$arrayLaguage['book']['page_laguage_value']%></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="gradeX">
-                      <td>Trident</td>
-                      <td>Internet
-                        Explorer 4.0</td>
-                      <td>Win 95+</td>
-                    </tr>
-                    <tr class="gradeC">
-                      <td>Trident</td>
-                      <td>Internet
-                        Explorer 5.0</td>
-                      <td>Win 95+</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>Trident</td>
-                      <td>Internet
-                        Explorer 5.5</td>
-                      <td>Win 95+</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>Trident</td>
-                      <td>Internet
-                        Explorer 6</td>
-                      <td>Win 98+</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>Trident</td>
-                      <td>Internet Explorer 7</td>
-                      <td>Win XP SP2+</td>
-                    </tr>
-                  </tbody>
-                </table>  
+                         <div class="control-group">
+                            <div class="controls">
+                             <table class="table table-bordered data-table" id="room_layout">
+                              <thead>
+                                <tr>
+                                  <th><%$arrayLaguage['room_layout_name']['page_laguage_value']%></th>
+                                  <th><%$arrayLaguage['price']['page_laguage_value']%></th>
+                                  <th><%$arrayLaguage['book']['page_laguage_value']%></th>
+                                </tr>
+                              </thead>
+                              <tbody id='room_layout_data'>
+                                <tr class="gradeX">
+                                  <td>Trident</td>
+                                  <td>Internet
+                                    Explorer 4.0</td>
+                                  <td>Win 95+</td>
+                                </tr>
+                                <tr class="gradeC">
+                                  <td>Trident</td>
+                                  <td>Internet
+                                    Explorer 5.0</td>
+                                  <td>Win 95+</td>
+                                </tr>
+                                <tr class="gradeA">
+                                  <td>Trident</td>
+                                  <td>Internet
+                                    Explorer 5.5</td>
+                                  <td>Win 95+</td>
+                                </tr>
+                                <tr class="gradeA">
+                                  <td>Trident</td>
+                                  <td>Internet
+                                    Explorer 6</td>
+                                  <td>Win 98+</td>
+                                </tr>
+                                <tr class="gradeA">
+                                  <td>Trident</td>
+                                  <td>Internet Explorer 7</td>
+                                  <td>Win XP SP2+</td>
+                                </tr>
+                              </tbody>
+                            </table>  
                           </div>
                         </div>
                         <div class="control-group">
@@ -110,7 +112,7 @@
                                 <input type="text" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/> 
                             </div>
                             <div class="controls">
-                            <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> 增加属性值</a>
+                            <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
                             </div>
                             
                             
@@ -136,10 +138,6 @@
 <%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
 $(document).ready(function(){	
-	$('.addLayoutAttr').click(function(e) {
-        $('#identifier').modal('show')
-    });
-	
 	$("#add_attr_classes").validate({
 		rules:{
 			room_layout_attribute_id:{
@@ -187,6 +185,7 @@ $(document).ready(function(){
 			 });
 		}
 	});
+	//日历
 	$.datetimepicker.setLocale('ch');
 	var dateToDisable = new Date();
 	dateToDisable.setDate(dateToDisable.getDate() - 1);
@@ -200,11 +199,35 @@ $(document).ready(function(){
 	});
 	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s'});
 	
+	//搜索
+	table = $('#room_layout').DataTable( {
+		paging: false
+	} );
 	$('#search_room_layout').click(function(e) {
-        
+		$.ajax({
+		   url : '<%$searchRoomLayoutUrl%>',
+					  // + '&room_layout_max_people=' + $('#room_layout_max_people').val()
+		   type : "post",
+		   data : 'book_check_int=' + $('#book_check_int').val() 
+					  + '&book_check_out=' + $('#book_check_out').val(),
+		   dataType : "json",
+		   success : function(data) {
+			   if(data.success == 1) {
+				    $('#addLayoutAttr').modal('hide');
+				    table.destroy();
+					table = $('#room_layout').DataTable({
+						"paging": false
+					})
+			   } else {
+				   $('#modal_fail').modal('show');
+				   $('#modal_fail_message').html(data.message);
+			   }
+		   }
+		});
+		
     });
 	
-	$('#room_layout').DataTable({"paging": false});
+	
 });//add_attr_classes
 
 function update_sumbit() {		

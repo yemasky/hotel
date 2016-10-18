@@ -558,7 +558,12 @@ class DBQuery{
 	}
 
 	public function setTable($table){
-		$this->table_name = '`'. $table . '`';
+	    if(strpos($table, '`') === false) {
+            $this->table_name = '`'. $table . '`';
+        } else {
+            $this->table_name = $table;
+        }
+
 		return $this;
 	}
 
@@ -589,43 +594,101 @@ class DBQuery{
             foreach($conditions as $key => $condition) {
                 if($key == 'like') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` LIKE '%{$condition_value}%'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` LIKE '%{$condition_value}%'";
+                        } else {
+                            $join[] = "{$condition_key} LIKE '%{$condition_value}%'";
+                        }
                     }
                 } elseif ($key == '>') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` > '{$condition_value}'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` > '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} > '{$condition_value}'";
+                        }
                     }
                 } elseif ($key == '>=') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` >= '{$condition_value}'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` >= '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} >= '{$condition_value}'";
+                        }
                     }
                 } elseif ($key == '<') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` < '{$condition_value}'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` < '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} < '{$condition_value}'";
+                        }
                     }
                 } elseif ($key == '<=') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` <= '{$condition_value}'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` <= '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} <= '{$condition_value}'";
+                        }
                     }
                 } elseif ($key == '!=') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` != '{$condition_value}'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` != '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} != '{$condition_value}'";
+                        }
+
                     }
                 } elseif ($key == '<>') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` <> '{$condition_value}'";
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` <> '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} <> '{$condition_value}'";
+                        }
                     }
                 } elseif ($key == 'IN') {
                     foreach($condition as $condition_key => $condition_value) {
-                        if(is_array($condition_value)) $condition_value = implode("','", $condition_value);
-                        $join[] = "`{$condition_key}` IN ('{$condition_value}')";
+                        if(is_array($condition_value)) {
+                            if(!empty($condition_value)) $condition_value = implode("','", $condition_value);
+                        }
+                        if(!empty($condition_value)) {
+                            if(strpos($condition_key, '.') === false) {
+                                $join[] = "`{$condition_key}` IN ('{$condition_value}')";
+                            } else {
+                                $join[] = "{$condition_key} IN ('{$condition_value}')";
+                            }
+                        }
                     }
-                } elseif ($key == '=') {
+                } elseif ($key == 'NOT IN') {
                     foreach($condition as $condition_key => $condition_value) {
-                        $join[] = "`{$condition_key}` = '{$condition_value}'";
+                        if(is_array($condition_value)) {
+                            if(!empty($condition_value)) $condition_value = implode("','", $condition_value);
+                        }
+                        if(!empty($condition_value)) {
+                            if(strpos($condition_key, '.') === false) {
+                                $join[] = "`{$condition_key}` NOT IN ('{$condition_value}')";
+                            } else {
+                                $join[] = "{$condition_key} NOT IN ('{$condition_value}')";
+                            }
+                        }
+                    }
+                }elseif ($key == '=') {
+                    foreach($condition as $condition_key => $condition_value) {
+                        if(strpos($condition_key, '.') === false) {
+                            $join[] = "`{$condition_key}` = '{$condition_value}'";
+                        } else {
+                            $join[] = "{$condition_key} = '{$condition_value}'";
+                        }
                     }
                 } else {
-                    $join[] = "`{$key}` = '{$condition}'";
+                    if(strpos($key, '.') === false) {
+                        $join[] = "`{$key}` = '{$condition}'";
+                    } else {
+                        $join[] = "{$key} = '{$condition}'";
+                    }
                 }
             }
             if(empty($this->whereCondition)) {
