@@ -12,6 +12,7 @@
 .modal-body{ padding:1px;}
 .widget-box{margin-bottom:1px; margin-top:1px;}
 #room_layout_paginate a{border:1px solid #BFBDBD;}
+.dataTables_wrapper .dataTables_paginate .paginate_button {border-radius: 0;margin-left: 0;min-width: 0;padding: 0.1em 0.5em;}
 </style>
 </head>
 <body>
@@ -217,7 +218,7 @@ $(document).ready(function(){
 				    table.destroy();
 					$('#room_layout_data').html(data.itemDate);
 					table = $('#room_layout').DataTable({
-						"pagingType":   "full_numbers"
+						"pagingType":   "numbers"
 					})
 					$('#room_layout_length').hide();
 			   } else {
