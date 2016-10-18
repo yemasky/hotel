@@ -7,26 +7,26 @@ define('__CLOSE_WEB', false);
 define('__WEB_KEY','localhost');
 define('__KEY','xyzABcdeee12345');
 define('__WEB','http://dev.hotel.cn/');
-define('__RESOURCE','http://dev.hotel.cn/resource/');
+define('__RESOURCE', __WEB . 'resource/');
 
 define('__WWW_PATH',dirname(__FILE__) . '/');
 define('__WWW_PATH_CONFIG',__WWW_PATH.'config/');
 define('__HTML', __WWW_PATH.'static/');
-define('__HTML_WEB', 'http://dev.hotel.cn/static/');
+define('__HTML_WEB', __WEB . 'static/');
 
 //images
 define('__DEFAULT_PATH',__WWW_PATH);
 define('__DEFAULT_IMG',__WWW_PATH.'data/images/');
-define('__IMGWEB','http://dev.hotel.cn/data/images/');
+define('__IMGWEB',__WEB . 'data/images/');
 
 define('__XML_PATH',__WWW_PATH);
 define('__XML',__XML_PATH.'data/xml/');
-define('__XMLWEB','http://dev.hotel.cn/data/xml/');
+define('__XMLWEB',__WEB . 'data/xml/');
 
 define('__USER_DATA_PATH',__WWW_PATH);
 define('__USER_DATA',__USER_DATA_PATH.'data/userdata/');
 define('__USER_IMG',__USER_DATA_PATH.'data/userimg/');
-define('__USER_IMGWEB','http://dev.hotel.cn/data/userimg/');//
+define('__USER_IMGWEB',__WEB . 'data/userimg/');//
 
 /// cache physical path ///
 define('__CACHE',__WWW_PATH.'cache/');
