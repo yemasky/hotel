@@ -40,9 +40,20 @@ class BookAction extends \BaseAction {
     protected function doDefault($objRequest, $objResponse) {
         if($objRequest -> search == 'searchRoomLayout') {
             $this -> setDisplay();
-            $this->searchISBookRoomLayout($objRequest, $objResponse);
+            $arrayBookRoomLayout = $this->searchISBookRoomLayout($objRequest, $objResponse);
+            $tableHr = '';
+            if(!empty($arrayBookRoomLayout)) {
+                foreach($arrayBookRoomLayout as $k => $v) {
+                    $tableHr .= '<tr class="gradeX"><td>' . $v['room_layout_name'] . '</td>'
+                               .'<td>' . $v['room_layout_price'] . '</td>'
+                               .'<td><inpnu type="checkbox" ></td></tr>';
+                }
+                for($i = 0 ; $i < 7; $i++) {
+                    $tableHr .= $tableHr;
+                }
 
-            return $this->successResponse('');
+            }
+            return $this->successResponse('', $tableHr);
         }
 
         $conditions = DbConfig::$db_query_conditions;

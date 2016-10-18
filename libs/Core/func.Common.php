@@ -15,14 +15,15 @@ if(!defined("INC_FUNC_COMMON")) {
 		$arrVariables = $_SERVER['argv'];
 		$_REQUEST = NULL;
 		if(!empty($arrVariables[0])) {
+			$arrParameter = null;
 			foreach($arrVariables as $k => $v) {
 				$arrVariable = explode('=', $v);
 				if(!isset($arrVariable[1]))
 					$arrVariable[1] = NULL;
 					$arrParameter[$arrVariable[0]] = $arrVariable[1];
 			}
+			$_REQUEST = $arrParameter;
 		}
-		$_REQUEST = $arrParameter;
 	}
 	//function __autoload($class){
 	function process_autoload($class){
@@ -112,7 +113,7 @@ if(!defined("INC_FUNC_COMMON")) {
 	}
 
 	function writeLog($filename, $msg){
-		if(defined(__WWW_LOGS_PATH)) {
+		if(defined('__WWW_LOGS_PATH')) {
 			$fp = fopen(__WWW_LOGS_PATH . $filename . '.' . date("z") . '.log', "a+");
 		} else {
 			$fp = fopen(__ROOT_LOGS_PATH . $filename . '.' . date("z") . '.log', "a+");
@@ -254,7 +255,7 @@ if(!defined("INC_FUNC_COMMON")) {
 		}
 	}
 
-	function exception_handler($exception){
+	function exception_handler($e){
 		// echo "Uncaught exception: " , $exception->getMessage(), "\n";
 		if(__Debug) {
 			print_r($e->getMessage());

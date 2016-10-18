@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
-<style type="text/css">
-.modal-body{ padding:1px;}
-.widget-box{margin-bottom:1px; margin-top:1px;}
-</style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <script src="<%$__RESOURCE%>js/jquery.dataTables.min.1.10.12.js"></script>
 <!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.dataTables.min.1.10.12.css" />
+<style type="text/css">
+.modal-body{ padding:1px;}
+.widget-box{margin-bottom:1px; margin-top:1px;}
+#room_layout_paginate a{border:1px solid #BFBDBD;}
+</style>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -213,11 +214,12 @@ $(document).ready(function(){
 		   dataType : "json",
 		   success : function(data) {
 			   if(data.success == 1) {
-				    $('#addLayoutAttr').modal('hide');
 				    table.destroy();
+					$('#room_layout_data').html(data.itemDate);
 					table = $('#room_layout').DataTable({
-						"paging": false
+						"pagingType":   "full_numbers"
 					})
+					$('#room_layout_length').hide();
 			   } else {
 				   $('#modal_fail').modal('show');
 				   $('#modal_fail_message').html(data.message);

@@ -1,7 +1,6 @@
 <?php
 if( !defined('DEFINE_PHP') ){
 define('DEFINE_PHP','YES');
-
 /// physical path ///
 define('__ROOT_PATH',substr(dirname(__FILE__), 0, -3));
 define('__ROOT_TPLS_TPATH',__ROOT_PATH.'templates/');
