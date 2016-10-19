@@ -342,12 +342,12 @@ abstract class BaseAction{
 	}
 
     public function successResponse($message, $arrayReturnDate = '', $redirect_url = '') {
-        $arrayResule = array('success'=>1,'message'=>$message, 'itemDate'=>$arrayReturnDate, 'redirect'=>$redirect_url);
+        $arrayResule = array('success'=>1,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
 
     public function errorResponse($message, $arrayReturnDate = '', $redirect_url = '') {
-        $arrayResule = array('success'=>0,'message'=>$message, 'itemDate'=>$arrayReturnDate, 'redirect'=>$redirect_url);
+        $arrayResule = array('success'=>0,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
 	/**

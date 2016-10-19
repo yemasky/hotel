@@ -38,6 +38,7 @@ class BookAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $conditions = DbConfig::$db_query_conditions;
         if($objRequest -> search == 'searchRoomLayout') {
             $this -> setDisplay();
             $arrayBookRoomLayout = $this->searchISBookRoomLayout($objRequest, $objResponse);
@@ -46,24 +47,32 @@ class BookAction extends \BaseAction {
                 foreach($arrayBookRoomLayout as $k => $v) {
                     $tableHr .= '<tr class="gradeX"><td>' . $v['room_layout_name'] . '</td>'
                                .'<td>' . $v['room_layout_price'] . '</td>'
-                               .'<td><inpnu type="checkbox" ></td></tr>';
+                               .'<td><select class="span2 room_layout_id" name="'. $v['room_layout_id'] .'" >';
+                    for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
+                        $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
+                    }
+                    $tableHr .= '</select>   '.$objResponse->arrayLaguage['room']['page_laguage_value'].'</td></tr>';
                 }
-                for($i = 0 ; $i < 7; $i++) {
-                    $tableHr .= $tableHr;
-                }
-
             }
             return $this->successResponse('', $tableHr);
         }
+        if($objRequest -> search == 'searchUserMemberLevel') {
+            $this -> setDisplay();
+            if(empty($objRequest -> book_contact_mobile)) return $this->errorResponse('电话号码不能为空！');
+            $conditions['where'] = array('user_mobile'=>$objRequest -> book_contact_mobile);
+            $arrayBookTypeId = \web\UserService::instance()->getUserLogin($conditions, 'book_type_id');
+            return $this->successResponse('', $arrayBookTypeId);
+        }
 
-        $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-        $conditions['order'] = 'room_layout_valid DESC';
-
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'],0)));
+        $arrayBookType = BookService::instance()->getBookType($conditions);
         //
         $weekarray = array("日","一","二","三","四","五","六");
         //赋值
-        $objResponse -> searchRoomLayoutUrl = \BaseUrlUtil::Url(array('module'=>$objRequest->module, 'search'=>'searchRoomLayout'));
+        $objResponse -> arrayBookType = $arrayBookType;
+        $objResponse -> book_check_int = getDateTime();
+        $objResponse -> book_check_out = getDay(24) . ' 12:00:00';
+        $objResponse -> searchBookInfoUrl = \BaseUrlUtil::Url(array('module'=>$objRequest->module));
         $objResponse -> today = getDay() . " 星期".$weekarray[date("w")];
         $objResponse -> idCardType = ModulesConfig::$idCardType;
             //设置类别
@@ -107,8 +116,7 @@ class BookAction extends \BaseAction {
         //$room_layout_max_people = $objRequest -> room_layout_max_people;
         //排除已住房间
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                                     '>='=>array('book_check_int'=>$book_check_int),
-                                     '<='=>array('book_check_out'=>$book_check_out));
+                                     '<='=>array('book_check_int'=>$book_check_int),'>'=>array('book_check_out'=>$book_check_int));
         $arrarISBookRoomLayout = BookService::instance()->getBook($conditions, 'room_id, room_layout_id');
         $arrayRoomId = array();
         if(!empty($arrarISBookRoomLayout)) {
@@ -118,7 +126,8 @@ class BookAction extends \BaseAction {
         }
         $conditions['where'] = array('rl.hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                                      'NOT IN'=>array('rlr.room_id'=>$arrayRoomId));
-        //SELECT rlr.`room_id`, rlp.`room_layout_price`, rl.* FROM room_layout_room rlr
+        $conditions['group'] = 'rlp.`room_layout_id`';
+            //SELECT rlr.`room_id`, rlp.`room_layout_price`, rl.* FROM room_layout_room rlr
         //LEFT JOIN `room_layout` rl ON rlr.`room_layout_id` = rl.room_layout_id
         //LEFT JOIN `room_layout_price` rlp ON rlp.`room_layout_id` = rlr.`room_layout_id` AND rlp.`room_layout_price_is_active` = '1'
         //WHERE rl.`room_layout_max_people` >= 1

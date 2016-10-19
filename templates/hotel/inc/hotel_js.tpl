@@ -166,7 +166,7 @@ $(document).ready(function(){
 			   data: param,
 			   success : function(data) {
 			       if(data.success == '1') {
-					   hotel_id = data.itemDate.hotel_id;
+					   hotel_id = data.itemData.hotel_id;
 					   saveHotelAttr();
 			       } else {
 					   $('#modal_fail').modal('show');
@@ -230,7 +230,7 @@ $('#hotel_checkin').datetimepicker({
 			img_url = img_url.replace('/data/images/', '');//<%$upload_images_url%>
 			$.getJSON('<%$hotel_update_url%>&act=updateImages&url=' + img_url, function(data){
 				if(data.success == 1) {
-					id = data.itemDate.hotel_images_id;
+					id = data.itemData.hotel_images_id;
 					addLayoutImages(img_url, id);
 				} else {
 					$('#modal_success').modal('hide');

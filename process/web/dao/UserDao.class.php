@@ -28,7 +28,7 @@ class UserDao extends \BaseDao {
         return DbConfig::dsnWrite();
     }
 
-    public function getUser($conditions, $fileid) {
+    public function getUser($conditions, $fileid = '*') {
         return $this->setDsnRead($this->getDsnRead())->setTable('user')->getList($conditions, $fileid);//->DBCache($cacheId)
     }
 

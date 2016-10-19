@@ -30,21 +30,34 @@
                     <h5><%$arrayLaguage['book_info']['page_laguage_value']%> <%$today%></h5>
                 </div>
                 <div class="widget-content nopadding">
-                    <form action="#" method="get" class="form-horizontal">
+                    <form action="#" method="post" class="form-horizontal" enctype="multipart/form-data" name="book_form" id="book_form">
                     	<div class="control-group">
                             <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
                             <div class="controls">
-                            <input type="text"  class="span2" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  /> 
+                            <input type="text" id="book_contact_name" name="book_contact_name" class="span2" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  /> 
                             <%$arrayLaguage['mobile']['page_laguage_value']%> : 
-                            <input type="text"  class="span2" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
+                            <input type="text" id="book_contact_mobile" name="book_contact_mobile" class="span2" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['book_type']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                            	 <select name="book_type_id" id="book_type_id" class="span2">
+                                 <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                 <%section name=type loop=$arrayBookType%>
+                                 	<%if $arrayBookType[type].book_type_father_id!=$arrayBookType[type].book_type_id%>
+                                	<option value="<%$arrayBookType[type].book_type_id%>"><%$arrayBookType[type].book_type_name%></option>
+                                    <%/if%>
+                                 <%/section%>
+                                </select>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input type="text" class="span2" id="book_check_int" name="book_check_int"/>
+                                <input type="text" class="span2" id="book_check_int" name="book_check_int" value="<%$book_check_int%>"/>
                                 <%$arrayLaguage['checkout']['page_laguage_value']%> : 
-                                <input type="text" class="span2" id="book_check_out" name="book_check_out "/>
+                                <input type="text" class="span2" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
                                 <!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> : 
                                 <input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
@@ -62,36 +75,18 @@
                               </thead>
                               <tbody id='room_layout_data'>
                                 <tr class="gradeX">
-                                  <td>Trident</td>
-                                  <td>Internet
-                                    Explorer 4.0</td>
-                                  <td>Win 95+</td>
-                                </tr>
-                                <tr class="gradeC">
-                                  <td>Trident</td>
-                                  <td>Internet
-                                    Explorer 5.0</td>
-                                  <td>Win 95+</td>
-                                </tr>
-                                <tr class="gradeA">
-                                  <td>Trident</td>
-                                  <td>Internet
-                                    Explorer 5.5</td>
-                                  <td>Win 95+</td>
-                                </tr>
-                                <tr class="gradeA">
-                                  <td>Trident</td>
-                                  <td>Internet
-                                    Explorer 6</td>
-                                  <td>Win 98+</td>
-                                </tr>
-                                <tr class="gradeA">
-                                  <td>Trident</td>
-                                  <td>Internet Explorer 7</td>
-                                  <td>Win XP SP2+</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
                                 </tr>
                               </tbody>
                             </table>  
+                          </div>
+                        </div>
+                        <div class="control-group">
+                        	<label class="control-label"><%$arrayLaguage['overall_number_of_people']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                             <input value="" type="text" class="span2" id="overall_number_of_people" readonly /> 
                           </div>
                         </div>
                         <div class="control-group">
@@ -121,8 +116,6 @@
                         </div>                       
                         
                         
-                        
-                        
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
@@ -140,20 +133,21 @@
 <%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
 $(document).ready(function(){	
-	$("#add_attr_classes").validate({
+	var contact_info_validate = $("#book_form").validate({
 		rules:{
-			room_layout_attribute_id:{
+			book_contact_name:{
 				required:true
 			},
-			room_layout_attribute_name:{
-				required:true
+			book_contact_mobile:{
+				required:true,
+				isMobile:true
 			}
 		},
 		messages: {
-			room_layout_attribute_id:"请选择属性类别",
-			room_layout_attribute_name:"请填写属性名称",
+			book_contact_name:"请填写联系人",
+			book_contact_mobile:"请填写正确的移动电话号码",
 		},
-		errorClass: "help-inline",
+		errorClass: "text-error",
 		errorElement: "span",
 		highlight:function(element, errorClass, validClass) {
 			$(element).parents('.control-group').removeClass('success');
@@ -164,27 +158,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-			var param = $("#add_attr_classes").serialize();
-			$.ajax({
-			   url : "<%$add_room_attribute_url%>",
-			   type : "post",
-			   dataType : "json",
-			   data: param,
-			   success : function(data) {
-			       if(data.success == 1) {
-					   $('#addLayoutAttr').modal('hide');
-					   $('#modal_success').modal('show');
-					   $('#modal_success_message').html(data.message);
-					   $('#modal_success').on('hide.bs.modal', function () {
-							window.location.reload();
-					   });
-					   $('#room_layout_attribute_name').val('');
-			       } else {
-					   $('#modal_fail').modal('show');
-					   $('#modal_fail_message').html(data.message);
-			       }
-			   }
-			 });
+			
 		}
 	});
 	//日历
@@ -199,15 +173,30 @@ $(document).ready(function(){
 			return [true, ""];
 		}
 	});
-	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s'});
+	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
+		beforeShowDay: function(date) {
+			if (date.getMonth() < dateToDisable.getMonth() || (date.getMonth() == dateToDisable.getMonth() && date.getDate() <= dateToDisable.getDate())) {
+				return [false, ""];
+			}
+			return [true, ""];
+		}
+	});
 	
 	//搜索
 	table = $('#room_layout').DataTable( {
 		paging: false
 	} );
 	$('#search_room_layout').click(function(e) {
+		if(contact_info_validate.form()) {
+			ajaxGetRoomLayout();
+		} else {
+			return false;
+		}
+		
+    });
+	function ajaxGetRoomLayout() {
 		$.ajax({
-		   url : '<%$searchRoomLayoutUrl%>',
+		   url : '<%$searchBookInfoUrl%>&search=searchRoomLayout',
 					  // + '&room_layout_max_people=' + $('#room_layout_max_people').val()
 		   type : "post",
 		   data : 'book_check_int=' + $('#book_check_int').val() 
@@ -216,25 +205,54 @@ $(document).ready(function(){
 		   success : function(data) {
 			   if(data.success == 1) {
 				    table.destroy();
-					$('#room_layout_data').html(data.itemDate);
+					$('#room_layout_data').html(data.itemData);
 					table = $('#room_layout').DataTable({
 						"pagingType":   "numbers"
 					})
 					$('#room_layout_length').hide();
+					$('.room_layout_id').change(function(e) {
+						 var all_val = 0; //定义变量全部保存
+						 $(".room_layout_id").each(function () {
+							 var val = $(this).val() - 0; //获取单个value
+							 all_val += val;
+						 });
+						 $('#overall_number_of_people').val(all_val);
+                    });
 			   } else {
 				   $('#modal_fail').modal('show');
 				   $('#modal_fail_message').html(data.message);
 			   }
 		   }
 		});
-		
+	}
+	
+	$('#book_contact_mobile').keyup(function(e) {
+        if($('#book_contact_mobile').val().length == 11) {
+			$.ajax({
+			   url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",
+			   type : "post",
+			   dataType : "json",
+			   data: "book_contact_mobile=" + $('#book_contact_mobile').val(),
+			   success : function(data) {
+				   if(data.success == 1) {
+					   if(data.itemData != '') {
+						   $('#book_type_id').val(data.itemData[0].book_type_id);
+					   }
+				   } else {
+					   $('#modal_fail').modal('show');
+					   $('#modal_fail_message').html(data.message);
+				   }
+			   }
+			 });
+		}
     });
+	
 	
 	
 });//add_attr_classes
 
 function update_sumbit() {		
-	var param = $("#modify_attr_classes").serialize();
+	/*var param = $("#modify_attr_classes").serialize();
 	$.ajax({
 	   url : "<%$delete_room_attribute_url%>",
 	   type : "post",
@@ -254,7 +272,7 @@ function update_sumbit() {
 			   $('#modal_fail_message').html(data.message);
 		   }
 	   }
-	 });
+	 });*/
 }
 </script>
 

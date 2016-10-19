@@ -239,7 +239,7 @@ $(document).ready(function(){
 			   data: param,
 			   success : function(data) {
 			       if(data.success == 1) {
-					   room_layout_id = data.itemDate.room_layout_id;
+					   room_layout_id = data.itemData.room_layout_id;
 					   saveRoomLayoutAttrValue();
 					   /*$('#modal_fail').modal('hide');
 					   $('#modal_success').modal('show');
@@ -307,7 +307,7 @@ function uploadSuccess(img_url, id) {
 		$.getJSON(url + '&act=updateLayoutImages&room_layout_id=' 
 				  + room_layout_id + '&url=' + img_url, function(data){
 			if(data.success == 1) {
-			   id = data.itemDate.room_layout_images_id;
+			   id = data.itemData.room_layout_images_id;
 			   addLayoutImages(img_url, id);
 			} else {
 			   $('#modal_success').modal('hide');
