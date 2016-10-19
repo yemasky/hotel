@@ -70,7 +70,7 @@ class BookAction extends \BaseAction {
         $weekarray = array("日","一","二","三","四","五","六");
         //赋值
         $objResponse -> arrayBookType = $arrayBookType;
-        $objResponse -> book_check_int = getDateTime();
+        $objResponse -> book_check_int = getDay() .' '. date("H") . ':00:00';
         $objResponse -> book_check_out = getDay(24) . ' 12:00:00';
         $objResponse -> searchBookInfoUrl = \BaseUrlUtil::Url(array('module'=>$objRequest->module));
         $objResponse -> today = getDay() . " 星期".$weekarray[date("w")];

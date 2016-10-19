@@ -69,7 +69,7 @@
                                 <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini" data-style="expand-left"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
                         </div>
-                         <div class="control-group">
+                         <div class="control-group" id="room_layout_table">
                             <div class="controls">
                              <table class="table table-bordered data-table" id="room_layout">
                               <thead>
@@ -210,6 +210,7 @@ $(document).ready(function(){
 		   dataType : "json",
 		   success : function(data) {
 			   if(data.success == 1) {
+				   $('#room_layout_table').show();
 				    table.destroy();
 					$('#room_layout_data').html(data.itemData);
 					table = $('#room_layout').DataTable({
