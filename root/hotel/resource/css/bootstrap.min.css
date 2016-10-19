@@ -467,10 +467,10 @@ textarea.span1,
 .controls-row .radio[class*="span"] { padding-top:5px }
 input[disabled],
 select[disabled],
-textarea[disabled],
+textarea[disabled] { cursor:not-allowed; background-color:#eee }
 input[readonly],
 select[readonly],
-textarea[readonly] { cursor:not-allowed; background-color:#eee }
+textarea[readonly] { cursor:pointer; background-color:#eee }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
 input[type="radio"][readonly],

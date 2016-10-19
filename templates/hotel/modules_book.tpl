@@ -66,7 +66,7 @@
                                 <input type="text" class="span2" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
                                 <!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> : 
                                 <input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
-                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini" data-style="expand-left"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
                         </div>
                          <div class="control-group">
@@ -118,12 +118,10 @@
                             </div>
                             <div class="controls">
                             <a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
-                            <a href="#reduceBookUser" id="reduceBookUser" class="btn btn-primary btn-mini"><i class="am-icon-minus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
+                            <a href="#reduceBookUser" id="reduceBookUser" class="btn btn-waring btn-mini"><i class="am-icon-minus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
                             </div>
                             
-                        </div>                       
-                        
-                        
+                        </div>                      
                         <div class="form-actions pagination-centered">
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
