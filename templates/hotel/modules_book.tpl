@@ -53,6 +53,12 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                            	 <input type="text" id="discount" class="span1" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>"  />
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <input type="text" class="span2" id="book_check_int" name="book_check_int" value="<%$book_check_int%>"/>
@@ -60,7 +66,7 @@
                                 <input type="text" class="span2" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
                                 <!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> : 
                                 <input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
-                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                <a href="#search" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
                         </div>
                          <div class="control-group">
@@ -84,9 +90,11 @@
                           </div>
                         </div>
                         <div class="control-group">
-                        	<label class="control-label"><%$arrayLaguage['overall_number_of_people']['page_laguage_value']%> :</label>
+                        	<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                             <input value="" type="text" class="span2" id="overall_number_of_people" readonly /> 
+                             <input value="" type="text" class="span1" id="total_price" /> 
+                             <%$arrayLaguage['prepayment']['page_laguage_value']%> :
+                             <input value="" type="text" class="span1" id="prepayment" /> 
                           </div>
                         </div>
                         <div class="control-group">
@@ -109,14 +117,14 @@
                                 <input type="text" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/> 
                             </div>
                             <div class="controls">
-                            <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
+                            <a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
+                            <a href="#reduceBookUser" id="reduceBookUser" class="btn btn-primary btn-mini"><i class="am-icon-minus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
                             </div>
-                            
                             
                         </div>                       
                         
                         
-                        <div class="form-actions">
+                        <div class="form-actions pagination-centered">
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
                     </form>
@@ -196,7 +204,7 @@ $(document).ready(function(){
     });
 	function ajaxGetRoomLayout() {
 		$.ajax({
-		   url : '<%$searchBookInfoUrl%>&search=searchRoomLayout',
+		   url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val(),
 					  // + '&room_layout_max_people=' + $('#room_layout_max_people').val()
 		   type : "post",
 		   data : 'book_check_int=' + $('#book_check_int').val() 
@@ -216,7 +224,7 @@ $(document).ready(function(){
 							 var val = $(this).val() - 0; //获取单个value
 							 all_val += val;
 						 });
-						 $('#overall_number_of_people').val(all_val);
+						 $('#total_price').val(all_val);
                     });
 			   } else {
 				   $('#modal_fail').modal('show');
@@ -236,7 +244,18 @@ $(document).ready(function(){
 			   success : function(data) {
 				   if(data.success == 1) {
 					   if(data.itemData != '') {
-						   $('#book_type_id').val(data.itemData[0].book_type_id);
+						   $('#agreement_company').remove();
+						   $('#book_type_id').val(data.itemData.book_type_id);
+						   $('#discount').val(data.itemData.book_discount);
+						   if(data.itemData.agreement_company_name != '') {
+							   var agreement_company = ' <input readonly id="agreement_company" value="'+
+							                           data.itemData.agreement_company_name+'" type="text" class="span2"/> '
+							   $('#book_type_id').after(agreement_company);
+						   } else {
+								var agreement_company = ' <input readonly id="agreement_company" value="'+
+														   data.itemData.book_discount_name+'" type="text" class="span2"/> '
+								$('#book_type_id').after(agreement_company);
+						   }
 					   }
 				   } else {
 					   $('#modal_fail').modal('show');
@@ -246,8 +265,16 @@ $(document).ready(function(){
 			 });
 		}
     });
-	
-	
+	var BookUser_num = 1;
+	$('#addBookUser').click(function(e) {
+        $(this).parent().prev().clone().insertBefore($(this).parent());
+		BookUser_num++;
+    });
+	$('#reduceBookUser').click(function(e) {
+		if(BookUser_num == 1) return;
+        $(this).parent().prev().remove();
+		BookUser_num--;
+    });
 	
 });//add_attr_classes
 

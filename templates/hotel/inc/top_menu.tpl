@@ -40,7 +40,7 @@
         <ul>
         <%/if%>
     <%else%>
-    	<li><a href="<%$arrayEmployeeModules[modules].url%>"><span class="<%if $arrayEmployeeModules[modules].hotel_modules_ico!=''%><%$arrayEmployeeModules[modules].hotel_modules_ico%><%else%>icon-cog<%/if%>"></span><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
+    	<li><a href="<%$arrayEmployeeModules[modules].url%>"><span class="<%if $arrayEmployeeModules[modules].hotel_modules_ico!=''%><%$arrayEmployeeModules[modules].hotel_modules_ico%><%else%>am-icon-gear<%/if%>"></span><%$arrayEmployeeModules[modules].hotel_modules_name%></a></li>
         <%if $smarty.section.modules.last || $arrayEmployeeModules[modules].hotel_modules_father_id!=$arrayEmployeeModules[modules.index_next].hotel_modules_father_id%>
         </ul>
         <%/if%>

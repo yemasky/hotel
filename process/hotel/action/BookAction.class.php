@@ -46,7 +46,7 @@ class BookAction extends \BaseAction {
             if(!empty($arrayBookRoomLayout)) {
                 foreach($arrayBookRoomLayout as $k => $v) {
                     $tableHr .= '<tr class="gradeX"><td>' . $v['room_layout_name'] . '</td>'
-                               .'<td>' . $v['room_layout_price'] . '</td>'
+                               .'<td><input type="text" class="span2" value="' . $v['room_layout_price'] . '"  /><span class="hide">' . $v['room_layout_price'] . '</span></td>'
                                .'<td><select class="span2 room_layout_id" name="'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
                         $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
@@ -60,8 +60,8 @@ class BookAction extends \BaseAction {
             $this -> setDisplay();
             if(empty($objRequest -> book_contact_mobile)) return $this->errorResponse('电话号码不能为空！');
             $conditions['where'] = array('user_mobile'=>$objRequest -> book_contact_mobile);
-            $arrayBookTypeId = \web\UserService::instance()->getUserLogin($conditions, 'book_type_id');
-            return $this->successResponse('', $arrayBookTypeId);
+            $arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
+            return $this->successResponse('', $arrayBookType);
         }
 
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'],0)));
