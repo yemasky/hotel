@@ -69,14 +69,19 @@ class BookAction extends \BaseAction {
             if(!empty($arrayBookRoomLayout)) {
                 foreach($arrayBookRoomLayout as $k => $v) {
                     $tableHr .= '<tr class="gradeX"><td>' . $v['room_layout_name'] . '</td>'
-                        .'<td><input type="text" class="span2" value="' . $v['room_layout_price'] . '"  /><span class="hide">' . $v['room_layout_price'] . '</span></td>'
-                        .'<td><select class="span2 room_extra_bed" name="room_layout_extra_bed_'. $v['room_layout_id'] .'" >';
-                    for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
-                        $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
-                    }
-                    $tableHr .= '</select>'
-                        .'<input type="text" class="span2" value="' . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>'
-                        .'<td><select class="span2 room_layout_id" name="'. $v['room_layout_id'] .'" >';
+                        .'<td><input type="text" class="span2 book_price" name="book_price['. $v['room_layout_id'] .']" value="' . $v['room_layout_price']
+                        . '"  /><span class="hide">' . $v['room_layout_price'] . '</span></td>'
+                        .'<td>';
+                    //if($v['room_layout_extra_bed'] > 0) {
+                        $tableHr .= '<select class="span2 room_extra_bed" name="book_extra_bed['. $v['room_layout_id'] .']" >';
+                        for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
+                            $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
+                        }
+                        $tableHr .= '</select>'
+                                 .'<input type="text" class="span2 book_price" name="book_extra_bed_price['. $v['room_layout_id'] .']" value="'
+                                 . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
+                    //}
+                    $tableHr .= '</td><td><select class="span2 room_layout_num" name="'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
                         $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
                     }
