@@ -21,6 +21,7 @@ class ModulesConfig extends \ModulesConfig {
                                   'orientations'=>array('east','south','west','north','southeast','northeast','southwest','northwest'),
                                   'upload_type'=>'rooms_layout'),
         'upload'         => array('uploadImages'=>42),
+        'book'    => array('edit'=>50, 'delete'=>51, 'add'=>49, 'view'=>48),
     );
 
     public static $cacheKey = array(

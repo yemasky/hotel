@@ -60,9 +60,6 @@ class IndexAction extends \BaseAction {
     protected function doNoPermission($objRequest, $objResponse) {
         //赋值
         //设置类别
-
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function employee_login($objRequest, $objResponse) {
@@ -99,8 +96,7 @@ class IndexAction extends \BaseAction {
             }
         }
         $objResponse -> setTplValue('error_login', $error_login);
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        //
         $objResponse -> setTplName("hotel/employee_login");
     }
 }

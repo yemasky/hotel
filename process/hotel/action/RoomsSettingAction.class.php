@@ -59,9 +59,6 @@ class RoomsSettingAction extends \BaseAction {
         $objResponse -> add_room_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['add']), 'room_id'=>$objRequest->room_id));
         //设置类别
-
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
    protected function view($objRequest, $objResponse) {
@@ -76,8 +73,6 @@ class RoomsSettingAction extends \BaseAction {
             throw new \Exception('系统异常！');
         }
         $this->doEdit($objRequest, $objResponse);
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl
     }
 
@@ -113,8 +108,6 @@ class RoomsSettingAction extends \BaseAction {
         $objResponse -> view = 0;
         $objResponse -> add_room_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['edit']), 'room_id'=>$objRequest->room_id));
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function doDelete($objRequest, $objResponse) {

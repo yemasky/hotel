@@ -697,12 +697,16 @@ class DBQuery{
                 $this->whereCondition .= ' AND '. join(" AND ", $join);
             }
         } else {
-            if(!empty($conditions))
+            if(!empty($conditions)) {
                 if(empty($this->whereCondition)) {
                     $this->whereCondition = "WHERE " . $conditions;
                 } else {
                     $this->whereCondition .= $conditions;
                 }
+            } else {
+                //$this->whereCondition = '';
+                return $this;
+            }
         }
         return $this;
     }

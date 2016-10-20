@@ -80,9 +80,6 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("page", $arrayPageHotelId['page']);
         $objResponse -> setTplValue("pn", $pn);
         //设置类别
-
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -125,8 +122,6 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> setTplValue("arrayDataInfo", $arrayHotel[0]);
 
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl*/
     }
 
@@ -237,8 +232,7 @@ class HotelAction extends \BaseAction {
         $objResponse -> setTplValue("arrayEmployeeCompany", $arrayCompany);
         $objResponse -> hotel_id = empty($hotel_id) ? '' : encode($hotel_id);
         $objResponse -> step = $objRequest -> step;
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        //
     }
 
     protected function doDelete($objRequest, $objResponse) {

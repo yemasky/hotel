@@ -74,8 +74,7 @@ class CompanyAction extends \BaseAction {
         $objResponse -> setTplValue("arrayCompany", $arrayCompany);
         $objResponse -> setTplValue("page", $arrayPageCompanyId['page']);
         $objResponse -> setTplValue("pn", $pn);
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
+        //
     }
 
     protected function view($objRequest, $objResponse) {
@@ -115,8 +114,6 @@ class CompanyAction extends \BaseAction {
         $objResponse -> setTplValue("location_town", $arrayCompany[0]['company_town']);
         $objResponse -> setTplValue("company_update_url",
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['edit']), 'company_id'=>encode($company_id))));
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -142,8 +139,6 @@ class CompanyAction extends \BaseAction {
         $objResponse->update_success = 0;
         $objResponse -> setTplValue("arrayCompany", $arrayCompany[0]);
         $objResponse -> setTplValue("company_update_url", \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['company']['add']))));
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         //更改tpl
     }
 }

@@ -33,7 +33,6 @@ class UploadAction extends \BaseAction {
         //赋值
         //设置类别
         //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function doUploadImages($objRequest, $objResponse) {

@@ -41,6 +41,7 @@ class Action extends \BaseAction {
         }
 
         if(!empty($modules_id)) {
+            $action = '';
             $arrayRoleModulesEmployeePermissions = RoleService::instance()->getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
             if(!isset($arrayRoleModulesEmployeePermissions[$modules_id])) {
                 //无权限
@@ -70,6 +71,7 @@ class Action extends \BaseAction {
         $objResponse -> setTplValue('navigation', 'sales');
         //$objResponse->setTplValue('action', $module_action);
         //$objResponse->setTplValue("hashKey", \Encrypt::instance()->decode(date("Y-m-d") . __WEB_KEY));
+        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
         $objResponse->setTplName("hotel/modules_" . $module_action_tpl);
         $objAction = new $module();
         $objAction->execute($action, $objRequest, $objResponse);//

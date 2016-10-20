@@ -50,13 +50,10 @@ class DepartmentAction extends \BaseAction {
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         //设置类别
         $objResponse -> room_type = $room_type;
-        //设置Meta(共通)
-        $objResponse -> setTplValue("__Meta", \BaseCommon::getMeta('index', '管理后台', '管理后台', '管理后台'));
     }
 
     protected function doAdd($objRequest, $objResponse) {
         $this->doEdit($objRequest, $objResponse);
-        //设置Meta(共通)
         //更改tpl
     }
 
@@ -83,7 +80,6 @@ class DepartmentAction extends \BaseAction {
         return $this->errorResponse('没有保存任何客房属性');
         //$objResponse -> add_room_attribute_url =
         //    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit'])));
-        //设置Meta(共通)
     }
 
     protected function doDelete($objRequest, $objResponse) {

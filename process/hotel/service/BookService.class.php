@@ -35,7 +35,7 @@ class BookService extends \BaseService {
     public function searchISBookRoomLayout($conditions) {
         $table = "`room_layout_room` rlr LEFT JOIN `room_layout` rl ON rlr.`room_layout_id` = rl.room_layout_id "
                 ."LEFT JOIN `room_layout_price` rlp ON rlp.`room_layout_id` = rlr.`room_layout_id` AND rlp.`room_layout_price_is_active` = '1'";
-        $fieid = 'COUNT(rlp.`room_layout_id`) room_layout_num, rlp.`room_layout_price`, rl.*';//rlr.`room_id`
+        $fieid = 'COUNT(rlp.`room_layout_id`) room_layout_num, rlp.`room_layout_price`, rlp.room_layout_extra_bed_price, rl.*';//rlr.`room_id`
         return BookDao::instance()->setTable($table)->getList($conditions, $fieid);
     }
 
@@ -87,6 +87,22 @@ class BookService extends \BaseService {
             $arrayBookType['agreement_company_name'] = $arrayBookTypeDiscount[0]['agreement_company_name'];
         }
         return $arrayBookType;
+    }
+
+    public function getPaymentType($conditions, $fieldid = '*', $hashKey = null) {
+        return BookDao::instance()->setTable('payment_type')->getList($conditions, $fieldid, $hashKey);
+    }
+
+    public function savePaymentType($arrayData) {
+        return BookDao::instance()->setTable('payment_type')->insert($arrayData);
+    }
+
+    public function updatePaymentType($where, $row) {
+        return BookDao::instance()->setTable('payment_type')->update($where, $row);
+    }
+
+    public function deletePaymentType($where) {
+        return BookDao::instance()->setTable('payment_type')->delete($where);
     }
 
 }
