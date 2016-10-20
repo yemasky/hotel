@@ -12,7 +12,6 @@ namespace hotel;
 class BookAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $weekarray = array("日","一","二","三","四","五","六");
-        //赋值
         $objResponse -> today = getDay() . " 星期".$weekarray[date("w")];
     }
 
@@ -50,17 +49,6 @@ class BookAction extends \BaseAction {
     }
 
     protected function doAdd($objRequest, $objResponse) {
-        $book_id = decode($objRequest -> book_id);
-        if(!empty($book_id)) {
-            throw new \Exception('系统异常！');
-        }
-        $this->doEdit($objRequest, $objResponse);
-        //
-        $objResponse->view = 'add';
-        $objResponse->setTplName("hotel/modules_book_edit");
-    }
-
-    protected function doEdit($objRequest, $objResponse) {
         $conditions = DbConfig::$db_query_conditions;
         if($objRequest -> search == 'searchRoomLayout') {
             $this -> setDisplay();
@@ -73,13 +61,13 @@ class BookAction extends \BaseAction {
                         . '"  /><span class="hide">' . $v['room_layout_price'] . '</span></td>'
                         .'<td>';
                     //if($v['room_layout_extra_bed'] > 0) {
-                        $tableHr .= '<select class="span2 room_extra_bed" name="book_extra_bed['. $v['room_layout_id'] .']" >';
-                        for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
-                            $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
-                        }
-                        $tableHr .= '</select>'
-                                 .'<input type="text" class="span2 book_price" name="book_extra_bed_price['. $v['room_layout_id'] .']" value="'
-                                 . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
+                    $tableHr .= '<select class="span2 room_extra_bed" name="book_extra_bed['. $v['room_layout_id'] .']" >';
+                    for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
+                        $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
+                    }
+                    $tableHr .= '</select>'
+                        .'<input type="text" class="span2 book_price" name="book_extra_bed_price['. $v['room_layout_id'] .']" value="'
+                        . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
                     //}
                     $tableHr .= '</td><td><select class="span2 room_layout_num" name="'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
@@ -98,6 +86,31 @@ class BookAction extends \BaseAction {
             return $this->successResponse('', $arrayBookType);
         }
 
+        $this->doEdit($objRequest, $objResponse);
+        //
+        $objResponse -> book_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
+        $objResponse->view = 'add';
+        $objResponse->setTplName("hotel/modules_book_edit");
+    }
+
+    protected function doEdit($objRequest, $objResponse) {
+        $book_id = decode($objRequest -> book_id);
+        $arrayPostValue= $objRequest->getPost();
+        $conditions = DbConfig::$db_query_conditions;
+
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            $this->setDisplay();
+            $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            $arrayPostValue['room_layout_add_date'] = date("Y-m-d");
+            $arrayPostValue['room_layout_add_time'] = getTime();
+            $room_layout_id = BookService::instance()->saveBook($arrayPostValue);
+            $redirect_url =
+                \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),
+                    'book_id'=>encode($book_id)));
+            return $this->successResponse('保存售卖房型成功', array('book_id'=>encode($book_id)), $redirect_url);
+        }
+
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'],0)));
         $arrayBookType = BookService::instance()->getBookType($conditions);
 
@@ -105,15 +118,18 @@ class BookAction extends \BaseAction {
         $arrayPaymentType = BookService::instance()->getPaymentType($conditions);
         //
         //赋值
-        $objResponse->view = '0';
+        $objResponse -> view = '0';
         $objResponse -> arrayBookType = $arrayBookType;
         $objResponse -> arrayPaymentType = $arrayPaymentType;
         $objResponse -> book_check_int = getDay() .' '. date("H") . ':00:00';
         $objResponse -> book_check_out = getDay(24) . ' 12:00:00';
-        $objResponse -> searchBookInfoUrl = \BaseUrlUtil::Url(array('module'=>$objRequest->module));
         $objResponse -> idCardType = ModulesConfig::$idCardType;
+        $objResponse -> searchBookInfoUrl =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         $objResponse -> back_lis_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view'])));
+        $objResponse -> book_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
         //设置类别
     }
 

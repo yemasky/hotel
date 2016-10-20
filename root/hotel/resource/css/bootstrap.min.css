@@ -981,7 +981,7 @@ overflow:hidden; background-color:#e5e5e5; border-bottom:1px solid #fff }
 .close { float:right; font-size:20px; font-weight:bold; line-height:20px; color:#000; text-shadow:0 1px 0 #fff; opacity:.2; filter:alpha(opacity=20) }
 .close:hover { color:#000; text-decoration:none; cursor:pointer; opacity:.4; filter:alpha(opacity=40) }
 button.close { padding:0; cursor:pointer; background:transparent; border:0; -webkit-appearance:none }
-.btn { display:inline-block; *display:inline; padding:6px 12px; margin-bottom:3px; *margin-left:.3em; font-size:14px; line-height:20px; *line-height:20px; color:#333; text-align:center; text-shadow:0 1px 1px rgba(255,255,255,0.75); vertical-align:middle; cursor:pointer; background-color:#dadada; *background-color:#dadada; }
+.btn { display:inline-block; *display:inline; padding:5px 12px; margin-bottom:3px; *margin-left:.3em; font-size:14px; line-height:20px; *line-height:20px; color:#333; text-align:center; text-shadow:0 1px 1px rgba(255,255,255,0.75); vertical-align:middle; cursor:pointer; background-color:#dadada; *background-color:#dadada; }
 .btn:hover,
 .btn:active,
 .btn.active,

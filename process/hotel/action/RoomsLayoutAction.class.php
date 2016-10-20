@@ -71,7 +71,7 @@ class RoomsLayoutAction extends \BaseAction {
     protected function view($objRequest, $objResponse) {
         $this->doEdit($objRequest, $objResponse);
         $objResponse->view = '1';
-        $objResponse->setTplName("hotel/modules_roomsLayout_add");
+        $objResponse->setTplName("hotel/modules_roomsLayout_edit");
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -118,7 +118,7 @@ class RoomsLayoutAction extends \BaseAction {
             $this->setDisplay();
             $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                 'room_layout_name'=>$arrayPostValue['room_layout_name']);
-            $arrayRoomLayout = RoomService::getRoomLayout($conditions);
+            $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
             if(!empty($arrayRoomLayout)) {
                 if(empty($room_layout_id)) {
                     return $this->errorResponse('有重复的售卖房型名字，请检查！');
@@ -131,12 +131,12 @@ class RoomsLayoutAction extends \BaseAction {
             }
 
             if ($room_layout_id > 0) {
-                RoomService::updateRoomLayout(array('room_layout_id' => $room_layout_id), $arrayPostValue);
+                RoomService::instance()->updateRoomLayout(array('room_layout_id' => $room_layout_id), $arrayPostValue);
             } else {
                 $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayPostValue['room_layout_add_date'] = date("Y-m-d");
                 $arrayPostValue['room_layout_add_time'] = getTime();
-                $room_layout_id = RoomService::saveRoomLayout($arrayPostValue);
+                $room_layout_id = RoomService::instance()->saveRoomLayout($arrayPostValue);
             }
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
@@ -196,7 +196,7 @@ class RoomsLayoutAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['view'])));
         $objResponse -> step = $objRequest -> step;
         //
-        $objResponse -> setTplName("hotel/modules_roomsLayout_add");
+        $objResponse -> setTplName("hotel/modules_roomsLayout_edit");
     }
 
     protected function doDelete($objRequest, $objResponse) {

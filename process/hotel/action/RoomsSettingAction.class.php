@@ -64,7 +64,7 @@ class RoomsSettingAction extends \BaseAction {
    protected function view($objRequest, $objResponse) {
         $this->doEdit($objRequest, $objResponse);
         $objResponse->view = 1;
-        $objResponse->setTplName("hotel/modules_roomsSetting_add");
+        $objResponse->setTplName("hotel/modules_roomsSetting_edit");
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -108,6 +108,7 @@ class RoomsSettingAction extends \BaseAction {
         $objResponse -> view = 0;
         $objResponse -> add_room_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['edit']), 'room_id'=>$objRequest->room_id));
+        $objResponse->setTplName("hotel/modules_roomsSetting_edit");
     }
 
     protected function doDelete($objRequest, $objResponse) {

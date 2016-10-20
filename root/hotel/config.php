@@ -6,7 +6,7 @@ define('__CLOSE_WEB', false);
 //web  
 define('__WEB_KEY','localhost');
 define('__KEY','xyzABcdeee12345');
-define('__WEB','http://dev.hotel.cn/');
+define('__WEB','http://192.168.11.141/');
 define('__RESOURCE', __WEB . 'resource/');
 
 define('__WWW_PATH',dirname(__FILE__) . '/');
