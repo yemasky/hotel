@@ -1,6 +1,10 @@
 <title><%$__Meta['Title']%></title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script language="javascript">
+//定义全局变量
+var data = '';
+</script>
 <!-- 2.0 -->
 <!---->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/bootstrap.min.css" />

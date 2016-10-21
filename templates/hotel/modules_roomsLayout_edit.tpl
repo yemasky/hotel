@@ -25,7 +25,8 @@
             <ul class="nav nav-tabs">
                 <li class="active" id="rooms_layout_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['rooms_layout_setting']['page_laguage_value']%></a></li>
                 <li id="room_layout_attr"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['room_layout_attr']['page_laguage_value']%></a></li>
-                <li id="room_layout_images"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
+                <li id="set_room"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['set_room']['page_laguage_value']%></a></li>
+                <li id="room_layout_images"><a data-toggle="tab" href="#tab4"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
                 <!--<li id="room_layout_price_setting"><a href="#tab3"><%$arrayLaguage['room_layout_price_setting']['page_laguage_value']%></a></li>-->
             </ul>
         </div>
@@ -114,6 +115,29 @@
               </form>
            </div>
            <div id="tab3" class="tab-pane">
+               <div class="widget-content">
+                <ul class="thumbnails">
+                    <li class="span2">
+                        <a class="thumbnail lightbox_trigger">
+                            <img id="" src="" alt="" >
+                        </a>
+                        <div class="actions">
+                            <a title="" href="#"><i class="icon-pencil icon-white"></i></a>
+                            <a title="" href="#"><i class="icon-remove icon-white"></i></a>
+                        </div>
+                    </li>
+                 </ul>
+                </div>
+           		<form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate> 
+                <div class="control-group">
+                	<label class="control-label"><%$arrayLaguage['upload_room_layout_images']['page_laguage_value']%> :</label>
+                    <div class="controls">
+           			<p></p>
+                    </div>
+                </div>
+                </form>
+            </div>
+           <div id="tab4" class="tab-pane">
                <div class="widget-content">
                 <ul class="thumbnails">
                 	<%section name=images loop=$arrayDataImages%>
@@ -216,6 +240,13 @@ $(document).ready(function(){
 		}
 	});
 	$('#room_layout_images').click(function() {
+		if (v.form()) {
+			if(room_layout_id == '') return false;
+		} else {
+			return false;
+		}
+	});
+	$('#set_room').click(function() {
 		if (v.form()) {
 			if(room_layout_id == '') return false;
 		} else {

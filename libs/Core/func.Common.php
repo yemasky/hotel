@@ -126,34 +126,6 @@ if(!defined("INC_FUNC_COMMON")) {
 		fclose($fp);
 	}
 
-	function redirect($url, $status = '302', $time = 0){
-		if(is_numeric($url)) {
-			header("Content-type: text/html; charset=" . __CHARSET);
-			echo "<script>history.go('$url')</script>";
-			flush();
-		} else {
-			if($time > 0) {
-				echo "<meta http-equiv=refresh content=\"$time; url=$url\">";
-				exit();
-			}
-			if(headers_sent()) {
-				echo "<meta http-equiv=refresh content=\"0; url=$url\">";
-				echo "<script type='text/javascript'>location.href='$url';</script>";
-			} else {
-				if($status == '302') {
-					header("HTTP/1.1 302 Moved Temporarily");
-					header("Location: $url");
-					exit();
-				}
-				header("Cache-Control: no-cache, must-revalidate");
-				header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-				header("HTTP/1.1 301 Moved Permanently");
-				header("Location: $url");
-			}
-		}
-		exit();
-	}
-
 	function checkNum($id){
 		if(!is_numeric($id)) {
 			throw new Exception("parameter error: no the num -> " . $id);

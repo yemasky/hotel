@@ -56,24 +56,24 @@ class BookAction extends \BaseAction {
             if(!empty($arrayBookRoomLayout)) {
                 foreach($arrayBookRoomLayout as $k => $v) {
                     $tableHr .= '<tr class="gradeX"><td>' . $v['room_layout_name'] . '</td>'
-                        .'<td><input type="text" class="span2 book_price" name="book_price['. $v['room_layout_id'] .']" value="' . $v['room_layout_price']
+                        .'<td><input type="text" class="span2 book_price" id="book_price_'. $v['room_layout_id'] .'" value="' . $v['room_layout_price']
                         . '"  /><span class="hide">' . $v['room_layout_price'] . '</span></td>'
                         .'<td>';
                     //if($v['room_layout_extra_bed'] > 0) {
-                    $tableHr .= '<select class="span2 room_extra_bed" name="book_extra_bed['. $v['room_layout_id'] .']" >';
+                    $tableHr .= '<select class="span2 room_extra_bed" id="book_extra_bed_'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
                         $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
                     }
                     $tableHr .= '</select>'
-                        .'<input type="text" class="span2 book_price" name="book_extra_bed_price['. $v['room_layout_id'] .']" value="'
+                        .'<input type="text" class="span2 book_price" id="book_extra_bed_price_'. $v['room_layout_id'] .'" value="'
                         . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
                     //}
-                    $tableHr .= '</td><td><select class="span2 room_layout_num" name="room_layout_id['. $v['room_layout_id'] .']" '
+                    $tableHr .= '</td><td><select class="span2 room_layout_num" id="room_layout_id_'. $v['room_layout_id'] .'" '
                              .'layout="'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
                         $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
                     }
-                    $tableHr .= '</select>   '.$objResponse->arrayLaguage['room']['page_laguage_value'].'</td></tr>';
+                    $tableHr .= '</select>   <a href="#room" class="select_room">'.$objResponse->arrayLaguage['room']['page_laguage_value'].' <i class="am-icon-search am-blue-16A2EF"></i></a></td></tr>';
                 }
             }
             return $this->successResponse('', $tableHr);
@@ -85,7 +85,13 @@ class BookAction extends \BaseAction {
             $arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
             return $this->successResponse('', $arrayBookType);
         }
-
+        if($objRequest -> search == 'searchRoom') {
+            $this -> setDisplay();
+            if(empty($objRequest -> room_layout_id)) return $this->errorResponse('房型错误，请重新选择！');
+            $conditions['where'] = array('user_mobile'=>$objRequest -> book_contact_mobile);
+            $arrayRoom = RoomService::instance()->getRoomLayoutRoomDetailed($conditions);
+            return $this->successResponse('', $arrayRoom);
+        }
         $this->doEdit($objRequest, $objResponse);
         //
         $objResponse -> book_url =
@@ -100,6 +106,8 @@ class BookAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            unset($arrayPostValue['room_layout_length']);
+            print_r($arrayPostValue);exit();
             $this->setDisplay();
             $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
             $arrayPostValue['room_layout_add_date'] = date("Y-m-d");

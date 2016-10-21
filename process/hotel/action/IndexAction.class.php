@@ -68,8 +68,10 @@ class IndexAction extends \BaseAction {
         $remember_me = $objRequest->remember_me;
         $method = $objRequest->method;
         if($method == 'logout') {
+            //$this->setDisplay();
             LoginService::instance()->logout();
-            redirect(__WEB);
+            //$this->setRedirect(__WEB);
+            //return;
         }
         $error_login = 0;
         if(!empty($arrayLoginInfo['username']) && !empty($arrayLoginInfo['employee_password'])) {
@@ -86,8 +88,9 @@ class IndexAction extends \BaseAction {
                 for($i = 0; $i < $lenght; $i++) {
                     if (md5(md5($arrayLoginInfo['employee_password']) . md5($arrayEmployeeInfo[$i]['employee_password_salt'])) == $arrayEmployeeInfo[$i]['employee_password']) {
                         LoginService::instance()->setLoginEmployeeCookie($arrayEmployeeInfo[$i], $remember_me);
-                        redirect(__WEB);
-                        break;
+                        $this->setDisplay();
+                        $this->setRedirect(__WEB);
+                        return;
                     }
                 }
                 $error_login = 1;

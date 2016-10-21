@@ -350,6 +350,31 @@ abstract class BaseAction{
         $arrayResule = array('success'=>0,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
         echo json_encode($arrayResule);
     }
+
+    private function redirect($url, $status = '302', $time = 0){
+        if(is_numeric($url)) {
+            header("Content-type: text/html; charset=" . __CHARSET);
+            echo "<script>history.go('$url')</script>";
+        } else {
+            if($time > 0) {
+                echo "<meta http-equiv=refresh content=\"$time; url=$url\">";
+            }
+            if(headers_sent()) {
+                echo "<meta http-equiv=refresh content=\"0; url=$url\">";
+                echo "<script type='text/javascript'>location.href='$url';</script>";
+            } else {
+                if($status == '302') {
+                    header("HTTP/1.1 302 Moved Temporarily");
+                    header("Location: $url");
+                }
+                header("Cache-Control: no-cache, must-revalidate");
+                header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+                header("HTTP/1.1 301 Moved Permanently");
+                header("Location: $url");
+            }
+        }
+        flush();
+    }
 	/**
 	 * Controller层的调用入口函数,在scripts中调用
 	 */
@@ -421,22 +446,24 @@ abstract class BaseAction{
 			$this->finalexecute($objRequest, $objResponse);
 			// set_exception_handler('exception_handler');
             if($this->displayDisabled == false) {
-                if ($this->showErrorPage && __Debug == false)
-                    redirect(__WEB . "404.htm");
+                if ($this->showErrorPage && __Debug == false) {
+                    $this->redirect(__WEB . "404.htm");
+                    return;
+                }
             } else {
                 $this->errorResponse('系统异常', array($e->getMessage()));
             }
 		}
-		// debug...
-		if(__Debug) {
-			$endTime = getMicrotime();
-			$useTime = $endTime - $startTime;
-			logDebug("excute time $useTime s");
-		}
 		if(!empty($this->redirect_url)) {
-			redirect($this->redirect_url['url'], $this->redirect_url['status'], $this->redirect_url['time']);
+            $this->redirect($this->redirect_url['url'], $this->redirect_url['status'], $this->redirect_url['time']);
 		}
-	}
+        // debug
+        if(__Debug) {
+            $endTime = getMicrotime();
+            $useTime = $endTime - $startTime;
+            logDebug("excute time $useTime s");
+        }
+    }
 
 	/**
 	 * 调用View层输出

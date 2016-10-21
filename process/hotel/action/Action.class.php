@@ -30,56 +30,59 @@ class Action extends \BaseAction {
             }
             return;
         }
-        //common setting
-        $objResponse->arrayEmployeeModules = CommonService::instance()->getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
-        $arrayNavigation = CommonService::instance()->getNavigation($objResponse->arrayLoginEmployeeInfo, decode(trim($objRequest->module)));
-        //
-        $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
-        $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
-        //end common setting
-
-        $modules_id = decode(trim($objRequest->module));
+        //default setting
         $action = $objRequest->action;
         $module = '\hotel\IndexAction';
         $module_action_tpl = 'index';
         $modules_module = 'index';
 
-        if(!empty(decode($objRequest->company_id))) {//公司权限
-            $conditions = \DbConfig::$db_query_conditions;
-            $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
-            $arrayCompanyId = EmployeeService::instance()->getEmployeeCompany($conditions, 'company_id');
-            $company_id = decode($objRequest->company_id);
-            if(!isset($arrayCompanyId[$company_id])) {
-                $module_action_tpl = $action = 'noPermission';
-                $modules_id = null;
+        //common setting
+        if(!empty($arrayLoginEmployeeInfo)) {
+            $objResponse->arrayEmployeeModules = CommonService::instance()->getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
+            $arrayNavigation = CommonService::instance()->getNavigation($objResponse->arrayLoginEmployeeInfo, decode(trim($objRequest->module)));
+            //
+            $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
+            $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
+
+            if(!empty(decode($objRequest->company_id))) {//公司权限
+                $conditions = \DbConfig::$db_query_conditions;
+                $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
+                $arrayCompanyId = EmployeeService::instance()->getEmployeeCompany($conditions, 'company_id');
+                $company_id = decode($objRequest->company_id);
+                if(!isset($arrayCompanyId[$company_id])) {
+                    $module_action_tpl = $action = 'noPermission';
+                    $modules_id = null;
+                }
             }
-        }
 
-        if(!empty($modules_id)) {
-            $action = '';
-            $arrayRoleModulesEmployeePermissions = RoleService::instance()->getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
-            if(!isset($arrayRoleModulesEmployeePermissions[$modules_id])) {
-                //无权限
-                $module_action_tpl = $action = 'noPermission';
-            } else {
-                $arrayModules = ModulesService::instance()->getModules();
-                if(isset($arrayModules[$modules_id])) {
-                    $arrayModule = $arrayModules[$modules_id];
-                    $module = '\hotel\\' . ucwords($arrayModule['modules_module']) . 'Action';
-                    if(!empty($arrayModule['modules_action'])) {
-                        $action = $arrayModule['modules_action'];
+            $modules_id = decode(trim($objRequest->module));
+            if(!empty($modules_id)) {
+                $action = '';
+                $arrayRoleModulesEmployeePermissions = RoleService::instance()->getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
+                if(!isset($arrayRoleModulesEmployeePermissions[$modules_id])) {
+                    //无权限
+                    $module_action_tpl = $action = 'noPermission';
+                } else {
+                    $arrayModules = ModulesService::instance()->getModules();
+                    if(isset($arrayModules[$modules_id])) {
+                        $arrayModule = $arrayModules[$modules_id];
+                        $module = '\hotel\\' . ucwords($arrayModule['modules_module']) . 'Action';
+                        if(!empty($arrayModule['modules_action'])) {
+                            $action = $arrayModule['modules_action'];
+                        }
+                        $modules_module = $arrayModule['modules_module'];
+                        $module_action_tpl = empty($action) ? $arrayModule['modules_module'] : $arrayModule['modules_module'] . '_' . $action;
+
+                        //权限
+                        $objResponse->arrayRoleModulesEmployeePermissions = $arrayRoleModulesEmployeePermissions;
+                        $objResponse->setTplValue('arrayRoleModulesEmployee', $arrayRoleModulesEmployeePermissions[$modules_id]);
+                        //语言
+
                     }
-                    $modules_module = $arrayModule['modules_module'];
-                    $module_action_tpl = empty($action) ? $arrayModule['modules_module'] : $arrayModule['modules_module'] . '_' . $action;
-
-                    //权限
-                    $objResponse->arrayRoleModulesEmployeePermissions = $arrayRoleModulesEmployeePermissions;
-                    $objResponse->setTplValue('arrayRoleModulesEmployee', $arrayRoleModulesEmployeePermissions[$modules_id]);
-                    //语言
-
                 }
             }
         }
+        //end common setting
         $arrayLaguage = CommonService::instance()->getPageModuleLaguage($modules_module);
         $objResponse->setTplValue('arrayLaguage', $arrayLaguage);
         $objResponse -> navigation = 'sales';

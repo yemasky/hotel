@@ -101,6 +101,7 @@
 								</tr>
 							  </tbody>
 							</table>
+                            <div id="room_layout_html"></div>
 						  </div>
 						</div>
 						<div class="control-group">
@@ -137,7 +138,6 @@
 							 <input value="" type="text" class="span2" id="book_payment_voucher" name="book_payment_voucher" />
 						  </div>
 						</div>
-						<%if $view=='0'%>
 						<div class="control-group">
 							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
 							<div class="controls">
@@ -162,7 +162,6 @@
 							<a href="#reduceBookUser" id="reduceBookUser" class="btn btn-warning btn-mini"><i class="am-icon-minus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
 							</div>
 						</div>
-						<%/if%>
                         <div class="form-actions pagination-centered">
                             <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
                         </div>
@@ -300,7 +299,8 @@ $(document).ready(function(){
 			data : 'book_check_int=' + $('#book_check_int').val()
 			+ '&book_check_out=' + $('#book_check_out').val(),
 			dataType : "json",
-			success : function(data) {
+			success : function(result) {
+				data = result;
 				if(data.success == 1) {
 					$('#room_layout_table').show();
 					table.destroy();
@@ -310,10 +310,10 @@ $(document).ready(function(){
 					})
 					$('#room_layout_length').hide();
 					$('.room_layout_num,.room_extra_bed').change(function(e) {
-						setBookPrice();
+						setBookPrice(this);
 					});
 					$('.book_price').keyup(function(e) {
-						setBookPrice();
+						setBookPrice(this);
 					});
 				} else {
 					$('#modal_fail').modal('show');
@@ -323,22 +323,48 @@ $(document).ready(function(){
 		});
 	}
 
-	function setBookPrice() {
+	function setBookPrice(obj) {
 		var all_val = price = extra_bed_price = extra_bed = 0; //定义变量全部保存
+		var room_layout_html = '';
 		$(".room_layout_num").each(function (i) {
 			var val = $(this).val() - 0; //获取单个value
 			if(val > 0) {
 				var name_key = $(this).attr('layout');
-				price = $("input[name='book_price["+name_key+"]']").val() - 0;
-				extra_bed_price = $("input[name='book_extra_bed_price["+name_key+"]']").val() - 0;
-				extra_bed = $("select[name='book_extra_bed["+name_key+"]']").val() - 0;
+				room_layout_html += '<input type="hidden" name="room_layout_id['+name_key+']" value="'+val+'" />';
+				price = $("#book_price_"+name_key).val() - 0;
+				room_layout_html += '<input type="hidden" name="book_price['+name_key+']" value="'+price+'" />';
+				extra_bed_price = $("#book_extra_bed_price_"+name_key).val() - 0;
+				room_layout_html += '<input type="hidden" name="book_extra_bed_price['+name_key+']" value="'+extra_bed_price+'" />';
+				extra_bed = $("#book_extra_bed_"+name_key).val() - 0;
+				room_layout_html += '<input type="hidden" name="book_extra_bed['+name_key+']" value="'+extra_bed+'" />';
 				all_val += val * price + extra_bed * extra_bed_price;
 			}
 		});
 		$('#total_price').val(all_val);
 		$('#prepayment').val(all_val);
+		$('#room_layout_html').html(room_layout_html);
+		if($(obj).val() == 0) {
+		} else {//modal_info_message
+			selectRoom($(obj));
+		}
+		$('.select_room').click(function(e) {
+			var obj = $(this).prev();
+			selectRoom(obj);
+		});
 	}
-
+	function selectRoom(obj) {
+		$.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id=' + obj.attr('layout'), function(result) {
+			data = result;
+			if(data.success == 1) {
+				if(data.itemData != '') {
+					$('#modal_info').modal('show');
+				}
+			} else {
+				$('#modal_fail').modal('show');
+				$('#modal_fail_message').html(data.message);
+			}
+		});
+	}
 	//日历
 	$.datetimepicker.setLocale('ch');
 	var dateToDisable = new Date();
@@ -362,12 +388,11 @@ $(document).ready(function(){
 	
 	$('#contact_mobile').keyup(function(e) {
         if($('#contact_mobile').val().length == 11) {
-			$.ajax({
-			   url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",
-			   type : "post",
+			$.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
 			   dataType : "json",
 			   data: "book_contact_mobile=" + $('#contact_mobile').val(),
-			   success : function(data) {
+			   success : function(result) {
+				   data = result;
 				   if(data.success == 1) {
 					   if(data.itemData != '') {
 						   $('#agreement_company').remove();
@@ -410,6 +435,5 @@ $(document).ready(function(){
 });//add_attr_classes
 
 </script>
-
 </body>
 </html>

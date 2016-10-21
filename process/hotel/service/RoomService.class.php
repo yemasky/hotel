@@ -115,6 +115,22 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout_images')->delete($where);
     }
 
+    public function getRoomLayoutRoomDetailed($conditions, $hashKey = null) {
+        //return RoomDao::instance()->setTable('room_layout_room')->getList($conditions, null, $hashKey);
+    }
+
+    public function getRoomLayoutRoom($conditions, $hashKey = null) {
+        return RoomDao::instance()->setTable('room_layout_room')->getList($conditions, null, $hashKey);
+    }
+
+    public function saveRoomLayoutRoom($arrayData) {
+        return RoomDao::instance()->setTable('room_layout_room')->insert($arrayData);
+    }
+
+    public function deleteRoomLayoutRoom($where) {
+        return RoomDao::instance()->setTable('room_layout_room')->delete($where);
+    }
+
     public function getRoomLayoutPrice($conditions, $field = null, $hashKey = null) {
         return RoomDao::instance()->setTable('room_layout_price')->getList($conditions, $field, $hashKey);
     }
