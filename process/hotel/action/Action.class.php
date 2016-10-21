@@ -13,18 +13,33 @@ class Action extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         if($objRequest->getAction() != 'login') {
             $objResponse->arrayLoginEmployeeInfo = LoginService::instance()->checkLoginEmployee();
-            $objResponse->arrayEmployeeModules = CommonService::instance()->getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
-            $arrayNavigation = CommonService::instance()->getNavigation($objResponse->arrayLoginEmployeeInfo, decode(trim($objRequest->module)));
-            //
-            $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
-            $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
         }
     }
 
     protected function service($objRequest, $objResponse) {
+        $this->setDisplay();
+        $arrayLoginEmployeeInfo = $objResponse->arrayLoginEmployeeInfo;
+        if(empty($arrayLoginEmployeeInfo) && $objRequest->getAction() != 'login') {
+            //var_dump(empty($arrayLoginEmployeeInfo));
+            //print_r($objResponse->arrayLoginEmployeeInfo);
+            //exit();
+            if(!empty($objRequest->getPost())) {
+                $this->errorResponse('登录已失效！请重新登录！', '', __WEB . 'index.php?action=login');
+            } else {
+                $this->setRedirect(__WEB . 'index.php?action=login');
+            }
+            return;
+        }
+        //common setting
+        $objResponse->arrayEmployeeModules = CommonService::instance()->getEmployeeModules($objResponse->arrayLoginEmployeeInfo);
+        $arrayNavigation = CommonService::instance()->getNavigation($objResponse->arrayLoginEmployeeInfo, decode(trim($objRequest->module)));
+        //
+        $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
+        $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
+        //end common setting
+
         $modules_id = decode(trim($objRequest->module));
         $action = $objRequest->action;
-        $this->setDisplay();
         $module = '\hotel\IndexAction';
         $module_action_tpl = 'index';
         $modules_module = 'index';

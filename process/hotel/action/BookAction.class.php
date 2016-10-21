@@ -36,7 +36,6 @@ class BookAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-
         $objResponse -> add_book_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         //
@@ -69,7 +68,8 @@ class BookAction extends \BaseAction {
                         .'<input type="text" class="span2 book_price" name="book_extra_bed_price['. $v['room_layout_id'] .']" value="'
                         . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
                     //}
-                    $tableHr .= '</td><td><select class="span2 room_layout_num" name="'. $v['room_layout_id'] .'" >';
+                    $tableHr .= '</td><td><select class="span2 room_layout_num" name="room_layout_id['. $v['room_layout_id'] .']" '
+                             .'layout="'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
                         $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
                     }

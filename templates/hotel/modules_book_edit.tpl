@@ -77,6 +77,8 @@
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
 								<a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
+                                <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
 							</div>
 						</div>
 						 <div class="control-group" id="room_layout_table">
@@ -281,6 +283,7 @@ $(document).ready(function(){
 	});
 
 	$('#search_room_layout').click(function(e) {
+		$('#contact_form').submit();
 		if(contact_validate.form()) {
 			ajaxGetRoomLayout();
 		}
@@ -325,7 +328,7 @@ $(document).ready(function(){
 		$(".room_layout_num").each(function (i) {
 			var val = $(this).val() - 0; //获取单个value
 			if(val > 0) {
-				var name_key = $(this).attr('name');
+				var name_key = $(this).attr('layout');
 				price = $("input[name='book_price["+name_key+"]']").val() - 0;
 				extra_bed_price = $("input[name='book_extra_bed_price["+name_key+"]']").val() - 0;
 				extra_bed = $("select[name='book_extra_bed["+name_key+"]']").val() - 0;
@@ -398,6 +401,11 @@ $(document).ready(function(){
         $(this).parent().prev().remove();
 		BookUser_num--;
     });
+	$('#book_order_retention_time').datetimepicker({
+		datepicker:false,
+		format:'H:i',
+		step:30
+	});
 	
 });//add_attr_classes
 

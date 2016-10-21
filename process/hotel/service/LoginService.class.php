@@ -51,6 +51,7 @@ class LoginService extends \BaseService {
     }
 
     public function checkLoginEmployee($objCookie = NULL, $isSession = false) {
+        $arrEmployeeInfo = null;
         if(!is_object($objCookie) && $isSession == false){
             $objCookie = new \Cookie();
         }
@@ -59,7 +60,7 @@ class LoginService extends \BaseService {
         } else {
             $arrEmployeeInfo = $this->getLoginEmployee(NULL, true);
         }
-        if(empty($arrEmployeeInfo)) redirect(__WEB . 'index.php?action=login');
+        //if(empty($arrEmployeeInfo)) redirect(__WEB . 'index.php?action=login');
         return $arrEmployeeInfo;
     }
 
