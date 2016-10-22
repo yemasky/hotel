@@ -14,6 +14,9 @@
 #room_layout_paginate a{border:1px solid #BFBDBD;}
 .dataTables_wrapper .dataTables_paginate .paginate_button {border-radius: 0;margin-left: 0;min-width: 0;padding: 0.1em 0.5em;}
 .details-control{cursor:pointer;}
+#noBodyLeft{border-left: 0px;}
+#noBodyLeft th,#noBodyLeft td{padding:5px;}
+#noBodyLeft input,#noBodyLeft select{margin-bottom:0px;}
 </style>
 </head>
 <body>

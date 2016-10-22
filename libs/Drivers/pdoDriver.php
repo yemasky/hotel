@@ -71,6 +71,7 @@ class pdoDriver {
 	 *        	sql 需要执行的SQL语句
 	 */
 	public function execute($sql){
+		sqlDebugLog($sql);
 		return $this->conn->query($sql);
 	}
 

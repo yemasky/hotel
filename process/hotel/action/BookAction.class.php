@@ -91,8 +91,10 @@ class BookAction extends \BaseAction {
         }
         if($objRequest -> search == 'searchRoom') {
             $this -> setDisplay();
-            if(empty($objRequest -> room_layout_id)) return $this->errorResponse('房型错误，请重新选择！');
-            $conditions['where'] = array('user_mobile'=>$objRequest -> book_contact_mobile);
+            $room_layout_id = $objRequest -> room_layout_id;
+            if(empty($room_layout_id)) return $this->errorResponse('房型错误，请重新选择！');
+            $conditions['where'] = array('rlr.room_layout_id'=>$room_layout_id,
+                'r.hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
             $arrayRoom = RoomService::instance()->getRoomLayoutRoomDetailed($conditions);
             return $this->successResponse('', $arrayRoom);
         }

@@ -94,6 +94,7 @@ class mysqlDriver{
 	 *        	sql 需要执行的SQL语句
 	 */
 	public function execute($sql){
+		sqlDebugLog($sql);
 		if($result = mysql_query($sql, $this->conn)) {
 			return $result;
 		} else {

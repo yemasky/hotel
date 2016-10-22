@@ -111,6 +111,10 @@ if(!defined("INC_FUNC_COMMON")) {
 	function logDebug($message, $model = "", $level = "DEBUG"){
 		writeLog("#debug", $message);
 	}
+	
+	function sqlDebugLog($message, $model = "", $level = "DEBUG") {
+		if(__Debug) writeLog("#sql.debug", $message);
+	}
 
 	function writeLog($filename, $msg){
 		if(defined('__WWW_LOGS_PATH')) {
