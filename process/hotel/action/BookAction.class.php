@@ -55,28 +55,32 @@ class BookAction extends \BaseAction {
             $tableHr = '';
             if(!empty($arrayBookRoomLayout)) {
                 foreach($arrayBookRoomLayout as $k => $v) {
-                    $tableHr .= '<tr class="gradeX"><td>' . $v['room_layout_name'] . '</td>'
-                        .'<td><input type="text" class="span2 book_price" id="book_price_'. $v['room_layout_id'] .'" value="' . $v['room_layout_price']
-                        . '"  /><span class="hide">' . $v['room_layout_price'] . '</span></td>'
-                        .'<td>';
+                    /*$tableHr .= '<tr class="gradeX"><td class="details-control"><span class="span3">' . $v['room_layout_name'] . '</span>'
+                             .'<select class="span2 room_layout_num" id="room_layout_id_'. $v['room_layout_id'] .'" '
+                             .'layout="'. $v['room_layout_id'] .'" >';
+                             for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
+                                 $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
+                             }
+                    $tableHr .= '</select> <a href="#room" class="select_room">'.$objResponse->arrayLaguage['room']['page_laguage_value'].' <i class="am-icon-search am-blue-16A2EF"></i></a>';
+
+                    $tableHr .= '</td>'
+                             .'<td><input type="text" class="span2 book_price" id="book_price_'. $v['room_layout_id'] .'" value="' . $v['room_layout_price']
+                             . '"  /><span class="hide">' . $v['room_layout_price'] . '</span>';
+                    $tableHr .='</td>'
+                             .'<td>';
                     //if($v['room_layout_extra_bed'] > 0) {
                     $tableHr .= '<select class="span2 room_extra_bed" id="book_extra_bed_'. $v['room_layout_id'] .'" >';
                     for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
                         $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
                     }
                     $tableHr .= '</select>'
-                        .'<input type="text" class="span2 book_price" id="book_extra_bed_price_'. $v['room_layout_id'] .'" value="'
-                        . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
+                             .'<input type="text" class="span2 book_price" id="book_extra_bed_price_'. $v['room_layout_id'] .'" value="'
+                             . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
                     //}
-                    $tableHr .= '</td><td><select class="span2 room_layout_num" id="room_layout_id_'. $v['room_layout_id'] .'" '
-                             .'layout="'. $v['room_layout_id'] .'" >';
-                    for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
-                        $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
-                    }
-                    $tableHr .= '</select>   <a href="#room" class="select_room">'.$objResponse->arrayLaguage['room']['page_laguage_value'].' <i class="am-icon-search am-blue-16A2EF"></i></a></td></tr>';
+                    $tableHr .= '</td></tr>';*/
                 }
             }
-            return $this->successResponse('', $tableHr);
+            return $this->successResponse('', $arrayBookRoomLayout);
         }
         if($objRequest -> search == 'searchUserMemberLevel') {
             $this -> setDisplay();
