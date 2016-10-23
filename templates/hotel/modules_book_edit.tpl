@@ -14,7 +14,7 @@
 #room_layout_paginate a{border:1px solid #BFBDBD;}
 .dataTables_wrapper .dataTables_paginate .paginate_button {border-radius: 0;margin-left: 0;min-width: 0;padding: 0.1em 0.5em;}
 .details-control{cursor:pointer;}
-#noBodyLeft{border-left: 0px;}
+#noBodyLeft{}
 #noBodyLeft th,#noBodyLeft td{padding:5px;}
 #noBodyLeft input,#noBodyLeft select{margin-bottom:0px;}
 </style>
@@ -80,9 +80,9 @@
 								<input type="text" class="span2" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
-								<a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
                                 <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
+								<a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
 							</div>
 						</div>
 						 <div class="control-group" id="room_layout_table">
