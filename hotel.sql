@@ -824,7 +824,7 @@ CREATE TABLE `room_layout_room` (
 
 /*Data for the table `room_layout_room` */
 
-insert  into `room_layout_room`(`room_layout_id`,`room_id`,`room_layout_room_extra_bed`) values (1,1,0),(1,2,0),(2,3,2);
+insert  into `room_layout_room`(`room_layout_id`,`room_id`,`room_layout_room_extra_bed`) values (1,1,0),(1,2,0),(1,3,0),(2,2,0),(2,3,2);
 
 /*Table structure for table `rooms_layout_attribute` */
 

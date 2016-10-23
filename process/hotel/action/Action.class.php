@@ -20,9 +20,6 @@ class Action extends \BaseAction {
         $this->setDisplay();
         $arrayLoginEmployeeInfo = $objResponse->arrayLoginEmployeeInfo;
         if(empty($arrayLoginEmployeeInfo) && $objRequest->getAction() != 'login') {
-            //var_dump(empty($arrayLoginEmployeeInfo));
-            //print_r($objResponse->arrayLoginEmployeeInfo);
-            //exit();
             if(!empty($objRequest->getPost())) {
                 $this->errorResponse('登录已失效！请重新登录！', '', __WEB . 'index.php?action=login');
             } else {
