@@ -105,7 +105,6 @@
 							</table>
                             <div id="room_layout_html"></div>
                             <div id="room_data"></div>
-                            <div id="room_name_data"></div>
                             <div id="addBed_data"></div>
 						  </div>
 						</div>
