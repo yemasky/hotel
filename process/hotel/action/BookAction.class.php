@@ -113,6 +113,7 @@ class BookAction extends \BaseAction {
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             unset($arrayPostValue['room_layout_length']);
+            
             print_r($arrayPostValue);exit();
             $this->setDisplay();
             $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];

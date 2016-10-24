@@ -344,7 +344,7 @@ $(document).ready(function(){
 						//console.log(this);
 						if($(this).attr('room_layout') == room_layout && $(this).attr('room_layout') == room_layout_id) {//相同room_layout
 							room_price = ($(this).val() - 0) * val + room_price;
-							for(i = 1; i < val; i++) {
+							for(i = 1; i <= val; i++) {
 								option += '<option value="'+room_id+'">'+bookSelectRoom[room_id]+'</option>';	
 							}
 						}
