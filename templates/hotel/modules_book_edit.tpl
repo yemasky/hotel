@@ -105,7 +105,6 @@
 							</table>
                             <div id="room_layout_html"></div>
                             <div id="room_data"></div>
-                            <div id="room_data_disable"></div>
 						  </div>
 						</div>
 						<div class="control-group">

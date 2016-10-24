@@ -93,7 +93,6 @@ $(document).ready(function(){
 	function ajaxGetRoomLayout() {
 		$.ajax({
 			url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val(),
-			// + '&room_layout_max_people=' + $('#room_layout_max_people').val()
 			type : "post",
 			data : 'book_check_int=' + $('#book_check_int').val()
 			+ '&book_check_out=' + $('#book_check_out').val(),
@@ -118,9 +117,8 @@ $(document).ready(function(){
 	}
 	function resolverRoomLayoutData(data) {
 		var html = '';
-		var td1 = td2 = td3 = option = tr_class = '';
+		var td1 = td2 = td3 = option = '';
 		for(i in data) {
-			tr_class = i % 2 == 1 ? 'old' : 'even';
 			td1 = '<a href="#room" class="select_room">' + data[i].room_layout_name;
 			td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
 			td2 = '<input type="text" class="span2 book_price" id="book_price_' + data[i].room_layout_id + '" value="'
@@ -145,6 +143,7 @@ $(document).ready(function(){
 	$('#room_layout tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
+        var _this = this;
         if ( row.child.isShown() ) {
             // This row is already open - close it
             row.child.hide();
@@ -164,9 +163,9 @@ $(document).ready(function(){
 				$('.book_price').keyup(function(e) {
 					setBookPrice(this);
 				});
-				$("th input:checkbox").click(function() {
+                $(_this).parent().next().find('th input:checkbox').click(function() {
 					var checkedStatus = this.checked;
-					var checkbox = $(this).parent().parent().parent().next().find('tr td:first-child input:checkbox');		
+					var checkbox = $(this).parent().parent().parent().next().find('tr td:first-child input:checkbox');
 					checkbox.each(function() {
 						if(this.disabled) {
 						} else {
@@ -179,29 +178,40 @@ $(document).ready(function(){
 								//$(this).closest('.checker > span').removeClass('checked');
 							}
 							if (this.checked && typeof(room_layout_id) != 'undefined') {
-								var room_lauout_input = '<input type="hidden" id="room_'+room_layout_id+'_'+room_id+'" name="room_layout_id['+room_layout_id+']" value="'+room_id+'" />';
+								var room_lauout_input = '<input type="hidden" id="room_'+room_layout_id+'_'+room_id+'" '
+													   +'name="room_layout_id['+room_layout_id+'][]" value="'+room_id+'" />';
 								$('#room_layout_html').append(room_lauout_input);
 								$('#room_data').data(room_id, room_layout_id);
-								//alert(room_lauout_input);
 								//$(this).closest('.checker > span').addClass('checked');
 							}
+                            //设置disable
+                            resetRoomStatus(room_id, room_layout_id, this.checked);
 						}
 					});
+
 					//计算价格
 					setBookPrice(this);
 				});	
-				$('#room_layout td input:checkbox').click(function(e) {
+				
+				$(_this).parent().next().find('td input:checkbox').click(function(e) {
 					var room_id = $(this).val();
 					var room_layout_id = $(this).attr('room_layout');
 					if(room_id == 'on') return;
 					if (this.checked) {
-						var room_lauout_input = '<input type="hidden" id="room_'+room_layout_id+'_'+room_id+'" name="room_layout_id['+room_layout_id+']" value="'+room_id+'" />';
+					    //选中状态
+						var room_lauout_input = '<input type="hidden" id="room_'+room_layout_id+'_'+room_id+'" '
+											   +'name="room_layout_id['+room_layout_id+'][]" value="'+room_id+'" />';
 						$('#room_layout_html').append(room_lauout_input);
 						$('#room_data').data(room_id, room_layout_id);
+                        //设置disable
+                        resetRoomStatus(room_id, room_layout_id, this.checked);
 					} else {
 						$('#room_'+room_layout_id+'_'+room_id).remove();
 						$("#room_data").removeData(room_id);  //移除blah
+                        //设置disable
+                        resetRoomStatus(room_id, room_layout_id, this.checked);
 					}
+					//设置价格
 					setBookPrice(this);
 				});
 				$('.room_extra_bed').change(function(e) {
@@ -211,7 +221,8 @@ $(document).ready(function(){
 					$('#extra_bed_'+room_layout_id+'_'+room_id).remove();
                     if(extra_bed_val == 0) {
 					} else {
-						var extra_bed_input = '<input type="hidden" id="extra_bed_'+room_layout_id+'_'+room_id+'" name="extra_bed['+room_id+']" value="'+extra_bed_val+'" />';
+						var extra_bed_input = '<input type="hidden" id="extra_bed_'+room_layout_id+'_'+room_id+'" '
+											 +'name="extra_bed['+room_id+']" value="'+extra_bed_val+'" />';
 						$('#room_layout_html').append(extra_bed_input);
 					}
                 });
@@ -231,17 +242,17 @@ $(document).ready(function(){
 						selectHtml += '<option value="'+j+'">'+j+'</option>';
 					}
 					selectHtml += '</select>';
-					var checken_room = '';
+					//设置是否是已使用的checked
+					var checked_room = '';
 					if(typeof($('#room_data').data(itemData[i].room_id)) != 'undefined') {//undefined
 						if($('#room_data').data(itemData[i].room_id) == itemData[i].room_layout_id) {
-							checken_room = 'checked';
+							checked_room = 'checked';
 						} else {
-							checken_room = 'disabled';
-							$('#room_data_disable').data(itemData[i].room_id, itemData[i].room_layout_id);
+							checked_room = 'disabled';
 						}
 					}
 					html += '<tr>'
-						 +'<td><input '+checken_room+' name="room_id[]" type="checkbox" value="'+itemData[i].room_id+'" room_layout="'+itemData[i].room_layout_id+'" /></td>'
+						 +'<td><input '+checked_room+' name="room_id[]" type="checkbox" value="'+itemData[i].room_id+'" room_layout="'+itemData[i].room_layout_id+'" /></td>'
 						 +'<td>'+itemData[i].room_number+'</td>'
 						 +'<td>'+itemData[i].room_mansion+'</td>'
 						 +'<td>'+itemData[i].room_floor+'</td>'
@@ -270,6 +281,18 @@ $(document).ready(function(){
 		   $('#modal_fail_message').html(data.message);
 		   return html;
 	   }
+	}
+	
+	function resetRoomStatus(room_id, room_layout_id, status) {
+		var checkbox = $('#room_layout_data td input:checkbox');
+		checkbox.each(function() {
+            if($(this).val() == room_id) {
+				if($(this).attr('room_layout') != room_layout_id)  {
+					if(!status) this.disabled = false;
+                    if(status) this.disabled = true;
+				}
+			}
+		})
 	}
 	
 	//计算价格
