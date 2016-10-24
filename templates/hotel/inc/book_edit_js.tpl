@@ -361,7 +361,7 @@ $(document).ready(function(){
 		$('#prepayment').val(room_price);
 		//$('#room_layout_html').html(room_layout_html);	
 		$('.bookSelectRoom').remove();
-		$('#book_user_info').append(select_html);
+		$('.book_user_info').append(select_html);
 	}
 
 	//联系信息事件

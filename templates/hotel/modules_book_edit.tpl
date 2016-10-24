@@ -144,7 +144,7 @@
 						</div>
 						<div class="control-group">
 							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
-							<div class="controls" id="book_user_info">
+							<div class="controls book_user_info">
 								<input name="book_user_name" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
 								<select name="book_user_sex" class="span1">
