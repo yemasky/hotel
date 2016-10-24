@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.24 (32 bit)
-MySQL - 10.1.13-MariaDB : Database - hotel
+SQLyog Ultimate v12.09 (64 bit)
+MySQL - 10.1.16-MariaDB : Database - hotel
 *********************************************************************
 */
 
