@@ -121,12 +121,16 @@ $(document).ready(function(){
 		for(i in data) {
 			td1 = '<a href="#room" class="select_room">' + data[i].room_layout_name;
 			td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
-			td2 = '<input type="text" class="span2 book_price" id="book_price_' + data[i].room_layout_id + '" value="'
-			     + data[i].room_layout_price + '"  />'
+			td2 = '<input type="text" class="span2 book_price layout_price" id="book_price_' + data[i].room_layout_id + '"'
+				 +' name="layout_price['+ data[i].room_layout_id + '][]"'
+				 +' value="'+ data[i].room_layout_price + '" '
+				 +' room_layout="' + data[i].room_layout_id + '" />'
 				 +'';
 			td2 = td2+'<span class="hide">' + data[i].room_layout_price + '</span>';
-			td3 = '<input type="text" class="span2 book_price" id="book_extra_bed_price_' 
-			     + data[i].room_layout_id + '" value="' + data[i].room_layout_extra_bed_price + '"  />'
+			td3 = '<input type="text" class="span2 book_price extra_bed_price" id="book_extra_bed_price_'+ data[i].room_layout_id + '"'
+				 +' name="extra_bed_price['+ data[i].room_layout_id + '][]"'
+				 +' value="' + data[i].room_layout_extra_bed_price + '" '
+				 +'  room_layout="' + data[i].room_layout_id + '" />'
 			     +'';
             td3 = td3 + '<span class="hide">' 
 				 + data[i].room_layout_extra_bed_price + '</span>';
@@ -156,13 +160,6 @@ $(document).ready(function(){
 				row.child().children().attr('id', 'noBodyLeft');
 				//row.child().children().attr('id', 'noBodyLeft');
 				tr.addClass('shown');
-				//计算价格
-				$('.room_extra_bed').change(function(e) {
-					setBookPrice(this);
-				});
-				$('.book_price').keyup(function(e) {
-					setBookPrice(this);
-				});
                 $(_this).parent().next().find('th input:checkbox').click(function() {
 					var checkedStatus = this.checked;
 					var checkbox = $(this).parent().parent().parent().next().find('tr td:first-child input:checkbox');
@@ -172,60 +169,76 @@ $(document).ready(function(){
 							this.checked = checkedStatus;
 							var room_id = $(this).val();
 							var room_layout_id = $(this).attr('room_layout');
+							var room_name = $(this).attr('title');
 							if (checkedStatus == this.checked) {
 								$('#room_'+room_layout_id+'_'+room_id).remove();
-								$("#room_data").removeData(room_id);  //移除blah
+								$("#room_data").removeData(room_id);  //移除
+								$('#room_name_data').removeData(room_id);
 								//$(this).closest('.checker > span').removeClass('checked');
 							}
 							if (this.checked && typeof(room_layout_id) != 'undefined') {
 								var room_lauout_input = '<input type="hidden" id="room_'+room_layout_id+'_'+room_id+'" '
-													   +'name="room_layout_id['+room_layout_id+'][]" value="'+room_id+'" />';
+													   +'name="room_layout_id['+room_layout_id+'][]" value="'+room_id+'" '
+													   +'layout="room" room_layout="'+room_layout_id+'" />';
 								$('#room_layout_html').append(room_lauout_input);
 								$('#room_data').data(room_id, room_layout_id);
+								$('#room_name_data').data(room_id, room_name);
 								//$(this).closest('.checker > span').addClass('checked');
 							}
                             //设置disable
                             resetRoomStatus(room_id, room_layout_id, this.checked);
 						}
 					});
-
 					//计算价格
-					setBookPrice(this);
+					setBookPrice();
 				});	
 				
 				$(_this).parent().next().find('td input:checkbox').click(function(e) {
 					var room_id = $(this).val();
 					var room_layout_id = $(this).attr('room_layout');
+					var room_name = $(this).attr('title');
 					if(room_id == 'on') return;
 					if (this.checked) {
 					    //选中状态
 						var room_lauout_input = '<input type="hidden" id="room_'+room_layout_id+'_'+room_id+'" '
-											   +'name="room_layout_id['+room_layout_id+'][]" value="'+room_id+'" />';
+											   +'name="room_layout_id['+room_layout_id+'][]" value="'+room_id+'" '
+											   +'layout="room" room_layout="'+room_layout_id+'" />';
 						$('#room_layout_html').append(room_lauout_input);
 						$('#room_data').data(room_id, room_layout_id);
+						$('#room_name_data').data(room_id, room_name);
                         //设置disable
                         resetRoomStatus(room_id, room_layout_id, this.checked);
 					} else {
 						$('#room_'+room_layout_id+'_'+room_id).remove();
-						$("#room_data").removeData(room_id);  //移除blah
+						$("#room_data").removeData(room_id);  //移除
+						$('#room_name_data').removeData(room_id);
                         //设置disable
                         resetRoomStatus(room_id, room_layout_id, this.checked);
 					}
-					//设置价格
-					setBookPrice(this);
+					//计算价格
+					setBookPrice();
 				});
 				$('.room_extra_bed').change(function(e) {
 					var extra_bed_val = $(this).val();
 					var room_id = $(this).attr('room');
 					var room_layout_id = $(this).attr('room_layout');
 					$('#extra_bed_'+room_layout_id+'_'+room_id).remove();
-                    if(extra_bed_val == 0) {
+					$('#addBed_data').removeData(room_layout_id+'_'+room_id);
+                    if(extra_bed_val == 0) {						
 					} else {
 						var extra_bed_input = '<input type="hidden" id="extra_bed_'+room_layout_id+'_'+room_id+'" '
-											 +'name="extra_bed['+room_id+']" value="'+extra_bed_val+'" />';
+											 +'name="extra_bed['+room_layout_id+']['+room_id+']" value="'+extra_bed_val+'" '
+											 +'layout="bed" room_layout="'+room_layout_id+'" room="'+room_id+'" />';
 						$('#room_layout_html').append(extra_bed_input);
+						$('#addBed_data').data(room_layout_id+'_'+room_id, extra_bed_val);
 					}
+					//计算价格
+					setBookPrice();
                 });
+				$('.book_price').keyup(function(e) {
+					setBookPrice();
+				});
+				//计算价格
 			})
         }
     } );
@@ -237,9 +250,14 @@ $(document).ready(function(){
 			   itemData = data.itemData;
 			   var selectHtml = '';
 			   for(i in data.itemData) {
-					selectHtml = '<select class="span2 room_extra_bed" name="book_extra_bed[]" room_layout="'+itemData[i].room_layout_id+'" room="'+itemData[i].room_id+'">';
+				    var addBedSelect = '';
+					selectHtml = '<select class="span2 room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" room="'+itemData[i].room_id+'">';
 					for(j = 0; j <= itemData[i].room_layout_room_extra_bed; j++) {
-						selectHtml += '<option value="'+j+'">'+j+'</option>';
+						if($('#addBed_data').data(itemData[i].room_layout_id+'_'+itemData[i].room_id) == j) {
+							addBedSelect = 'selected';
+						}
+						selectHtml += '<option value="'+j+'" '+addBedSelect+'>'+j+'</option>';
+						addBedSelect = '';
 					}
 					selectHtml += '</select>';
 					//设置是否是已使用的checked
@@ -252,7 +270,10 @@ $(document).ready(function(){
 						}
 					}
 					html += '<tr>'
-						 +'<td><input '+checked_room+' name="room_id[]" type="checkbox" value="'+itemData[i].room_id+'" room_layout="'+itemData[i].room_layout_id+'" /></td>'
+						 +'<td>'
+						 +'<input '+checked_room+' type="checkbox" value="'+itemData[i].room_id+'" room_layout="'+itemData[i].room_layout_id+'"'
+						 +' title="'+itemData[i].room_number+'" />'
+						 +'</td>'
 						 +'<td>'+itemData[i].room_number+'</td>'
 						 +'<td>'+itemData[i].room_mansion+'</td>'
 						 +'<td>'+itemData[i].room_floor+'</td>'
@@ -296,29 +317,47 @@ $(document).ready(function(){
 	}
 	
 	//计算价格
-	function setBookPrice(obj) {
-		var all_val = price = extra_bed_price = extra_bed = 0; //定义变量全部保存
-		var room_layout_html = '';
-		$(".room_layout_num").each(function (i) {
+	function setBookPrice() {
+		var room_price = 0;
+		var select_html = ' <select >';
+		var option = '';
+		$("#room_layout_html input").each(function (i) {
 			var val = $(this).val() - 0; //获取单个value
 			if(val > 0) {
-				var name_key = $(this).attr('layout');
-				room_layout_html += '<input type="hidden" name="room_layout_id['+name_key+']" value="'+val+'" />';
-				price = $("#book_price_"+name_key).val() - 0;
-				room_layout_html += '<input type="hidden" name="book_price['+name_key+']" value="'+price+'" />';
-				extra_bed_price = $("#book_extra_bed_price_"+name_key).val() - 0;
-				room_layout_html += '<input type="hidden" name="book_extra_bed_price['+name_key+']" value="'+extra_bed_price+'" />';
-				extra_bed = $("#book_extra_bed_"+name_key).val() - 0;
-				room_layout_html += '<input type="hidden" name="book_extra_bed['+name_key+']" value="'+extra_bed+'" />';
-				all_val += val * price + extra_bed * extra_bed_price;
+				var layout = $(this).attr('layout');//room or bed
+				var room_layout = $(this).attr('room_layout');//room_layout id
+				if(layout == 'room') {
+					$('.layout_price').each(function(index, element) {//房型价格
+						if($(this).attr('room_layout') == room_layout) {//相同room_layout
+							room_price = $(this).val() - 0 + room_price;
+							option += '<option value="'+val+'">'+$('#room_name_data').data(val)+'</option>';
+						}
+					});
+				}
+				if(layout == 'bed') {
+					var room_id = $(this).attr('room');
+					var room_layout_id = $('#room_data').data(room_id);
+					$('.extra_bed_price').each(function(index, element) {//房型价格
+						//console.log(this);
+						if($(this).attr('room_layout') == room_layout && $(this).attr('room_layout') == room_layout_id) {//相同room_layout
+							room_price = ($(this).val() - 0) * val + room_price;
+							for(i = 1; i <= val; i++) {
+								option += '<option value="'+room_id+'">'+$('#room_name_data').data(room_id)+'</option>';	
+							}
+						}
+					});
+				}
 			}
 		});
+		select_html += option + '</select>';
+		room_price = room_price * ($('#discount').val() - 0) / 100;
 		/////////
 		
 		////
-		$('#total_price').val(all_val);
-		$('#prepayment').val(all_val);
-		//$('#room_layout_html').html(room_layout_html);		
+		$('#total_price').val(room_price);
+		$('#prepayment').val(room_price);
+		//$('#room_layout_html').html(room_layout_html);	
+		//$('#book_user_info').append(select_html);
 	}
 
 	//联系信息事件

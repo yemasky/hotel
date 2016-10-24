@@ -67,7 +67,7 @@
 						<div class="control-group book_form_step1">
 							<label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%> :</label>
 							<div class="controls">
-								 <input type="text" id="discount" name="book_discount" class="span1" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>" value="100"  />
+								 <input type="text" id="discount" name="book_discount" class="span1 book_price" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>" value="100"  />
 								 <%$arrayLaguage['discount_describe']['page_laguage_value']%> :
 								 <input type="text" id="book_discount_describe" name="book_discount_describe" class="span2" placeholder="<%$arrayLaguage['discount_describe']['page_laguage_value']%>"  />
 							</div>
@@ -105,6 +105,8 @@
 							</table>
                             <div id="room_layout_html"></div>
                             <div id="room_data"></div>
+                            <div id="room_name_data"></div>
+                            <div id="addBed_data"></div>
 						  </div>
 						</div>
 						<div class="control-group">
@@ -143,7 +145,7 @@
 						</div>
 						<div class="control-group">
 							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
-							<div class="controls">
+							<div class="controls" id="book_user_info">
 								<input name="book_user_name" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
 								<select name="book_user_sex" class="span1">
