@@ -89,7 +89,21 @@ class pdoDriver {
 	 */
 	public function getTableDescribe($tbl_name){
 	}
-
+	/*
+     * 事务
+     */
+	public function enableAutocommit() {
+		return $this->execute('SET AUTOCOMMIT=1;');
+	}
+	public function disableAutocommit() {
+		return $this->execute('SET AUTOCOMMIT=0;');
+	}
+	public function commit() {
+		return $this->execute('COMMIT;');
+	}
+	public function rollback() {
+		return $this->execute('ROLLBACK;');
+	}
 	/**
 	 * 析构函数 __destruct
 	 */

@@ -32,6 +32,10 @@ class BookAction extends \BaseAction {
         }
     }
 
+    protected function tryexecute($objRequest, $objResponse) {
+        BookOperateService::instance()->rollback();//事务回滚
+    }
+
     /**
      * 首页显示
      */

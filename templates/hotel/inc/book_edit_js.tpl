@@ -384,7 +384,7 @@ $(document).ready(function(){
 						   $('#discount').val(data.itemData.book_discount);
 						   if(data.itemData.agreement_company_name != '') {
 							   var book_discount_id = ' <input readonly id="book_discount_id" value="'
-							   		+ data.itemData.agreement_company_name+'" type="text" class="span2"/> '
+							   		+ data.itemData.book_discount_name + data.itemData.agreement_company_name+'" type="text" class="span2"/> '
 									+' <input name="book_discount_id" value="'
 							   		+ data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
 							   $('#book_type_id').after(book_discount_id);

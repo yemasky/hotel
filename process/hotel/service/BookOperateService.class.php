@@ -104,7 +104,7 @@ class BookOperateService extends \BaseService {
             BookDao::instance()->disableAutocommit();
             $book_id = BookService::instance()->saveBook($arrayBill);
             $book_order_number = \Utilities::getOrderNumber($book_id);
-            BookService::instance()->updateBook(array('book_id'=>$book_id), array('book_order_number'=>$book_order_number));
+            BookService::instance()->updateBook(array('book_ido'=>$book_id), array('book_order_number'=>$book_order_number));
             if(!empty($arraybatchInsertValue)) {
                 foreach($arraybatchInsertValue as $k => $v) {
                     $arraybatchInsert[$k] = $arrayBill;
@@ -120,12 +120,18 @@ class BookOperateService extends \BaseService {
             //$book_order_number = \Utilities::getOrderNumber();
         } catch (Exception $e) {
             BookDao::instance()->rollback();
+            BookDao::instance()->enableAutocommit();
             logError($e->getTraceAsString());
             return 0;
         }
         BookDao::instance()->commit();
         BookDao::instance()->enableAutocommit();
         return $book_order_number;
+    }
+
+    public function rollback() {
+        BookDao::instance()->rollback();
+        BookDao::instance()->enableAutocommit();
     }
 
 
