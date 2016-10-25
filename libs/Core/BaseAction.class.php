@@ -421,7 +421,7 @@ abstract class BaseAction{
 			// 数据库事务提交(由DBQuery判断是否需要做)
 			//DBQuery::instance()->commit();
 		} catch(Exception $e) {
-			if(__Debug) {
+			if(__Debug && $this->displayDisabled == false) {
 				echo ('error: ' . $e->getMessage() . "<br>");
 				echo (str_replace("\n", "\n<br>", $e->getTraceAsString()));
 			}
@@ -430,11 +430,11 @@ abstract class BaseAction{
 				$this->tryexecute($objRequest, $objResponse);
 				// 数据库事务回滚(由DBQuery判断是否需要做)
 				//DBQuery::instance()->rollback();
-			} catch(Exception $e) {
-				logError($e->getMessage(), __MODEL_EXCEPTION);
-				if(__Debug) {
-					print_r($e->getMessage());
-					print_r($e->getTraceAsString());
+			} catch(Exception $ex) {
+				logError($ex->getMessage(), __MODEL_EXCEPTION);
+				if(__Debug && $this->displayDisabled == false) {
+					print_r($ex->getMessage());
+					print_r($ex->getTraceAsString());
 				}
 			}
 			// 错误日志

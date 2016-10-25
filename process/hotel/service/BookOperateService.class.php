@@ -111,7 +111,7 @@ class BookOperateService extends \BaseService {
                     $arraybatchInsert[$k]['book_order_number'] = $book_order_number;
                     $arraybatchInsert[$k]['room_layout_id'] = $v['room_layout_id'];
                     $arraybatchInsert[$k]['room_id'] = $v['room_id'];
-                    $arraybatchInsert[$k]['book_room_layout_pricep'] = $v['book_room_layout_price'];
+                    $arraybatchInsert[$k]['book_room_layout_price'] = $v['book_room_layout_price'];
                     $arraybatchInsert[$k]['book_room_extra_bed'] = $v['book_room_extra_bed'];
                     $arraybatchInsert[$k]['book_room_extra_bed_price'] = $v['book_room_extra_bed_price'];
                 }
