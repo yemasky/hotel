@@ -1,6 +1,21 @@
 <?php
 require_once ("../config.php");
 
+function getOrderNumber($billid, $length = 16) {
+	if(strlen($billid) >= $length) return $billid;
+	$billno = $billid.'0';
+	$id_lenght = strlen($billno) + 1;
+	for($i = $id_lenght; $i<=$length; $i++) {
+		$billno .= rand(1, 9);
+	}
+	return $billno;
+}
+
+for($i = 1; $i <= 50; $i++) {
+	echo getOrderNumber($i). "<br>\r\n";
+}
+
+return;
 function insertLocation() {
     $lines = file("city.txt");
     $locations_id = $province_id = $city_id = '';

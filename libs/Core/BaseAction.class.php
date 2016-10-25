@@ -419,7 +419,7 @@ abstract class BaseAction{
 			// 资源回收
 			$this->release($objRequest, $objResponse);
 			// 数据库事务提交(由DBQuery判断是否需要做)
-			// DBQuery::instance()->commit();
+			//DBQuery::instance()->commit();
 		} catch(Exception $e) {
 			if(__Debug) {
 				echo ('error: ' . $e->getMessage() . "<br>");
@@ -429,7 +429,7 @@ abstract class BaseAction{
 				// 错误处理
 				$this->tryexecute($objRequest, $objResponse);
 				// 数据库事务回滚(由DBQuery判断是否需要做)
-				// DBQuery::instance()->rollback();
+				//DBQuery::instance()->rollback();
 			} catch(Exception $e) {
 				logError($e->getMessage(), __MODEL_EXCEPTION);
 				if(__Debug) {
@@ -919,6 +919,7 @@ class DBQuery{
 
     public function batchInsert($arrayValues, $insert_type = 'INSERT') {
         //批量插入 insert into(key) values(val),(val) ......
+        //array(0=>array('key1'=>'val1','key2'=>'val2' ...), 1=>array('key1'=>'val1','key2'=>'val2' ...),.....);
         if(!is_array($arrayValues))
             return FALSE;
         if(empty($arrayValues))
@@ -973,7 +974,20 @@ class DBQuery{
 		// $this -> strDsn = $dsn;
 		return $arrDsn;
 	}
-
+	//事务
+    public function enableAutocommit() {
+        return $this->conn->enableAutocommit();
+    }
+    public function disableAutocommit() {
+        return $this->conn->disableAutocommit();
+    }
+    public function commit() {
+        return $this->conn->commit();
+    }
+    public function rollback() {
+        return $this->conn->rollback();
+    }
+    //
 	/**
 	 * 魔术函数，执行模型扩展类的自动加载及使用
 	 */
@@ -994,6 +1008,7 @@ class DBQuery{
     public function __destruct() {
     }
 }
+
 class DBCache{
 	/**
 	 * 默认的数据生存期

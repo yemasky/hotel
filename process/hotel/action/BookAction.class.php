@@ -98,6 +98,16 @@ class BookAction extends \BaseAction {
             $arrayRoom = RoomService::instance()->getRoomLayoutRoomDetailed($conditions);
             return $this->successResponse('', $arrayRoom);
         }
+        if($objRequest -> search == 'discount') {
+            $this -> setDisplay();
+            $book_type_id = $objRequest -> book_type_id;
+            if(empty($book_type_id)) return $this->errorResponse('数据错误，请重新选择！');
+            $conditions['where'] = array('book_type_id'=>$book_type_id,
+                'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+            $fieldid = 'book_discount_id, book_discount, book_discount_name, agreement_company_name';
+            $arrayDiscount = BookService::instance()->getBookDiscount($conditions, $fieldid);
+            return $this->successResponse('', $arrayDiscount);
+        }
         $this->doEdit($objRequest, $objResponse);
         //
         $objResponse -> book_url =
@@ -107,23 +117,20 @@ class BookAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
-        $book_id = decode($objRequest -> book_id);
+        $order_number = decode($objRequest -> order_number);
         $arrayPostValue= $objRequest->getPost();
         $conditions = DbConfig::$db_query_conditions;
 
-        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
-            unset($arrayPostValue['room_layout_length']);
-            
-            print_r($arrayPostValue);exit();
+        if(!empty($arrayPostValue) && is_array($arrayPostValue) && isset($arrayPostValue['room_layout_id'])) {
             $this->setDisplay();
-            $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            $arrayPostValue['room_layout_add_date'] = date("Y-m-d");
-            $arrayPostValue['room_layout_add_time'] = getTime();
-            $room_layout_id = BookService::instance()->saveBook($arrayPostValue);
+            if(empty($arrayPostValue['room_layout_id'])) return $this->errorResponse('房型数据错误！');
+            unset($arrayPostValue['room_layout_length']);
+            $order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
+            if($order_number == 0) return $this->errorResponse('预定失败！');
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),
-                    'book_id'=>encode($book_id)));
-            return $this->successResponse('保存售卖房型成功', array('book_id'=>encode($book_id)), $redirect_url);
+                    'order_number'=>encode($order_number)));
+            return $this->successResponse('保存售卖房型成功', array('order_number'=>encode($order_number)), $redirect_url);
         }
 
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'],0)));
@@ -178,5 +185,7 @@ class BookAction extends \BaseAction {
         return $arrayBookRoom;
         //取得价格
     }
+
+
 
 }

@@ -105,4 +105,6 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('payment_type')->delete($where);
     }
 
+
+
 }

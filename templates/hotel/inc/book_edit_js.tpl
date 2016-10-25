@@ -122,13 +122,13 @@ $(document).ready(function(){
 			td1 = '<a href="#room" class="select_room">' + data[i].room_layout_name;
 			td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
 			td2 = '<input type="text" class="span2 book_price layout_price" id="book_price_' + data[i].room_layout_id + '"'
-				 +' name="layout_price['+ data[i].room_layout_id + '][]"'
+				 +' name="layout_price['+ data[i].room_layout_id + ']"'
 				 +' value="'+ data[i].room_layout_price + '" '
 				 +' room_layout="' + data[i].room_layout_id + '" />'
 				 +'';
 			td2 = td2+'<span class="hide">' + data[i].room_layout_price + '</span>';
 			td3 = '<input type="text" class="span2 book_price extra_bed_price" id="book_extra_bed_price_'+ data[i].room_layout_id + '"'
-				 +' name="extra_bed_price['+ data[i].room_layout_id + '][]"'
+				 +' name="extra_bed_price['+ data[i].room_layout_id + ']"'
 				 +' value="' + data[i].room_layout_extra_bed_price + '" '
 				 +'  room_layout="' + data[i].room_layout_id + '" />'
 			     +'';
@@ -319,9 +319,11 @@ $(document).ready(function(){
 	}
 	
 	//计算价格
+	var max_man = 0;//最多人数
 	function setBookPrice() {
+		max_man = 0;
 		var room_price = 0;
-		var select_html = ' <select class="span1 bookSelectRoom">';
+		var select_html = ' <select class="span1 bookSelectRoom" name="book_user_room[]">';
 		var option = '';
 		$("#room_layout_html input").each(function (i) {
 			var val = $(this).val() - 0; //获取单个value
@@ -334,6 +336,7 @@ $(document).ready(function(){
 							room_price = $(this).val() - 0 + room_price;
 							//console.log(bookSelectRoom[val]);
 							option += '<option value="'+val+'">'+bookSelectRoom[val]+'</option>';
+							max_man++;
 						}
 					});
 				}
@@ -346,6 +349,7 @@ $(document).ready(function(){
 							room_price = ($(this).val() - 0) * val + room_price;
 							for(i = 1; i <= val; i++) {
 								option += '<option value="'+room_id+'">'+bookSelectRoom[room_id]+'</option>';	
+								max_man++;
 							}
 						}
 					});
@@ -375,18 +379,26 @@ $(document).ready(function(){
 				   data = result;
 				   if(data.success == 1) {
 					   if(data.itemData != null && data.itemData != '' && data.itemData != 'null') {
-						   $('#agreement_company').remove();
+						   $('#book_discount_id,.book_discount_id').remove();
 						   $('#book_type_id').val(data.itemData.book_type_id);
 						   $('#discount').val(data.itemData.book_discount);
 						   if(data.itemData.agreement_company_name != '') {
-							   var agreement_company = ' <input readonly id="agreement_company" value="'
+							   var book_discount_id = ' <input readonly id="book_discount_id" value="'
 							   		+ data.itemData.agreement_company_name+'" type="text" class="span2"/> '
-							   $('#book_type_id').after(agreement_company);
+									+' <input name="book_discount_id" value="'
+							   		+ data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
+							   $('#book_type_id').after(book_discount_id);
 						   } else {
-								var agreement_company = ' <input readonly id="agreement_company" value="'
+								var book_discount_id = ' <input readonly id="book_discount_id" value="'
 									+ data.itemData.book_discount_name+'" type="text" class="span2"/> '
-								$('#book_type_id').after(agreement_company);
+									+' <input name="book_discount_id" value="'
+							   		+ data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
+								$('#book_type_id').after(book_discount_id);
 						   }
+					   } else {
+						   $('#book_discount_id,.book_discount_id').remove();
+						   $('#book_type_id').val('');
+						   $('#discount').val(100);
 					   }
 				   } else {
 					   $('#modal_fail').modal('show');
@@ -396,9 +408,53 @@ $(document).ready(function(){
 			 });
 		}
     });
+	//协议公司
+	var book_discount_list = {};
+	$('#book_type_id').change(function(e) {
+		$('#book_discount_id,.book_discount_id').remove();
+		var book_type_id = $(this).val();
+		if(typeof(book_discount_list[book_type_id]) == 'undefined') {
+			$.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
+				data = result;
+				if(data.itemData != null && data.itemData != '') {
+					var discount_html = ' <select name="book_discount_id" class="span2 book_discount_id select_discount">';
+					var option = '';
+					for(i in data.itemData) {
+						option += '<option value="'+data.itemData[i].book_discount_id+'">'
+						       +data.itemData[i].book_discount_name + data.itemData[i].agreement_company_name +'</option>';
+						book_discount_list[data.itemData[i].book_discount_id + '_0'] = data.itemData[i].book_discount;
+						if(i == 0) {
+							$('#discount').val(data.itemData[i].book_discount);
+							book_discount_list[book_type_id + '_'] = data.itemData[i].book_discount;
+						}
+					}
+					discount_html += option + '</section>';
+					//console.log(discount_html);
+					book_discount_list[book_type_id] = discount_html;
+					$('#book_type_id').after(discount_html);
+					$('.select_discount').change(function(e) {
+						$('#discount').val(book_discount_list[$(this).val() + '_0']);
+					})
+				} else {
+					book_discount_list[book_type_id] = '';
+					book_discount_list[book_type_id + '_'] = 100;
+					$('#discount').val(100);
+				}
+			})
+		} else {
+			$('#book_type_id').after(book_discount_list[book_type_id]);
+			$('.select_discount').change(function(e) {
+				$('#discount').val(book_discount_list[$(this).val() + '_0']);
+			})
+			$('#discount').val(book_discount_list[book_type_id + '_']);
+		}
+		//console.log(book_discount_list);
+    });
+	
 	//增加减少人数
 	var BookUser_num = 1;
 	$('#addBookUser').click(function(e) {
+		if(BookUser_num >= max_man) return;
         $(this).parent().prev().clone().insertBefore($(this).parent());
 		BookUser_num++;
     });

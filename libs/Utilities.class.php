@@ -71,9 +71,14 @@ class Utilities {
 		return $validate[$mode] == $arrayIdentity[17];
 	}
 
-	public static function getOrderNumber($id, $length = 12) {
-		$id_lenght = strlen($id);
-
+	public static function getOrderNumber($billid, $length = 16) {
+	    if(strlen($billid) >= $length) return $billid;
+        $billno = $billid.'0';
+        $id_lenght = strlen($billno) + 1;
+        for($i = $id_lenght; $i<=$length; $i++) {
+            $billno .= rand(1, 9);
+        }
+        return $billno;
 	}
 }
 ?>

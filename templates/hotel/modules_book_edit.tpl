@@ -43,8 +43,8 @@
                             <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
                             <div class="controls">
                             <input type="text" id="contact_name" name="contact_name" class="span2" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  />
-                            <%$arrayLaguage['mobile']['page_laguage_value']%> : 
-                            <input type="text" id="contact_mobile" name="contact_mobile" class="span2" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
+                            <%$arrayLaguage['email&lotel']['page_laguage_value']%> : 
+                            <input type="text" id="contact_mobile" name="contact_mobile" class="span2" placeholder="<%$arrayLaguage['email&lotel']['page_laguage_value']%>"  />
                             </div>
                         </div>
 					</form>
@@ -145,15 +145,15 @@
 						<div class="control-group">
 							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
 							<div class="controls book_user_info">
-								<input name="book_user_name" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
+								<input name="book_user_name[]" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
-								<select name="book_user_sex" class="span1">
+								<select name="book_user_sex[]" class="span1">
 									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
 									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
 								</select>
 								<%$arrayLaguage['identity_information']['page_laguage_value']%> :
-								<select name="book_user_id_card_type" class="span1">
+								<select name="book_user_id_card_type[]" class="span1">
 									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 									<%section name=card_type loop=$idCardType%>
 									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>

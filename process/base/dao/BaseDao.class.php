@@ -84,4 +84,22 @@ abstract class BaseDao{
     public function batchInsert($arrayValues, $insert_type = 'INSERT') {
         return DBQuery::instance($this->getDsnWrite())->setTable($this->table)->batchInsert($arrayValues, $insert_type);
     }
+
+    //事务
+    public function enableAutocommit() {
+        DBQuery::instance($this->getDsnWrite())->enableAutocommit();
+        return $this;
+    }
+    public function disableAutocommit() {
+        DBQuery::instance($this->getDsnWrite())->disableAutocommit();
+        return $this;
+    }
+    public function commit() {
+        DBQuery::instance($this->getDsnWrite())->commit();
+        return $this;
+    }
+    public function rollback() {
+        DBQuery::instance($this->getDsnWrite())->rollback();
+        return $this;
+    }
 }
