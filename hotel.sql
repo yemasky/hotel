@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.09 (64 bit)
-MySQL - 10.1.16-MariaDB : Database - hotel
+SQLyog Ultimate v11.24 (32 bit)
+MySQL - 10.1.13-MariaDB : Database - hotel
 *********************************************************************
 */
 
@@ -57,7 +57,7 @@ CREATE TABLE `book` (
   `book_add_time` time NOT NULL COMMENT '添加时间',
   `book_comments` varchar(2000) NOT NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`book_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `book` */
 

@@ -975,6 +975,9 @@ class DBQuery{
 		return $arrDsn;
 	}
 	//事务
+	public function startTransaction() {
+        return $this->conn->startTransaction();
+    }
     public function enableAutocommit() {
         return $this->conn->enableAutocommit();
     }

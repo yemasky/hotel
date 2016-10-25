@@ -123,9 +123,12 @@ class mysqliDriver {
     /*
      * 事务
      */
-    public function enableAutocommit() {
-        return $this->execute('SET AUTOCOMMIT=1;');
+    public function startTransaction() {
+        return $this->execute('START TRANSACTION;');
     }
+	public function enableAutocommit() {
+		return $this->execute('SET AUTOCOMMIT=1;');
+	}
     public function disableAutocommit() {
         return $this->execute('SET AUTOCOMMIT=0;');
     }

@@ -101,37 +101,34 @@ class BookOperateService extends \BaseService {
             }
 
             //事务开启
-            BookDao::instance()->disableAutocommit();
+            BookDao::instance()->startTransaction();
             $book_id = BookService::instance()->saveBook($arrayBill);
             $book_order_number = \Utilities::getOrderNumber($book_id);
-            BookService::instance()->updateBook(array('book_ido'=>$book_id), array('book_order_number'=>$book_order_number));
+            BookService::instance()->updateBook(array('book_id'=>$book_id), array('book_order_number'=>$book_order_number));
             if(!empty($arraybatchInsertValue)) {
                 foreach($arraybatchInsertValue as $k => $v) {
                     $arraybatchInsert[$k] = $arrayBill;
                     $arraybatchInsert[$k]['book_order_number'] = $book_order_number;
                     $arraybatchInsert[$k]['room_layout_id'] = $v['room_layout_id'];
                     $arraybatchInsert[$k]['room_id'] = $v['room_id'];
-                    $arraybatchInsert[$k]['book_room_layout_price'] = $v['book_room_layout_price'];
+                    $arraybatchInsert[$k]['book_room_layout_pricep'] = $v['book_room_layout_price'];
                     $arraybatchInsert[$k]['book_room_extra_bed'] = $v['book_room_extra_bed'];
                     $arraybatchInsert[$k]['book_room_extra_bed_price'] = $v['book_room_extra_bed_price'];
                 }
             }
             if(!empty($arraybatchInsert)) BookDao::instance()->batchInsert($arraybatchInsert);
-            //$book_order_number = \Utilities::getOrderNumber();
+
         } catch (Exception $e) {
             BookDao::instance()->rollback();
-            BookDao::instance()->enableAutocommit();
             logError($e->getTraceAsString());
             return 0;
         }
         BookDao::instance()->commit();
-        BookDao::instance()->enableAutocommit();
         return $book_order_number;
     }
 
     public function rollback() {
         BookDao::instance()->rollback();
-        BookDao::instance()->enableAutocommit();
     }
 
 

@@ -86,6 +86,10 @@ abstract class BaseDao{
     }
 
     //事务
+    public function startTransaction() {
+        DBQuery::instance($this->getDsnWrite())->startTransaction();
+        return $this;
+    }
     public function enableAutocommit() {
         DBQuery::instance($this->getDsnWrite())->enableAutocommit();
         return $this;
