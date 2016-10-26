@@ -78,11 +78,11 @@ class BookOperateService extends \BaseService {
                     $arrayRoomLayoutRoomHash[$room_id] = $room_layout_id;
                     //第一个个设为主订单
                     if($i == 0) {
-                        $arrayBill['book_order_number_main']        = '1';//主订单号
+                        $arrayBill['book_order_number_main'] = '1';//主订单号
                         $arrayBill['room_layout_id'] = $room_layout_id;
                         $arrayBill['room_id'] = $room_id;
                         $arrayBill['book_room_layout_price'] = $arrayLayoutPrice[$room_layout_id];
-                        $arrayBill['book_room_extra_bed'] = '';
+                        $arrayBill['book_room_extra_bed']    = '';
                         $arrayBill['book_room_extra_bed_price'] = 0;
                         if(!empty($arrayExtraBed)) {
                             if(isset($arrayExtraBed[$room_layout_id][$room_id])) {
@@ -91,6 +91,7 @@ class BookOperateService extends \BaseService {
                             }
                         }
                     } else {
+                        $arraybatchInsertValue[$i - 1]['book_order_number_main'] = '0';//主订单号
                         $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
                         $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
                         $arraybatchInsertValue[$i - 1]['book_room_layout_price'] = $arrayLayoutPrice[$room_layout_id];
