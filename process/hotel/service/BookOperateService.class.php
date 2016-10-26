@@ -40,7 +40,7 @@ class BookOperateService extends \BaseService {
             $arrayBill['book_check_out']                = $arrayPostValue['book_check_out'];//退房时间
             $arrayBill['book_order_retention_time']     = $arrayPostValue['book_order_retention_time'];//订单保留时间
             //主订单
-            $arrayBill['book_order_number_main']        = '1';//主订单号
+            $arrayBill['book_order_number_main']        = '0';//主订单号
             $arrayBill['book_order_number']             = 1;//订单号
             //
             $arrayBill['book_order_number_status']      = '0';//订单状态 -1 失效 0预定成功 1入住 2退房完成
@@ -72,10 +72,13 @@ class BookOperateService extends \BaseService {
             //根据房间插入不同的房间
             $arraybatchInsert = array();
             $arraybatchInsertValue = array();
+            $arrayRoomLayoutRoomHash = array();
             foreach($arrayPostValue['room_layout_id'] as $room_layout_id => $arrayRoom) {
                 foreach($arrayRoom as $i => $room_id) {
+                    $arrayRoomLayoutRoomHash[$room_id] = $room_layout_id;
                     //第一个个设为主订单
                     if($i == 0) {
+                        $arrayBill['book_order_number_main']        = '1';//主订单号
                         $arrayBill['room_layout_id'] = $room_layout_id;
                         $arrayBill['room_id'] = $room_id;
                         $arrayBill['book_room_layout_price'] = $arrayLayoutPrice[$room_layout_id];
@@ -123,9 +126,11 @@ class BookOperateService extends \BaseService {
             $arrayBookUserData = array();
             foreach($arrayPostValue['book_user_name'] as $i => $bookUser) {
                 if(!empty($bookUser) && !empty($arrayPostValue['book_user_id_card'][$i])) {
-                    $arrayBookUserData[$i]['book_order_number'] = $bookUser;
+                    $arrayBookUserData[$i]['book_user_name'] = $bookUser;
+                    $arrayBookUserData[$i]['book_order_number'] = $book_order_number;
                     $arrayBookUserData[$i]['book_user_id_card'] = $arrayPostValue['book_user_id_card'][$i];
                     $arrayBookUserData[$i]['book_user_id_card_type'] = $arrayPostValue['book_user_id_card_type'][$i];
+                    $arrayBookUserData[$i]['room_layout_id'] = $arrayRoomLayoutRoomHash[$arrayPostValue['book_user_room'][$i]];
                     $arrayBookUserData[$i]['room_id'] = $arrayPostValue['book_user_room'][$i];
                     $arrayBookUserData[$i]['book_user_sex'] = $arrayPostValue['book_user_sex'][$i];
                     $arrayBookUserData[$i]['book_check_int'] = $arrayPostValue['book_check_int'];
@@ -134,7 +139,7 @@ class BookOperateService extends \BaseService {
                     $arrayBookUserData[$i]['book_add_time'] =getTime();
                 }
             }
-            if(!empty($arrayBookUserData)) BookDao::instance()->setTable('book_user')->batchInsert($arraybatchInsert);
+            if(!empty($arrayBookUserData)) BookDao::instance()->setTable('book_user')->batchInsert($arrayBookUserData);
 
         } catch (Exception $e) {
             BookDao::instance()->rollback();

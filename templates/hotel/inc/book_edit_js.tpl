@@ -402,7 +402,7 @@ $(document).ready(function(){
 	}
 
 	//联系信息事件
-	$('#contact_mobile,#contact_name').bind("keyup click", function(e) {
+	$('#contact_mobile,#contact_name,#begin_book').bind("keyup click", function(e) {
         if($('#contact_mobile').val().length == 11) {
 			$.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
 			   dataType : "json",

@@ -48,6 +48,8 @@
                             <input type="text" id="contact_name" name="contact_name" class="span2" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  />
                             <%$arrayLaguage['email&lotel']['page_laguage_value']%> : 
                             <input type="text" id="contact_mobile" name="contact_mobile" class="span2" placeholder="<%$arrayLaguage['email&lotel']['page_laguage_value']%>"  />
+                            <a href="#begin_book" id="begin_book" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['begin_book']['page_laguage_value']%></a>
+                            
                             </div>
                         </div>
 					</form>
@@ -113,16 +115,30 @@
 						  </div>
 						</div>
 						<div class="control-group">
-							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
+							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
+							<div class="controls book_user_info">
+								<input name="book_user_name[]" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
+								<%$arrayLaguage['sex']['page_laguage_value']%> :
+								<select name="book_user_sex[]" class="span1">
+									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
+									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
+								</select>
+								<%$arrayLaguage['identity_information']['page_laguage_value']%> :
+								<select name="book_user_id_card_type[]" class="span1">
+									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+									<%section name=card_type loop=$idCardType%>
+									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
+									<%/section%>
+								</select>
+								<input type="text" name="book_user_id_card[]" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
+							</div>
 							<div class="controls">
-							 <input value="" type="text" class="span1" id="total_price" name="book_total_price" />
-							 <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
-							 <input value="" type="text" class="span1" id="prepayment" name="book_prepayment_price" />
-                             <%$arrayLaguage['service_charge']['page_laguage_value']%> :
-							 <input value="" type="text" class="span1 book_price" id="book_service_charge" name="book_service_charge" />
-						  </div>
+							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
+							<a href="#reduceBookUser" id="reduceBookUser" class="btn btn-warning btn-mini"><i class="am-icon-user-times"></i> <%$arrayLaguage['reduce_number_of_people']['page_laguage_value']%></a>
+							</div>
 						</div>
-						<div class="control-group">
+                        <div class="control-group">
 							<label class="control-label"><%$arrayLaguage['pay']['page_laguage_value']%> :</label>
 							<div class="controls">
 							 <select name="payment" id="payment" class="span1">
@@ -148,29 +164,15 @@
 							 <input value="" type="text" class="span2" id="book_payment_voucher" name="book_payment_voucher" />
 						  </div>
 						</div>
-						<div class="control-group">
-							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
-							<div class="controls book_user_info">
-								<input name="book_user_name[]" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
-								<%$arrayLaguage['sex']['page_laguage_value']%> :
-								<select name="book_user_sex[]" class="span1">
-									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
-									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
-								</select>
-								<%$arrayLaguage['identity_information']['page_laguage_value']%> :
-								<select name="book_user_id_card_type[]" class="span1">
-									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-									<%section name=card_type loop=$idCardType%>
-									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
-									<%/section%>
-								</select>
-								<input type="text" name="book_user_id_card[]" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
-							</div>
+                        <div class="control-group">
+							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
 							<div class="controls">
-							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
-							<a href="#reduceBookUser" id="reduceBookUser" class="btn btn-warning btn-mini"><i class="am-icon-minus-circle"></i> <%$arrayLaguage['reduce_number_of_people']['page_laguage_value']%></a>
-							</div>
+							 <input value="" type="text" class="span1" id="total_price" name="book_total_price" />
+							 <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
+							 <input value="" type="text" class="span1" id="prepayment" name="book_prepayment_price" />
+                             <%$arrayLaguage['service_charge']['page_laguage_value']%> :
+							 <input value="" type="text" class="span1 book_price" id="book_service_charge" name="book_service_charge" />
+						  </div>
 						</div>
                         <div class="form-actions pagination-centered">
                             <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
