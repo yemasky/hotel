@@ -62,7 +62,6 @@ $(document).ready(function(){
 					success : function(data) {
 						if(data.success == 1) {
 							room_layout_id = data.itemData.room_layout_id;
-							saveRoomLayoutAttrValue();
 							/*$('#modal_fail').modal('hide');
 							 $('#modal_success').modal('show');
 							 $('#modal_success_message').html(data.message);
@@ -357,7 +356,41 @@ $(document).ready(function(){
 			}
 		});
 		select_html += option + '</select>';
-		room_price = room_price * ($('#discount').val() - 0) / 100;
+		var check_out = $('#book_check_out').val();
+		var check_in = $('#book_check_int').val();
+
+		var arrayCheckOut = check_out.split(' ');
+		var check_out_date = arrayCheckOut[0] + ' <%$hotel_checkout%>';
+		var user_check_out_day = new Date(check_out);
+		var book_check_out_day = new Date(check_out_date);
+		
+		var arrayCheckIn = check_in.split(' ');
+		var check_in_date = arrayCheckIn[0] + ' <%$hotel_checkin%>';
+		var user_check_in_day = new Date(check_in);
+		var book_check_in_day = new Date(check_in_date);
+		
+		var hotel_overtime = new Date(arrayCheckOut[0] + ' <%$hotel_overtime%>');
+		
+		if(book_check_out_day <= book_check_in_day) {
+			$('#modal_fail').modal('show');
+		   	$('#modal_fail_message').html("抱歉，这个时间不正确！");
+			return false;
+		}
+		days = parseInt ((book_check_out_day.getTime() - book_check_in_day.getTime()) / (1000 * 60 * 60 * 24));
+		if(user_check_out_day.getTime() > book_check_out_day.getTime()) {
+			if(user_check_out_day.getTime() > hotel_overtime.getTime()) {
+				days +=1;
+			} else {
+				days +=0.5;
+			}
+		}
+		if(days == 0) {//当天12点后入住
+			days = 1;
+		}
+		console.log(days);
+		room_price = days * room_price * ($('#discount').val() - 0) / 100;
+		var book_service_charge = $('#book_service_charge').val() - 0;
+		room_price = book_service_charge + room_price;
 		/////////
 		
 		////
@@ -400,6 +433,8 @@ $(document).ready(function(){
 						   $('#book_type_id').val('');
 						   $('#discount').val(100);
 					   }
+					   //计算价格
+					   setBookPrice();
 				   } else {
 					   $('#modal_fail').modal('show');
 					   $('#modal_fail_message').html(data.message);
@@ -448,6 +483,8 @@ $(document).ready(function(){
 			})
 			$('#discount').val(book_discount_list[book_type_id + '_']);
 		}
+		//计算价格
+		setBookPrice();
 		//console.log(book_discount_list);
     });
 	
@@ -469,15 +506,16 @@ $(document).ready(function(){
 	dateToDisable.setDate(dateToDisable.getDate() - 1);
 	$('#book_check_int').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
 		beforeShowDay: function(date) {
-			if (date.getMonth() < dateToDisable.getMonth() || (date.getMonth() == dateToDisable.getMonth() && date.getDate() <= dateToDisable.getDate())) {
+			if (date.getTime() < dateToDisable.getTime()) {
 				return [false, ""];
 			}
 			return [true, ""];
 		}
 	});
 	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
-		beforeShowDay: function(date) {
-			if (date.getMonth() < dateToDisable.getMonth() || (date.getMonth() == dateToDisable.getMonth() && date.getDate() <= dateToDisable.getDate())) {
+		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
+			var dateToDisable = new Date($('#book_check_int').val());
+			if (date.getTime() < dateToDisable.getTime()) {
 				return [false, ""];
 			}
 			return [true, ""];

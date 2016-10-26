@@ -144,11 +144,21 @@ class BookAction extends \BaseAction {
         $arrayPaymentType = BookService::instance()->getPaymentType($conditions);
         //
         //赋值
+        //hotel info
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $arrayHotel = HotelService::instance()->getHotel($conditions);
+        $hotel_checkout = empty($arrayHotel[0]['hotel_checkout']) ? '12:00' : $arrayHotel[0]['hotel_checkout'];
+        $hotel_checkin = empty($arrayHotel[0]['hotel_checkin']) ? '06:00' : $arrayHotel[0]['hotel_checkin'];
+        $hotel_overtime = empty($arrayHotel[0]['hotel_overtime']) ? '18:00' : $arrayHotel[0]['hotel_overtime'];
+            //
         $objResponse -> view = '0';
         $objResponse -> arrayBookType = $arrayBookType;
         $objResponse -> arrayPaymentType = $arrayPaymentType;
         $objResponse -> book_check_int = getDay() .' '. date("H") . ':00:00';
-        $objResponse -> book_check_out = getDay(24) . ' 12:00:00';
+        $objResponse -> book_check_out = getDay(24) . ' ' . $hotel_checkout;
+        $objResponse -> hotel_checkout = $hotel_checkout;
+        $objResponse -> hotel_checkin  = $hotel_checkin;
+        $objResponse -> hotel_overtime  = $hotel_overtime;
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));

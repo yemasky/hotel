@@ -41,8 +41,8 @@ class Action extends \BaseAction {
             $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
             $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
 
+            $conditions = \DbConfig::$db_query_conditions;
             if(!empty(decode($objRequest->company_id))) {//公司权限
-                $conditions = \DbConfig::$db_query_conditions;
                 $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
                 $arrayCompanyId = EmployeeService::instance()->getEmployeeCompany($conditions, 'company_id');
                 $company_id = decode($objRequest->company_id);

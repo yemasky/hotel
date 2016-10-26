@@ -23,8 +23,8 @@ class HotelService extends \BaseService {
     }
 
     public function getHotel($conditions, $hashKey = null) {
-        $conditions['order'] = 'hotel_id DESC';
-        return HotelDao::instance()->getHotel($conditions, $hashKey);
+        if(empty($conditions['order'])) $conditions['order'] = 'hotel_id DESC';
+        return HotelDao::instance()->getHotel($conditions, null, $hashKey);
     }
 
     public function saveHotel($arrayData) {

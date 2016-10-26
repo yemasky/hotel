@@ -19,6 +19,7 @@ class BookOperateService extends \BaseService {
     }
 
     public function saveBookInfo($objRequest, $objResponse) {
+        //print_r($_REQUEST);exit();
         try {
             $arrayPostValue = $objRequest->getPost();
             $payment = $arrayPostValue['payment'];//支付 类型
@@ -116,7 +117,24 @@ class BookOperateService extends \BaseService {
                     $arraybatchInsert[$k]['book_room_extra_bed_price'] = $v['book_room_extra_bed_price'];
                 }
             }
-            if(!empty($arraybatchInsert)) BookDao::instance()->batchInsert($arraybatchInsert);
+            if(!empty($arraybatchInsert)) BookDao::instance()->setTable('book')->batchInsert($arraybatchInsert);
+
+            //添加主客
+            $arrayBookUserData = array();
+            foreach($arrayPostValue['book_user_name'] as $i => $bookUser) {
+                if(!empty($bookUser) && !empty($arrayPostValue['book_user_id_card'][$i])) {
+                    $arrayBookUserData[$i]['book_order_number'] = $bookUser;
+                    $arrayBookUserData[$i]['book_user_id_card'] = $arrayPostValue['book_user_id_card'][$i];
+                    $arrayBookUserData[$i]['book_user_id_card_type'] = $arrayPostValue['book_user_id_card_type'][$i];
+                    $arrayBookUserData[$i]['room_id'] = $arrayPostValue['book_user_room'][$i];
+                    $arrayBookUserData[$i]['book_user_sex'] = $arrayPostValue['book_user_sex'][$i];
+                    $arrayBookUserData[$i]['book_check_int'] = $arrayPostValue['book_check_int'];
+                    $arrayBookUserData[$i]['book_check_out'] = $arrayPostValue['book_check_out'];
+                    $arrayBookUserData[$i]['book_add_date'] = getDay();
+                    $arrayBookUserData[$i]['book_add_time'] =getTime();
+                }
+            }
+            if(!empty($arrayBookUserData)) BookDao::instance()->setTable('book_user')->batchInsert($arraybatchInsert);
 
         } catch (Exception $e) {
             BookDao::instance()->rollback();
@@ -130,7 +148,6 @@ class BookOperateService extends \BaseService {
     public function rollback() {
         BookDao::instance()->rollback();
     }
-
 
 
 }

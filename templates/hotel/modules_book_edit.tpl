@@ -17,6 +17,9 @@
 #noBodyLeft{}
 #noBodyLeft th,#noBodyLeft td{padding:5px;}
 #noBodyLeft input,#noBodyLeft select{margin-bottom:0px;}
+.custom-date-style {
+	background-color: red !important;
+}
 </style>
 </head>
 <body>
@@ -83,6 +86,7 @@
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
                                 <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
 								<a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                <a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>
 							</div>
 						</div>
 						 <div class="control-group" id="room_layout_table">
@@ -114,6 +118,8 @@
 							 <input value="" type="text" class="span1" id="total_price" name="book_total_price" />
 							 <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
 							 <input value="" type="text" class="span1" id="prepayment" name="book_prepayment_price" />
+                             <%$arrayLaguage['service_charge']['page_laguage_value']%> :
+							 <input value="" type="text" class="span1 book_price" id="book_service_charge" name="book_service_charge" />
 						  </div>
 						</div>
 						<div class="control-group">
@@ -159,7 +165,7 @@
 									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
 									<%/section%>
 								</select>
-								<input type="text" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
+								<input type="text" name="book_user_id_card[]" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
 							</div>
 							<div class="controls">
 							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
