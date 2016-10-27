@@ -16,6 +16,15 @@ class RoomLayoutPriceAction extends \BaseAction {
 
     protected function service($objRequest, $objResponse) {
         switch($objRequest->getAction()) {
+            case 'edit':
+                $this->doEdit($objRequest, $objResponse);
+                break;
+            case 'add':
+                $this->doAdd($objRequest, $objResponse);
+                break;
+            case 'delete':
+                $this->doDelete($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -27,6 +36,9 @@ class RoomLayoutPriceAction extends \BaseAction {
      */
     protected function doDefault($objRequest, $objResponse) {
         //赋值
+        $objResponse -> add_roomLayoutPriceSystem_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
+        //
         //设置类别
     }
 }
