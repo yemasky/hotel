@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
+<style type="text/css">
+.quick-actions li a {
+    padding: 10px 5px 5px;
+}
+.pagination-left { text-align:left }
+</style>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -51,28 +57,27 @@
                     </div>
                 </div>
                 <div class="widget-content">
-                    <ul class="quick-actions">
-                      <li> <a href="#"> <i class="icon-book"></i> 1 <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="icon-cabinet"></i> icon-cabinet</a> </li>
-                      <li> <a href="#"> <i class="icon-calendar"></i> icon-calendar </a> </li>
-                      <li> <a href="#"> <i class="icon-client"></i> icon-client</a> </li>
-                      <li> <a href="#"> <i class="icon-database"></i> icon-database </a> </li>
-                      <li> <a href="#"> <i class="icon-download"></i> icon-download </a> </li>
+                    <ul class="quick-actions pagination-left">
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
                       
-                      <li> <a href="#"> <i class="icon-graph"></i> icon-graph </a> </li>
-                      <li> <a href="#"> <i class="icon-home"></i>icon-home </a> </li>
-                      <li> <a href="#"> <i class="icon-lock"></i> icon-lock </a> </li>
-                      <li> <a href="#"> <i class="icon-mail"></i>icon-mail </a> </li>
-                      <li> <a href="#"> <i class="icon-pdf"></i> icon-pdf </a> </li>
-                      <li> <a href="#"> <i class="icon-people"></i> icon-people </a> </li>
-                      <li> <a href="#"> <i class="icon-piechart"></i> icon-piechart </a> </li>
-                      <li> <a href="#"> <i class="icon-search"></i> icon-search </a> </li>
-                      <li> <a href="#"> <i class="icon-survey"></i> icon-survey </a> </li>
-                      <li> <a href="#"> <i class="icon-tag"></i> icon-tag </a> </li>
-                      <li> <a href="#"> <i class="icon-user"></i> icon-user</a> </li>
-                      <li> <a href="#"> <i class="icon-wallet"></i> icon-wallet </a> </li>
-                      <li> <a href="#"> <i class="icon-web"></i>icon-web </a> </li>
-                      <li> <a href="#"> <i class="icon-dashboard"></i> icon-dashboard </a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
                     </ul>
                 </div>
                 <div class="widget-content">

@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="widget-content">
-                    <ul class="quick-actions">
+                    <ul class="quick-actions pagination-left">
                       <li> <a href="#"> <i class="icon-book"></i> icon-book </a> </li>
                       <li> <a href="#"> <i class="icon-cabinet"></i> icon-cabinet</a> </li>
                       <li> <a href="#"> <i class="icon-calendar"></i> icon-calendar </a> </li>

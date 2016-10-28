@@ -1468,6 +1468,7 @@ margin-bottom:0; margin-left:0; -webkit-border-radius:4px; -moz-border-radius:4p
 .pagination ul>li:last-child>span { -webkit-border-top-right-radius:4px; border-top-right-radius:4px; -webkit-border-bottom-right-radius:4px; border-bottom-right-radius:4px; -moz-border-radius-topright:4px; -moz-border-radius-bottomright:4px }
 .pagination-centered { text-align:center }
 .pagination-right { text-align:right }
+.pagination-left { text-align:left }
 .pagination-large ul>li>a,
 .pagination-large ul>li>span { padding:11px 19px; font-size:17.5px }
 .pagination-large ul>li:first-child>a,
