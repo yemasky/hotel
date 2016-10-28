@@ -28,57 +28,49 @@
                 </div>
                 <div class="widget-title">
                     <ul class="nav nav-tabs">
-                        <li class="active" id="rooms_layout_setting"><a data-toggle="tab" href="#tab1">1</a></li>
-                        <li id="room_layout_attr"><a data-toggle="tab" href="#tab2">2</a></li>
-                        <li id="set_room"><a data-toggle="tab" href="#tab3">3</a></li>
+                        <li class="active" id="rooms_layout_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['set_prices_on_a_monthly']['page_laguage_value']%></a></li>
+                        <li id="room_layout_attr"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['set_prices_on_a_week']['page_laguage_value']%></a></li>
                         <li id="room_layout_images"><a data-toggle="tab" href="#tab4"><%$arrayLaguage['upload_images']['page_laguage_value']%></a></li>
-                        <!--<li id="room_layout_price_setting"><a href="#tab3"><%$arrayLaguage['room_layout_price_setting']['page_laguage_value']%></a></li>-->
                     </ul>
                 </div>
-                <div class="widget-title">
-                    <div class="buttons">
-                        <a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-inverse btn-mini">
-                        	<i class="icon-plus icon-white"></i> Add new event
-                        </a>
-                        <div class="modal hide" id="modal-add-event">
-                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">×</button>
-                                <h3>Add a new event</h3>
-                            </div>
-                            <div class="modal-body">
-                                <p>Enter event name:</p>
-                                <p><input id="event-name" type="text" /></p>
-                            </div>
-                            <div class="modal-footer">
-                                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                                <a href="#" id="add-event-submit" class="btn btn-primary">Add event</a>
+                <div class="widget-content tab-content">
+                	<div id="tab1" class="tab-pane active">
+                    	<form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate>
+                        <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['orientations']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select name="room_layout_orientations" id="room_layout_orientations" class="span1">
+                                    <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                    <%section name=direction loop=$orientations%>
+                                        <option value="<%$orientations[direction]%>"<%if $orientations[direction]==$arrayDataInfo['room_layout_orientations']%> selected<%/if%>><%$arrayLaguage[$orientations[direction]]['page_laguage_value']%></option>
+                                    <%/section%>
+                                </select>
                             </div>
                         </div>
+                        <ul class="quick-actions pagination-left">
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                          <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
+                        </ul>
+                        </form>
                     </div>
-                </div>
-                <div class="widget-content">
-                    <ul class="quick-actions pagination-left">
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 1</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 2</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 3</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 4</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 5</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                      <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 6</i> <input id="event-name" class="span6" type="text" /></a> </li>
-                    </ul>
                 </div>
                 <div class="widget-content">
                     
