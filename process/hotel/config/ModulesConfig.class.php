@@ -22,6 +22,7 @@ class ModulesConfig extends \ModulesConfig {
                                   'upload_type'=>'rooms_layout'),
         'upload'         => array('uploadImages'=>42),
         'book'    => array('edit'=>50, 'delete'=>51, 'add'=>49, 'view'=>48),
+        'roomLayoutPrice'=> array('edit'=>52, 'delete'=>54, 'add'=>53, 'view'=>21),
     );
 
     public static $cacheKey = array(
