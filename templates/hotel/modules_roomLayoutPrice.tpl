@@ -67,10 +67,9 @@
                       <li> <a href="#"> <i class="icon-people"></i> icon-people </a> </li>
                       <li> <a href="#"> <i class="icon-piechart"></i> icon-piechart </a> </li>
                       <li> <a href="#"> <i class="icon-search"></i> icon-search </a> </li>
-                      <li> <a href="#"> <i class="icon-shopping-bag"></i>icon-shopping-bag </a> </li>
                       <li> <a href="#"> <i class="icon-survey"></i> icon-survey </a> </li>
                       <li> <a href="#"> <i class="icon-tag"></i> icon-tag </a> </li>
-                       <li> <a href="#"> <i class="icon-user"></i> icon-user</a> </li>
+                      <li> <a href="#"> <i class="icon-user"></i> icon-user</a> </li>
                       <li> <a href="#"> <i class="icon-wallet"></i> icon-wallet </a> </li>
                       <li> <a href="#"> <i class="icon-web"></i>icon-web </a> </li>
                       <li> <a href="#"> <i class="icon-dashboard"></i> icon-dashboard </a> </li>
