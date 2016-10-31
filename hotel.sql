@@ -808,17 +808,17 @@ CREATE TABLE `room_layout_price` (
   `room_layout_price_add_time` time NOT NULL COMMENT '房价添加时间',
   `room_layout_price_is_active` enum('0','1') DEFAULT '1' COMMENT '是否在活动状态的价格',
   `employee_id` int(11) NOT NULL COMMENT '操作员工',
-  `date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') DEFAULT NULL,
-  `date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') DEFAULT NULL,
-  `1_day` tinyint(3) DEFAULT NULL,
-  `2_day` tinyint(3) DEFAULT NULL,
-  `3_day` tinyint(3) DEFAULT NULL,
-  `4_day` tinyint(3) DEFAULT NULL,
-  `5_day` tinyint(3) DEFAULT NULL,
-  `6_day` tinyint(3) DEFAULT NULL,
-  `7_day` tinyint(3) DEFAULT NULL,
-  `8_day` tinyint(3) DEFAULT NULL,
-  `9_day` tinyint(3) DEFAULT NULL,
+  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') DEFAULT NULL,
+  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') DEFAULT NULL,
+  `01_day` tinyint(3) DEFAULT NULL,
+  `02_day` tinyint(3) DEFAULT NULL,
+  `03_day` tinyint(3) DEFAULT NULL,
+  `04_day` tinyint(3) DEFAULT NULL,
+  `05_day` tinyint(3) DEFAULT NULL,
+  `06_day` tinyint(3) DEFAULT NULL,
+  `07_day` tinyint(3) DEFAULT NULL,
+  `08_day` tinyint(3) DEFAULT NULL,
+  `09_day` tinyint(3) DEFAULT NULL,
   `10_day` tinyint(3) DEFAULT NULL,
   `11_day` tinyint(3) DEFAULT NULL,
   `12_day` tinyint(3) DEFAULT NULL,
@@ -846,7 +846,7 @@ CREATE TABLE `room_layout_price` (
 
 /*Data for the table `room_layout_price` */
 
-insert  into `room_layout_price`(`room_layout_price_id`,`room_layout_id`,`hotel_id`,`room_layout_price`,`room_layout_extra_bed_price`,`room_layout_price_begin_datetime`,`room_layout_price_end_datetime`,`room_layout_price_ahead_datetime`,`room_layout_price_type`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`date_year`,`date_month`,`1_day`,`2_day`,`3_day`,`4_day`,`5_day`,`6_day`,`7_day`,`8_day`,`9_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (0,0,0,0,0,'0000-00-00','0000-00-00',0,'custom','0000-00-00','00:00:00','1',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,1,600,0,'2016-10-17','2017-01-31',0,'custom','2016-10-17','00:00:00','1',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,2,1,500,100,'2016-10-19','2017-01-28',0,'custom','2016-10-19','00:00:00','1',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `room_layout_price`(`room_layout_price_id`,`room_layout_id`,`hotel_id`,`room_layout_price`,`room_layout_extra_bed_price`,`room_layout_price_begin_datetime`,`room_layout_price_end_datetime`,`room_layout_price_ahead_datetime`,`room_layout_price_type`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (0,0,0,0,0,'0000-00-00','0000-00-00',0,'custom','0000-00-00','00:00:00','1',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,1,600,0,'2016-10-17','2017-01-31',0,'custom','2016-10-17','00:00:00','1',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,2,1,500,100,'2016-10-19','2017-01-28',0,'custom','2016-10-19','00:00:00','1',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `room_layout_room` */
 

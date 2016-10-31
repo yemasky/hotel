@@ -89,7 +89,12 @@ if(!defined("INC_FUNC_COMMON")) {
 	function getTime($d = 0){
 		return date("H:i:s", strtotime("$d HOUR")); // GMT+8
 	}
-
+	function getYear() {
+		return date("Y");
+	}
+	function getMonth() {
+		return date("m");
+	}
 	function getDay($d = 0) {
 		return date("Y-m-d", strtotime("$d HOUR"));
 	}

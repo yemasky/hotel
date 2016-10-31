@@ -55,6 +55,10 @@ class RoomLayoutPriceAction extends \BaseAction {
     protected function doEdit($objRequest, $objResponse) {
 
         //赋值
+        $objResponse -> thisDay = getDay();
+        $objResponse -> toDay = getDay(24*6);
+        $objResponse -> thisYear = getYear();
+        $objResponse -> thisMonth = getMonth();
         $objResponse -> view = '0';
         //
         $objResponse -> setTplName("hotel/modules_roomLayoutPrice_edit");
