@@ -98,6 +98,9 @@ if(!defined("INC_FUNC_COMMON")) {
 	function getDay($d = 0) {
 		return date("Y-m-d", strtotime("$d HOUR"));
 	}
+    function getToDay($d = 0) {
+        return date("j", strtotime("$d HOUR"));
+    }
 
 	function getHis(){
 		return date("His");

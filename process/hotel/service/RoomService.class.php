@@ -142,5 +142,20 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout_price')->insert($arrayData);
     }
 
+    //价格体系
+    public function getRoomLayoutPriceSystem($conditions, $hashKey = null) {
+        return RoomDao::instance()->setTable('room_layout_price_system')->getList($conditions, null, $hashKey);
+    }
 
+    public function saveRoomLayoutPriceSystem($arrayData) {
+        return RoomDao::instance()->setTable('room_layout_price_system')->insert($arrayData);
+    }
+
+    public function updateRoomLayoutPriceSystem($where, $row) {
+        return RoomDao::instance()->setTable('room_layout_price_system')->update($where, $row);
+    }
+
+    public function deleteRoomLayoutPriceSystem($where) {
+        return RoomDao::instance()->setTable('room_layout_price_system')->delete($where);
+    }
 }

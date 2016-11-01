@@ -13,7 +13,11 @@
 .stat-boxes li, .quick-actions li, .quick-actions-horizontal li{margin:0px 5px 5px 0;}
 .quick-actions li{max-width:210px; min-width:210px; width:210px;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
+#hotel_service input{margin:0px 2px 0px 8px;}
 </style>
+<script src="<%$__RESOURCE%>js/select2.min.js"></script>
+<link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
+<script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -32,48 +36,43 @@
                         &#12288;<%$arrayLaguage['back_list']['page_laguage_value']%></a>
                     </div>
                 </div>
+                <div class="widget-content nopadding">
+                    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="" id="" novalidate>
+                    <div class="control-group">
+                        <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
+                        <div class="controls">
+                            <select name="room_layout" id="room_layout" class="span2">
+                            <%section name=layout loop=$arrayRoomLayout%>
+                                <option value="<%$arrayRoomLayout[layout].room_layout_id%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
+                            <%/section%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"><%$arrayLaguage['room_layout_price_system']['page_laguage_value']%> :</label>
+                        <div class="controls">
+                            <ul class="quick-actions" id="">
+                            <%section name=system loop=$arrayRoomLayoutPriceSystem%>
+                                <li class="system_prices"><a href="#"> <i class="am-icon-heart"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a> </li>
+                            <%/section%>
+                            </ul>
+                            <a href="#addSystemPrice" class="btn btn-primary btn-mini" data-toggle="modal"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></a> 
+                        </div>
+                    </div>
+                    <input type="hidden" name="room_layout_price_system_id" value=""/>
+                    <input type="hidden" name="room_layout_id" value=""/>
+                    </form>
+                </div>
                 <div class="widget-title">
                     <ul class="nav nav-tabs">
-                        <li class="active" id="rooms_layout_setting"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['set_prices_on_a_monthly']['page_laguage_value']%></a></li>
-                        <li id="room_layout_attr"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['set_prices_on_a_week']['page_laguage_value']%></a></li>
+                        <li class="active" id="prices_on_a_week"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['set_prices_on_a_week']['page_laguage_value']%></a></li>
+                        <li id="prices_on_a_monthly"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['set_prices_on_a_monthly']['page_laguage_value']%></a></li>
+                        <li id="history_prices"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['history_prices']['page_laguage_value']%></a></li>
+
                     </ul>
                 </div>
                 <div class="widget-content tab-content nopadding">
-                	<div id="tab1" class="tab-pane active">
-                    	<form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate>
-                        <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
-                            <div class="controls">
-                                <select name="room_layout_date_year" id="room_layout_date_year" class="span1">
-                                    <option value="<%$thisYear%>" ><%$thisYear%></option>
-                                    <option value="<%$thisYear + 1%>" ><%$thisYear + 1%></option>
-                                </select>
-                                
-                                <select name="room_layout_date_month" id="room_layout_date_month" class="span1">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                        <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
-                            <div class="controls">
-                                <ul class="quick-actions pagination-left" id="room_layout_price_kalendar"></ul>
-                            </div>
-                        </div>
-                        </form>
-                    </div>
-                    <div id="tab2" class="tab-pane active">
+                    <div id="tab1" class="tab-pane active">
                     	<form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="" id="" novalidate>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
@@ -111,6 +110,58 @@
                         </div>
                         </form>
                     </div>
+                	<div id="tab2" class="tab-pane">
+                    	<form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate>
+                        <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select name="room_layout_date_year" id="room_layout_date_year" class="span1">
+                                    <option value="<%$thisYear%>" ><%$thisYear%></option>
+                                    <option value="<%$thisYear + 1%>" ><%$thisYear + 1%></option>
+                                </select>
+                                
+                                <select name="room_layout_date_month" id="room_layout_date_month" class="span1">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                        <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <ul class="quick-actions pagination-left" id="room_layout_price_kalendar"></ul>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div id="tab3" class="tab-pane">
+                    	<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate>
+                        <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <input type="text" id="history_begin" value="<%$thisDay%>" />
+                                <input type="text" id="history_end" value="<%$toDay%>" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                        <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <ul class="quick-actions pagination-left" id=""></ul>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    
                 </div>
                 <div class="widget-content">
                     
@@ -122,78 +173,42 @@
     
     </div>
 </div>
+<div id="addSystemPrice" class="modal hide" aria-hidden="true">
+<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_hotel_service" id="add_hotel_service" novalidate>
+  <div class="modal-header">
+    <button data-dismiss="modal" class="close" type="button">×</button>
+    <h3><%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></h3>
+  </div>
+  <div class="modal-body">
+      <div class="widget-box">
+        <div class="widget-content tab-content nopadding">
+                <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
+                    <div class="controls">
+                        <input id="room_layout_name" name="room_layout_name" class="span2" readonly value="" type="text">
+                        <input id="room_layout_id" name="room_layout_id" value="" type="hidden">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['system_price_name']['page_laguage_value']%> :</label>
+                    <div class="controls">
+                        <input id="hotel_service_name" name="hotel_service_name" class="span2" placeholder="" value="" type="text">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['select_additional_services']['page_laguage_value']%> :</label>
+                    <div class="controls" id="hotel_service">
+                        
+                    </div>
+                </div>
+         </div>
+      </div>
+  </div>
+  <div class="modal-footer"> <button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
+</form>
+</div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<script language="javascript">
-$(document).ready(function(){
-    $('#room_layout_date_month').val('<%$thisMonth%>');
-    function leapYear(year){
-        var isLeap = year%100==0 ? (year%400==0 ? 1 : 0) : (year%4==0 ? 1 : 0);
-        return new Array(31,28+isLeap,31,30,31,30,31,31,30,31,30,31);
-    }
-    function setKalendar() {
-        var year = $('#room_layout_date_year').val();
-        var month = $('#room_layout_date_month').val();
-        var arrayMonth = leapYear(year);
-        var days = arrayMonth[month - 1];
-        var kalendar_html = '';
-        for(var i = 1; i <= days; i++ ) {
-            var l = i;
-            if(i < 10) l = '0' + i;
-            kalendar_html += '<li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
-                    +'<input id="event-name" class="span9" type="text" /></a> </li>';
-        }
-        $('#room_layout_price_kalendar').html(kalendar_html);
-    }
-    function setKalendarWeek() {
-        var kalendar_html = '';
-        for(var i = 1; i <= 7; i++ ) {
-            var l = i;
-            if(i < 10) l = '0' + i;
-            kalendar_html += '<li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
-                    +'<input id="event-name" class="span9" type="text" /></a> </li>';
-        }
-        $('#room_layout_price_week').html(kalendar_html);
-    }
-    setKalendar();
-    $('#room_layout_date_month,#room_layout_date_year').change(function(e) {
-        setKalendar();
-    });
-    
-    //日历
-	$.datetimepicker.setLocale('ch');
-	var dateToDisable = new Date();
-	dateToDisable.setDate(dateToDisable.getDate() - 1);
-	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
-		beforeShowDay: function(date) {
-			if (date.getTime() < dateToDisable.getTime()) {
-				return [false, ""];
-			} 
-            if(date.getDay() != 1) {
-                return [false, ""];
-            }
-            return [true];
-			//return [true, ""];
-		},
-        onGenerate:function( ct ){
-            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
-        }
-	});
-	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
-		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
-			var dateToDisable = new Date($('#time_begin').val());
-			if (date.getTime() < (dateToDisable.getTime() - 0 + 36000 * 24 * 6)) {
-                //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
-				return [false];
-			}
-			return [true, ""];
-		},
-        onGenerate:function( ct ){
-            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
-        }
-	});
-	
-})
-</script>
+<%include file="hotel/inc/roomLayoutPrice_edit_js.tpl"%>
 </body>
 </html>
