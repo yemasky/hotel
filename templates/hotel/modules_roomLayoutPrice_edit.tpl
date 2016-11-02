@@ -30,7 +30,7 @@
 							
                 <div class="widget-title">
                     <span class="icon"><i class="am-icon-cubes am-yellow-F58A17"></i></span>
-                    <h5><%$arrayLaguage['manager_room_layout_price_system']['page_laguage_value']%></h5>
+                    <h5><%$arrayLaguage['manager_room_layout_price']['page_laguage_value']%></h5>
                     <div class="buttons" id="btn_room_layout">
                         <a class="btn btn-primary btn-mini" href="<%$back_lis_url%>" id="back"><i class="am-icon-plus-square"></i> 
                         &#12288;<%$arrayLaguage['back_list']['page_laguage_value']%></a>
@@ -51,17 +51,58 @@
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['room_layout_price_system']['page_laguage_value']%> :</label>
                         <div class="controls">
-                            <ul class="quick-actions" id="">
                             <%section name=system loop=$arrayRoomLayoutPriceSystem%>
-                                <li class="system_prices"><a href="#"> <i class="am-icon-heart"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a> </li>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="#"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
+                                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><i class="am-icon-pencil"></i> Edit</a></li>
+                                        <li><a href="#"><i class="am-icon-trash"></i> Delete</a></li>
+                                    </ul>
+                                </div>
                             <%/section%>
-                            </ul>
-                            <a href="#addSystemPrice" class="btn btn-primary btn-mini" data-toggle="modal"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></a> 
+                            <button type="button" class="btn btn-primary btn-mini" data-toggle="collapse" data-target="#addSystemPrice" data-loading-text="Loading..."><i class="icon-plus-sign"></i> <%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></button> 
                         </div>
                     </div>
                     <input type="hidden" name="room_layout_price_system_id" value=""/>
                     <input type="hidden" name="room_layout_id" value=""/>
                     </form>
+                </div>
+                <div id="addSystemPrice" class="collapse widget-content nopadding">
+                    <div class="control-group">
+                        <div class="controls">
+                            <form method="post" class="form-horizontal" enctype="multipart/form-data" name="add_hotel_service" id="add_hotel_service" novalidate>
+                                <div class="modal-header">
+                                    <button data-toggle="collapse" data-target="#addSystemPrice" class="close" type="button">×</button>
+                                    <h3><%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></h3>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
+                                    <div class="controls">
+                                        <input id="room_layout_name" name="room_layout_name" class="span2" readonly value="" type="text">
+                                        <input id="room_layout_id" name="room_layout_id" value="" type="hidden">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label"><%$arrayLaguage['system_price_name']['page_laguage_value']%> :</label>
+                                    <div class="controls">
+                                        <input id="hotel_service_name" name="hotel_service_name" class="span2" placeholder="" value="" type="text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label"><%$arrayLaguage['select_additional_services']['page_laguage_value']%> :</label>
+                                    <div class="controls" id="hotel_service">
+                                        
+                                    </div>
+                                </div>
+
+                              <div class="control-group"> 
+                                <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#addSystemPrice" class="btn" href="#">Cancel</a> 
+                                </div>  
+                              </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="widget-title">
                     <ul class="nav nav-tabs">
@@ -172,40 +213,6 @@
 	  </div>
     
     </div>
-</div>
-<div id="addSystemPrice" class="modal hide" aria-hidden="true">
-<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_hotel_service" id="add_hotel_service" novalidate>
-  <div class="modal-header">
-    <button data-dismiss="modal" class="close" type="button">×</button>
-    <h3><%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></h3>
-  </div>
-  <div class="modal-body">
-      <div class="widget-box">
-        <div class="widget-content tab-content nopadding">
-                <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
-                    <div class="controls">
-                        <input id="room_layout_name" name="room_layout_name" class="span2" readonly value="" type="text">
-                        <input id="room_layout_id" name="room_layout_id" value="" type="hidden">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['system_price_name']['page_laguage_value']%> :</label>
-                    <div class="controls">
-                        <input id="hotel_service_name" name="hotel_service_name" class="span2" placeholder="" value="" type="text">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['select_additional_services']['page_laguage_value']%> :</label>
-                    <div class="controls" id="hotel_service">
-                        
-                    </div>
-                </div>
-         </div>
-      </div>
-  </div>
-  <div class="modal-footer"> <button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
-</form>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>

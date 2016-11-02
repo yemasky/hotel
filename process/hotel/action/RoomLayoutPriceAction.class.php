@@ -26,6 +26,9 @@ class RoomLayoutPriceAction extends \BaseAction {
             case 'delete':
                 $this->doDelete($objRequest, $objResponse);
                 break;
+            case 'editSystem':
+                $this->doEditSystem($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -65,8 +68,8 @@ class RoomLayoutPriceAction extends \BaseAction {
     protected function doEdit($objRequest, $objResponse) {
 
         $conditions = DbConfig::$db_query_conditions;
-        //售卖房型
 
+        //售卖房型
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                                      'room_layout_valid'=>'1');
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
@@ -92,11 +95,35 @@ class RoomLayoutPriceAction extends \BaseAction {
         //
         $objResponse -> addoomLayoutPriceSystemUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['add'])));
+        $objResponse -> editSystemUrl =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['editSystem'])));
         //
         $objResponse -> setTplName("hotel/modules_roomLayoutPrice_edit");
     }
 
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
+    }
+
+    protected function doEditSystem($objRequest, $objResponse) {
+        $conditions = DbConfig::$db_query_conditions;
+
+        //售卖房型
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            'room_layout_valid'=>'1');
+        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
+        //价格体系
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
+            '>'=>array('room_layout_price_system_id'=>0),
+            'room_layout_price_system_valid'=>'1');
+        $arrayRoomLayoutPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions);
+
+            //售卖房型
+        $objResponse -> arrayRoomLayout = $arrayRoomLayout;
+            //价格体系
+        $objResponse -> arrayRoomLayoutPriceSystem = $arrayRoomLayoutPriceSystem;
+            //
+        $objResponse -> addoomLayoutPriceSystemUrl =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['add'])));
     }
 }

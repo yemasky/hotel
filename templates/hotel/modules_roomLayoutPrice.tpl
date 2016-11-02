@@ -12,11 +12,13 @@
         <div class="span12">
             <div class="widget-box">
               <div class="widget-title"> <span class="icon"> <i class="icon-refresh"></i> </span>
-                <h5><%$arrayLaguage['manager_room_layout_price_system']['page_laguage_value']%></h5>
+                <h5><%$arrayLaguage['manager_room_layout_price']['page_laguage_value']%></h5>
+                <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                 <div class="buttons" id="btn_room_layout">
                     <a class="btn btn-primary btn-mini" href="<%$add_roomLayoutPriceSystem_url%>" id="add_room_layout"><i class="am-icon-plus-square"></i> 
-                    &#12288;<%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></a>
+                    &#12288;<%$arrayLaguage['add_room_layout_price']['page_laguage_value']%></a>
                 </div>
+                <%/if%>
               </div>
               <div class="widget-content">
                     

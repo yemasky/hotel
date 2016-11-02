@@ -113,11 +113,12 @@ $(document).ready(function(){
 	//select2
     $('#room_layout').select2();
     //增加价格体系
+    $("[data-toggle='popover']").popover({'trigger':'hover'});
     $('.system_prices').click(function(e) {
         $('.system_prices .am-icon-heart').removeClass('am-red-EA5555');
         $(this).find('.am-icon-heart').addClass('am-red-EA5555');
     });
-    $('#addSystemPrice').on('show.bs.modal', function () {
+    $('#addSystemPrice').on('show.bs.collapse', function () {
         $.getJSON('<%$addoomLayoutPriceSystemUrl%>&search=hotel_service', function(result) {
             data = result;
             if(data.success == 1) {
@@ -138,8 +139,12 @@ $(document).ready(function(){
             }
         });
     })
+    $('#room_layout').change(function(e) {
+        $('#room_layout_name').val($('#room_layout option:selected').text());
+        $('#room_layout_id').val($('#room_layout').val());
+    });
     
-    var contact_validate = $("#add_hotel_service").validate({
+    var hotel_service_validate = $("#add_hotel_service").validate({
 		rules: {
 			hotel_service_name: {required: true},
 		},
@@ -157,7 +162,27 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
+            $('#book_contact_mobile').val($('#contact_mobile').val());
+            $('#book_contact_name').val($('#contact_name').val());
+            var param = $("#book_form").serialize();
+            $.ajax({
+                url : '<%$book_url%>',type : "post",dataType : "json",data: param,
+                success : function(data) {
+                    if(data.success == 1) {
+                        room_layout_id = data.itemData.room_layout_id;
+                        /*$('#modal_fail').modal('hide');
+                         $('#modal_success').modal('show');
+                         $('#modal_success_message').html(data.message);
+                         $('#modal_success').on('hidden.bs.modal', function () {
 
+                         })*/
+                    } else {
+                        $('#modal_success').modal('hide');
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
+                }
+            });
 		}
 	});
 })
