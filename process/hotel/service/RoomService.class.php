@@ -16,6 +16,10 @@ class RoomService extends \BaseService {
         return self::$objService;
     }
 
+    public function rollback() {
+        RoomDao::instance()->rollback();
+    }
+
     public function getRoom($conditions, $hashKey = null) {
         return RoomDao::instance()->getRoom($conditions, $hashKey);
     }
@@ -157,5 +161,56 @@ class RoomService extends \BaseService {
 
     public function deleteRoomLayoutPriceSystem($where) {
         return RoomDao::instance()->setTable('room_layout_price_system')->delete($where);
+    }
+
+    public function getRoomLayoutPriceSystemFilter($conditions) {
+        //EXPLAIN SELECT rlps.room_layout_price_system_id, rlps.room_layout_id, rlps.room_layout_price_system_name, hs.hotel_service_id
+        //FROM `room_layout_price_system` rlps LEFT JOIN `room_layout_price_system_filter` rlpsf ON rlps.room_layout_price_system_id = rlpsf.room_layout_price_system_id
+        //LEFT JOIN `hotel_service` hs ON hs.hotel_service_id = rlpsf.hotel_service_id WHERE rlps.hotel_id IN(0,1)
+        $table = '`room_layout_price_system` rlps LEFT JOIN `room_layout_price_system_filter` rlpsf '
+                .'ON rlps.room_layout_price_system_id = rlpsf.room_layout_price_system_id LEFT JOIN `hotel_service` hs '
+                .'ON hs.hotel_service_id = rlpsf.hotel_service_id';
+        $field = 'rlps.room_layout_price_system_id, rlps.room_layout_id, rlps.room_layout_price_system_name, hs.hotel_service_id,hs.hotel_service_name';
+        $arrayPriceSystemFilter = RoomDao::instance()->setTable($table)->getList($conditions, $field);
+        $arrayResule = array();
+        if(!empty($arrayPriceSystemFilter)) {
+            $k = 0;
+            foreach($arrayPriceSystemFilter as $i => $arrayValues) {
+                $id = $arrayValues['room_layout_price_system_id'];
+                $arrayResule[$id]['room_layout_price_system_id'] = $id;
+                $arrayResule[$id]['room_layout_id'] = $arrayValues['room_layout_id'];
+                $arrayResule[$id]['room_layout_price_system_name'] = $arrayValues['room_layout_price_system_name'];
+                if(empty($arrayValues['hotel_service_id'])) {
+                    $arrayResule[$id]['hotel_service_id'] = '';
+                    $arrayResule[$id]['hotel_service_name'] = '';
+                } else {
+                    $arrayResule[$id]['hotel_service_id'][] = $arrayValues['hotel_service_id'];
+                    $arrayResule[$id]['hotel_service_name'][] = $arrayValues['hotel_service_name'];
+                }
+            }
+            sort($arrayResule);
+        }
+        return $arrayResule;
+    }
+    //事务保存价格体系
+    public function saveRoomLayoutPriceSystemAndFilter($arrayPostValue, $hotel_id) {
+        //事务开启
+        RoomDao::instance()->startTransaction();
+        $arrayRoomLayoutPriceSystem['room_layout_id'] = $arrayPostValue['room_layout_id'];
+        $arrayRoomLayoutPriceSystem['room_layout_price_system_name'] = $arrayPostValue['price_system_name'];
+        $arrayRoomLayoutPriceSystem['hotel_id'] = $hotel_id;
+        $arrayRoomLayoutPriceSystem['room_layout_price_system_add_date'] = getDay();
+        $arrayRoomLayoutPriceSystem['room_layout_price_system_add_time'] = getTime();
+        $room_layout_price_system_id = $this->saveRoomLayoutPriceSystem($arrayRoomLayoutPriceSystem);
+        if(isset($arrayPostValue['hotel_service_id']) && !empty($arrayPostValue['hotel_service_id'])) {
+            foreach($arrayPostValue['hotel_service_id'] as $i => $hotel_service_id) {
+                $arraySystemFilter[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
+                $arraySystemFilter[$i]['hotel_id'] = $hotel_id;
+                $arraySystemFilter[$i]['hotel_service_id'] = $hotel_service_id;
+            }
+            RoomDao::instance()->setTable('room_layout_price_system_filter')->batchInsert($arraySystemFilter);
+        }
+        RoomDao::instance()->commit();
+        return $room_layout_price_system_id;
     }
 }

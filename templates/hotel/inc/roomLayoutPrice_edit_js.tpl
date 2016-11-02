@@ -111,45 +111,81 @@ $(document).ready(function(){
         }
 	});
 	//select2
-    $('#room_layout').select2();
+    $('#room_layout,#room_layout_id').select2();
     //增加价格体系
     $("[data-toggle='popover']").popover({'trigger':'hover'});
     $('.system_prices').click(function(e) {
-        $('.system_prices .am-icon-heart').removeClass('am-red-EA5555');
-        $(this).find('.am-icon-heart').addClass('am-red-EA5555');
+        $('.system_prices i').removeClass('am-icon-dot-circle-o');
+        $('.system_prices i').addClass('am-icon-circle-o');
+        $(this).find('i').removeClass('am-icon-circle-o');
+        $(this).find('i').addClass('am-icon-dot-circle-o');
     });
-    $('#addSystemPrice').on('show.bs.collapse', function () {
-        $.getJSON('<%$addoomLayoutPriceSystemUrl%>&search=hotel_service', function(result) {
-            data = result;
-            if(data.success == 1) {
-                var hotel_service_html = '';
-                for(i in data.itemData) {
-                    if(data.itemData[i].hotel_service_id != data.itemData[i].hotel_service_father_id) {
-                        hotel_service_html += '<input value="'+data.itemData[i].hotel_service_id+'" name="hotel_service_id" type="checkbox">' 
-                                           + data.itemData[i].hotel_service_name + ' ￥' + data.itemData[i].hotel_service_price;
-                    }
+    $('.system_prices_edit').click(function(e) {
+        $('#addSystemPrice').collapse({toggle: true})
+        $('#addSystemPrice').collapse('show');
+        layout_id = $(this).parent().parent().attr('layout-id');
+        $('#room_layout_id').val(layout_id);
+        $('#price_system_name').val($(this).parent().parent().attr('data-name'));
+        var layout_name = $('#room_layout option[value="'+layout_id+'"]').text();
+        layout_name = layout_name == '' ? "<%$arrayLaguage['common_room_layout']['page_laguage_value']%>" : layout_name;
+        $('#s2id_room_layout_id span').text(layout_name);
+        $('#room_layout_id').attr("disabled",true); 
+        $('#room_layout_id').select2();
+        $(":checkbox").attr('checked', false);
+        $(this).parent().parent().find('.am-icon-check-square-o').each(function(index, element) {
+            var data_id = $(this).attr('data-id');
+            $(":checkbox").each(function(index, element) {
+                if($(this).val() == data_id) {
+                    $(this).attr('checked', true);
                 }
-                $('#hotel_service').html(hotel_service_html);
-                $('#room_layout_name').val($('#room_layout option:selected').text());
-                $('#room_layout_id').val($('#room_layout').val());
-            } else {
-                $('#modal_success').modal('hide');
-                $('#modal_fail').modal('show');
-                $('#modal_fail_message').html(data.message);
-            }
+            });
         });
-    })
-    $('#room_layout').change(function(e) {
-        $('#room_layout_name').val($('#room_layout option:selected').text());
-        $('#room_layout_id').val($('#room_layout').val());
     });
+    $('#add_edit_system').click(function(e) {
+        $('#addSystemPrice').collapse({toggle: true})
+        $('#addSystemPrice').collapse('show');
+        $('#room_layout_id').attr("disabled",false); 
+        $('#room_layout_id').val(0);
+        $('#price_system_name').val('');
+        $('#s2id_room_layout_id span').text("<%$arrayLaguage['common_room_layout']['page_laguage_value']%>");
+        $('#room_layout_id').select2();
+    });
+    $('.system_prices_delete').click(function(e) {
+        //alert($(this).parent().parent().attr('data-id'));        
+    });
+    var hotel_service_values = {};
+    var layout_id = 0;
+    $('#addSystemPrice').on('show.bs.collapse', function () {
+        if(typeof(hotel_service_values['html']) == 'undefined') {
+            $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=hotel_service', function(result) {
+                data = result;
+                if(data.success == 1) {
+                    var hotel_service_html = '';
+                    for(i in data.itemData) {
+                        if(data.itemData[i].hotel_service_id != data.itemData[i].hotel_service_father_id) {
+                            hotel_service_html += '<input value="'+data.itemData[i].hotel_service_id+'" name="hotel_service_id[]" type="checkbox">' 
+                                               + data.itemData[i].hotel_service_name + ' ￥' + data.itemData[i].hotel_service_price;
+                        }
+                    }
+                    hotel_service_values['html'] = hotel_service_html;
+                    $('#hotel_service').html(hotel_service_html);
+                } else {
+                    $('#modal_success').modal('hide');
+                    $('#modal_fail').modal('show');
+                    $('#modal_fail_message').html(data.message);
+                }
+            });
+        } else {
+            $('#hotel_service').html(hotel_service_values['html']);
+        }
+    })
     
-    var hotel_service_validate = $("#add_hotel_service").validate({
+    var room_layout_price_system_validate = $("#room_layout_price_system").validate({
 		rules: {
-			hotel_service_name: {required: true},
+			price_system_name: {required: true},
 		},
 		messages: {
-			hotel_service_name:"",
+			price_system_name:"",
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -162,20 +198,17 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            $('#book_contact_mobile').val($('#contact_mobile').val());
-            $('#book_contact_name').val($('#contact_name').val());
-            var param = $("#book_form").serialize();
+            var param = $("#room_layout_price_system").serialize();
             $.ajax({
-                url : '<%$book_url%>',type : "post",dataType : "json",data: param,
+                url : '<%$editSystem_url%>',type : "post",dataType : "json",data: param,
                 success : function(data) {
                     if(data.success == 1) {
-                        room_layout_id = data.itemData.room_layout_id;
-                        /*$('#modal_fail').modal('hide');
-                         $('#modal_success').modal('show');
-                         $('#modal_success_message').html(data.message);
-                         $('#modal_success').on('hidden.bs.modal', function () {
-
-                         })*/
+                        $('#modal_fail').modal('hide');
+                        $('#modal_success').modal('show');
+                        $('#modal_success').html(data.message);
+                        $('#addSystemPrice').collapse('hide');
+                        $('#price_system_name').val('');
+                        $(":checkbox").attr('checked', false);
                     } else {
                         $('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');

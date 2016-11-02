@@ -14,6 +14,7 @@
 .quick-actions li{max-width:210px; min-width:210px; width:210px;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #hotel_service input{margin:0px 2px 0px 8px;}
+.dropdown-menu li,.dropdown-menu li a{word-break:break-all;word-wrap:break-word;white-space:normal !important;}
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
@@ -53,15 +54,24 @@
                         <div class="controls">
                             <%section name=system loop=$arrayRoomLayoutPriceSystem%>
                                 <div class="btn-group">
-                                    <a class="btn btn-primary" href="#"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
+                                    <a class="btn btn-primary system_prices" href="#system_prices" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
                                     <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="am-icon-pencil"></i> Edit</a></li>
-                                        <li><a href="#"><i class="am-icon-trash"></i> Delete</a></li>
+                                    <ul class="dropdown-menu" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>" layout-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_id%>" data-name="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%>">
+                                        <li><a href="#" class="system_prices_edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>
+                                        <li><a href="#" class="system_prices_delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="i"></i>
+                                        <%section name=service loop=$arrayRoomLayoutPriceSystem[system].hotel_service_id%>
+                                        <i class="am-icon-check-square-o" data-id="<%$arrayRoomLayoutPriceSystem[system].hotel_service_id[service]%>"></i><%$arrayRoomLayoutPriceSystem[system].hotel_service_name[service]%>
+                                        <%/section%></a>
+                                        </li>
                                     </ul>
                                 </div>
                             <%/section%>
-                            <button type="button" class="btn btn-primary btn-mini" data-toggle="collapse" data-target="#addSystemPrice" data-loading-text="Loading..."><i class="icon-plus-sign"></i> <%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></button> 
+                            
+                        </div>
+                        <div class="controls">
+                            <a id="add_edit_system" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></a>
                         </div>
                     </div>
                     <input type="hidden" name="room_layout_price_system_id" value=""/>
@@ -71,7 +81,7 @@
                 <div id="addSystemPrice" class="collapse widget-content nopadding">
                     <div class="control-group">
                         <div class="controls">
-                            <form method="post" class="form-horizontal" enctype="multipart/form-data" name="add_hotel_service" id="add_hotel_service" novalidate>
+                            <form method="post" class="form-horizontal" enctype="multipart/form-data" name="room_layout_price_system" id="room_layout_price_system" novalidate>
                                 <div class="modal-header">
                                     <button data-toggle="collapse" data-target="#addSystemPrice" class="close" type="button">×</button>
                                     <h3><%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></h3>
@@ -79,14 +89,18 @@
                                 <div class="control-group">
                                     <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <input id="room_layout_name" name="room_layout_name" class="span2" readonly value="" type="text">
-                                        <input id="room_layout_id" name="room_layout_id" value="" type="hidden">
+                                        <select name="room_layout_id" id="room_layout_id" class="span2">
+                                        <option value="0"><%$arrayLaguage['common_room_layout']['page_laguage_value']%></option>
+                                        <%section name=layout loop=$arrayRoomLayout%>
+                                            <option value="<%$arrayRoomLayout[layout].room_layout_id%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
+                                        <%/section%>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label"><%$arrayLaguage['system_price_name']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <input id="hotel_service_name" name="hotel_service_name" class="span2" placeholder="" value="" type="text">
+                                        <input id="price_system_name" name="price_system_name" class="span2" placeholder="" value="" type="text">
                                     </div>
                                 </div>
                                 <div class="control-group">
