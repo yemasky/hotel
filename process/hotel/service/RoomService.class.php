@@ -195,6 +195,7 @@ class RoomService extends \BaseService {
     //事务保存价格体系
     public function saveRoomLayoutPriceSystemAndFilter($arrayPostValue, $hotel_id) {
         $update_id = $arrayPostValue['update_system_id'];
+        if($update_id == 1) return $update_id;//系统id 不能修改
         //事务开启
         RoomDao::instance()->startTransaction();
         $arrayRoomLayoutPriceSystem['room_layout_price_system_name'] = $arrayPostValue['price_system_name'];

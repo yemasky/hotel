@@ -14,7 +14,9 @@
 .quick-actions li{max-width:210px; min-width:210px; width:210px;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #hotel_service input{margin:0px 2px 0px 8px;}
+#hotel_service label{display: inline-block;}
 .dropdown-menu li,.dropdown-menu li a{word-break:break-all;word-wrap:break-word;white-space:normal !important;}
+.btn-group .btn {border: 1px solid #8C8585}
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
@@ -38,24 +40,25 @@
                     </div>
                 </div>
                 <div class="widget-content nopadding">
-                    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="" id="" novalidate>
+                    <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
                         <div class="controls">
                             <select name="room_layout" id="room_layout" class="span2">
                             <%section name=layout loop=$arrayRoomLayout%>
-                                <option value="<%$arrayRoomLayout[layout].room_layout_id%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
+                                <option value="<%$arrayRoomLayout[layout].room_layout_id%>" extra_bed="<%$arrayRoomLayout[layout].room_layout_extra_bed%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
                             <%/section%>
                             </select>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['room_layout_price_system']['page_laguage_value']%> :</label>
-                        <div class="controls">
+                        <div class="controls" id="system_prices_html">
                             <%section name=system loop=$arrayRoomLayoutPriceSystem%>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary system_prices" href="#system_prices" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
-                                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                <div class="btn-group system_prices" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>">
+                                    <a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
+                                    <%if $arrayRoomLayoutPriceSystem[system].room_layout_price_system_id > 1%>
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                     <ul class="dropdown-menu" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>" layout-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_id%>" data-name="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%>">
                                         <li><a href="#" class="system_prices_edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>
                                         <li><a href="#" class="system_prices_delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>
@@ -66,6 +69,7 @@
                                         <%/section%></a>
                                         </li>
                                     </ul>
+                                    <%/if%>
                                 </div>
                             <%/section%>
                             
@@ -74,8 +78,6 @@
                             <a id="add_edit_system" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_room_layout_price_system']['page_laguage_value']%></a>
                         </div>
                     </div>
-                    <input type="hidden" name="room_layout_price_system_id" value=""/>
-                    <input type="hidden" name="room_layout_id" value=""/>
                     </form>
                 </div>
                 <div id="addSystemPrice" class="collapse widget-content nopadding">
@@ -129,45 +131,87 @@
                 </div>
                 <div class="widget-content tab-content nopadding">
                     <div id="tab1" class="tab-pane active">
-                    	<form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="" id="" novalidate>
+                    	<form method="post" class="form-horizontal" enctype="multipart/form-data" name="prices_week" id="prices_week" novalidate>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input type="text" id="time_begin" value="<%$thisDay%>" />
-                                <input type="text" id="time_end" value="<%$toDay%>" />
+                                <input type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" />
+                                <input type="text" id="time_end" name="time_end" value="<%$toDay%>" />
                             </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['set_price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <ul class="quick-actions pagination-left" id="room_layout_price_week">
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_1" name="week_1" class="span8" type="text" /></a> 
                                     </li>
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_2" name="week_2" class="span8" type="text" /></a> 
                                     </li>
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_3" name="week_3" class="span8" type="text" /></a> 
                                     </li>
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_4" name="week_4" class="span8" type="text" /></a> 
                                     </li>
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_5" name="week_5" class="span8" type="text" /></a> 
                                     </li>
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_6" name="week_6" class="span8" type="text" /></a> 
                                     </li>
                                     <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
-                                        <input id="event-name" class="span8" type="text" /></a> 
+                                        <input id="week_7" name="week_7" class="span8" type="text" /></a> 
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        <div class="control-group hide extra_bed">
+                            <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select id="changle_week_extra_bed" class="span1">
+                                    <option value="0"><%$arrayLaguage['uniform_price']['page_laguage_value']%></option>
+                                    <option value="1"><%$arrayLaguage['week_price']['page_laguage_value']%></option>
+                                </select>
+                                <div id="same_price_week" class="hide"><input type="text" name="extra_bed_price" id="extra_bed_price_week" value="" /></div>
+                            </div>
+                            <div class="controls">
+                                
+                                <div id="different_price_week">
+                                    <ul class="quick-actions pagination-left" id="room_layout_same_price_week">
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
+                                            <input id="extra_bed_week_1" name="extra_bed_week_1" class="span8" type="text" /></a> 
+                                        </li>
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
+                                            <input id="extra_bed_week_2" name="extra_bed_week_2" class="span8" type="text" /></a> 
+                                        </li>
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
+                                            <input id="extra_bed_week_3" name="extra_bed_week_3" class="span8" type="text" /></a> 
+                                        </li>
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
+                                            <input id="extra_bed_week_4" name="extra_bed_week_4" class="span8" type="text" /></a> 
+                                        </li>
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
+                                            <input id="extra_bed_week_5" name="extra_bed_week_5" class="span8" type="text" /></a> 
+                                        </li>
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
+                                            <input id="extra_bed_week_6" name="extra_bed_week_6" class="span8" type="text" /></a> 
+                                        </li>
+                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
+                                            <input id="extra_bed_week_7" name="extra_bed_week_7" class="span8" type="text" /></a> 
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions pagination-centered">
+                            <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save']['page_laguage_value']%></button>
+                        </div>
                         </form>
                     </div>
                 	<div id="tab2" class="tab-pane">
-                    	<form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate>
+                    	<form method="post" class="form-horizontal" enctype="multipart/form-data" name="prices_month" id="prices_month" novalidate>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
@@ -193,24 +237,43 @@
                             </div>
                         </div>
                         <div class="control-group">
-                        <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <label class="control-label"><%$arrayLaguage['set_price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <ul class="quick-actions pagination-left" id="room_layout_price_kalendar"></ul>
                             </div>
                         </div>
+                        <div class="control-group hide extra_bed">
+                            <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select id="changle_month_extra_bed" class="span1">
+                                    <option value="0"><%$arrayLaguage['uniform_price']['page_laguage_value']%></option>
+                                    <option value="1"><%$arrayLaguage['month_price']['page_laguage_value']%></option>
+                                </select>
+                            </div>
+                            <div class="controls">
+                                <input type="text" name="extra_bed_price" id="extra_bed_price_month" value="" />
+                            </div>
+                        </div>
+                        <div class="form-actions pagination-centered">
+                            <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save']['page_laguage_value']%></button>
+                        </div>
                         </form>
                     </div>
                     <div id="tab3" class="tab-pane">
-                    	<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate>
+                    	<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="search_history" id="search_history" novalidate>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input type="text" id="history_begin" value="<%$thisDay%>" />
-                                <input type="text" id="history_end" value="<%$toDay%>" />
+                                <input type="text" id="history_begin" value="<%$thisDay%>" class="span2" />
+                                <input type="text" id="history_end" value="<%$toDay%>" class="span2" />
+                                <button type="submit" class="btn btn-primary pagination-centered save_info am-icon-search">
+                                    <%$arrayLaguage['search']['page_laguage_value']%>
+                                </button>
                             </div>
+                            
                         </div>
                         <div class="control-group">
-                        <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                        <label class="control-label"><%$arrayLaguage['price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <ul class="quick-actions pagination-left" id=""></ul>
                             </div>

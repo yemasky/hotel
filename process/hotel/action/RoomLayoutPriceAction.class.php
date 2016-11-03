@@ -27,7 +27,7 @@ class RoomLayoutPriceAction extends \BaseAction {
                 $this->doDelete($objRequest, $objResponse);
                 break;
             case 'editSystem':
-                $this->doEditSystem($objRequest, $objResponse);
+                $this->doEditRoomLayoutPriceSystem($objRequest, $objResponse);
                 break;
             default:
                 $this->doDefault($objRequest, $objResponse);
@@ -59,6 +59,19 @@ class RoomLayoutPriceAction extends \BaseAction {
             $arrayHotelService = HotelService::instance()->getHotelService($conditions, $field);
             return $this->successResponse("", $arrayHotelService);
         }
+        if($objRequest -> search == 'systemPrices' && ($objRequest->room_layout_id) > 0) {
+            $this->setDisplay();
+            $conditions['where'] = array('IN'=>array('rlps.room_layout_id'=>array($objRequest->room_layout_id, 0),
+                                                     'rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
+                                         '>'=>array('rlps.room_layout_price_system_id'=>1),
+                                         'rlps.room_layout_price_system_valid'=>'1');
+            $arrayRoomLayoutPriceSystem = RoomService::instance()->getRoomLayoutPriceSystemFilter($conditions);
+            return $this->successResponse("", $arrayRoomLayoutPriceSystem);
+        }
+        if($objRequest -> search == 'prices_week') {
+            $this->setDisplay();
+            return $this->setPricesWeek($objRequest, $objResponse);
+        }
 
         $this->doEdit($objRequest, $objResponse);
         //
@@ -76,11 +89,17 @@ class RoomLayoutPriceAction extends \BaseAction {
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                                      'room_layout_valid'=>'1');
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
-
+        $conditions['where'] = array();
+        if(!empty($arrayRoomLayout) && isset($arrayRoomLayout[0]['room_layout_id'])) {
+            $conditions['where'] = array('IN'=>array('rlps.room_layout_id'=>array($arrayRoomLayout[0]['room_layout_id'], 0),
+                                                     'rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        } else {
+            $conditions['where'] = array('IN'=>array('rlps.room_layout_id'=>array(0),
+                'rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        }
         //价格体系
-        $conditions['where'] = array('IN'=>array('rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
-            '>'=>array('rlps.room_layout_price_system_id'=>0),
-            'rlps.room_layout_price_system_valid'=>'1');
+        $conditions['where'] = array_merge($conditions['where'], array('>'=>array('rlps.room_layout_price_system_id'=>0),
+            'rlps.room_layout_price_system_valid'=>'1'));
         $arrayRoomLayoutPriceSystem = RoomService::instance()->getRoomLayoutPriceSystemFilter($conditions);
         //
 
@@ -108,10 +127,15 @@ class RoomLayoutPriceAction extends \BaseAction {
         $this->setDisplay();
     }
 
-    protected function doEditSystem($objRequest, $objResponse) {
+    protected function doEditRoomLayoutPriceSystem($objRequest, $objResponse) {
         $this->setDisplay();
         $arrayPostValue= $objRequest->getPost();
         $room_layout_price_system_id = RoomService::instance()->saveRoomLayoutPriceSystemAndFilter($arrayPostValue, $objResponse->arrayLoginEmployeeInfo['hotel_id']);
-        return $this->successResponse("添加价格体系成功！", $room_layout_price_system_id);
+        return $this->successResponse("添加/修改价格体系成功！", $room_layout_price_system_id);
+    }
+
+    protected function setPricesWeek($objRequest, $objResponse) {
+        $arrayPostValue= $objRequest->getPost();
+        return $this->successResponse("", '');
     }
 }
