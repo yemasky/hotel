@@ -125,23 +125,35 @@ $(document).ready(function(){
         $('#addSystemPrice').collapse('show');
         layout_id = $(this).parent().parent().attr('layout-id');
         $('#room_layout_id').val(layout_id);
+        $('#update_system_id').val($(this).parent().parent().attr('data-id'));
         $('#price_system_name').val($(this).parent().parent().attr('data-name'));
         var layout_name = $('#room_layout option[value="'+layout_id+'"]').text();
         layout_name = layout_name == '' ? "<%$arrayLaguage['common_room_layout']['page_laguage_value']%>" : layout_name;
         $('#s2id_room_layout_id span').text(layout_name);
         $('#room_layout_id').attr("disabled",true); 
         $('#room_layout_id').select2();
-        $(":checkbox").attr('checked', false);
-        $(this).parent().parent().find('.am-icon-check-square-o').each(function(index, element) {
-            var data_id = $(this).attr('data-id');
-            $(":checkbox").each(function(index, element) {
-                if($(this).val() == data_id) {
-                    $(this).attr('checked', true);
+        getHotelService();
+        var _this = this;
+        var hotel_serviceInterval = setInterval(function(){
+                var hotel_service_html = $('#hotel_service').html();
+                if(hotel_service_html != '') {
+                    $(":checkbox").attr('checked', false);
+                    $(_this).parent().parent().find('.am-icon-check-square-o').each(function(index, element) {
+                        var data_id = $(this).attr('data-id');
+                        $(":checkbox").each(function(index, element) {
+                            if($(this).val() == data_id) {
+                                $(this).attr('checked', true);
+                            }
+                        });
+                    });
+                    clearInterval(hotel_serviceInterval);
+                    console.log('1');
                 }
-            });
-        });
+            },500);
+        
     });
     $('#add_edit_system').click(function(e) {
+        getHotelService();
         $('#addSystemPrice').collapse({toggle: true})
         $('#addSystemPrice').collapse('show');
         $('#room_layout_id').attr("disabled",false); 
@@ -156,6 +168,10 @@ $(document).ready(function(){
     var hotel_service_values = {};
     var layout_id = 0;
     $('#addSystemPrice').on('show.bs.collapse', function () {
+        //getHotelService();
+    })
+    
+    function getHotelService() {
         if(typeof(hotel_service_values['html']) == 'undefined') {
             $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=hotel_service', function(result) {
                 data = result;
@@ -178,7 +194,7 @@ $(document).ready(function(){
         } else {
             $('#hotel_service').html(hotel_service_values['html']);
         }
-    })
+    }
     
     var room_layout_price_system_validate = $("#room_layout_price_system").validate({
 		rules: {

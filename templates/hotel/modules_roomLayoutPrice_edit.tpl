@@ -114,6 +114,7 @@
                                 <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#addSystemPrice" class="btn" href="#">Cancel</a> 
                                 </div>  
                               </div>
+                              <input type="hidden" name="update_system_id" id="update_system_id" value="" />
                             </form>
                         </div>
                     </div>

@@ -194,14 +194,22 @@ class RoomService extends \BaseService {
     }
     //事务保存价格体系
     public function saveRoomLayoutPriceSystemAndFilter($arrayPostValue, $hotel_id) {
+        $update_id = $arrayPostValue['update_system_id'];
         //事务开启
         RoomDao::instance()->startTransaction();
-        $arrayRoomLayoutPriceSystem['room_layout_id'] = $arrayPostValue['room_layout_id'];
         $arrayRoomLayoutPriceSystem['room_layout_price_system_name'] = $arrayPostValue['price_system_name'];
-        $arrayRoomLayoutPriceSystem['hotel_id'] = $hotel_id;
-        $arrayRoomLayoutPriceSystem['room_layout_price_system_add_date'] = getDay();
-        $arrayRoomLayoutPriceSystem['room_layout_price_system_add_time'] = getTime();
-        $room_layout_price_system_id = $this->saveRoomLayoutPriceSystem($arrayRoomLayoutPriceSystem);
+        if(!empty($update_id)) {
+            $room_layout_price_system_id = $update_id;
+            $where = array('hotel_id'=>$hotel_id, 'room_layout_price_system_id'=>$update_id);
+            $this->updateRoomLayoutPriceSystem($where, $arrayRoomLayoutPriceSystem);
+            RoomDao::instance()->setTable('room_layout_price_system_filter')->delete($where);
+        } else {
+            $arrayRoomLayoutPriceSystem['hotel_id'] = $hotel_id;
+            $arrayRoomLayoutPriceSystem['room_layout_price_system_add_date'] = getDay();
+            $arrayRoomLayoutPriceSystem['room_layout_price_system_add_time'] = getTime();
+            $arrayRoomLayoutPriceSystem['room_layout_id'] = $arrayPostValue['room_layout_id'];
+            $room_layout_price_system_id = $this->saveRoomLayoutPriceSystem($arrayRoomLayoutPriceSystem);
+        }
         if(isset($arrayPostValue['hotel_service_id']) && !empty($arrayPostValue['hotel_service_id'])) {
             foreach($arrayPostValue['hotel_service_id'] as $i => $hotel_service_id) {
                 $arraySystemFilter[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
