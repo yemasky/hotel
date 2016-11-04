@@ -54,24 +54,35 @@ $(document).ready(function(){
     
     //日历
 	$.datetimepicker.setLocale('ch');
-	var dateToDisable = new Date();
+	var dateToDisable = new Date('<%$thisDay%>');
+    var nowDateToDisable = new Date(dateToDisable.setDate(dateToDisable.getDate() + (6 - dateToDisable.getDay())));
 	dateToDisable.setDate(dateToDisable.getDate() - 1);
-	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
+	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
+        yearStart: 2015, yearEnd: 2020, yearOffset:1,maxDate:'+1970-01-02',
 		beforeShowDay: function(date) {
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false, ""];
-			} 
-            if(date.getDay() != 1) {
+			}
+            if(date.getDay() != 1 && date.getTime() > nowDateToDisable.getTime()) {
                 return [false, ""];
             }
             return [true];
-			//return [true, ""];
 		},
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+        onSelectDate:function(date) {alert(date + '-====-' + nowDateToDisable);
+            var thisDate = new Date(this.getValue());
+            var nextDate = new Date(thisDate.setDate(thisDate.getDate() + 6));
+            var time_end_date = new Date($('#time_end').val());
+            if(time_end_date.getTime() < nextDate.getTime()) {
+                $('#time_end').val(nextDate);
+                $('#time_end').datetimepicker({value:nextDate});
+            }
         }
+       
 	});
-	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
+	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearStart: 2016, yearEnd: 2020,
 		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
 			var dateToDisable = new Date($('#time_begin').val());
             dateToDisable.setDate(dateToDisable.getDate() + 6);
@@ -83,7 +94,7 @@ $(document).ready(function(){
 		},
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
-        }
+        },
 	});
     $('#history_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
 		beforeShowDay: function(date) {
@@ -116,13 +127,16 @@ $(document).ready(function(){
     //选择对应的房型和价格体系
     var room_layout_data = {};
     var room_layout = 0;
+    var is_extra_bed = false;
     $('#room_layout').change(function(e) {
         system_id = 0;
         room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
         var extra_bed = $("#room_layout option[value='"+room_layout+"']").attr("extra_bed");
         $('.extra_bed').hide();
+        is_extra_bed = false;
         if(extra_bed > 0) {
             $('.extra_bed').show();
+            is_extra_bed = true;
         }
         if(typeof(room_layout_data[room_layout]) == 'undefined') {
             $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&room_layout_id='+room_layout, function(result) {
@@ -392,6 +406,7 @@ $(document).ready(function(){
                 $('#modal_fail_message').html('请选择价格体系！');
                 return;
             }
+            //var week_begin = 
             var param = $("#prices_week").serialize();
             $.ajax({
                 url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week',type : "post",dataType : "json",data: param,
