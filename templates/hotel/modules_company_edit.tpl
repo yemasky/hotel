@@ -42,7 +42,7 @@
 </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
-<%include file="hotel/inc/company_js.tpl"%>
+<%include file="hotel/inc_js/company_js.tpl"%>
 <script language="javascript">
 	<%if $view==1%>
 	$("form input,textarea,select").prop("readonly", true);

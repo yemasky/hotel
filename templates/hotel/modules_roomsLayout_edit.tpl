@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
-<%include file="hotel/inc/editor_upload_images.tpl"%>
+<%include file="hotel/inc_js/editor_upload_images.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
 <body>

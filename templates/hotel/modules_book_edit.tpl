@@ -188,6 +188,6 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<%include file="hotel/inc/book_edit_js.tpl"%>
+<%include file="hotel/inc_js/book_edit_js.tpl"%>
 </body>
 </html>

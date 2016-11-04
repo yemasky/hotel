@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
-<%include file="hotel/inc/ztree.tpl"%>
+<%include file="hotel/inc_js/ztree.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <style type="text/css">
 .ztree li ul.line{height:auto;}

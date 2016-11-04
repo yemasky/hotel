@@ -13,7 +13,7 @@
 </script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
-<%include file="hotel/inc/editor_upload_images.tpl"%>
+<%include file="hotel/inc_js/editor_upload_images.tpl"%>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -42,7 +42,7 @@
 </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
-<%include file="hotel/inc/hotel_js.tpl"%>
+<%include file="hotel/inc_js/hotel_js.tpl"%>
 <script language="javascript">
 	<%if $view==1%>
 	$("form input,textarea,select").prop("readonly", true);
