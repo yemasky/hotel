@@ -74,7 +74,8 @@ $(document).ready(function(){
 	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
 		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
 			var dateToDisable = new Date($('#time_begin').val());
-			if (date.getTime() < (dateToDisable.getTime() - 0 + 36000 * 24 * 6)) {
+            dateToDisable.setDate(dateToDisable.getDate() + 6);
+			if (date.getTime() < dateToDisable.getTime()) {
                 //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
 				return [false];
 			}
@@ -352,18 +353,27 @@ $(document).ready(function(){
 		}
 	});
     //
-    $('.select_extra_bed').click(function(e) {
-        $('.select_extra_bed .btn i').removeClass('am-icon-dot-circle-o');
-        $('.system_prices .btn i').addClass('am-icon-circle-o');
-        $(this).find('.btn i').removeClass('am-icon-circle-o');
-        $(this).find('.btn i').addClass('am-icon-dot-circle-o');
+    $('.select_extra_bed_week').click(function(e) {
+        $('.select_extra_bed_week i').removeClass('am-icon-dot-circle-o');
+        $(this).find('i').addClass('am-icon-dot-circle-o');
+        if($(this).attr('id') == 'same_week') {
+            $('#same_price_week').show();
+            $('#different_price_week').hide();
+        } else {
+            $('#same_price_week').hide();
+            $('#different_price_week').show();
+        }
+    });
+    $('.select_extra_bed_month').click(function(e) {
+        $('.select_extra_bed_month i').removeClass('am-icon-dot-circle-o');
+        $(this).find('i').addClass('am-icon-dot-circle-o');
     });
     var prices_week_validate = $("#prices_week").validate({
 		rules: {
-			price_system_name: {required: true},
+			
 		},
 		messages: {
-			price_system_name:"",
+			
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -438,19 +448,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            var param = $("#room_layout_price_system").serialize();
-            $.ajax({
-                url : '<%$add_roomLayoutPriceSystem_url%>&search=hotel_service',type : "post",dataType : "json",data: param,
-                success : function(result) {
-                    data = result;
-                    if(data.success == 1) {
-                    } else {
-                        $('#modal_success').modal('hide');
-                        $('#modal_fail').modal('show');
-                        $('#modal_fail_message').html(data.message);
-                    }
-                }
-            });
+            
 		}
 	});
 })

@@ -170,15 +170,19 @@
                         <div class="control-group hide extra_bed">
                             <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <div class="btn-group select_extra_bed">
-                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%></a> 
-                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['week_price']['page_laguage_value']%></a>
+                                <div class="btn-group">
+                                    <a class="btn select_extra_bed_week" id='same_week' href="#select">
+                                        <i class="am-icon-circle-o am-icon-dot-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%>
+                                    </a> 
+                                    <a class="btn select_extra_bed_week" id='different_week' href="#select">
+                                        <i class="am-icon-circle-o"></i> <%$arrayLaguage['week_price']['page_laguage_value']%>
+                                    </a>
                                 </div>
-                                <div id="same_price_week" class="hide"><input type="text" name="extra_bed_price" id="extra_bed_price_week" value="" /></div>
                             </div>
+                            <label class="control-label"><%$arrayLaguage['set_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                
-                                <div id="different_price_week">
+                                <div id="same_price_week"><input class="span1" type="text" name="extra_bed_price" id="extra_bed_price_week" value="" /></div>
+                                <div id="different_price_week" class="hide">
                                     <ul class="quick-actions pagination-left" id="room_layout_same_price_week">
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
                                             <input id="extra_bed_week_1" name="extra_bed_week_1" class="span8" type="text" /></a> 
@@ -245,9 +249,13 @@
                         <div class="control-group hide extra_bed">
                             <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <div class="btn-group select_extra_bed">
-                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%></a> 
-                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['month_price']['page_laguage_value']%></a>
+                                <div class="btn-group">
+                                    <a class="btn select_extra_bed_month" href="#select">
+                                        <i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%>
+                                    </a> 
+                                    <a class="btn select_extra_bed_month" href="#select">
+                                        <i class="am-icon-circle-o"></i> <%$arrayLaguage['month_price']['page_laguage_value']%>
+                                    </a>
                                 </div>
                             </div>
                             <div class="controls">
