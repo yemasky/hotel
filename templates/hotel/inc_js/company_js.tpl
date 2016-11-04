@@ -7,7 +7,7 @@
 <script src="<%$__RESOURCE%>js/maruti.js"></script>
 <script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
-<%include file="hotel/inc/location_js.tpl"%>
+<%include file="hotel/inc_js/location_js.tpl"%>
 <script type="text/javascript">
 	var longitude = "<%$arrayCompany['company_longitude']%>";
 	var latitude = "<%$arrayCompany['company_latitude']%>";
