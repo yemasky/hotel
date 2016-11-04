@@ -70,7 +70,8 @@
                                     <?php if (!$attach['is_image'] AND (!$this->article_info['attachs_ids'] OR !in_array($attach['id'], $this->article_info['attachs_ids']))) { ?>
                                         <?php
                                             if($this->article_info['verify_info']['status'] != '1') {
-                                                echo '<li><a href="account/setting/verify/"><i class="icon icon-attach"></i> 需要通过企业认证才能下载！点击这里进行企业认证</a></li>';
+                                                echo '<li><i class="icon icon-attach"></i> ' . $attach['file_name'] . '</li>';
+                                                echo '<li><a href="account/setting/verify/"><i class="icon icon-help"></i> 上面附件需要通过企业认证才能下载！点击这里进行企业认证</a></li>';
                                             } else {
                                         ?>
                                         <li><a href="<?php echo download_url($attach['file_name'], $attach['attachment']); ?>"><i class="icon icon-attach"></i> <?php echo $attach['file_name']; ?></a></li>

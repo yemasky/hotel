@@ -170,10 +170,10 @@
                         <div class="control-group hide extra_bed">
                             <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <select id="changle_week_extra_bed" class="span1">
-                                    <option value="0"><%$arrayLaguage['uniform_price']['page_laguage_value']%></option>
-                                    <option value="1"><%$arrayLaguage['week_price']['page_laguage_value']%></option>
-                                </select>
+                                <div class="btn-group select_extra_bed">
+                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%></a> 
+                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['week_price']['page_laguage_value']%></a>
+                                </div>
                                 <div id="same_price_week" class="hide"><input type="text" name="extra_bed_price" id="extra_bed_price_week" value="" /></div>
                             </div>
                             <div class="controls">
@@ -245,10 +245,10 @@
                         <div class="control-group hide extra_bed">
                             <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <select id="changle_month_extra_bed" class="span1">
-                                    <option value="0"><%$arrayLaguage['uniform_price']['page_laguage_value']%></option>
-                                    <option value="1"><%$arrayLaguage['month_price']['page_laguage_value']%></option>
-                                </select>
+                                <div class="btn-group select_extra_bed">
+                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%></a> 
+                                    <a class="btn" href="#select"><i class="am-icon-circle-o"></i> <%$arrayLaguage['month_price']['page_laguage_value']%></a>
+                                </div>
                             </div>
                             <div class="controls">
                                 <input type="text" name="extra_bed_price" id="extra_bed_price_month" value="" />

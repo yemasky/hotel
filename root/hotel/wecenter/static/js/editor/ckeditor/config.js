@@ -12,9 +12,10 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.toolbar_Full = [
 		//'FontSize','RemoveFormat'
-		 ['Cleanup','Bold','Italic','NumberedList','BulletedList', 'Blockquote', 'pbckcode', 'WecenterImage', 'WecenterAttach', 'WecenterLink', 'WecenterVideo', 'Maximize']
-	]
-
+		 ['Cleanup','Bold','Italic','NumberedList','BulletedList', 'Blockquote', 'pbckcode', 'WecenterImage', 'WecenterAttach', 'WecenterLink', 'WecenterVideo','FontSize', 'Maximize'],
+		 '/',
+		 ['Styles','Format','Font','Outdent','Indent','TextColor', 'BGColor' ]
+	];
 	config.extraPlugins = 'autolink,pbckcode,bbcode,sourcearea,wecenterattach,wecenterimage,wecenterlink,wecentervideo,blockquote,font';
 
 	config.resize_enabled = false;
@@ -32,7 +33,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.magicline_everywhere = true;
 
-	config.fontSize_sizes = '16px;18px';
+	config.fontSize_sizes = '10px;12px;14px;16px;18px';
 
 	// The default plugins included in the basic setup define some buttons that
 	// are not needed in a basic editor. They are removed here.

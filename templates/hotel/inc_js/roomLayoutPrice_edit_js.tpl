@@ -116,6 +116,7 @@ $(document).ready(function(){
     var room_layout_data = {};
     var room_layout = 0;
     $('#room_layout').change(function(e) {
+        system_id = 0;
         room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
         var extra_bed = $("#room_layout option[value='"+room_layout+"']").attr("extra_bed");
         $('.extra_bed').hide();
@@ -350,6 +351,13 @@ $(document).ready(function(){
             });
 		}
 	});
+    //
+    $('.select_extra_bed').click(function(e) {
+        $('.select_extra_bed .btn i').removeClass('am-icon-dot-circle-o');
+        $('.system_prices .btn i').addClass('am-icon-circle-o');
+        $(this).find('.btn i').removeClass('am-icon-circle-o');
+        $(this).find('.btn i').addClass('am-icon-dot-circle-o');
+    });
     var prices_week_validate = $("#prices_week").validate({
 		rules: {
 			price_system_name: {required: true},
@@ -368,6 +376,12 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
+            if(system_id == 0) {
+                $('#modal_success').modal('hide');
+                $('#modal_fail').modal('show');
+                $('#modal_fail_message').html('请选择价格体系！');
+                return;
+            }
             var param = $("#prices_week").serialize();
             $.ajax({
                 url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week',type : "post",dataType : "json",data: param,
