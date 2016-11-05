@@ -1,6 +1,11 @@
 <?php
 require_once ("../config.php");
 
+for ($i = 0; $i <= 6; $i++ ) {
+    echo 1 - $i . "<br>";
+}
+
+return;
 function getOrderNumber($billid, $length = 16) {
 	if(strlen($billid) >= $length) return $billid;
 	$billno = $billid.'0';

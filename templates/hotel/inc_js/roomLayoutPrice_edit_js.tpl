@@ -54,24 +54,27 @@ $(document).ready(function(){
     
     //日历
 	$.datetimepicker.setLocale('ch');
-	var dateToDisable = new Date('<%$thisDay%>');
-    var nowDateToDisable = new Date(dateToDisable.setDate(dateToDisable.getDate() + (6 - dateToDisable.getDay())));
-	dateToDisable.setDate(dateToDisable.getDate() - 1);
+	var dateToDisable =  new Date('<%$thisDay%>'); 
+	var weekToDisable =  new Date('<%$thisDay%>');
+	var week_differ  = 1 - weekToDisable.getDay();
+	week_differ = week_differ < 0 ? week_differ + 7 : week_differ;
+    var nextWeekDateToDisable = new Date(weekToDisable.setDate(weekToDisable.getDate() + week_differ));
+	//dateToDisable.setDate(dateToDisable.getDate() - 1);
 	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
         yearStart: 2015, yearEnd: 2020, yearOffset:1,maxDate:'+1970-01-02',
 		beforeShowDay: function(date) {
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false, ""];
 			}
-            if(date.getDay() != 1 && date.getTime() > nowDateToDisable.getTime()) {
+            if(date.getTime() > nextWeekDateToDisable.getTime() && date.getDay() != 1) {
                 return [false, ""];
             }
-            return [true];
+            return [true,""];
 		},
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
-        onSelectDate:function(date) {alert(date + '-====-' + nowDateToDisable);
+        onSelectDate:function(date) {//console.log(date + '-====-' + nextWeekDateToDisable + '----'+ week_differ + '-----<%$thisDay%>');
             var thisDate = new Date(this.getValue());
             var nextDate = new Date(thisDate.setDate(thisDate.getDate() + 6));
             var time_end_date = new Date($('#time_end').val());

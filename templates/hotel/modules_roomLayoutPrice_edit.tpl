@@ -17,6 +17,7 @@
 #hotel_service label{display: inline-block;}
 .dropdown-menu li,.dropdown-menu li a{word-break:break-all;word-wrap:break-word;white-space:normal !important;}
 .btn-group .btn {border: 1px solid #8C8585}
+.btn-group.btn-group {margin-right: 5px; margin-left:0px;}
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
