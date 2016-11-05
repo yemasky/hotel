@@ -131,15 +131,18 @@ $(document).ready(function(){
     var room_layout_data = {};
     var room_layout = 0;
     var is_extra_bed = false;
+	$('.extra_bed input').attr('disabled', true);
     $('#room_layout').change(function(e) {
         system_id = 0;
         room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
         var extra_bed = $("#room_layout option[value='"+room_layout+"']").attr("extra_bed");
         $('.extra_bed').hide();
+		$('.extra_bed input').attr('disabled', true);
         is_extra_bed = false;
         if(extra_bed > 0) {
             $('.extra_bed').show();
             is_extra_bed = true;
+			$('.extra_bed input').attr('disabled', false);
         }
         if(typeof(room_layout_data[room_layout]) == 'undefined') {
             $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&room_layout_id='+room_layout, function(result) {
