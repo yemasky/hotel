@@ -64,12 +64,12 @@ $(document).ready(function(){
         yearStart: 2015, yearEnd: 2020, yearOffset:1,maxDate:'+1970-01-02',
 		beforeShowDay: function(date) {
 			if (date.getTime() < dateToDisable.getTime()) {
-				return [false, ""];
+				return [false];
 			}
             if(date.getTime() > nextWeekDateToDisable.getTime() && date.getDay() != 1) {
-                return [false, ""];
+                return [false];
             }
-            return [true,""];
+            return [true];
 		},
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
@@ -82,7 +82,11 @@ $(document).ready(function(){
                 $('#time_end').val(nextDate);
                 $('#time_end').datetimepicker({value:nextDate});
             }
-        }
+        },
+		onShow:function(date) {
+			//xdsoft_calendar data-date="31" data-month="9" data-year="2016"
+			console.log(this[0]);
+		}
        
 	});
 	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearStart: 2016, yearEnd: 2020,

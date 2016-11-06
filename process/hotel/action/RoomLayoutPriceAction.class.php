@@ -136,6 +136,9 @@ class RoomLayoutPriceAction extends \BaseAction {
 
     protected function setPricesWeek($objRequest, $objResponse) {
         $arrayPostValue= $objRequest->getPost();
-        return $this->successResponse("o", '');
+        $arrayTimeBegin = explode('-', $arrayPostValue['time_begin']);
+        $arrayTimeEnd = explode('-', $arrayPostValue['time_end']);
+        
+        return $this->successResponse("", '');
     }
 }
