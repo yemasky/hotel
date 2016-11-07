@@ -10,14 +10,16 @@
 }
 .pagination-left { text-align:left }
 .stat-boxes, .quick-actions, .quick-actions-horizontal, .stats-plain { margin:0px;}
-.stat-boxes li, .quick-actions li, .quick-actions-horizontal li{margin:0px 5px 5px 0;}
+.stat-boxes li, .quick-actions li, .quick-actions-horizontal li,#kalendar_week li{margin:0px 5px 5px 0;}
 .quick-actions li{max-width:210px; min-width:210px; width:210px;}
+#room_layout_price_kalendar li,#kalendar_week li{max-width:120px; min-width:120px; width:120px;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #hotel_service input{margin:0px 2px 0px 8px;}
 #hotel_service label{display: inline-block;}
 .dropdown-menu li,.dropdown-menu li a{word-break:break-all;word-wrap:break-word;white-space:normal !important;}
 .btn-group .btn {border: 1px solid #8C8585}
 .btn-group.btn-group {margin-right: 5px; margin-left:0px;}
+.none{border:none !important; padding-left:2px !important;}
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
@@ -46,6 +48,7 @@
                         <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
                         <div class="controls">
                             <select name="room_layout" id="room_layout" class="span2">
+                                <option value="0" extra_bed=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                             <%section name=layout loop=$arrayRoomLayout%>
                                 <option value="<%$arrayRoomLayout[layout].room_layout_id%>" extra_bed="<%$arrayRoomLayout[layout].room_layout_extra_bed%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
                             <%/section%>
@@ -55,7 +58,7 @@
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['room_layout_price_system']['page_laguage_value']%> :</label>
                         <div class="controls" id="system_prices_html">
-                            <%section name=system loop=$arrayRoomLayoutPriceSystem%>
+                            <!--<%section name=system loop=$arrayRoomLayoutPriceSystem%>
                                 <div class="btn-group system_prices" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>">
                                     <a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
                                     <%if $arrayRoomLayoutPriceSystem[system].room_layout_price_system_id > 1%>
@@ -72,7 +75,7 @@
                                     </ul>
                                     <%/if%>
                                 </div>
-                            <%/section%>
+                            <%/section%>-->
                             
                         </div>
                         <div class="controls">
@@ -242,25 +245,31 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <div class="controls">
+                                <ul class="quick-actions pagination-left" id="kalendar_week">
+                                    <li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i></a></li>
+                                </ul>
+                            </div>
                             <label class="control-label"><%$arrayLaguage['set_price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <ul class="quick-actions pagination-left" id="room_layout_price_kalendar"></ul>
                             </div>
                         </div>
-                        <div class="control-group hide extra_bed">
+                        <div class="control-group extra_bed">
                             <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <div class="btn-group">
-                                    <a class="btn select_extra_bed_month" href="#select">
-                                        <i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%>
+                                    <a class="btn select_extra_bed_month" id="same_month" href="#select">
+                                        <i class="am-icon-circle-o am-icon-dot-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%>
                                     </a> 
-                                    <a class="btn select_extra_bed_month" href="#select">
+                                    <a class="btn select_extra_bed_month" id="different_month" href="#select">
                                         <i class="am-icon-circle-o"></i> <%$arrayLaguage['month_price']['page_laguage_value']%>
                                     </a>
                                 </div>
                             </div>
                             <div class="controls">
-                                <input type="text" name="extra_bed_price" id="extra_bed_price_month" value="" />
+                                <div id="same_price_month"><input class="span1" type="text" name="extra_bed_price" id="extra_bed_price_month" value="" /></div>
+                                <div id="different_price_month" class="hide"></div>
                             </div>
                         </div>
                         <div class="form-actions pagination-centered">

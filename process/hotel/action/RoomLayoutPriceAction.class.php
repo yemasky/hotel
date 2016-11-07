@@ -82,9 +82,7 @@ class RoomLayoutPriceAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
-
         $conditions = DbConfig::$db_query_conditions;
-
         //售卖房型
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                                      'room_layout_valid'=>'1');
@@ -108,12 +106,13 @@ class RoomLayoutPriceAction extends \BaseAction {
         $objResponse -> thisToday = getToDay();
         $objResponse -> toDay = getDay(24*6);
         $objResponse -> thisYear = getYear();
+        $objResponse -> nextYear = $objResponse -> thisYear + 1;
         $objResponse -> thisMonth = getMonth();
         $objResponse -> view = '0';
             //售卖房型
         $objResponse -> arrayRoomLayout = $arrayRoomLayout;
             //价格体系
-        $objResponse -> arrayRoomLayoutPriceSystem = $arrayRoomLayoutPriceSystem;
+        $objResponse -> arrayRoomLayoutPriceSystem = array();//$arrayRoomLayoutPriceSystem;
         //
         $objResponse -> add_roomLayoutPriceSystem_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['add'])));
@@ -135,10 +134,8 @@ class RoomLayoutPriceAction extends \BaseAction {
     }
 
     protected function setPricesWeek($objRequest, $objResponse) {
-        $arrayPostValue= $objRequest->getPost();
-        $arrayTimeBegin = explode('-', $arrayPostValue['time_begin']);
-        $arrayTimeEnd = explode('-', $arrayPostValue['time_end']);
-        
-        return $this->successResponse("", '');
+        $this->setDisplay();
+        $arrayResule = RoomOperateService::instance()->saveRoomLayoutPriceWeek($objRequest, $objResponse);
+        return $this->successResponse($arrayResule[1]);
     }
 }

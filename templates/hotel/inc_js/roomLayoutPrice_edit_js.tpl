@@ -8,23 +8,12 @@ $(document).ready(function(){
     }
     function setKalendar(select_month) {
         var year = $('#room_layout_date_year').val();
-        var month = $('#room_layout_date_month').val();
         var arrayMonth = leapYear(year);
-        var days = arrayMonth[month - 1];
-        var kalendar_html = '';
         var month_option = '';
         var thisMonth = '<%$thisMonth%>';
         var thisYear = '<%$thisYear%>';
         var iMonth = year > thisYear ? 1 : thisMonth;
         var toDay = '<%$thisToday%>';
-        var iDay = (year == thisYear && month == thisMonth) ? toDay : 1;
-        for(var i = iDay; i <= days; i++ ) {
-            var l = i;
-            if(i < 10) l = '0' + i;
-            kalendar_html += '<li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
-                    +'<input id="'+l+'_day" name="'+l+'_day" class="span9" type="text" /></a> </li>';
-        }
-        $('#room_layout_price_kalendar').html(kalendar_html);
         //room_layout_date_month <option value="1">1</option>
         var selected = ''
         
@@ -33,14 +22,45 @@ $(document).ready(function(){
             month_option += '<option value="'+i+'" '+selected+'>'+i+'</option>';
             selected = '';
         }
-        $('#room_layout_date_month').html(month_option);        
+        $('#room_layout_date_month').html(month_option);     
+        //
+        var month = $('#room_layout_date_month').val();
+        var days = arrayMonth[month - 1];
+        var iDay = (year == thisYear && month == thisMonth) ? toDay : 1;
+        var readonly = '';
+        var kalendar_html = '';
+        var nowDate = new Date(year + '-' +  month + '-01');
+        var firstWeek = nowDate.getDay();
+        firstWeek = firstWeek == 0 ? firstWeek = 7 : firstWeek;
+        var num = days + firstWeek;
+        for(var i = 1; i < num; i++ ) {
+            var l = i;// - firstWeek;
+            if(l < firstWeek){
+                l = 00;
+            } else {
+                l = l - firstWeek + 1;
+            }
+            if(l < iDay) readonly = 'readonly';
+            if(l < 10) l = '0' + l;
+            if(l == 00) {
+                kalendar_html += '<li class="none"></li>';
+            } else {
+                kalendar_html += '<li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
+                        +'<input '+readonly+' id="'+l+'_day" name="'+l+'_day" class="span7" type="text" /></a> </li>';
+            }
+            readonly = '';
+            if(i % 7 == 0) {
+                kalendar_html += '<br>';
+            }
+        }
+        $('#room_layout_price_kalendar').html(kalendar_html);   
     }
     function setKalendarWeek() {
         var kalendar_html = '';
         for(var i = 1; i <= 7; i++ ) {
             var l = i;
             if(i < 10) l = '0' + i;
-            kalendar_html += '<li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
+            kalendar_html += '<li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
                     +'<input id="week_'+l+'" name="week_'+l+'" class="span9" type="text" /></a> </li>';
         }
         $('#room_layout_price_week').html(kalendar_html);
@@ -61,7 +81,7 @@ $(document).ready(function(){
     var nextWeekDateToDisable = new Date(weekToDisable.setDate(weekToDisable.getDate() + week_differ));
 	//dateToDisable.setDate(dateToDisable.getDate() - 1);
 	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
-        yearStart: 2015, yearEnd: 2020, yearOffset:1,maxDate:'+1970-01-02',
+        yearStart: '<%$thisYear%>', yearEnd: '<%$nextYear%>', //yearOffset:1,maxDate:'+1970-01-02',
 		beforeShowDay: function(date) {
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false];
@@ -89,11 +109,17 @@ $(document).ready(function(){
 		}
        
 	});
-	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearStart: 2016, yearEnd: 2020,
+	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearStart: '<%$thisYear%>', yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
 			var dateToDisable = new Date($('#time_begin').val());
             dateToDisable.setDate(dateToDisable.getDate() + 6);
 			if (date.getTime() < dateToDisable.getTime()) {
+                //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
+				return [false];
+			}
+            var dateToDisableNext = new Date($('#time_begin').val());
+            dateToDisableNext.setDate(dateToDisableNext.getDate() + 180);
+            if (date.getTime() > dateToDisableNext.getTime()) {
                 //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
 				return [false];
 			}
@@ -103,7 +129,7 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
 	});
-    $('#history_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
+    $('#history_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {
             var dateToDisable = new Date();
 			if (date.getTime() > dateToDisable.getTime()) {
@@ -116,7 +142,7 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         }
 	});
-    $('#history_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
+    $('#history_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
             var dateToDisable = new Date();
 			var dateToBeginDisable = new Date($('#history_begin').val());
@@ -134,11 +160,13 @@ $(document).ready(function(){
     //选择对应的房型和价格体系
     var room_layout_data = {};
     var room_layout = 0;
+    $('#room_layout').val(room_layout);
     var is_extra_bed = false;
 	$('.extra_bed input').attr('disabled', true);
     $('#room_layout').change(function(e) {
         system_id = 0;
         room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
+        if(room_layout < 1) return;
         var extra_bed = $("#room_layout option[value='"+room_layout+"']").attr("extra_bed");
         $('.extra_bed').hide();
 		$('.extra_bed input').attr('disabled', true);
@@ -391,6 +419,19 @@ $(document).ready(function(){
     $('.select_extra_bed_month').click(function(e) {
         $('.select_extra_bed_month i').removeClass('am-icon-dot-circle-o');
         $(this).find('i').addClass('am-icon-dot-circle-o');
+        if($(this).attr('id') == 'same_month') {
+            $('#same_price_month').show();
+            $('#different_price_month').hide();
+            $('#different_price_month ul').remove();
+        } else {
+            $('#same_price_month').hide();
+            $('#different_price_month').show();
+            //$(this).parent().prev().clone().insertBefore($(this).parent());
+            //if($('#different_price_month').html() == '') {
+                $('#different_price_month ul').remove();
+                $('#room_layout_price_kalendar').clone().appendTo($('#different_price_month'));
+            //}
+        }
     });
     var prices_week_validate = $("#prices_week").validate({
 		rules: {
@@ -410,6 +451,12 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
+            if(room_layout == 0) {
+                $('#modal_success').modal('hide');
+                $('#modal_fail').modal('show');
+                $('#modal_fail_message').html('请选择售卖房型！');
+                return;
+            }
             if(system_id == 0) {
                 $('#modal_success').modal('hide');
                 $('#modal_fail').modal('show');
@@ -419,9 +466,19 @@ $(document).ready(function(){
             //var week_begin = 
             var param = $("#prices_week").serialize();
             $.ajax({
-                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week',type : "post",dataType : "json",data: param,
+                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week&room_layout='+room_layout+'&system_id='+system_id,
+                type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
+                    if(data.success == 1) {
+                        $('#modal_fail').modal('hide');
+                        $('#modal_success').modal('show');
+                        $('#modal_success_message').html(data.message);
+                    } else {
+                        $('#modal_success').modal('hide');
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
                 }
             });
 		}
@@ -476,5 +533,6 @@ $(document).ready(function(){
             
 		}
 	});
+    $('#room_layout').val(room_layout);
 })
 </script>

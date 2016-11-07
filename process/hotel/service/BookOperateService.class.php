@@ -6,7 +6,6 @@
  * Time: 0:04
  */
 namespace hotel;
-use vakata\database\Exception;
 
 class BookOperateService extends \BaseService {
     private static $objService = null;
