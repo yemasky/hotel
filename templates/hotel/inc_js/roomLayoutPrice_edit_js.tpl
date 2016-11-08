@@ -27,7 +27,7 @@ $(document).ready(function(){
         var month = $('#room_layout_date_month').val();
         var days = arrayMonth[month - 1];
         var iDay = (year == thisYear && month == thisMonth) ? toDay : 1;
-        var readonly = '';
+        var disabled = '';
         var kalendar_html = '';
         var nowDate = new Date(year + '-' +  month + '-01');
         var firstWeek = nowDate.getDay();
@@ -40,15 +40,15 @@ $(document).ready(function(){
             } else {
                 l = l - firstWeek + 1;
             }
-            if(l < iDay) readonly = 'readonly';
+            if(l < iDay) disabled = 'disabled';
             if(l < 10) l = '0' + l;
             if(l == 00) {
                 kalendar_html += '<li class="none"></li>';
             } else {
                 kalendar_html += '<li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
-                        +'<input '+readonly+' id="'+l+'_day" name="'+l+'_day" class="span7" type="text" /></a> </li>';
+                        +'<input '+disabled+' id="'+l+'_day" name="'+l+'_day" class="span7" type="text" /></a> </li>';
             }
-            readonly = '';
+            disabled = '';
             if(i % 7 == 0) {
                 kalendar_html += '<br>';
             }
@@ -70,6 +70,7 @@ $(document).ready(function(){
         var month = $(this).val();
         if(month > 12) month = 1;
         setKalendar(month);
+        setDifferentExtraBedMonth();
     });
     
     //日历
@@ -175,6 +176,7 @@ $(document).ready(function(){
             $('.extra_bed').show();
             is_extra_bed = true;
 			$('.extra_bed input').attr('disabled', false);
+            setDifferentExtraBedMonth();
         }
         if(typeof(room_layout_data[room_layout]) == 'undefined') {
             $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&room_layout_id='+room_layout, function(result) {
@@ -432,19 +434,21 @@ $(document).ready(function(){
             $('#same_price_month').hide();
             $('#same_price_month input').attr('disabled', true);
             $('#different_price_month').show();
-            $('#different_price_month ul').remove();
-            $('#kalendar_week').clone().appendTo($('#different_price_month'));
-            $('#room_layout_price_kalendar').clone().appendTo($('#different_price_month'));
-            $('#different_price_month ul').each(function(index, element) {
-                $(this).attr('id', 'different_price_month_' + index);
-            });
-            $('#different_price_month_1 input').each(function(index, element) {
-                $(this).attr('id', $(this).attr('id') + '_extra_bed');
-                $(this).attr('name', 'extra_bed[' + $(this).attr('name') + ']');
-            });
-            
+            setDifferentExtraBedMonth();
         }
     });
+    function setDifferentExtraBedMonth() {
+        $('#different_price_month ul').remove();
+        $('#kalendar_week').clone().appendTo($('#different_price_month'));
+        $('#room_layout_price_kalendar').clone().appendTo($('#different_price_month'));
+        $('#different_price_month ul').each(function(index, element) {
+            $(this).attr('id', 'different_price_month_' + index);
+        });
+        $('#different_price_month_1 input').each(function(index, element) {
+            $(this).attr('id', $(this).attr('id') + '_extra_bed');
+            $(this).attr('name', 'extra_bed[' + $(this).attr('name') + ']');
+        });
+    }
     var prices_week_validate = $("#prices_week").validate({
 		rules: {
 			

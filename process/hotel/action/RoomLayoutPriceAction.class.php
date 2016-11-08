@@ -139,15 +139,15 @@ class RoomLayoutPriceAction extends \BaseAction {
 
     protected function setPricesWeek($objRequest, $objResponse) {
         $this->setDisplay();
-        $arrayResule = RoomOperateService::instance()->saveRoomLayoutPriceWeek($objRequest, $objResponse);
-        if($arrayResule[0] == 0) return $this->errorResponse($arrayResule[1]);
-        return $this->successResponse($arrayResule[1]);
+        $arrayResult = RoomOperateService::instance()->saveRoomLayoutPriceWeek($objRequest, $objResponse);
+        if($arrayResult[0] == 0) return $this->errorResponse($arrayResult[1]);
+        return $this->successResponse($arrayResult[1]);
     }
 
     protected function setPricesMonth($objRequest, $objResponse) {
         $this->setDisplay();
-        $arrayResule = RoomOperateService::instance()->saveRoomLayoutPriceMonth($objRequest, $objResponse);
-        if($arrayResule[0] == 0) return $this->errorResponse($arrayResule[1]);
-        return $this->successResponse($arrayResule[1]);
+        $arrayResult = RoomOperateService::instance()->saveRoomLayoutPriceMonth($objRequest, $objResponse);
+        if($arrayResult[0] == 0) return $this->errorResponse($arrayResult[1]);
+        return $this->successResponse($arrayResult[1]);
     }
 }
