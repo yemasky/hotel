@@ -67,11 +67,6 @@ class RoomOperateService extends \BaseService {
             }
             $beginWeek++;
         }
-        $arrayMonthData['room_layout_id'] = $room_layout_id;
-        $arrayMonthData['room_layout_price_system_id'] = $room_layout_price_system_id;
-        $arrayMonthData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $arrayMonthData['room_layout_date_year'] = $arrayTimeBegin['0'];
-        $arrayMonthData['room_layout_date_month'] = $arrayTimeBegin['1'];
         //print_r($arrayMonthData);
         //
         $conditions = DbConfig::$db_query_conditions;
@@ -85,20 +80,25 @@ class RoomOperateService extends \BaseService {
         if(!empty($arrayBeginYear)) {//update
             RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData);
         } else {
+            $arrayMonthData['room_layout_id'] = $room_layout_id;
+            $arrayMonthData['room_layout_price_system_id'] = $room_layout_price_system_id;
+            $arrayMonthData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            $arrayMonthData['room_layout_date_year'] = $arrayTimeBegin['0'];
+            $arrayMonthData['room_layout_date_month'] = $arrayTimeBegin['1'];
             $arrayMonthData['room_layout_price_add_date'] = getDay();
             $arrayMonthData['room_layout_price_add_time'] = getTime();
             RoomService::instance()->saveRoomLayoutPrice($arrayMonthData);
         }
         if(!empty($arrayMonthExtraBedData)) {//加床
-            $arrayMonthExtraBedData['room_layout_id'] = $room_layout_id;
-            $arrayMonthExtraBedData['room_layout_price_system_id'] = $room_layout_price_system_id;
-            $arrayMonthExtraBedData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            $arrayMonthExtraBedData['room_layout_date_year'] = $arrayTimeBegin['0'];
-            $arrayMonthExtraBedData['room_layout_date_month'] = $arrayTimeBegin['1'];
             $arrayExtenBed = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
             if(!empty($arrayExtenBed)) {//update
                 RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrayMonthExtraBedData);
             } else {
+                $arrayMonthExtraBedData['room_layout_id'] = $room_layout_id;
+                $arrayMonthExtraBedData['room_layout_price_system_id'] = $room_layout_price_system_id;
+                $arrayMonthExtraBedData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                $arrayMonthExtraBedData['room_layout_date_year'] = $arrayTimeBegin['0'];
+                $arrayMonthExtraBedData['room_layout_date_month'] = $arrayTimeBegin['1'];
                 $arrayMonthExtraBedData['room_layout_price_add_date'] = getDay();
                 $arrayMonthExtraBedData['room_layout_price_add_time'] = getTime();
                 RoomService::instance()->saveRoomLayoutExtenBedPrice($arrayMonthExtraBedData);
@@ -132,29 +132,29 @@ class RoomOperateService extends \BaseService {
                     'room_layout_id'=>$room_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
                 $arrayBeginYear = RoomService::instance()->getRoomLayoutPrice($conditions);
                 //
-                $arrayMonthData[$i]['room_layout_id'] = $room_layout_id;
-                $arrayMonthData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
-                $arrayMonthData[$i]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-                $arrayMonthData[$i]['room_layout_date_year'] = $arrayTimeBegin['0'];
-                $arrayMonthData[$i]['room_layout_date_month'] = $i;
 
                 if(!empty($arrayBeginYear)) {//update
                     RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData[$i]);
                 } else {
+                    $arrayMonthData[$i]['room_layout_id'] = $room_layout_id;
+                    $arrayMonthData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
+                    $arrayMonthData[$i]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                    $arrayMonthData[$i]['room_layout_date_year'] = $arrayTimeBegin['0'];
+                    $arrayMonthData[$i]['room_layout_date_month'] = $i;
                     $arrayMonthData[$i]['room_layout_price_add_date'] = getDay();
                     $arrayMonthData[$i]['room_layout_price_add_time'] = getTime();
                     RoomService::instance()->saveRoomLayoutPrice($arrayMonthData[$i]);
                 }
                 if(!empty($arrayMonthExtraBedData)) {//加床
-                    $arrayMonthExtraBedData[$i]['room_layout_id'] = $room_layout_id;
-                    $arrayMonthExtraBedData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
-                    $arrayMonthExtraBedData[$i]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-                    $arrayMonthExtraBedData[$i]['room_layout_date_year'] = $arrayTimeBegin['0'];
-                    $arrayMonthExtraBedData[$i]['room_layout_date_month'] = $i;
                     $arrayExtenBed = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
                     if(!empty($arrayExtenBed)) {//update
                         RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrayMonthExtraBedData[$i]);
                     } else {
+                        $arrayMonthExtraBedData[$i]['room_layout_id'] = $room_layout_id;
+                        $arrayMonthExtraBedData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
+                        $arrayMonthExtraBedData[$i]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                        $arrayMonthExtraBedData[$i]['room_layout_date_year'] = $arrayTimeBegin['0'];
+                        $arrayMonthExtraBedData[$i]['room_layout_date_month'] = $i;
                         $arrayMonthExtraBedData[$i]['room_layout_price_add_date'] = getDay();
                         $arrayMonthExtraBedData[$i]['room_layout_price_add_time'] = getTime();
                         RoomService::instance()->saveRoomLayoutExtenBedPrice($arrayMonthExtraBedData[$i]);
@@ -194,29 +194,29 @@ class RoomOperateService extends \BaseService {
                         'room_layout_id'=>$room_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
                     $arrayBeginYear = RoomService::instance()->getRoomLayoutPrice($conditions);
                     //
-                    $arrayMonthData[$i][$j]['room_layout_id'] = $room_layout_id;
-                    $arrayMonthData[$i][$j]['room_layout_price_system_id'] = $room_layout_price_system_id;
-                    $arrayMonthData[$i][$j]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-                    $arrayMonthData[$i][$j]['room_layout_date_year'] = $i;
-                    $arrayMonthData[$i][$j]['room_layout_date_month'] = $j;
 
                     if(!empty($arrayBeginYear)) {//update
                         RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData[$i][$j]);
                     } else {
+                        $arrayMonthData[$i][$j]['room_layout_id'] = $room_layout_id;
+                        $arrayMonthData[$i][$j]['room_layout_price_system_id'] = $room_layout_price_system_id;
+                        $arrayMonthData[$i][$j]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                        $arrayMonthData[$i][$j]['room_layout_date_year'] = $i;
+                        $arrayMonthData[$i][$j]['room_layout_date_month'] = $j;
                         $arrayMonthData[$i][$j]['room_layout_price_add_date'] = getDay();
                         $arrayMonthData[$i][$j]['room_layout_price_add_time'] = getTime();
                         RoomService::instance()->saveRoomLayoutPrice($arrayMonthData[$i][$j]);
                     }
                     if(!empty($arrayMonthExtraBedData)) {//加床
-                        $arrayMonthExtraBedData[$i][$j]['room_layout_id'] = $room_layout_id;
-                        $arrayMonthExtraBedData[$i][$j]['room_layout_price_system_id'] = $room_layout_price_system_id;
-                        $arrayMonthExtraBedData[$i][$j]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-                        $arrayMonthExtraBedData[$i][$j]['room_layout_date_year'] = $i;
-                        $arrayMonthExtraBedData[$i][$j]['room_layout_date_month'] = $j;
                         $arrayExtenBed = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
                         if(!empty($arrayExtenBed)) {//update
                             RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrayMonthExtraBedData[$i][$j]);
                         } else {
+                            $arrayMonthExtraBedData[$i][$j]['room_layout_id'] = $room_layout_id;
+                            $arrayMonthExtraBedData[$i][$j]['room_layout_price_system_id'] = $room_layout_price_system_id;
+                            $arrayMonthExtraBedData[$i][$j]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                            $arrayMonthExtraBedData[$i][$j]['room_layout_date_year'] = $i;
+                            $arrayMonthExtraBedData[$i][$j]['room_layout_date_month'] = $j;
                             $arrayMonthExtraBedData[$i][$j]['room_layout_price_add_date'] = getDay();
                             $arrayMonthExtraBedData[$i][$j]['room_layout_price_add_time'] = getTime();
                             RoomService::instance()->saveRoomLayoutExtenBedPrice($arrayMonthExtraBedData[$i][$j]);
@@ -249,24 +249,22 @@ class RoomOperateService extends \BaseService {
         if(empty($room_layout_id) || empty($room_layout_price_system_id)) {
             return array(0, '传输数据有误！');
         }
+        $day = '';
         for($i = 1; $i <= 31; $i++) {
             $l = $i < 10 ? '0' . $i : $i;
-            if(!empty($objRequest -> $l . '_day')) {
-                $arrayMonthData[$l . '_day'] = $objRequest -> $l . '_day';
+            $day = $l . '_day';
+            if(!empty($objRequest -> $day)) {
+                $arrayMonthData[$day] = $objRequest -> $day;
                 if(!empty($extra_bed_price)) {
-                    $arrayMonthExtraBedData[$l . '_day'] = $extra_bed_price;
+                    $arrayMonthExtraBedData[$day] = $extra_bed_price;
                 }
             }
             if(!empty($arrayExtraBed)) {
-                if(isset($arrayExtraBed[$l . '_day']) && !empty($arrayExtraBed[$l . '_day']))
-                    $arrayMonthExtraBedData[$l . '_day'] = $arrayExtraBed[$l . '_day'];
+                if(isset($arrayExtraBed[$day]) && !empty($arrayExtraBed[$day]))
+                    $arrayMonthExtraBedData[$day] = $arrayExtraBed[$day];
             }
         }
-        $arrayMonthData['room_layout_id'] = $room_layout_id;
-        $arrayMonthData['room_layout_price_system_id'] = $room_layout_price_system_id;
-        $arrayMonthData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $arrayMonthData['room_layout_date_year'] = $room_layout_date_year;
-        $arrayMonthData['room_layout_date_month'] = $room_layout_date_month;
+
         //
         $conditions = DbConfig::$db_query_conditions;
         //售卖房型
@@ -278,20 +276,25 @@ class RoomOperateService extends \BaseService {
         if(!empty($arrayRoomLayoutPrice)) {//update
             RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData);
         } else {
+            $arrayMonthData['room_layout_id'] = $room_layout_id;
+            $arrayMonthData['room_layout_price_system_id'] = $room_layout_price_system_id;
+            $arrayMonthData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            $arrayMonthData['room_layout_date_year'] = $room_layout_date_year;
+            $arrayMonthData['room_layout_date_month'] = $room_layout_date_month;
             $arrayMonthData['room_layout_price_add_date'] = getDay();
             $arrayMonthData['room_layout_price_add_time'] = getTime();
             RoomService::instance()->saveRoomLayoutPrice($arrayMonthData);
         }
         if(!empty($arrayMonthExtraBedData)) {
-            $arrayMonthExtraBedData['room_layout_id'] = $room_layout_id;
-            $arrayMonthExtraBedData['room_layout_price_system_id'] = $room_layout_price_system_id;
-            $arrayMonthExtraBedData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            $arrayMonthExtraBedData['room_layout_date_year'] = $room_layout_date_year;
-            $arrayMonthExtraBedData['room_layout_date_month'] = $room_layout_date_month;
             $arrayExtenBed = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
             if(!empty($arrayExtenBed)) {//update
                 RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrayMonthExtraBedData);
             } else {
+                $arrayMonthExtraBedData['room_layout_id'] = $room_layout_id;
+                $arrayMonthExtraBedData['room_layout_price_system_id'] = $room_layout_price_system_id;
+                $arrayMonthExtraBedData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                $arrayMonthExtraBedData['room_layout_date_year'] = $room_layout_date_year;
+                $arrayMonthExtraBedData['room_layout_date_month'] = $room_layout_date_month;
                 $arrayMonthExtraBedData['room_layout_price_add_date'] = getDay();
                 $arrayMonthExtraBedData['room_layout_price_add_time'] = getTime();
                 RoomService::instance()->saveRoomLayoutExtenBedPrice($arrayMonthExtraBedData);

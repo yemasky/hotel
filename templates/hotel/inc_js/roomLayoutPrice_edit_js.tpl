@@ -46,7 +46,7 @@ $(document).ready(function(){
                 kalendar_html += '<li class="none"></li>';
             } else {
                 kalendar_html += '<li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
-                        +'<input '+disabled+' id="'+l+'_day" name="'+l+'_day" class="span7" type="text" /></a> </li>';
+                        +'<input '+disabled+' id="'+l+'_day" name="'+l+'_day" class="span7 {validate:{ required:true,email:true }}" type="text" /></a> </li>';
             }
             disabled = '';
             if(i % 7 == 0) {
