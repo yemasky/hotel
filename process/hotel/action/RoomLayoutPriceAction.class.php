@@ -72,6 +72,10 @@ class RoomLayoutPriceAction extends \BaseAction {
             $this->setDisplay();
             return $this->setPricesWeek($objRequest, $objResponse);
         }
+        if($objRequest -> search == 'prices_month') {
+            $this->setDisplay();
+            return $this->setPricesMonth($objRequest, $objResponse);
+        }
 
         $this->doEdit($objRequest, $objResponse);
         //
@@ -98,7 +102,7 @@ class RoomLayoutPriceAction extends \BaseAction {
         //价格体系
         $conditions['where'] = array_merge($conditions['where'], array('>'=>array('rlps.room_layout_price_system_id'=>0),
             'rlps.room_layout_price_system_valid'=>'1'));
-        $arrayRoomLayoutPriceSystem = RoomService::instance()->getRoomLayoutPriceSystemFilter($conditions);
+        //$arrayRoomLayoutPriceSystem = RoomService::instance()->getRoomLayoutPriceSystemFilter($conditions);
         //
 
         //赋值
@@ -136,6 +140,14 @@ class RoomLayoutPriceAction extends \BaseAction {
     protected function setPricesWeek($objRequest, $objResponse) {
         $this->setDisplay();
         $arrayResule = RoomOperateService::instance()->saveRoomLayoutPriceWeek($objRequest, $objResponse);
+        if($arrayResule[0] == 0) return $this->errorResponse($arrayResule[1]);
+        return $this->successResponse($arrayResule[1]);
+    }
+
+    protected function setPricesMonth($objRequest, $objResponse) {
+        $this->setDisplay();
+        $arrayResule = RoomOperateService::instance()->saveRoomLayoutPriceMonth($objRequest, $objResponse);
+        if($arrayResule[0] == 0) return $this->errorResponse($arrayResule[1]);
         return $this->successResponse($arrayResule[1]);
     }
 }

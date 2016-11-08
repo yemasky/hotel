@@ -788,7 +788,6 @@ insert  into `room_layout_images`(`room_layout_images_id`,`hotel_id`,`room_layou
 DROP TABLE IF EXISTS `room_layout_price`;
 
 CREATE TABLE `room_layout_price` (
-  `room_layout_price_id` bigint(19) NOT NULL AUTO_INCREMENT COMMENT '价格ID',
   `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
   `hotel_id` int(11) NOT NULL,
   `room_layout_price_system_id` int(11) NOT NULL COMMENT '价格体系',
@@ -802,8 +801,8 @@ CREATE TABLE `room_layout_price` (
   `room_layout_price_add_time` time NOT NULL COMMENT '房价添加时间',
   `room_layout_price_is_active` enum('0','1','-1') DEFAULT '1' COMMENT '是否在活动状态的价格 0不活动 1活动 -1删除',
   `employee_id` int(11) NOT NULL COMMENT '操作员工',
-  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') DEFAULT NULL,
-  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') DEFAULT NULL,
+  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
+  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
   `01_day` tinyint(3) DEFAULT NULL,
   `02_day` tinyint(3) DEFAULT NULL,
   `03_day` tinyint(3) DEFAULT NULL,
@@ -835,19 +834,19 @@ CREATE TABLE `room_layout_price` (
   `29_day` tinyint(3) DEFAULT NULL,
   `30_day` tinyint(3) DEFAULT NULL,
   `31_day` tinyint(3) DEFAULT NULL,
-  PRIMARY KEY (`room_layout_price_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_date_year`,`room_layout_date_month`),
+  UNIQUE KEY `room_price` (`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_date_year`,`room_layout_date_month`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_price` */
 
-insert  into `room_layout_price`(`room_layout_price_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_price`,`room_layout_extra_bed_price`,`room_layout_price_begin_datetime`,`room_layout_price_end_datetime`,`room_layout_price_ahead_datetime`,`room_layout_price_type`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (0,0,0,0,0,0,'0000-00-00','0000-00-00',0,'custom','0000-00-00','00:00:00','1',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,1,1,600,0,'2016-10-17','2017-01-31',0,'custom','2016-10-17','00:00:00','1',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,2,1,1,500,100,'2016-10-19','2017-01-28',0,'custom','2016-10-19','00:00:00','1',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `room_layout_price`(`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_price`,`room_layout_extra_bed_price`,`room_layout_price_begin_datetime`,`room_layout_price_end_datetime`,`room_layout_price_ahead_datetime`,`room_layout_price_type`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (0,0,0,0,0,'0000-00-00','0000-00-00',0,'custom','0000-00-00','00:00:00','1',0,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,1,600,0,'2016-10-17','2017-01-31',0,'custom','2016-10-17','00:00:00','1',1,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-07','14:44:54','1',0,'2016','11',NULL,NULL,NULL,NULL,NULL,NULL,1,2,3,4,5,6,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-07','14:42:25','1',0,'2016','12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,2,3,4,5,6),(1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-07','14:39:24','1',0,'2017','1',4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6),(1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-07','14:39:24','1',0,'2017','2',4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,3,4,5),(1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-07','14:39:24','1',0,'2017','3',4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,NULL),(2,1,1,500,100,'2016-10-19','2017-01-28',0,'custom','2016-10-19','00:00:00','1',1,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','10:11:40','1',0,'2016','11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:22:30','1',0,'2016','12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:22:30','1',0,'2017','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:22:30','1',0,'2017','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:22:30','1',0,'2017','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:13:21','1',0,'2016','11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:13:21','1',0,'2016','12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:13:21','1',0,'2017','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:13:21','1',0,'2017','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','11:13:21','1',0,'2017','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `room_layout_price_extra_bed` */
 
 DROP TABLE IF EXISTS `room_layout_price_extra_bed`;
 
 CREATE TABLE `room_layout_price_extra_bed` (
-  `room_layout_price_id` bigint(19) NOT NULL DEFAULT '0' COMMENT 'ID',
   `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
   `hotel_id` int(11) NOT NULL,
   `room_layout_price_system_id` int(11) NOT NULL COMMENT '价格体系',
@@ -855,8 +854,8 @@ CREATE TABLE `room_layout_price_extra_bed` (
   `room_layout_price_add_time` time NOT NULL COMMENT '添加时间',
   `room_layout_price_is_active` enum('0','1','-1') DEFAULT '1' COMMENT '是否在活动状态的价格 0不活动 1活动 -1删除',
   `employee_id` int(11) NOT NULL COMMENT '操作员工',
-  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') DEFAULT NULL,
-  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') DEFAULT NULL,
+  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
+  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
   `01_day` tinyint(3) DEFAULT NULL,
   `02_day` tinyint(3) DEFAULT NULL,
   `03_day` tinyint(3) DEFAULT NULL,
@@ -887,7 +886,8 @@ CREATE TABLE `room_layout_price_extra_bed` (
   `28_day` tinyint(3) DEFAULT NULL,
   `29_day` tinyint(3) DEFAULT NULL,
   `30_day` tinyint(3) DEFAULT NULL,
-  `31_day` tinyint(3) DEFAULT NULL
+  `31_day` tinyint(3) DEFAULT NULL,
+  PRIMARY KEY (`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_date_year`,`room_layout_date_month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_price_extra_bed` */

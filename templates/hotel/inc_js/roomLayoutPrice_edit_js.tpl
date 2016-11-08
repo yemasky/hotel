@@ -410,10 +410,14 @@ $(document).ready(function(){
         $(this).find('i').addClass('am-icon-dot-circle-o');
         if($(this).attr('id') == 'same_week') {
             $('#same_price_week').show();
+            $('#same_price_week input').attr('disabled', false);
             $('#different_price_week').hide();
+            $('#different_price_week input').attr('disabled', true);
         } else {
             $('#same_price_week').hide();
+            $('#same_price_week input').attr('disabled', true);
             $('#different_price_week').show();
+            $('#different_price_week input').attr('disabled', false);
         }
     });
     $('.select_extra_bed_month').click(function(e) {
@@ -421,16 +425,24 @@ $(document).ready(function(){
         $(this).find('i').addClass('am-icon-dot-circle-o');
         if($(this).attr('id') == 'same_month') {
             $('#same_price_month').show();
+            $('#same_price_month input').attr('disabled', false);
             $('#different_price_month').hide();
             $('#different_price_month ul').remove();
         } else {
             $('#same_price_month').hide();
+            $('#same_price_month input').attr('disabled', true);
             $('#different_price_month').show();
-            //$(this).parent().prev().clone().insertBefore($(this).parent());
-            //if($('#different_price_month').html() == '') {
-                $('#different_price_month ul').remove();
-                $('#room_layout_price_kalendar').clone().appendTo($('#different_price_month'));
-            //}
+            $('#different_price_month ul').remove();
+            $('#kalendar_week').clone().appendTo($('#different_price_month'));
+            $('#room_layout_price_kalendar').clone().appendTo($('#different_price_month'));
+            $('#different_price_month ul').each(function(index, element) {
+                $(this).attr('id', 'different_price_month_' + index);
+            });
+            $('#different_price_month_1 input').each(function(index, element) {
+                $(this).attr('id', $(this).attr('id') + '_extra_bed');
+                $(this).attr('name', 'extra_bed[' + $(this).attr('name') + ']');
+            });
+            
         }
     });
     var prices_week_validate = $("#prices_week").validate({
@@ -502,11 +514,34 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
+            if(room_layout == 0) {
+                $('#modal_success').modal('hide');
+                $('#modal_fail').modal('show');
+                $('#modal_fail_message').html('请选择售卖房型！');
+                return;
+            }
+            if(system_id == 0) {
+                $('#modal_success').modal('hide');
+                $('#modal_fail').modal('show');
+                $('#modal_fail_message').html('请选择价格体系！');
+                return;
+            }
             var param = $("#prices_month").serialize();
             $.ajax({
-                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_month',type : "post",dataType : "json",data: param,
+                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_month&room_layout='+room_layout+'&system_id='+system_id,
+                type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
+                     data = result;
+                    if(data.success == 1) {
+                        $('#modal_fail').modal('hide');
+                        $('#modal_success').modal('show');
+                        $('#modal_success_message').html(data.message);
+                    } else {
+                        $('#modal_success').modal('hide');
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
                 }
             });
 		}

@@ -5,14 +5,12 @@
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <style type="text/css">
-.quick-actions li a {
-    padding: 10px 5px 5px;
-}
+.quick-actions li a { padding: 10px 5px 5px;}
 .pagination-left { text-align:left }
 .stat-boxes, .quick-actions, .quick-actions-horizontal, .stats-plain { margin:0px;}
 .stat-boxes li, .quick-actions li, .quick-actions-horizontal li,#kalendar_week li{margin:0px 5px 5px 0;}
 .quick-actions li{max-width:210px; min-width:210px; width:210px;}
-#room_layout_price_kalendar li,#kalendar_week li{max-width:120px; min-width:120px; width:120px;}
+#room_layout_price_kalendar li,#kalendar_week li, #different_price_month li{max-width:120px; min-width:120px; width:120px;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #hotel_service input{margin:0px 2px 0px 8px;}
 #hotel_service label{display: inline-block;}
@@ -189,25 +187,25 @@
                                 <div id="different_price_week" class="hide">
                                     <ul class="quick-actions pagination-left" id="room_layout_same_price_week">
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
-                                            <input id="extra_bed_week_1" name="extra_bed_week_1" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_1" name="extra_bed[week_1]" class="span8" type="text" /></a> 
                                         </li>
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
-                                            <input id="extra_bed_week_2" name="extra_bed_week_2" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_2" name="extra_bed[week_2]" class="span8" type="text" /></a> 
                                         </li>
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
-                                            <input id="extra_bed_week_3" name="extra_bed_week_3" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_3" name="extra_bed[week_3]" class="span8" type="text" /></a> 
                                         </li>
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
-                                            <input id="extra_bed_week_4" name="extra_bed_week_4" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_4" name="extra_bed[week_4]" class="span8" type="text" /></a> 
                                         </li>
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
-                                            <input id="extra_bed_week_5" name="extra_bed_week_5" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_5" name="extra_bed[week_5]" class="span8" type="text" /></a> 
                                         </li>
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
-                                            <input id="extra_bed_week_6" name="extra_bed_week_6" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_6" name="extra_bed[week_6]" class="span8" type="text" /></a> 
                                         </li>
                                         <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
-                                            <input id="extra_bed_week_7" name="extra_bed_week_7" class="span8" type="text" /></a> 
+                                            <input id="extra_bed_week_7" name="extra_bed[week_7]" class="span8" type="text" /></a> 
                                         </li>
                                     </ul>
                                 </div>
@@ -245,17 +243,15 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <div class="controls">
-                                <ul class="quick-actions pagination-left" id="kalendar_week">
-                                    <li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i></a></li><li><a href="#"><i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i></a></li>
-                                </ul>
-                            </div>
                             <label class="control-label"><%$arrayLaguage['set_price']['page_laguage_value']%> :</label>
                             <div class="controls">
+                                 <ul class="quick-actions pagination-left" id="kalendar_week">
+                                    <li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i></a></li>
+                                </ul>
                                 <ul class="quick-actions pagination-left" id="room_layout_price_kalendar"></ul>
                             </div>
                         </div>
-                        <div class="control-group extra_bed">
+                        <div class="control-group hide extra_bed">
                             <label class="control-label"><%$arrayLaguage['extra_bed_price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <div class="btn-group">
