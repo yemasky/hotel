@@ -66,37 +66,53 @@ $(document).ready(function(){
         $('#room_layout_price_week').html(kalendar_html);
     }
     setKalendar('');
-    var historyPrice = {};
     $('#room_layout_date_month,#room_layout_date_year').change(function(e) {
         var month = $(this).val();
         if(month > 12) month = 1;
         setKalendar(month);
         setDifferentExtraBedMonth();
+        setHistoryPrice();
+    });
+    var historyPrice = {};
+    function setHistoryPrice() {
         if(room_layout > 0 && system_id > 0) {
+            $('#room_layout_price_kalendar input').val('');
             var year = $('#room_layout_date_year').val();
             var month = $('#room_layout_date_month').val();
-            var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyPrice&room_layout='+room_layout
-                     +'&system_id='+system_id + '&year=' + year + '&month='+month;
-            $.getJSON(url, function(result) {
-                data = result;
-                if(data.success == 1) {
-                    itemData = data.itemData;
-                    console.log(itemData);
-                    if(itemData != '' && typeof(itemData['room_price'][0]) != 'undefined') {
-                        itemData = itemData['room_price'][0];
-                        for(i in itemData) {
-                            $('#'+i).val(itemData[i]);
-                            //console.log(i);
+            var key = room_layout+'：'+system_id + '：' + year + '：'+month;
+            if(typeof(historyPrice[key]) == 'undefined' || historyPrice[key] == '') {
+                var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyPrice&room_layout='+room_layout
+                         +'&system_id='+system_id + '&year=' + year + '&month='+month;
+                $.getJSON(url, function(result) {
+                    data = result;
+                    if(data.success == 1) {
+                        itemData = data.itemData;
+                        //console.log(itemData);
+                        if(itemData != '' && typeof(itemData['room_price'][0]) != 'undefined') {
+                            var _roomPrice = itemData['room_price'][0];
+                            historyPrice[key] = _roomPrice;
+                            for(i in _roomPrice) {
+                                $('#'+i).val(_roomPrice[i]);
+                            }
+                            if(typeof(itemData['extra_bed_price'][0]) != 'undefined') {
+                                historyPrice[key+'_extra_bed_price'] = itemData['extra_bed_price'][0];
+                            }
                         }
+                    } else {
+                        $('#modal_success').modal('hide');
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
                     }
-                } else {
-                    $('#modal_success').modal('hide');
-                    $('#modal_fail').modal('show');
-                    $('#modal_fail_message').html(data.message);
+                })
+            }else {
+                var _roomPrice = historyPrice[key];
+                for(i in _roomPrice) {
+                    $('#'+i).val(_roomPrice[i]);
+                    //console.log(i);
                 }
-            })
+            }
         }
-    });
+    }
     
     //日历
 	$.datetimepicker.setLocale('ch');
@@ -230,6 +246,8 @@ $(document).ready(function(){
                 systemPricesEditClick(this);
             });
         }
+        $('#title_price').hide();
+        $('#title_content').hide();
     });
     function createSystemPriceHtml(htmlData) {
         var html = '<div class="btn-group system_prices" data-id="1"><a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> 基本房费</a></div> ';
@@ -263,6 +281,9 @@ $(document).ready(function(){
         $('.system_prices .btn i').addClass('am-icon-circle-o');
         $(_this).find('.btn i').removeClass('am-icon-circle-o');
         $(_this).find('.btn i').addClass('am-icon-dot-circle-o');
+        setHistoryPrice();
+        $('#title_price').show();
+        $('#title_content').show();
     }
     var layout_id = 0;
     $('.system_prices_edit').click(function(e) {
@@ -516,6 +537,7 @@ $(document).ready(function(){
                         $('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
+                        historyPrice = {};
                     } else {
                         $('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
@@ -567,6 +589,8 @@ $(document).ready(function(){
                         $('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
+                        var key = room_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
+                        historyPrice[key] = '';
                     } else {
                         $('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');

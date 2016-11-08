@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget-title">
+                <div class="widget-title hide" id="title_price">
                     <ul class="nav nav-tabs">
                         <li class="active" id="prices_on_a_week"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['set_prices_on_a_week']['page_laguage_value']%></a></li>
                         <li id="prices_on_a_monthly"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['set_prices_on_a_monthly']['page_laguage_value']%></a></li>
@@ -131,7 +131,7 @@
 
                     </ul>
                 </div>
-                <div class="widget-content tab-content nopadding">
+                <div class="widget-content tab-content nopadding hide" id="title_content">
                     <div id="tab1" class="tab-pane active">
                     	<form method="post" class="form-horizontal" enctype="multipart/form-data" name="prices_week" id="prices_week" novalidate>
                         <div class="control-group">

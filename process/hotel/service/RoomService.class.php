@@ -152,15 +152,15 @@ class RoomService extends \BaseService {
     }
 
     //加床
-    public function getRoomLayoutExtenBedPrice($conditions, $field = null, $hashKey = null) {
+    public function getRoomLayoutExtraBedPrice($conditions, $field = null, $hashKey = null) {
         return RoomDao::instance()->setTable('room_layout_price_extra_bed')->getList($conditions, $field, $hashKey);
     }
 
-    public function saveRoomLayoutExtenBedPrice($arrayData) {
+    public function saveRoomLayoutExtraBedPrice($arrayData) {
         return RoomDao::instance()->setTable('room_layout_price_extra_bed')->insert($arrayData);
     }
 
-    public function updateRoomLayoutExtenBedPrice($where, $row) {
+    public function updateRoomLayoutExtraBedPrice($where, $row) {
         return RoomDao::instance()->setTable('room_layout_price_extra_bed')->update($where, $row);
     }
     //价格体系

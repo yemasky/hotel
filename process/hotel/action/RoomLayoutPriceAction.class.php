@@ -171,7 +171,7 @@ class RoomLayoutPriceAction extends \BaseAction {
         }
         $field = trim($field, ',');
         $arraySystemPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $field);
-        $arrayEntenBedPrice = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions, $field);
-        return $this->successResponse('', array('room_price'=>$arraySystemPrice, 'extend_bed_price'=>$arrayEntenBedPrice));
+        $arrayExtraBedPrice = RoomService::instance()->getRoomLayoutExtraBedPrice($conditions, $field);
+        return $this->successResponse('', array('room_price'=>$arraySystemPrice, 'extra_bed_price'=>$arrayExtraBedPrice));
     }
 }
