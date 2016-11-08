@@ -39,7 +39,7 @@ class RoomOperateService extends \BaseService {
             return array(0, '传输数据有误！');
         }
         //
-        $beginWeek = date("w", strtotime($arrayPostValue['time_begin']));
+        $beginWeek = date("N", strtotime($arrayPostValue['time_begin']));
         $beginT = date("t", strtotime($arrayPostValue['time_begin']));
         $arrarMonthData = array();
         $arrarMonthExtraBedData = array();
@@ -111,7 +111,7 @@ class RoomOperateService extends \BaseService {
                 $arrarMonthExtraBedData = array();
                 $endT = date("t", strtotime($arrayPostValue['time_begin']));
                 if($i == $arrayTimeEnd[1]) $endT = $arrayTimeEnd[2];
-                $beginWeek = date("w", strtotime($arrayTimeBegin[0] . '-' . $i . '-1'));
+                $beginWeek = date("N", strtotime($arrayTimeBegin[0] . '-' . $i . '-1'));
                 for($j = 1; $j <= $endT; $j++) {
                     if($beginWeek > 7) $beginWeek = $beginWeek - 7;
                     $day = $j < 10 ? '0' . $j : $j;
@@ -153,11 +153,11 @@ class RoomOperateService extends \BaseService {
                     $arrarMonthExtraBedData[$i]['room_layout_date_month'] = $i;
                     $arrayExtenBed = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
                     if(!empty($arrayExtenBed)) {//update
-                        RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrarMonthExtraBedData);
+                        RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrarMonthExtraBedData[$i]);
                     } else {
                         $arrarMonthExtraBedData[$i]['room_layout_price_add_date'] = getDay();
                         $arrarMonthExtraBedData[$i]['room_layout_price_add_time'] = getTime();
-                        RoomService::instance()->saveRoomLayoutExtenBedPrice($arrarMonthExtraBedData);
+                        RoomService::instance()->saveRoomLayoutExtenBedPrice($arrarMonthExtraBedData[$i]);
                     }
                 }
             }
@@ -170,9 +170,10 @@ class RoomOperateService extends \BaseService {
                 for($j = $beginMonth; $j <= $endMonth; $j++) {
                     $arrarMonthData = array();
                     $arrarMonthExtraBedData = array();
-                    $endT = date("t", strtotime($i . '-' . $j . '-01'));
+                    $endT = date("t", strtotime($i . '-' . $j . '-1'));
                     if($i == $arrayTimeEnd[0] && $j == $arrayTimeEnd[1]) $endT = $arrayTimeEnd[2];
-                    $beginWeek = date("w", strtotime($arrayTimeBegin[0] . '-' . $i . '-1'));
+                    $beginWeek = date("N", strtotime($i . '-' . $j . '-1'));
+                    //echo $i . '-' . $j . '-1---' . $beginWeek . '--<br>';//exit();
                     for($k = 1; $k <= $endT; $k++) {
                         if($beginWeek > 7) $beginWeek = $beginWeek - 7;
                         $day = $k < 10 ? '0' . $k : $k;
@@ -214,11 +215,11 @@ class RoomOperateService extends \BaseService {
                         $arrarMonthExtraBedData[$i][$j]['room_layout_date_month'] = $j;
                         $arrayExtenBed = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
                         if(!empty($arrayExtenBed)) {//update
-                            RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrarMonthExtraBedData);
+                            RoomService::instance()->updateRoomLayoutExtenBedPrice($conditions['where'], $arrarMonthExtraBedData[$i][$j]);
                         } else {
                             $arrarMonthExtraBedData[$i][$j]['room_layout_price_add_date'] = getDay();
                             $arrarMonthExtraBedData[$i][$j]['room_layout_price_add_time'] = getTime();
-                            RoomService::instance()->saveRoomLayoutExtenBedPrice($arrarMonthExtraBedData);
+                            RoomService::instance()->saveRoomLayoutExtenBedPrice($arrarMonthExtraBedData[$i][$j]);
                         }
                     }
                 }

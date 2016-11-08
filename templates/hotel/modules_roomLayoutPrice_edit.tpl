@@ -145,25 +145,25 @@
                             <label class="control-label"><%$arrayLaguage['set_price']['page_laguage_value']%> :</label>
                             <div class="controls">
                                 <ul class="quick-actions pagination-left" id="room_layout_price_week">
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
                                         <input id="week_1" name="week_1" class="span8" type="text" /></a> 
                                     </li>
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
                                         <input id="week_2" name="week_2" class="span8" type="text" /></a> 
                                     </li>
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
                                         <input id="week_3" name="week_3" class="span8" type="text" /></a> 
                                     </li>
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
                                         <input id="week_4" name="week_4" class="span8" type="text" /></a> 
                                     </li>
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
                                         <input id="week_5" name="week_5" class="span8" type="text" /></a> 
                                     </li>
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
                                         <input id="week_6" name="week_6" class="span8" type="text" /></a> 
                                     </li>
-                                    <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
+                                    <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
                                         <input id="week_7" name="week_7" class="span8" type="text" /></a> 
                                     </li>
                                 </ul>
@@ -186,25 +186,25 @@
                                 <div id="same_price_week"><input class="span1" type="text" name="extra_bed_price" id="extra_bed_price_week" value="" /></div>
                                 <div id="different_price_week" class="hide">
                                     <ul class="quick-actions pagination-left" id="room_layout_same_price_week">
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i>
                                             <input id="extra_bed_week_1" name="extra_bed[week_1]" class="span8" type="text" /></a> 
                                         </li>
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i>
                                             <input id="extra_bed_week_2" name="extra_bed[week_2]" class="span8" type="text" /></a> 
                                         </li>
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i>
                                             <input id="extra_bed_week_3" name="extra_bed[week_3]" class="span8" type="text" /></a> 
                                         </li>
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i>
                                             <input id="extra_bed_week_4" name="extra_bed[week_4]" class="span8" type="text" /></a> 
                                         </li>
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i>
                                             <input id="extra_bed_week_5" name="extra_bed[week_5]" class="span8" type="text" /></a> 
                                         </li>
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i>
                                             <input id="extra_bed_week_6" name="extra_bed[week_6]" class="span8" type="text" /></a> 
                                         </li>
-                                        <li> <a href="#"> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
+                                        <li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i>
                                             <input id="extra_bed_week_7" name="extra_bed[week_7]" class="span8" type="text" /></a> 
                                         </li>
                                     </ul>
