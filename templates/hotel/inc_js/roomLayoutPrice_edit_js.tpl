@@ -96,6 +96,12 @@ $(document).ready(function(){
                             }
                             if(typeof(itemData['extra_bed_price'][0]) != 'undefined') {
                                 historyPrice[key+'_extra_bed_price'] = itemData['extra_bed_price'][0];
+                                var _extraBedPrice = historyPrice[key+'_extra_bed_price'];
+                                for(i in _extraBedPrice) {
+                                    $('#'+i+'_extra_bed').val(_extraBedPrice[i]);
+                                }
+                            } else {
+                                historyPrice[key+'_extra_bed_price'] = '';
                             }
                         }
                     } else {
@@ -109,6 +115,14 @@ $(document).ready(function(){
                 for(i in _roomPrice) {
                     $('#'+i).val(_roomPrice[i]);
                     //console.log(i);
+                }
+                if(typeof(historyPrice[key+'_extra_bed_price']) != 'undefined') {
+                    var _extraBedPrice = historyPrice[key+'_extra_bed_price'];
+                    console.log(_extraBedPrice);
+                    for(i in _extraBedPrice) {
+                        console.log(i +'===>'+ $('#'+i+'_extra_bed').val());
+                        $('#'+i+'_extra_bed').val(_extraBedPrice[i]);
+                    }
                 }
             }
         }
@@ -494,6 +508,15 @@ $(document).ready(function(){
             $(this).attr('id', $(this).attr('id') + '_extra_bed');
             $(this).attr('name', 'extra_bed[' + $(this).attr('name') + ']');
         });
+        $('#different_price_month_1 input').val('');
+        var key = room_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
+        if(typeof(historyPrice[key+'_extra_bed_price']) != 'undefined') {
+            var _extraBedPrice = historyPrice[key+'_extra_bed_price'];
+            console.log(_extraBedPrice);
+            for(i in _extraBedPrice) {
+                $('#'+i+'_extra_bed').val(_extraBedPrice[i]);
+            }
+        }
     }
     
     var prices_week_validate = $("#prices_week").validate({
@@ -591,6 +614,7 @@ $(document).ready(function(){
                         $('#modal_success_message').html(data.message);
                         var key = room_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
                         historyPrice[key] = '';
+                        historyPrice[key+'_extra_bed_price'] = '';
                     } else {
                         $('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
