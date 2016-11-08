@@ -15,7 +15,7 @@ $(document).ready(function(){
         var iMonth = year > thisYear ? 1 : thisMonth;
         var toDay = '<%$thisToday%>';
         //room_layout_date_month <option value="1">1</option>
-        var selected = ''
+        var selected = '';
         
         for(var i = iMonth; i <= 12; i++) {
             if(i == select_month) selected = "selected";
@@ -46,7 +46,7 @@ $(document).ready(function(){
                 kalendar_html += '<li class="none"></li>';
             } else {
                 kalendar_html += '<li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
-                        +'<input '+disabled+' id="'+l+'_day" name="'+l+'_day" class="span7 {validate:{ required:true,email:true }}" type="text" /></a> </li>';
+                        +'<input '+disabled+' id="'+l+'_day" name="'+l+'_day" class="span7" type="text" /></a> </li>';
             }
             disabled = '';
             if(i % 7 == 0) {
@@ -78,7 +78,22 @@ $(document).ready(function(){
             var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyPrice&room_layout='+room_layout
                      +'&system_id='+system_id + '&year=' + year + '&month='+month;
             $.getJSON(url, function(result) {
-                
+                data = result;
+                if(data.success == 1) {
+                    itemData = data.itemData;
+                    console.log(itemData);
+                    if(itemData != '' && typeof(itemData['room_price'][0]) != 'undefined') {
+                        itemData = itemData['room_price'][0];
+                        for(i in itemData) {
+                            $('#'+i).val(itemData[i]);
+                            //console.log(i);
+                        }
+                    }
+                } else {
+                    $('#modal_success').modal('hide');
+                    $('#modal_fail').modal('show');
+                    $('#modal_fail_message').html(data.message);
+                }
             })
         }
     });
