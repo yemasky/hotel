@@ -72,9 +72,10 @@ class RoomLayoutPriceAction extends \BaseAction {
             $this->setDisplay();
             return $this->setPricesWeek($objRequest, $objResponse);
         }
-        if($objRequest -> search == 'prices_month') {
+        if(
+        $objRequest -> search == 'historyPrice') {
             $this->setDisplay();
-            return $this->setPricesMonth($objRequest, $objResponse);
+            return $this->getHistoryPrice($objRequest, $objResponse);
         }
 
         $this->doEdit($objRequest, $objResponse);
@@ -149,5 +150,19 @@ class RoomLayoutPriceAction extends \BaseAction {
         $arrayResult = RoomOperateService::instance()->saveRoomLayoutPriceMonth($objRequest, $objResponse);
         if($arrayResult[0] == 0) return $this->errorResponse($arrayResult[1]);
         return $this->successResponse($arrayResult[1]);
+    }
+
+    protected function getHistoryPrice($objRequest, $objResponse) {
+        $this->setDisplay();
+        $year = $objRequest->year;
+        $month = $objRequest->month;
+        $system_id = $objRequest->system_id;
+        $room_layout_id = $objRequest->room_layout_id;
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('room_layout_date_year'=>$year, 'room_layout_date_month'=>$month, 'room_layout_id'=>$room_layout_id,
+            'room_layout_price_system_id'=>$system_id);
+        $arraySystemPrice = RoomService::instance()->getRoomLayoutPrice($conditions);
+        $arrayEntenBedPrice = RoomService::instance()->getRoomLayoutExtenBedPrice($conditions);
+        return $this->successResponse(array('room_price'=>$arraySystemPrice, 'extend_bed_price'=>$arrayEntenBedPrice));
     }
 }

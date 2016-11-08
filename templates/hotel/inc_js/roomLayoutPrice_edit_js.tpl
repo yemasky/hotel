@@ -66,11 +66,21 @@ $(document).ready(function(){
         $('#room_layout_price_week').html(kalendar_html);
     }
     setKalendar('');
+    var historyPrice = {};
     $('#room_layout_date_month,#room_layout_date_year').change(function(e) {
         var month = $(this).val();
         if(month > 12) month = 1;
         setKalendar(month);
         setDifferentExtraBedMonth();
+        if(room_layout > 0 && system_id > 0) {
+            var year = $('#room_layout_date_year').val();
+            var month = $('#room_layout_date_month').val();
+            var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyPrice&room_layout='+room_layout
+                     +'&system_id='+system_id + '&year=' + year + '&month='+month;
+            $.getJSON(url, function(result) {
+                
+            })
+        }
     });
     
     //日历
@@ -449,6 +459,7 @@ $(document).ready(function(){
             $(this).attr('name', 'extra_bed[' + $(this).attr('name') + ']');
         });
     }
+    
     var prices_week_validate = $("#prices_week").validate({
 		rules: {
 			
@@ -573,5 +584,6 @@ $(document).ready(function(){
 		}
 	});
     $('#room_layout').val(room_layout);
+    $('#s2id_room_layout span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
 })
 </script>
