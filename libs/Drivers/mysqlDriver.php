@@ -22,6 +22,10 @@ class mysqlDriver{
 		if($this->conn == false) {
 			throw new SQLException("数据库链接错误: " . mysql_error());
 		}
+		if(mysql_select_db($dbConfig['database'], $this->conn)) {
+		} else {
+			throw new SQLException("无法找到数据库，请确认数据库名称正确！");
+		} // $this -> query();
 		//$this->execute('SET NAMES UTF8;');
 	}
 
