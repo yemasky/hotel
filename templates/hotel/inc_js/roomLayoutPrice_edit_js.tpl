@@ -223,6 +223,7 @@ $(document).ready(function(){
     $('#room_layout').change(function(e) {
         $('#title_price').hide();
         $('#title_content').hide();
+        $('#system_prices_html').html('');
         system_id = 0;
         room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
         if(room_layout < 1) return;
