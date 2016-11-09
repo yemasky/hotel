@@ -256,16 +256,16 @@
                             <div class="controls">
                                 <div class="btn-group">
                                     <a class="btn select_extra_bed_month" id="same_month" href="#select">
-                                        <i class="am-icon-circle-o am-icon-dot-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%>
+                                        <i class="am-icon-circle-o"></i> <%$arrayLaguage['uniform_price']['page_laguage_value']%>
                                     </a> 
                                     <a class="btn select_extra_bed_month" id="different_month" href="#select">
-                                        <i class="am-icon-circle-o"></i> <%$arrayLaguage['month_price']['page_laguage_value']%>
+                                        <i class="am-icon-circle-o am-icon-dot-circle-o"></i> <%$arrayLaguage['month_price']['page_laguage_value']%>
                                     </a>
                                 </div>
                             </div>
                             <div class="controls">
-                                <div id="same_price_month"><input class="span1" type="text" name="extra_bed_price" id="extra_bed_price_month" value="" /></div>
-                                <div id="different_price_month" class="hide"></div>
+                                <div id="same_price_month" class="hide"><input class="span1" type="text" name="extra_bed_price" id="extra_bed_price_month" value="" /></div>
+                                <div id="different_price_month"></div>
                             </div>
                         </div>
                         <div class="form-actions pagination-centered">

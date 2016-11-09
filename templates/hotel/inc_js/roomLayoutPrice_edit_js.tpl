@@ -77,6 +77,7 @@ $(document).ready(function(){
     function setHistoryPrice() {
         if(room_layout > 0 && system_id > 0) {
             $('#room_layout_price_kalendar input').val('');
+            $('#different_price_month_1 input').val('');
             var year = $('#room_layout_date_year').val();
             var month = $('#room_layout_date_month').val();
             var key = room_layout+'：'+system_id + '：' + year + '：'+month;
