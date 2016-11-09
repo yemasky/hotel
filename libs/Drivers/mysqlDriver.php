@@ -22,12 +22,12 @@ class mysqlDriver{
 		if($this->conn == false) {
 			throw new SQLException("数据库链接错误: " . mysql_error());
 		}
-		if(mysql_select_db($dbConfig['database'], $this->conn)) {
-		} else {
-			throw new SQLException("无法找到数据库，请确认数据库名称正确！");
-		} // $this -> query();
 		//$this->execute('SET NAMES UTF8;');
 	}
+
+    public function setCharacter($character) {
+        $this->execute('SET NAMES ' . $character);
+    }
 
 	public function selectDB($databases){
 		if(mysql_select_db($databases, $this->conn)) {
@@ -42,13 +42,17 @@ class mysqlDriver{
 	 * @param
 	 *        	sql 执行的SQL语句
 	 */
-	public function getQueryArrayResult($sql, $hashKey = null){
+	public function getQueryArrayResult($sql, $hashKey = null, $multiple = false){
 		$result = $this->execute($sql);
 		$rows = array ();
         if(empty($hashKey)) {
             while($rows[] = mysql_fetch_array($result, MYSQL_ASSOC)) {
             }
             array_pop($rows);
+        } elseif(!$multiple) {
+            while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                $rows[$row[$hashKey]] = $row;
+            }
         } else {
             while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
                 $rows[$row[$hashKey]] = $row;
@@ -56,7 +60,6 @@ class mysqlDriver{
         }
 
 		mysql_free_result($result);
-
 		return $rows;
 	}
 
