@@ -28,8 +28,9 @@ class HotelDao extends \BaseDao {
         return DbConfig::dsnWrite();
     }
 
-    public function getHotelModules($conditions, $hashKey = null){
-        $fileid = 'hotel_id, modules_id, hotel_modules_father_id, hotel_modules_name, hotel_modules_navigation, hotel_modules_order, hotel_modules_ico, hotel_modules_show';
+    public function getHotelModules($conditions, $field = '*', $hashKey = null){
+        if(empty($field) || $field == '*') 
+            $fileid = 'hotel_id, modules_id, hotel_modules_father_id, hotel_modules_name, hotel_modules_navigation, hotel_modules_order, hotel_modules_ico, hotel_modules_show';
         $conditions['order'] = 'hotel_modules_father_id ASC, hotel_modules_order ASC, modules_id ASC';
         return $this->setDsnRead($this->getDsnRead())->setTable('hotel_modules')->getList($conditions, $fileid, $hashKey);
     }

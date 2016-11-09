@@ -17,6 +17,10 @@ class RoomOperateService extends \BaseService {
         return self::$objService;
     }
 
+    public function rollback() {
+        RoomDao::instance()->rollback();
+    }
+
     public function saveRoomLayoutPriceWeek($objRequest, $objResponse) {
         $arrayPostValue= $objRequest->getPost();
         $arrayTimeBegin = explode('-', $arrayPostValue['time_begin']);
@@ -304,8 +308,23 @@ class RoomOperateService extends \BaseService {
         return array('1', '保存成功！如果价格为空，不做更改！');
     }
 
-    public function rollback() {
-        RoomDao::instance()->rollback();
+    public function getRoomLayoutPriceLIst($objRequest, $objResponse) {
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_valid'=>1);
+        $arrayRoomLayput = RoomService::instance()->getRoomLayout($conditions);
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
+                                     'room_layout_price_system_valid'=>1);
+        $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_price_system_id');
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_price_is_active'=>1);
+        $arrayRoomLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, 'room_layout_id');
+        $arrayRoomLayoutPriceList = array();
+        if(!empty($arrayRoomLayput)) {
+            $k = 0;
+            foreach($arrayRoomLayput as $i => $arrayRoom) {
+                $arrayRoomLayoutPriceList[$k] = $arrayRoom;
+            }
+        }
+
     }
 
 

@@ -16,8 +16,8 @@ class CompanyService extends \BaseService {
         return self::$objService;
     }
 
-    public function getCompany($conditions, $hashKey = null) {
-        return CompanyDao::instance()->getCompany($conditions, $hashKey);
+    public function getCompany($conditions, $field = '*', $hashKey = null) {
+        return CompanyDao::instance()->getCompany($conditions, $field, $hashKey);
     }
 
     public function saveCompany($arrayData) {

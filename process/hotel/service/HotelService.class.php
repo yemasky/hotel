@@ -19,7 +19,7 @@ class HotelService extends \BaseService {
     public function getHotelModules($hotel_id, $hashKey = null) {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
-        return HotelDao::instance()->getHotelModules($conditions, $hashKey);
+        return HotelDao::instance()->getHotelModules($conditions, '*', $hashKey);
     }
 
     public function getHotel($conditions, $hashKey = null) {

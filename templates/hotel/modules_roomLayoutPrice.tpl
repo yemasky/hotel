@@ -26,6 +26,7 @@
               <div class="widget-content nopadding updates">
                 <div class="new-update clearfix"><i class="am-icon-caret-right"></i>
                   <div class="update-done"><a href="#" title=""><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong></a> <span>dolor sit amet, consectetur adipiscing eli</span> </div>
+                  <div class="update-done">ssss</div>
                   <div class="update-date"><span class="update-day">20</span>jan</div>
                 </div>
                 <div class="new-update clearfix"> <i class="am-icon-caret-right"></i> <span class="update-notice"> <a href="#" title=""><strong>Congratulation Maruti, Happy Birthday </strong></a> <span>many many happy returns of the day</span> </span> <span class="update-date"><span class="update-day">11</span>jan</span> </div>

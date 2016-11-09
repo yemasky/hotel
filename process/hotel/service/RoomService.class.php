@@ -20,8 +20,8 @@ class RoomService extends \BaseService {
         RoomDao::instance()->rollback();
     }
 
-    public function getRoom($conditions, $hashKey = null) {
-        return RoomDao::instance()->getRoom($conditions, $hashKey);
+    public function getRoom($conditions, $field = '', $hashKey = null) {
+        return RoomDao::instance()->getRoom($conditions, $field, $hashKey);
     }
 
     public function saveRoom($arrayData) {
@@ -71,8 +71,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout_attribute')->delete($where);
     }
 
-    public function getRoomLayout($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout')->getList($conditions, '', $hashKey);
+    public function getRoomLayout($conditions, $field = '*', $hashKey = null) {
+        return RoomDao::instance()->setTable('room_layout')->getList($conditions, $field, $hashKey);
     }
 
     public function saveRoomLayout($arrayData) {
@@ -87,8 +87,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout')->delete($where);
     }
 
-    public function getRoomLayoutAttrValue($conditions, $hashKey = null, $multiple = false) {
-        return RoomDao::instance()->setTable('room_layout_attribute_value')->getList($conditions, null, $hashKey, $multiple);
+    public function getRoomLayoutAttrValue($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return RoomDao::instance()->setTable('room_layout_attribute_value')->getList($conditions, $field, $hashKey, $multiple);
     }
 
     public function saveRoomLayoutAttrValue($arrayData) {
@@ -107,8 +107,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout_attribute_value')->delete($where);
     }
 
-    public function getRoomLayoutImages($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout_images')->getList($conditions, null, $hashKey);
+    public function getRoomLayoutImages($conditions, $field = '*', $hashKey = null) {
+        return RoomDao::instance()->setTable('room_layout_images')->getList($conditions, $field, $hashKey);
     }
 
     public function saveRoomLayoutImages($arrayData) {
@@ -126,8 +126,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable($table)->getList($conditions, $field, $hashKey);
     }
 
-    public function getRoomLayoutRoom($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout_room')->getList($conditions, null, $hashKey);
+    public function getRoomLayoutRoom($conditions, $field = '*', $hashKey = null) {
+        return RoomDao::instance()->setTable('room_layout_room')->getList($conditions, $field, $hashKey);
     }
 
     public function saveRoomLayoutRoom($arrayData) {
@@ -164,8 +164,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout_price_extra_bed')->update($where, $row);
     }
     //价格体系
-    public function getRoomLayoutPriceSystem($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout_price_system')->getList($conditions, null, $hashKey);
+    public function getRoomLayoutPriceSystem($conditions, $field = '*', $hashKey = null) {
+        return RoomDao::instance()->setTable('room_layout_price_system')->getList($conditions, $field, $hashKey);
     }
 
     public function saveRoomLayoutPriceSystem($arrayData) {

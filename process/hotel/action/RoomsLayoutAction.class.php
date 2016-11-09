@@ -156,7 +156,7 @@ class RoomsLayoutAction extends \BaseAction {
         $objResponse -> arrayDataImages = RoomService::instance()->getRoomLayoutImages($conditions);
         //属性
         $arrayAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], 'room');
-        $arrayAttributeValue = RoomService::instance()->getRoomLayoutAttrValue($conditions, 'room_layout_attribute_id', true);
+        $arrayAttributeValue = RoomService::instance()->getRoomLayoutAttrValue($conditions, '*', 'room_layout_attribute_id', true);
         //print_r($arrayAttribute);
         //print_r($arrayAttributeValue);
         if(!empty($arrayAttribute)) {
