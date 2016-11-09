@@ -955,7 +955,7 @@ class DBQuery{
 		// mysql://smartercn:any@192.168.100.239:3306/smartercn_FrontEnd
 		$arrValue = explode('://', $dsn);
         $arrDriver = explode('_', $arrValue[0]);
-        if(count($arrDriver) == 2) {
+        if(count($arrDriver) == 2) {//pdo_mysql pdo_mssql, etc...
             $arrDsn['driver'] = 'pdoDriver';
             $arrDsn['pdo_driver'] = $arrDriver[1];
         } else {
@@ -966,6 +966,7 @@ class DBQuery{
 		$arrValue = explode('@', $arrValue[0]);
         $arrHost = explode(':', $arrValue[1]);
 		$arrDsn['host'] = $arrHost[0];
+        $arrDsn['port'] = 3306;
         if(isset($arrHost[1])) $arrDsn['port'] = $arrHost[1];
 		$arrValue = explode(':', $arrValue[0]);
 		$arrDsn['login'] = $arrValue[0];
