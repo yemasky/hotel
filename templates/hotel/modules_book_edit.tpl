@@ -117,7 +117,7 @@
 						<div class="control-group">
 							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
 							<div class="controls book_user_info">
-								<input name="book_user_name[]" value="" type="text" class="span2" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
+								<input name="book_user_name[]" value="" type="text" class="span1" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
 								<select name="book_user_sex[]" class="span1">
 									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
@@ -131,7 +131,7 @@
 									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
 									<%/section%>
 								</select>
-								<input type="text" name="book_user_id_card[]" class="span3" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
+								<input type="text" name="book_user_id_card[]" class="span2" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
 							</div>
 							<div class="controls">
 							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>

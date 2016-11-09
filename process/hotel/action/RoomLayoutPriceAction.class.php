@@ -42,6 +42,7 @@ class RoomLayoutPriceAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        
         //赋值
         $objResponse -> add_roomLayoutPriceSystem_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['add'])));
