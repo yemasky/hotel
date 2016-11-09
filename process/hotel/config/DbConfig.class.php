@@ -9,7 +9,7 @@
 namespace hotel;
 
 class DbConfig extends \DbConfig{
-	private static $hotel_dsn_read = "mysqli:mysql://127.0.0.1:3306/hotel?user=root&password=root&characterEncoding=UTF8";
+    private static $hotel_dsn_read = "mysqli:mysql://127.0.0.1:3306/hotel?user=root&password=root&characterEncoding=UTF8";
     private static $hotel_dsn_write = "mysqli:mysql://127.0.0.1:3306/hotel?user=root&password=root&characterEncoding=UTF8";
 
     public static function dsnRead() {
