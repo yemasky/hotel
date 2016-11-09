@@ -221,6 +221,8 @@ $(document).ready(function(){
     var is_extra_bed = false;
 	$('.extra_bed input').attr('disabled', true);
     $('#room_layout').change(function(e) {
+        $('#title_price').hide();
+        $('#title_content').hide();
         system_id = 0;
         room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
         if(room_layout < 1) return;
@@ -261,8 +263,6 @@ $(document).ready(function(){
                 systemPricesEditClick(this);
             });
         }
-        $('#title_price').hide();
-        $('#title_content').hide();
     });
     function createSystemPriceHtml(htmlData) {
         var html = '<div class="btn-group system_prices" data-id="1"><a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> 基本房费</a></div> ';
