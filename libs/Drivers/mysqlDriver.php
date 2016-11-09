@@ -26,7 +26,7 @@ class mysqlDriver{
 		} else {
 			throw new SQLException("无法找到数据库，请确认数据库名称正确！");
 		} // $this -> query();
-		$this->execute('SET NAMES UTF8;');
+		//$this->execute('SET NAMES UTF8;');
 	}
 
 	public function selectDB($databases){

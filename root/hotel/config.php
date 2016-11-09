@@ -46,7 +46,7 @@ define('__IMG_DATA', __DATA.'images/');
 define('__COMPILE', true);
 
 /// db connection ///
-define('__DEFAULT_DSN','mysqli://root:@127.0.0.1:3306/hotel');
+define('__DEFAULT_DSN',"mysqli:mysql://localhost:3306/softforum?user=soft&password=@!#$%&`~=+'\"&characterEncoding=UTF8");
 
 //debug
 define('__Debug',true);

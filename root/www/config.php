@@ -47,7 +47,7 @@ define('__SQLITE_DATA', __DATA_PATH.'data/sqlite/');
 define('__COMPILE', true);
 
 /// db connection ///
-define('__DEFAULT_DSN','mysql://root:root@127.0.0.1:3306/heniba');
+define('__DEFAULT_DSN',"mysqli:mysql://localhost:3306/softforum?user=soft&password=@!#$%&`~=+'\"&characterEncoding=UTF8");
 
 //debug
 define('__Debug',true);

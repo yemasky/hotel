@@ -23,8 +23,12 @@ class mysqliDriver {
 		if (mysqli_connect_errno()) {
 			throw new SQLException("数据库链接错误: " . mysqli_connect_errno());
 		}
-		$this->execute('SET NAMES UTF8;');
+		//$this->execute('SET NAMES UTF8;');
 	}
+
+	public function setCharacter($character) {
+        $this->execute('SET NAMES ' . $character);
+    }
 
 	public function selectDB($databases){
 		if(mysqli_select_db($this->conn, $databases)) {

@@ -556,12 +556,13 @@ class DBQuery{
 		if(is_array($dsn)) {
 			$dsn = array_rand($dsn);
 		}
-		$arrDsnInfo = $this->explodeDsn($dsn);
-		require_once (__ROOT_PATH . 'libs/Drivers/' . $arrDsnInfo['driver'] . '.php');
+		$arrayDsnInfo = $this->explodeDsn($dsn);
+		require_once (__ROOT_PATH . 'libs/Drivers/' . $arrayDsnInfo['driver'] . '.php');
 		$startTime = getMicrotime();
-		$this->conn = new $arrDsnInfo['driver']($arrDsnInfo);
+		$this->conn = new $arrayDsnInfo['driver']($arrayDsnInfo);
 		if(__Debug)
 			logDebug("connect use time: " . (getMicrotime() - $startTime));
+        $this->conn->setCharacter($arrayDsnInfo['character']);//character
 		return $this->conn;
 	}
 
@@ -952,7 +953,19 @@ class DBQuery{
 
     }
 	public function explodeDsn($dsn){
-		// mysql://smartercn:any@192.168.100.239:3306/smartercn_FrontEnd
+        //$dsn = "pdo:mysql://localhost:3306/softforum?user=soft&password=@!#$%&`~=+'\"&characterEncoding=utf-8";
+        $arrayDsnKey = array('driver'=>':','type'=>'://','host'=>':','port'=>'/','database'=>'?user=','login'=>'&password=','password'=>'&characterEncoding=');
+        $arrayDriver = array();
+        foreach($arrayDsnKey as $key => $value) {
+            $arrayDriver[$key] = substr($dsn, 0, strpos($dsn, $value));
+            $dsn = substr($dsn, strpos($dsn, $value) + strlen($value));
+        }
+        $arrayDriver['character'] = $dsn;
+        $arrayDriver['driver'] = $arrayDriver['driver'] == 'pdo' ? 'pdoDriver' : $arrayDriver['driver'] . 'Driver';
+        return $arrayDriver;
+
+		//mysqli:mysql://smartercn:any@192.168.100.239:3306/smartercn_FrontEnd
+
 		$arrValue = explode('://', $dsn);
         $arrDriver = explode('_', $arrValue[0]);
         if(count($arrDriver) == 2) {//pdo_mysql pdo_mssql, etc...

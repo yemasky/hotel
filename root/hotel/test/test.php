@@ -1,6 +1,76 @@
 <?php
 require_once ("../config.php");
 
+$dsn = "pdo:mysql://localhost:3306/softforum?user=soft&password=@!#$%&`~=+'\"&characterEncoding=utf-8";
+$arrayDsnKey = array('driver'=>':','type'=>'://','host'=>':','port'=>'/','database'=>'?user=','login'=>'&password=','password'=>'&characterEncoding=');
+$arrayDriver = array();
+foreach($arrayDsnKey as $key => $value) {
+    $arrayDriver[$key] = substr($dsn, 0, strpos($dsn, $value));
+    $dsn = substr($dsn, strpos($dsn, $value) + strlen($value));
+}
+$arrayDriver['character'] = $dsn;
+print_r($arrayDriver);
+
+
+return;
+$dsn = "pdo:mysql://localhost:3306/softforum?user=soft&password=@!#$%&`~=+'\"&characterEncoding=utf-8";
+
+echo $dsn . "\r\n<br>";
+
+//var_dump( strpos($dsn, ':'));
+$driver = substr($dsn, 0, strpos($dsn, ':'));
+echo $driver. "\r\n<br>";
+
+$nextDsn = substr($dsn, strpos($dsn, ':') + 1);
+echo $nextDsn. "\r\n<br>";
+
+$dbType = substr($nextDsn, 0, strpos($nextDsn, '://'));
+echo $dbType. "\r\n<br>";
+
+$nextDsn = substr($nextDsn, strpos($nextDsn, '://') + 3);
+echo $nextDsn. "\r\n<br>";
+
+$dbHost = substr($nextDsn, 0, strpos($nextDsn, ':'));
+echo $dbHost. "\r\n<br>";
+
+$nextDsn = substr($nextDsn, strpos($nextDsn, ':') + 1);
+echo $nextDsn. "\r\n<br>";
+
+$dbPort = substr($nextDsn, 0, strpos($nextDsn, '/'));
+echo $dbPort. "\r\n<br>";
+
+$nextDsn = substr($nextDsn, strpos($nextDsn, '/') + 1);
+echo $nextDsn. "\r\n<br>";
+
+$dbDb = substr($nextDsn, 0, strpos($nextDsn, '?user='));
+echo $dbDb. "\r\n<br>";
+
+$nextDsn = substr($nextDsn, strpos($nextDsn, '?user=') + 6);
+echo $nextDsn. "\r\n<br>";
+
+$dbUser = substr($nextDsn, 0, strpos($nextDsn, '&password='));
+echo $dbUser. "\r\n<br>";
+
+$nextDsn = substr($nextDsn, strpos($nextDsn, '&password=') + 10);
+echo $nextDsn. "\r\n<br>";
+
+$dbPassword = substr($nextDsn, 0, strpos($nextDsn, '&characterEncoding='));
+echo $dbPassword. "\r\n<br>";
+
+$dbCharacter = substr($nextDsn, strpos($nextDsn, '&characterEncoding=') + 19);
+echo $dbCharacter. "\r\n<br>";
+
+
+
+
+
+
+
+
+
+
+
+return;
 for ($i = 0; $i <= 6; $i++ ) {
     echo 1 - $i . "<br>";
 }
