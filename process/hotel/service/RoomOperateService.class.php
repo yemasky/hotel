@@ -309,22 +309,50 @@ class RoomOperateService extends \BaseService {
     }
 
     public function getRoomLayoutPriceLIst($objRequest, $objResponse) {
+        $year = $objRequest -> year;
+        $month = $objRequest -> month;
+        if(empty($year)) $year = getYear();
+        if(empty($month)) $month = getMonth();
+
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_valid'=>1);
-        $arrayRoomLayput = RoomService::instance()->getRoomLayout($conditions);
+        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
+        //print_r($arrayRoomLayout);
+
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
                                      'room_layout_price_system_valid'=>1);
-        $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_price_system_id');
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_price_is_active'=>1);
-        $arrayRoomLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, 'room_layout_id');
-        $arrayRoomLayoutPriceList = array();
-        if(!empty($arrayRoomLayput)) {
-            $k = 0;
-            foreach($arrayRoomLayput as $i => $arrayRoom) {
-                $arrayRoomLayoutPriceList[$k] = $arrayRoom;
+        $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_id', true);
+        //print_r($arrayPriceSystem);
+
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_price_is_active'=>1,
+            'room_layout_date_year'=>$year, 'room_layout_date_month'=>$month);
+        $arrayRoomLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, '*', 'room_layout_id', true);
+        //print_r($arrayRoomLayoutPrice);
+
+        //$arrayRoomLayoutPriceList = array();
+        if(!empty($arrayRoomLayout)) {
+            foreach($arrayRoomLayout as $i => $arrayRoom) {
+                $arrayRoomLayout[$i]['price_system'] = array();
+                if(isset($arrayPriceSystem[$arrayRoom['room_layout_id']])) {
+                    $arrayRoomLayout[$i]['price_system'] = $arrayPriceSystem[$arrayRoom['room_layout_id']];
+                }
+                if(isset($arrayPriceSystem[0])) {
+                    $arrayRoomLayout[$i]['price_system'] = array_merge($arrayRoomLayout[$i]['price_system'], $arrayPriceSystem[0]);
+                }
+                if(isset($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']]) && !empty($arrayRoomLayout[$i]['price_system'])) {
+                    foreach($arrayRoomLayout[$i]['price_system'] as $j => $arraySystem) {
+                        $arrayRoomLayout[$i]['price_system'][$j]['price'] = array();
+                        foreach($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']] as $k => $arrayPrice) {
+                            if($arraySystem['room_layout_price_system_id'] == $arrayPrice['room_layout_price_system_id']) {
+                                $arrayRoomLayout[$i]['price_system'][$j]['price'] = $arrayPrice;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
-
+        return $arrayRoomLayout;
     }
 
 
