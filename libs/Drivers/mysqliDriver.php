@@ -18,7 +18,7 @@ class mysqliDriver {
 	 *        	dbConfig 数据库配置
 	 */
 	public function __construct($dbConfig){
-		$this->conn = mysqli_connect($dbConfig['host'], $dbConfig['login'], $dbConfig['password'], $dbConfig['database'], $dbConfig['port']);
+		$this->conn = @mysqli_connect($dbConfig['host'], $dbConfig['login'], $dbConfig['password'], $dbConfig['database'], $dbConfig['port']);
 		if(mysqli_connect_errno()) {
 			throw new SQLException("数据库链接错误: " . mysqli_connect_errno());
 		}
