@@ -319,8 +319,9 @@ class RoomOperateService extends \BaseService {
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
         //print_r($arrayRoomLayout);
 
-        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'], 0)),
                                      'room_layout_price_system_valid'=>1);
+        $conditions['order'] = 'room_layout_price_system_id ASC';
         $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_id', true);
         //print_r($arrayPriceSystem);
 
@@ -352,6 +353,10 @@ class RoomOperateService extends \BaseService {
                 }
             }
         }
+        //赋值
+        $objResponse -> year = $year;
+        $objResponse -> month = $month;
+
         return $arrayRoomLayout;
     }
 

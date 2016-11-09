@@ -30,11 +30,24 @@
                   <div class="update-date"><span class="update-day">20</span>jan</div>
                 </div>-->
                 
-                <%section name=price loop=$arrayRoomLayoutPriceList%>
+                <%section name=layout loop=$arrayRoomLayoutPriceList%>
                 <div class="new-update clearfix"> 
-                    <i class="am-icon-caret-right"></i> 
+                    <i class="am-icon-bed am-icon-sm"></i> 
                     <span class="update-notice"> 
-                        <a href="#" title=""><strong><%$arrayRoomLayoutPriceList[price].room_layout_name%> </strong></a> <span>many many happy returns of the day</span> </span> <span class="update-date"><span class="update-day">11</span>jan</span> 
+                        <a href="#" title=""><strong><%$arrayRoomLayoutPriceList[layout].room_layout_name%> </strong></a> 
+                        <span>
+                        <div class="span12 btn-icon-pg">
+                            <ul>
+                                <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
+                                <li><i class="icon-glass"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> </li>
+                                <%/section%>
+                            </ul>
+                        </div>
+                        </span> 
+                    </span> 
+                    <span class="update-date">
+                        <span class="update-day"><%$month%></span><%$year%>
+                    </span> 
                 </div>
                 <%/section%>
                 
