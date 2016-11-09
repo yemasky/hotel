@@ -38,7 +38,7 @@ select {width: 70px;}
               <tbody>
               <%section name=layout loop=$arrayDataInfo%>
                 <tr class="gradeX">
-                  <td><%$arrayDataInfo[layout].room_layout_name%></td>
+                  <td><i class="am-icon-bed am-yellow-F36419"></i> <%$arrayDataInfo[layout].room_layout_name%></td>
                   <td>
                   	<code><%$arrayLaguage['area']['page_laguage_value']%>:<%$arrayDataInfo[layout].room_layout_area%></code>
                   	<code><%$arrayLaguage['orientations']['page_laguage_value']%>:<%$arrayLaguage[$arrayDataInfo[layout].room_layout_orientations]['page_laguage_value']%></code>
