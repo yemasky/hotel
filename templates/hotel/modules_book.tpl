@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <style type="text/css">
-.bookEdit {color: #bbbbbb;float: right;margin: 4px 10px 0 0;text-align: center;}
+.custom-date-style{ cursor:pointer; color:#666666 !important;}
 </style>
 </head>
 <body>
@@ -43,12 +43,13 @@
                </div>
                 <div class="widget-content nopadding">
                     <ul class="recent-posts">
+                    <%section name=book loop=$arrayBookList%>
                       <li>
                         <div class="article-post"> 
-                        <i class="icon-user"></i>
+                        <i class="am-icon-user am-green-54B51C"></i>
                         	<div class="fr">
                                 <div class="btn-group">
-                                    <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> User</a>
+                                    <a class="btn btn-primary" href="#"><i class="am-icon-gear"></i> User</a>
                                     <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
@@ -58,21 +59,29 @@
                                     </ul>
                                 </div>
                             </div>
-                          <a href="#collapseOne" data-toggle="collapse">
-                            <strong>Themeforest</strong>Approved My college theme <strong>1 user</strong> <span>2 hours ago</span>
-                            <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
+                          <a href="#collapse<%$arrayBookList[book].book_order_number%>" data-toggle="collapse">
+                            <strong><%$arrayBookList[book].book_contact_name%></strong> 
+                            <span class="user-info"> 
+                                <i class="am-icon-bed am-blue-17C6EA"></i>1 user <span> 2 hours ago</span>
+                                <i class="am-icon-clock-o am-blue-17C6EA"></i> : <%$arrayBookList[book].book_add_date%> <%$arrayBookList[book].book_add_time%> 
+                                <i class="am-icon-mobile am-blue-17C6EA"></i> : <%$arrayBookList[book].book_contact_mobile%> 
+                            
+                            </span>
                           </a>
-                          <p><a href="#">This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+                          <p><a href="#collapse<%$arrayBookList[book].book_order_number%>" data-toggle="collapse"><i class="am-icon-commenting-o"></i>
+                          <%$arrayBookList[book].book_comments%></a> </p>
                           
                           </div>
-                          <div class="collapse" id="collapseOne">
+                          <div class="collapse" id="collapse<%$arrayBookList[book].book_order_number%>">
                                     <div class="new-update clearfix"><i class="icon-ok-sign"></i>
                                       <div class="update-done"><a href="#" title=""><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong></a> <span>dolor sit amet, consectetur adipiscing eli</span> </div>
                                       <div class="update-date"><span class="update-day">20</span>jan</div>
                                     </div>
                             </div>
                       </li>
-                      <li>
+                     <%/section%>
+                      
+                      <!--<li>
                         <div class="article-post"> 
                         <i class="icon-user"></i>
                         	<div class="fr">
@@ -100,11 +109,11 @@
                                       <div class="update-date"><span class="update-day">20</span>jan</div>
                                     </div>
                             </div>
-                      </li>
+                      </li>-->
                     </ul>
                     
                     
-                    <ul class="activity-list">
+                    <!--<ul class="activity-list">
                     	<li>
                            
                         	<a href="#collapseOne" data-toggle="collapse">
@@ -125,7 +134,7 @@
                                 </div>
                             </div>
                         </li>
-                     </ul>
+                     </ul>-->
                  </div>
                </div>
             </div>   

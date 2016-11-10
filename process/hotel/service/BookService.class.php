@@ -16,8 +16,8 @@ class BookService extends \BaseService {
         return self::$objService;
     }
 
-    public function getBook($conditions, $field = '*', $hashKey = null) {
-        return BookDao::instance()->getBook($conditions, $field, $hashKey);
+    public function getBook($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->getBook($conditions, $field, $hashKey, $multiple);
     }
 
     public function saveBook($arrayData) {

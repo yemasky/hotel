@@ -40,14 +40,9 @@ class BookAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $thisDay = $objRequest -> time_begin;
-        $toDay = $objRequest -> time_end;
-        $objResponse -> thisYear = getYear();
-        $objResponse -> thisMonth = getMonth();
-        $objResponse -> thisDay = empty($thisDay) ? getDay() : $thisDay;
-        $objResponse -> toDay = empty($toDay) ? getDay(24) : $toDay;
 
-        
+        BookOperateService::instance()->getBookInfo($objRequest, $objResponse);
+
         $objResponse -> search_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view'])));
         $objResponse -> add_book_url =

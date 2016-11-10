@@ -27,8 +27,8 @@ class BookDao extends \BaseDao {
         return DbConfig::dsnWrite();
     }
 
-    public function getBook($conditions, $fieldid = null, $hashKey = null){
-        return $this->setDsnRead($this->getDsnRead())->setTable('book')->getList($conditions, $fieldid, $hashKey);//->DBCache($cacheId)
+    public function getBook($conditions, $fieldid = null, $hashKey = null, $multiple = false){
+        return $this->setDsnRead($this->getDsnRead())->setTable('book')->getList($conditions, $fieldid, $hashKey, $multiple);//->DBCache($cacheId)
     }
 
 }

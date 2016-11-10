@@ -17,6 +17,10 @@ class BookOperateService extends \BaseService {
         return self::$objService;
     }
 
+    public function rollback() {
+        BookDao::instance()->rollback();
+    }
+
     public function saveBookInfo($objRequest, $objResponse) {
         //print_r($_REQUEST);exit();
         $arrayPostValue = $objRequest->getPost();
@@ -121,7 +125,7 @@ class BookOperateService extends \BaseService {
         }
         if(!empty($arraybatchInsert)) BookDao::instance()->setTable('book')->batchInsert($arraybatchInsert);
 
-        //添加主客
+        //添加住客
         $arrayBookUserData = array();
         foreach($arrayPostValue['book_user_name'] as $i => $bookUser) {
             if(!empty($bookUser) && !empty($arrayPostValue['book_user_id_card'][$i])) {
@@ -144,9 +148,36 @@ class BookOperateService extends \BaseService {
         return $book_order_number;
     }
 
-    public function rollback() {
-        BookDao::instance()->rollback();
-    }
+    public function getBookInfo($objRequest, $objResponse) {
+        $thisDay = $objRequest -> time_begin;
+        $toDay = $objRequest -> time_end;
+        $thisDay = empty($thisDay) ? getDay() : $thisDay;
+        $toDay = empty($toDay) ? getDay(7*24) : $toDay;
 
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            '>='=>array('book_check_int'=>$thisDay),
+            '<='=>array('book_check_out'=>$toDay));
+        $conditions['order'] = 'book_check_int ASC, book_order_number ASC, book_order_number_main DESC';
+        $arrayBookInfo = BookService::instance()->getBook($conditions);
+        $arrayBookList = array();
+        if(!empty($arrayBookInfo)) {
+            foreach($arrayBookInfo as $i => $arrayBook) {
+                if($arrayBook['book_order_number_main'] == '1') {
+                    $arrayBookList[$arrayBook['book_order_number']] = $arrayBook;
+                    $arrayBookList[$arrayBook['book_order_number']]['child'][] = $arrayBook;
+                } else {
+                    $arrayBookList[$arrayBook['book_order_number']]['child'][] = $arrayBook;
+                }
+            }
+        }
+        sort($arrayBookList);
+        //
+        $objResponse -> arrayBookList = $arrayBookList;
+        $objResponse -> thisYear = getYear();
+        $objResponse -> thisMonth = getMonth();
+        $objResponse -> thisDay = $thisDay;
+        $objResponse -> toDay = $toDay;
+    }
 
 }
