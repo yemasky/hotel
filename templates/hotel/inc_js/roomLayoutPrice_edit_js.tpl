@@ -501,7 +501,9 @@ $(document).ready(function(){
     });
     function setDifferentExtraBedMonth() {
         $('#different_price_month ul').remove();
+        $('#different_price_month').html('');
         $('#kalendar_week').clone().appendTo($('#different_price_month'));
+        $('#different_price_month').append('<br>');
         $('#room_layout_price_kalendar').clone().appendTo($('#different_price_month'));
         $('#different_price_month ul').each(function(index, element) {
             $(this).attr('id', 'different_price_month_' + index);
