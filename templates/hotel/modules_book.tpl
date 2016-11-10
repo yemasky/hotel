@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
+<link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
+<script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <style type="text/css">
 .bookEdit {color: #bbbbbb;float: right;margin: 4px 10px 0 0;text-align: center;}
 </style>
@@ -31,26 +33,9 @@
                         <div class="control-group" id="form-wizard-1">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <select name="year" id="year" class="span1">
-                                    <option value="<%$thisYear%>" ><%$thisYear%></option>
-                                    <option value="<%$thisYear + 1%>" ><%$thisYear + 1%></option>
-                                </select>
-                                
-                                <select name="month" id="month" class="span1">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                                <input class="span1" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" /> - 
+                                <input class="span1" type="text" id="time_end" name="time_end" value="<%$toDay%>" />
+                                <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
                             
                             </div>
                         </div>
@@ -153,27 +138,65 @@
 <%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
 $(document).ready(function(){
+    //日历
+	$.datetimepicker.setLocale('ch');
+	var dateToDisable =  new Date('<%$thisDay%>'); 
+	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
+        yearStart: '1980', yearEnd: '<%$nextYear%>', //yearOffset:1,maxDate:'+1970-01-02',
+		beforeShowDay: function(date) {
+            return [true];
+		},
+        onGenerate:function( ct ){
+            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+        onSelectDate:function(date) {//console.log(date + '-====-' + nextWeekDateToDisable + '----'+ week_differ + '-----<%$thisDay%>');
+            var thisDate = new Date(this.getValue());
+            var nextDate = new Date(thisDate.setDate(thisDate.getDate() + 1));
+            var time_end_date = new Date($('#time_end').val());
+            if(time_end_date.getTime() < nextDate.getTime()) {
+                $('#time_end').val(nextDate);
+                $('#time_end').datetimepicker({value:nextDate});
+            }
+        },
+		onShow:function(date) {
+			//xdsoft_calendar data-date="31" data-month="9" data-year="2016"
+		}
+       
+	});
+	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
+		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
+			var dateToDisable = new Date($('#time_begin').val());
+            dateToDisable.setDate(dateToDisable.getDate() + 6);
+			if (date.getTime() < dateToDisable.getTime()) {
+                //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
+				return [false];
+			}
+            var dateToDisableNext = new Date($('#time_begin').val());
+            dateToDisableNext.setDate(dateToDisableNext.getDate() + 180);
+            if (date.getTime() > dateToDisableNext.getTime()) {
+                //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
+				return [false];
+			}
+			return [true, ""];
+		},
+        onGenerate:function( ct ){
+            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+	});
+    
     var BookClass = {
         instance: function() {
             var book = {};
             book.thisYear = '<%$thisYear%>';
-            book.year = '<%$year%>';
-            book.nextYear = '<%$nextYear%>';
             book.thisMonth = '<%$thisMonth%>';
-            book.month = '<%$month%>';
-            book.monthT = '<%$monthT%>';
+            book.time_begin = '<%$thisDay%>';
+            book.time_end = '<%$toDay%>';
             return book;
         },
-        setSelectYear: function(year) {
-            $('#year').val(year);
-        },
-        setSelectMonth: function(month) {
-            $('#month').val(month);
-        }
+
     }
     var book = BookClass.instance();
-    BookClass.setSelectYear(book.year);
-    BookClass.setSelectMonth(book.month);
+
 })
 </script>
 </body>
