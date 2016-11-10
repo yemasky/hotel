@@ -45,14 +45,14 @@
                                 <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
                                 <li><i class="am-icon-glass am-blue-2F93FF"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> 
                                 </li>
-                                <li><i class="am-icon-rmb am-red-EA5555"></i><%$year%>-<%$month%>&#12288;
+                                <li><i class="am-icon-rmb am-red-EA5555"></i>
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
-                                售卖价格
+                                <code><%$year%>-<%$month%> 售卖价格</code>
                                 <table class="roomLayoutPrice">
                                 <tr>
                                     <%section name=price loop=$monthT%>
                                         <td>
-                                        <%$smarty.section.price.iteration%>
+                                        <code><%$smarty.section.price.iteration%></code>
                                         </td>
                                     <%/section%>
                                 </tr>
@@ -70,7 +70,7 @@
                                 </tr>
                                 </table>
                                 <%else%>
-                                没有设置房价
+                                <code><%$year%>-<%$month%> 没有设置房价</code>
                                 <%/if%>
                                 </li>
                                 <br>

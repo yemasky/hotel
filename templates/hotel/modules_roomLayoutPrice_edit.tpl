@@ -125,14 +125,14 @@
                 </div>
                 <div class="widget-title hide" id="title_price">
                     <ul class="nav nav-tabs">
-                        <li class="active" id="prices_on_a_week"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['set_prices_on_a_week']['page_laguage_value']%></a></li>
-                        <li id="prices_on_a_monthly"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['set_prices_on_a_monthly']['page_laguage_value']%></a></li>
+                        <li id="prices_on_a_week"><a data-toggle="tab" href="#tab1"><%$arrayLaguage['set_prices_on_a_week']['page_laguage_value']%></a></li>
+                        <li class="active" id="prices_on_a_monthly"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['set_prices_on_a_monthly']['page_laguage_value']%></a></li>
                         <li id="history_prices"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['history_prices']['page_laguage_value']%></a></li>
 
                     </ul>
                 </div>
                 <div class="widget-content tab-content nopadding hide" id="title_content">
-                    <div id="tab1" class="tab-pane active">
+                    <div id="tab1" class="tab-pane">
                     	<form method="post" class="form-horizontal" enctype="multipart/form-data" name="prices_week" id="prices_week" novalidate>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
@@ -216,7 +216,7 @@
                         </div>
                         </form>
                     </div>
-                	<div id="tab2" class="tab-pane">
+                	<div id="tab2" class="tab-pane active">
                     	<form method="post" class="form-horizontal" enctype="multipart/form-data" name="prices_month" id="prices_month" novalidate>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
