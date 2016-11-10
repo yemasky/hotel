@@ -65,7 +65,7 @@
                           <a href="#collapse<%$arrayBookList[book].book_order_number%>" data-toggle="collapse">
                             <strong><%$arrayBookList[book].book_contact_name%></strong> 
                             <span class="user-info"> 
-                                <i class="am-icon-bed am-blue-17C6EA"></i>1 user <span> 2 hours ago</span>
+                                <i class="am-icon-bed am-blue-17C6EA"></i>1 user <span> </span>
                                 <i class="am-icon-clock-o am-blue-17C6EA"></i> : <%$arrayBookList[book].book_add_date%> <%$arrayBookList[book].book_add_time%> 
                                 <i class="am-icon-mobile am-blue-17C6EA"></i> : <%$arrayBookList[book].book_contact_mobile%> 
                             
@@ -75,12 +75,16 @@
                           <%$arrayBookList[book].book_comments%></a> </p>
                           
                           </div>
+                          <%section name=lodger loop=$arrayBookList[book].child%>
                           <div class="collapse" id="collapse<%$arrayBookList[book].book_order_number%>">
-                                    <div class="new-update clearfix"><i class="icon-ok-sign"></i>
-                                      <div class="update-done"><a href="#" title=""><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</strong></a> <span>dolor sit amet, consectetur adipiscing eli</span> </div>
-                                      <div class="update-date"><span class="update-day">20</span>jan</div>
-                                    </div>
-                            </div>
+                                <div class="new-update clearfix"><i class="icon-ok-sign"></i>
+                                  <div class="update-done">
+                                    <%$arrayBookList[book].child[lodger].book_contact_name%> <span><%$arrayBookList[book].child[lodger].book_comments%></span> 
+                                  </div>
+                                  <div class="update-date"><span class="update-day">20</span>jan</div>
+                                </div>
+                          </div>
+                          <%/section%>
                       </li>
                      <%/section%>
                       
