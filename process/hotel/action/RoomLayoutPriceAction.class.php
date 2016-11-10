@@ -45,8 +45,14 @@ class RoomLayoutPriceAction extends \BaseAction {
         $arrayRoomLayoutPriceList = RoomOperateService::instance()->getRoomLayoutPriceLIst($objRequest, $objResponse);
         //赋值
         $objResponse -> arrayRoomLayoutPriceList = $arrayRoomLayoutPriceList;
+        $objResponse -> thisYear = getYear();
+        $objResponse -> nextYear = $objResponse -> thisYear + 1;
+        $objResponse -> thisMonth = getMonth();
+
         $objResponse -> add_roomLayoutPriceSystem_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['add'])));
+        $objResponse -> search_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['view'])));
         //
         //设置类别
     }

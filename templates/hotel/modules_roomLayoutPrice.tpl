@@ -27,8 +27,35 @@
                 </div>
                 <%/if%>
               </div>
-              <div class="widget-content">
-                    
+              <div class="widget-content nopadding">
+                    <form action="<%$search_url%>" method="post" class="form-horizontal ui-formwizard" enctype="multipart/form-data">
+                        <div class="control-group" id="form-wizard-1">
+                            <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select name="year" id="year" class="span1">
+                                    <option value="<%$thisYear%>" ><%$thisYear%></option>
+                                    <option value="<%$thisYear + 1%>" ><%$thisYear + 1%></option>
+                                </select>
+                                
+                                <select name="month" id="month" class="span1">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            <button class="btn btn-primary"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                            
+                            </div>
+                        </div>
+                    </form>
               </div>
               <div class="widget-content nopadding updates">
                 <!--<div class="new-update clearfix"><i class="am-icon-caret-right"></i>
@@ -50,7 +77,7 @@
                                 </li>
                                 <li><i class="am-icon-rmb am-red-EA5555"></i>
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
-                                <code><%$year%>-<%$month%> 售卖价格</code>
+                                <code><%$year%>-<%$month%> <%$arrayLaguage['sell_price']['page_laguage_value']%></code>
                                 <table class="roomLayoutPrice">
                                 <tr>
                                     <%section name=price loop=$monthT%>
@@ -73,7 +100,7 @@
                                 </tr>
                                 </table>
                                 <%else%>
-                                <code><%$year%>-<%$month%> 没有设置房价</code>
+                                <code><%$year%>-<%$month%> <%$arrayLaguage['no_price']['page_laguage_value']%></code>
                                 <%/if%>
                                 </li>
                                 <br>
@@ -104,5 +131,30 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
+<script language="javascript">
+$(document).ready(function(){
+    var BookClass = {
+        instance: function() {
+            var book = {};
+            book.thisYear = '<%$thisYear%>';
+            book.year = '<%$year%>';
+            book.nextYear = '<%$nextYear%>';
+            book.thisMonth = '<%$thisMonth%>';
+            book.month = '<%$month%>';
+            book.monthT = '<%$monthT%>';
+            return book;
+        },
+        setSelectYear: function(year) {
+            $('#year').val(year);
+        },
+        setSelectMonth: function(month) {
+            $('#month').val(month);
+        }
+    }
+    var book = BookClass.instance();
+    BookClass.setSelectYear(book.year);
+    BookClass.setSelectMonth(book.month);
+})
+</script>
 </body>
 </html>
