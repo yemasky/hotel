@@ -40,6 +40,17 @@ class BookAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $year = $objRequest -> year;
+        $month = $objRequest -> month;
+        if(empty($year)) $year = getYear();
+        if(empty($month)) $month = getMonth();
+        $objResponse -> thisYear = getYear();
+        $objResponse -> nextYear = $objResponse -> thisYear + 1;
+        $objResponse -> thisMonth = getMonth();
+        $objResponse -> year = $year;
+        $objResponse -> month = $month;
+        $objResponse -> search_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view'])));
         $objResponse -> add_book_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         //

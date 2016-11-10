@@ -51,7 +51,7 @@
                                     <option value="11">11</option>
                                     <option value="12">12</option>
                                 </select>
-                            <button class="btn btn-primary"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                            <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
                             
                             </div>
                         </div>
@@ -133,16 +133,16 @@
 <%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
 $(document).ready(function(){
-    var BookClass = {
+    var RoomLayoutClass = {
         instance: function() {
-            var book = {};
-            book.thisYear = '<%$thisYear%>';
-            book.year = '<%$year%>';
-            book.nextYear = '<%$nextYear%>';
-            book.thisMonth = '<%$thisMonth%>';
-            book.month = '<%$month%>';
-            book.monthT = '<%$monthT%>';
-            return book;
+            var roomLayout = {};
+            roomLayout.thisYear = '<%$thisYear%>';
+            roomLayout.year = '<%$year%>';
+            roomLayout.nextYear = '<%$nextYear%>';
+            roomLayout.thisMonth = '<%$thisMonth%>';
+            roomLayout.month = '<%$month%>';
+            roomLayout.monthT = '<%$monthT%>';
+            return roomLayout;
         },
         setSelectYear: function(year) {
             $('#year').val(year);
@@ -151,9 +151,9 @@ $(document).ready(function(){
             $('#month').val(month);
         }
     }
-    var book = BookClass.instance();
-    BookClass.setSelectYear(book.year);
-    BookClass.setSelectMonth(book.month);
+    var roomLayout = RoomLayoutClass.instance();
+    RoomLayoutClass.setSelectYear(roomLayout.year);
+    RoomLayoutClass.setSelectMonth(roomLayout.month);
 })
 </script>
 </body>

@@ -26,19 +26,36 @@
                     </div>
                     <%/if%>
                 </div>
-                <div class="widget-content">
-                    
-                    <form class="form-search">
-                        <div class="input-append">
-                            <input type="text" class="span2 search-query">
-                            <button type="submit" class="btn">Search</button>
-                        </div>
-                        <div class="input-prepend">
-                            <button type="submit" class="btn">Search</button>
-                            <input type="text" class="span2 search-query">
+                <div class="widget-content nopadding">
+                    <form action="<%$search_url%>" method="post" class="form-horizontal ui-formwizard" enctype="multipart/form-data">
+                        <div class="control-group" id="form-wizard-1">
+                            <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select name="year" id="year" class="span1">
+                                    <option value="<%$thisYear%>" ><%$thisYear%></option>
+                                    <option value="<%$thisYear + 1%>" ><%$thisYear + 1%></option>
+                                </select>
+                                
+                                <select name="month" id="month" class="span1">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                            
+                            </div>
                         </div>
                     </form>
-                </div>
+               </div>
                 <div class="widget-content nopadding">
                     <ul class="recent-posts">
                       <li>
@@ -134,5 +151,30 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
+<script language="javascript">
+$(document).ready(function(){
+    var BookClass = {
+        instance: function() {
+            var book = {};
+            book.thisYear = '<%$thisYear%>';
+            book.year = '<%$year%>';
+            book.nextYear = '<%$nextYear%>';
+            book.thisMonth = '<%$thisMonth%>';
+            book.month = '<%$month%>';
+            book.monthT = '<%$monthT%>';
+            return book;
+        },
+        setSelectYear: function(year) {
+            $('#year').val(year);
+        },
+        setSelectMonth: function(month) {
+            $('#month').val(month);
+        }
+    }
+    var book = BookClass.instance();
+    BookClass.setSelectYear(book.year);
+    BookClass.setSelectMonth(book.month);
+})
+</script>
 </body>
 </html>
