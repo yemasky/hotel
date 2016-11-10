@@ -20,7 +20,7 @@
                 <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                 <div class="buttons" id="btn_room_layout">
                     <a class="btn btn-primary btn-mini" href="<%$add_roomLayoutPriceSystem_url%>" id="add_room_layout"><i class="am-icon-plus-square"></i> 
-                    &#12288;<%$arrayLaguage['add_room_layout_price']['page_laguage_value']%></a>
+                    &#12288;<%$arrayLaguage['manager_room_layout_price']['page_laguage_value']%></a>
                 </div>
                 <%/if%>
               </div>
@@ -47,6 +47,7 @@
                                 </li>
                                 <li><i class="am-icon-rmb am-red-EA5555"></i><%$year%>-<%$month%>&#12288;
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
+                                售卖价格
                                 <table class="roomLayoutPrice">
                                 <tr>
                                     <%section name=price loop=$monthT%>
