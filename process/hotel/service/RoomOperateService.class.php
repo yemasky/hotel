@@ -313,7 +313,7 @@ class RoomOperateService extends \BaseService {
         $month = $objRequest -> month;
         if(empty($year)) $year = getYear();
         if(empty($month)) $month = getMonth();
-
+        $monthT= date('t', strtotime($year . '-' . $month . '-01'));
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_valid'=>1);
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
@@ -340,13 +340,15 @@ class RoomOperateService extends \BaseService {
                 if(isset($arrayPriceSystem[0])) {
                     $arrayRoomLayout[$i]['price_system'] = array_merge($arrayRoomLayout[$i]['price_system'], $arrayPriceSystem[0]);
                 }
-                if(isset($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']]) && !empty($arrayRoomLayout[$i]['price_system'])) {
+                if(!empty($arrayRoomLayout[$i]['price_system'])) {
                     foreach($arrayRoomLayout[$i]['price_system'] as $j => $arraySystem) {
-                        $arrayRoomLayout[$i]['price_system'][$j]['price'] = array();
-                        foreach($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']] as $k => $arrayPrice) {
-                            if($arraySystem['room_layout_price_system_id'] == $arrayPrice['room_layout_price_system_id']) {
-                                $arrayRoomLayout[$i]['price_system'][$j]['price'] = $arrayPrice;
-                                break;
+                        $arrayRoomLayout[$i]['price_system'][$j]['price'] = '';
+                        if(isset($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']])) {
+                            foreach($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']] as $k => $arrayPrice) {
+                                if($arraySystem['room_layout_price_system_id'] == $arrayPrice['room_layout_price_system_id']) {
+                                    $arrayRoomLayout[$i]['price_system'][$j]['price'] = $arrayPrice;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -356,7 +358,8 @@ class RoomOperateService extends \BaseService {
         //赋值
         $objResponse -> year = $year;
         $objResponse -> month = $month;
-
+        $objResponse -> monthT = $monthT;
+        //print_r($arrayRoomLayout);
         return $arrayRoomLayout;
     }
 

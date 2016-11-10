@@ -4,6 +4,7 @@
 <%include file="hotel/inc/head.tpl"%>
 <style type="text/css">
 .new-update i{margin-top:0px;}
+.roomLayoutPrice td{width:37px;}
 </style>
 </head>
 <body>
@@ -42,7 +43,36 @@
                         <div class="span12 btn-icon-pg">
                             <ul>
                                 <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
-                                <li><i class="am-icon-glass am-blue-2F93FF"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> </li><br>
+                                <li><i class="am-icon-glass am-blue-2F93FF"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> 
+                                </li>
+                                <li><i class="am-icon-rmb am-red-EA5555"></i><%$year%>-<%$month%>&#12288;
+                                <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
+                                <table class="roomLayoutPrice">
+                                <tr>
+                                    <%section name=price loop=$monthT%>
+                                        <td>
+                                        <%$smarty.section.price.iteration%>
+                                        </td>
+                                    <%/section%>
+                                </tr>
+                                <tr>
+                                    <%section name=price loop=$monthT%>
+                                        <td>
+                                        <%if $smarty.section.price.iteration<10%>
+                                        <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
+                                        <%else%>
+                                        <%$day=$smarty.section.price.iteration|cat:'_day'%>
+                                        <%/if%>
+                                        <%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%>
+                                        </td>
+                                    <%/section%>
+                                </tr>
+                                </table>
+                                <%else%>
+                                没有设置房价
+                                <%/if%>
+                                </li>
+                                <br>
                                 <%/section%>
                             </ul>
                         </div>
