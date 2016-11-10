@@ -10,7 +10,7 @@
 .stat-boxes, .quick-actions, .quick-actions-horizontal, .stats-plain { margin:0px;}
 .stat-boxes li, .quick-actions li, .quick-actions-horizontal li,#kalendar_week li{margin:0px 5px 5px 0;}
 .quick-actions li{max-width:210px; min-width:210px; width:210px;}
-#room_layout_price_kalendar li,#kalendar_week li, #different_price_month li{max-width:120px; min-width:120px; width:120px;}
+#room_layout_price_kalendar li,#kalendar_week li, #different_price_month li{max-width:100px; min-width:100px; width:100px;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #hotel_service input{margin:0px 2px 0px 8px;}
 #hotel_service label{display: inline-block;}
@@ -56,6 +56,8 @@
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['room_layout_price_system']['page_laguage_value']%> :</label>
                         <div class="controls" id="system_prices_html">
+                            <div class="btn-group"><a class="btn"><i class="am-icon-circle-o"></i> <%$arrayLaguage['room_layout_price_system']['page_laguage_value']%></a>
+                            </div>
                             <!--<%section name=system loop=$arrayRoomLayoutPriceSystem%>
                                 <div class="btn-group system_prices" data-id="<%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_id%>">
                                     <a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> <%$arrayRoomLayoutPriceSystem[system].room_layout_price_system_name%></a>
@@ -247,7 +249,7 @@
                             <div class="controls">
                                  <ul class="quick-actions pagination-left" id="kalendar_week">
                                     <li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周一</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周二</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周三</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周四</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周五</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周六</i></a></li><li><a><i class="am-icon-sm am-icon-calendar-minus-o "> 周日</i></a></li>
-                                </ul>
+                                </ul><br>
                                 <ul class="quick-actions pagination-left" id="room_layout_price_kalendar"></ul>
                             </div>
                         </div>

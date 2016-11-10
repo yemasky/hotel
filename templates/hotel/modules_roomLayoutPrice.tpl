@@ -5,6 +5,9 @@
 <style type="text/css">
 .new-update i{margin-top:0px;}
 .roomLayoutPrice td{width:37px;}
+@media (max-width: 480px) {
+    .roomLayoutPrice td{width:37px;}
+}
 </style>
 </head>
 <body>

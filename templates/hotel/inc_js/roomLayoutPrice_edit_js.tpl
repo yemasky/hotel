@@ -45,7 +45,7 @@ $(document).ready(function(){
             if(l == 00) {
                 kalendar_html += '<li class="none"></li>';
             } else {
-                kalendar_html += '<li> <a> <i class="am-icon-sm am-icon-calendar-minus-o "> '+l+'</i> '
+                kalendar_html += '<li> <a> <i class=""> '+l+' </i> '
                         +'<input '+disabled+' id="'+l+'_day" name="'+l+'_day" class="span7" type="text" /></a> </li>';
             }
             disabled = '';
