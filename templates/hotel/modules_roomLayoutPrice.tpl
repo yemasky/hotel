@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
+<style type="text/css">
+.new-update i{margin-top:0px;}
+</style>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -39,7 +42,7 @@
                         <div class="span12 btn-icon-pg">
                             <ul>
                                 <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
-                                <li><i class="icon-glass"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> </li>
+                                <li><i class="am-icon-glass am-blue-2F93FF"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> </li><br>
                                 <%/section%>
                             </ul>
                         </div>
