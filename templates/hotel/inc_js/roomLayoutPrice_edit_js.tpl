@@ -214,6 +214,51 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         }
 	});
+    var weekday=new Array(7)
+        weekday[0]="日"
+        weekday[1]="一"
+        weekday[2]="二"
+        weekday[3]="三"
+        weekday[4]="四"
+        weekday[5]="五"
+        weekday[6]="六"
+    $('#history_search_btn').click(function(e) {
+        var history_begin = $('#history_begin').val();
+        var history_end = $('#history_end').val();
+        var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyprice&history_begin='+history_begin
+                 +'&history_end='+history_end+'&system_id='+system_id+'&room_layout='+room_layout;
+        $.getJSON(url, function(result) {
+            data = result;
+            if(data.success == 1) {
+                var html = '';
+                if(data.itemData.room_price != '') {
+                    var priceItem = data.itemData.room_price;
+                    for(i in priceItem) {
+                        var year = priceItem[i].room_layout_date_year;
+                        var month = priceItem[i].room_layout_date_month;
+                        var arrayMonth = leapYear(year);
+                        html += '<li><div class="left peity_bar_good"><span>'+month+'</span>'+year+'</div><div class="right"> <strong></strong> </div></li>';
+                        for(var j = 1; j < arrayMonth[month]; j++) {
+                            var day = j + '_day';
+                            if(j < 10) {
+                                day = '0' + j + '_day';
+                            }
+                            var now_date = new Date(year + '-' + month + '-' + j);
+                            var week = now_date.getDay();
+                            html += '<li><div class="left peity_bar_good"><span>'+j+'</span>'+weekday[week]+'</div>'
+                                                  +'<div class="right"> <strong>'+priceItem[i][day]+'</strong> </div></li>';
+                        }
+                        html += '<br>';
+                    }
+                }
+                $('#history_price_list_html').html(html);
+            } else {
+                $('#modal_success').modal('hide');
+                $('#modal_fail').modal('show');
+                $('#modal_fail_message').html(data.message);
+            }
+        });
+    });
 	//select2
     $('#room_layout,#room_layout_id').select2();
     //选择对应的房型和价格体系
@@ -381,24 +426,6 @@ $(document).ready(function(){
             $('#hotel_service').html(hotel_service_values['html']);
         }
     }
-    
-    $('#search_history').click(function(e) {
-        var history_begin = $('#history_begin').val();
-        var history_end = $('#history_end').val();
-        var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyprice&history_begin='+history_begin
-                 +'&history_end='+history_end+'&system_id='+system_id+'&room_layout='+room_layout;
-        $.getJSON(url, function(result) {
-            data = result;
-            if(data.success == 1) {
-                
-                $('#hotel_service').html(hotel_service_html);
-            } else {
-                $('#modal_success').modal('hide');
-                $('#modal_fail').modal('show');
-                $('#modal_fail_message').html(data.message);
-            }
-        });
-    });
     
     var room_layout_price_system_validate = $("#room_layout_price_system").validate({
 		rules: {

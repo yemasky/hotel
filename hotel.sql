@@ -113,6 +113,56 @@ CREATE TABLE `book_discount` (
 
 insert  into `book_discount`(`book_discount_id`,`hotel_id`,`book_type_id`,`book_discount`,`book_discount_name`,`agreement_company_name`,`agreement_company_address`,`agreement_company_mobile`,`agreement_company_phone`,`agreement_company_fax`,`agreement_company_email`,`agreement_company_introduction`,`agreement_content`,`agreement_attachment`,`agreement_active_time_begin`,`agreement_active_time_end`,`book_discount_add_date`,`book_discount_add_time`) values (1,1,13,98,'金牌会员98折','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,95,'协议公司95折','东三环友好科技有限公司','协议公司地址',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,1,6,98,'协议公司98折','西三环友好科技有限公司',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
+/*Table structure for table `book_price` */
+
+DROP TABLE IF EXISTS `book_price`;
+
+CREATE TABLE `book_price` (
+  `book_id` bigint(19) NOT NULL,
+  `book_order_number` bigint(19) NOT NULL,
+  `room_layout_price_id` bigint(19) NOT NULL DEFAULT '0',
+  `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
+  `hotel_id` int(11) NOT NULL,
+  `room_layout_price_system_id` int(11) NOT NULL COMMENT '价格体系',
+  `room_layout_price_is_active` enum('0','1','-1') DEFAULT '1' COMMENT '是否在活动状态的价格 0不活动 1活动 -1删除',
+  `employee_id` int(11) NOT NULL COMMENT '操作员工',
+  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
+  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
+  `01_day` int(8) DEFAULT NULL,
+  `02_day` int(8) DEFAULT NULL,
+  `03_day` int(8) DEFAULT NULL,
+  `04_day` int(8) DEFAULT NULL,
+  `05_day` int(8) DEFAULT NULL,
+  `06_day` int(8) DEFAULT NULL,
+  `07_day` int(8) DEFAULT NULL,
+  `08_day` int(8) DEFAULT NULL,
+  `09_day` int(8) DEFAULT NULL,
+  `10_day` int(8) DEFAULT NULL,
+  `11_day` int(8) DEFAULT NULL,
+  `12_day` int(8) DEFAULT NULL,
+  `13_day` int(8) DEFAULT NULL,
+  `14_day` int(8) DEFAULT NULL,
+  `15_day` int(8) DEFAULT NULL,
+  `16_day` int(8) DEFAULT NULL,
+  `17_day` int(8) DEFAULT NULL,
+  `18_day` int(8) DEFAULT NULL,
+  `19_day` int(8) DEFAULT NULL,
+  `20_day` int(8) DEFAULT NULL,
+  `21_day` int(8) DEFAULT NULL,
+  `22_day` int(8) DEFAULT NULL,
+  `23_day` int(8) DEFAULT NULL,
+  `24_day` int(8) DEFAULT NULL,
+  `25_day` int(8) DEFAULT NULL,
+  `26_day` int(8) DEFAULT NULL,
+  `27_day` int(8) DEFAULT NULL,
+  `28_day` int(8) DEFAULT NULL,
+  `29_day` int(8) DEFAULT NULL,
+  `30_day` int(8) DEFAULT NULL,
+  `31_day` int(8) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_price` */
+
 /*Table structure for table `book_type` */
 
 DROP TABLE IF EXISTS `book_type`;
@@ -844,11 +894,11 @@ CREATE TABLE `room_layout_price` (
   `31_day` int(8) DEFAULT NULL,
   PRIMARY KEY (`room_layout_price_id`),
   UNIQUE KEY `room_price` (`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_date_year`,`room_layout_date_month`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_price` */
 
-insert  into `room_layout_price`(`room_layout_price_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_price`,`room_layout_extra_bed_price`,`room_layout_price_begin_datetime`,`room_layout_price_end_datetime`,`room_layout_price_ahead_datetime`,`room_layout_price_type`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (1,0,0,0,0,0,'0000-00-00','0000-00-00',0,'custom','0000-00-00','00:00:00','1',0,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,1,600,0,'2016-10-17','2017-01-31',0,'custom','2016-10-17','00:00:00','1',1,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,2,1,1,500,100,'2016-10-19','2017-01-28',0,'custom','2016-10-19','00:00:00','1',1,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','13:49:30','1',0,'2016','11',0,0,0,0,0,0,0,1,7,8,9,10,11,5,6,7777,9,0,11,11,12,13,14,15,16,17,18,19,29,30,0),(5,1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','15:04:38','1',0,'2016','11',0,0,0,0,0,0,0,5555,0,0,0,0,0,1,2,3,4,5,6,7,1,2,3,4,5,0,0,55,56,55,0),(6,2,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','16:12:09','1',0,'2016','12',1111,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,1,1,1,0,0,'0000-00-00','0000-00-00',0,'custom','2016-11-08','16:14:38','1',0,'2016','12',8888,NULL,NULL,NULL,NULL,NULL,NULL,222,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `room_layout_price`(`room_layout_price_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_price`,`room_layout_extra_bed_price`,`room_layout_price_begin_datetime`,`room_layout_price_end_datetime`,`room_layout_price_ahead_datetime`,`room_layout_price_type`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (1,0,0,0,0,0,'0000-00-00','0000-00-00',0,'custom','0000-00-00','00:00:00','1',0,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,1,1,600,0,'2016-10-01','2017-01-31',0,'custom','2016-10-17','00:00:00','1',1,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,2,1,1,500,100,'2016-10-01','2017-01-28',0,'custom','2016-10-19','00:00:00','1',1,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,2,1,1,0,0,'2016-11-01','0000-00-00',0,'custom','2016-11-08','13:49:30','1',0,'2016','11',0,0,0,0,0,0,0,1,7,8,9,10,11,5,6,7777,9,0,11,11,12,13,14,15,16,17,18,19,29,30,0),(5,1,1,1,0,0,'2016-11-01','0000-00-00',0,'custom','2016-11-08','15:04:38','1',0,'2016','11',0,0,0,0,0,0,0,5555,0,0,0,0,0,1,2,3,4,5,6,7,1,2,3,4,5,0,0,55,56,55,0),(6,2,1,1,0,0,'2016-12-01','0000-00-00',0,'custom','2016-11-08','16:12:09','1',0,'2016','12',1111,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,1,1,1,0,0,'2016-12-01','0000-00-00',0,'custom','2016-11-08','16:14:38','1',0,'2016','12',8888,NULL,NULL,NULL,NULL,NULL,NULL,222,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,1,1,1,0,0,'2017-12-01','0000-00-00',0,'custom','2016-11-11','13:47:59','1',0,'2017','12',NULL,NULL,NULL,2121,12,12,12,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `room_layout_price_extra_bed` */
 
@@ -862,6 +912,7 @@ CREATE TABLE `room_layout_price_extra_bed` (
   `room_layout_price_add_time` time NOT NULL COMMENT '添加时间',
   `room_layout_price_is_active` enum('0','1','-1') DEFAULT '1' COMMENT '是否在活动状态的价格 0不活动 1活动 -1删除',
   `employee_id` int(11) NOT NULL COMMENT '操作员工',
+  `room_layout_price_begin_datetime` date DEFAULT NULL,
   `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
   `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
   `01_day` int(8) DEFAULT NULL,
@@ -900,7 +951,7 @@ CREATE TABLE `room_layout_price_extra_bed` (
 
 /*Data for the table `room_layout_price_extra_bed` */
 
-insert  into `room_layout_price_extra_bed`(`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (2,1,1,'2016-11-08','13:02:48','1',0,'2016','11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,34,34,34,34,34,34,34,55,55,100,55,55,55,55,55,55,55,55,55,55,55,55,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,'2016','12',NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,'2017','1',NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,'2017','2',NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,'2017','3',NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,'2017','4',NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `room_layout_price_extra_bed`(`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_price_add_date`,`room_layout_price_add_time`,`room_layout_price_is_active`,`employee_id`,`room_layout_price_begin_datetime`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (2,1,1,'2016-11-08','13:02:48','1',0,NULL,'2016','11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,34,34,34,34,34,34,34,55,55,100,55,55,55,55,55,55,55,55,55,55,55,55,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,NULL,'2016','12',NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,NULL,'2017','1',NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,NULL,'2017','2',NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,NULL,'2017','3',NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL),(2,1,1,'2016-11-08','13:02:48','1',0,NULL,'2017','4',NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `room_layout_price_system` */
 

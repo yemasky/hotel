@@ -20,11 +20,11 @@
 .btn-group.btn-group {margin-right: 5px; margin-left:0px;}
 .none{border:none !important; padding-left:2px !important;}
 .stat-boxes2{top:0px;right:0px; text-align:left;}
-.stat-boxes .right strong{ font-size:14px;}
-.stat-boxes .left{padding: 1px 5px 6px 1px;margin-right: 1px;}
-.stat-boxes .left span{font-size:12px;}
-.stat-boxes .right{padding:5px 0 0}
-.stat-boxes li{margin:0px}
+.stat-boxes .right strong{ font-size:14px; font-weight:normal;}
+.stat-boxes .left{padding: 1px 5px 6px 1px;margin-right: 1px; text-align:center;}
+.stat-boxes .left span{font-size:12px; font-style:italic;}
+.stat-boxes .right{padding:5px 0 0; width:auto;}
+.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
@@ -289,7 +289,7 @@
                             <div class="controls">
                                 <input type="text" id="history_begin" value="<%$thisDay%>" class="span1" /> - 
                                 <input type="text" id="history_end" value="<%$toDay%>" class="span1" />
-                                <button type="submit" class="btn btn-primary pagination-centered save_info am-icon-search" id="search_history">
+                                <button type="submit" class="btn btn-primary pagination-centered save_info am-icon-search" id="history_search_btn">
                                     <%$arrayLaguage['search']['page_laguage_value']%>
                                 </button>
                             </div>
@@ -298,29 +298,12 @@
                         <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <ul class="stat-boxes stat-boxes2">
+                                <ul class="stat-boxes stat-boxes2" id="history_price_list_html">
                                   <li>
                                     <div class="left peity_bar_good">
-                                        <span>2</span>+20%</div>
-                                    <div class="right"> <strong>15598</strong> </div>
-                                  </li><li>
-                                    <div class="left peity_bar_neutral"><span>23</span>0%</div>
-                                    <div class="right"> <strong>1433</strong></div>
+                                        <span></span></div>
+                                    <div class="right"> <strong></strong> </div>
                                   </li>
-                                  <li>
-                                    <div class="left peity_bar_bad"><span>24</span>-50%</div>
-                                    <div class="right"> <strong>8650</strong> </div>
-                                  </li>
-                                  <li>
-                                    <div class="left peity_line_good"><span>42</span>+70%</div>
-                                    <div class="right"> <strong>8650</strong> </div>
-                                  </li>
-                                  <li>
-                                    <div class="left peity_bar_bad"><span>23</span>-50%</div>
-                                    <div class="right"> <strong>8650</strong> </div>
-                                  </li>
-                                  
-                                  
                                 </ul>
                             </div>
                         </div>

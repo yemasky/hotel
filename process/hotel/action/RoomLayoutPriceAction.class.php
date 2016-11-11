@@ -42,7 +42,7 @@ class RoomLayoutPriceAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $arrayRoomLayoutPriceList = RoomOperateService::instance()->getRoomLayoutPriceLIst($objRequest, $objResponse);
+        $arrayRoomLayoutPriceList = RoomOperateService::instance()->getRoomLayoutPriceList($objRequest, $objResponse);
         //赋值
         $objResponse -> arrayRoomLayoutPriceList = $arrayRoomLayoutPriceList;
         $objResponse -> thisYear = getYear();
@@ -187,8 +187,8 @@ class RoomLayoutPriceAction extends \BaseAction {
             if(($arrayEnd[0] - $arrayBegin[0]) > 1) {
                 return $this->errorResponse('跨度不能超过2年！');
             }
-            $conditions['where'] = array('>='=>array('room_layout_date_year'=>$arrayBegin[0],'room_layout_date_month'=>$arrayBegin[1]),
-                                         '<='=>array('room_layout_date_year'=>$history_end[0],'room_layout_date_month'=>$history_end[1]),
+            $conditions['where'] = array('>='=>array('room_layout_price_begin_datetime'=>$arrayBegin[0] . '-' . $arrayBegin[1] . '-01'),
+                                         '<='=>array('room_layout_price_begin_datetime'=>$arrayEnd[0] . '-' . $arrayEnd[1] . '-01'),
                                          'room_layout_id'=>$room_layout_id,
                                          'room_layout_price_system_id'=>$system_id);
         }

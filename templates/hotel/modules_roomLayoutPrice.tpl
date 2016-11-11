@@ -8,6 +8,12 @@
 @media (max-width: 480px) {
     .roomLayoutPrice td{width:37px;}
 }
+.stat-boxes2{top:0px;right:0px; text-align:left;}
+.stat-boxes .right strong{ font-size:14px; font-weight:normal;}
+.stat-boxes .left{padding: 1px 5px 6px 1px;margin-right: 1px; text-align:center;}
+.stat-boxes .left span{font-size:12px; font-style:italic;}
+.stat-boxes .right{padding:5px 0 0; width:auto;}
+.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px; width:auto !important;}
 </style>
 </head>
 <body>
@@ -81,6 +87,20 @@
                                 <li><i class="am-icon-rmb am-red-EA5555"></i>
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
                                 <code><%$year%>-<%$month%> <%$arrayLaguage['sell_price']['page_laguage_value']%></code>
+                                <!--<ul class="stat-boxes stat-boxes2">
+                                    <%section name=price loop=$monthT%>
+                                    <%if $smarty.section.price.iteration<10%>
+                                        <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
+                                    <%else%>
+                                        <%$day=$smarty.section.price.iteration|cat:'_day'%>
+                                    <%/if%>
+                                    <li>
+                                        <div class="left peity_bar_good">
+                                            <span><%$smarty.section.price.iteration%></span>+20%</div>
+                                        <div class="right"> <strong><%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%></strong> </div>
+                                    </li>
+                                    <%/section%>
+                                </ul>-->
                                 <table class="roomLayoutPrice">
                                 <tr>
                                     <%section name=price loop=$monthT%>
