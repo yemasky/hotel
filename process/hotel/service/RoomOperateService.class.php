@@ -28,6 +28,8 @@ class RoomOperateService extends \BaseService {
         $room_layout_id = $objRequest -> room_layout;
         $room_layout_price_system_id = $objRequest -> system_id;
         $thisYear = getYear();
+        $thisMonth = getMonth();
+
         $extra_bed_price = $objRequest -> extra_bed_price;
         $arrayExtraBed = $objRequest->extra_bed;
         $extraBed = false;
@@ -37,6 +39,9 @@ class RoomOperateService extends \BaseService {
         //只允许2年内的价格
         if(($arrayTimeBegin['0'] - $thisYear) > 1 || ($arrayTimeEnd[0] - $thisYear) > 1 || $arrayTimeBegin['0'] < $thisYear
             || $arrayTimeEnd[0] < $thisYear || $arrayTimeBegin['0'] > $arrayTimeEnd[0]) {
+            return array(0, '选择的年份不对！');
+        }
+        if($arrayTimeBegin['0'] <= $thisYear && $thisMonth < $arrayTimeBegin['1']) {
             return array(0, '选择的年份不对！');
         }
         if(empty($room_layout_id) || empty($room_layout_price_system_id)) {
@@ -244,10 +249,14 @@ class RoomOperateService extends \BaseService {
         $arrayExtraBed = $objRequest -> extra_bed;
         $extra_bed_price = $objRequest -> extra_bed_price;
         $thisYear = getYear();
+        $thisMonth = getMonth();
         $arrayMonthExtraBedData = array();
         $arrayMonthData = array();
         //只允许2年内的价格
         if(($room_layout_date_year - $thisYear) > 1) {
+            return array(0, '选择的年份不对！');
+        }
+        if($room_layout_date_year <= $thisYear && $thisMonth < $room_layout_date_month) {
             return array(0, '选择的年份不对！');
         }
         if(empty($room_layout_id) || empty($room_layout_price_system_id)) {

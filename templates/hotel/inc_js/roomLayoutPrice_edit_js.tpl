@@ -91,13 +91,15 @@ $(document).ready(function(){
                         //console.log(itemData);
                         if(itemData != '' && typeof(itemData['room_price'][0]) != 'undefined') {
                             var _roomPrice = itemData['room_price'][0];
+                            //缓存
                             historyPrice[key] = _roomPrice;
                             for(i in _roomPrice) {
                                 $('#'+i).val(_roomPrice[i]);
                             }
                             if(typeof(itemData['extra_bed_price'][0]) != 'undefined') {
+                                //缓存
                                 historyPrice[key+'_extra_bed_price'] = itemData['extra_bed_price'][0];
-                                var _extraBedPrice = historyPrice[key+'_extra_bed_price'];
+                                var _extraBedPrice = itemData['extra_bed_price'][0];
                                 for(i in _extraBedPrice) {
                                     $('#'+i+'_extra_bed').val(_extraBedPrice[i]);
                                 }
@@ -188,9 +190,9 @@ $(document).ready(function(){
 	});
     $('#history_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {
-            var dateToDisable = new Date();
+            var dateToDisable = new Date('<%$thisDay%>');
 			if (date.getTime() > dateToDisable.getTime()) {
-				return [false, ""];
+				//return [false, ""];
 			}
             return [true];
 			//return [true, ""];
@@ -201,9 +203,9 @@ $(document).ready(function(){
 	});
     $('#history_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
-            var dateToDisable = new Date();
+            var dateToDisable = new Date('<%$thisDay%>');
 			var dateToBeginDisable = new Date($('#history_begin').val());
-			if (date.getTime() > dateToDisable.getTime() || date.getTime() < dateToBeginDisable.getTime()) {
+			if (date.getTime() < dateToBeginDisable.getTime()) {//date.getTime() > dateToDisable.getTime() || 
 				return [false];
 			}
 			return [true, ""];
@@ -379,6 +381,24 @@ $(document).ready(function(){
             $('#hotel_service').html(hotel_service_values['html']);
         }
     }
+    
+    $('#search_history').click(function(e) {
+        var history_begin = $('#history_begin').val();
+        var history_end = $('#history_end').val();
+        var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyprice&history_begin='+history_begin
+                 +'&history_end='+history_end+'&system_id='+system_id+'&room_layout='+room_layout;
+        $.getJSON(url, function(result) {
+            data = result;
+            if(data.success == 1) {
+                
+                $('#hotel_service').html(hotel_service_html);
+            } else {
+                $('#modal_success').modal('hide');
+                $('#modal_fail').modal('show');
+                $('#modal_fail_message').html(data.message);
+            }
+        });
+    });
     
     var room_layout_price_system_validate = $("#room_layout_price_system").validate({
 		rules: {

@@ -4,6 +4,7 @@
 <%include file="hotel/inc/head.tpl"%>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
+
 <style type="text/css">
 .quick-actions li a { padding: 10px 5px 5px;}
 .pagination-left { text-align:left }
@@ -18,6 +19,12 @@
 .btn-group .btn {border: 1px solid #8C8585}
 .btn-group.btn-group {margin-right: 5px; margin-left:0px;}
 .none{border:none !important; padding-left:2px !important;}
+.stat-boxes2{top:0px;right:0px; text-align:left;}
+.stat-boxes .right strong{ font-size:14px;}
+.stat-boxes .left{padding: 1px 5px 6px 1px;margin-right: 1px;}
+.stat-boxes .left span{font-size:12px;}
+.stat-boxes .right{padding:5px 0 0}
+.stat-boxes li{margin:0px}
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
@@ -139,8 +146,8 @@
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" />
-                                <input type="text" id="time_end" name="time_end" value="<%$toDay%>" />
+                                <input type="text" class="span1" id="time_begin" name="time_begin" value="<%$thisDay%>" /> - 
+                                <input type="text" class="span1" id="time_end" name="time_end" value="<%$toDay%>" />
                             </div>
                         </div>
                         <div class="control-group">
@@ -280,9 +287,9 @@
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input type="text" id="history_begin" value="<%$thisDay%>" class="span2" />
-                                <input type="text" id="history_end" value="<%$toDay%>" class="span2" />
-                                <button type="submit" class="btn btn-primary pagination-centered save_info am-icon-search">
+                                <input type="text" id="history_begin" value="<%$thisDay%>" class="span1" /> - 
+                                <input type="text" id="history_end" value="<%$toDay%>" class="span1" />
+                                <button type="submit" class="btn btn-primary pagination-centered save_info am-icon-search" id="search_history">
                                     <%$arrayLaguage['search']['page_laguage_value']%>
                                 </button>
                             </div>
@@ -291,7 +298,30 @@
                         <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <ul class="quick-actions pagination-left" id=""></ul>
+                                <ul class="stat-boxes stat-boxes2">
+                                  <li>
+                                    <div class="left peity_bar_good">
+                                        <span>2</span>+20%</div>
+                                    <div class="right"> <strong>15598</strong> </div>
+                                  </li><li>
+                                    <div class="left peity_bar_neutral"><span>23</span>0%</div>
+                                    <div class="right"> <strong>1433</strong></div>
+                                  </li>
+                                  <li>
+                                    <div class="left peity_bar_bad"><span>24</span>-50%</div>
+                                    <div class="right"> <strong>8650</strong> </div>
+                                  </li>
+                                  <li>
+                                    <div class="left peity_line_good"><span>42</span>+70%</div>
+                                    <div class="right"> <strong>8650</strong> </div>
+                                  </li>
+                                  <li>
+                                    <div class="left peity_bar_bad"><span>23</span>-50%</div>
+                                    <div class="right"> <strong>8650</strong> </div>
+                                  </li>
+                                  
+                                  
+                                </ul>
                             </div>
                         </div>
                         </form>

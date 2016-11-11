@@ -88,7 +88,10 @@ class RoomLayoutPriceAction extends \BaseAction {
             $this->setDisplay();
             return $this->getHistoryPrice($objRequest, $objResponse);
         }
-
+        if($objRequest -> search == 'historyprice') {
+            $this->setDisplay();
+            return $this->getHistoryPrice($objRequest, $objResponse);
+        }
         $this->doEdit($objRequest, $objResponse);
         //
         $objResponse -> add_roomLayoutPriceSystem_url =
@@ -167,12 +170,30 @@ class RoomLayoutPriceAction extends \BaseAction {
         $this->setDisplay();
         $year = $objRequest->year;
         $month = $objRequest->month;
+        $history_begin = $objRequest->history_begin;
+        $history_end = $objRequest->history_end;
         $system_id = $objRequest->system_id;
         $room_layout_id = $objRequest->room_layout;
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('room_layout_date_year'=>$year, 'room_layout_date_month'=>$month, 'room_layout_id'=>$room_layout_id,
-            'room_layout_price_system_id'=>$system_id);
-        $field = '';
+        if(!empty($year) && !empty($month)) {
+            $conditions['where'] = array('room_layout_date_year'=>$year, 'room_layout_date_month'=>$month, 'room_layout_id'=>$room_layout_id,
+                'room_layout_price_system_id'=>$system_id);
+        } elseif(!empty($history_begin) && !empty($history_end)) {
+            $arrayBegin = explode('-', $history_begin);
+            $arrayEnd = explode('-', $history_end);
+            if(strtotime($history_end) < strtotime($history_begin)) {
+                return $this->errorResponse('时间选择不正确！');
+            }
+            if(($arrayEnd[0] - $arrayBegin[0]) > 1) {
+                return $this->errorResponse('跨度不能超过2年！');
+            }
+            $conditions['where'] = array('>='=>array('room_layout_date_year'=>$arrayBegin[0],'room_layout_date_month'=>$arrayBegin[1]),
+                                         '<='=>array('room_layout_date_year'=>$history_end[0],'room_layout_date_month'=>$history_end[1]),
+                                         'room_layout_id'=>$room_layout_id,
+                                         'room_layout_price_system_id'=>$system_id);
+        }
+
+        $field = 'room_layout_date_year,room_layout_date_month,';
         for($i = 1; $i <= 31; $i++) {
             $l = $i < 10 ? '0' . $i : $i;
             $field .= $l . '_day,';
