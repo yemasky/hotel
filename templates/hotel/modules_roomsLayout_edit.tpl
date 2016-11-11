@@ -119,7 +119,7 @@
                 <ul class="quick-actions" id="rooms">
                 <%section name=room loop=$arrayRoom%>
                 <li> 
-                <a> <i class="icon-home"></i> <input id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"> <%$arrayRoom[room].room_name%>
+                <a> <i class="icon-home"></i> <input id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"> <%$arrayRoom[room].room_name%>
                 </a>
                 <%if $arrayDataInfo.room_layout_extra_bed>0%>
                 <%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>: 
@@ -325,12 +325,28 @@ $(document).ready(function(){
 	$('.addAttr').click(function(e) {
 		$(this).before(" ").prev().clone().insertBefore(this).after(" ");
     });
+    <%if $view!='1'%>
     $('#rooms :checkbox').click(function(e) {
-        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value;
+        var extra_bed = $('#extra_bed_' + this.value).val();
+        if(typeof(extra_bed) == 'undefined') extra_bed = 0;
+        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value + '&extra_bed=' + extra_bed;
         $.getJSON(url, function(result) {
             data = result;
         })
     });
+    $('#rooms :text').keyup(function(e) {
+        var checked = $('#'+$(this).attr('data-id')).attr('checked');
+        if(checked == 'checked' || checked == true) {
+            checked = 'true';
+            var extra_bed = this.value;
+            if(typeof(extra_bed) == 'undefined') extra_bed = 0;
+            var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + $(this).attr('data-id') + '&extra_bed=' + extra_bed;
+            $.getJSON(url, function(result) {
+                data = result;
+            })
+        }
+    });
+    <%/if%>
 });
 </script>
 <%if $view=='1'%>

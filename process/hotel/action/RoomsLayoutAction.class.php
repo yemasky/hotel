@@ -115,16 +115,24 @@ class RoomsLayoutAction extends \BaseAction {
             $room_layout_id = decode($objRequest->room_layout_id);
             $room_id = decode($objRequest->room_id);
             $checked = $objRequest->checked;
+            $extra_bed = $objRequest->extra_bed > 0 ? $objRequest->extra_bed : 0;
 
             if(empty($room_layout_id) || empty($room_id)) return $this->errorResponse('错误的ID号，请检查');
 
+            $conditions = DbConfig::$db_query_conditions;
+            $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'room_id'=>$room_id);
             if($checked == 'true') {
+                $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions);
                 $arrayRoomData['room_id'] = $room_id;
                 $arrayRoomData['room_layout_id'] = $room_layout_id;
-                RoomService::instance()->saveRoomLayoutRoom($arrayRoomData);
+                $arrayRoomData['room_layout_room_extra_bed'] = $extra_bed;
+                if(empty($arrayRoomLayoutRoom)) {
+                    RoomService::instance()->saveRoomLayoutRoom($arrayRoomData);
+                } else {
+                    RoomService::instance()->updateRoomLayoutRoom($conditions['where'], $arrayRoomData);
+                }
             } elseif($checked == 'false') {
-                $conditions = DbConfig::$db_query_conditions;
-                $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'room_id'=>$room_id);
+
                 RoomService::instance()->deleteRoomLayoutRoom($conditions['where']);
             }
 
@@ -209,7 +217,7 @@ class RoomsLayoutAction extends \BaseAction {
                     $arrayRoom[$i]['checked'] = $room_layout_id;
                     $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'];
                 }
-                $arrayRoom[$i]['room_id'] = encode($arrayRoom[$i]['room_id']);
+                $arrayRoom[$i]['room_id'] = str_replace('=', '',encode($arrayRoom[$i]['room_id']));
             }
         }
         //赋值

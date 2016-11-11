@@ -134,6 +134,10 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout_room')->insert($arrayData);
     }
 
+    public function updateRoomLayoutRoom($where, $row) {
+        return RoomDao::instance()->setTable('room_layout_room')->update($where, $row);
+    }
+
     public function deleteRoomLayoutRoom($where) {
         return RoomDao::instance()->setTable('room_layout_room')->delete($where);
     }
