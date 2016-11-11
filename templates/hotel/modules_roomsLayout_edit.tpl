@@ -116,17 +116,18 @@
            </div>
            <div id="tab3" class="tab-pane">
                <div class="widget-content">
-                <ul class="thumbnails">
-                    <li class="span2">
-                        <a class="thumbnail lightbox_trigger">
-                            <img id="" src="" alt="" >
-                        </a>
-                        <div class="actions">
-                            <a title="" href="#"><i class="icon-pencil icon-white"></i></a>
-                            <a title="" href="#"><i class="icon-remove icon-white"></i></a>
-                        </div>
-                    </li>
-                 </ul>
+                <ul class="quick-actions" id="rooms">
+                <%section name=room loop=$arrayRoom%>
+                <li> 
+                <a> <i class="icon-home"></i> <input id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"> <%$arrayRoom[room].room_name%>
+                </a>
+                <%if $arrayDataInfo.room_layout_extra_bed>0%>
+                <%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>: 
+                <input type="text" class="span3" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
+                <%/if%>
+                </li> 
+                <%/section%>
+                </ul>
                 </div>
            		<form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate> 
                 <div class="control-group">
@@ -291,6 +292,7 @@ $(document).ready(function(){
 	});
 	function saveRoomLayoutAttrValue() {
 		var param = $("#add_room_layout_attr_form").serialize();
+        var view = '<%$view%>';
 		$.ajax({
 		   url : '<%$add_room_layout_attr_url%>&room_layout_id=' + room_layout_id,
 		   type : "post",
@@ -302,13 +304,13 @@ $(document).ready(function(){
 				   $('#modal_success').modal('show');
 				   $('#modal_success_message').html(data.message)
 				   $('#modal_success').on('hidden.bs.modal', function () {
-					    <%if $view == 'add'%>
-						if(data.redirect != '') {
-						   window.location = data.redirect;
-						}
-						<%else%>
+					    if(view == 'add') {
+                            if(data.redirect != '') {
+                               window.location = data.redirect;
+                            }
+                        } else {
 							$('#room_layout_images a').tab('show');
-						<%/if%>
+                        }
 				   })
 			   } else {
 				   $('#modal_success').modal('hide');
@@ -318,9 +320,16 @@ $(document).ready(function(){
 		   }
 		 });
 	}
-	<%if $step == 'upload_images'%>$('#room_layout_images a').tab('show');<%/if%>
+    var step = '<%$step%>';
+	if(step == 'upload_images') {$('#room_layout_images a').tab('show');}
 	$('.addAttr').click(function(e) {
 		$(this).before(" ").prev().clone().insertBefore(this).after(" ");
+    });
+    $('#rooms :checkbox').click(function(e) {
+        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value;
+        $.getJSON(url, function(result) {
+            data = result;
+        })
     });
 });
 </script>

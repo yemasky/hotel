@@ -110,6 +110,28 @@ class RoomsLayoutAction extends \BaseAction {
             return $this->successResponse('', array('room_layout_images_id'=>$room_layout_images_id));
         }
 
+        if($objRequest -> act == 'setRoomLayoutRoom') {
+            $this->setDisplay();
+            $room_layout_id = decode($objRequest->room_layout_id);
+            $room_id = decode($objRequest->room_id);
+            $checked = $objRequest->checked;
+
+            if(empty($room_layout_id) || empty($room_id)) return $this->errorResponse('错误的ID号，请检查');
+
+            if($checked == 'true') {
+                $arrayRoomData['room_id'] = $room_id;
+                $arrayRoomData['room_layout_id'] = $room_layout_id;
+                RoomService::instance()->saveRoomLayoutRoom($arrayRoomData);
+            } elseif($checked == 'false') {
+                $conditions = DbConfig::$db_query_conditions;
+                $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'room_id'=>$room_id);
+                RoomService::instance()->deleteRoomLayoutRoom($conditions['where']);
+            }
+
+            return $this->successResponse('设置成功');
+        }
+
+
         $room_layout_id = decode($objRequest -> room_layout_id);
         $arrayPostValue= $objRequest->getPost();
 
@@ -173,12 +195,30 @@ class RoomsLayoutAction extends \BaseAction {
             }
         }
         sort($arrayAttribute, SORT_NUMERIC);
+        //房型的房子
+        $conditions['where'] = array('room_layout_id'=>$room_layout_id);
+        $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions, '*', 'room_id');
+        //真实客房
+        $conditions['where'] = array('room_type'=>'room', 'room_status'=>'0', 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $arrayRoom = RoomService::instance()->getRoom($conditions);
+        if(!empty($arrayRoom)) {
+            foreach($arrayRoom as $i => $arrayValue) {
+                $arrayRoom[$i]['checked'] = 0;
+                $arrayRoom[$i]['room_layout_room_extra_bed'] = 0;
+                if(isset($arrayRoomLayoutRoom[$arrayValue['room_id']])){
+                    $arrayRoom[$i]['checked'] = $room_layout_id;
+                    $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'];
+                }
+                $arrayRoom[$i]['room_id'] = encode($arrayRoom[$i]['room_id']);
+            }
+        }
         //赋值
         $objResponse -> view = '0';
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
         $objResponse -> room_layout_id = encode($room_layout_id);
         $objResponse -> arrayAttribute = $arrayAttribute;
         $objResponse -> arrayDataInfo = $arrayRoomLayout[0];
+        $objResponse -> arrayRoom = $arrayRoom;//真实房
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
                 'room_layout_id'=>$objRequest->room_layout_id));
