@@ -16,10 +16,10 @@ class HotelService extends \BaseService {
         return self::$objService;
     }
 
-    public function getHotelModules($hotel_id, $hashKey = null) {
+    public function getHotelModules($hotel_id, $hashKey = null, $multiple = false) {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
-        return HotelDao::instance()->getHotelModules($conditions, '*', $hashKey);
+        return HotelDao::instance()->getHotelModules($conditions, '*', $hashKey, $multiple);
     }
 
     public function getHotel($conditions, $hashKey = null) {
@@ -104,8 +104,8 @@ class HotelService extends \BaseService {
         return RoomDao::instance()->setTable('hotel_attribute_value')->delete($where);
     }
     //hotel_service
-    public function getHotelService($conditions, $field = '*', $hashKey = null, $multiple = false) {
-        return RoomDao::instance()->setTable('hotel_service')->getList($conditions, $field, $hashKey, $multiple);
+    public function getHotelService($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return RoomDao::instance()->setTable('hotel_service')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
     }
 
     public function saveHotelService($arrayData) {

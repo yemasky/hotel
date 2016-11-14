@@ -46,20 +46,28 @@ class mysqlDriver{
 	 * @param
 	 *        	sql 执行的SQL语句
 	 */
-	public function getQueryArrayResult($sql, $hashKey = null, $multiple = false){
+	public function getQueryArrayResult($sql, $hashOrIdKey = null, $multiple = false){
 		$result = $this->execute($sql);
 		$rows = array ();
-        if(empty($hashKey)) {
+        if(empty($hashOrIdKey)) {
             while($rows[] = mysql_fetch_array($result, MYSQL_ASSOC)) {
             }
             array_pop($rows);
-        } elseif(!$multiple) {
+        } elseif(!$multiple) {//$multiple单重
             while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                $rows[$row[$hashKey]] = $row;
+                $rows[$row[$hashOrIdKey]] = $row;
             }
-        } else {
+        } elseif(!empty($fatherKey)) {
+            while($row = mysql_fetch_array($result, MYSQLI_ASSOC)) {
+                if($row[$hashOrIdKey] == $row[$fatherKey]) {//father
+                    $rows[$row[$hashOrIdKey]] = $row;
+                } else {
+                    $rows[$row[$hashOrIdKey]]['children'][] = $row;
+                }
+            }
+        }else {//$multiple多重
             while($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                $rows[$row[$hashKey]] = $row;
+                $rows[$row[$hashOrIdKey]] = $row;
             }
         }
 
