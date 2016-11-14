@@ -33,8 +33,8 @@
                         <div class="control-group" id="form-wizard-1">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input class="span1" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" /> - 
-                                <input class="span1" type="text" id="time_end" name="time_end" value="<%$toDay%>" />
+                                <input class="span2" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" /> - 
+                                <input class="span2" type="text" id="time_end" name="time_end" value="<%$toDay%>" />
                                 <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
                                 <a class="btn btn-primary" href="<%$add_book_url%>"><i class="am-icon-user-plus"></i>

@@ -53,12 +53,14 @@ class mysqliDriver {
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $rows[$row[$hashOrIdKey]] = $row;
             }
-        } elseif(!empty($fatherKey)) {//exit();
+        } elseif(!empty($fatherKey)) {//$multiple多重
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 if($row[$hashOrIdKey] == $row[$fatherKey]) {//father
-                    $rows[$row[$hashOrIdKey]] = $row;
+                    $children = isset($rows[$row[$fatherKey]]['children']) ? $rows[$row[$fatherKey]]['children'] : array();
+                    $rows[$row[$fatherKey]] = $row;
+                    $rows[$row[$fatherKey]]['children'] = $children;
                 } else {
-                    $rows[$row[$hashOrIdKey]]['children'][] = $row;
+                    $rows[$row[$fatherKey]]['children'][] = $row;
                 }
             }
         } else {//$multiple多重

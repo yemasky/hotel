@@ -658,7 +658,6 @@ $(document).ready(function(){
                 type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
-                     data = result;
                     if(data.success == 1) {
                         $('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
