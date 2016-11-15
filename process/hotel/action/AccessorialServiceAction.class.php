@@ -52,6 +52,7 @@ class AccessorialServiceAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['accessorialService']['delete'])));
         //设置类别
     }
+
     protected function doAdd($objRequest, $objResponse) {
         $objRequest -> hotel_service_id = 0;
         $this->doEdit($objRequest, $objResponse);
@@ -63,9 +64,9 @@ class AccessorialServiceAction extends \BaseAction {
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && $objRequest -> hotel_service_id > 0) {
 
-            return $this->successResponse('保存客房属性成功');
+            return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value']);
         }
-        return $this->errorResponse('没有保存任何客房属性');
+        return $this->errorResponse($objResponse->arrayLaguage['save_nothings']['page_laguage_value']);
     }
 
     protected function doDelete($objRequest, $objResponse) {

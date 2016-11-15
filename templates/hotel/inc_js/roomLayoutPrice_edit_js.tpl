@@ -313,7 +313,7 @@ $(document).ready(function(){
         }
     });
     function createSystemPriceHtml(htmlData) {
-        var html = '<div class="btn-group system_prices" data-id="1"><a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> 基本房费</a></div> ';
+        var html = '<div class="btn-group system_prices" data-id="1"><a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> <%$arrayLaguage["base_room_price"]["page_laguage_value"]%></a></div> ';
         for(i in htmlData) {
             var id = htmlData[i].room_layout_price_system_id;
             var name = htmlData[i].room_layout_price_system_name;

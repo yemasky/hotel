@@ -17,9 +17,8 @@
 #noBodyLeft{}
 #noBodyLeft th,#noBodyLeft td{padding:5px;}
 #noBodyLeft input,#noBodyLeft select{margin-bottom:0px;}
-.custom-date-style {
-	background-color: red !important;
-}
+.custom-date-style {background-color: red !important;}
+.btn-group .btn {border: 1px solid #8C8585}
 </style>
 </head>
 <body>
@@ -49,7 +48,6 @@
                             <%$arrayLaguage['email&lotel']['page_laguage_value']%> : 
                             <input type="text" id="contact_mobile" name="contact_mobile" class="span2" placeholder="<%$arrayLaguage['email&lotel']['page_laguage_value']%>"  />
                             <a href="#begin_book" id="begin_book" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['begin_book']['page_laguage_value']%></a>
-                            
                             </div>
                         </div>
 					</form>
@@ -87,9 +85,17 @@
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
                                 <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
-								<a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
-                                <a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>
+								
+                                <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
+                            <label class="control-label"><%$arrayLaguage['system_price']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                            <div class="btn-group"><a class="btn"><i class="am-icon-check-square-o"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div>
+                            <%section name=i loop=$arrayHotelService%>
+                            <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-square-o"></i> <%$arrayHotelService[i].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%></a></div>
+                            <%/section%>
+                                <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                            </div>
 						</div>
 						 <div class="control-group" id="room_layout_table">
 							<div class="controls">

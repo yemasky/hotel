@@ -53,7 +53,7 @@
                                 <div class="control-group">
                                     <label class="control-label"><%$arrayLaguage['select_classes']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <select name="hotel_service_id" id="hotel_service_id" class="span2">
+                                        <select name="hotel_service" id="hotel_service" class="span2">
                                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                         <option value="0"><%$arrayLaguage['new_service_classes']['page_laguage_value']%></option>
                                         <%section name=i loop=$arrayData%>
@@ -66,6 +66,7 @@
                                     <label class="control-label"><%$arrayLaguage['service_name']['page_laguage_value']%> :</label>
                                     <div class="controls">
                                         <input id="hotel_service_name" name="hotel_service_name" class="span2" placeholder="" value="" type="text">
+                                        <input id="hotel_service_id" name="hotel_service_id" value="" type="hidden">
                                     </div>
                                     <label class="control-label"><%$arrayLaguage['price']['page_laguage_value']%> :</label>
                                     <div class="controls">
@@ -103,27 +104,30 @@ $(document).ready(function(){
                 $('.accessorial_edit .edit_btn').click(function(e) {
                     $('.accessorial_edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
                     $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
-                    $('#hotel_service_id').val($(this).parent().attr('father-id'));
+                    $('#hotel_service').val($(this).parent().attr('father-id'));
                     $('#hotel_service_price').val($(this).parent().attr('price'));
                     $('#hotel_service_name').val($(this).parent().attr('data-name'));
+                    $('#hotel_service_id').val($(this).parent().attr('data-id'));
                     $('#edit_accessorial').collapse({toggle: true})
                     $('#edit_accessorial').collapse('show');
                     $('#hotel_service_price').attr('disabled', false);
                 });
                 $('.add_accessorial').click(function(e) {
                     $('.accessorial_edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
-                    $('#hotel_service_id').val('');
+                    $('#hotel_service').val('');
                     $('#hotel_service_price').val('');
                     $('#hotel_service_name').val('');
+                    $('#hotel_service_id').val('');
                     $('#edit_accessorial').collapse({toggle: true})
                     $('#edit_accessorial').collapse('show');
                     $('#hotel_service_price').attr('disabled', false);
                 });
-                $('#hotel_service_id').change(function(e) {
+                $('#hotel_service').change(function(e) {
                     if($(this).val() == 0) {
                         $('#hotel_service_price').val('-1');
                         $('#hotel_service_price').attr('disabled', true);
                         $('#hotel_service_name').val('');
+                        $('#hotel_service_id').val('');
                     } else {
                         if($('#hotel_service_price').val() == -1) {
                             $('#hotel_service_price').val('');
@@ -141,12 +145,12 @@ $(document).ready(function(){
     
     var edit_accessorial_form_validate = $("#edit_accessorial_form").validate({
 		rules: {
-			hotel_service_id: {required: true},
+			hotel_service: {required: true},
             hotel_service_name: {required: true},
 		},
 		messages: {
 			hotel_service_name:"",
-            hotel_service_id:"",
+            hotel_service:"",
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -164,7 +168,7 @@ $(document).ready(function(){
             var add = '<%$add_accessorialService_url%>';
             var edit = '<%$edit_accessorialService_url%>';
             url = add;
-            if($('#hotel_service_id').val() > 0) url = edit;
+            if($('#hotel_service').val() > 0) url = edit;
             $.ajax({
                 url : url,
                 type : "post",dataType : "json",data: param,

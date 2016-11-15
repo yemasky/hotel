@@ -212,7 +212,6 @@ abstract class BaseAction{
 	private $showErrorPage = true;
 	private $isHeader = false;
 	private $compiler = false;
-	private $dbrollback = false;
 	private $_cache = false;
 	private $_cache_id = '';
 	private $_cache_time = 7200;
@@ -286,13 +285,6 @@ abstract class BaseAction{
 	}
 
 	/**
-	 * 事务回滚
-	 */
-	protected function dbRollback($flag = true){
-		$this->dbrollback = $flag;
-	}
-
-	/**
 	 * 是否Header
 	 */
 	protected function sendHeader($flag = true){
@@ -342,13 +334,13 @@ abstract class BaseAction{
 	}
 
     public function successResponse($message, $arrayReturnDate = '', $redirect_url = '') {
-        $arrayResule = array('success'=>1,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
-        echo json_encode($arrayResule);
+        $arrayResult = array('success'=>1,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
+        echo json_encode($arrayResult);
     }
 
     public function errorResponse($message, $arrayReturnDate = '', $redirect_url = '') {
-        $arrayResule = array('success'=>0,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
-        echo json_encode($arrayResule);
+        $arrayResult = array('success'=>0,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
+        echo json_encode($arrayResult);
     }
 
     private function redirect($url, $status = '302', $time = 0){

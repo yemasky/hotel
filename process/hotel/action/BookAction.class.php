@@ -61,34 +61,6 @@ class BookAction extends \BaseAction {
         if($objRequest -> search == 'searchRoomLayout') {
             $this -> setDisplay();
             $arrayBookRoomLayout = $this->searchISBookRoomLayout($objRequest, $objResponse);
-            $tableHr = '';
-            if(!empty($arrayBookRoomLayout)) {
-                foreach($arrayBookRoomLayout as $k => $v) {
-                    /*$tableHr .= '<tr class="gradeX"><td class="details-control"><span class="span3">' . $v['room_layout_name'] . '</span>'
-                             .'<select class="span2 room_layout_num" id="room_layout_id_'. $v['room_layout_id'] .'" '
-                             .'layout="'. $v['room_layout_id'] .'" >';
-                             for($i = 0; $i <= $v['room_layout_num'] ; $i++) {
-                                 $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
-                             }
-                    $tableHr .= '</select> <a href="#room" class="select_room">'.$objResponse->arrayLaguage['room']['page_laguage_value'].' <i class="am-icon-search am-blue-16A2EF"></i></a>';
-
-                    $tableHr .= '</td>'
-                             .'<td><input type="text" class="span2 book_price" id="book_price_'. $v['room_layout_id'] .'" value="' . $v['room_layout_price']
-                             . '"  /><span class="hide">' . $v['room_layout_price'] . '</span>';
-                    $tableHr .='</td>'
-                             .'<td>';
-                    //if($v['room_layout_extra_bed'] > 0) {
-                    $tableHr .= '<select class="span2 room_extra_bed" id="book_extra_bed_'. $v['room_layout_id'] .'" >';
-                    for($i = 0; $i <= $v['room_layout_extra_bed'] ; $i++) {
-                        $tableHr .= '<option value="'.$i.'">'.$i.'</option>';
-                    }
-                    $tableHr .= '</select>'
-                             .'<input type="text" class="span2 book_price" id="book_extra_bed_price_'. $v['room_layout_id'] .'" value="'
-                             . $v['room_layout_extra_bed_price'] . '"  /><span class="hide">' . $v['room_layout_extra_bed_price'] . '</span>';
-                    //}
-                    $tableHr .= '</td></tr>';*/
-                }
-            }
             return $this->successResponse('', $arrayBookRoomLayout);
         }
         if($objRequest -> search == 'searchUserMemberLevel') {
@@ -142,15 +114,21 @@ class BookAction extends \BaseAction {
             return $this->successResponse('保存售卖房型成功', array('order_number'=>encode($order_number)), $redirect_url);
         }
 
-        $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'],0)));
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)));
         $arrayBookType = BookService::instance()->getBookType($conditions);
 
         $conditions['where'] = null;
         $arrayPaymentType = BookService::instance()->getPaymentType($conditions);
+        //附加服务项目
+        $conditions['where'] = array('hotel_id'=>$hotel_id, '!='=>array('hotel_service_price'=>-1));
+        $conditions['order'] = 'hotel_service_father_id ASC';
+        $arrayHotelService = HotelService::instance()->getHotelService($conditions);
+        $conditions['order'] = '';
         //
         //赋值
         //hotel info
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
         $arrayHotel = HotelService::instance()->getHotel($conditions);
         $hotel_checkout = empty($arrayHotel[0]['hotel_checkout']) ? '12:00' : $arrayHotel[0]['hotel_checkout'];
         $hotel_checkin = empty($arrayHotel[0]['hotel_checkin']) ? '06:00' : $arrayHotel[0]['hotel_checkin'];
@@ -165,6 +143,7 @@ class BookAction extends \BaseAction {
         $objResponse -> hotel_checkin  = $hotel_checkin;
         $objResponse -> hotel_overtime  = $hotel_overtime;
         $objResponse -> idCardType = ModulesConfig::$idCardType;
+        $objResponse -> arrayHotelService = $arrayHotelService;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         $objResponse -> back_lis_url =
