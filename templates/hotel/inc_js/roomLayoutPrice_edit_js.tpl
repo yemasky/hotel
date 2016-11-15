@@ -450,7 +450,7 @@ $(document).ready(function(){
                 url : '<%$editSystem_url%>',type : "post",dataType : "json",data: param,
                 success : function(data) {
                     if(data.success == 1) {
-                        $('#modal_fail').modal('hide');
+                        //$('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
                         $('#addSystemPrice').collapse('hide');
@@ -507,7 +507,7 @@ $(document).ready(function(){
                         $("#hotel_service :checkbox").attr('checked', false);
                         room_layout_data = {};
                     } else {
-                        $('#modal_success').modal('hide');
+                        //$('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
                     }
@@ -608,12 +608,12 @@ $(document).ready(function(){
                 success : function(result) {
                     data = result;
                     if(data.success == 1) {
-                        $('#modal_fail').modal('hide');
+                        //$('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
                         historyPrice = {};
                     } else {
-                        $('#modal_success').modal('hide');
+                        //$('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
                     }
@@ -659,14 +659,14 @@ $(document).ready(function(){
                 success : function(result) {
                     data = result;
                     if(data.success == 1) {
-                        $('#modal_fail').modal('hide');
+                        //$('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
                         var key = room_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
                         historyPrice[key] = '';
                         historyPrice[key+'_extra_bed_price'] = '';
                     } else {
-                        $('#modal_success').modal('hide');
+                        //$('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
                     }

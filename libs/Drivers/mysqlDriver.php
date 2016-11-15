@@ -60,9 +60,11 @@ class mysqlDriver{
         } elseif(!empty($fatherKey)) {
             while($row = mysql_fetch_array($result, MYSQLI_ASSOC)) {
                 if($row[$hashOrIdKey] == $row[$fatherKey]) {//father
-                    $rows[$row[$hashOrIdKey]] = $row;
+                    $children = isset($rows[$row[$fatherKey]]['children']) ? $rows[$row[$fatherKey]]['children'] : '';
+                    $rows[$row[$fatherKey]] = $row;
+                    $rows[$row[$fatherKey]]['children'] = $children;
                 } else {
-                    $rows[$row[$hashOrIdKey]]['children'][] = $row;
+                    $rows[$row[$fatherKey]]['children'][] = $row;
                 }
             }
         }else {//$multiple多重

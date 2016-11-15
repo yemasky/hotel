@@ -28,8 +28,16 @@
                     <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
                     <div class="control-group">
                      <%section name=i loop=$arrayData%>
-                        <label class="control-label"><%$arrayData[i].hotel_service_name%> :</label>
+                        <label class="control-label">
+                        <!--<%$arrayData[i].hotel_service_name%> :-->
+                        
+                        </label>
                         <div class="controls accessorial_edit">
+                        <div class="btn-group">
+                            <a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].hotel_service_name%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <ul class="dropdown-menu" data-id="<%$arrayData[i].hotel_service_id%>" data-name="<%$arrayData[i].hotel_service_name%>" father-id="<%$arrayData[i].hotel_service_father_id%>" price="<%$arrayData[i].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><%if $arrayData[i].children==''%><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul>
+                            
+                        </div><br>
                         <%section name=j loop=$arrayData[i].children%>
                             <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].children[j].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayData[i].children[j].hotel_service_price%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$arrayData[i].children[j].hotel_service_id%>" data-name="<%$arrayData[i].children[j].hotel_service_name%>" father-id="<%$arrayData[i].children[j].hotel_service_father_id%>" price="<%$arrayData[i].children[j].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
                         <%/section%>    
@@ -111,6 +119,9 @@ $(document).ready(function(){
                     $('#edit_accessorial').collapse({toggle: true})
                     $('#edit_accessorial').collapse('show');
                     $('#hotel_service_price').attr('disabled', false);
+                    if($(this).parent().attr('price') == -1) {
+                       $('#hotel_service_price').attr('disabled', true);
+                    }
                 });
                 $('.add_accessorial').click(function(e) {
                     $('.accessorial_edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
@@ -147,10 +158,12 @@ $(document).ready(function(){
 		rules: {
 			hotel_service: {required: true},
             hotel_service_name: {required: true},
+            hotel_service_price: {required: true,digits:true},
 		},
 		messages: {
 			hotel_service_name:"",
             hotel_service:"",
+            hotel_service_price:"填0和整数",
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -175,12 +188,10 @@ $(document).ready(function(){
                 success : function(result) {
                     data = result;
                     if(data.success == 1) {
-                        $('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
                         
                     } else {
-                        $('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
                     }

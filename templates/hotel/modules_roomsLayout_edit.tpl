@@ -280,7 +280,6 @@ $(document).ready(function(){
 							
 					   })*/
 			       } else {
-					   $('#modal_success').modal('hide');
 					   $('#modal_fail').modal('show');
 					   $('#modal_fail_message').html(data.message);
 			       }
@@ -300,7 +299,7 @@ $(document).ready(function(){
 		   data: param,
 		   success : function(data) {
 			   if(data.success == 1) {
-				   $('#modal_fail').modal('hide');
+				   //$('#modal_fail').modal('hide');
 				   $('#modal_success').modal('show');
 				   $('#modal_success_message').html(data.message)
 				   $('#modal_success').on('hidden.bs.modal', function () {
@@ -313,7 +312,7 @@ $(document).ready(function(){
                         }
 				   })
 			   } else {
-				   $('#modal_success').modal('hide');
+				   //$('#modal_success').modal('hide');
 				   $('#modal_fail').modal('show');
 				   $('#modal_fail_message').html(data.message);
 			   }

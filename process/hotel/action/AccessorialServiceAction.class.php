@@ -62,9 +62,27 @@ class AccessorialServiceAction extends \BaseAction {
         $this->setDisplay();
         $arrayPostValue= $objRequest->getPost();
 
-        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $objRequest -> hotel_service_id > 0) {
-
-            return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value']);
+        if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
+            $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                'hotel_service_id'=>$objRequest -> hotel_service_id);
+            $arrayPostValue['hotel_service_father_id'] = $arrayPostValue['hotel_service'];
+            unset($arrayPostValue['hotel_service']);
+            $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['accessorialService']['view'])));
+            if($objRequest -> hotel_service_id > 0) {
+                HotelService::instance()->updateHotelService($where, $arrayPostValue);
+                return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+            } else {
+                if(empty($arrayPostValue['hotel_service_father_id'])) {
+                    $arrayPostValue['hotel_service_price'] = -1;
+                }
+                $hotel_server_id = HotelService::instance()->saveHotelService($arrayPostValue);
+                if(empty($arrayPostValue['hotel_service_father_id'])) {
+                    HotelService::instance()->updateHotelService(array('hotel_server_id'=>$hotel_server_id,
+                        'hotel_service_father_id'=>$hotel_server_id));
+                }
+               // return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+            }
         }
         return $this->errorResponse($objResponse->arrayLaguage['save_nothings']['page_laguage_value']);
     }
@@ -74,9 +92,9 @@ class AccessorialServiceAction extends \BaseAction {
         $arrayPostValue= $objRequest->getPost();
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
 
-            return $this->successResponse('修改成功！');
+            return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value']);
         }
-        return $this->errorResponse('修改失败，请检查！');
+        return $this->errorResponse($objResponse->arrayLaguage['save_nothings']['page_laguage_value']);
     }
 
 }

@@ -56,7 +56,7 @@ class mysqliDriver {
         } elseif(!empty($fatherKey)) {//$multiple多重
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 if($row[$hashOrIdKey] == $row[$fatherKey]) {//father
-                    $children = isset($rows[$row[$fatherKey]]['children']) ? $rows[$row[$fatherKey]]['children'] : array();
+                    $children = isset($rows[$row[$fatherKey]]['children']) ? $rows[$row[$fatherKey]]['children'] : '';
                     $rows[$row[$fatherKey]] = $row;
                     $rows[$row[$fatherKey]]['children'] = $children;
                 } else {

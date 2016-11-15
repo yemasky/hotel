@@ -85,5 +85,8 @@ $(document).ready(function(){
 	$('#modal_fail').on('hide.bs.modal', function() {
         if(typeof(data.redirect) != "undefined" && data.redirect != '') window.location = data.redirect;
     });
+    $('#modal_success').on('hide.bs.modal', function() {
+        if(typeof(data.redirect) != "undefined" && data.redirect != '') window.location = data.redirect;
+    });
 })
 </script>
