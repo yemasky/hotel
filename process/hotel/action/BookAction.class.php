@@ -60,14 +60,20 @@ class BookAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         if($objRequest -> search == 'searchRoomLayout') {
             $this -> setDisplay();
-            $arrayBookRoomLayout = $this->searchISBookRoomLayout($objRequest, $objResponse);
+            $arrayBookRoomLayout = BookOperateService::instance()->searchISBookRoomLayout($objRequest, $objResponse);
             return $this->successResponse('', $arrayBookRoomLayout);
         }
         if($objRequest -> search == 'searchUserMemberLevel') {
             $this -> setDisplay();
-            if(empty($objRequest -> book_contact_mobile)) return $this->errorResponse('电话号码不能为空！');
-            $conditions['where'] = array('user_mobile'=>$objRequest -> book_contact_mobile);
-            $arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
+            $arrayBookType = '';
+            if(!empty($objRequest -> book_contact_mobile)) {
+                $conditions['where'] = array('user_mobile'=>$objRequest -> book_contact_mobile);
+                $arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
+            }
+            if(!empty($objRequest -> book_contact_email)) {
+                $conditions['where'] = array('user_email'=>$objRequest -> book_contact_email);
+                //$arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
+            }
             return $this->successResponse('', $arrayBookType);
         }
         if($objRequest -> search == 'searchRoom') {
@@ -155,33 +161,6 @@ class BookAction extends \BaseAction {
 
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
-    }
-
-    protected function searchISBookRoomLayout($objRequest, $objResponse) {
-        $conditions = DbConfig::$db_query_conditions;
-        $book_check_int = $objRequest -> book_check_int;
-        $book_check_out = $objRequest -> book_check_out;
-        //$room_layout_max_people = $objRequest -> room_layout_max_people;
-        //排除已住房间
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                                     '<='=>array('book_check_int'=>$book_check_int),'>'=>array('book_check_out'=>$book_check_int));
-        $arrarISBookRoomLayout = BookService::instance()->getBook($conditions, 'room_id, room_layout_id');
-        $arrayRoomId = array();
-        if(!empty($arrarISBookRoomLayout)) {
-            foreach($arrarISBookRoomLayout as $k => $v) {
-                $arrayRoomId[] = $v['room_id'];
-            }
-        }
-        $conditions['where'] = array('rl.hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                                     'NOT IN'=>array('rlr.room_id'=>$arrayRoomId));
-        $conditions['group'] = 'rlp.`room_layout_id`';
-            //SELECT rlr.`room_id`, rlp.`room_layout_price`, rl.* FROM room_layout_room rlr
-        //LEFT JOIN `room_layout` rl ON rlr.`room_layout_id` = rl.room_layout_id
-        //LEFT JOIN `room_layout_price` rlp ON rlp.`room_layout_id` = rlr.`room_layout_id` AND rlp.`room_layout_price_is_active` = '1'
-        //WHERE rl.`room_layout_max_people` >= 1
-        $arrayBookRoom = BookService::instance()->searchISBookRoomLayout($conditions);
-        return $arrayBookRoom;
-        //取得价格
     }
 
 

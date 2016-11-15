@@ -32,14 +32,6 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('book')->delete($where);
     }
 
-    public function searchISBookRoomLayout($conditions) {
-        //SELECT * FROM `book` WHERE (book_check_int <= '2016-11-10 17:00:00' AND '2016-11-10 17:00:00' < book_check_out) OR ( '2016-11-11 12:00' <= book_check_int AND book_check_int < '2016-11-11 12:00');
-        $table = "`room_layout_room` rlr LEFT JOIN `room_layout` rl ON rlr.`room_layout_id` = rl.room_layout_id "
-                ."LEFT JOIN `room_layout_price` rlp ON rlp.`room_layout_id` = rlr.`room_layout_id` AND rlp.`room_layout_price_is_active` = '1'";
-        $fieid = 'COUNT(rlp.`room_layout_id`) room_layout_num, rlp.`room_layout_price`, rlp.room_layout_extra_bed_price, rl.*';//rlr.`room_id`
-        return BookDao::instance()->setTable($table)->getList($conditions, $fieid);
-    }
-
     public function getBookType($conditions, $fieldid = '*', $hashKey = null) {
         return BookDao::instance()->setTable('book_type')->getList($conditions, $fieldid, $hashKey);
     }

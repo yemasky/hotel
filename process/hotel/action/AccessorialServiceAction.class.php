@@ -81,7 +81,7 @@ class AccessorialServiceAction extends \BaseAction {
                     HotelService::instance()->updateHotelService(array('hotel_server_id'=>$hotel_server_id,
                         'hotel_service_father_id'=>$hotel_server_id));
                 }
-               // return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+                return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
             }
         }
         return $this->errorResponse($objResponse->arrayLaguage['save_nothings']['page_laguage_value']);

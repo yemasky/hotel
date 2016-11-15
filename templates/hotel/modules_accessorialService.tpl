@@ -35,7 +35,7 @@
                         <div class="controls accessorial_edit">
                         <div class="btn-group">
                             <a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].hotel_service_name%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                            <ul class="dropdown-menu" data-id="<%$arrayData[i].hotel_service_id%>" data-name="<%$arrayData[i].hotel_service_name%>" father-id="<%$arrayData[i].hotel_service_father_id%>" price="<%$arrayData[i].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><%if $arrayData[i].children==''%><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul>
+                            <ul class="dropdown-menu" data-id="<%$arrayData[i].hotel_service_id%>" data-name="<%$arrayData[i].hotel_service_name%>" father-id="<%$arrayData[i].hotel_service_father_id%>" price="<%$arrayData[i].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $arrayData[i].children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul>
                             
                         </div><br>
                         <%section name=j loop=$arrayData[i].children%>

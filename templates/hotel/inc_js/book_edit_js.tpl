@@ -3,11 +3,13 @@ $(document).ready(function(){
 	var contact_validate = $("#contact_form").validate({
 		rules: {
 			contact_name: {required: true},
-			contact_mobile: {required: true,isMobile: true}
+			contact_mobile: {required: true,isMobile: true},
+            //contact_email: {email: true},
 		},
 		messages: {
 			contact_name:"请填写联系人",
 			contact_mobile:"请填写正确的移动电话号码",
+            //contact_email:""
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -78,7 +80,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#book_form div').hide();
+	//$('.book_form_step1 .book_form_step2').hide();
 	$('#search_room_layout').click(function(e) {
 		$('#contact_form').submit();
 		if(contact_validate.form()) {
@@ -402,13 +404,13 @@ $(document).ready(function(){
 	}
 
 	//联系信息事件
-	$('#contact_mobile,#contact_name,#begin_book').bind("keyup click", function(e) {
+	$('#contact_mobile,#contact_name,#contact_email,#begin_book').bind("keyup click", function(e) {
         if($('#contact_mobile').val().length == 11) {
 			$.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
 			   dataType : "json",
-			   data: "book_contact_mobile=" + $('#contact_mobile').val(),
+			   data: "book_contact_mobile=" + $('#contact_mobile').val() + "&book_contact_email=" + $('#contact_email').val(),
 			   success : function(result) {
-				   $('.book_form_step1,.book_form_step1 div').show();
+				   $('.book_form_step1').show();
 				   data = result;
 				   if(data.success == 1) {
 					   if(data.itemData != null && data.itemData != '' && data.itemData != 'null') {
@@ -527,5 +529,34 @@ $(document).ready(function(){
 	});
 	
 });//add_attr_classes
-
+$(document).ready(function(){
+    var BookEditClass = {
+        hotel_service: {},
+        instance: function() {
+            var bookEdit = {};
+            bookEdit.initParameter = function() {
+            },
+            bookEdit.init = function() {
+                $('.edit_checkbox').click(function(e) {
+                    hotel_server_id = $(this).attr('data-id');
+                    var hotel_service = BookEditClass.hotel_service;
+                    if(typeof(hotel_service[hotel_server_id]) == 'undefined' || hotel_service[hotel_server_id] == '') {
+                        $(this).find('.edit_btn').addClass('am-icon-check-square-o');
+                        $(this).find('.edit_btn').removeClass('am-icon-square-o');
+                        BookEditClass.hotel_service[hotel_server_id] = 1;
+                    } else {
+                        $(this).find('.edit_btn').removeClass('am-icon-check-square-o');
+                        $(this).find('.edit_btn').addClass('am-icon-square-o');
+                        BookEditClass.hotel_service[hotel_server_id] = '';
+                    }
+                });
+                
+            };
+            return bookEdit;
+        },
+    }
+    var bookEdit = BookEditClass.instance();
+    bookEdit.initParameter();
+    bookEdit.init();
+});
 </script>
