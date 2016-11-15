@@ -123,6 +123,7 @@ class RoomsLayoutAction extends \BaseAction {
             $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'room_id'=>$room_id);
             if($checked == 'true') {
                 $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions);
+                $arrayRoomData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayRoomData['room_id'] = $room_id;
                 $arrayRoomData['room_layout_id'] = $room_layout_id;
                 $arrayRoomData['room_layout_room_extra_bed'] = $extra_bed;
@@ -132,10 +133,8 @@ class RoomsLayoutAction extends \BaseAction {
                     RoomService::instance()->updateRoomLayoutRoom($conditions['where'], $arrayRoomData);
                 }
             } elseif($checked == 'false') {
-
                 RoomService::instance()->deleteRoomLayoutRoom($conditions['where']);
             }
-
             return $this->successResponse('设置成功');
         }
 

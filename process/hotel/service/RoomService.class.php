@@ -126,8 +126,8 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable($table)->getList($conditions, $field, $hashKey);
     }
 
-    public function getRoomLayoutRoom($conditions, $field = '*', $hashKey = null) {
-        return RoomDao::instance()->setTable('room_layout_room')->getList($conditions, $field, $hashKey);
+    public function getRoomLayoutRoom($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return RoomDao::instance()->setTable('room_layout_room')->getList($conditions, $field, $hashKey, $multiple);
     }
 
     public function saveRoomLayoutRoom($arrayData) {
