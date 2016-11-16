@@ -186,8 +186,12 @@ class BookOperateService extends \BaseService {
         $book_check_out = $objRequest -> book_check_out;
         $arrayBookCheckIn = explode('-', $book_check_in);
         $arrayBookCheckOut = explode('-', $book_check_out);
-        $price_system_id = $objRequest -> system_id;
-        //{begin} 排除已住房间
+        $hotel_service = $objRequest -> hotel_service;
+        $hotel_service = trim($hotel_service, ',');
+        if(empty($hotel_service)) {
+            return ;
+        }
+        //step1 {begin} 取得已住房间
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions['where'] = "hotel_id = '".$hotel_id."' AND (book_check_int <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
                                                      ."OR ('".$book_check_in."' <= book_check_int AND book_check_int < '".$book_check_out."')";
@@ -198,38 +202,89 @@ class BookOperateService extends \BaseService {
                 $arrayRoomId[] = $v['room_id'];
             }
         }
-        //{end} 排除已住房间
-        //{begin} 排除已住房型
+        //step1 {end} 取得已住房间
+
+        //{begin} 取得未住的房间和房型
         $conditions['where'] = array('hotel_id'=>$hotel_id);
         if(!empty($arrayRoomId))
             $conditions['where'] = array('hotel_id'=>$hotel_id,
                                          'NOT IN'=>array('room_id'=>$arrayRoomId));
-        $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions, '*', 'room_layout_id', true);
-        $arrayRoomLayoutId[0] = 0;
+        $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions,
+            'room_layout_id,room_id,room_layout_room_extra_bed', 'room_layout_id', true);
+        //$arrayRoomLayoutId[0] = 0;
+        $arrayRoomLayoutId = '';
+        $roomLayoutPriceSystem = $arrayLayoutPrice = '';
+        $arrayBookPriceSystem['room'] = $arrayRoomLayoutRoom;
         if(!empty($arrayRoomLayoutRoom)) {
             foreach($arrayRoomLayoutRoom as $room_layout_id => $value) {
-                $arrayRoomLayoutId[] = $room_layout_id;
+                $arrayRoomLayoutId[$room_layout_id] = $room_layout_id;
             }
+            //{begin} 根据hotel_server_id查找价格体系
+            $arrayRoomLayoutPriceSystemId = '';
+            if(strpos($hotel_service, '-1') !== false) {//单是基本房价
+                $arrayRoomLayoutPriceSystemId[] = 1;
+                $hotel_service = str_replace('-1','',$hotel_service);
+                $hotel_service = str_replace(',,',',',$hotel_service);
+            }
+            if(!empty($hotel_service)) {
+                $conditions['where'] = array('rsf.hotel_id'=>$hotel_id, 'rs.`room_layout_price_system_valid`'=>1,
+                                             'IN'=>array('rsf.hotel_service_id'=>$hotel_service));
+
+                $table = '`room_layout_price_system_filter` rsf LEFT JOIN `room_layout_price_system` rs ON rs.`room_layout_price_system_id` = rsf.`room_layout_price_system_id`';
+                $field = 'DISTINCT(rs.`room_layout_price_system_id`),rs.`room_layout_price_system_name`,rs.`room_layout_id`';
+                $conditions['order'] = 'rs.`room_layout_id`';
+                $roomLayoutPriceSystem = RoomDao::instance()->setTable($table)->getList($conditions, $field, 'room_layout_id', true);
+                //print_r($roomLayoutPriceSystem);
+
+                $conditions['order'] = '';
+
+                if(!empty($roomLayoutPriceSystem)) {
+                    if(isset($roomLayoutPriceSystem[0])) {
+                        foreach($roomLayoutPriceSystem[0] as $i => $item) {
+                            $arrayRoomLayoutPriceSystemId[] = $item['room_layout_price_system_id'];
+                        }
+                    }
+                    foreach($roomLayoutPriceSystem as $room_layout_id => $arrayValue) {
+                        if(isset($arrayRoomLayoutId[$room_layout_id])) {
+                            foreach($arrayValue as $i => $item) {
+                                $arrayRoomLayoutPriceSystemId[] = $item['room_layout_price_system_id'];
+                            }
+                        }
+                    }
+                }
+            }
+            //{end}
+            //{begin} 查找房型房价
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
+                '>='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckIn[0] . '-' . $arrayBookCheckIn[1] . '-01'),
+                '<='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckOut[0] . '-' . $arrayBookCheckOut[1] . '-28'),
+                'IN'=>array('room_layout_id'=>$arrayRoomLayoutId,'room_layout_price_system_id'=>$arrayRoomLayoutPriceSystemId));
+            $fieid = 'room_layout_price_id, room_layout_id, room_layout_price_system_id,';
+            for($i = 1; $i <= 31; $i++) {
+                $day = $i < 10 ? '0' . $i . '_day,' : $i . '_day,';
+                $fieid .= $day;
+            }
+            $fieid = trim($fieid, ',');
+            $arrayLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $fieid, 'room_layout_id', true);
+            //{end} 查找房型房价
+
         }
-        //{end} 排除已住房型
-        //{begin} 查找价格体系
-        $conditions['where'] = array('IN'=>array('room_layout_id'=>$arrayRoomLayoutId));
-        if(!empty($price_system_id))
-            $conditions['where'] = array('IN'=>array('room_layout_id'=>$arrayRoomLayoutId,'room_layout_price_system_id'=>$price_system_id));
-        RoomService::instance()->getRoomLayoutPriceSystem($conditions);
-        //{end} 查找价格体系
-        //{begin} 查找房型房价
-        RoomService::instance()->getRoomLayoutPrice();
-        //{end} 查找房型房价
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'room_layout_valid'=>1);
+        $fieid = 'room_layout_id,room_layout_name,room_layout_max_people,room_layout_max_children,room_layout_orientations';
+        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions, $fieid, 'room_layout_id');
+        $arrayBookPriceSystem['layoutPrice'] = $arrayLayoutPrice;
+        $arrayBookPriceSystem['priceSystem'] = $roomLayoutPriceSystem;
+        $arrayBookPriceSystem['roomLayout'] = $arrayRoomLayout;
+        return $arrayBookPriceSystem;
 
 
-        $conditions['where'] = array('rl.hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+        /*$conditions['where'] = array('rl.hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
             'NOT IN'=>array('rlr.room_id'=>$arrayRoomId));
         $conditions['group'] = 'rlp.`room_layout_id`';
         $table = "`room_layout_room` rlr LEFT JOIN `room_layout` rl ON rlr.`room_layout_id` = rl.room_layout_id "
             ."LEFT JOIN `room_layout_price` rlp ON rlp.`room_layout_id` = rlr.`room_layout_id` AND rlp.`room_layout_price_is_active` = '1'";
-        $fieid = 'COUNT(rlp.`room_layout_id`) room_layout_num, rlp.`room_layout_price`, rlp.room_layout_extra_bed_price, rl.*';//rlr.`room_id`
-        return BookDao::instance()->setTable($table)->getList($conditions, $fieid);
+        $fieid = 'COUNT(rlp.`room_layout_id`) room_layout_num, rlp.`room_layout_price`, rlp.room_layout_extra_bed_price, rl.*';//rlr.`room_id`*/
+        //return BookDao::instance()->setTable($table)->getList($conditions, $fieid);
     }
 
 }

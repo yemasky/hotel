@@ -969,7 +969,7 @@ CREATE TABLE `room_layout_price_system` (
   `room_layout_price_system_add_time` time NOT NULL,
   `room_layout_price_system_valid` enum('0','1') NOT NULL DEFAULT '1' COMMENT '是否有效 1有效 0无效',
   PRIMARY KEY (`room_layout_price_system_id`),
-  UNIQUE KEY `room_layout_price_system_name` (`room_layout_price_system_name`,`hotel_id`),
+  UNIQUE KEY `room_layout_price_system_name` (`room_layout_price_system_name`,`hotel_id`,`room_layout_price_system_id`,`room_layout_id`,`room_layout_price_system_valid`),
   KEY `hotel_id` (`hotel_id`,`room_layout_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
@@ -1006,7 +1006,7 @@ CREATE TABLE `room_layout_room` (
 
 /*Data for the table `room_layout_room` */
 
-insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_extra_bed`) values (1,0,1,0),(1,0,2,0),(1,0,3,0),(2,0,2,2),(2,0,3,2),(2,0,18,8),(20,0,1,0),(20,0,2,0),(20,0,3,0);
+insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_extra_bed`) values (1,1,1,0),(1,1,2,0),(1,1,3,0),(2,1,2,2),(2,1,3,2),(2,1,18,8),(20,1,1,0),(20,1,2,0),(20,1,3,0);
 
 /*Table structure for table `rooms_layout_attribute` */
 

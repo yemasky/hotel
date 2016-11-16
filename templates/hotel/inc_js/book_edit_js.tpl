@@ -81,41 +81,12 @@ $(document).ready(function(){
 		}
 	});
 	//$('.book_form_step1 .book_form_step2').hide();
-	$('#search_room_layout').click(function(e) {
-		$('#contact_form').submit();
-		if(contact_validate.form()) {
-			ajaxGetRoomLayout();
-		}
-	});
+	
 	//搜索房型
 	table = $('#room_layout').DataTable({
 		paging: false
 	});
-	function ajaxGetRoomLayout() {
-		$.ajax({
-			url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val(),
-			type : "post",
-			data : 'book_check_int=' + $('#book_check_int').val()
-			+ '&book_check_out=' + $('#book_check_out').val(),
-			dataType : "json",
-			success : function(result) {
-				$('#book_form div').show();
-				data = result;
-				if(data.success == 1) {
-					$('#room_layout_table').show();
-					table.destroy();
-					$('#room_layout_data').html(resolverRoomLayoutData(data.itemData));
-					table = $('#room_layout').DataTable({
-						"pagingType":   "numbers"
-					})
-					$('#room_layout_length').hide();
-				} else {
-					$('#modal_fail').modal('show');
-					$('#modal_fail_message').html(data.message);
-				}
-			}
-		});
-	}
+	
 	function resolverRoomLayoutData(data) {
 		var html = '';
 		var td1 = td2 = td3 = option = '';
@@ -389,7 +360,7 @@ $(document).ready(function(){
 		if(days == 0) {//当天12点后入住
 			days = 1;
 		}
-		console.log(days);
+		//console.log(days);
 		room_price = days * room_price * ($('#discount').val() - 0) / 100;
 		var book_service_charge = $('#book_service_charge').val() - 0;
 		room_price = book_service_charge + room_price;
@@ -402,93 +373,6 @@ $(document).ready(function(){
 		$('.bookSelectRoom').remove();
 		$('.book_user_info').append(select_html);
 	}
-
-	//联系信息事件
-	$('#contact_mobile,#contact_name,#contact_email,#begin_book').bind("keyup click", function(e) {
-        if($('#contact_mobile').val().length == 11) {
-			$.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
-			   dataType : "json",
-			   data: "book_contact_mobile=" + $('#contact_mobile').val() + "&book_contact_email=" + $('#contact_email').val(),
-			   success : function(result) {
-				   $('.book_form_step1').show();
-				   data = result;
-				   if(data.success == 1) {
-					   if(data.itemData != null && data.itemData != '' && data.itemData != 'null') {
-						   $('#book_discount_id,.book_discount_id').remove();
-						   $('#book_type_id').val(data.itemData.book_type_id);
-						   $('#discount').val(data.itemData.book_discount);
-						   if(data.itemData.agreement_company_name != '') {
-							   var book_discount_id = ' <input readonly id="book_discount_id" value="'
-							   		+ data.itemData.book_discount_name + data.itemData.agreement_company_name+'" type="text" class="span2"/> '
-									+' <input name="book_discount_id" value="'
-							   		+ data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
-							   $('#book_type_id').after(book_discount_id);
-						   } else {
-								var book_discount_id = ' <input readonly id="book_discount_id" value="'
-									+ data.itemData.book_discount_name+'" type="text" class="span2"/> '
-									+' <input name="book_discount_id" value="'
-							   		+ data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
-								$('#book_type_id').after(book_discount_id);
-						   }
-					   } else {
-						   $('#book_discount_id,.book_discount_id').remove();
-						   $('#book_type_id').val('');
-						   $('#discount').val(100);
-					   }
-					   //计算价格
-					   setBookPrice();
-				   } else {
-					   $('#modal_fail').modal('show');
-					   $('#modal_fail_message').html(data.message);
-				   }
-			   }
-			 });
-		}
-    });
-	//协议公司
-	var book_discount_list = {};
-	$('#book_type_id').change(function(e) {
-		$('#book_discount_id,.book_discount_id').remove();
-		var book_type_id = $(this).val();
-		if(typeof(book_discount_list[book_type_id]) == 'undefined') {
-			$.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
-				data = result;
-				if(data.itemData != null && data.itemData != '') {
-					var discount_html = ' <select name="book_discount_id" class="span2 book_discount_id select_discount">';
-					var option = '';
-					for(i in data.itemData) {
-						option += '<option value="'+data.itemData[i].book_discount_id+'">'
-						       +data.itemData[i].book_discount_name + data.itemData[i].agreement_company_name +'</option>';
-						book_discount_list[data.itemData[i].book_discount_id + '_0'] = data.itemData[i].book_discount;
-						if(i == 0) {
-							$('#discount').val(data.itemData[i].book_discount);
-							book_discount_list[book_type_id + '_'] = data.itemData[i].book_discount;
-						}
-					}
-					discount_html += option + '</section>';
-					//console.log(discount_html);
-					book_discount_list[book_type_id] = discount_html;
-					$('#book_type_id').after(discount_html);
-					$('.select_discount').change(function(e) {
-						$('#discount').val(book_discount_list[$(this).val() + '_0']);
-					})
-				} else {
-					book_discount_list[book_type_id] = '';
-					book_discount_list[book_type_id + '_'] = 100;
-					$('#discount').val(100);
-				}
-			})
-		} else {
-			$('#book_type_id').after(book_discount_list[book_type_id]);
-			$('.select_discount').change(function(e) {
-				$('#discount').val(book_discount_list[$(this).val() + '_0']);
-			})
-			$('#discount').val(book_discount_list[book_type_id + '_']);
-		}
-		//计算价格
-		setBookPrice();
-		//console.log(book_discount_list);
-    });
 	
 	//增加减少人数
 	var BookUser_num = 1;
@@ -528,10 +412,11 @@ $(document).ready(function(){
 		datepicker:false,format:'H:i',step:30
 	});
 	
-});//add_attr_classes
-$(document).ready(function(){
+//});//add_attr_classes
+//$(document).ready(function(){
     var BookEditClass = {
         hotel_service: {},
+        book_discount_list: {},
         instance: function() {
             var bookEdit = {};
             bookEdit.initParameter = function() {
@@ -543,14 +428,138 @@ $(document).ready(function(){
                     if(typeof(hotel_service[hotel_server_id]) == 'undefined' || hotel_service[hotel_server_id] == '') {
                         $(this).find('.edit_btn').addClass('am-icon-check-square-o');
                         $(this).find('.edit_btn').removeClass('am-icon-square-o');
-                        BookEditClass.hotel_service[hotel_server_id] = 1;
+                        hotel_service[hotel_server_id] = 1;
                     } else {
                         $(this).find('.edit_btn').removeClass('am-icon-check-square-o');
                         $(this).find('.edit_btn').addClass('am-icon-square-o');
-                        BookEditClass.hotel_service[hotel_server_id] = '';
+                        hotel_service[hotel_server_id] = '';
+                    }
+                });
+                //联系信息事件
+                $('#contact_mobile,#contact_name,#contact_email,#begin_book').bind("keyup click", function(e) {
+                    if($('#contact_mobile').val().length == 11) {
+                        $.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
+                           dataType : "json",
+                           data: "book_contact_mobile=" + $('#contact_mobile').val() + "&book_contact_email=" + $('#contact_email').val(),
+                           success : function(result) {
+                               $('.book_form_step1').show();
+                               data = result;
+                               if(data.success == 1) {
+                                   if(data.itemData != null && data.itemData != '' && data.itemData != 'null') {
+                                       $('#book_discount_id,.book_discount_id').remove();
+                                       $('#book_type_id').val(data.itemData.book_type_id);
+                                       $('#discount').val(data.itemData.book_discount);
+                                       if(data.itemData.agreement_company_name != '') {
+                                           var book_discount_id = ' <input readonly id="book_discount_id" value="'
+                                                + data.itemData.book_discount_name + data.itemData.agreement_company_name+'" type="text" class="span2"/> '
+                                                +' <input name="book_discount_id" value="'
+                                                + data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
+                                           $('#book_type_id').after(book_discount_id);
+                                       } else {
+                                            var book_discount_id = ' <input readonly id="book_discount_id" value="'
+                                                + data.itemData.book_discount_name+'" type="text" class="span2"/> '
+                                                +' <input name="book_discount_id" value="'
+                                                + data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
+                                            $('#book_type_id').after(book_discount_id);
+                                       }
+                                   } else {
+                                       $('#book_discount_id,.book_discount_id').remove();
+                                       $('#book_type_id').val('');
+                                       $('#discount').val(100);
+                                   }
+                                   //计算价格
+                                   setBookPrice();
+                               } else {
+                                   $('#modal_fail').modal('show');
+                                   $('#modal_fail_message').html(data.message);
+                               }
+                           }
+                         });
+                    }
+                });
+                //协议公司
+                var book_discount_list = BookEditClass.book_discount_list;
+                $('#book_type_id').change(function(e) {
+                    $('#book_discount_id,.book_discount_id').remove();
+                    var book_type_id = $(this).val();
+                    if(typeof(book_discount_list[book_type_id]) == 'undefined') {
+                        $.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
+                            data = result;
+                            if(data.itemData != null && data.itemData != '') {
+                                var discount_html = ' <select name="book_discount_id" class="span2 book_discount_id select_discount">';
+                                var option = '';
+                                for(i in data.itemData) {
+                                    option += '<option value="'+data.itemData[i].book_discount_id+'">'
+                                           +data.itemData[i].book_discount_name + data.itemData[i].agreement_company_name +'</option>';
+                                    book_discount_list[data.itemData[i].book_discount_id + '_0'] = data.itemData[i].book_discount;
+                                    if(i == 0) {
+                                        $('#discount').val(data.itemData[i].book_discount);
+                                        book_discount_list[book_type_id + '_'] = data.itemData[i].book_discount;
+                                    }
+                                }
+                                discount_html += option + '</section>';
+                                //console.log(discount_html);
+                                book_discount_list[book_type_id] = discount_html;
+                                $('#book_type_id').after(discount_html);
+                                $('.select_discount').change(function(e) {
+                                    $('#discount').val(book_discount_list[$(this).val() + '_0']);
+                                })
+                            } else {
+                                book_discount_list[book_type_id] = '';
+                                book_discount_list[book_type_id + '_'] = 100;
+                                $('#discount').val(100);
+                            }
+                        })
+                    } else {
+                        $('#book_type_id').after(book_discount_list[book_type_id]);
+                        $('.select_discount').change(function(e) {
+                            $('#discount').val(book_discount_list[$(this).val() + '_0']);
+                        })
+                        $('#discount').val(book_discount_list[book_type_id + '_']);
+                    }
+                    //console.log(BookEditClass.book_discount_list);
+                    //计算价格
+                    setBookPrice();
+                    //console.log(book_discount_list);
+                });
+                //搜索客房价格
+                $('#search_room_layout').click(function(e) {
+                    $('#contact_form').submit();
+                    if(contact_validate.form()) {
+                        bookEdit.ajaxGetRoomLayout();
                     }
                 });
                 
+            },
+            //搜索RoomLayout
+            bookEdit.ajaxGetRoomLayout = function() {
+                var hotel_service = '';//JSON.stringify(BookEditClass.hotel_service, false, 4)
+                for(i in BookEditClass.hotel_service) {
+                    if(BookEditClass.hotel_service[i] == 1) hotel_service += i + ',';
+                }
+                $.ajax({
+                    url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&hotel_service=' + hotel_service,
+                    type : "post",
+                    data : 'book_check_int=' + $('#book_check_int').val()
+                    + '&book_check_out=' + $('#book_check_out').val(),
+                    dataType : "json",
+                    success : function(result) {
+                        $('#book_form div').show();
+                        data = result;
+                        if(data.success == 1) {
+                            $('#room_layout_table').show();
+                            table.destroy();
+                            $('#room_layout_data').html(resolverRoomLayoutData(data.itemData));
+                            table = $('#room_layout').DataTable({
+                                "pagingType":   "numbers"
+                            })
+                            $('#room_layout_length').hide();
+                        } else {
+                            $('#modal_fail').modal('show');
+                            $('#modal_fail_message').html(data.message);
+                        }
+                    }
+                });
             };
             return bookEdit;
         },
