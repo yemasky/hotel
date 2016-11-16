@@ -221,8 +221,9 @@ class BookOperateService extends \BaseService {
             }
             //{begin} 根据hotel_server_id查找价格体系
             $arrayRoomLayoutPriceSystemId = '';
+            $base_price_system = 0;
             if(strpos($hotel_service, '-1') !== false) {//单是基本房价
-                $arrayRoomLayoutPriceSystemId[] = 1;
+                $base_price_system = 1;
                 $hotel_service = str_replace('-1','',$hotel_service);
                 $hotel_service = str_replace(',,',',',$hotel_service);
             }
@@ -231,28 +232,21 @@ class BookOperateService extends \BaseService {
                                              'IN'=>array('rsf.hotel_service_id'=>$hotel_service));
 
                 $table = '`room_layout_price_system_filter` rsf LEFT JOIN `room_layout_price_system` rs ON rs.`room_layout_price_system_id` = rsf.`room_layout_price_system_id`';
-                $field = 'DISTINCT(rs.`room_layout_price_system_id`),rs.`room_layout_price_system_name`,rs.`room_layout_id`';
+                $field = 'DISTINCT(rs.`room_layout_price_system_id`),rs.`room_layout_price_system_name`';
                 $conditions['order'] = 'rs.`room_layout_id`';
-                $roomLayoutPriceSystem = RoomDao::instance()->setTable($table)->getList($conditions, $field, 'room_layout_id', true);
-                //print_r($roomLayoutPriceSystem);
-
+                $roomLayoutPriceSystem = RoomDao::instance()->setTable($table)->getList($conditions, $field, 'room_layout_price_system_id');
                 $conditions['order'] = '';
-
-                if(!empty($roomLayoutPriceSystem)) {
-                    if(isset($roomLayoutPriceSystem[0])) {
-                        foreach($roomLayoutPriceSystem[0] as $i => $item) {
-                            $arrayRoomLayoutPriceSystemId[] = $item['room_layout_price_system_id'];
-                        }
-                    }
-                    foreach($roomLayoutPriceSystem as $room_layout_id => $arrayValue) {
-                        if(isset($arrayRoomLayoutId[$room_layout_id])) {
-                            foreach($arrayValue as $i => $item) {
-                                $arrayRoomLayoutPriceSystemId[] = $item['room_layout_price_system_id'];
-                            }
-                        }
-                    }
+            }
+            if($base_price_system == 1) {
+                $roomLayoutPriceSystem[1]['room_layout_price_system_id'] = 1;
+                $roomLayoutPriceSystem[1]['room_layout_price_system_name'] = $objResponse->arrayLaguage['base_room_price']['page_laguage_value'];
+            }
+            if(!empty($roomLayoutPriceSystem)) {
+                foreach($roomLayoutPriceSystem as $room_layout_price_system_id => $arrayValue) {
+                    $arrayRoomLayoutPriceSystemId[] = $room_layout_price_system_id;
                 }
             }
+
             //{end}
             //{begin} 查找房型房价
             $conditions['where'] = array('hotel_id'=>$hotel_id,
@@ -265,7 +259,7 @@ class BookOperateService extends \BaseService {
                 $fieid .= $day;
             }
             $fieid = trim($fieid, ',');
-            $arrayLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $fieid, 'room_layout_id', true);
+            $arrayLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $fieid);
             //{end} 查找房型房价
 
         }

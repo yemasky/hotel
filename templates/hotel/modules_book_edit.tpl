@@ -91,7 +91,7 @@
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
                             <div class="controls">
-                            <div class="btn-group"><a class="btn"><i class="am-icon-check-square-o"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div>
+                            <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div>
                             <%section name=i loop=$arrayHotelService%>
                             <div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%></a></div>
                             <%/section%>
@@ -105,12 +105,10 @@
 								<tr>
 								  <th><%$arrayLaguage['room_layout_name']['page_laguage_value']%><%$arrayLaguage['book']['page_laguage_value']%></th>
 								  <th><%$arrayLaguage['price']['page_laguage_value']%></th>
-								  <th><%$arrayLaguage['extra_bed']['page_laguage_value']%></th>
 								</tr>
 							  </thead>
 							  <tbody id='room_layout_data'>
 								<tr class="gradeX">
-								  <td></td>
 								  <td></td>
 								  <td></td>
 								</tr>

@@ -39,7 +39,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title" id="myModalLabel"><i class="am-success am-icon-sm am-icon-angellist am-green-54B51C"></i> <%$arrayLaguage['modal_success']['page_laguage_value']%></h3>
             </div>
-            <div class="modal-body alert-success alert-block" id="modal_success_message"></div>
+            <div class="modal-body"><p class="alert-success alert-block" id="modal_success_message"></p></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><%$arrayLaguage['close']['page_laguage_value']%></button>
             </div>
@@ -53,7 +53,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title" id="myModalLabel"><i class="am-success am-icon-sm am-icon-puzzle-piece am-blue-16A2EF"></i> <%$arrayLaguage['info']['page_laguage_value']%></h3>
             </div>
-            <div class="modal-body alert-success alert-block" id="modal_info_message"></div>
+            <div class="modal-body"><p class="alert alert-block" id="modal_info_message"></p></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%$arrayLaguage['close']['page_laguage_value']%></button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>

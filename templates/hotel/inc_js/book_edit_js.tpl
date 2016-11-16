@@ -87,34 +87,7 @@ $(document).ready(function(){
 		paging: false
 	});
 	
-	function resolverRoomLayoutData(data) {
-		var html = '';
-		var td1 = td2 = td3 = option = '';
-		for(i in data) {
-			td1 = '<a href="#room" class="select_room">' + data[i].room_layout_name;
-			td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
-			td2 = '<input type="text" class="span2 book_price layout_price" id="book_price_' + data[i].room_layout_id + '"'
-				 +' name="layout_price['+ data[i].room_layout_id + ']"'
-				 +' value="'+ data[i].room_layout_price + '" '
-				 +' room_layout="' + data[i].room_layout_id + '" />'
-				 +'';
-			td2 = td2+'<span class="hide">' + data[i].room_layout_price + '</span>';
-			td3 = '<input type="text" class="span2 book_price extra_bed_price" id="book_extra_bed_price_'+ data[i].room_layout_id + '"'
-				 +' name="extra_bed_price['+ data[i].room_layout_id + ']"'
-				 +' value="' + data[i].room_layout_extra_bed_price + '" '
-				 +'  room_layout="' + data[i].room_layout_id + '" />'
-			     +'';
-            td3 = td3 + '<span class="hide">' 
-				 + data[i].room_layout_extra_bed_price + '</span>';
-			html += '<tr room_layout_id="'+data[i].room_layout_id+'" extra_bed="'+data[i].room_layout_extra_bed+'">'+
-						'<td class="details-control">'+td1+'</td>'+
-						'<td>'+td2+'</td>'+
-						'<td>'+td3+'</td>'+
-					'</tr>';
-			td1 = td2 = td3 = option = '';
-		}
-		return html;
-	}
+	
 	//book_user_room
 	var bookSelectRoom = {};
 	//table点击
@@ -420,16 +393,26 @@ $(document).ready(function(){
         instance: function() {
             var bookEdit = {};
             bookEdit.initParameter = function() {
+                BookEditClass.hotel_service[-1] = 1;
             },
             bookEdit.init = function() {
                 $('.edit_checkbox').click(function(e) {
                     hotel_server_id = $(this).attr('data-id');
                     var hotel_service = BookEditClass.hotel_service;
+                    var length = 0;
+                    for(i in hotel_service) {
+                        if(hotel_service[i] == 1) length++;
+                    }
                     if(typeof(hotel_service[hotel_server_id]) == 'undefined' || hotel_service[hotel_server_id] == '') {
                         $(this).find('.edit_btn').addClass('am-icon-check-square-o');
                         $(this).find('.edit_btn').removeClass('am-icon-square-o');
                         hotel_service[hotel_server_id] = 1;
                     } else {
+                        if(length <= 1) {
+                            $('#modal_info').modal('show');
+                            $('#modal_info_message').html('不能全部取消包含服务，必须包含一项服务！');
+                            return;
+                        }
                         $(this).find('.edit_btn').removeClass('am-icon-check-square-o');
                         $(this).find('.edit_btn').addClass('am-icon-square-o');
                         hotel_service[hotel_server_id] = '';
@@ -549,7 +532,7 @@ $(document).ready(function(){
                         if(data.success == 1) {
                             $('#room_layout_table').show();
                             table.destroy();
-                            $('#room_layout_data').html(resolverRoomLayoutData(data.itemData));
+                            $('#room_layout_data').html(bookEdit.resolverRoomLayoutData(data.itemData));
                             table = $('#room_layout').DataTable({
                                 "pagingType":   "numbers"
                             })
@@ -560,7 +543,46 @@ $(document).ready(function(){
                         }
                     }
                 });
-            };
+            },
+            bookEdit.resolverRoomLayoutData = function(data) {
+                var html = '';
+                var td1 = td2 = td3 = option = '';
+                var layoutPrice = data.layoutPrice;
+                var room = data.room;
+                var priceSystem = data.priceSystem;
+                var roomLayout = data.roomLayout;
+                for(i in layoutPrice) {
+                    var room_layout_id = layoutPrice[i].room_layout_id;
+                    var system_id = layoutPrice[i].room_layout_price_system_id;
+                    console.log(system_id);
+                    console.log(priceSystem);
+                    td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + '<i class="am-icon-coffee am-yellow-EBC012"></i>' 
+                         + priceSystem[system_id].room_layout_price_system_name;
+                    td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
+                    td2 = '<input type="text" class="span2 book_price layout_price" id="book_price_' + room_layout_id + '"'
+                         +' name="layout_price['+ room_layout_id + ']"'
+                         +' value="'+ layoutPrice[i].room_layout_price + '" '
+                         +' room_layout="' + room_layout_id + '" />'
+                         +'';
+                    td2 = td2+'<span class="hide">' + layoutPrice[i].room_layout_price + '</span>';
+                    
+                    td3 = '<input type="text" class="span2 book_price extra_bed_price" id="book_extra_bed_price_'+ room_layout_id + '"'
+                         +' name="extra_bed_price['+ room_layout_id + ']"'
+                         +' value="' + layoutPrice[i].room_layout_extra_bed_price + '" '
+                         +'  room_layout="' + room_layout_id + '" />'
+                         +'';
+                    td3 = td3 + '<span class="hide">' 
+                         + layoutPrice[i].room_layout_extra_bed_price + '</span>';
+                    html += '<tr room_layout_id="'+room_layout_id+'" extra_bed="'+layoutPrice[i].room_layout_extra_bed+'">'+
+                                '<td class="details-control">'+td1+'</td>'+
+                                '<td>'+td2+'</td>'+
+                                //'<td>'+td3+'</td>'+
+                            '</tr>';
+                    td1 = td2 = td3 = option = '';
+                }
+                return html;
+            }
+            ;
             return bookEdit;
         },
     }
