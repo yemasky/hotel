@@ -29,7 +29,7 @@ $(document).ready(function(){
 		rules:{
 			book_type_id:{required:true},
 			book_discount:{required:true},
-			book_check_int:{required:true},
+			book_check_in:{required:true},
 			book_check_out:{required:true},
 			book_total_price:{required:true},
 			payment:{required:true},
@@ -303,7 +303,7 @@ $(document).ready(function(){
 		});
 		select_html += option + '</select>';
 		var check_out = $('#book_check_out').val();
-		var check_in = $('#book_check_int').val();
+		var check_in = $('#book_check_in').val();
 
 		var arrayCheckOut = check_out.split(' ');
 		var check_out_date = arrayCheckOut[0] + ' <%$hotel_checkout%>';
@@ -363,7 +363,7 @@ $(document).ready(function(){
 	$.datetimepicker.setLocale('ch');
 	var dateToDisable = new Date();
 	dateToDisable.setDate(dateToDisable.getDate() - 1);
-	$('#book_check_int').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
+	$('#book_check_in').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
 		beforeShowDay: function(date) {
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false, ""];
@@ -372,8 +372,8 @@ $(document).ready(function(){
 		}
 	});
 	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
-		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
-			var dateToDisable = new Date($('#book_check_int').val());
+		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
+			var dateToDisable = new Date($('#book_check_in').val());
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false, ""];
 			}
@@ -520,11 +520,13 @@ $(document).ready(function(){
                 for(i in BookEditClass.hotel_service) {
                     if(BookEditClass.hotel_service[i] == 1) hotel_service += i + ',';
                 }
+                var check_in = $('#book_check_in').val();
+                var check_out = $('#book_check_out').val();
                 $.ajax({
                     url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&hotel_service=' + hotel_service,
                     type : "post",
-                    data : 'book_check_int=' + $('#book_check_int').val()
-                    + '&book_check_out=' + $('#book_check_out').val(),
+                    data : 'book_check_in=' + check_in
+                    + '&book_check_out=' + check_out,
                     dataType : "json",
                     success : function(result) {
                         $('#book_form div').show();
@@ -532,7 +534,7 @@ $(document).ready(function(){
                         if(data.success == 1) {
                             $('#room_layout_table').show();
                             table.destroy();
-                            $('#room_layout_data').html(bookEdit.resolverRoomLayoutData(data.itemData));
+                            $('#room_layout_data').html(bookEdit.resolverRoomLayoutData(data.itemData,check_in,check_out));
                             table = $('#room_layout').DataTable({
                                 "pagingType":   "numbers"
                             })
@@ -544,18 +546,12 @@ $(document).ready(function(){
                     }
                 });
             },
-            bookEdit.resolverRoomLayoutData = function(data) {
-                var html = '';
-                var td1 = td2 = td3 = option = '';
-                var layoutPrice = data.layoutPrice;
-                var room = data.room;
-                var priceSystem = data.priceSystem;
-                var roomLayout = data.roomLayout;
+            bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
+                var html = td1 = td2 = td3 = option = '';
+                var in
+                var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;var roomLayout = data.roomLayout;
                 for(i in layoutPrice) {
-                    var room_layout_id = layoutPrice[i].room_layout_id;
-                    var system_id = layoutPrice[i].room_layout_price_system_id;
-                    console.log(system_id);
-                    console.log(priceSystem);
+                    var room_layout_id = layoutPrice[i].room_layout_id;var system_id = layoutPrice[i].room_layout_price_system_id;
                     td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + '<i class="am-icon-coffee am-yellow-EBC012"></i>' 
                          + priceSystem[system_id].room_layout_price_system_name;
                     td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';

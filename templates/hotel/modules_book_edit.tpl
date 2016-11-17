@@ -80,7 +80,7 @@
 						<div class="control-group hide book_form_step1">
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
 							<div class="controls">
-								<input type="text" class="span2" id="book_check_int" name="book_check_int" value="<%$book_check_int%>"/>
+								<input type="text" class="span2" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
 								<%$arrayLaguage['checkout']['page_laguage_value']%> :
 								<input type="text" class="span2" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
