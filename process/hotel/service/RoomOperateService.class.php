@@ -24,7 +24,9 @@ class RoomOperateService extends \BaseService {
     public function saveRoomLayoutPriceWeek($objRequest, $objResponse) {
         $arrayPostValue= $objRequest->getPost();
         $arrayTimeBegin = explode('-', $arrayPostValue['time_begin']);
+        $arrayTimeBegin['1'] = $arrayTimeBegin['1'] - 0;
         $arrayTimeEnd = explode('-', $arrayPostValue['time_end']);
+        $arrayTimeEnd['1'] = $arrayTimeEnd['1'] - 0;
         $room_layout_id = $objRequest -> room_layout;
         $room_layout_price_system_id = $objRequest -> system_id;
         $thisYear = getYear();
@@ -262,7 +264,7 @@ class RoomOperateService extends \BaseService {
         if(($room_layout_date_year - $thisYear) > 1) {
             return array(0, '选择的年份不对！');
         }
-        if($room_layout_date_year <= $thisYear && $thisMonth < $room_layout_date_month) {
+        if($room_layout_date_year == $thisYear && $thisMonth > $room_layout_date_month) {
             return array(0, '选择的年份不对！');
         }
         if(empty($room_layout_id) || empty($room_layout_price_system_id)) {
