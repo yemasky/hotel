@@ -548,14 +548,18 @@ $(document).ready(function(){
             },
             bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
                 var html = td1 = td2 = td3 = option = '';
-                var in
+                var in_date = new Date(check_in);var out_date = new Date(check_out);
                 var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;var roomLayout = data.roomLayout;
                 for(i in layoutPrice) {
                     var room_layout_id = layoutPrice[i].room_layout_id;var system_id = layoutPrice[i].room_layout_price_system_id;
                     td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + '<i class="am-icon-coffee am-yellow-EBC012"></i>' 
                          + priceSystem[system_id].room_layout_price_system_name;
                     td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
-                    td2 = '<input type="text" class="span2 book_price layout_price" id="book_price_' + room_layout_id + '"'
+                    td4 = '<ul class="stat-boxes stat-boxes2">';
+                    //第一年的第一月的年月日
+                    var today = in_date.getDate();
+                    console.log(today);
+                    td2 += '<input type="text" class="span2 book_price layout_price" id="book_price_' + room_layout_id + '"'
                          +' name="layout_price['+ room_layout_id + ']"'
                          +' value="'+ layoutPrice[i].room_layout_price + '" '
                          +' room_layout="' + room_layout_id + '" />'

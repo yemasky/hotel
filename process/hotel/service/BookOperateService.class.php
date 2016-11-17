@@ -38,7 +38,7 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_discount_id']              = $arrayPostValue['book_discount_id'];//折扣ID
         $arrayBill['book_discount_describe']        = $arrayPostValue['book_discount_describe'];//折扣描述
         //入住日期
-        $arrayBill['book_check_int']                = $arrayPostValue['book_check_int'];//入住时间
+        $arrayBill['book_check_in']                = $arrayPostValue['book_check_in'];//入住时间
         $arrayBill['book_check_out']                = $arrayPostValue['book_check_out'];//退房时间
         $arrayBill['book_order_retention_time']     = $arrayPostValue['book_order_retention_time'];//订单保留时间
         //主订单
@@ -136,7 +136,7 @@ class BookOperateService extends \BaseService {
                 $arrayBookUserData[$i]['room_layout_id'] = $arrayRoomLayoutRoomHash[$arrayPostValue['book_user_room'][$i]];
                 $arrayBookUserData[$i]['room_id'] = $arrayPostValue['book_user_room'][$i];
                 $arrayBookUserData[$i]['book_user_sex'] = $arrayPostValue['book_user_sex'][$i];
-                $arrayBookUserData[$i]['book_check_int'] = $arrayPostValue['book_check_int'];
+                $arrayBookUserData[$i]['book_check_in'] = $arrayPostValue['book_check_in'];
                 $arrayBookUserData[$i]['book_check_out'] = $arrayPostValue['book_check_out'];
                 $arrayBookUserData[$i]['book_add_date'] = getDay();
                 $arrayBookUserData[$i]['book_add_time'] =getTime();
@@ -156,9 +156,9 @@ class BookOperateService extends \BaseService {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-            '>='=>array('book_check_int'=>$thisDay),
+            '>='=>array('book_check_in'=>$thisDay),
             '<='=>array('book_check_out'=>$toDay));
-        $conditions['order'] = 'book_check_int ASC, book_order_number ASC, book_order_number_main DESC';
+        $conditions['order'] = 'book_check_in ASC, book_order_number ASC, book_order_number_main DESC';
         $arrayBookInfo = BookService::instance()->getBook($conditions);
         $arrayBookList = array();
         if(!empty($arrayBookInfo)) {
@@ -182,7 +182,7 @@ class BookOperateService extends \BaseService {
 
     public function searchISBookRoomLayout($objRequest, $objResponse) {
         $conditions = DbConfig::$db_query_conditions;
-        $book_check_in = $objRequest -> book_check_int;
+        $book_check_in = $objRequest -> book_check_in;
         $book_check_out = $objRequest -> book_check_out;
         $arrayBookCheckIn = explode('-', $book_check_in);
         $arrayBookCheckOut = explode('-', $book_check_out);
@@ -193,8 +193,8 @@ class BookOperateService extends \BaseService {
         }
         //step1 {begin} 取得已住房间
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $conditions['where'] = "hotel_id = '".$hotel_id."' AND (book_check_int <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
-                                                     ."OR ('".$book_check_in."' <= book_check_int AND book_check_int < '".$book_check_out."')";
+        $conditions['where'] = "hotel_id = '".$hotel_id."' AND (book_check_in <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
+                                                     ."OR ('".$book_check_in."' <= book_check_in AND book_check_in < '".$book_check_out."')";
         $arrayISBookRoomLayout = BookService::instance()->getBook($conditions, 'room_id, room_layout_id');
         $arrayRoomId = array();
         if(!empty($arrayISBookRoomLayout)) {

@@ -169,7 +169,7 @@ $(document).ready(function(){
        
 	});
 	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearStart: '<%$thisYear%>', yearEnd: '<%$nextYear%>',
-		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
+		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
 			var dateToDisable = new Date($('#time_begin').val());
             dateToDisable.setDate(dateToDisable.getDate() + 6);
 			if (date.getTime() < dateToDisable.getTime()) {
@@ -202,7 +202,7 @@ $(document).ready(function(){
         }
 	});
     $('#history_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
-		beforeShowDay: function(date) {//new Date($('#book_check_int').val()).getDate()
+		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
             var dateToDisable = new Date('<%$thisDay%>');
 			var dateToBeginDisable = new Date($('#history_begin').val());
 			if (date.getTime() < dateToBeginDisable.getTime()) {//date.getTime() > dateToDisable.getTime() || 
