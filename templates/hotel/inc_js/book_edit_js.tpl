@@ -394,6 +394,14 @@ $(document).ready(function(){
             var bookEdit = {};
             bookEdit.initParameter = function() {
                 BookEditClass.hotel_service[-1] = 1;
+                BookEditClass.weekday=new Array(7)
+                BookEditClass.weekday[0]="日"
+                BookEditClass.weekday[1]="一"
+                BookEditClass.weekday[2]="二"
+                BookEditClass.weekday[3]="三"
+                BookEditClass.weekday[4]="四"
+                BookEditClass.weekday[5]="五"
+                BookEditClass.weekday[6]="六"
             },
             bookEdit.init = function() {
                 $('.edit_checkbox').click(function(e) {
@@ -539,6 +547,7 @@ $(document).ready(function(){
                                 "pagingType":   "numbers"
                             })
                             $('#room_layout_length').hide();
+                            $('#room_layout_filter input').addClass('span8');
                         } else {
                             $('#modal_fail').modal('show');
                             $('#modal_fail_message').html(data.message);
@@ -548,17 +557,60 @@ $(document).ready(function(){
             },
             bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
                 var html = td1 = td2 = td3 = option = '';
-                var in_date = new Date(check_in);var out_date = new Date(check_out);
+                var in_date = new Date(check_in);
+                var in_day = in_date.getDate();var in_month = in_date.getMonth() - 0 + 1;var in_year = in_date.getFullYear();
+                var out_date = new Date(check_out);
+                var out_day = out_date.getDate();var out_month = out_date.getMonth() - 0 + 1;var out_year = out_date.getFullYear();
                 var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;var roomLayout = data.roomLayout;
+                var weekday = BookEditClass.weekday;
+                var in_months = BookEditClass.leapYear();
+                var same_layout_system = ''; //room_layout_price_system_id
                 for(i in layoutPrice) {
                     var room_layout_id = layoutPrice[i].room_layout_id;var system_id = layoutPrice[i].room_layout_price_system_id;
-                    td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + '<i class="am-icon-coffee am-yellow-EBC012"></i>' 
-                         + priceSystem[system_id].room_layout_price_system_name;
-                    td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
-                    td4 = '<ul class="stat-boxes stat-boxes2">';
-                    //第一年的第一月的年月日
-                    var today = in_date.getDate();
-                    console.log(today);
+                    if((room_layout_id + '_' + system_id) == same_layout_system) {
+                        //td2 += td2;
+                    } else {
+                        if(i > 0) {
+                            html += '<tr room_layout_id="'+room_layout_id+'" extra_bed="'+layoutPrice[i].room_layout_extra_bed+'">'+
+                                        '<td class="details-control">'+td1+'</td>'+
+                                        '<td>'+td2+'</td>'+
+                                        //'<td>'+td3+'</td>'+
+                                    '</tr>';
+                            td1 = td2 = td3 = option = '';   
+                        }
+                        td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + '<i class="am-icon-coffee am-yellow-EBC012"></i>' 
+                             + priceSystem[system_id].room_layout_price_system_name;
+                        td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
+                    }
+                    td2 += '<ul class="stat-boxes stat-boxes2">';
+                    td2 += '<li><div class="left "><span>'+layoutPrice[i].this_month+'</span>'
+                            +layoutPrice[i].this_year+'</div></li>';
+                    if(in_year == out_year) {
+                        if(in_month == out_month) {
+                            loop_day = out_day;
+                        } else {
+                            if(in_month < out_month) loop_day = in_months[in_month - 1];
+                            if(out_month == layoutPrice[i].this_month) loop_day = out_day;
+                            if(in_month < layoutPrice[i].this_month) in_day = 1;
+                        }
+                    } else {
+                        //console.log(layoutPrice[i].this_month);
+                        loop_day = in_months[layoutPrice[i].this_month - 1];
+                        if(out_month == layoutPrice[i].this_month && out_year == layoutPrice[i].this_year) loop_day = out_day;
+                        if(i > 0) in_day = 1;
+                        if(in_year == layoutPrice[i].this_year && in_month == layoutPrice[i].this_month) in_day = in_date.getDate();
+                    }
+                    
+                    for(var day_i = in_day; day_i<= loop_day; day_i++) {
+                        var week_date = new Date(layoutPrice[i].this_year+'-'+layoutPrice[i].this_month+'-'+day_i);
+                        var week = week_date.getDay();
+                        var day = day_i < 10 ? '0'+day_i+'_day' : day_i+'_day';
+                        var div_class = week == 0 || week == 6 ? 'peity_bar_bad' : 'peity_bar_good';
+                        td2 += '<li><div class="left '+div_class+'"><span>'+day_i+'</span>'+weekday[week]+'</div>'
+                            +'<div class="right"><input value="'+layoutPrice[i][day]+'" name="price['+room_layout_id+']['+system_id+']" class="span12" type="text" ></div></li>';
+                    }
+                    td2 += '</ul>';
+                    /*
                     td2 += '<input type="text" class="span2 book_price layout_price" id="book_price_' + room_layout_id + '"'
                          +' name="layout_price['+ room_layout_id + ']"'
                          +' value="'+ layoutPrice[i].room_layout_price + '" '
@@ -573,18 +625,33 @@ $(document).ready(function(){
                          +'';
                     td3 = td3 + '<span class="hide">' 
                          + layoutPrice[i].room_layout_extra_bed_price + '</span>';
-                    html += '<tr room_layout_id="'+room_layout_id+'" extra_bed="'+layoutPrice[i].room_layout_extra_bed+'">'+
-                                '<td class="details-control">'+td1+'</td>'+
-                                '<td>'+td2+'</td>'+
-                                //'<td>'+td3+'</td>'+
-                            '</tr>';
-                    td1 = td2 = td3 = option = '';
+                    */
+                    /*if(room_layout_id == same_layout) {
+                    } else {
+                        html += '<tr room_layout_id="'+room_layout_id+'" extra_bed="'+layoutPrice[i].room_layout_extra_bed+'">'+
+                                    '<td class="details-control">'+td1+'</td>'+
+                                    '<td>'+td2+'</td>'+
+                                    //'<td>'+td3+'</td>'+
+                                '</tr>';
+                        td2 = '';
+                    }
+                    td1 = td3 = option = '';*/
+                    same_layout_system = room_layout_id + '_' + system_id;
                 }
+                html += '<tr room_layout_id="'+room_layout_id+'" system_id="'+system_id+'">'+
+                            '<td class="details-control">'+td1+'</td>'+
+                            '<td>'+td2+'</td>'+
+                            //'<td>'+td3+'</td>'+
+                        '</tr>';
                 return html;
             }
             ;
             return bookEdit;
         },
+        leapYear: function(year){
+            var isLeap = year%100==0 ? (year%400==0 ? 1 : 0) : (year%4==0 ? 1 : 0);
+            return new Array(31,28+isLeap,31,30,31,30,31,31,30,31,30,31);
+        }
     }
     var bookEdit = BookEditClass.instance();
     bookEdit.initParameter();

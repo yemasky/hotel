@@ -37,11 +37,10 @@ class RoomOperateService extends \BaseService {
             $extraBed = true;
         }
         //只允许2年内的价格
-        if(($arrayTimeBegin['0'] - $thisYear) > 1 || ($arrayTimeEnd[0] - $thisYear) > 1 || $arrayTimeBegin['0'] < $thisYear
-            || $arrayTimeEnd[0] < $thisYear || $arrayTimeBegin['0'] > $arrayTimeEnd[0]) {
+        if($arrayTimeBegin[0] > $arrayTimeEnd[0] || $arrayTimeBegin[0] < $thisYear || ($arrayTimeBegin[0] - $thisYear) > 1) {
             return array(0, '选择的年份不对！');
         }
-        if($arrayTimeBegin['0'] <= $thisYear && $thisMonth < $arrayTimeBegin['1']) {
+        if($arrayTimeBegin[0] == $thisYear && $thisMonth > $arrayTimeBegin[1]) {
             return array(0, '选择的年份不对！');
         }
         if(empty($room_layout_id) || empty($room_layout_price_system_id)) {

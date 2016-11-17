@@ -146,7 +146,7 @@ $(document).ready(function(){
 				return [false];
 			}
             if(date.getTime() > nextWeekDateToDisable.getTime() && date.getDay() != 1) {
-                return [false];
+                //return [false];
             }
             return [true];
 		},

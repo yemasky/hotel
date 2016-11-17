@@ -19,6 +19,13 @@
 #noBodyLeft input,#noBodyLeft select{margin-bottom:0px;}
 .custom-date-style {background-color: red !important;}
 .btn-group .btn {border: 1px solid #8C8585}
+.stat-boxes2{top:0px;right:0px; text-align:left;}
+.stat-boxes .right strong{ font-size:14px; font-weight:normal;}
+.stat-boxes .left{padding: 2px 5px 6px 1px;margin-right: 1px; text-align:center;}
+.stat-boxes .left span{font-size:12px; font-style:italic;}
+.stat-boxes .right{padding:1px 0 0; width: 55px;}
+.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
+.stat-boxes input{margin-bottom:1px !important;}
 </style>
 </head>
 <body>
@@ -103,8 +110,8 @@
 							 <table class="table table-bordered data-table" id="room_layout">
 							  <thead>
 								<tr>
-								  <th><%$arrayLaguage['room_layout_name']['page_laguage_value']%><%$arrayLaguage['book']['page_laguage_value']%></th>
-								  <th><%$arrayLaguage['price']['page_laguage_value']%></th>
+								  <th><!--<%$arrayLaguage['room_layout_name']['page_laguage_value']%><%$arrayLaguage['book']['page_laguage_value']%>--></th>
+								  <th><%$arrayLaguage['room_layout_name']['page_laguage_value']%><%$arrayLaguage['book']['page_laguage_value']%>--<%$arrayLaguage['price']['page_laguage_value']%> -- <%$today%></th>
 								</tr>
 							  </thead>
 							  <tbody id='room_layout_data'>

@@ -338,7 +338,7 @@ abstract class BaseAction{
         header("Server: IIS/16.0 (Win64) OpenSSL/1.0.2h ASP.NET/20.3.6");
         header("X-Powered-By: ASP.NET/20.3.6");
         $arrayResult = array('success'=>1,'message'=>$message, 'itemData'=>$arrayReturnDate, 'redirect'=>$redirect_url);
-        echo json_encode($arrayResult);
+        echo str_replace('null', '""', json_encode($arrayResult));
     }
 
     public function errorResponse($message, $arrayReturnDate = '', $redirect_url = '') {

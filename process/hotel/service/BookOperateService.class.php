@@ -213,7 +213,7 @@ class BookOperateService extends \BaseService {
             'room_layout_id,room_id,room_layout_room_extra_bed', 'room_layout_id', true);
         //$arrayRoomLayoutId[0] = 0;
         $arrayRoomLayoutId = '';
-        $roomLayoutPriceSystem = $arrayLayoutPrice = '';
+        $roomLayoutPriceSystem = $arrayLayoutPrice = $arrayLayoutExtraBedPrice = '';
         $arrayBookPriceSystem['room'] = $arrayRoomLayoutRoom;
         if(!empty($arrayRoomLayoutRoom)) {
             foreach($arrayRoomLayoutRoom as $room_layout_id => $value) {
@@ -253,14 +253,24 @@ class BookOperateService extends \BaseService {
                 '>='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckIn[0] . '-' . $arrayBookCheckIn[1] . '-01'),
                 '<='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckOut[0] . '-' . $arrayBookCheckOut[1] . '-28'),
                 'IN'=>array('room_layout_id'=>$arrayRoomLayoutId,'room_layout_price_system_id'=>$arrayRoomLayoutPriceSystemId));
-            $fieid = 'room_layout_price_id, room_layout_id, room_layout_price_system_id,';
+            $fieid = 'room_layout_price_id, room_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,room_layout_date_year this_year,room_layout_date_month this_month,';
             for($i = 1; $i <= 31; $i++) {
                 $day = $i < 10 ? '0' . $i . '_day,' : $i . '_day,';
                 $fieid .= $day;
             }
             $fieid = trim($fieid, ',');
+            $conditions['order'] = 'room_layout_id ASC, room_layout_price_system_id ASC';
             $arrayLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $fieid);
             //{end} 查找房型房价
+            //加床房价
+            $fieid = 'room_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,room_layout_date_year this_year,room_layout_date_month this_month,';
+            for($i = 1; $i <= 31; $i++) {
+                $day = $i < 10 ? '0' . $i . '_day,' : $i . '_day,';
+                $fieid .= $day;
+            }
+            $fieid = trim($fieid, ',');
+            $arrayLayoutExtraBedPrice = RoomService::instance()->getRoomLayoutExtraBedPrice($conditions, $fieid);
+            $conditions['order'] = '';
 
         }
         $conditions['where'] = array('hotel_id'=>$hotel_id,'room_layout_valid'=>1);
@@ -269,6 +279,7 @@ class BookOperateService extends \BaseService {
         $arrayBookPriceSystem['layoutPrice'] = $arrayLayoutPrice;
         $arrayBookPriceSystem['priceSystem'] = $roomLayoutPriceSystem;
         $arrayBookPriceSystem['roomLayout'] = $arrayRoomLayout;
+        $arrayBookPriceSystem['extraBedPrice'] = $arrayLayoutExtraBedPrice;
         return $arrayBookPriceSystem;
 
 
