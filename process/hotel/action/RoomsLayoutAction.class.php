@@ -205,16 +205,18 @@ class RoomsLayoutAction extends \BaseAction {
         //房型的房子
         $conditions['where'] = array('room_layout_id'=>$room_layout_id);
         $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions, '*', 'room_id');
-        //真实客房
+        //真实客房 房间状态 -1 删除 0 正常 1维修 2不进行使用
         $conditions['where'] = array('room_type'=>'room', 'room_status'=>'0', 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $arrayRoom = RoomService::instance()->getRoom($conditions);
         if(!empty($arrayRoom)) {
             foreach($arrayRoom as $i => $arrayValue) {
                 $arrayRoom[$i]['checked'] = 0;
-                $arrayRoom[$i]['room_layout_room_extra_bed'] = 0;
+                $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoom[$i]['room_layout_room_max_children'] = 0;
                 if(isset($arrayRoomLayoutRoom[$arrayValue['room_id']])){
                     $arrayRoom[$i]['checked'] = $room_layout_id;
                     $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'];
+                    $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_people'];
+                    $arrayRoom[$i]['room_layout_room_max_children'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_children'];
                 }
                 $arrayRoom[$i]['room_id'] = str_replace('=', '',encode($arrayRoom[$i]['room_id']));
             }

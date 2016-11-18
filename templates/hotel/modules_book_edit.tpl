@@ -149,6 +149,8 @@
 									<%/section%>
 								</select>
 								<input type="text" name="book_user_id_card[]" class="span2" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
+                                <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
+                                <input type="text" name="book_cash_pledge[]" class="span1" placeholder="<%$arrayLaguage['cash_pledge']['page_laguage_value']%>"/>
 							</div>
 							<div class="controls">
 							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>

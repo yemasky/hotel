@@ -4,6 +4,9 @@
 <%include file="hotel/inc/head.tpl"%>
 <%include file="hotel/inc_js/editor_upload_images.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
+<style type="text/css">
+.quick-actions li {margin: 0 2px 2px !important;}
+</style>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -121,10 +124,24 @@
                 <li> 
                 <a> <i class="icon-home"></i> <input id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"> <%$arrayRoom[room].room_name%>
                 </a>
+                <table>
+                <tr>
+                    <td align="right"><%$arrayLaguage['room_layout_max_people']['page_laguage_value']%> :</td>
+                    <td align="left"><input type="text" class="span3" id="max_people_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_people%>"></td>
+                </tr>
+                <tr>
+                    <td align="right"><%$arrayLaguage['room_layout_max_children']['page_laguage_value']%> :</td>
+                    <td align="left"><input type="text" class="span3" id="max_children_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_children%>">
+                    </td>
+                </tr>
                 <%if $arrayDataInfo.room_layout_extra_bed>0%>
-                <%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>: 
-                <input type="text" class="span3" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
+                <tr>
+                    <td align="right"><%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>: </td>
+                    <td align="left"><input type="text" class="span3" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
+                    </td>
+                </tr>
                 <%/if%>
+                </table>
                 </li> 
                 <%/section%>
                 </ul>
