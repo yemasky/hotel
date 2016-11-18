@@ -129,14 +129,12 @@
                 <%/section%>
                 </ul>
                 </div>
-           		<form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate> 
-                <div class="control-group">
-                	<label class="control-label"><%$arrayLaguage['upload_room_layout_images']['page_laguage_value']%> :</label>
-                    <div class="controls">
-           			<p></p>
+           		<div class="control-group">
+                    <div class="controls form-actions pagination-centered btn-icon-pg">
+            	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->
+                    <button type="submit" id="room_next" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
                     </div>
                 </div>
-                </form>
             </div>
            <div id="tab4" class="tab-pane">
                <div class="widget-content">
@@ -308,7 +306,7 @@ $(document).ready(function(){
                                window.location = data.redirect;
                             }
                         } else {
-							$('#room_layout_images a').tab('show');
+							$('#set_room a').tab('show');
                         }
 				   })
 			   } else {
@@ -344,6 +342,9 @@ $(document).ready(function(){
                 data = result;
             })
         }
+    });
+    $('#room_next').click(function(e) {
+        $('#room_layout_images a').tab('show');
     });
     <%/if%>
 });

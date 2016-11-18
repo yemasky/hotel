@@ -1,6 +1,34 @@
 <script language="javascript">
 $(document).ready(function(){
-	var contact_validate = $("#contact_form").validate({
+	//日历
+	$.datetimepicker.setLocale('ch');
+	var dateToDisable = new Date();
+	dateToDisable.setDate(dateToDisable.getDate() - 1);
+	$('#book_check_in').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
+		beforeShowDay: function(date) {
+			if (date.getTime() < dateToDisable.getTime()) {
+				return [false, ""];
+			}
+			return [true, ""];
+		}
+	});
+	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
+		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
+			var dateToDisable = new Date($('#book_check_in').val());
+			if (date.getTime() < dateToDisable.getTime()) {
+				return [false, ""];
+			}
+			return [true, ""];
+		}
+	});
+	//日历 时间控制
+	$('#book_order_retention_time').datetimepicker({
+		datepicker:false,format:'H:i',step:30
+	});
+	
+});//add_attr_classes
+$(document).ready(function(){
+    var contact_validate = $("#contact_form").validate({
 		rules: {
 			contact_name: {required: true},
 			contact_mobile: {required: true,isMobile: true},
@@ -86,35 +114,7 @@ $(document).ready(function(){
 	table = $('#room_layout').DataTable({
 		paging: false
 	});
-	
-	//日历
-	$.datetimepicker.setLocale('ch');
-	var dateToDisable = new Date();
-	dateToDisable.setDate(dateToDisable.getDate() - 1);
-	$('#book_check_in').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
-		beforeShowDay: function(date) {
-			if (date.getTime() < dateToDisable.getTime()) {
-				return [false, ""];
-			}
-			return [true, ""];
-		}
-	});
-	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
-		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
-			var dateToDisable = new Date($('#book_check_in').val());
-			if (date.getTime() < dateToDisable.getTime()) {
-				return [false, ""];
-			}
-			return [true, ""];
-		}
-	});
-	//日历 时间控制
-	$('#book_order_retention_time').datetimepicker({
-		datepicker:false,format:'H:i',step:30
-	});
-	
-//});//add_attr_classes
-//$(document).ready(function(){
+    
     var BookEditClass = {
         hotel_service: {},
         book_discount_list: {},
@@ -426,20 +426,20 @@ $(document).ready(function(){
                         //td2 += td2;
                     } else {
                         if(i > 0) {
-                            html += '<tr room_layout_id="'+room_layout_id+'" extra_bed="'+layoutPrice[i].room_layout_extra_bed+'">'+
+                            html += '<tr room_layout_id="'+room_layout_id+'" system_id="'+system_id+'">'+
                                         '<td class="details-control">'+td1+'</td>'+
                                         '<td>'+td2 + td_bed +'</td>'+
                                         //'<td>'+td_bed+'</td>'+
                                     '</tr>';
                             td1 = td2 = td_bed = option = '';   
                         }
-                        td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + '<i class="am-icon-coffee am-yellow-EBC012"></i>' 
+                        td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + ' &#8226; ' 
                              + priceSystem[system_id].room_layout_price_system_name;
                         td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
                     }
                     td2 += '<ul class="stat-boxes stat-boxes2">';
                     td2 += '<li><div class="left peity_bar_bad"><span>'+layoutPrice[i].this_month+'</span>'
-                            +layoutPrice[i].this_year+'</div><div class="right"><span><%$arrayLaguage["room_price"]["page_laguage_value"]%></span></div></li>';
+                            +layoutPrice[i].this_year+'</div><div class="right price"><span><%$arrayLaguage["room_price"]["page_laguage_value"]%></span></div></li>';
                     if(in_year == out_year) {
                         if(in_month == out_month) {
                             loop_day = out_day;
@@ -469,7 +469,7 @@ $(document).ready(function(){
                         var bed = extraBedPrice[extraBedid];
                         td_bed += '<ul class="stat-boxes stat-boxes2">';
                         td_bed += '<li><div class="left peity_bar_bad"><span>'+layoutPrice[i].this_month+'</span>'
-                            +layoutPrice[i].this_year+'</div><div class="right"><span><%$arrayLaguage["extra_bed"]["page_laguage_value"]%></span></div></li>';
+                            +layoutPrice[i].this_year+'</div><div class="right price"><span><%$arrayLaguage["extra_bed"]["page_laguage_value"]%></span></div></li>';
                         for(var day_i = in_day; day_i<= loop_day; day_i++) {
                             var week_date = new Date(layoutPrice[i].this_year+'-'+layoutPrice[i].this_month+'-'+day_i);
                             var week = week_date.getDay();

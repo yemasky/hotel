@@ -24,6 +24,7 @@
 .stat-boxes .left{padding: 2px 5px 6px 1px;margin-right: 1px; text-align:center;}
 .stat-boxes .left span{font-size:12px; font-style:italic;}
 .stat-boxes .right{padding:1px 0 0; width: 55px;}
+.stat-boxes .price{width: 45px !important;}
 .stat-boxes .right span{ line-height: 30px;}
 .stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
 .stat-boxes input{margin-bottom:1px !important;}
