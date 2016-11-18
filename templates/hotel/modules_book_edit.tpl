@@ -21,8 +21,9 @@
 .btn-group .btn {border: 1px solid #8C8585}
 .stat-boxes2{top:0px;right:0px; text-align:left;}
 .stat-boxes .right strong{ font-size:14px; font-weight:normal;}
-.stat-boxes .left{padding: 2px 5px 6px 1px;margin-right: 1px; text-align:center;}
+.stat-boxes .left{padding: 2px 5px 5px 1px;margin-right: 1px; text-align:center;}
 .stat-boxes .left span{font-size:12px; font-style:italic;}
+.stat-boxes .cash_pledge {line-height: 25px; font-size:12px}
 .stat-boxes .right{padding:1px 0 0; width: 55px;}
 .stat-boxes .price{width: 45px !important;}
 .stat-boxes .right span{ line-height: 30px;}
@@ -149,8 +150,8 @@
 									<%/section%>
 								</select>
 								<input type="text" name="book_user_id_card[]" class="span2" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
-                                <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
-                                <input type="text" name="book_cash_pledge[]" class="span1" placeholder="<%$arrayLaguage['cash_pledge']['page_laguage_value']%>"/>
+                                <!--<%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
+                                <input type="text" name="book_cash_pledge[]" class="span1" placeholder="<%$arrayLaguage['cash_pledge']['page_laguage_value']%>"/>// 押金-->
 							</div>
 							<div class="controls">
 							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>

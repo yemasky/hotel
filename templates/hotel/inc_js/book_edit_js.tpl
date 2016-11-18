@@ -403,6 +403,7 @@ $(document).ready(function(){
             //分解房型、价格体系数据
             bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
                 var html = td1 = td2 = td_bed = option = '';
+                var cash_pledge = {};
                 var in_date = new Date(check_in);
                 var in_day = in_date.getDate();var in_month = in_date.getMonth() - 0 + 1;var in_year = in_date.getFullYear();
                 var out_date = new Date(check_out);
@@ -426,10 +427,13 @@ $(document).ready(function(){
                         //td2 += td2; 与上一个相同的房型和价格体系
                     } else {
                         if(i > 0) {
+                            var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
+                                        +'<div class="right price"><span><input value="'+cash_pledge[layoutPrice[i - 1].room_layout_id+'-'+layoutPrice[i - 1].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
+                            //cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                             html += '<tr room_layout_id="'+layoutPrice[i - 1].room_layout_id+'" '
                                     +'system_id="'+layoutPrice[i - 1].room_layout_price_system_id+'">'+
                                         '<td class="details-control">'+td1+'</td>'+
-                                        '<td>'+td2 + td_bed +'</td>'+
+                                        '<td>'+td2 + td_bed + pledge + '</td>'+
                                         //'<td>'+td_bed+'</td>'+
                                     '</tr>';
                             td1 = td2 = td_bed = option = '';   
@@ -468,6 +472,9 @@ $(document).ready(function(){
                             +'<input value="'+layoutPrice[i][day+'_day']+'" name="price['+room_layout_id+']['+system_id+']['+this_day+']" '
                             +'room_layout="'+room_layout_id+'" system_id="'+system_id+'"'
                             +'class="layout_price span12" type="text" ></div></li>';
+                        if(typeof(cash_pledge[room_layout_id+'-'+system_id]) == 'undefined') {
+                            cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
+                        }
                     }
                     td2 += '</ul>';
                     //td2 end
@@ -495,9 +502,12 @@ $(document).ready(function(){
                     //td_bed = '';
                     same_layout_system = room_layout_id + '_' + system_id;
                 }
+                var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
+                                        +'<div class="right price"><span>'
+                                        +'<input value="'+cash_pledge[layoutPrice[i - 1].room_layout_id+'-'+layoutPrice[i - 1].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
                 html += '<tr room_layout_id="'+room_layout_id+'" system_id="'+system_id+'">'+
                             '<td class="details-control">'+td1+'</td>'+
-                            '<td>'+td2 + td_bed +'</td>'+
+                            '<td>'+td2 + td_bed + pledge + '</td>'+
                             //'<td>'+td_bed+'</td>'+
                         '</tr>';
                 return html;
@@ -614,7 +624,7 @@ $(document).ready(function(){
                             room_layout_id = room_layout_system[0];
                             system_id = room_layout_system[1];
                             $('.extra_bed_price').each(function(index, element) {//房型价格
-                                if($(this).attr('room_layout') == room_layout_id && $(this).attr('system_id') == room_layout_id) {//相同room_layout
+                                if($(this).attr('room_layout') == room_layout_id && $(this).attr('system_id') == system_id) {//相同room_layout
                                     room_price = ($(this).val() - 0) * val + room_price;
                                     if(select_room[val + '_bed'] == 0) {
                                         for(i = 1; i <= val; i++) {
