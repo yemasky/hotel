@@ -470,7 +470,7 @@ $(document).ready(function(){
                         var day = day_i < 10 ? '0'+day_i : day_i;
                         var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
-                            +'<input value="'+layoutPrice[i][day+'_day']+'" name="price['+room_layout_id+']['+system_id+']['+this_day+']" '
+                            +'<input value="'+layoutPrice[i][day+'_day']+'" room="price['+room_layout_id+']['+system_id+']['+this_day+']" '
                             +'room_layout="'+room_layout_id+'" system_id="'+system_id+'"'
                             +'class="layout_price span12" type="text" ></div></li>';
                         if(typeof(cash_pledge[room_layout_id+'-'+system_id]) == 'undefined') {
@@ -492,7 +492,7 @@ $(document).ready(function(){
                             var day = day_i < 10 ? '0'+day_i : day_i;
                             var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
-                                +'<input value="'+bed[day+'_day']+'" name="bed['+room_layout_id+']['+system_id+']['+this_day+']" '
+                                +'<input value="'+bed[day+'_day']+'" bed="bed['+room_layout_id+']['+system_id+']['+this_day+']" '
                                 +'room_layout="'+room_layout_id+'" system_id="'+system_id+'"'
                                 +'class="span12 extra_bed_price" type="text" >'
                                 +'</div></li>';
@@ -521,16 +521,18 @@ $(document).ready(function(){
                        var selectHtml = '';
                        for(i in data.itemData) {
                             var addBedSelect = '';
-                            selectHtml = '<select class="span2 room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" system_id="'+system_id+'" '
-                                        +'room="'+itemData[i].room_id+'">';
-                            for(j = 0; j <= itemData[i].room_layout_room_extra_bed; j++) {
-                                if($('#addBed_data').data(itemData[i].room_layout_id+'_'+itemData[i].room_id) == j) {
-                                    addBedSelect = 'selected';
+                            if(itemData[i].room_layout_room_extra_bed > 0) {
+                                selectHtml = '<select class="span2 room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" system_id="'+system_id+'" '
+                                            +'room="'+itemData[i].room_id+'">';
+                                for(j = 0; j <= itemData[i].room_layout_room_extra_bed; j++) {
+                                    if($('#addBed_data').data(itemData[i].room_layout_id+'_'+itemData[i].room_id) == j) {
+                                        addBedSelect = 'selected';
+                                    }
+                                    selectHtml += '<option value="'+j+'" '+addBedSelect+'>'+j+'</option>';
+                                    addBedSelect = '';
                                 }
-                                selectHtml += '<option value="'+j+'" '+addBedSelect+'>'+j+'</option>';
-                                addBedSelect = '';
+                                selectHtml += '</select>';
                             }
-                            selectHtml += '</select>';
                             //设置是否是已使用的checked
                             var checked_room = '';
                             if(typeof($('#room_data').data(itemData[i].room_id)) != 'undefined') {//undefined
@@ -546,8 +548,8 @@ $(document).ready(function(){
                                  +' title="'+itemData[i].room_number+'" />'
                                  +'</td>'
                                  +'<td>'+itemData[i].room_number+'</td>'
-                                 +'<td>'+itemData[i].room_mansion+'</td>'
-                                 +'<td>'+itemData[i].room_floor+'</td>'
+                                 /*+'<td>'+itemData[i].room_mansion+'</td>'
+                                 +'<td>'+itemData[i].room_floor+'</td>'*/
                                  +'<td>'+selectHtml+'</td>'
                                  +'</tr>';
                             selectHtml = '';
@@ -557,8 +559,8 @@ $(document).ready(function(){
                               +'<tr>'
                               +'<th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>'
                               +'<th><%$arrayLaguage["room_number"]["page_laguage_value"]%></th>'
-                              +'<th><%$arrayLaguage["room_mansion"]["page_laguage_value"]%></th>'
-                              +'<th><%$arrayLaguage["room_floor"]["page_laguage_value"]%></th>'
+                              /*+'<th><%$arrayLaguage["room_mansion"]["page_laguage_value"]%></th>'
+                              +'<th><%$arrayLaguage["room_floor"]["page_laguage_value"]%></th>'*/
                               +'<th><%$arrayLaguage["extra_bed"]["page_laguage_value"]%></th>'
                               +'</tr>'
                               +'</thead>'
