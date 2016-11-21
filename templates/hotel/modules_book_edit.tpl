@@ -76,7 +76,7 @@
 								 <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 								 <%section name=type loop=$arrayBookType%>
 									<%if $arrayBookType[type].book_type_father_id!=$arrayBookType[type].book_type_id%>
-									<option value="<%$arrayBookType[type].book_type_id%>"><%$arrayBookType[type].book_type_name%></option>
+									<option value="<%$arrayBookType[type].book_type_id%>" bookType="<%$arrayBookType[type].type%>"><%$arrayBookType[type].book_type_name%></option>
 									<%/if%>
 								 <%/section%>
 								</select>
@@ -91,6 +91,12 @@
 							</div>
 						</div>
 						<div class="control-group hide book_form_step1">
+                            <div class="controls">
+                                [
+                                <%$arrayLaguage['hotel_checkin']['page_laguage_value']%> : <%$hotel_checkin%> - 
+                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%> : <%$hotel_checkout%>
+                                ]
+                            </div>
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
 							<div class="controls">
 								<input type="text" class="span2" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>

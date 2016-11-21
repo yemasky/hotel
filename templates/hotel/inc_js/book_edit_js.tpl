@@ -202,8 +202,9 @@ $(document).ready(function(){
                 //协议公司
                 var book_discount_list = BookEditClass.book_discount_list;
                 $('#book_type_id').change(function(e) {
-                    $('#book_discount_id,.book_discount_id').remove();
+                    $('#book_discount_id,.book_discount_id,#order_number_ourter').remove();
                     var book_type_id = $(this).val();
+                    var booktype = $(this).find('option:selected').attr('booktype')
                     if(typeof(book_discount_list[book_type_id]) == 'undefined') {
                         $.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
                             data = result;
@@ -231,6 +232,8 @@ $(document).ready(function(){
                                 book_discount_list[book_type_id + '_'] = 100;
                                 $('#discount').val(100);
                             }
+                            if(booktype == 'OTA') 
+                                $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input  name="book_order_number_ourter" value="" class="span2" type="text"></span>');
                         })
                     } else {
                         $('#book_type_id').after(book_discount_list[book_type_id]);
@@ -238,6 +241,8 @@ $(document).ready(function(){
                             $('#discount').val(book_discount_list[$(this).val() + '_0']);
                         })
                         $('#discount').val(book_discount_list[book_type_id + '_']);
+                        if(booktype == 'OTA') 
+                            $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input name="book_order_number_ourter" value="" class="span2" type="text"></span>');
                     }
                     //console.log(BookEditClass.book_discount_list);
                     //计算价格

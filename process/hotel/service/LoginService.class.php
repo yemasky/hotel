@@ -45,6 +45,7 @@ class LoginService extends \BaseService {
             $arrEmployeeInfo['company_id'] = $arrEmployee[1];
             $arrEmployeeInfo['hotel_id'] = $arrEmployee[2];
             $arrEmployeeInfo['employee_name'] = $arrEmployee[3];
+            $arrEmployeeInfo['hotel_name'] = $arrEmployee[4];
             return $arrEmployeeInfo;
         }
         return NULL;
@@ -65,7 +66,8 @@ class LoginService extends \BaseService {
     }
 
     public function setLoginEmployeeCookie($arrayLoginEmployeeInfo, $remember_me = false) {
-        $cookieUser = $arrayLoginEmployeeInfo['employee_id'] . "\t" . $arrayLoginEmployeeInfo['company_id'] . "\t" . $arrayLoginEmployeeInfo['hotel_id'] . "\t" . $arrayLoginEmployeeInfo['employee_name'];
+        $cookieUser = $arrayLoginEmployeeInfo['employee_id'] . "\t" . $arrayLoginEmployeeInfo['company_id'] . "\t" . $arrayLoginEmployeeInfo['hotel_id']
+            . "\t" . $arrayLoginEmployeeInfo['employee_name']. "\t" . $arrayLoginEmployeeInfo['hotel_name'];
         $objCookie = new \Cookie();
         $time = NULL;
         $key = date("z");

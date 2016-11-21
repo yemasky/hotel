@@ -87,6 +87,10 @@ class IndexAction extends \BaseAction {
                 $lenght = count($arrayEmployeeInfo);
                 for($i = 0; $i < $lenght; $i++) {
                     if (md5(md5($arrayLoginInfo['employee_password']) . md5($arrayEmployeeInfo[$i]['employee_password_salt'])) == $arrayEmployeeInfo[$i]['employee_password']) {
+                        $conditions = DbConfig::$db_query_conditions;
+                        $conditions['where'] = array('hotel_id'=>$arrayEmployeeInfo[$i]['hotel_id']);
+                        $arrayLoginHotel = HotelService::instance()->getHotel($conditions);
+                        $arrayEmployeeInfo[$i]['hotel_name'] = $arrayLoginHotel[0]['hotel_name'];
                         LoginService::instance()->setLoginEmployeeCookie($arrayEmployeeInfo[$i], $remember_me);
                         $this->setDisplay();
                         $this->setRedirect(__WEB);
