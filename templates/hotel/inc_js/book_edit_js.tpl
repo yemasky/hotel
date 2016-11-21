@@ -535,7 +535,9 @@ $(document).ready(function(){
                        var selectHtml = '';
                        for(i in data.itemData) {
                             var addBedSelect = '';
-                            //if(itemData[i].extra_bed > 0) {
+                            if(itemData[i].extra_bed > 0) {
+                                extra_bed_disable = '';
+                            }
                                 selectHtml = '<select class="span2 room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" system_id="'+system_id+'" '
                                             +'room="'+itemData[i].room_id+'">';
                                 for(j = 0; j <= itemData[i].extra_bed; j++) {
