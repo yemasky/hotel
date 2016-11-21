@@ -9,6 +9,7 @@ var data = '';
 <!---->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/bootstrap.min.css" />
 <link rel="stylesheet" href="<%$__RESOURCE%>css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.gritter.css" />
 <script src="<%$__RESOURCE%>js/jquery.min.js"></script>
 <script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
 <!-- 2.3.3 -->

@@ -160,10 +160,12 @@ $(document).ready(function(){
                 //联系信息事件
                 $('#contact_mobile,#contact_name,#contact_email,#begin_book').bind("keyup click", function(e) {
                     if($('#contact_mobile').val().length == 11) {
+                        $('#modal_loading').show();
                         $.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
                            dataType : "json",
                            data: "book_contact_mobile=" + $('#contact_mobile').val() + "&book_contact_email=" + $('#contact_email').val(),
                            success : function(result) {
+                               $('#modal_loading').hide();
                                $('.book_form_step1').show();
                                data = result;
                                if(data.success == 1) {
@@ -190,7 +192,7 @@ $(document).ready(function(){
                                        $('#discount').val(100);
                                    }
                                    //计算价格
-                                   bookEdit.setBookPrice();
+                                   bookEdit.computeBookPrice();
                                } else {
                                    $('#modal_fail').modal('show');
                                    $('#modal_fail_message').html(data.message);
@@ -246,7 +248,7 @@ $(document).ready(function(){
                     }
                     //console.log(BookEditClass.book_discount_list);
                     //计算价格
-                    bookEdit.setBookPrice();
+                    bookEdit.computeBookPrice();
                     //console.log(book_discount_list);
                 });
                 //搜索客房价格
@@ -270,8 +272,10 @@ $(document).ready(function(){
                     } else {
                         var system_id = $(_this).parent().attr('system_id');
                         // Open this row 	row.data()
+                        $('#modal_loading').show();
                         $.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id='+$(this).parent().attr('room_layout_id'), 
                           function(result){
+                            $('#modal_loading').hide();
                             row.child(bookEdit.formatRoomTable(result, system_id)).show();
                             row.child().children().addClass('nopadding');
                             row.child().children().attr('id', 'noBodyLeft');
@@ -305,7 +309,7 @@ $(document).ready(function(){
                                     }
                                 });
                                 //计算价格
-                                bookEdit.setBookPrice();
+                                bookEdit.computeBookPrice();
                             });	
                             
                             $(_this).parent().next().find('td input:checkbox').click(function(e) {
@@ -330,7 +334,7 @@ $(document).ready(function(){
                                     bookEdit.resetRoomStatus(room_id, room_layout_id, system_id, this.checked);
                                 }
                                 //计算价格
-                                bookEdit.setBookPrice();
+                                bookEdit.computeBookPrice();
                             });
                             $('.room_extra_bed').change(function(e) {
                                 var extra_bed_val = $(this).val();
@@ -347,10 +351,10 @@ $(document).ready(function(){
                                     $('#addBed_data').data(room_layout_id+'_'+room_id, extra_bed_val);
                                 }
                                 //计算价格
-                                bookEdit.setBookPrice();
+                                bookEdit.computeBookPrice();
                             });
                             $('.book_price').keyup(function(e) {
-                                bookEdit.setBookPrice();
+                                bookEdit.computeBookPrice();
                             });
                             //计算价格
                         })
@@ -374,12 +378,14 @@ $(document).ready(function(){
             },
             //搜索RoomLayout
             bookEdit.ajaxGetRoomLayout = function() {
+                $('#modal_loading').show();
                 var hotel_service = '';//JSON.stringify(BookEditClass.hotel_service, false, 4)
                 for(i in BookEditClass.hotel_service) {
                     if(BookEditClass.hotel_service[i] == 1) hotel_service += i + ',';
                 }
                 var check_in = $('#book_check_in').val();
                 var check_out = $('#book_check_out').val();
+                //$('#book_form div').hide();
                 $.ajax({
                     url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&hotel_service=' + hotel_service,
                     type : "post",
@@ -387,6 +393,7 @@ $(document).ready(function(){
                     + '&book_check_out=' + check_out,
                     dataType : "json",
                     success : function(result) {
+                        $('#modal_loading').hide();
                         $('#book_form div').show();
                         data = result;
                         if(data.success == 1) {
@@ -594,7 +601,7 @@ $(document).ready(function(){
                 })
             },
             //计算价格
-            bookEdit.setBookPrice = function() {
+            bookEdit.computeBookPrice = function() {
                 var bookSelectRoom = BookEditClass.bookSelectRoom;
                 var max_man = BookEditClass.max_man;
                 var room_price = 0;

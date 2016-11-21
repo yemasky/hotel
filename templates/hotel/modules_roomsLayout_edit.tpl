@@ -134,13 +134,11 @@
                     <td align="left"><input type="text" class="span3" id="max_children_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_children%>">
                     </td>
                 </tr>
-                <%if $arrayDataInfo.room_layout_extra_bed>0%>
                 <tr>
                     <td align="right"><%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>: </td>
                     <td align="left"><input type="text" class="span3" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
                     </td>
                 </tr>
-                <%/if%>
                 </table>
                 </li> 
                 <%/section%>

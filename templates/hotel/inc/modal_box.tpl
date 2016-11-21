@@ -60,6 +60,20 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<div id="modal_loading" class="modal-loading hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="notice-loading">
+        <div id="gritter-item-1" class="gritter-item-wrapper" style="">
+            <div class="gritter-top"></div><div class="gritter-item">
+                <div class="gritter-image loading"></div>
+                <div class="gritter-with-image">
+                    <span class="gritter-title">Data is being loaded, Now.</span>
+                    <p>Please wait for a while.</p>
+                </div><div style="clear:both"></div>
+            </div>
+            <div class="gritter-bottom"></div>
+        </div>
+    </div>
+</div>
 <script laguage="javascript">
 $(document).ready(function(){
 	var delete_url = '';

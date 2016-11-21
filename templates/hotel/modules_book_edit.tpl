@@ -92,10 +92,8 @@
 						</div>
 						<div class="control-group hide book_form_step1">
                             <div class="controls">
-                                [
-                                <%$arrayLaguage['hotel_checkin']['page_laguage_value']%> : <%$hotel_checkin%> - 
-                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%> : <%$hotel_checkout%>
-                                ]
+                                <code><%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
+                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%></code>
                             </div>
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
 							<div class="controls">
@@ -106,6 +104,8 @@
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
                                 <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
+                                <%$arrayLaguage['book_days_total']['page_laguage_value']%> :
+                                <input value="" type="text" class="span1" id="book_days_total" name="book_days_total" />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>

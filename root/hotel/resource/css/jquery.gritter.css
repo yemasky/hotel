@@ -92,3 +92,19 @@
 .gritter-light .gritter-title {
     text-shadow: none;
 }
+#notice-loading {position: fixed;width: 301px;z-index: 989;}
+#notice-loading .loading{background:url(../img/loading.gif) no-repeat; width:45px; height:45px;} 
+#notice-loading .gritter-item {background: #ffffff none repeat scroll 0 0;}
+.modal-loading {z-index: 99999 !important;}
+.modal-loading {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    left: 50%;
+    margin: -250px 0 0 -280px;
+    outline: 0 none;
+    position: fixed;
+    top: 50%;
+    z-index: 1050;
+}
