@@ -66,7 +66,7 @@
             <div class="gritter-top"></div><div class="gritter-item">
                 <div class="gritter-image loading"></div>
                 <div class="gritter-with-image">
-                    <span class="gritter-title">Data is being loaded, Now.</span>
+                    <span class="gritter-title">Data is being transmitted, Now.</span>
                     <p>Please wait for a while.</p>
                 </div><div style="clear:both"></div>
             </div>
