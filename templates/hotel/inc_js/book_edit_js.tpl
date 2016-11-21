@@ -402,7 +402,7 @@ $(document).ready(function(){
             },
             //分解房型、价格体系数据
             bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
-                var html = td1 = td2 = td_bed = option = '';
+                var html = td1 = td2 = td_bed = option = pledge = '';
                 var cash_pledge = {};
                 var in_date = new Date(check_in);
                 var in_day = in_date.getDate();var in_month = in_date.getMonth() - 0 + 1;var in_year = in_date.getFullYear();
@@ -421,7 +421,8 @@ $(document).ready(function(){
                 var in_months = BookEditClass.leapYear();
                 var same_layout_system = ''; //room_layout_price_system_id
                 for(i in layoutPrice) {//
-                    var room_layout_id = layoutPrice[i].room_layout_id;var system_id = layoutPrice[i].room_layout_price_system_id;
+                    var room_layout_id = layoutPrice[i].room_layout_id;
+                    var system_id = layoutPrice[i].room_layout_price_system_id;
                     var extraBedid = room_layout_id  +'-'+ system_id +'-'+ layoutPrice[i].this_year +'-'+ layoutPrice[i].this_month;
                     if((room_layout_id + '_' + system_id) == same_layout_system) {
                         //td2 += td2; 与上一个相同的房型和价格体系
@@ -436,7 +437,7 @@ $(document).ready(function(){
                                         '<td>'+td2 + td_bed + pledge + '</td>'+
                                         //'<td>'+td_bed+'</td>'+
                                     '</tr>';
-                            td1 = td2 = td_bed = option = '';   
+                            td1 = td2 = td_bed = option = pledge = '';   
                         }
                         td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + ' &#8226; ' 
                              + priceSystem[system_id].room_layout_price_system_name;
@@ -504,7 +505,7 @@ $(document).ready(function(){
                 }
                 var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
                                         +'<div class="right price"><span>'
-                                        +'<input value="'+cash_pledge[layoutPrice[i - 1].room_layout_id+'-'+layoutPrice[i - 1].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
+                                        +'<input value="'+cash_pledge[layoutPrice[i].room_layout_id+'-'+layoutPrice[i].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
                 html += '<tr room_layout_id="'+room_layout_id+'" system_id="'+system_id+'">'+
                             '<td class="details-control">'+td1+'</td>'+
                             '<td>'+td2 + td_bed + pledge + '</td>'+

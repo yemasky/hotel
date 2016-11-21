@@ -190,6 +190,8 @@
 							 <input value="" type="text" class="span1" id="total_price" name="book_total_price" />
 							 <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
 							 <input value="" type="text" class="span1" id="prepayment" name="book_prepayment_price" />
+                             <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
+							 <input value="" type="text" class="span1 total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
                              <%$arrayLaguage['service_charge']['page_laguage_value']%> :
 							 <input value="" type="text" class="span1 book_price" id="book_service_charge" name="book_service_charge" />
 						  </div>
