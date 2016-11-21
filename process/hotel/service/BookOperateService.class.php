@@ -219,7 +219,7 @@ class BookOperateService extends \BaseService {
             $conditions['where'] = array('hotel_id'=>$hotel_id,
                                          'NOT IN'=>array('room_id'=>$arrayRoomId));
         $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions,
-            'room_layout_id,room_id,room_layout_room_extra_bed', 'room_layout_id', true);
+            'room_layout_id,room_id,room_layout_room_extra_bed, room_layout_room_max_people max_people, room_layout_room_max_children max_children', 'room_layout_id', true);
         //$arrayRoomLayoutId[0] = 0;
         $arrayRoomLayoutId = '';
         $roomLayoutPriceSystem = $arrayLayoutPrice = $arrayLayoutExtraBedPrice = '';
@@ -283,7 +283,7 @@ class BookOperateService extends \BaseService {
 
         }
         $conditions['where'] = array('hotel_id'=>$hotel_id,'room_layout_valid'=>1);
-        $fieid = 'room_layout_id,room_layout_name,room_layout_max_people,room_layout_max_children,room_layout_orientations';
+        $fieid = 'room_layout_id,room_layout_name,room_layout_max_people max_people,room_layout_max_children max_children,room_layout_orientations';
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions, $fieid, 'room_layout_id');
         $arrayBookPriceSystem['layoutPrice'] = $arrayLayoutPrice;
         $arrayBookPriceSystem['priceSystem'] = $roomLayoutPriceSystem;

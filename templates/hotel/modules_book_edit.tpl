@@ -92,8 +92,8 @@
 						</div>
 						<div class="control-group hide book_form_step1">
                             <div class="controls">
-                                <code><%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
-                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%></code>
+                                <code>[<%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
+                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>
                             </div>
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
 							<div class="controls">
