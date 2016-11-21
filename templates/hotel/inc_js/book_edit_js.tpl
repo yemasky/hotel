@@ -237,6 +237,7 @@ $(document).ready(function(){
                             }
                             if(booktype == 'OTA') 
                                 $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input  name="book_order_number_ourter" value="" class="span2" type="text"></span>');
+                            bookEdit.computeBookPrice();
                         })
                     } else {
                         $('#book_type_id').after(book_discount_list[book_type_id]);
@@ -246,11 +247,9 @@ $(document).ready(function(){
                         $('#discount').val(book_discount_list[book_type_id + '_']);
                         if(booktype == 'OTA') 
                             $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input name="book_order_number_ourter" value="" class="span2" type="text"></span>');
+                        bookEdit.computeBookPrice();
                     }
                     //console.log(BookEditClass.book_discount_list);
-                    //计算价格
-                    bookEdit.computeBookPrice();
-                    //console.log(book_discount_list);
                 });
                 //搜索客房价格
                 $('#search_room_layout').click(function(e) {
@@ -536,7 +535,7 @@ $(document).ready(function(){
                        var selectHtml = '';
                        for(i in data.itemData) {
                             var addBedSelect = '';
-                            if(itemData[i].extra_bed > 0) {
+                            //if(itemData[i].extra_bed > 0) {
                                 selectHtml = '<select class="span2 room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" system_id="'+system_id+'" '
                                             +'room="'+itemData[i].room_id+'">';
                                 for(j = 0; j <= itemData[i].extra_bed; j++) {
@@ -547,7 +546,7 @@ $(document).ready(function(){
                                     addBedSelect = '';
                                 }
                                 selectHtml += '</select>';
-                            }
+                            //}
                             //设置是否是已使用的checked
                             var checked_room = '';
                             if(typeof($('#room_data').data(itemData[i].room_id)) != 'undefined') {//undefined
@@ -563,8 +562,9 @@ $(document).ready(function(){
                                  +'room_layout="'+itemData[i].room_layout_id+'" max_people="'+itemData[i].max_people+'" max_children="'+itemData[i].max_children+'"'
                                  +' title="'+itemData[i].room_number+'" />'
                                  +'</td>'
-                                 +'<td>'+itemData[i].room_name+'</td>'
-                                 +'<td>'+itemData[i].room_number+'</td>'
+                                 +'<td>'+itemData[i].room_name+'/'+itemData[i].room_number+'</td>'
+                                 +'<td>'+itemData[i].max_people+'</td>'
+                                 +'<td>'+itemData[i].max_children+'</td>'
                                  /*+'<td>'+itemData[i].room_mansion+'</td>'
                                  +'<td>'+itemData[i].room_floor+'</td>'*/
                                  +'<td>'+selectHtml+'</td>'
@@ -575,8 +575,9 @@ $(document).ready(function(){
                               +'<thead>'
                               +'<tr>'
                               +'<th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>'
-                              +'<th><%$arrayLaguage["room_name"]["page_laguage_value"]%></th>'
-                              +'<th><%$arrayLaguage["room_number"]["page_laguage_value"]%></th>'
+                              +'<th><%$arrayLaguage["room_name"]["page_laguage_value"]%>/<%$arrayLaguage["room_number"]["page_laguage_value"]%></th>'
+                              +'<th><%$arrayLaguage["max_people"]["page_laguage_value"]%></th>'
+                              +'<th><%$arrayLaguage["children"]["page_laguage_value"]%></th>'
                               /*+'<th><%$arrayLaguage["room_mansion"]["page_laguage_value"]%></th>'
                               +'<th><%$arrayLaguage["room_floor"]["page_laguage_value"]%></th>'*/
                               +'<th><%$arrayLaguage["extra_bed"]["page_laguage_value"]%></th>'
