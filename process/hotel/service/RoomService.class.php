@@ -243,4 +243,21 @@ class RoomService extends \BaseService {
         RoomDao::instance()->commit();
         return $room_layout_price_system_id;
     }
+
+    //基础房型类别 RoomLayoutType
+    public function getRoomLayoutType($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return RoomDao::instance()->setTable('room_layout_type')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveRoomLayoutType($arrayData) {
+        return RoomDao::instance()->setTable('room_layout_type')->insert($arrayData);
+    }
+
+    public function updateRoomLayoutType($where, $row) {
+        return RoomDao::instance()->setTable('room_layout_type')->update($where, $row);
+    }
+
+    public function deleteRoomLayoutType($where) {
+        return RoomDao::instance()->setTable('room_layout_type')->delete($where);
+    }
 }

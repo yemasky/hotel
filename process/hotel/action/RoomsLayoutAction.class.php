@@ -225,6 +225,10 @@ class RoomsLayoutAction extends \BaseAction {
                 $arrayRoom[$i]['room_id'] = str_replace('=', '',encode($arrayRoom[$i]['room_id']));
             }
         }
+        //房型类别
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        $arrayRoomLayoutType = RoomService::instance()->getRoomLayoutType($conditions, '*', 'room_layout_type_id');
+
         //赋值
         $objResponse -> view = '0';
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
@@ -232,6 +236,7 @@ class RoomsLayoutAction extends \BaseAction {
         $objResponse -> arrayAttribute = $arrayAttribute;
         $objResponse -> arrayDataInfo = $arrayRoomLayout[0];
         $objResponse -> arrayRoom = $arrayRoom;//真实房
+        $objResponse -> arrayRoomLayoutType = $arrayRoomLayoutType;
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
                 'room_layout_id'=>$objRequest->room_layout_id));
