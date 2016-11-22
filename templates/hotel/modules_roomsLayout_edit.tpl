@@ -41,8 +41,8 @@
                     <div class="controls">
                         <select name="room_layout_type_id" id="room_layout_type_id" class="span1">
                         	<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                            <%foreach key=room_layout_type_id item=$arrayLayoutType from=$arrayRoomLayoutType%>
-                            	<option value="<%$room_layout_type_id%>"<%if $room_layout_type_id==$arrayDataInfo['room_layout_type_id']%> selected<%/if%>><%$arrayLayoutType['room_layout_type_name']%></option>
+                            <%foreach key=room_layout_type_id item=arrayLayoutType from=$arrayRoomLayoutType%>
+                            	<option value="<%$room_layout_type_id%>"<%if $room_layout_type_id==$arrayDataInfo['room_layout_type_id']%> selected<%/if%>><%$arrayLayoutType.room_layout_type_name%></option>
                             <%/foreach%>
                         </select>
                     </div>
