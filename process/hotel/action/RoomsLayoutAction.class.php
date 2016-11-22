@@ -116,6 +116,8 @@ class RoomsLayoutAction extends \BaseAction {
             $room_id = decode($objRequest->room_id);
             $checked = $objRequest->checked;
             $extra_bed = $objRequest->extra_bed > 0 ? $objRequest->extra_bed : 0;
+            $max_people = $objRequest->max_people > 0 ? $objRequest->max_people : 0;
+            $max_children = $objRequest->max_children > 0 ? $objRequest->max_children : 0;
 
             if(empty($room_layout_id) || empty($room_id)) return $this->errorResponse('错误的ID号，请检查');
 
@@ -126,6 +128,8 @@ class RoomsLayoutAction extends \BaseAction {
                 $arrayRoomData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayRoomData['room_id'] = $room_id;
                 $arrayRoomData['room_layout_id'] = $room_layout_id;
+                $arrayRoomData['room_layout_room_max_people'] = $max_people;
+                $arrayRoomData['room_layout_room_max_children'] = $max_children;
                 $arrayRoomData['room_layout_room_extra_bed'] = $extra_bed;
                 if(empty($arrayRoomLayoutRoom)) {
                     RoomService::instance()->saveRoomLayoutRoom($arrayRoomData);
@@ -190,12 +194,12 @@ class RoomsLayoutAction extends \BaseAction {
         //print_r($arrayAttributeValue);
         if(!empty($arrayAttribute)) {
             foreach($arrayAttribute as $attrKey => $arrayChild) {
-                foreach($arrayChild['childen'] as $i => $arrayAttr) {
-                    $arrayAttribute[$attrKey]['childen'][$i]['values'] = array();
-                    if(isset($arrayAttributeValue[$arrayAttr['room_layout_attribute_id']])) {
-                        $arrayValues = $arrayAttributeValue[$arrayAttr['room_layout_attribute_id']];
+                foreach($arrayChild['children'] as $i => $arrayAttr) {
+                    $arrayAttribute[$attrKey]['children'][$i]['values'] = array();
+                    if(isset($arrayAttributeValue[decode($arrayAttr['room_layout_attribute_id'])])) {
+                        $arrayValues = $arrayAttributeValue[decode($arrayAttr['room_layout_attribute_id'])];
                         foreach($arrayValues as $attr => $attrVal) {
-                            $arrayAttribute[$attrKey]['childen'][$i]['values'][] = $attrVal;
+                            $arrayAttribute[$attrKey]['children'][$i]['values'][] = $attrVal;
                         }
                     }
                 }
@@ -267,6 +271,7 @@ class RoomsLayoutAction extends \BaseAction {
                 $i = 0;
                 $arrarAttrHash = array();
                 foreach ($arrayPostValue as $key => $val) {
+                    //$key = decode($key);
                     foreach ($val as $k => $v) {
                         if(empty($v)) continue;
                         foreach($v as $attr => $attrValue) {
@@ -274,8 +279,8 @@ class RoomsLayoutAction extends \BaseAction {
                             if(isset($arrarAttrHash[$k][$attrValue])) continue;//消除相同属性的属性值
                             $arrayInsertValue[$i]['hotel_id'] = $hotel_id;
                             $arrayInsertValue[$i]['room_layout_id'] = $room_layout_id;
-                            $arrayInsertValue[$i]['room_layout_attribute_father_id'] = $key;
-                            $arrayInsertValue[$i]['room_layout_attribute_id'] = $k;
+                            $arrayInsertValue[$i]['room_layout_attribute_father_id'] = decode($key);
+                            $arrayInsertValue[$i]['room_layout_attribute_id'] = decode($k);
                             $arrayInsertValue[$i]['room_layout_attribute_value'] = $attrValue;
                             //消除相同属性的属性值
                             $arrarAttrHash[$k][$attrValue] = 0;
@@ -284,6 +289,7 @@ class RoomsLayoutAction extends \BaseAction {
                     }
                 }
                 if(!empty($arrayInsertValue)) {
+                    //print_r($arrayInsertValue);
                     RoomService::instance()->batchSaveRoomLayoutAttrValue($arrayInsertValue);
                     return $this->successResponse('保存房型及房型属性成功！', '', $redirect_url);
                 }

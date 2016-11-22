@@ -48,12 +48,12 @@ class RoomService extends \BaseService {
                 //$v['room_layout_attribute_id'] = encode($v['room_layout_attribute_id']);
                 $arrarResult[$v['room_layout_attribute_father_id']] = $v;
                 $arrarResult[$v['room_layout_attribute_father_id']]['room_layout_attribute_id'] = encode($v['room_layout_attribute_id']);
-                $arrarResult[$v['room_layout_attribute_father_id']]['childen'] = array();
+                $arrarResult[$v['room_layout_attribute_father_id']]['children'] = array();
             } else {
                 //$v['room_layout_attribute_id'] = encode($v['room_layout_attribute_id']);
                 $encodeV = $v;
                 $encodeV['room_layout_attribute_id'] = encode($v['room_layout_attribute_id']);
-                $arrarResult[$v['room_layout_attribute_father_id']]['childen'][] = $encodeV;
+                $arrarResult[$v['room_layout_attribute_father_id']]['children'][] = $encodeV;
             }
         }
         return $arrarResult;

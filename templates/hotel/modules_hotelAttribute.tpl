@@ -38,8 +38,8 @@
                         <%/if%> :
                         </label>
                         <div class="controls">
-                        <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
-                            <input type="text" class="span1" value="<%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%>"<%if $arrayAttribute[attr].childen[attr_childen].hotel_id==0%> disabled<%else%> name="<%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_id%>"<%/if%> />
+                        <%section name=attr_children loop=$arrayAttribute[attr].children%>
+                            <input type="text" class="span1" value="<%$arrayAttribute[attr].children[attr_children].hotel_attribute_name%>"<%if $arrayAttribute[attr].children[attr_children].hotel_id==0%> disabled<%else%> name="<%$arrayAttribute[attr].children[attr_children].hotel_attribute_id%>"<%/if%> />
                         <%/section%>
                         </div>
                     </div>

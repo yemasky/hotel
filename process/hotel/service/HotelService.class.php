@@ -45,19 +45,19 @@ class HotelService extends \BaseService {
         $cache_id = ModulesConfig::$cacheKey['hotel']['hotel_attribute'] . $hotel_id;
         $conditions['order'] = 'hotel_attribute_father_id ASC, hotel_attribute_order ASC, hotel_attribute_id ASC';
         $arrayAttr =  HotelDao::instance()->setTable('hotel_attribute')->getList($conditions);//->DBCache($cache_id)
-        $arrarResult = array();
+        $arrayResult = array();
         foreach ($arrayAttr as $k => $v) {
             if($v['hotel_attribute_id'] == $v['hotel_attribute_father_id']) {
-                $arrarResult[$v['hotel_attribute_father_id']] = $v;
-                $arrarResult[$v['hotel_attribute_father_id']]['hotel_attribute_id'] = encode($v['hotel_attribute_id']);
-                $arrarResult[$v['hotel_attribute_father_id']]['childen'] = array();
+                $arrayResult[$v['hotel_attribute_father_id']] = $v;
+                $arrayResult[$v['hotel_attribute_father_id']]['hotel_attribute_id'] = encode($v['hotel_attribute_id']);
+                $arrayResult[$v['hotel_attribute_father_id']]['children'] = array();
             } else {
                 $encodeV = $v;
                 $encodeV['hotel_attribute_id'] = encode($v['hotel_attribute_id']);
-                $arrarResult[$v['hotel_attribute_father_id']]['childen'][] = $v;
+                $arrayResult[$v['hotel_attribute_father_id']]['children'][] = $encodeV;
             }
         }
-        return $arrarResult;
+        return $arrayResult;
     }
 
     public function saveHotelAttr($arrayData) {

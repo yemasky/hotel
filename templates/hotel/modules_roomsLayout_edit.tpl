@@ -90,14 +90,14 @@
                     <div class="control-group">
                         <label class="control-label"><%$arrayAttribute[attr].room_layout_attribute_name%> :</label>
                         <div class="controls">
-                        	<%section name=attr_childen loop=$arrayAttribute[attr].childen%>
-                        	 <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_name%> :</label>
+                        	<%section name=attr_children loop=$arrayAttribute[attr].children%>
+                        	 <label class="control-label"><%$arrayAttribute[attr].children[attr_children].room_layout_attribute_name%> :</label>
                              <div class="controls">
-                             	<%section name=attrValue loop=$arrayAttribute[attr].childen[attr_childen].values%>
-                             	<input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>][]" class="span2" 
-                                	value="<%$arrayAttribute[attr].childen[attr_childen].values[attrValue].room_layout_attribute_value%>">
+                             	<%section name=attrValue loop=$arrayAttribute[attr].children[attr_children].values%>
+                             	<input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" class="span2" 
+                                	value="<%$arrayAttribute[attr].children[attr_children].values[attrValue].room_layout_attribute_value%>">
                                 <%/section%>
-                                <input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].childen[attr_childen].room_layout_attribute_id%>][]" class="span2" value=""> <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
+                                <input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" class="span2" value=""> <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
                              </div>
                         	<%/section%>
                         	<!--<label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>-->
@@ -147,7 +147,7 @@
            		<div class="control-group">
                     <div class="controls form-actions pagination-centered btn-icon-pg">
             	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->
-                    <button type="submit" id="room_next" class="btn btn-primary pagination-centered"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                    <button type="submit" id="room_next" class="btn btn-primary pagination-centered"><%$arrayLaguage['next']['page_laguage_value']%></button>
                     </div>
                 </div>
             </div>
@@ -337,33 +337,48 @@ $(document).ready(function(){
 	$('.addAttr').click(function(e) {
 		$(this).before(" ").prev().clone().insertBefore(this).after(" ");
     });
-    <%if $view!='1'%>
-    $('#rooms :checkbox').click(function(e) {
-        var extra_bed = $('#extra_bed_' + this.value).val();
-        if(typeof(extra_bed) == 'undefined') extra_bed = 0;
-        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value + '&extra_bed=' + extra_bed;
-        $.getJSON(url, function(result) {
-            data = result;
-        })
-    });
-    $('#rooms :text').keyup(function(e) {
-        var checked = $('#'+$(this).attr('data-id')).attr('checked');
-        if(checked == 'checked' || checked == true) {
-            checked = 'true';
-            var extra_bed = this.value;
-            if(typeof(extra_bed) == 'undefined') extra_bed = 0;
-            var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + $(this).attr('data-id') + '&extra_bed=' + extra_bed;
-            $.getJSON(url, function(result) {
-                data = result;
-            })
-        }
-    });
     $('#room_next').click(function(e) {
         $('#room_layout_images a').tab('show');
     });
-    <%/if%>
 });
 </script>
+<%if $view!='1'%>
+<script language="javascript">
+    $('#rooms :checkbox').click(function(e) {
+        $('#modal_save').show();
+        var extra_bed = $('#extra_bed_' + this.value).val();
+        var max_people = $('#max_people_' + this.value).val();
+        var max_children = $('#max_children_' + this.value).val();
+        if(typeof(extra_bed) == 'undefined') extra_bed = 0;
+        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value 
+                + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
+        $.getJSON(url, function(result) {
+            data = result;
+            $('#modal_save').hide();
+        })
+    });
+    $('#rooms :text').keyup(function(e) {
+        var key = e.which;
+        if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
+            var checked = $('#'+$(this).attr('data-id')).attr('checked');
+            if(checked == 'checked' || checked == true) {
+                $('#modal_save').show();
+                checked = 'true';
+                var extra_bed = this.value;
+                var max_people = $('#max_people_' + this.value).val();
+                var max_children = $('#max_children_' + this.value).val();
+                if(typeof(extra_bed) == 'undefined') extra_bed = 0;
+                var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + $(this).attr('data-id') 
+                        + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
+                $.getJSON(url, function(result) {
+                    data = result;
+                    $('#modal_save').hide();
+                })
+            }
+        }
+    });
+</script>    
+<%/if%>
 <%if $view=='1'%>
 <script language="javascript">
 $("form input,textarea,select").prop("readonly", true);
