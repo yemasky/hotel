@@ -17,7 +17,7 @@
 #noBodyLeft{}
 #noBodyLeft th,#noBodyLeft td{padding:5px;}
 #noBodyLeft input,#noBodyLeft select{margin-bottom:0px;}
-.custom-date-style {background-color: red !important;}
+.custom-date-style {background-color:#333333 !important;}
 .btn-group .btn {border: 1px solid #8C8585}
 .stat-boxes2{top:0px;right:0px; text-align:left;}
 .stat-boxes .right strong{ font-size:14px; font-weight:normal;}
@@ -29,6 +29,7 @@
 .stat-boxes .right span{ line-height: 30px;}
 .stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
 .stat-boxes input{margin-bottom:1px !important;}
+.custom-date-style{ cursor:pointer; color:#666666 !important;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -92,9 +93,10 @@
 						</div>
 						<div class="control-group hide book_form_step1">
                             <div class="controls">
+                                <input id="half_price" class="span1" value="18:00" name="half_price" style="" aria-invalid="false" type="text">
+                                <%$arrayLaguage['before_half_of_the_rate']['page_laguage_value']%>
                                 <code>[<%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
-                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>
-                            </div>
+                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>                            </div>
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
 							<div class="controls">
 								<input type="text" class="span2" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
@@ -105,15 +107,12 @@
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
                                 <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
                                 <%$arrayLaguage['book_days_total']['page_laguage_value']%> :
-                                <input value="" type="text" class="span1" id="book_days_total" name="book_days_total" />
+                                <input value="1" type="text" class="span1" id="book_days_total" name="book_days_total" />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
                             <div class="controls">
-                            <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div>
-                            <%section name=i loop=$arrayHotelService%>
-                            <div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%></a></div>
-                            <%/section%>
+                            <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%></a></div><%/section%>
                                 <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
 						</div>

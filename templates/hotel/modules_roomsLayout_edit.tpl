@@ -119,6 +119,10 @@
            </div>
            <div id="tab3" class="tab-pane">
                <div class="widget-content">
+                <div class="hide fade in alert alert-success alert-block">  
+                  <a class="close" data-dismiss="alert" href="#close"> </a>
+                  <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
+                </div>
                 <ul class="quick-actions" id="rooms">
                 <%section name=room loop=$arrayRoom%>
                 <li> 
@@ -355,6 +359,8 @@ $(document).ready(function(){
         $.getJSON(url, function(result) {
             data = result;
             $('#modal_save').hide();
+            $('.alert.alert-success.alert-block').show("slow");
+            setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 3000);
         })
     });
     $('#rooms :text').keyup(function(e) {
@@ -373,6 +379,8 @@ $(document).ready(function(){
                 $.getJSON(url, function(result) {
                     data = result;
                     $('#modal_save').hide();
+                    $('.alert.alert-success.alert-block').show("slow");
+                    setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 3000);
                 })
             }
         }

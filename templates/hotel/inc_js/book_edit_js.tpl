@@ -10,7 +10,10 @@ $(document).ready(function(){
 				return [false, ""];
 			}
 			return [true, ""];
-		}
+		},
+        onGenerate:function( ct ){
+            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        }
 	});
 	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
 		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
@@ -19,10 +22,33 @@ $(document).ready(function(){
 				return [false, ""];
 			}
 			return [true, ""];
-		}
+		},
+        onGenerate:function( ct ){
+            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+        onSelectTime:function(date) {//console.log(date + '-====-' + nextWeekDateToDisable + '----'+ week_differ + '-----2016-11-22');
+            var outDate = new Date(this.getValue());
+            var inDate = new Date($('#book_check_in').val());
+            var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 - 1) + '-' + outDate.getDate() + ' 00:00:00');
+            var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 - 1) + '-' + inDate.getDate() + ' 00:00:00');
+            var days = Math.floor((outDateTime.getTime() - itDateTime.getTime())/(24*3600*1000));
+            var halfPrice = $('#half_price').val().substr(0, 2) - 0;
+            var checkout = '<%$hotel_checkout%>';
+            //console.log(outDateTime + '===' + itDateTime);
+            if((outDate.getHours() - 0) > halfPrice) {//算1天
+                days = days - 0 + 1;
+            }
+            if((outDate.getHours() - 0) <= halfPrice && (outDate.getHours() - 0) > checkout.substr(0, 2)) {//算0.5天
+                days = days - 0 + 0.5;
+            }
+            $('#book_days_total').val(days);
+        }
 	});
 	//日历 时间控制
 	$('#book_order_retention_time').datetimepicker({
+		datepicker:false,format:'H:i',step:30
+	});
+    $('#half_price').datetimepicker({
 		datepicker:false,format:'H:i',step:30
 	});
 	
@@ -159,7 +185,8 @@ $(document).ready(function(){
                     }
                 });
                 //联系信息事件
-                $('#contact_mobile,#contact_name,#contact_email,#begin_book').bind("keyup click", function(e) {
+                //$('#contact_mobile,#contact_name,#contact_email').bind("keyup") = 
+                $('#begin_book').bind("click", function(e) {
                     if($('#contact_mobile').val().length == 11) {
                         $('#modal_loading').show();
                         $.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
@@ -383,8 +410,13 @@ $(document).ready(function(){
                 for(i in BookEditClass.hotel_service) {
                     if(BookEditClass.hotel_service[i] == 1) hotel_service += i + ',';
                 }
-                var check_in = $('#book_check_in').val();
-                var check_out = $('#book_check_out').val();
+                var check_in = $('#book_check_in').val();var check_out = $('#book_check_out').val();
+                var checkOutDate = new Date(check_out);var today = checkOutDate.getDate();var thisHours = checkOutDate.getHours();
+                var halfPrice = $('#half_price').val().replace(':00', '');
+                if(thisHours > halfPrice) {//算半天
+                    checkOutDate.setDate(checkOutDate.getDate()+1);
+                    check_out = checkOutDate.getFullYear() + '-' + (checkOutDate.getMonth() - 0 + 1) + '-' + checkOutDate.getDate();                    
+                }
                 //$('#book_form div').hide();
                 $.ajax({
                     url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&hotel_service=' + hotel_service,
