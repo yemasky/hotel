@@ -350,10 +350,13 @@ $(document).ready(function(){
 <script language="javascript">
     $('#rooms :checkbox').click(function(e) {
         $('#modal_save').show();
+        $('.alert.alert-success.alert-block').hide();
         var extra_bed = $('#extra_bed_' + this.value).val();
         var max_people = $('#max_people_' + this.value).val();
         var max_children = $('#max_children_' + this.value).val();
         if(typeof(extra_bed) == 'undefined') extra_bed = 0;
+        if(typeof(max_people) == 'undefined') max_people = 0;
+        if(typeof(max_children) == 'undefined') max_children = 0;
         var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value 
                 + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
         $.getJSON(url, function(result) {
@@ -366,14 +369,18 @@ $(document).ready(function(){
     $('#rooms :text').keyup(function(e) {
         var key = e.which;
         if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
-            var checked = $('#'+$(this).attr('data-id')).attr('checked');
+            $('.alert.alert-success.alert-block').hide();
+            var data_id = $(this).attr('data-id');
+            var checked = $('#'+data_id).attr('checked');
             if(checked == 'checked' || checked == true) {
                 $('#modal_save').show();
                 checked = 'true';
-                var extra_bed = this.value;
-                var max_people = $('#max_people_' + this.value).val();
-                var max_children = $('#max_children_' + this.value).val();
+                var extra_bed = $('#extra_bed_' + data_id).val();
+                var max_people = $('#max_people_' + data_id).val();
+                var max_children = $('#max_children_' + data_id).val();
                 if(typeof(extra_bed) == 'undefined') extra_bed = 0;
+                if(typeof(max_people) == 'undefined') max_people = 0;
+                if(typeof(max_children) == 'undefined') max_children = 0;
                 var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + $(this).attr('data-id') 
                         + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
                 $.getJSON(url, function(result) {

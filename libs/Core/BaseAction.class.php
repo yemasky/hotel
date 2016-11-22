@@ -810,7 +810,9 @@ class DBQuery{
 		$cols = $vals = '';
 		foreach($row as $key => $value) {
 			$cols .= '`' . $key . '`,';
-			if($value == 'NULL') {
+            if($value == '0') {
+                $vals .= "'0',";
+            } elseif($value == 'NULL') {
 				$vals .= "NULL" . ',';
 			} elseif(is_bool($value)) {
                 $vals .= $value . ',';
