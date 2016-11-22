@@ -1022,9 +1022,11 @@ CREATE TABLE `room_layout_type` (
   `hotel_id` int(11) DEFAULT NULL,
   `room_layout_type_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`room_layout_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_type` */
+
+insert  into `room_layout_type`(`room_layout_type_id`,`hotel_id`,`room_layout_type_name`) values (1,0,'单人间'),(2,0,'双人间'),(3,0,'多人间'),(4,0,'家庭间'),(5,0,'套房'),(6,0,'度假小屋');
 
 /*Table structure for table `room_sell_layout` */
 
