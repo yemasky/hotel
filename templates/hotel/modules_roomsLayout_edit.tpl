@@ -209,35 +209,14 @@ $(document).ready(function(){
 	// Form Validation
     var v = $("#add_room_layout_form").validate({
 		rules:{
-			room_layout_name: {
-				required:true,
-				minlength:2,
-				maxlength:50
-			},
-			room_layout_valid:{
-				required:true
-			},
-			room_layout_area:{
-				required:true,
-				digits:true
-			},
-			room_layout_orientations:{
-				required:true
-			},
-			room_layout_max_people:{
-				required:true,
-				number:true,
-				minlength:1,
-				maxlength:5
-			},
-			room_layout_max_children:{
-				required:true,
-				number:true
-			},
-			room_layout_extra_bed:{
-				required:true,
-				number:true
-			}
+			room_layout_name: {required:true,minlength:2,maxlength:50},
+			room_layout_valid:{required:true},
+			room_layout_area:{required:true,digits:true},
+			room_layout_orientations:{required:true},
+			room_layout_max_people:{required:true,number:true,minlength:1,maxlength:5},
+			room_layout_max_children:{required:true,number:true},
+			room_layout_extra_bed:{required:true,number:true},
+            room_layout_type_id:{required:true}
 		},
 		messages: {
 			room_layout_name:"请输入房型名称，2~50个字符",
@@ -245,7 +224,8 @@ $(document).ready(function(){
 			room_layout_orientations:"请选择朝向",
 			room_layout_max_people:"请输最多住几人，只能是整数",
 			room_layout_max_children:"请输最多住几个小孩，必须是0和整数",
-			room_layout_extra_bed:"请输可加床数，必须是0和整数"
+			room_layout_extra_bed:"请输可加床数，必须是0和整数",
+            room_layout_type_id:""
 		},
 		errorClass: "help-inline",
 		errorElement: "span",

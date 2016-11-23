@@ -40,6 +40,8 @@ class Action extends \BaseAction {
             //
             $objResponse->setTplValue('arrayEmployeeModules', $objResponse -> arrayEmployeeModules);
             $objResponse->setTplValue('arrayNavigation', $arrayNavigation);
+            $selfNavigation = isset($arrayNavigation[count($arrayNavigation) - 1]) ? $arrayNavigation[count($arrayNavigation) - 1] : '';
+            $objResponse->setTplValue('selfNavigation', $selfNavigation);
 
             $conditions = \DbConfig::$db_query_conditions;
             if(!empty(decode($objRequest->company_id))) {//公司权限

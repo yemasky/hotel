@@ -260,4 +260,20 @@ class RoomService extends \BaseService {
     public function deleteRoomLayoutType($where) {
         return RoomDao::instance()->setTable('room_layout_type')->delete($where);
     }
+    //售卖房型 room_sell_layout
+    public function getRoomSellLayout($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return RoomDao::instance()->setTable('room_sell_layout')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveRoomSellLayout($arrayData) {
+        return RoomDao::instance()->setTable('room_sell_layout')->insert($arrayData);
+    }
+
+    public function updateRoomSellLayout($where, $row) {
+        return RoomDao::instance()->setTable('room_sell_layout')->update($where, $row);
+    }
+
+    public function deleteRoomSellLayout($where) {
+        return RoomDao::instance()->setTable('room_sell_layout')->delete($where);
+    }
 }
