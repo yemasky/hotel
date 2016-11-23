@@ -88,6 +88,10 @@ class RoomLayoutPriceAction extends \BaseAction {
             $this->setDisplay();
             return $this->getHistoryPrice($objRequest, $objResponse);
         }
+        if($objRequest -> search == 'history') {
+            $this->setDisplay();
+            return $this->getHistoryPrice($objRequest, $objResponse);
+        }
 
         $this->doEdit($objRequest, $objResponse);
         //
@@ -176,7 +180,7 @@ class RoomLayoutPriceAction extends \BaseAction {
         $history_begin = $objRequest->history_begin;
         $history_end = $objRequest->history_end;
         $system_id = $objRequest->system_id;
-        $room_layout_id = $objRequest->room_layout;
+        //$room_layout_id = $objRequest->room_layout;
         $room_sell_layout_id = $objRequest->sell_layout;
         $conditions = DbConfig::$db_query_conditions;
         if(!empty($year) && !empty($month)) {

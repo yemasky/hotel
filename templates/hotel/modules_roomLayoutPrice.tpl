@@ -8,12 +8,13 @@
 @media (max-width: 480px) {
     .roomLayoutPrice td{width:37px;}
 }
+
 .stat-boxes2{top:0px;right:0px; text-align:left;}
 .stat-boxes .right strong{ font-size:14px; font-weight:normal;}
 .stat-boxes .left{padding: 1px 5px 6px 1px;margin-right: 1px; text-align:center;}
 .stat-boxes .left span{font-size:12px; font-style:italic;}
 .stat-boxes .right{padding:5px 0 0; width:auto;}
-.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px; width:auto !important;}
+.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
 </style>
 </head>
 <body>
@@ -72,22 +73,28 @@
                   <div class="update-done">ssss</div>
                   <div class="update-date"><span class="update-day">20</span>jan</div>
                 </div>-->
-                
                 <%section name=layout loop=$arrayRoomLayoutPriceList%>
-                <div class="new-update clearfix"> 
-                    <i class="am-icon-bed am-icon-sm"></i> 
-                    <span class="update-notice"> 
-                        <a href="#" title=""><strong><%$arrayRoomLayoutPriceList[layout].room_sell_layout_name%> </strong></a> 
-                        <span>
-                        <div class="span12 btn-icon-pg">
-                            <ul>
-                                <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
-                                <li><i class="am-icon-glass am-blue-2F93FF"></i><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> 
-                                </li>
-                                <li><i class="am-icon-rmb am-red-EA5555"></i>
+                <div class="new-update clearfix nopadding"> 
+                    <div class="widget-title">
+                        <span class="icon"><i class="am-icon-bed am-icon-sm"></i></span>
+                        <h5><a><strong><%$arrayRoomLayoutPriceList[layout].room_sell_layout_name%> </strong></a></h5>
+                        <div class="buttons">
+                        </div>
+                    </div>
+                    <span class="form-horizontal">
+                        <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
+                            <div class="control-group">
+                            <label class="control-label"><!--<i class="am-icon-glass am-blue-2F93FF"></i>--><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> : </label>
+                                <div class="controls">
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
-                                <code><%$year%>-<%$month%> <%$arrayLaguage['sell_price']['page_laguage_value']%></code>
-                                <!--<ul class="stat-boxes stat-boxes2">
+                                <!--<code><%$year%>-<%$month%></code>-->
+                                <%else%>
+                                <code><i class="am-icon-rmb am-red-EA5555"></i><%$year%>-<%$month%> <%$arrayLaguage['no_price']['page_laguage_value']%></code>
+                                <%/if%>
+                                
+                            
+                                <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
+                                <ul class="stat-boxes stat-boxes2 pull-left">
                                     <%section name=price loop=$monthT%>
                                     <%if $smarty.section.price.iteration<10%>
                                         <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
@@ -96,41 +103,15 @@
                                     <%/if%>
                                     <li>
                                         <div class="left peity_bar_good">
-                                            <span><%$smarty.section.price.iteration%></span>+20%</div>
+                                            <span><%$smarty.section.price.iteration%></span><%$month%></div>
                                         <div class="right"> <strong><%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%></strong> </div>
                                     </li>
                                     <%/section%>
-                                </ul>-->
-                                <table class="roomLayoutPrice">
-                                <tr>
-                                    <%section name=price loop=$monthT%>
-                                        <td>
-                                        <code><%$smarty.section.price.iteration%></code>
-                                        </td>
-                                    <%/section%>
-                                </tr>
-                                <tr>
-                                    <%section name=price loop=$monthT%>
-                                        <td>
-                                        <%if $smarty.section.price.iteration<10%>
-                                        <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
-                                        <%else%>
-                                        <%$day=$smarty.section.price.iteration|cat:'_day'%>
-                                        <%/if%>
-                                        <%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%>
-                                        </td>
-                                    <%/section%>
-                                </tr>
-                                </table>
-                                <%else%>
-                                <code><%$year%>-<%$month%> <%$arrayLaguage['no_price']['page_laguage_value']%></code>
+                                </ul>
                                 <%/if%>
-                                </li>
-                                <br>
-                                <%/section%>
-                            </ul>
-                        </div>
-                        </span> 
+                                </div>
+                            </div>
+                        <%/section%>
                     </span> 
                     <span class="update-date">
                         <span class="update-day"><%$month%></span><%$year%>

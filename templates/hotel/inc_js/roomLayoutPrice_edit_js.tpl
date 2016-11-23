@@ -225,7 +225,7 @@ $(document).ready(function(){
     $('#history_search_btn').click(function(e) {
         var history_begin = $('#history_begin').val();
         var history_end = $('#history_end').val();
-        var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyprice&history_begin='+history_begin
+        var url = '<%$add_roomLayoutPriceSystem_url%>&search=history&history_begin='+history_begin
                  +'&history_end='+history_end+'&system_id='+system_id+'&sell_layout='+sell_layout;
         $.getJSON(url, function(result) {
             data = result;
