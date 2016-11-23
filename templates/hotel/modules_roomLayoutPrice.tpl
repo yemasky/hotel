@@ -155,7 +155,7 @@ $(document).ready(function(){
             roomLayout.setMonthPrice = function() {
                 $('.month_price').each(function(index, element) {
                     var day = $(this).text();
-                    var monthDay = new Date('<%$thisYear%>-<%$thisMonth%>-'+day);
+                    var monthDay = new Date('<%$year%>-<%$month%>-'+day);
                     var weekIndex = monthDay.getDay();
                     if(weekIndex == 0 || weekIndex == 6) {
                          $(this).parent().addClass('peity_bar_good');
