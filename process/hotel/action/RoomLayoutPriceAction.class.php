@@ -69,7 +69,7 @@ class RoomLayoutPriceAction extends \BaseAction {
         }
         if($objRequest -> search == 'systemPrices' && ($objRequest->room_layout_id) > 0) {
             $this->setDisplay();
-            $conditions['where'] = array('IN'=>array('rlps.room_layout_id'=>array($objRequest->room_layout_id, 0),
+            $conditions['where'] = array('IN'=>array('rlps.room_sell_layout_id'=>array($objRequest->sell_layout_id, 0),
                                                      'rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
                                          '>'=>array('rlps.room_layout_price_system_id'=>1),
                                          'rlps.room_layout_price_system_valid'=>'1');
@@ -102,10 +102,14 @@ class RoomLayoutPriceAction extends \BaseAction {
 
     protected function doEdit($objRequest, $objResponse) {
         $conditions = DbConfig::$db_query_conditions;
-        //售卖房型
+        //基础房型
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                                      'room_layout_valid'=>'1');
-        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
+        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions, '*', 'room_layout_id');
+        //售卖房型
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            'room_sell_layout_valid'=>'1');
+        $arrayRoomSellLayout = RoomService::instance()->getRoomSellLayout($conditions);
         $conditions['where'] = array();
         if(!empty($arrayRoomLayout) && isset($arrayRoomLayout[0]['room_layout_id'])) {
             $conditions['where'] = array('IN'=>array('rlps.room_layout_id'=>array($arrayRoomLayout[0]['room_layout_id'], 0),
@@ -129,6 +133,8 @@ class RoomLayoutPriceAction extends \BaseAction {
         $objResponse -> thisMonth = getMonth();
         $objResponse -> view = '0';
             //售卖房型
+        $objResponse -> arrayRoomSellLayout = $arrayRoomSellLayout;
+            //基础房型
         $objResponse -> arrayRoomLayout = $arrayRoomLayout;
             //价格体系
         $objResponse -> arrayRoomLayoutPriceSystem = array();//$arrayRoomLayoutPriceSystem;

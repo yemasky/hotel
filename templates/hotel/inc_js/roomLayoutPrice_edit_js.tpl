@@ -75,14 +75,14 @@ $(document).ready(function(){
     });
     var historyPrice = {};
     function setHistoryPrice() {
-        if(room_layout > 0 && system_id > 0) {
+        if(sell_layout > 0 && system_id > 0) {
             $('#room_layout_price_kalendar input').val('');
             $('#different_price_month_1 input').val('');
             var year = $('#room_layout_date_year').val();
             var month = $('#room_layout_date_month').val();
-            var key = room_layout+'：'+system_id + '：' + year + '：'+month;
+            var key = sell_layout+'：'+system_id + '：' + year + '：'+month;
             if(typeof(historyPrice[key]) == 'undefined' || historyPrice[key] == '') {
-                var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyPrice&room_layout='+room_layout
+                var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyPrice&sell_layout='+sell_layout
                          +'&system_id='+system_id + '&year=' + year + '&month='+month;
                 $.getJSON(url, function(result) {
                     data = result;
@@ -226,7 +226,7 @@ $(document).ready(function(){
         var history_begin = $('#history_begin').val();
         var history_end = $('#history_end').val();
         var url = '<%$add_roomLayoutPriceSystem_url%>&search=historyprice&history_begin='+history_begin
-                 +'&history_end='+history_end+'&system_id='+system_id+'&room_layout='+room_layout;
+                 +'&history_end='+history_end+'&system_id='+system_id+'&sell_layout='+sell_layout;
         $.getJSON(url, function(result) {
             data = result;
             if(data.success == 1) {
@@ -260,21 +260,21 @@ $(document).ready(function(){
         });
     });
 	//select2
-    $('#room_layout,#room_layout_id').select2();
+    $('#sell_layout,#sell_layout_id').select2();
     //选择对应的房型和价格体系
     var room_layout_data = {};
-    var room_layout = 0;
-    $('#room_layout').val(room_layout);
+    var sell_layout = 0;
+    $('#sell_layout').val(sell_layout);
     var is_extra_bed = false;
 	$('.extra_bed input').attr('disabled', true);
-    $('#room_layout').change(function(e) {
+    $('#sell_layout').change(function(e) {
         $('#title_price').hide();
         $('#title_content').hide();
         $('#system_prices_html').html('');
         system_id = 0;
-        room_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
-        if(room_layout < 1) return;
-        var extra_bed = $("#room_layout option[value='"+room_layout+"']").attr("extra_bed");
+        sell_layout = $(this).val();//3. $("#select_id option[text='jQuery']").attr("selected", true); 
+        if(sell_layout < 1) return;
+        var extra_bed = $("#sell_layout option[value='"+sell_layout+"']").attr("extra_bed");
         $('.extra_bed').hide();
 		$('.extra_bed input').attr('disabled', true);
         is_extra_bed = false;
@@ -284,13 +284,13 @@ $(document).ready(function(){
 			$('.extra_bed input').attr('disabled', false);
             setDifferentExtraBedMonth();
         }
-        if(typeof(room_layout_data[room_layout]) == 'undefined') {
-            $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&room_layout_id='+room_layout, function(result) {
+        if(typeof(room_layout_data[sell_layout]) == 'undefined') {
+            $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&sell_layout_id='+sell_layout, function(result) {
                 data = result;
                 if(data.success == 1) {
-                    room_layout_data[room_layout] = data.itemData;
+                    room_layout_data[sell_layout] = data.itemData;
                     $('#system_prices_html').html(createSystemPriceHtml(data.itemData));
-                    $('.system_prices').click(function(e) {
+                    $('.system_prices .view_price').click(function(e) {
                         systemPriceClick(this);
                     });
                     $('.system_prices_edit').click(function(e) {
@@ -303,8 +303,8 @@ $(document).ready(function(){
                 }
             })
         } else {
-            $('#system_prices_html').html(createSystemPriceHtml(room_layout_data[room_layout]));
-            $('.system_prices').click(function(e) {
+            $('#system_prices_html').html(createSystemPriceHtml(room_layout_data[sell_layout]));
+            $('.system_prices .view_price').click(function(e) {
                 systemPriceClick(this);
             });
             $('.system_prices_edit').click(function(e) {
@@ -313,14 +313,14 @@ $(document).ready(function(){
         }
     });
     function createSystemPriceHtml(htmlData) {
-        var html = '<div class="btn-group system_prices" data-id="1"><a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> <%$arrayLaguage["base_room_price"]["page_laguage_value"]%></a></div> ';
+        var html = '<div class="btn-group system_prices" data-id="1"><a class="btn view_price" href="#system_prices"><i class="am-icon-circle-o"></i> <%$arrayLaguage["base_room_price"]["page_laguage_value"]%></a></div> ';
         for(i in htmlData) {
             var id = htmlData[i].room_layout_price_system_id;
             var name = htmlData[i].room_layout_price_system_name;
             html += '<div class="btn-group system_prices" data-id="'+id+'">'
-                   +'<a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> '+name+'</a>'
+                   +'<a class="btn view_price" href="#system_prices"><i class="am-icon-circle-o"></i> '+name+'</a>'
                    +'<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>'
-                   +'<ul class="dropdown-menu" data-id="'+id+'" layout-id="'+htmlData[i].room_layout_id+'" data-name="'+name+'">'
+                   +'<ul class="dropdown-menu" data-id="'+id+'" layout-id="'+htmlData[i].room_sell_layout_id+'" data-name="'+name+'">'
                    +'<li><a href="#" class="system_prices_edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>'
                    +'<li><a href="#" class="system_prices_delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>'
                    +'<li class="divider"></li>'
@@ -335,15 +335,15 @@ $(document).ready(function(){
     //增加价格体系
     var system_id = 0;
     $("[data-toggle='popover']").popover({'trigger':'hover'});
-    $('.system_prices').click(function(e) {
+    $('.system_prices .view_price').click(function(e) {
         systemPriceClick(this);
     });
     function systemPriceClick(_this) {
-        system_id = $(_this).attr('data-id');
+        system_id = $(_this).parent().attr('data-id');
         $('.system_prices .btn i').removeClass('am-icon-dot-circle-o');
         $('.system_prices .btn i').addClass('am-icon-circle-o');
-        $(_this).find('.btn i').removeClass('am-icon-circle-o');
-        $(_this).find('.btn i').addClass('am-icon-dot-circle-o');
+        $(_this).parent().find('.btn i').removeClass('am-icon-circle-o');
+        $(_this).parent().find('.btn i').addClass('am-icon-dot-circle-o');
         setHistoryPrice();
         $('#title_price').show();
         $('#title_content').show();
@@ -353,17 +353,22 @@ $(document).ready(function(){
         systemPricesEditClick(this);
     });
     function systemPricesEditClick(_this){
+        $('.system_prices .btn i').removeClass('am-icon-dot-circle-o');
+        $('.system_prices .btn i').addClass('am-icon-circle-o');
+        $(_this).parent().parent().parent().find('.btn i').removeClass('am-icon-circle-o');
+        $(_this).parent().parent().parent().find('.btn i').addClass('am-icon-dot-circle-o');
+        
         $('#addSystemPrice').collapse({toggle: true})
         $('#addSystemPrice').collapse('show');
         layout_id = $(_this).parent().parent().attr('layout-id');
-        $('#room_layout_id').val(layout_id);
+        $('#sell_layout_id').val(layout_id);
         $('#update_system_id').val($(_this).parent().parent().attr('data-id'));
         $('#price_system_name').val($(_this).parent().parent().attr('data-name'));
-        var layout_name = $('#room_layout option[value="'+layout_id+'"]').text();
+        var layout_name = $('#sell_layout option[value="'+layout_id+'"]').text();
         layout_name = layout_name == '' ? "<%$arrayLaguage['common_room_layout']['page_laguage_value']%>" : layout_name;
         $('#s2id_room_layout_id span').text(layout_name);
-        $('#room_layout_id').attr("disabled",true); 
-        $('#room_layout_id').select2();
+        $('#sell_layout_id').attr("disabled",true); 
+        $('#sell_layout_id').select2();
         getHotelService();
         //var _this = this;
         var hotel_serviceInterval = setInterval(function(){
@@ -387,11 +392,11 @@ $(document).ready(function(){
         getHotelService();
         $('#addSystemPrice').collapse({toggle: true})
         $('#addSystemPrice').collapse('show');
-        $('#room_layout_id').attr("disabled",false); 
-        $('#room_layout_id').val(0);
+        $('#sell_layout_id').attr("disabled",false); 
+        $('#sell_layout_id').val(0);
         $('#price_system_name').val('');
         $('#s2id_room_layout_id span').text("<%$arrayLaguage['common_room_layout']['page_laguage_value']%>");
-        $('#room_layout_id').select2();
+        $('#sell_layout_id').select2();
         $('#update_system_id').val('');//
     });
     $('.system_prices_delete').click(function(e) {
@@ -474,10 +479,10 @@ $(document).ready(function(){
                             });
                            
                         } else {//add 
-                            var add_room_layout = $('#room_layout_id').val();
+                            var add_room_layout = $('#sell_layout_id').val();
                             var name = $('#price_system_name').val();
                             var html = '';
-                            if(add_room_layout == 0 || add_room_layout == room_layout){
+                            if(add_room_layout == 0 || add_room_layout == sell_layout){
                                 html += '<div class="btn-group system_prices" data-id="'+data.itemData+'">'
                                        +'<a class="btn" href="#system_prices"><i class="am-icon-circle-o"></i> '+name+'</a>'
                                        +'<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>'
@@ -495,7 +500,7 @@ $(document).ready(function(){
                             };
                             if(html != '') {
                                 $('#system_prices_html').append(html);
-                                $('.system_prices').click(function(e) {
+                                $('.system_prices .view_price').click(function(e) {
                                     systemPriceClick(this);
                                 });
                                 $('.system_prices_edit').click(function(e) {
@@ -560,7 +565,7 @@ $(document).ready(function(){
             $(this).attr('name', 'extra_bed[' + $(this).attr('name') + ']');
         });
         $('#different_price_month_1 input').val('');
-        var key = room_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
+        var key = sell_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
         if(typeof(historyPrice[key+'_extra_bed_price']) != 'undefined') {
             var _extraBedPrice = historyPrice[key+'_extra_bed_price'];
             console.log(_extraBedPrice);
@@ -588,7 +593,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            if(room_layout == 0) {
+            if(sell_layout == 0) {
                 $('#modal_success').modal('hide');
                 $('#modal_fail').modal('show');
                 $('#modal_fail_message').html('请选择售卖房型！');
@@ -603,7 +608,7 @@ $(document).ready(function(){
             //var week_begin = 
             var param = $("#prices_week").serialize();
             $.ajax({
-                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week&room_layout='+room_layout+'&system_id='+system_id,
+                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week&sell_layout='+sell_layout+'&system_id='+system_id,
                 type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
@@ -640,7 +645,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            if(room_layout == 0) {
+            if(sell_layout == 0) {
                 $('#modal_success').modal('hide');
                 $('#modal_fail').modal('show');
                 $('#modal_fail_message').html('请选择售卖房型！');
@@ -654,7 +659,7 @@ $(document).ready(function(){
             }
             var param = $("#prices_month").serialize();
             $.ajax({
-                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_month&room_layout='+room_layout+'&system_id='+system_id,
+                url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_month&sell_layout='+sell_layout+'&system_id='+system_id,
                 type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
@@ -662,7 +667,7 @@ $(document).ready(function(){
                         //$('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
-                        var key = room_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
+                        var key = sell_layout+'：'+system_id + '：' + $('#room_layout_date_year').val() + '：'+$('#room_layout_date_month').val();
                         historyPrice[key] = '';
                         historyPrice[key+'_extra_bed_price'] = '';
                     } else {
@@ -696,7 +701,7 @@ $(document).ready(function(){
             
 		}
 	});
-    $('#room_layout').val(room_layout);
+    $('#sell_layout').val(sell_layout);
     $('#s2id_room_layout span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
 })
 </script>

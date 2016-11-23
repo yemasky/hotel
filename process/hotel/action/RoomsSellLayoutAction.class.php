@@ -36,9 +36,10 @@ class RoomsSellLayoutAction extends \BaseAction {
      */
     protected function doDefault($objRequest, $objResponse) {
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_valid'=>'1');
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions, '*', 'room_layout_id');
         //售卖房型
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $conditions['order'] = 'room_sell_layout_valid DESC';
         $arrayRoomSellLayout = RoomService::instance()->getRoomSellLayout($conditions, '*', 'room_layout_id', true);
         //赋值

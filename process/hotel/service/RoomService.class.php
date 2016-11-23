@@ -191,7 +191,7 @@ class RoomService extends \BaseService {
         $table = '`room_layout_price_system` rlps LEFT JOIN `room_layout_price_system_filter` rlpsf '
                 .'ON rlps.room_layout_price_system_id = rlpsf.room_layout_price_system_id LEFT JOIN `hotel_service` hs '
                 .'ON hs.hotel_service_id = rlpsf.hotel_service_id';
-        $field = 'rlps.room_layout_price_system_id, rlps.room_layout_id, rlps.room_layout_price_system_name, hs.hotel_service_id,hs.hotel_service_name';
+        $field = 'rlps.room_layout_price_system_id,rlps.room_sell_layout_id, rlps.room_layout_id, rlps.room_layout_price_system_name, hs.hotel_service_id,hs.hotel_service_name';
         $arrayPriceSystemFilter = RoomDao::instance()->setTable($table)->getList($conditions, $field);
         $arrayResule = array();
         if(!empty($arrayPriceSystemFilter)) {

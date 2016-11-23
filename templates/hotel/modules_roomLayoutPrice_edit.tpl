@@ -52,10 +52,10 @@
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
                         <div class="controls">
-                            <select name="room_layout" id="room_layout" class="span2">
+                            <select name="sell_layout" id="sell_layout" class="span2">
                                 <option value="0" extra_bed=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                            <%section name=layout loop=$arrayRoomLayout%>
-                                <option value="<%$arrayRoomLayout[layout].room_layout_id%>" extra_bed="<%$arrayRoomLayout[layout].room_layout_extra_bed%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
+                            <%section name=layout loop=$arrayRoomSellLayout%>
+                                <option value="<%$arrayRoomSellLayout[layout].room_sell_layout_id%>" extra_bed="<%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_extra_bed%>"><%$arrayRoomSellLayout[layout].room_sell_layout_name%> &#8226; <%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_name%></option>
                             <%/section%>
                             </select>
                         </div>
@@ -102,10 +102,10 @@
                                 <div class="control-group">
                                     <label class="control-label"><%$arrayLaguage['sale_room']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <select name="room_layout_id" id="room_layout_id" class="span2">
+                                        <select name="sell_layout_id" id="sell_layout_id" class="span2">
                                         <option value="0"><%$arrayLaguage['common_room_layout']['page_laguage_value']%></option>
-                                        <%section name=layout loop=$arrayRoomLayout%>
-                                            <option value="<%$arrayRoomLayout[layout].room_layout_id%>"><%$arrayRoomLayout[layout].room_layout_name%></option>
+                                        <%section name=layout loop=$arrayRoomSellLayout%>
+                                            <option value="<%$arrayRoomSellLayout[layout].room_sell_layout_id%>"><%$arrayRoomSellLayout[layout].room_sell_layout_name%> &#8226; <%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_name%></option>
                                         <%/section%>
                                         </select>
                                     </div>
