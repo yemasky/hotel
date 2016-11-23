@@ -70,6 +70,7 @@ class RoomsSellLayoutAction extends \BaseAction {
                 RoomService::instance()->updateRoomSellLayout($where, $arrayPostValue);
                 return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
             } else {
+                unset($arrayPostValue['room_sell_layout_id']);
                 $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 RoomService::instance()->saveRoomSellLayout($arrayPostValue);
                 return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
