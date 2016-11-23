@@ -109,7 +109,7 @@ $(document).ready(function(){
         instance: function() {
             var roomsSellLayout = {};
             roomsSellLayout.initParameter = function() {
-            }
+            };
             roomsSellLayout.init = function() {
                 $('.this_edit .edit_btn').click(function(e) {
                     $('.this_edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');

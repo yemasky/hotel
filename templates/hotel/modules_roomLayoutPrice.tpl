@@ -87,27 +87,21 @@
                             <label class="control-label"><!--<i class="am-icon-glass am-blue-2F93FF"></i>--><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> : </label>
                                 <div class="controls">
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
-                                <!--<code><%$year%>-<%$month%></code>-->
+                                    <ul class="stat-boxes stat-boxes2 pull-left">
+                                        <%section name=price loop=$monthT%>
+                                        <%if $smarty.section.price.iteration<10%>
+                                            <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
+                                        <%else%>
+                                            <%$day=$smarty.section.price.iteration|cat:'_day'%>
+                                        <%/if%>
+                                        <li>
+                                            <div class="left"><span class="month_price"><%$smarty.section.price.iteration%></span><%$month%></div>
+                                            <div class="right"> <strong><%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%></strong> </div>
+                                        </li>
+                                        <%/section%>
+                                    </ul>
                                 <%else%>
                                 <code><i class="am-icon-rmb am-red-EA5555"></i><%$year%>-<%$month%> <%$arrayLaguage['no_price']['page_laguage_value']%></code>
-                                <%/if%>
-                                
-                            
-                                <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
-                                <ul class="stat-boxes stat-boxes2 pull-left">
-                                    <%section name=price loop=$monthT%>
-                                    <%if $smarty.section.price.iteration<10%>
-                                        <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
-                                    <%else%>
-                                        <%$day=$smarty.section.price.iteration|cat:'_day'%>
-                                    <%/if%>
-                                    <li>
-                                        <div class="left peity_bar_good">
-                                            <span><%$smarty.section.price.iteration%></span><%$month%></div>
-                                        <div class="right"> <strong><%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%></strong> </div>
-                                    </li>
-                                    <%/section%>
-                                </ul>
                                 <%/if%>
                                 </div>
                             </div>
@@ -146,18 +140,45 @@ $(document).ready(function(){
             roomLayout.thisMonth = '<%$thisMonth%>';
             roomLayout.month = '<%$month%>';
             roomLayout.monthT = '<%$monthT%>';
+            roomLayout.weekday=new Array(7);
+            roomLayout.initParameter = function() {
+                roomLayout.weekday[0]="日";
+                roomLayout.weekday[1]="一";
+                roomLayout.weekday[2]="二";
+                roomLayout.weekday[3]="三";
+                roomLayout.weekday[4]="四";
+                roomLayout.weekday[5]="五";
+                roomLayout.weekday[6]="六";
+            };
+            roomLayout.init = function(){
+            };
+            roomLayout.setMonthPrice = function() {
+                $('.month_price').each(function(index, element) {
+                    var day = $(this).text();
+                    var monthDay = new Date('<%$thisYear%>-<%$thisMonth%>-'+day);
+                    var weekIndex = monthDay.getDay();
+                    if(weekIndex == 0 || weekIndex == 6) {
+                         $(this).parent().addClass('peity_bar_good');
+                    }//
+                    var week = roomLayout.weekday[weekIndex];
+                    $(this).parent().html('<span class="month_price">'+day+'</span>'+week);
+                });
+            };
+            roomLayout.setSelectYear = function(year) {
+                $('#year').val(year);
+            };
+            roomLayout.setSelectMonth = function(month) {
+                $('#month').val(month);
+            }
             return roomLayout;
         },
-        setSelectYear: function(year) {
-            $('#year').val(year);
-        },
-        setSelectMonth: function(month) {
-            $('#month').val(month);
-        }
+        
     }
     var roomLayout = RoomLayoutClass.instance();
-    RoomLayoutClass.setSelectYear(roomLayout.year);
-    RoomLayoutClass.setSelectMonth(roomLayout.month);
+    roomLayout.initParameter();
+    roomLayout.setSelectYear(roomLayout.year);
+    roomLayout.setSelectMonth(roomLayout.month);
+    roomLayout.setMonthPrice();
 })
 </script>
 </body>
