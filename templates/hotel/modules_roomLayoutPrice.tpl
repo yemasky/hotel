@@ -77,7 +77,7 @@
                 <div class="new-update clearfix"> 
                     <i class="am-icon-bed am-icon-sm"></i> 
                     <span class="update-notice"> 
-                        <a href="#" title=""><strong><%$arrayRoomLayoutPriceList[layout].room_layout_name%> </strong></a> 
+                        <a href="#" title=""><strong><%$arrayRoomLayoutPriceList[layout].room_sell_layout_name%> </strong></a> 
                         <span>
                         <div class="span12 btn-icon-pg">
                             <ul>

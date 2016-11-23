@@ -200,6 +200,7 @@ class RoomService extends \BaseService {
                 $id = $arrayValues['room_layout_price_system_id'];
                 $arrayResule[$id]['room_layout_price_system_id'] = $id;
                 $arrayResule[$id]['room_layout_id'] = $arrayValues['room_layout_id'];
+                $arrayResule[$id]['room_sell_layout_id'] = $arrayValues['room_sell_layout_id'];
                 $arrayResule[$id]['room_layout_price_system_name'] = $arrayValues['room_layout_price_system_name'];
                 if(empty($arrayValues['hotel_service_id'])) {
                     $arrayResule[$id]['hotel_service_id'] = '';
@@ -229,7 +230,8 @@ class RoomService extends \BaseService {
             $arrayRoomLayoutPriceSystem['hotel_id'] = $hotel_id;
             $arrayRoomLayoutPriceSystem['room_layout_price_system_add_date'] = getDay();
             $arrayRoomLayoutPriceSystem['room_layout_price_system_add_time'] = getTime();
-            $arrayRoomLayoutPriceSystem['room_layout_id'] = $arrayPostValue['room_layout_id'];
+            //$arrayRoomLayoutPriceSystem['room_layout_id'] = $arrayPostValue['room_layout_id'];
+            $arrayRoomLayoutPriceSystem['room_sell_layout_id'] = $arrayPostValue['sell_layout_id'];
             $room_layout_price_system_id = $this->saveRoomLayoutPriceSystem($arrayRoomLayoutPriceSystem);
         }
         if(isset($arrayPostValue['hotel_service_id']) && !empty($arrayPostValue['hotel_service_id'])) {

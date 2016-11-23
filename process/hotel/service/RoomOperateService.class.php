@@ -27,7 +27,8 @@ class RoomOperateService extends \BaseService {
         $arrayTimeBegin['1'] = $arrayTimeBegin['1'] - 0;
         $arrayTimeEnd = explode('-', $arrayPostValue['time_end']);
         $arrayTimeEnd['1'] = $arrayTimeEnd['1'] - 0;
-        $room_layout_id = $objRequest -> room_layout;
+        //$room_layout_id = $objRequest -> room_layout;
+        $room_sell_layout_id = $objRequest -> sell_layout;
         $room_layout_price_system_id = $objRequest -> system_id;
         $thisYear = getYear();
         $thisMonth = getMonth();
@@ -45,7 +46,7 @@ class RoomOperateService extends \BaseService {
         if($arrayTimeBegin[0] == $thisYear && $thisMonth > $arrayTimeBegin[1]) {
             return array(0, '选择的年份不对！');
         }
-        if(empty($room_layout_id) || empty($room_layout_price_system_id)) {
+        if(empty($room_sell_layout_id) || empty($room_layout_price_system_id)) {
             return array(0, '传输数据有误！');
         }
         //
@@ -83,14 +84,14 @@ class RoomOperateService extends \BaseService {
         //售卖房型
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
             'room_layout_date_year'=>$arrayTimeBegin['0'],'room_layout_date_month'=>$arrayTimeBegin['1'],
-            'room_layout_id'=>$room_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
+            'room_sell_layout_id'=>$room_sell_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
         $arrayBeginYear = RoomService::instance()->getRoomLayoutPrice($conditions);
         //
         RoomDao::instance()->startTransaction();
         if(!empty($arrayBeginYear)) {//update
             RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData);
         } else {
-            $arrayMonthData['room_layout_id'] = $room_layout_id;
+            $arrayMonthData['room_sell_layout_id'] = $room_sell_layout_id;
             $arrayMonthData['room_layout_price_system_id'] = $room_layout_price_system_id;
             $arrayMonthData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
             $arrayMonthData['room_layout_date_year'] = $arrayTimeBegin['0'];
@@ -106,7 +107,7 @@ class RoomOperateService extends \BaseService {
             if(!empty($arrayExtenBed)) {//update
                 RoomService::instance()->updateRoomLayoutExtraBedPrice($conditions['where'], $arrayMonthExtraBedData);
             } else {
-                $arrayMonthExtraBedData['room_layout_id'] = $room_layout_id;
+                $arrayMonthExtraBedData['room_sell_layout_id'] = $room_sell_layout_id;
                 $arrayMonthExtraBedData['room_layout_price_system_id'] = $room_layout_price_system_id;
                 $arrayMonthExtraBedData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayMonthExtraBedData['room_layout_date_year'] = $arrayTimeBegin['0'];
@@ -142,14 +143,14 @@ class RoomOperateService extends \BaseService {
                 //售卖房型
                 $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                     'room_layout_date_year'=>$arrayTimeBegin['0'],'room_layout_date_month'=>$i,
-                    'room_layout_id'=>$room_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
+                    'room_sell_layout_id'=>$room_sell_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
                 $arrayBeginYear = RoomService::instance()->getRoomLayoutPrice($conditions);
                 //
 
                 if(!empty($arrayBeginYear)) {//update
                     RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData[$i]);
                 } else {
-                    $arrayMonthData[$i]['room_layout_id'] = $room_layout_id;
+                    $arrayMonthData[$i]['room_sell_layout_id'] = $room_sell_layout_id;
                     $arrayMonthData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
                     $arrayMonthData[$i]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                     $arrayMonthData[$i]['room_layout_date_year'] = $arrayTimeBegin['0'];
@@ -164,7 +165,7 @@ class RoomOperateService extends \BaseService {
                     if(!empty($arrayExtenBed)) {//update
                         RoomService::instance()->updateRoomLayoutExtraBedPrice($conditions['where'], $arrayMonthExtraBedData[$i]);
                     } else {
-                        $arrayMonthExtraBedData[$i]['room_layout_id'] = $room_layout_id;
+                        $arrayMonthExtraBedData[$i]['room_sell_layout_id'] = $room_sell_layout_id;
                         $arrayMonthExtraBedData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;
                         $arrayMonthExtraBedData[$i]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                         $arrayMonthExtraBedData[$i]['room_layout_date_year'] = $arrayTimeBegin['0'];
@@ -206,14 +207,14 @@ class RoomOperateService extends \BaseService {
                     //售卖房型
                     $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                         'room_layout_date_year'=>$i,'room_layout_date_month'=>$j,
-                        'room_layout_id'=>$room_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
+                        'room_sell_layout_id'=>$room_sell_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
                     $arrayBeginYear = RoomService::instance()->getRoomLayoutPrice($conditions);
                     //
 
                     if(!empty($arrayBeginYear)) {//update
                         RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData[$i][$j]);
                     } else {
-                        $arrayMonthData[$i][$j]['room_layout_id'] = $room_layout_id;
+                        $arrayMonthData[$i][$j]['room_sell_layout_id'] = $room_sell_layout_id;
                         $arrayMonthData[$i][$j]['room_layout_price_system_id'] = $room_layout_price_system_id;
                         $arrayMonthData[$i][$j]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                         $arrayMonthData[$i][$j]['room_layout_date_year'] = $i;
@@ -228,7 +229,7 @@ class RoomOperateService extends \BaseService {
                         if(!empty($arrayExtenBed)) {//update
                             RoomService::instance()->updateRoomLayoutExtraBedPrice($conditions['where'], $arrayMonthExtraBedData[$i][$j]);
                         } else {
-                            $arrayMonthExtraBedData[$i][$j]['room_layout_id'] = $room_layout_id;
+                            $arrayMonthExtraBedData[$i][$j]['room_sell_layout_id'] = $room_sell_layout_id;
                             $arrayMonthExtraBedData[$i][$j]['room_layout_price_system_id'] = $room_layout_price_system_id;
                             $arrayMonthExtraBedData[$i][$j]['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                             $arrayMonthExtraBedData[$i][$j]['room_layout_date_year'] = $i;
@@ -252,7 +253,7 @@ class RoomOperateService extends \BaseService {
         $arrayPostValue= $objRequest->getPost();
         $room_layout_date_month = $arrayPostValue['room_layout_date_month'];
         $room_layout_date_year = $arrayPostValue['room_layout_date_year'];
-        $room_layout_id = $objRequest -> room_layout;
+        $room_sell_layout_id = $objRequest -> sell_layout;
         $room_layout_price_system_id = $objRequest -> system_id;
         $arrayExtraBed = $objRequest -> extra_bed;
         $extra_bed_price = $objRequest -> extra_bed_price;
@@ -267,7 +268,7 @@ class RoomOperateService extends \BaseService {
         if($room_layout_date_year == $thisYear && $thisMonth > $room_layout_date_month) {
             return array(0, '选择的年份不对！');
         }
-        if(empty($room_layout_id) || empty($room_layout_price_system_id)) {
+        if(empty($room_sell_layout_id) || empty($room_layout_price_system_id)) {
             return array(0, '传输数据有误！');
         }
         $day = '';
@@ -291,13 +292,13 @@ class RoomOperateService extends \BaseService {
         //售卖房型
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
             'room_layout_date_year'=>$room_layout_date_year,'room_layout_date_month'=>$room_layout_date_month,
-            'room_layout_id'=>$room_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
+            'room_sell_layout_id'=>$room_sell_layout_id, 'room_layout_price_system_id'=>$room_layout_price_system_id);
         $arrayRoomLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions);
         RoomDao::instance()->startTransaction();
         if(!empty($arrayRoomLayoutPrice)) {//update
             RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData);
         } else {
-            $arrayMonthData['room_layout_id'] = $room_layout_id;
+            $arrayMonthData['room_sell_layout_id'] = $room_sell_layout_id;
             $arrayMonthData['room_layout_price_system_id'] = $room_layout_price_system_id;
             $arrayMonthData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
             $arrayMonthData['room_layout_date_year'] = $room_layout_date_year;
@@ -312,7 +313,7 @@ class RoomOperateService extends \BaseService {
             if(!empty($arrayExtenBed)) {//update
                 RoomService::instance()->updateRoomLayoutExtraBedPrice($conditions['where'], $arrayMonthExtraBedData);
             } else {
-                $arrayMonthExtraBedData['room_layout_id'] = $room_layout_id;
+                $arrayMonthExtraBedData['room_sell_layout_id'] = $room_sell_layout_id;
                 $arrayMonthExtraBedData['room_layout_price_system_id'] = $room_layout_price_system_id;
                 $arrayMonthExtraBedData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayMonthExtraBedData['room_layout_date_year'] = $room_layout_date_year;
@@ -334,38 +335,39 @@ class RoomOperateService extends \BaseService {
         if(empty($month)) $month = getMonth();
         $monthT= date('t', strtotime($year . '-' . $month . '-01'));
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_valid'=>1);
-        $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_sell_layout_valid'=>1);
+        //$arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
         //print_r($arrayRoomLayout);
+        $arrayRoomSellLayout = RoomService::instance()->getRoomSellLayout($conditions);
 
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($objResponse->arrayLoginEmployeeInfo['hotel_id'], 0)),
                                      'room_layout_price_system_valid'=>1);
         $conditions['order'] = 'room_layout_price_system_id ASC';
-        $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_id', true);
+        $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_sell_layout_id', true);
         //print_r($arrayPriceSystem);
 
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_layout_price_is_active'=>1,
             'room_layout_date_year'=>$year, 'room_layout_date_month'=>$month);
-        $arrayRoomLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, '*', 'room_layout_id', true);
+        $arrayRoomLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, '*', 'room_sell_layout_id', true);
         //print_r($arrayRoomLayoutPrice);
 
         //$arrayRoomLayoutPriceList = array();
-        if(!empty($arrayRoomLayout)) {
-            foreach($arrayRoomLayout as $i => $arrayRoom) {
-                $arrayRoomLayout[$i]['price_system'] = array();
-                if(isset($arrayPriceSystem[$arrayRoom['room_layout_id']])) {
-                    $arrayRoomLayout[$i]['price_system'] = $arrayPriceSystem[$arrayRoom['room_layout_id']];
+        if(!empty($arrayRoomSellLayout)) {
+            foreach($arrayRoomSellLayout as $i => $arrayRoom) {
+                $arrayRoomSellLayout[$i]['price_system'] = array();
+                if(isset($arrayPriceSystem[$arrayRoom['room_sell_layout_id']])) {
+                    $arrayRoomSellLayout[$i]['price_system'] = $arrayPriceSystem[$arrayRoom['room_sell_layout_id']];
                 }
                 if(isset($arrayPriceSystem[0])) {
-                    $arrayRoomLayout[$i]['price_system'] = array_merge($arrayRoomLayout[$i]['price_system'], $arrayPriceSystem[0]);
+                    $arrayRoomSellLayout[$i]['price_system'] = array_merge($arrayRoomSellLayout[$i]['price_system'], $arrayPriceSystem[0]);
                 }
-                if(!empty($arrayRoomLayout[$i]['price_system'])) {
-                    foreach($arrayRoomLayout[$i]['price_system'] as $j => $arraySystem) {
-                        $arrayRoomLayout[$i]['price_system'][$j]['price'] = '';
-                        if(isset($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']])) {
-                            foreach($arrayRoomLayoutPrice[$arrayRoom['room_layout_id']] as $k => $arrayPrice) {
+                if(!empty($arrayRoomSellLayout[$i]['price_system'])) {
+                    foreach($arrayRoomSellLayout[$i]['price_system'] as $j => $arraySystem) {
+                        $arrayRoomSellLayout[$i]['price_system'][$j]['price'] = '';
+                        if(isset($arrayRoomLayoutPrice[$arrayRoom['room_sell_layout_id']])) {
+                            foreach($arrayRoomLayoutPrice[$arrayRoom['room_sell_layout_id']] as $k => $arrayPrice) {
                                 if($arraySystem['room_layout_price_system_id'] == $arrayPrice['room_layout_price_system_id']) {
-                                    $arrayRoomLayout[$i]['price_system'][$j]['price'] = $arrayPrice;
+                                    $arrayRoomSellLayout[$i]['price_system'][$j]['price'] = $arrayPrice;
                                     break;
                                 }
                             }
@@ -378,8 +380,8 @@ class RoomOperateService extends \BaseService {
         $objResponse -> year = $year;
         $objResponse -> month = $month;
         $objResponse -> monthT = $monthT;
-        //print_r($arrayRoomLayout);
-        return $arrayRoomLayout;
+        //print_r($arrayRoomSellLayout);
+        return $arrayRoomSellLayout;
     }
 
 

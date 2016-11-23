@@ -67,7 +67,7 @@ class RoomLayoutPriceAction extends \BaseAction {
             $arrayHotelService = HotelService::instance()->getHotelService($conditions, $field);
             return $this->successResponse("", $arrayHotelService);
         }
-        if($objRequest -> search == 'systemPrices' && ($objRequest->room_layout_id) > 0) {
+        if($objRequest -> search == 'systemPrices' && ($objRequest->sell_layout_id) > 0) {
             $this->setDisplay();
             $conditions['where'] = array('IN'=>array('rlps.room_sell_layout_id'=>array($objRequest->sell_layout_id, 0),
                                                      'rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
@@ -88,10 +88,7 @@ class RoomLayoutPriceAction extends \BaseAction {
             $this->setDisplay();
             return $this->getHistoryPrice($objRequest, $objResponse);
         }
-        if($objRequest -> search == 'historyprice') {
-            $this->setDisplay();
-            return $this->getHistoryPrice($objRequest, $objResponse);
-        }
+
         $this->doEdit($objRequest, $objResponse);
         //
         $objResponse -> add_roomLayoutPriceSystem_url =
@@ -180,9 +177,10 @@ class RoomLayoutPriceAction extends \BaseAction {
         $history_end = $objRequest->history_end;
         $system_id = $objRequest->system_id;
         $room_layout_id = $objRequest->room_layout;
+        $room_sell_layout_id = $objRequest->sell_layout;
         $conditions = DbConfig::$db_query_conditions;
         if(!empty($year) && !empty($month)) {
-            $conditions['where'] = array('room_layout_date_year'=>$year, 'room_layout_date_month'=>$month, 'room_layout_id'=>$room_layout_id,
+            $conditions['where'] = array('room_layout_date_year'=>$year, 'room_layout_date_month'=>$month, 'room_sell_layout_id'=>$room_sell_layout_id,
                 'room_layout_price_system_id'=>$system_id);
         } elseif(!empty($history_begin) && !empty($history_end)) {
             $arrayBegin = explode('-', $history_begin);
@@ -195,7 +193,7 @@ class RoomLayoutPriceAction extends \BaseAction {
             }
             $conditions['where'] = array('>='=>array('room_layout_price_begin_datetime'=>$arrayBegin[0] . '-' . $arrayBegin[1] . '-01'),
                                          '<='=>array('room_layout_price_begin_datetime'=>$arrayEnd[0] . '-' . $arrayEnd[1] . '-01'),
-                                         'room_layout_id'=>$room_layout_id,
+                                         'room_sell_layout_id'=>$room_sell_layout_id,
                                          'room_layout_price_system_id'=>$system_id);
         }
 

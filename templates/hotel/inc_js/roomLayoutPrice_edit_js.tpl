@@ -463,7 +463,7 @@ $(document).ready(function(){
                         if(update_system_id > 0) {//update
                             $('#update_system_id').val('');//system_id
                             $('.system_prices').each(function(index, element) {
-                                if($(this).attr('data-id') == system_id) {
+                                if($(this).attr('data-id') == update_system_id) {
                                     $(this).children().first().html('<i class="am-icon-dot-circle-o"></i> ' + $('#price_system_name').val());
                                     var haveHotelService = '<i class="i"></i>';
                                     $("#hotel_service :checkbox").each(function(index, element) {
@@ -702,6 +702,6 @@ $(document).ready(function(){
 		}
 	});
     $('#sell_layout').val(sell_layout);
-    $('#s2id_room_layout span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
+    $('#s2id_sell_layout span').text("<%$arrayLaguage['please_select']['page_laguage_value']%>");
 })
 </script>
