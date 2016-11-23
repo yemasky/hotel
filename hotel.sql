@@ -682,6 +682,7 @@ CREATE TABLE `room` (
   `room_number` varchar(50) DEFAULT NULL COMMENT '房号',
   `room_floor` varchar(50) DEFAULT NULL COMMENT '房型楼层',
   `room_area` double DEFAULT NULL COMMENT '面积 单位 平方米',
+  `room_orientations` enum('east','south','west','north','southeast','northeast','southwest','northwest') DEFAULT NULL COMMENT '朝向',
   `room_add_date` date DEFAULT NULL COMMENT '添加时间',
   `room_add_time` time DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`room_id`),
@@ -690,7 +691,7 @@ CREATE TABLE `room` (
 
 /*Data for the table `room` */
 
-insert  into `room`(`room_id`,`hotel_id`,`room_type`,`room_on_sell`,`room_status`,`room_name`,`room_describe`,`room_mansion`,`room_number`,`room_floor`,`room_area`,`room_add_date`,`room_add_time`) values (0,0,'room','\0','0','','',NULL,NULL,NULL,NULL,NULL,NULL),(1,1,'room','\0','0','201','','A1','201','2',100,NULL,NULL),(2,1,'room','\0','0','302客房','','A1','302','3',50,'2016-10-10','14:49:14'),(3,1,'room','\0','0','301客房','301客房','A1','301','3',50,'2016-10-10','15:04:11'),(11,1,'restaurant','\0','0','大堂吧','','A1','103','1',50,'2016-10-10','14:56:29'),(13,1,'restaurant','\0','0','西餐厅','','A1','2901','29',150,'2016-10-10','14:57:13'),(15,1,'varia','\0','0','杂物房','','A1','101','-1',30,'2016-10-10','15:25:20'),(16,1,'office','\0','0','销售部办公室','销售部办公室','A1','8010','8',50,'2016-10-10','15:28:51'),(18,1,'room','\0','0','305客房','','A1','305','3',50,'2016-10-10','16:11:05'),(19,1,'room','\0','0','303客房','','A1','303','3',50,'2016-10-10','16:16:27');
+insert  into `room`(`room_id`,`hotel_id`,`room_type`,`room_on_sell`,`room_status`,`room_name`,`room_describe`,`room_mansion`,`room_number`,`room_floor`,`room_area`,`room_orientations`,`room_add_date`,`room_add_time`) values (0,0,'room','\0','0','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1,1,'room','\0','0','201','','A1','201','2',100,'south',NULL,NULL),(2,1,'room','\0','0','302客房','','A1','302','3',50,NULL,'2016-10-10','14:49:14'),(3,1,'room','\0','0','301客房','301客房','A1','301','3',50,'west','2016-10-10','15:04:11'),(11,1,'restaurant','\0','0','大堂吧','','A1','103','1',50,NULL,'2016-10-10','14:56:29'),(13,1,'restaurant','\0','0','西餐厅','','A1','2901','29',150,NULL,'2016-10-10','14:57:13'),(15,1,'varia','\0','0','杂物房','','A1','101','-1',30,NULL,'2016-10-10','15:25:20'),(16,1,'office','\0','0','销售部办公室','销售部办公室','A1','8010','8',50,NULL,'2016-10-10','15:28:51'),(18,1,'room','\0','0','305客房','','A1','305','3',50,NULL,'2016-10-10','16:11:05'),(19,1,'room','\0','0','303客房','','A1','303','3',50,NULL,'2016-10-10','16:16:27');
 
 /*Table structure for table `room_attribute` */
 
@@ -1009,12 +1010,13 @@ CREATE TABLE `room_layout_room` (
   `room_layout_room_max_people` tinyint(3) NOT NULL COMMENT '最多住几人',
   `room_layout_room_max_children` tinyint(3) NOT NULL DEFAULT '0' COMMENT '最多住几个小孩 0不能住小孩',
   `room_layout_room_extra_bed` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否可加床 0不可以',
+  `room_layout_room_orientations` varchar(10) DEFAULT NULL COMMENT '朝向',
   PRIMARY KEY (`room_layout_id`,`hotel_id`,`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_room` */
 
-insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_max_people`,`room_layout_room_max_children`,`room_layout_room_extra_bed`) values (1,1,1,1,0,2),(1,1,2,1,1,0),(1,1,3,2,1,3),(2,1,2,1,0,0),(2,1,3,2,0,0),(2,1,18,2,0,1),(2,1,19,6,0,0),(20,1,3,0,0,5);
+insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_max_people`,`room_layout_room_max_children`,`room_layout_room_extra_bed`,`room_layout_room_orientations`) values (1,1,1,1,0,2,NULL),(1,1,2,1,1,0,NULL),(1,1,3,2,1,3,NULL),(2,1,2,1,0,0,NULL),(2,1,3,2,0,0,NULL),(2,1,18,2,0,1,NULL),(2,1,19,6,0,0,NULL),(20,1,3,0,0,5,NULL);
 
 /*Table structure for table `room_layout_type` */
 

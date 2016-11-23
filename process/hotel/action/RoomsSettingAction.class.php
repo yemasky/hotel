@@ -103,6 +103,7 @@ class RoomsSettingAction extends \BaseAction {
         }
         $arrayRoom = RoomService::instance()->getRoom($conditions);
         //
+        $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
         $objResponse -> arrayDataInfo = $arrayRoom[0];
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         $objResponse -> view = 0;

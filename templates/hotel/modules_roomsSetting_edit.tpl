@@ -62,9 +62,20 @@
                             <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_area']['page_laguage_value']%>" name="room_area" id="room_area" value="<%$arrayDataInfo['room_area']%>" /> </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label"><%$arrayLaguage['orientations']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                                <select name="room_orientations" id="room_orientations" class="span1">
+                                    <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                    <%section name=direction loop=$orientations%>
+                                        <option value="<%$orientations[direction]%>"<%if $orientations[direction]==$arrayDataInfo['room_orientations']%> selected<%/if%>><%$arrayLaguage[$orientations[direction]]['page_laguage_value']%></option>
+                                    <%/section%>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['describe']['page_laguage_value']%></label>
                             <div class="controls">
-                                <textarea class="span3" style="height:300px;"  placeholder="<%$arrayLaguage['describe']['page_laguage_value']%>" name="room_describe" value="<%$arrayDataInfo['room_describe']%>" ><%$arrayDataInfo['room_describe']%></textarea>
+                                <textarea class="span5" style="height:300px;"  placeholder="<%$arrayLaguage['describe']['page_laguage_value']%>" name="room_describe" value="<%$arrayDataInfo['room_describe']%>" ><%$arrayDataInfo['room_describe']%></textarea>
                             </div>
                         </div>
                         
@@ -115,7 +126,8 @@ $(document).ready(function(){
 				number:true,
 				minlength:1,
 				maxlength:5
-			}
+			},
+            room_orientations:{required:true,}
 		},
 		messages: {
 			room_type:"请选择房间类型",
@@ -123,7 +135,8 @@ $(document).ready(function(){
 			room_name:"请输入房间名称",
 			room_floor:"请输入房间楼层，只能包括英文字母、数字和-",
 			room_mansion:"请输入房间楼层，只能包括英文字母、数字和-",
-			room_area:"请填写房间面积，只能是是数字"
+			room_area:"请填写房间面积，只能是是数字",
+            room_orientations:""
 		},
 		errorClass: "help-inline",
 		errorElement: "span",

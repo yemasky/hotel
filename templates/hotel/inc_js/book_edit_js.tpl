@@ -452,11 +452,11 @@ $(document).ready(function(){
                 var in_day = in_date.getDate();var in_month = in_date.getMonth() - 0 + 1;var in_year = in_date.getFullYear();
                 var out_date = new Date(check_out);
                 var out_day = out_date.getDate();var out_month = out_date.getMonth() - 0 + 1;var out_year = out_date.getFullYear();
-                var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;var roomLayout = data.roomLayout;
+                var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;var roomSellLayout = data.roomSellLayout;
                 var tmpExtraBedPrice = data.extraBedPrice; var extraBedPrice = {};
                 if(tmpExtraBedPrice != '') {
                     for(i in tmpExtraBedPrice) {//][][
-                        var id = tmpExtraBedPrice[i].room_layout_id  +'-'+ tmpExtraBedPrice[i].room_layout_price_system_id +'-'
+                        var id = tmpExtraBedPrice[i].sell_layout_id  +'-'+ tmpExtraBedPrice[i].room_layout_price_system_id +'-'
                                + tmpExtraBedPrice[i].this_year +'-'+ tmpExtraBedPrice[i].this_month;
                         extraBedPrice[id] = tmpExtraBedPrice[i];
                     }
@@ -465,26 +465,27 @@ $(document).ready(function(){
                 var in_months = BookEditClass.leapYear();
                 var same_layout_system = ''; //room_layout_price_system_id
                 for(i in layoutPrice) {//
-                    var room_layout_id = layoutPrice[i].room_layout_id;
+                    var sell_layout_id = layoutPrice[i].sell_layout_id;
                     var system_id = layoutPrice[i].room_layout_price_system_id;
-                    var extraBedid = room_layout_id  +'-'+ system_id +'-'+ layoutPrice[i].this_year +'-'+ layoutPrice[i].this_month;
-                    if((room_layout_id + '_' + system_id) == same_layout_system) {
+                    var extraBedid = sell_layout_id  +'-'+ system_id +'-'+ layoutPrice[i].this_year +'-'+ layoutPrice[i].this_month;
+                    if((sell_layout_id + '_' + system_id) == same_layout_system) {
                         //td2 += td2; 与上一个相同的房型和价格体系
                     } else {
                         if(i > 0) {
                             var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
-                                        +'<div class="right price"><span><input value="'+cash_pledge[layoutPrice[i - 1].room_layout_id+'-'+layoutPrice[i - 1].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
+                                        +'<div class="right price"><span><input value="'+cash_pledge[layoutPrice[i - 1].sell_layout_id+'-'+layoutPrice[i - 1].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
                             //cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
-                            var _room_layout_id = layoutPrice[i - 1].room_layout_id;
-                            html += '<tr room_layout_id="'+_room_layout_id+'" system_id="'+layoutPrice[i - 1].room_layout_price_system_id+'"'
-                                    +' max_people="'+roomLayout[_room_layout_id].max_people+'"  max_children="'+roomLayout[_room_layout_id].max_children+'">'+
+                            var _sell_layout_id = layoutPrice[i - 1].sell_layout_id;
+                            html += '<tr room_layout_id="'+roomSellLayout[_sell_layout_id].room_layout_id+'" sell_layout_id="'+_sell_layout_id+'" '
+                                   +'system_id="'+layoutPrice[i - 1].room_layout_price_system_id+'">'+
                                         '<td class="details-control">'+td1+'</td>'+
                                         '<td>'+td2 + td_bed + pledge + '</td>'+
                                         //'<td>'+td_bed+'</td>'+
                                     '</tr>';
                             td1 = td2 = td_bed = option = pledge = '';   
                         }
-                        td1 = '<a href="#room" class="select_room">' + roomLayout[room_layout_id].room_layout_name + ' &#8226; ' 
+                        td1 = '<a href="#room" class="select_room">' + roomSellLayout[sell_layout_id].room_sell_layout_name + ' &#8226; ' 
+                        //roomSellLayout[sell_layout_id].room_layout_name + 
                              + priceSystem[system_id].room_layout_price_system_name;
                         td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
                     }
@@ -511,15 +512,15 @@ $(document).ready(function(){
                     for(var day_i = in_day; day_i<= loop_day; day_i++) {
                         var this_day = layoutPrice[i].this_year+'-'+layoutPrice[i].this_month+'-'+day_i;
                         var week_date = new Date(this_day);
-                        var week = week_date.getDay();
+                        var week = week_date.getDay();//room_layout_id="'++'"
                         var day = day_i < 10 ? '0'+day_i : day_i;
                         var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
-                            +'<input value="'+layoutPrice[i][day+'_day']+'" room="price['+room_layout_id+']['+system_id+']['+this_day+']" '
-                            +'room_layout="'+room_layout_id+'" system_id="'+system_id+'"'
+                            +'<input value="'+layoutPrice[i][day+'_day']+'" room="price['+sell_layout_id+']['+system_id+']['+this_day+']" '
+                            +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
                             +'class="layout_price span12" type="text" ></div></li>';
-                        if(typeof(cash_pledge[room_layout_id+'-'+system_id]) == 'undefined') {
-                            cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
+                        if(typeof(cash_pledge[sell_layout_id+'-'+system_id]) == 'undefined') {
+                            cash_pledge[sell_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                         }
                     }
                     td2 += '</ul>';
@@ -537,8 +538,8 @@ $(document).ready(function(){
                             var day = day_i < 10 ? '0'+day_i : day_i;
                             var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
-                                +'<input value="'+bed[day+'_day']+'" bed="bed['+room_layout_id+']['+system_id+']['+this_day+']" '
-                                +'room_layout="'+room_layout_id+'" system_id="'+system_id+'"'
+                                +'<input value="'+bed[day+'_day']+'" bed="bed['+sell_layout_id+']['+system_id+']['+this_day+']" '
+                                +'room_layout="'+sell_layout_id+'" system_id="'+system_id+'"'
                                 +'class="span12 extra_bed_price" type="text" >'
                                 +'</div></li>';
                         }    
@@ -546,13 +547,12 @@ $(document).ready(function(){
                     }
                     //end  bed
                     //td_bed = '';
-                    same_layout_system = room_layout_id + '_' + system_id;
+                    same_layout_system = sell_layout_id + '_' + system_id;
                 }
                 var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
                                         +'<div class="right price"><span>'
-                                        +'<input value="'+cash_pledge[layoutPrice[i].room_layout_id+'-'+layoutPrice[i].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';//+' max_people="'+roomLayout[_room_layout_id].max_people+'"  max_children="'+roomLayout[_room_layout_id]..max_children+'">'+
-                html += '<tr room_layout_id="'+room_layout_id+'" system_id="'+system_id+'"'
-                        +' max_people="'+roomLayout[room_layout_id].max_people+'"  max_children="'+roomLayout[room_layout_id].max_children+'">'+
+                                        +'<input value="'+cash_pledge[layoutPrice[i].sell_layout_id+'-'+layoutPrice[i].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';//+' max_people="'+roomLayout[_room_layout_id].max_people+'"  max_children="'+roomLayout[_room_layout_id]..max_children+'">'+
+                html += '<tr room_layout_id="'+roomSellLayout[sell_layout_id].room_layout_id+'" sell_layout_id="'+sell_layout_id+'" system_id="'+system_id+'">'+
                             '<td class="details-control">'+td1+'</td>'+
                             '<td>'+td2 + td_bed + pledge + '</td>'+
                             //'<td>'+td_bed+'</td>'+
