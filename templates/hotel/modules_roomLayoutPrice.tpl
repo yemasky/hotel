@@ -90,12 +90,13 @@
                                     <ul class="stat-boxes stat-boxes2 pull-left">
                                         <%section name=price loop=$monthT%>
                                         <%if $smarty.section.price.iteration<10%>
-                                            <%$day=0|cat:$smarty.section.price.iteration|cat:'_day'%>
+                                            <%$day=0|cat:$smarty.section.price.iteration%>
                                         <%else%>
-                                            <%$day=$smarty.section.price.iteration|cat:'_day'%>
+                                            <%$day=$smarty.section.price.iteration%>
                                         <%/if%>
                                         <li>
-                                            <div class="left"><span class="month_price"><%$smarty.section.price.iteration%></span><%$month%></div>
+                                            <div class="left"><span class="month_price"><%$day%></span><%$month%></div>
+                                            <%$day=$day|cat:'_day'%>
                                             <div class="right"> <strong><%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%></strong> </div>
                                         </li>
                                         <%/section%>
