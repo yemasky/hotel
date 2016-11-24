@@ -1051,7 +1051,7 @@ DROP TABLE IF EXISTS `room_layout_price_system`;
 CREATE TABLE `room_layout_price_system` (
   `room_layout_price_system_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '价格体系ID',
   `room_sell_layout_id` bigint(19) NOT NULL COMMENT '售卖房型ID',
-  `room_layout_id` int(11) NOT NULL COMMENT '基础房型ID',
+  `room_layout_id` int(11) NOT NULL DEFAULT '0' COMMENT '基础房型ID',
   `room_layout_price_system_name` varchar(200) NOT NULL COMMENT '价格体系名称',
   `hotel_id` int(11) NOT NULL COMMENT '酒店名称',
   `room_layout_price_system_add_date` date NOT NULL,
@@ -1060,11 +1060,11 @@ CREATE TABLE `room_layout_price_system` (
   PRIMARY KEY (`room_layout_price_system_id`),
   UNIQUE KEY `room_layout_price_system_name` (`room_layout_price_system_name`,`hotel_id`,`room_layout_price_system_id`,`room_layout_id`,`room_layout_price_system_valid`),
   KEY `hotel_id` (`hotel_id`,`room_layout_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_price_system` */
 
-insert  into `room_layout_price_system`(`room_layout_price_system_id`,`room_sell_layout_id`,`room_layout_id`,`room_layout_price_system_name`,`hotel_id`,`room_layout_price_system_add_date`,`room_layout_price_system_add_time`,`room_layout_price_system_valid`) values (1,0,0,'基本房费',0,'0000-00-00','00:00:00','1'),(2,1,1,'含双早、接机',1,'0000-00-00','00:00:00','1'),(3,0,0,'含早',1,'2016-11-04','14:53:09','1'),(6,0,0,'含晚餐',1,'2016-11-04','15:04:37','1'),(9,0,0,'含双早',1,'2016-11-04','15:14:23','1'),(10,14,14,'春节含早',1,'2016-11-03','13:53:28','1'),(11,0,0,'含火车站接送',1,'2016-11-03','14:46:39','1'),(12,2,2,'含机场接送',1,'2016-11-03','14:47:04','1'),(13,2,2,'含早和机场接送',1,'2016-11-03','14:50:15','1'),(14,2,2,'85206',1,'2016-11-03','14:55:01','1'),(15,0,0,'777784',1,'2016-11-03','14:55:23','1'),(16,2,2,'77777',1,'2016-11-03','14:55:42','1'),(17,2,0,'ppp',1,'2016-11-23','14:31:29','1'),(18,3,0,'dsasafsf',1,'2016-11-23','14:31:44','1'),(19,3,0,'1',1,'2016-11-23','14:31:56','1');
+insert  into `room_layout_price_system`(`room_layout_price_system_id`,`room_sell_layout_id`,`room_layout_id`,`room_layout_price_system_name`,`hotel_id`,`room_layout_price_system_add_date`,`room_layout_price_system_add_time`,`room_layout_price_system_valid`) values (1,0,0,'基本房费',0,'0000-00-00','00:00:00','1'),(2,1,1,'含双早、接机',1,'0000-00-00','00:00:00','1'),(3,0,0,'含早',1,'2016-11-04','14:53:09','1'),(6,0,0,'含晚餐',1,'2016-11-04','15:04:37','1'),(9,0,0,'含双早',1,'2016-11-04','15:14:23','1'),(10,14,14,'春节含早',1,'2016-11-03','13:53:28','1'),(11,0,0,'含火车站接送',1,'2016-11-03','14:46:39','1'),(12,2,2,'含机场接送',1,'2016-11-03','14:47:04','1'),(13,2,2,'含早和机场接送',1,'2016-11-03','14:50:15','1'),(14,2,2,'85206',1,'2016-11-03','14:55:01','1'),(15,0,0,'777784',1,'2016-11-03','14:55:23','1'),(16,2,2,'77777',1,'2016-11-03','14:55:42','1'),(17,2,0,'ppp',1,'2016-11-23','14:31:29','1'),(18,3,0,'dsasafsf',1,'2016-11-23','14:31:44','1'),(19,3,0,'1',1,'2016-11-23','14:31:56','1'),(20,0,0,'烤全羊篝火晚餐',1,'2016-11-24','11:57:54','1');
 
 /*Table structure for table `room_layout_price_system_filter` */
 
@@ -1079,7 +1079,7 @@ CREATE TABLE `room_layout_price_system_filter` (
 
 /*Data for the table `room_layout_price_system_filter` */
 
-insert  into `room_layout_price_system_filter`(`room_layout_price_system_id`,`hotel_id`,`hotel_service_id`) values (2,1,3),(2,1,7),(3,1,2),(6,1,4),(9,1,3),(10,1,2),(11,1,8),(12,1,7),(13,1,2),(13,1,7),(14,1,4),(15,1,3),(16,1,8),(17,1,3),(17,1,4),(18,1,2),(19,1,2);
+insert  into `room_layout_price_system_filter`(`room_layout_price_system_id`,`hotel_id`,`hotel_service_id`) values (2,1,3),(2,1,7),(3,1,2),(6,1,4),(9,1,3),(10,1,2),(11,1,8),(12,1,7),(13,1,2),(13,1,7),(14,1,4),(15,1,3),(16,1,8),(17,1,3),(17,1,4),(18,1,2),(19,1,2),(20,1,5);
 
 /*Table structure for table `room_layout_room` */
 
