@@ -312,12 +312,14 @@ $(document).ready(function(){
                         tr.removeClass('shown');
                     } else {
                         var system_id = $(_this).parent().attr('system_id');
+                        var sell_id = $(this).parent().attr('sell_layout_id')
                         // Open this row 	row.data()
                         $('#modal_loading').show();
-                        $.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id='+$(this).parent().attr('room_layout_id'), 
+                        $.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id='+$(this).parent().attr('room_layout_id')
+                                +'&sell_id='+sell_id,
                           function(result){
                             $('#modal_loading').hide();
-                            row.child(bookEdit.formatRoomTable(result, system_id)).show();
+                            row.child(bookEdit.formatRoomTable(result, system_id, sell_id)).show();
                             row.child().children().addClass('nopadding');
                             row.child().children().attr('id', 'noBodyLeft');
                             tr.addClass('shown');
@@ -404,6 +406,7 @@ $(document).ready(function(){
                 //增加减少人数
                 $('#addBookUser').click(function(e) {
                     var max_man = BookEditClass.max_man;
+                    console.log('max_man:' + max_man);
                     var BookUser_num = BookEditClass.BookUser_num;
                     if(BookUser_num >= max_man) return;
                     $(this).parent().prev().clone().insertBefore($(this).parent());
@@ -562,7 +565,7 @@ $(document).ready(function(){
                             var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                                 +'<input value="'+bed[day+'_day']+'" bed="bed['+sell_layout_id+']['+system_id+']['+this_day+']" '
-                                +'room_layout="'+sell_layout_id+'" system_id="'+system_id+'"'
+                                +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
                                 +'class="span12 extra_bed_price" type="text" >'
                                 +'</div></li>';
                         }    
@@ -582,7 +585,7 @@ $(document).ready(function(){
                         '</tr>';
                 return html;
             },
-            bookEdit.formatRoomTable = function(data, system_id) {
+            bookEdit.formatRoomTable = function(data, system_id, sell_id) {
                 var html = '';
                 if(data.success == 1) {
                    if(data.itemData != null && data.itemData != '') {
@@ -594,7 +597,7 @@ $(document).ready(function(){
                             if(itemData[i].extra_bed > 0) {
                                 extra_bed_disable = '';
                             }
-                            selectHtml = '<select '+extra_bed_disable+' class="span2 room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" system_id="'+system_id+'" '
+                            selectHtml = '<select '+extra_bed_disable+' class="input-mini room_extra_bed" room_layout="'+itemData[i].room_layout_id+'" system_id="'+system_id+'" '
                                         +'room="'+itemData[i].room_id+'">';
                             for(j = 0; j <= itemData[i].extra_bed; j++) {
                                 if($('#addBed_data').data(itemData[i].room_layout_id+'_'+itemData[i].room_id) == j) {
@@ -618,7 +621,7 @@ $(document).ready(function(){
                             }
                             html += '<tr>'
                                  +'<td>'
-                                 +'<input '+checked_room+' type="checkbox" value="'+itemData[i].room_id+'" system_id="'+system_id+'" '
+                                 +'<input '+checked_room+' type="checkbox" value="'+itemData[i].room_id+'" system_id="'+system_id+'" sell_id="'+sell_id+'"'
                                  +'room_layout="'+itemData[i].room_layout_id+'" max_people="'+itemData[i].max_people+'" max_children="'+itemData[i].max_children+'"'
                                  +' title="'+itemData[i].room_number+'" />'
                                  +'</td>'
