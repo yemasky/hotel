@@ -817,7 +817,7 @@ CREATE TABLE `room_layout` (
 
 /*Data for the table `room_layout` */
 
-insert  into `room_layout`(`room_layout_id`,`hotel_id`,`room_layout_type_id`,`room_layout_name`,`room_layout_valid`,`room_layout_cash_pledge`,`room_layout_area`,`room_layout_max_people`,`room_layout_max_children`,`room_layout_extra_bed`,`room_layout_orientations`,`room_layout_add_date`,`room_layout_add_time`) values (0,0,0,'','0',0,NULL,NULL,NULL,NULL,'','0000-00-00','00:00:00'),(1,1,1,'205主卧','1',0,'888',1,0,0,'south','0000-00-00','00:00:00'),(2,1,1,'SPA房','1',0,'50',2,0,3,'west','2016-10-11','16:09:11'),(12,1,0,'三人间','1',0,'50',3,0,0,'south','2016-10-11','16:12:34'),(13,1,0,'传统日式房','1',0,'50',4,0,0,'north','2016-10-11','16:14:32'),(14,1,0,'套房','1',0,'888',5,0,0,'southwest','2016-10-11','16:15:06'),(15,1,0,'山景大床房','1',0,'50',6,0,0,'southeast','2016-10-11','16:27:12'),(16,1,0,'山顶小院','0',0,'30',6,0,0,'northwest','2016-10-11','16:30:52'),(17,1,0,'帐篷','1',0,'50',7,0,0,'northwest','2016-10-11','16:49:31'),(18,1,1,'无窗大床房','1',0,'60',8,0,1,'northeast','2016-10-11','16:53:15'),(19,1,0,'普通大床房','1',0,'60',9,0,0,'north','2016-10-11','18:08:15'),(20,1,0,'混住6人间','0',0,'50',2,1,1,'east','2016-10-11','18:17:55'),(21,1,0,'阁楼房','1',0,'50',1,0,0,'east','2016-10-14','13:01:33'),(22,1,0,'顶楼大套房','0',0,'50',1,0,0,'east','2016-10-14','13:34:36');
+insert  into `room_layout`(`room_layout_id`,`hotel_id`,`room_layout_type_id`,`room_layout_name`,`room_layout_valid`,`room_layout_cash_pledge`,`room_layout_area`,`room_layout_max_people`,`room_layout_max_children`,`room_layout_extra_bed`,`room_layout_orientations`,`room_layout_add_date`,`room_layout_add_time`) values (0,0,0,'','0',0,NULL,NULL,NULL,NULL,'','0000-00-00','00:00:00'),(1,1,1,'205主卧','1',0,'888',1,0,0,'south','0000-00-00','00:00:00'),(2,1,1,'SPA房','1',0,'50',2,0,3,'west','2016-10-11','16:09:11'),(12,1,0,'三人间','1',0,'50',3,0,0,'south','2016-10-11','16:12:34'),(13,1,0,'传统日式房','1',0,'50',4,0,0,'north','2016-10-11','16:14:32'),(14,1,0,'套房','1',0,'888',5,0,0,'southwest','2016-10-11','16:15:06'),(15,1,0,'山景大床房','1',0,'50',6,0,0,'southeast','2016-10-11','16:27:12'),(16,1,0,'山顶小院','0',0,'30',6,0,0,'northwest','2016-10-11','16:30:52'),(17,1,0,'帐篷','1',0,'50',7,0,0,'northwest','2016-10-11','16:49:31'),(18,1,1,'无窗大床房','1',0,'60',8,0,1,'northeast','2016-10-11','16:53:15'),(19,1,2,'普通大床房','1',0,'60',9,0,0,'north','2016-10-11','18:08:15'),(20,1,0,'混住6人间','0',0,'50',2,1,1,'east','2016-10-11','18:17:55'),(21,1,0,'阁楼房','1',0,'50',1,0,0,'east','2016-10-14','13:01:33'),(22,1,0,'顶楼大套房','0',0,'50',1,0,0,'east','2016-10-14','13:34:36');
 
 /*Table structure for table `room_layout_attribute` */
 
@@ -1098,7 +1098,7 @@ CREATE TABLE `room_layout_room` (
 
 /*Data for the table `room_layout_room` */
 
-insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_max_people`,`room_layout_room_max_children`,`room_layout_room_extra_bed`,`room_layout_room_orientations`) values (1,1,1,1,0,2,NULL),(1,1,2,1,1,0,NULL),(1,1,3,2,1,3,NULL),(2,1,2,1,0,0,NULL),(2,1,3,2,0,0,NULL),(2,1,18,2,0,1,NULL),(2,1,19,6,0,0,NULL),(12,1,19,3,0,0,NULL),(18,1,2,1,0,2,NULL),(20,1,3,0,0,5,NULL);
+insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_max_people`,`room_layout_room_max_children`,`room_layout_room_extra_bed`,`room_layout_room_orientations`) values (1,1,1,1,0,2,NULL),(1,1,2,1,1,0,NULL),(1,1,3,2,1,3,NULL),(2,1,2,1,0,0,NULL),(2,1,3,2,0,0,NULL),(2,1,18,2,0,1,NULL),(2,1,19,6,0,0,NULL),(12,1,3,2,0,0,NULL),(12,1,19,3,0,0,NULL),(18,1,2,1,0,2,NULL),(20,1,3,0,0,5,NULL);
 
 /*Table structure for table `room_layout_type` */
 
@@ -1128,11 +1128,11 @@ CREATE TABLE `room_sell_layout` (
   `room_sell_add_date` date NOT NULL,
   `room_sell_add_time` time NOT NULL,
   PRIMARY KEY (`room_sell_layout_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_sell_layout` */
 
-insert  into `room_sell_layout`(`room_sell_layout_id`,`hotel_id`,`room_layout_id`,`room_sell_layout_name`,`room_sell_layout_valid`,`room_sell_add_date`,`room_sell_add_time`) values (1,1,1,'豪华主卧','0','0000-00-00','00:00:00'),(2,1,18,'会员特价房','1','0000-00-00','00:00:00'),(3,1,12,'元旦特卖三人间','1','0000-00-00','00:00:00'),(4,1,1,'元旦促销豪华主卧','1','0000-00-00','00:00:00');
+insert  into `room_sell_layout`(`room_sell_layout_id`,`hotel_id`,`room_layout_id`,`room_sell_layout_name`,`room_sell_layout_valid`,`room_sell_add_date`,`room_sell_add_time`) values (1,1,1,'豪华主卧','0','0000-00-00','00:00:00'),(2,1,18,'会员特价房','1','0000-00-00','00:00:00'),(3,1,12,'元旦特卖三人间','1','0000-00-00','00:00:00'),(4,1,1,'元旦促销豪华主卧','1','0000-00-00','00:00:00'),(5,1,19,'大床房','1','2016-11-24','15:04:35');
 
 /*Table structure for table `room_type` */
 

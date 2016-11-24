@@ -121,7 +121,7 @@ class RoomService extends \BaseService {
 
     public function getRoomLayoutRoomDetailed($conditions, $hashKey = null) {
         $table = '`room` r INNER JOIN `room_layout_room` rlr ON r.room_id = rlr.room_id';
-        $field = 'r.room_id, r.room_type, r.room_on_sell, r.room_status, r.room_name, r.room_describe, r.room_mansion, r.room_number, r.room_floor,'
+        $field = 'r.room_id, r.room_type, r.room_on_sell, r.room_status, r.room_name, r.room_describe, r.room_mansion, r.room_number, r.room_floor,r.room_area,r.room_orientations,'
             .'rlr.room_layout_id,rlr.room_layout_room_max_people max_people,rlr.room_layout_room_max_children max_children,rlr.room_layout_room_extra_bed extra_bed';
         return RoomDao::instance()->setTable($table)->getList($conditions, $field, $hashKey);
     }

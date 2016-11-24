@@ -295,7 +295,7 @@ class BookOperateService extends \BaseService {
             /************************************************************************************************/
             //{end} 查找房型房价
             //加床房价
-            $fieid = 'room_sell_layout_id, room_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,room_layout_date_year this_year,room_layout_date_month this_month,';
+            $fieid = 'room_sell_layout_id sell_layout_id, room_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,room_layout_date_year this_year,room_layout_date_month this_month,';
             for($i = 1; $i <= 31; $i++) {
                 $day = $i < 10 ? '0' . $i . '_day,' : $i . '_day,';
                 $fieid .= $day;

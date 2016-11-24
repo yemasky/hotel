@@ -58,9 +58,9 @@
                     	<div class="control-group" id="form-wizard-1">
                             <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
                             <div class="controls">
-                            <input type="text" id="contact_name" name="contact_name" class="span2" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  />
+                            <input type="text" id="contact_name" name="contact_name" class="input-medium" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  />
                             <%$arrayLaguage['mobile']['page_laguage_value']%> : 
-                            <input type="text" id="contact_mobile" name="contact_mobile" class="span2" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
+                            <input type="text" id="contact_mobile" name="contact_mobile" class="input-medium" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
                             <!--<%$arrayLaguage['email']['page_laguage_value']%> : 
                             <input type="text" id="contact_email" name="contact_email" class="span2" placeholder="<%$arrayLaguage['email']['page_laguage_value']%>"  />-->
                             <a href="#begin_book" id="begin_book" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['begin_book']['page_laguage_value']%></a>
@@ -73,7 +73,7 @@
 						<div class="control-group hide book_form_step1">
 							<label class="control-label"><%$arrayLaguage['book_type']['page_laguage_value']%> :</label>
 							<div class="controls">
-								 <select name="book_type_id" id="book_type_id" class="span2">
+								 <select name="book_type_id" id="book_type_id" class="input-medium">
 								 <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 								 <%section name=type loop=$arrayBookType%>
 									<%if $arrayBookType[type].book_type_father_id!=$arrayBookType[type].book_type_id%>
@@ -86,28 +86,28 @@
 						<div class="control-group hide book_form_step1">
 							<label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%> :</label>
 							<div class="controls">
-								 <input type="text" id="discount" name="book_discount" class="span1 book_price" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>" value="100"  />
+								 <input type="text" id="discount" name="book_discount" class="input-mini book_price" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>" value="100"  />
 								 <%$arrayLaguage['discount_describe']['page_laguage_value']%> :
-								 <input type="text" id="book_discount_describe" name="book_discount_describe" class="span2" placeholder="<%$arrayLaguage['discount_describe']['page_laguage_value']%>"  />
+								 <input type="text" id="book_discount_describe" name="book_discount_describe" class="input-large" placeholder="<%$arrayLaguage['discount_describe']['page_laguage_value']%>"  />
 							</div>
 						</div>
 						<div class="control-group hide book_form_step1">
                             <div class="controls">
-                                <input id="half_price" class="span1" value="18:00" name="half_price" style="" aria-invalid="false" type="text">
+                                <input id="half_price" class="input-mini" value="18:00" name="half_price" style="" aria-invalid="false" type="text">
                                 <%$arrayLaguage['before_half_of_the_rate']['page_laguage_value']%>
                                 <code>[<%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
                                 <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>                            </div>
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
 							<div class="controls">
-								<input type="text" class="span2" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
+								<input type="text" class="input-medium" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
 								<%$arrayLaguage['checkout']['page_laguage_value']%> :
-								<input type="text" class="span2" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
+								<input type="text" class="input-medium" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
-                                <input value="18:00" type="text" class="span1" id="book_order_retention_time" name="book_order_retention_time" />
+                                <input value="18:00" type="text" class="input-mini" id="book_order_retention_time" name="book_order_retention_time" />
                                 <%$arrayLaguage['book_days_total']['page_laguage_value']%> :
-                                <input value="1" type="text" class="span1" id="book_days_total" name="book_days_total" />
+                                <input value="1" type="text" class="input-mini" id="book_days_total" name="book_days_total" />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
@@ -140,21 +140,21 @@
 						<div class="control-group hide book_form_step2">
 							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
 							<div class="controls book_user_info">
-								<input name="book_user_name[]" value="" type="text" class="span1" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
+								<input name="book_user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
-								<select name="book_user_sex[]" class="span1">
+								<select name="book_user_sex[]" class="input-small">
 									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
 									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
 								</select>
 								<%$arrayLaguage['identity_information']['page_laguage_value']%> :
-								<select name="book_user_id_card_type[]" class="span1">
+								<select name="book_user_id_card_type[]" class="input-small">
 									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 									<%section name=card_type loop=$idCardType%>
 									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
 									<%/section%>
 								</select>
-								<input type="text" name="book_user_id_card[]" class="span2" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
+								<input type="text" name="book_user_id_card[]" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
                                 <!--<%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
                                 <input type="text" name="book_cash_pledge[]" class="span1" placeholder="<%$arrayLaguage['cash_pledge']['page_laguage_value']%>"/>// 押金-->
 							</div>
@@ -166,39 +166,39 @@
                         <div class="control-group hide book_form_step2">
 							<label class="control-label"><%$arrayLaguage['pay']['page_laguage_value']%> :</label>
 							<div class="controls">
-							 <select name="payment" id="payment" class="span1">
+							 <select name="payment" id="payment" class="input-small">
 								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 								<option value="1"><%$arrayLaguage['prepayment']['page_laguage_value']%></option>
 								<option value="2"><%$arrayLaguage['remaining_sum']['page_laguage_value']%></option>
 								<option value="3"><%$arrayLaguage['full-payout']['page_laguage_value']%></option>
 							 </select>
 							 <%$arrayLaguage['payment_type']['page_laguage_value']%> :
-							 <select name="payment_type" id="payment_type" class="span1">
+							 <select name="payment_type" id="payment_type" class="input-small">
 								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 								<%section name=type loop=$arrayPaymentType%>
 								<option value="<%$arrayPaymentType[type].payment_type_id%>"><%$arrayPaymentType[type].payment_type_name%></option>
 								<%/section%>
 							 </select>
 							 <%$arrayLaguage['money_has_to_account']['page_laguage_value']%> :
-							 <select name="is_pay" id="is_pay" class="span1">
+							 <select name="is_pay" id="is_pay" class="input-small">
 								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 								<option value="1"><%$arrayLaguage['already_collection']['page_laguage_value']%></option>
 								<option value="2"><%$arrayLaguage['not_receivable']['page_laguage_value']%></option>
 							 </select>
 							 <%$arrayLaguage['payment_voucher']['page_laguage_value']%> :
-							 <input value="" type="text" class="span2" id="book_payment_voucher" name="book_payment_voucher" />
+							 <input value="" type="text" class="input-large" id="book_payment_voucher" name="book_payment_voucher" />
 						  </div>
 						</div>
                         <div class="control-group hide book_form_step2">
 							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
 							<div class="controls">
-							 <input value="" type="text" class="span1" id="total_price" name="book_total_price" />
+							 <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
 							 <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
-							 <input value="" type="text" class="span1" id="prepayment" name="book_prepayment_price" />
+							 <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
                              <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
-							 <input value="" type="text" class="span1 total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
+							 <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
                              <%$arrayLaguage['service_charge']['page_laguage_value']%> :
-							 <input value="" type="text" class="span1 book_price" id="book_service_charge" name="book_service_charge" />
+							 <input value="" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
 						  </div>
 						</div>
                         <div class="form-actions pagination-centered hide book_form_step2">
