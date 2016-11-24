@@ -26,6 +26,7 @@ CREATE TABLE `book` (
   `user_id` bigint(19) NOT NULL,
   `hotel_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL COMMENT '真实房号',
+  `room_sell_layout_id` bigint(19) NOT NULL,
   `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
   `room_layout_price_id` int(11) NOT NULL COMMENT '价格ID',
   `room_layout_price_system_id` int(11) DEFAULT NULL COMMENT '价格体系ID',

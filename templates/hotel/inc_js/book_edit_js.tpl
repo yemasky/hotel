@@ -422,6 +422,7 @@ $(document).ready(function(){
             },
             //搜索RoomLayout
             bookEdit.ajaxGetRoomLayout = function() {
+                $('#room_layout_data').html('<tr class="gradeX odd" role="row"><td class="sorting_1"></td><td></td></tr>');
                 $('#modal_loading').show();
                 var hotel_service = '';//JSON.stringify(BookEditClass.hotel_service, false, 4)
                 for(i in BookEditClass.hotel_service) {
@@ -464,7 +465,6 @@ $(document).ready(function(){
             },
             //分解房型、价格体系数据 
             bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
-                $('#room_layout_data').html('<tr class="gradeX odd" role="row"><td class="sorting_1"></td><td></td></tr>');
                 var html = td1 = td2 = td_bed = option = pledge = '';
                 var cash_pledge = {};
                 var in_date = new Date(check_in);
