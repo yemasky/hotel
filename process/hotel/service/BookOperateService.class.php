@@ -22,7 +22,6 @@ class BookOperateService extends \BaseService {
     }
 
     public function saveBookInfo($objRequest, $objResponse) {
-        //print_r($_REQUEST);exit();
         $arrayPostValue = $objRequest->getPost();
         $payment = $arrayPostValue['payment'];//支付 类型
         $payment_type = $arrayPostValue['payment_type'];//支付方式  微信支付宝等
@@ -38,7 +37,7 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_discount_id']              = $arrayPostValue['book_discount_id'];//折扣ID
         $arrayBill['book_discount_describe']        = $arrayPostValue['book_discount_describe'];//折扣描述
         //入住日期
-        $arrayBill['book_check_in']                = $arrayPostValue['book_check_in'];//入住时间
+        $arrayBill['book_check_in']                 = $arrayPostValue['book_check_in'];//入住时间
         $arrayBill['book_check_out']                = $arrayPostValue['book_check_out'];//退房时间
         $arrayBill['book_order_retention_time']     = $arrayPostValue['book_order_retention_time'];//订单保留时间
         //主订单
@@ -198,7 +197,7 @@ class BookOperateService extends \BaseService {
         $hotel_service = $objRequest -> hotel_service;
         $hotel_service = trim($hotel_service, ',');
         if(empty($hotel_service)) {
-            return ;
+            return '';
         }
         //step1 {begin} 取得已住房间
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
@@ -229,15 +228,21 @@ class BookOperateService extends \BaseService {
         if(!empty($arrayRoomLayoutRoom)) {
             //查找售卖房型
             $conditions['where'] = array('hotel_id'=>$hotel_id,'room_sell_layout_valid'=>1);
-            $arrayRoomSellLayout = RoomService::instance()->getRoomSellLayout($conditions, 'room_sell_layout_id, room_layout_id, room_sell_layout_name', 'room_layout_id', true);
+            $arrayRoomSellLayout = RoomService::instance()->getRoomSellLayout($conditions,
+                'room_sell_layout_id, room_layout_id, room_sell_layout_name', 'room_layout_id', true);
             /************************************************************************************************/
             foreach($arrayRoomLayoutRoom as $room_layout_id => $value) {
                 if(isset($arrayRoomSellLayout[$room_layout_id])) {
                     $arrayRoomLayoutId[$room_layout_id] = $room_layout_id;//这个房型正在售卖才算数
                     foreach($arrayRoomSellLayout[$room_layout_id] as $i => $arraySellLayout) {
                         $arrayRoomSellLayoutId[$arraySellLayout['room_sell_layout_id']] = $arraySellLayout['room_sell_layout_id'];
-                        $arraySellLayout[$arraySellLayout['room_sell_layout_id']] = $arraySellLayout;
+                        //$arraySellLayout[$arraySellLayout['room_sell_layout_id']] = $arraySellLayout;
                     }
+                }
+            }
+            foreach($arrayRoomSellLayout as $room_layout_id => $arrayValues) {
+                foreach($arrayValues as $i => $arrayItem) {
+                    $arraySellLayout[$arrayItem['room_sell_layout_id']] = $arrayItem;
                 }
             }
             //{begin} 根据hotel_server_id查找价格体系
@@ -247,7 +252,10 @@ class BookOperateService extends \BaseService {
                 $base_price_system = 1;
                 $hotel_service = str_replace('-1','',$hotel_service);
                 $hotel_service = str_replace(',,',',',$hotel_service);
+                $hotel_service = trim($hotel_service, ',');
             }
+            $hotel_service = str_replace(',',"','",$hotel_service);
+
             if(!empty($hotel_service)) {
                 $conditions['where'] = array('rsf.hotel_id'=>$hotel_id, 'rs.`room_layout_price_system_valid`'=>1,
                                              'IN'=>array('rsf.hotel_service_id'=>$hotel_service));

@@ -452,7 +452,8 @@ $(document).ready(function(){
                 var in_day = in_date.getDate();var in_month = in_date.getMonth() - 0 + 1;var in_year = in_date.getFullYear();
                 var out_date = new Date(check_out);
                 var out_day = out_date.getDate();var out_month = out_date.getMonth() - 0 + 1;var out_year = out_date.getFullYear();
-                var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;var roomSellLayout = data.roomSellLayout;
+                var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;
+                var roomSellLayout = data.roomSellLayout;
                 var tmpExtraBedPrice = data.extraBedPrice; var extraBedPrice = {};
                 if(tmpExtraBedPrice != '') {
                     for(i in tmpExtraBedPrice) {//][][

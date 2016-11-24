@@ -157,7 +157,7 @@ class RoomOperateService extends \BaseService {
                     $arrayMonthData[$i]['room_layout_date_month'] = $i;
                     $arrayMonthData[$i]['room_layout_price_add_date'] = getDay();
                     $arrayMonthData[$i]['room_layout_price_add_time'] = getTime();
-                    $arrayMonthData[$i]['room_layout_price_begin_datetime'] = $arrayTimeBegin['0'] . '-' . $arrayTimeBegin['1'] . '-01';
+                    $arrayMonthData[$i]['room_layout_price_begin_datetime'] = $arrayTimeBegin['0'] . '-' . $i . '-01';
                     RoomService::instance()->saveRoomLayoutPrice($arrayMonthData[$i]);
                 }
                 if(!empty($arrayMonthExtraBedData)) {//加床
@@ -172,7 +172,7 @@ class RoomOperateService extends \BaseService {
                         $arrayMonthExtraBedData[$i]['room_layout_date_month'] = $i;
                         $arrayMonthExtraBedData[$i]['room_layout_price_add_date'] = getDay();
                         $arrayMonthExtraBedData[$i]['room_layout_price_add_time'] = getTime();
-                        $arrayMonthExtraBedData[$i]['room_layout_price_begin_datetime'] = $arrayTimeBegin['0'] . '-' . $arrayTimeBegin['1'] . '-01';
+                        $arrayMonthExtraBedData[$i]['room_layout_price_begin_datetime'] = $arrayTimeBegin['0'] . '-' . $i . '-01';
                         RoomService::instance()->saveRoomLayoutExtraBedPrice($arrayMonthExtraBedData[$i]);
                     }
                 }
@@ -221,7 +221,7 @@ class RoomOperateService extends \BaseService {
                         $arrayMonthData[$i][$j]['room_layout_date_month'] = $j;
                         $arrayMonthData[$i][$j]['room_layout_price_add_date'] = getDay();
                         $arrayMonthData[$i][$j]['room_layout_price_add_time'] = getTime();
-                        $arrayMonthData[$i][$j]['room_layout_price_begin_datetime'] = $arrayTimeBegin['0'] . '-' . $arrayTimeBegin['1'] . '-01';
+                        $arrayMonthData[$i][$j]['room_layout_price_begin_datetime'] = $i . '-' . $j . '-01';
                         RoomService::instance()->saveRoomLayoutPrice($arrayMonthData[$i][$j]);
                     }
                     if(!empty($arrayMonthExtraBedData)) {//加床
@@ -236,7 +236,7 @@ class RoomOperateService extends \BaseService {
                             $arrayMonthExtraBedData[$i][$j]['room_layout_date_month'] = $j;
                             $arrayMonthExtraBedData[$i][$j]['room_layout_price_add_date'] = getDay();
                             $arrayMonthExtraBedData[$i][$j]['room_layout_price_add_time'] = getTime();
-                            $arrayMonthExtraBedData[$i][$j]['room_layout_price_begin_datetime'] = $arrayTimeBegin['0'] . '-' . $arrayTimeBegin['1'] . '-01';
+                            $arrayMonthExtraBedData[$i][$j]['room_layout_price_begin_datetime'] = $i . '-' . $j . '-01';
                             RoomService::instance()->saveRoomLayoutExtraBedPrice($arrayMonthExtraBedData[$i][$j]);
                         }
                     }
