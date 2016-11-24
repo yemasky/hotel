@@ -73,7 +73,7 @@ class RoomsSellLayoutAction extends \BaseAction {
                 unset($arrayPostValue['room_sell_layout_id']);
                 $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayPostValue['room_sell_add_date'] = getDay();
-                $arrayPostValue['room_sell_layout_id']= getTime();
+                $arrayPostValue['room_sell_add_time']= getTime();
                 RoomService::instance()->saveRoomSellLayout($arrayPostValue);
                 return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
             }
