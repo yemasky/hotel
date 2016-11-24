@@ -341,7 +341,6 @@ $(document).ready(function(){
 <%if $view!='1'%>
 <script language="javascript">
     $('#rooms :checkbox').click(function(e) {
-        $('#modal_save').show();
         $('.alert.alert-success.alert-block').hide();
         var extra_bed = $('#extra_bed_' + this.value).val();
         var max_people = $('#max_people_' + this.value).val();
@@ -349,6 +348,13 @@ $(document).ready(function(){
         if(typeof(extra_bed) == 'undefined') extra_bed = 0;
         if(typeof(max_people) == 'undefined') max_people = 0;
         if(typeof(max_children) == 'undefined') max_children = 0;
+        if(max_people == 0) {
+            $('#modal_info').modal('show');
+		    $('#modal_info_message').html("请先填写最多住几人！人数大于或等于1");
+            $(this).attr('checked', false);
+            return;
+        }
+        $('#modal_save').show('slow');
         var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value 
                 + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
         $.getJSON(url, function(result) {
@@ -411,7 +417,6 @@ function uploadSuccess(img_url, id) {
 	} else {
 		addLayoutImages(img_url, id);
 	}
-
 }
 
 function addLayoutImages(img_url, id) {
