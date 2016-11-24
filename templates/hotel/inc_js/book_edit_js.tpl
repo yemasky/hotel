@@ -425,8 +425,8 @@ $(document).ready(function(){
                     + '&book_check_out=' + check_out,
                     dataType : "json",
                     success : function(result) {
-                        $('#modal_loading').hide();
-                        $('#book_form div').show();
+                        $('#modal_loading').hide('show');
+                        $('#book_form div').show('show');
                         data = result;
                         if(data.success == 1) {
                             $('#room_layout_table').show();
