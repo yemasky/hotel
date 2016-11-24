@@ -5,7 +5,7 @@
 <%include file="hotel/inc_js/editor_upload_images.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <style type="text/css">
-.quick-actions li {margin: 0 2px 2px !important;}
+.quick-actions li {margin: 0 2px 2px !important; padding:0 3px 0 3px;}
 </style>
 </head>
 <body>
@@ -137,21 +137,22 @@
                 <ul class="quick-actions" id="rooms">
                 <%section name=room loop=$arrayRoom%>
                 <li> 
-                <a> <i class="icon-home"></i> <input id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"> <%$arrayRoom[room].room_name%>
-                </a>
+                <a> <!--<i class="icon-home"></i>--> <span class="am-icon-home am-icon-sm"></span> <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>] <input id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"></a>
+                <!--<%$arrayLaguage['orientations']['page_laguage_value']%>--><i class="am-icon-location-arrow"></i> <%$arrayLaguage[$arrayRoom[room].room_orientations]['page_laguage_value']%>
+                <%$arrayLaguage['room_area']['page_laguage_value']%>:<%$arrayRoom[room].room_area%>
                 <table>
                 <tr>
                     <td align="right"><%$arrayLaguage['room_layout_max_people']['page_laguage_value']%> :</td>
-                    <td align="left"><input type="text" class="span3" id="max_people_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_people%>"></td>
+                    <td align="left"><input type="text" class="input-mini" id="max_people_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_people%>"></td>
                 </tr>
                 <tr>
                     <td align="right"><%$arrayLaguage['room_layout_max_children']['page_laguage_value']%> :</td>
-                    <td align="left"><input type="text" class="span3" id="max_children_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_children%>">
+                    <td align="left"><input type="text" class="input-mini" id="max_children_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_max_children%>">
                     </td>
                 </tr>
                 <tr>
                     <td align="right"><%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>: </td>
-                    <td align="left"><input type="text" class="span3" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
+                    <td align="left"><input type="text" class="input-mini" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
                     </td>
                 </tr>
                 </table>
@@ -378,7 +379,7 @@ $(document).ready(function(){
                     data = result;
                     $('#modal_save').hide();
                     $('.alert.alert-success.alert-block').show("slow");
-                    setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 3000);
+                    setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 1000);
                 })
             }
         }

@@ -19,7 +19,7 @@ select {width: 70px;}
             <div class="widget-box">
           <div class="widget-title">
              <span class="icon"><i class="icon-th"></i></span> 
-            <h5><%$arrayLaguage['room_layout']['page_laguage_value']%></h5>
+            <h5><%$selfNavigation['hotel_modules_name']%></h5>
             <div class="buttons" id="btn_room_layout">
                 <a class="btn btn-primary btn-mini" href="<%$add_room_layout_url%>" id="add_room_layout"><i class="am-icon-plus-square"></i> 
                 &#12288;<%$arrayLaguage['add_rooms_layout']['page_laguage_value']%></a>

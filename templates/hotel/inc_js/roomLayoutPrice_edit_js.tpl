@@ -607,16 +607,19 @@ $(document).ready(function(){
             }
             //var week_begin = 
             var param = $("#prices_week").serialize();
+            $('#modal_save').show('slow');
             $.ajax({
                 url : '<%$add_roomLayoutPriceSystem_url%>&search=prices_week&sell_layout='+sell_layout+'&system_id='+system_id,
                 type : "post",dataType : "json",data: param,
                 success : function(result) {
+                    $('#modal_save').hide('slow');
                     data = result;
                     if(data.success == 1) {
                         //$('#modal_fail').modal('hide');
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
                         historyPrice = {};
+                        setHistoryPrice();
                     } else {
                         //$('#modal_success').modal('hide');
                         $('#modal_fail').modal('show');
