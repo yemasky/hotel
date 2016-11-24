@@ -55,7 +55,7 @@
                             <select name="sell_layout" id="sell_layout" class="span2">
                                 <option value="0" extra_bed=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                             <%section name=layout loop=$arrayRoomSellLayout%>
-                                <option value="<%$arrayRoomSellLayout[layout].room_sell_layout_id%>" extra_bed="<%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_extra_bed%>"><%$arrayRoomSellLayout[layout].room_sell_layout_name%> &#8226; <%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_name%></option>
+                                <option value="<%$arrayRoomSellLayout[layout].room_sell_layout_id%>" extra_bed="<%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_extra_bed%>" layout_id="<%$arrayRoomSellLayout[layout].room_layout_id%>"><%$arrayRoomSellLayout[layout].room_sell_layout_name%> &#8226; <%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_name%></option>
                             <%/section%>
                             </select>
                         </div>

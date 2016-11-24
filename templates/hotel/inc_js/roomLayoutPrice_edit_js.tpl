@@ -284,8 +284,9 @@ $(document).ready(function(){
 			$('.extra_bed input').attr('disabled', false);
             setDifferentExtraBedMonth();
         }
+        var layout_id = $(this).find('option[value="'+sell_layout+'"]').attr("layout_id")
         if(typeof(room_layout_data[sell_layout]) == 'undefined') {
-            $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&sell_layout_id='+sell_layout, function(result) {
+            $.getJSON('<%$add_roomLayoutPriceSystem_url%>&search=systemPrices&sell_layout_id='+sell_layout+'&layout_id='+layout_id, function(result) {
                 data = result;
                 if(data.success == 1) {
                     room_layout_data[sell_layout] = data.itemData;

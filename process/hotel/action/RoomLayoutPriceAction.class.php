@@ -69,6 +69,13 @@ class RoomLayoutPriceAction extends \BaseAction {
         }
         if($objRequest -> search == 'systemPrices' && ($objRequest->sell_layout_id) > 0) {
             $this->setDisplay();
+            $layout_id = $objRequest->layout_id;
+            $conditions['where'] = array('room_layout_id'=>$layout_id);
+            $countLayout = RoomService::instance()->getRoomLayoutRoom($conditions, 'COUNT(room_layout_id) num');
+            if(empty($countLayout[0]['num'])) {
+                return $this->errorResponse('此售卖房型未设置客房，请先设置！');
+            }
+            ////
             $conditions['where'] = array('IN'=>array('rlps.room_sell_layout_id'=>array($objRequest->sell_layout_id, 0),
                                                      'rlps.hotel_id'=>array('0',$objResponse->arrayLoginEmployeeInfo['hotel_id'])),
                                          '>'=>array('rlps.room_layout_price_system_id'=>1),
