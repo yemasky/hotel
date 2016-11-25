@@ -414,7 +414,7 @@ $(document).ready(function(){
                     }
                     var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").attr('title')
                               +' ￥ :  <input class="input-mini" value="'+$(this).find("option:selected").attr('price')+'" type="text">   '
-                              +'数量 : <input class="input-mini" value="1" type="text"> '
+                              +'数量 : <input class="input-mini" value="1" type="text"> 折扣 : <input class="input-mini" value="100" type="text"> '
                               +'备注 : <input class="input-large" value="" type="text"> <i class="am-icon-minus-square am-red-E43737 service_del"></i></li>';
                     $('#need_service_id').append(html);
                     BookEditClass.bookNeed_service[thisVal] = 1;
