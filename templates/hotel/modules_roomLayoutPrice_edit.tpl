@@ -28,6 +28,8 @@
 </style>
 <script src="<%$__RESOURCE%>js/select2.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
 <body>

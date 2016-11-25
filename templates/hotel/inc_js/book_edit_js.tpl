@@ -149,6 +149,7 @@ $(document).ready(function(){
         hotel_service: {},
         book_discount_list: {},
         bookSelectRoom: {},
+        bookNeed_service:{},
         hotelCheckDate: {'hotel_checkin':'<%$hotel_checkin%>', 'hotel_checkout':'<%$hotel_checkout%>'},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
@@ -402,22 +403,43 @@ $(document).ready(function(){
                             //计算价格
                         })
                     }
-                } );
+                });
+                $('#need_service').change(function(e) {
+                    var thisVal = $(this).val();
+                    if(BookEditClass.bookNeed_service[thisVal] == 1 || thisVal == '') return;
+                    //bookNeed_service
+                    var need_service_id = $('#need_service_id').attr('id');
+                    if(typeof(need_service_id) == 'undefined') {
+                        $(this).parent().prepend('<div class="span12 btn-icon-pg"><ul id="need_service_id"></ul></div>');
+                    }
+                    var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").attr('title')
+                              +' ￥ :  <input class="input-mini" value="'+$(this).find("option:selected").attr('price')+'" type="text">   '
+                              +'数量 : <input class="input-mini" value="1" type="text"> '
+                              +'备注 : <input class="input-large" value="" type="text"> <i class="am-icon-minus-square am-red-E43737 service_del"></i></li>';
+                    $('#need_service_id').append(html);
+                    BookEditClass.bookNeed_service[thisVal] = 1;
+                    $('.service_del').click(function(e) {
+                        $(this).parent().remove();
+                        BookEditClass.bookNeed_service[thisVal] = 0;
+                        if($('#need_service_id').html() == '') {
+                            $('#need_service_id').parent().remove();
+                        }
+                    });                 
+                });
+
                 //增加减少人数
                 $('#addBookUser').click(function(e) {
                     var max_man = BookEditClass.max_man;
                     console.log('max_man:' + max_man);
-                    var BookUser_num = BookEditClass.BookUser_num;
-                    if(BookUser_num >= max_man) return;
+                    if(BookEditClass.BookUser_num >= max_man) return;
                     $(this).parent().prev().clone().insertBefore($(this).parent());
-                    BookUser_num++;
+                    BookEditClass.BookUser_num++;
                 });
                 $('#reduceBookUser').click(function(e) {
                     var max_man = BookEditClass.max_man;
-                    var BookUser_num = BookEditClass.BookUser_num;
-                    if(BookUser_num == 1) return;
+                    if(BookEditClass.BookUser_num == 1) return;
                     $(this).parent().prev().remove();
-                    BookUser_num--;
+                    BookEditClass.BookUser_num--;
                 });
             },
             //搜索RoomLayout
@@ -675,11 +697,12 @@ $(document).ready(function(){
             //计算价格
             bookEdit.computeBookPrice = function() {
                 var bookSelectRoom = BookEditClass.bookSelectRoom;
-                var max_man = BookEditClass.max_man;
                 var room_price = 0;
                 var select_html = ' <select class="input-small bookSelectRoom" name="book_user_room[]">';
                 var option = '';
                 var days = $('#book_days_total').val();
+                //BookEditClass.BookUser_num = 1;
+                BookEditClass.max_man = 0;
                 $("#room_layout_html input").each(function (i) {
                     var val = $(this).val() - 0; //获取单个value
                     var select_room = {};
@@ -699,7 +722,7 @@ $(document).ready(function(){
                                     //console.log(bookSelectRoom[val]);
                                     if(select_room[val] == 0) {
                                         option += '<option value="'+val+'">'+bookSelectRoom[val]+'</option>';
-                                        max_man++;
+                                        BookEditClass.max_man++;
                                     }
                                     select_room[val] = 1;
                                 }
@@ -721,7 +744,7 @@ $(document).ready(function(){
                                     if(select_room[val + '_bed'] == 0) {
                                         for(i = 1; i <= val; i++) {
                                             option += '<option value="'+room_id+'">'+bookSelectRoom[room_id]+'</option>';	
-                                            max_man++;
+                                            BookEditClass.max_man++;
                                         }
                                     }
                                     select_room[val + '_bed'] = 1;

@@ -30,6 +30,7 @@
 .stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
 .stat-boxes input{margin-bottom:1px !important;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
+#need_service_id li{margin-left:0px;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -56,10 +57,11 @@
                 <div class="widget-content nopadding">
                     <form action="#" method="post" class="form-horizontal ui-formwizard" enctype="multipart/form-data" name="contact_form" id="contact_form">
                     	<div class="control-group" id="form-wizard-1">
-                            <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
+                            <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> 
+                            <i class="am-icon-user am-green-54B51C"></i> :</label>
                             <div class="controls">
                             <input type="text" id="contact_name" name="contact_name" class="input-medium" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  />
-                            <%$arrayLaguage['mobile']['page_laguage_value']%> : 
+                            <%$arrayLaguage['mobile']['page_laguage_value']%> <i class="am-icon-mobile am-green-54B51C"></i> : 
                             <input type="text" id="contact_mobile" name="contact_mobile" class="input-medium" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
                             <!--<%$arrayLaguage['email']['page_laguage_value']%> : 
                             <input type="text" id="contact_email" name="contact_email" class="span2" placeholder="<%$arrayLaguage['email']['page_laguage_value']%>"  />-->
@@ -97,7 +99,7 @@
                                 <%$arrayLaguage['before_half_of_the_rate']['page_laguage_value']%>
                                 <code>[<%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
                                 <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>                            </div>
-							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> :</label>
+							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> <i class="am-icon-calculator am-green-2BBAB0"></i> :</label>
 							<div class="controls">
 								<input type="text" class="input-medium" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
 								<%$arrayLaguage['checkout']['page_laguage_value']%> :
@@ -138,7 +140,7 @@
 						  </div>
 						</div>
 						<div class="control-group hide book_form_step2">
-							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> :</label>
+							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> <i class="am-icon-users am-yellow-E88A26"></i>:</label>
 							<div class="controls book_user_info">
 								<input name="book_user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
@@ -163,6 +165,19 @@
 							<a href="#reduceBookUser" id="reduceBookUser" class="btn btn-warning btn-mini"><i class="am-icon-user-times"></i> <%$arrayLaguage['reduce_number_of_people']['page_laguage_value']%></a>
 							</div>
 						</div>
+                        <div class="control-group hide book_form_step2">
+							<label class="control-label"><%$arrayLaguage['need_service']['page_laguage_value']%> :</label>
+							<div class="controls">
+                             <select name="need_service" id="need_service" class="input-large">
+                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                <%section name=i loop=$arrayHotelService%>
+                                    <option price="<%$arrayHotelService[i].hotel_service_price%>" title="<%$arrayHotelService[i].hotel_service_name%>" value="<%$arrayHotelService[i].hotel_service_id%>">
+                                        <%$arrayHotelService[i].hotel_service_name%>  ￥<%$arrayHotelService[i].hotel_service_price%>
+                                    </option>
+                                <%/section%>
+							 </select>
+                            </div>
+                        </div>
                         <div class="control-group hide book_form_step2">
 							<label class="control-label"><%$arrayLaguage['pay']['page_laguage_value']%> :</label>
 							<div class="controls">
