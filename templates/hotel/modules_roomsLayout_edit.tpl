@@ -5,7 +5,8 @@
 <%include file="hotel/inc_js/editor_upload_images.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <style type="text/css">
-.quick-actions li {margin: 0 2px 2px !important; padding:0 3px 0 3px;}
+.quick-actions li {margin: 2px !important; padding:0 3px 0 3px; width:245px;}
+.quick-actions{text-align:left;}
 </style>
 </head>
 <body>
@@ -134,11 +135,7 @@
                   <a class="close" data-dismiss="alert" href="#close"> </a>
                   <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
                 </div>
-                <ul class="quick-actions" id="rooms">
-                <%section name=room loop=$arrayRoom%>
-                <%if $view=='1' && $arrayRoom[room].checked=='0'%>
-                <%else%>
-                    <li> 
+                <ul class="quick-actions" id="rooms"><%section name=room loop=$arrayRoom%><%if $view=='1' && $arrayRoom[room].checked=='0'%><%else%><li> 
                     <a href="#select_room"> <!--<i class="icon-home"></i>--> <span class="am-icon-home am-icon-sm"></span> <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>]
                     <span id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_id%>" class="<%if $arrayRoom[room].checked!='0'%>am-icon-check-square<%else%>am-icon-square-o<%/if%> selectRoom" check="<%$arrayRoom[room].checked%>"></span>
                     </a>
@@ -159,10 +156,7 @@
                         <td align="left"><input type="text" class="input-mini" id="extra_bed_<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_layout_room_extra_bed%>">
                         </td>
                     </tr>
-                    </table>
-                    </li> 
-                <%/if%>
-                <%/section%>
+                    </table></li><%/if%><%/section%>
                 </ul>
                 </div>
            		<div class="control-group">
