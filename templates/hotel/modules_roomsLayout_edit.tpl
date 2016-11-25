@@ -139,7 +139,9 @@
                 <%if $view=='1' && $arrayRoom[room].checked=='0'%>
                 <%else%>
                     <li> 
-                    <a> <!--<i class="icon-home"></i>--> <span class="am-icon-home am-icon-sm"></span> <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>] <input id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" class="span1" type="checkbox"<%if $arrayRoom[room].checked!='0'%> checked <%/if%>value="<%$arrayRoom[room].room_id%>"></a>
+                    <a href="#select_room"> <!--<i class="icon-home"></i>--> <span class="am-icon-home am-icon-sm"></span> <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>]
+                    <span id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_id%>" class="<%if $arrayRoom[room].checked!='0'%>am-icon-check-square<%else%>am-icon-square-o<%/if%> selectRoom" check="<%$arrayRoom[room].checked%>"></span>
+                    </a>
                     <!--<%$arrayLaguage['orientations']['page_laguage_value']%>--><i class="am-icon-location-arrow"></i> <%$arrayLaguage[$arrayRoom[room].room_orientations]['page_laguage_value']%>
                     <%$arrayLaguage['room_area']['page_laguage_value']%>:<%$arrayRoom[room].room_area%>
                     <table>
@@ -343,28 +345,38 @@ $(document).ready(function(){
 </script>
 <%if $view!='1'%>
 <script language="javascript">
-    $('#rooms :checkbox').click(function(e) {
+    $('#rooms .selectRoom').click(function(e) {
         $('.alert.alert-success.alert-block').hide();
-        var extra_bed = $('#extra_bed_' + this.value).val();
-        var max_people = $('#max_people_' + this.value).val();
-        var max_children = $('#max_children_' + this.value).val();
+        var thisVal = $(this).attr('value');
+        var checked = $(this).attr('check') - 0 > 0 ? 'false' : 'true';
+        console.log(this);
+        var extra_bed = $('#extra_bed_' + thisVal).val();
+        var max_people = $('#max_people_' + thisVal).val();
+        var max_children = $('#max_children_' + thisVal).val();
         if(typeof(extra_bed) == 'undefined') extra_bed = 0;
         if(typeof(max_people) == 'undefined') max_people = 0;
         if(typeof(max_children) == 'undefined') max_children = 0;
         if(max_people == 0) {
             $('#modal_info').modal('show');
 		    $('#modal_info_message').html("请先填写最多住几人！人数大于或等于1");
-            $(this).attr('checked', false);
             return;
         }
         $('#modal_save').show('slow');
-        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + this.checked + '&room_id=' + this.value 
+        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + thisVal 
                 + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
+        var _this = this;
         $.getJSON(url, function(result) {
             data = result;
             $('#modal_save').hide();
             $('.alert.alert-success.alert-block').show("slow");
-            setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 3000);
+            setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 1000);
+            if(checked == 'false') {
+                $(_this).addClass('am-icon-square-o').removeClass('am-icon-check-square');
+                $(_this).attr('check', 0);
+            } else {
+                $(_this).addClass('am-icon-check-square').removeClass('am-icon-square-o');
+                $(_this).attr('check', 1);
+            }
         })
     });
     $('#rooms :text').keyup(function(e) {
@@ -372,17 +384,16 @@ $(document).ready(function(){
         if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
             $('.alert.alert-success.alert-block').hide();
             var data_id = $(this).attr('data-id');
-            var checked = $('#'+data_id).attr('checked');
-            if(checked == 'checked' || checked == true) {
+            var checked = $('#'+data_id).attr('check') - 0;
+            if(checked > 0) {
                 $('#modal_save').show();
-                checked = 'true';
                 var extra_bed = $('#extra_bed_' + data_id).val();
                 var max_people = $('#max_people_' + data_id).val();
                 var max_children = $('#max_children_' + data_id).val();
                 if(typeof(extra_bed) == 'undefined') extra_bed = 0;
                 if(typeof(max_people) == 'undefined') max_people = 0;
                 if(typeof(max_children) == 'undefined') max_children = 0;
-                var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + $(this).attr('data-id') 
+                var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=true&room_id=' + $(this).attr('data-id') 
                         + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
                 $.getJSON(url, function(result) {
                     data = result;
