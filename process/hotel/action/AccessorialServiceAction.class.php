@@ -76,6 +76,7 @@ class AccessorialServiceAction extends \BaseAction {
                 if(empty($arrayPostValue['hotel_service_father_id'])) {
                     $arrayPostValue['hotel_service_price'] = -1;
                 }
+                unset($arrayPostValue['hotel_service_id']);
                 $hotel_server_id = HotelService::instance()->saveHotelService($arrayPostValue);
                 if(empty($arrayPostValue['hotel_service_father_id'])) {
                     HotelService::instance()->updateHotelService(array('hotel_server_id'=>$hotel_server_id,
