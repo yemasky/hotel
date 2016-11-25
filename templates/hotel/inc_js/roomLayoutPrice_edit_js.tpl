@@ -191,8 +191,8 @@ $(document).ready(function(){
     $('#history_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {
             var dateToDisable = new Date('<%$thisDay%>');
-			if (date.getTime() > dateToDisable.getTime()) {
-				//return [false, ""];
+			if (date.getDate() > 1) {
+				return [false];
 			}
             return [true];
 			//return [true, ""];
@@ -205,10 +205,17 @@ $(document).ready(function(){
 		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
             var dateToDisable = new Date('<%$thisDay%>');
 			var dateToBeginDisable = new Date($('#history_begin').val());
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            var arrayMonth = leapYear(year);
+            var bigDay = arrayMonth[month]
 			if (date.getTime() < dateToBeginDisable.getTime()) {//date.getTime() > dateToDisable.getTime() || 
 				return [false];
 			}
-			return [true, ""];
+            if (date.getDate() != bigDay) {//date.getTime() > dateToDisable.getTime() || 
+				return [false];
+			}
+			return [true];
 		},
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
