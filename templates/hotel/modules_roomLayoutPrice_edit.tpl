@@ -107,7 +107,7 @@
                                         <select name="sell_layout_id" id="sell_layout_id" class="span2">
                                         <option value="0"><%$arrayLaguage['common_room_layout']['page_laguage_value']%></option>
                                         <%section name=layout loop=$arrayRoomSellLayout%>
-                                            <option value="<%$arrayRoomSellLayout[layout].room_sell_layout_id%>"><%$arrayRoomSellLayout[layout].room_sell_layout_name%> &#8226; <%$arrayRoomLayout[$arrayRoomSellLayout[layout].room_layout_id].room_layout_name%></option>
+                                            <option value="<%$arrayRoomSellLayout[layout].room_sell_layout_id%>"><%$arrayRoomSellLayout[layout].room_sell_layout_name%></option>
                                         <%/section%>
                                         </select>
                                     </div>
