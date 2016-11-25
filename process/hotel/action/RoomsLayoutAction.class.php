@@ -210,7 +210,7 @@ class RoomsLayoutAction extends \BaseAction {
         $conditions['where'] = array('room_layout_id'=>$room_layout_id);
         $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions, '*', 'room_id');
         //真实客房 房间状态 -1 删除 0 正常 1维修 2不进行使用
-        $conditions['where'] = array('room_type'=>'room', 'room_status'=>'0', 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['where'] = array('room_type'=>'1', 'room_status'=>'0', 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $arrayRoom = RoomService::instance()->getRoom($conditions);
         if(!empty($arrayRoom)) {
             foreach($arrayRoom as $i => $arrayValue) {
@@ -229,6 +229,9 @@ class RoomsLayoutAction extends \BaseAction {
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
         $arrayRoomLayoutType = RoomService::instance()->getRoomLayoutType($conditions, '*', 'room_layout_type_id');
 
+        //room type
+        //$conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        //$arrayRoomType = RoomService::instance()->getRoomType($conditions, '*', 'room_type_id');
         //赋值
         $objResponse -> view = '0';
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
@@ -237,6 +240,7 @@ class RoomsLayoutAction extends \BaseAction {
         $objResponse -> arrayDataInfo = $arrayRoomLayout[0];
         $objResponse -> arrayRoom = $arrayRoom;//真实房
         $objResponse -> arrayRoomLayoutType = $arrayRoomLayoutType;
+        //$objResponse -> arrayRoomType = $arrayRoomType;
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
                 'room_layout_id'=>$objRequest->room_layout_id));
