@@ -70,7 +70,24 @@ class RoomService extends \BaseService {
     public function deleteRoomLayoutAttr($where) {
         return RoomDao::instance()->setTable('room_layout_attribute')->delete($where);
     }
+    //物理房型类型
+    public function getRoomType($conditions, $field = '*', $hashKey = null) {
+        return RoomDao::instance()->setTable('room_type')->getList($conditions, $field, $hashKey);
+    }
 
+    public function saveRoomType($arrayData) {
+        return RoomDao::instance()->setTable('room_type')->insert($arrayData);
+    }
+
+    public function updateRoomType($where, $row) {
+        return RoomDao::instance()->setTable('room_type')->update($where, $row);
+    }
+
+    public function deleteRoomType($where) {
+        return RoomDao::instance()->setTable('room_type')->delete($where);
+    }
+
+    //基本房型
     public function getRoomLayout($conditions, $field = '*', $hashKey = null) {
         return RoomDao::instance()->setTable('room_layout')->getList($conditions, $field, $hashKey);
     }
@@ -87,6 +104,7 @@ class RoomService extends \BaseService {
         return RoomDao::instance()->setTable('room_layout')->delete($where);
     }
 
+    //基本房型属性
     public function getRoomLayoutAttrValue($conditions, $field = '*', $hashKey = null, $multiple = false) {
         return RoomDao::instance()->setTable('room_layout_attribute_value')->getList($conditions, $field, $hashKey, $multiple);
     }

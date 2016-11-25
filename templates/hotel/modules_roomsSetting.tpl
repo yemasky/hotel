@@ -27,14 +27,14 @@
                     <%/if%>
                 </div>
             </div>
-            <%foreach key=room_type item=arrayRoomType from=$arrayDataInfo%>
+            <%foreach key=room_type item=arrayRoom from=$arrayDataInfo%>
             <div class="widget-box">
               <div class="widget-title"> <span class="icon"> <i class="icon-hand-right"></i> </span>
-                <h5><%$arrayLaguage[$room_type]['page_laguage_value']%></h5>
+                <h5><%$arrayRoomType[$room_type]['room_type_name']%></h5>
               </div>
               <div class="widget-content">
                 <ul class="quick-actions">
-                <%foreach key=key item=item from=$arrayRoomType%>
+                <%foreach key=key item=item from=$arrayRoom%>
                 <li> <a href="<%$item.url%>"> <i class="icon-home"></i> <%$item.room_name%> </a> </li>
                 <%/foreach%>
                 </ul>

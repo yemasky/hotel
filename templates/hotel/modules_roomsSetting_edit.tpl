@@ -35,8 +35,8 @@
                             <div class="controls ">
                                 <select id="room_type" name="room_type" class="span1">
                                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                    <%foreach key=type_key item=item from=$arrayRoomType%>
-                                    <option value="<%$type_key%>"<%if $type_key==$arrayDataInfo['room_type']%> selected<%/if%>><%$arrayLaguage[$type_key]['page_laguage_value']%></option>
+                                    <%foreach key=room_type_id item=item from=$arrayRoomType%>
+                                    <option value="<%$room_type_id%>"<%if $room_type_id==$arrayDataInfo['room_type']%> selected<%/if%>><%$item.room_type_name%></option>
                                     <%/foreach%>
                                 </select>
                             </div>

@@ -45,6 +45,7 @@ class RoomsSettingAction extends \BaseAction {
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $conditions['order'] = 'room_type ASC, room_mansion ASC, room_floor ASC, room_number ASC, room_name ASC, room_id ASC ';
         $arrayRoom = RoomService::instance()->getRoom($conditions);
+        $conditions['order'] = '';
         $arrayRoomHash = null;
         if(!empty($arrayRoom)) {
             foreach ($arrayRoom as $i => $v) {
@@ -54,7 +55,11 @@ class RoomsSettingAction extends \BaseAction {
             }
         }
 
+        //room type
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        $arrayRoomType = RoomService::instance()->getRoomType($conditions, '*', 'room_type_id');
         //赋值
+        $objResponse -> arrayRoomType = $arrayRoomType;
         $objResponse -> arrayDataInfo = $arrayRoomHash;
         $objResponse -> add_room_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['add']), 'room_id'=>$objRequest->room_id));
@@ -102,10 +107,13 @@ class RoomsSettingAction extends \BaseAction {
             $conditions['where'] = array('room_id'=>$room_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         }
         $arrayRoom = RoomService::instance()->getRoom($conditions);
+        //room type
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        $arrayRoomType = RoomService::instance()->getRoomType($conditions, '*', 'room_type_id');
         //
         $objResponse -> orientations = ModulesConfig::$modulesConfig['roomsLayout']['orientations'];
         $objResponse -> arrayDataInfo = $arrayRoom[0];
-        $objResponse -> arrayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
+        $objResponse -> arrayRoomType = $arrayRoomType;
         $objResponse -> view = 0;
         $objResponse -> add_room_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsSetting']['edit']), 'room_id'=>$objRequest->room_id));
