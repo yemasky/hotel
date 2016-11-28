@@ -2,10 +2,6 @@
 <html lang="en">
 <head>
 <%include file="hotel/inc/head.tpl"%>
-<style type="text/css">
-.modal-body{ padding:1px;}
-.widget-box{margin-bottom:1px; margin-top:1px;}
-</style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
 <body>

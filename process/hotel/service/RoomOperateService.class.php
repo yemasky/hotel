@@ -148,7 +148,8 @@ class RoomOperateService extends \BaseService {
                 //
 
                 if(!empty($arrayBeginYear)) {//update
-                    RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData[$i]);
+                    if(isset($arrayMonthData[$i]) && !empty($arrayMonthData[$i]))
+                        RoomService::instance()->updateRoomLayoutPrice($conditions['where'], $arrayMonthData[$i]);
                 } else {
                     $arrayMonthData[$i]['room_sell_layout_id'] = $room_sell_layout_id;
                     $arrayMonthData[$i]['room_layout_price_system_id'] = $room_layout_price_system_id;

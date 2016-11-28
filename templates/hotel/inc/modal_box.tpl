@@ -15,7 +15,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title" id="myModalLabel"><i class="am-icon-frown-o am-icon-sm am-red-E45A5A"></i> <%$arrayLaguage['modal_fail']['page_laguage_value']%></h3>
             </div>
-            <div class="modal-body alert-error alert-block" id="modal_fail_message"></div>
+            <div class="modal-body"><p class="alert alert-error alert-block" id="modal_fail_message"></p></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><%$arrayLaguage['close']['page_laguage_value']%></button>
             </div>
@@ -23,23 +23,25 @@
     </div><!-- /.modal -->
 </div>
 <div id="modal_update" class="modal hide">
-  <div class="modal-header">
-    <button data-dismiss="modal" class="close" type="button">×</button>
-    <h5><i class="am-icon-warning am-icon-md am-yellow-EBC012"></i> <%$arrayLaguage['warning']['page_laguage_value']%></h5>
-  </div>
-  <div class="modal-body">
-    <p class="alert alert-block" id="modal_delete_message"><%$arrayLaguage['warning_confirm_update']['page_laguage_value']%></p>
-  </div>
-  <div class="modal-footer"> <a data-dismiss="modal" id="update_sumbit" class="btn btn-primary" href="#sumbit">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h5><i class="am-icon-warning am-icon-md am-yellow-EBC012"></i> <%$arrayLaguage['warning']['page_laguage_value']%></h5>
+          </div>
+          <div class="modal-body"><p class="alert alert-block" id="modal_delete_message"><%$arrayLaguage['warning_confirm_update']['page_laguage_value']%></p></div>
+          <div class="modal-footer"> <a data-dismiss="modal" id="update_sumbit" class="btn btn-primary" href="#sumbit">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
+        </div>
+    </div>
 </div>
-<div id="modal_success" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="modal_success" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel"><i class="am-success am-icon-sm am-icon-angellist am-green-54B51C"></i> <%$arrayLaguage['modal_success']['page_laguage_value']%></h3>
+                <h3 class="modal-title"><i class="am-success am-icon-sm am-icon-angellist am-green-54B51C"></i> <%$arrayLaguage['modal_success']['page_laguage_value']%></h3>
             </div>
-            <div class="modal-body"><p class="alert-success alert-block" id="modal_success_message"></p></div>
+            <div class="modal-body"><p class="alert alert-success alert-block" id="modal_success_message"></p></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><%$arrayLaguage['close']['page_laguage_value']%></button>
             </div>
@@ -51,7 +53,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title" id="myModalLabel"><i class="am-success am-icon-sm am-icon-puzzle-piece am-blue-16A2EF"></i> <%$arrayLaguage['info']['page_laguage_value']%></h3>
+                <h3 class="modal-title"><i class="am-success am-icon-sm am-icon-puzzle-piece am-blue-16A2EF"></i> <%$arrayLaguage['info']['page_laguage_value']%></h3>
             </div>
             <div class="modal-body"><p class="alert alert-block" id="modal_info_message"></p></div>
             <div class="modal-footer">
