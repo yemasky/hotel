@@ -31,12 +31,11 @@ $(document).ready(function(){
             //console.log(date + '-====-' + nextWeekDateToDisable + '----'+ week_differ + '-----2016-11-22');
             var outDate = new Date(this.getValue());
             var inDate = new Date($('#book_check_in').val());
-            var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 - 1) + '-' + outDate.getDate() + ' 00:00:00');
-            var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 - 1) + '-' + inDate.getDate() + ' 00:00:00');
+            var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 + 1) + '-' + outDate.getDate() + ' 00:00:00');
+            var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 + 1) + '-' + inDate.getDate() + ' 00:00:00');
             var days = Math.floor((outDateTime.getTime() - itDateTime.getTime())/(24*3600*1000));
             var halfPrice = $('#half_price').val().substr(0, 2) - 0;
             var checkout = '<%$hotel_checkout%>';
-            //console.log(outDateTime + '===' + itDateTime);
             if((outDate.getHours() - 0) > halfPrice) {
                 //算1天
                 days = days - 0 + 1;
