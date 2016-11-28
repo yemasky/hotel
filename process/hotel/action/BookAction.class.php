@@ -112,12 +112,12 @@ class BookAction extends \BaseAction {
             $this->setDisplay();
             if(empty($arrayPostValue['room_layout_id'])) return $this->errorResponse('房型数据错误！');
             unset($arrayPostValue['room_layout_length']);
-            $order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
-            if($order_number == 0) return $this->errorResponse('预定失败！');
+            $order_number = 0;//BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
+            if($order_number == 0) return $this->errorResponse('预定失败！', $arrayPostValue);
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),
                     'order_number'=>encode($order_number)));
-            return $this->successResponse('保存售卖房型成功', array('order_number'=>encode($order_number)), $redirect_url);
+            return $this->successResponse('预定成功', array('order_number'=>encode($order_number)), $redirect_url);
         }
 
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];

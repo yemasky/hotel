@@ -27,7 +27,7 @@
 .stat-boxes .right{padding:1px 0 0; width: 55px;}
 .stat-boxes .price{width: 45px !important;}
 .stat-boxes .right span{ line-height: 30px;}
-.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 12px;}
+.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 13px;}
 .stat-boxes input{margin-bottom:1px !important;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #need_service_id li{margin-left:0px;}
@@ -105,6 +105,7 @@
 								<input type="text" class="input-medium" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
 								<%$arrayLaguage['checkout']['page_laguage_value']%> :
 								<input type="text" class="input-medium" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
+                                <input id="max_date" value="" type="hidden">
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :

@@ -38,10 +38,22 @@ $(document).ready(function(){
             var checkout = '<%$hotel_checkout%>';
             if((outDate.getHours() - 0) > halfPrice) {
                 //算1天
+                outDateTime.setDate(outDateTime.getDate() + 1);
+                var day = outDateTime.getDate();
+                day = day < 10 ? '0' + day : day;
+                var month = outDateTime.getMonth() + 1;
+                month = month < 10 ? '0' + month : month;
+                $('#max_date').val(outDateTime.getFullYear() + '-' + month + '-' + day);
                 days = days - 0 + 1;
             }
             if((outDate.getHours() - 0) <= halfPrice && (outDate.getHours() - 0) > checkout.substr(0, 2)) {
                 //算0.5天
+                outDateTime.setDate(outDateTime.getDate() + 1);
+                var day = outDateTime.getDate();
+                day = day < 10 ? '0' + day : day;
+                var month = outDateTime.getMonth() + 1;
+                month = month < 10 ? '0' + month : month;
+                $('#max_date').val(outDateTime.getFullYear() + '-' + month + '-' + day);
                 days = days - 0 + 0.5;
             }
             $('#book_days_total').val(days);
@@ -588,7 +600,7 @@ $(document).ready(function(){
                         var day = day_i < 10 ? '0'+day_i : day_i;
                         var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
-                            +'<input value="'+layoutPrice[i][day+'_day']+'" room="price['+sell_layout_id+']['+system_id+']['+this_day+']" '
+                            +'<input value="'+layoutPrice[i][day+'_day']+'" rdate="'+this_day+'" '
                             +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
                             +'class="layout_price span12" type="text" ></div></li>';
                         if(typeof(cash_pledge[sell_layout_id+'-'+system_id]) == 'undefined') {
@@ -610,7 +622,7 @@ $(document).ready(function(){
                             var day = day_i < 10 ? '0'+day_i : day_i;
                             var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
-                                +'<input value="'+bed[day+'_day']+'" bed="bed['+sell_layout_id+']['+system_id+']['+this_day+']" '
+                                +'<input value="'+bed[day+'_day']+'" beddate="'+this_day+'" '
                                 +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
                                 +'class="span12 extra_bed_price" type="text" >'
                                 +'</div></li>';
@@ -725,9 +737,8 @@ $(document).ready(function(){
                 var room_price = 0;
                 var select_html = ' <select class="input-small bookSelectRoom" name="book_user_room[]">';
                 var option = '';
-                var days = $('#book_days_total').val();
-                //BookEditClass.BookUser_num = 1;
-                BookEditClass.max_man = 0;
+                var days = $('#book_days_total').val();//总共住多少天
+                BookEditClass.max_man = 0;//人数
                 $("#room_layout_html input").each(function (i) {
                     var val = $(this).val() - 0; //获取单个value
                     var select_room = {};
@@ -735,14 +746,15 @@ $(document).ready(function(){
                         var layout = $(this).attr('layout');//room or bed
                         var room_layout = $(this).attr('room_layout');//room_layout id
                         var system_id = $(this).attr('system_id');
-                        select_room[val] = 0;
+                        var sell_id = $(this).attr('sell_id');
+                        select_room[val] = 0;//是否已经选择room
                         select_room[val + '_bed'] = 0;
                         //var room_key = 
                         if(layout == 'room') {
                             $('.layout_price').each(function(index, element) {
                                 //房型价格
-                                if($(this).attr('room_layout') == room_layout && $(this).attr('system_id') == system_id) {
-                                    //相同room_layout
+                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {
+                                    //相同sell_id
                                     room_price = $(this).val() - 0 + room_price;
                                     //console.log(bookSelectRoom[val]);
                                     if(select_room[val] == 0) {
@@ -763,7 +775,7 @@ $(document).ready(function(){
                             system_id = room_layout_system[1];
                             $('.extra_bed_price').each(function(index, element) {
                                 //房型价格
-                                if($(this).attr('room_layout') == room_layout_id && $(this).attr('system_id') == system_id) {
+                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {
                                     //相同room_layout
                                     room_price = ($(this).val() - 0) * val + room_price;
                                     if(select_room[val + '_bed'] == 0) {
@@ -799,18 +811,7 @@ $(document).ready(function(){
                     $('#modal_fail_message').html("抱歉，这个时间不正确！");
                     return false;
                 }
-                days = parseInt ((book_check_out_day.getTime() - book_check_in_day.getTime()) / (1000 * 60 * 60 * 24));
-                if(user_check_out_day.getTime() > book_check_out_day.getTime()) {
-                    if(user_check_out_day.getTime() > hotel_overtime.getTime()) {
-                        days +=1;
-                    } else {
-                        days +=0.5;
-                    }
-                }
-                if(days == 0) {
-                    //当天12点后入住
-                    days = 1;
-                }
+                
                 //console.log(days);
                 room_price = days * room_price * ($('#discount').val() - 0) / 100;
                 var book_service_charge = $('#book_service_charge').val() - 0;
