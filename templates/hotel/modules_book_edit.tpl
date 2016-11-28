@@ -9,8 +9,8 @@
 <!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.dataTables.min.1.10.12.css" />
 <style type="text/css">
-.modal-body{ padding:1px;}
-.widget-box{margin-bottom:1px; margin-top:1px;}
+/*.modal-body{ padding:1px;}*/
+/*.widget-box{margin-bottom:1px; margin-top:1px;}*/
 #room_layout_paginate a{border:1px solid #BFBDBD;}
 .dataTables_wrapper .dataTables_paginate .paginate_button {border-radius: 0;margin-left: 0;min-width: 0;padding: 0.1em 0.5em;}
 .details-control{cursor:pointer;}

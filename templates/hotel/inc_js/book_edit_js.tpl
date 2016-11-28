@@ -149,6 +149,7 @@ $(document).ready(function(){
         book_discount_list: {},
         bookSelectRoom: {},
         bookNeed_service:{},
+        lastDate:{},
         hotelCheckDate: {'hotel_checkin':'<%$hotel_checkin%>', 'hotel_checkout':'<%$hotel_checkout%>'},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
@@ -302,17 +303,24 @@ $(document).ready(function(){
                 //book_user_room
                 //table点击
                 $('#room_layout tbody').on('click', 'td.details-control', function () {
+                    var _this = this;
+                    var system_id = $(_this).parent().attr('system_id');
+                    var sell_id = $(this).parent().attr('sell_layout_id');
+                    var lastDate = new Date(BookEditClass.lastDate[sell_id+'-'+system_id]);
+                    var outDate = new Date($('#book_check_out').val().substr(0,10));
+                    if(lastDate.getTime() < outDate.getTime()) {
+                        $('#modal_info_message').html('设置的价格日期和离店日期不符合，请设置相符的日期价格!');
+                        $('#modal_info').modal('show');
+                        return;
+                    }
                     var bookSelectRoom = BookEditClass.bookSelectRoom;
                     var tr = $(this).closest('tr');
                     var row = table.row( tr );
-                    var _this = this;
                     if ( row.child.isShown() ) {
                         // This row is already open - close it
                         row.child.hide();
                         tr.removeClass('shown');
                     } else {
-                        var system_id = $(_this).parent().attr('system_id');
-                        var sell_id = $(this).parent().attr('sell_layout_id')
                         // Open this row 	row.data()
                         $('#modal_loading').show();
                         $.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id='+$(this).parent().attr('room_layout_id')
@@ -409,7 +417,7 @@ $(document).ready(function(){
                     //bookNeed_service
                     var need_service_id = $('#need_service_id').attr('id');
                     if(typeof(need_service_id) == 'undefined') {
-                        $(this).parent().prepend('<div class="span12 btn-icon-pg"><ul id="need_service_id"></ul></div>');
+                        $(this).parent().append('<div class="btn-icon-pg"><ul id="need_service_id"></ul></div>');
                     }
                     var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").attr('title')
                               +' ￥ :  <input class="input-mini" value="'+$(this).find("option:selected").attr('price')+'" type="text">   '
@@ -486,6 +494,7 @@ $(document).ready(function(){
             },
             //分解房型、价格体系数据 
             bookEdit.resolverRoomLayoutData = function(data, check_in, check_out) {
+                BookEditClass.lastDate = {};
                 var html = td1 = td2 = td_bed = option = pledge = '';
                 var cash_pledge = {};
                 var in_date = new Date(check_in);
@@ -569,7 +578,9 @@ $(document).ready(function(){
                         }
                         if(in_year == layoutPrice[i].this_year && in_month == layoutPrice[i].this_month) in_day = in_date.getDate();
                     }
-                    
+                    var lastYear = layoutPrice[i].this_year;var lastMonth = (layoutPrice[i].this_month - 0) < 10 ? '0' + layoutPrice[i].this_month : layoutPrice[i].this_month;
+                    var lastDay = (loop_day - 0) < 10 ? '0' + loop_day : loop_day;
+                    BookEditClass.lastDate[sell_layout_id + '-' + system_id] = lastYear + '-' + lastMonth + '-' + lastDay;
                     for(var day_i = in_day; day_i<= loop_day; day_i++) {
                         var this_day = layoutPrice[i].this_year+'-'+layoutPrice[i].this_month+'-'+day_i;
                         var week_date = new Date(this_day);
@@ -610,6 +621,7 @@ $(document).ready(function(){
                     //td_bed = '';
                     same_layout_system = sell_layout_id + '_' + system_id;
                 }
+                console.log(BookEditClass.lastDate);
                 var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
                                         +'<div class="right price"><span>'
                                         +'<input value="'+cash_pledge[layoutPrice[i].sell_layout_id+'-'+layoutPrice[i].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';//+' max_people="'+roomLayout[_room_layout_id].max_people+'"  max_children="'+roomLayout[_room_layout_id]..max_children+'">'+

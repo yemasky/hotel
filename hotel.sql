@@ -834,11 +834,11 @@ CREATE TABLE `room_layout_attribute` (
   `room_layout_attribute_value_type` enum('time','date','datetime','text') NOT NULL DEFAULT 'text',
   `room_layout_attribute_is_filter` enum('0','1') NOT NULL DEFAULT '0' COMMENT '作为筛选',
   PRIMARY KEY (`room_layout_attribute_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_attribute` */
 
-insert  into `room_layout_attribute`(`room_layout_attribute_id`,`hotel_id`,`room_type`,`room_layout_attribute_father_id`,`room_layout_attribute_name`,`room_layout_attribute_order`,`room_layout_attribute_value_type`,`room_layout_attribute_is_filter`) values (1,0,'room',1,'客房设施',0,'','1'),(2,0,'room',1,'床型',0,'','1'),(3,0,'room',1,'浴室',0,'','1'),(4,0,'room',1,'空调',0,'','1'),(5,0,'room',5,'婚房布置',0,'','1'),(6,0,'room',5,'提前预定',0,'','1'),(7,0,'room',7,'商务设施',0,'','1'),(8,0,'room',7,'网络/wifi',0,'','1'),(9,0,'room',9,'便利短租',0,'','1'),(10,0,'room',9,'提前预定',0,'','1'),(11,0,'room',9,'退房时限',0,'','1');
+insert  into `room_layout_attribute`(`room_layout_attribute_id`,`hotel_id`,`room_type`,`room_layout_attribute_father_id`,`room_layout_attribute_name`,`room_layout_attribute_order`,`room_layout_attribute_value_type`,`room_layout_attribute_is_filter`) values (1,0,'room',1,'客房设施',0,'','1'),(2,0,'room',1,'床型',0,'','1'),(3,0,'room',1,'浴室',0,'','1'),(4,0,'room',1,'空调',0,'','1'),(5,0,'room',5,'婚房布置',0,'','1'),(6,0,'room',5,'提前预定',0,'','1'),(7,0,'room',7,'商务设施',0,'','1'),(8,0,'room',7,'网络/wifi',0,'','1'),(9,0,'room',9,'便利短租',0,'','1'),(10,0,'room',9,'提前预定',0,'','1'),(11,0,'room',9,'退房时限',0,'','1'),(12,1,'room',5,'发撒啊',0,'text','0');
 
 /*Table structure for table `room_layout_attribute_laguage` */
 
@@ -1128,12 +1128,13 @@ CREATE TABLE `room_sell_layout` (
   `room_sell_layout_valid` enum('0','1') NOT NULL DEFAULT '1' COMMENT '有效无效',
   `room_sell_add_date` date NOT NULL,
   `room_sell_add_time` time NOT NULL,
-  PRIMARY KEY (`room_sell_layout_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`room_sell_layout_id`),
+  KEY `hotel_id` (`hotel_id`,`room_sell_layout_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_sell_layout` */
 
-insert  into `room_sell_layout`(`room_sell_layout_id`,`hotel_id`,`room_layout_id`,`room_sell_layout_name`,`room_sell_layout_valid`,`room_sell_add_date`,`room_sell_add_time`) values (1,1,1,'party大别墅','1','0000-00-00','00:00:00'),(2,1,18,'别墅大床房','1','0000-00-00','00:00:00'),(3,1,12,'混住四人间','1','0000-00-00','00:00:00'),(4,1,1,'运河岸边的院子','1','0000-00-00','00:00:00'),(5,1,19,'浪漫大床房','1','2016-11-24','15:04:35'),(6,1,19,'商务大床房','1','2016-11-25','16:42:15'),(7,1,2,'别墅大床房','1','2016-11-25','16:42:37'),(8,1,14,'床位','1','2016-11-25','17:09:45');
+insert  into `room_sell_layout`(`room_sell_layout_id`,`hotel_id`,`room_layout_id`,`room_sell_layout_name`,`room_sell_layout_valid`,`room_sell_add_date`,`room_sell_add_time`) values (1,1,1,'party大别墅','1','0000-00-00','00:00:00'),(2,1,18,'别墅大床房','1','0000-00-00','00:00:00'),(3,1,12,'混住四人间','1','0000-00-00','00:00:00'),(4,1,1,'运河岸边的院子','1','0000-00-00','00:00:00'),(5,1,19,'浪漫大床房','1','2016-11-24','15:04:35'),(6,1,19,'商务大床房','1','2016-11-25','16:42:15'),(7,1,2,'别墅大床房2','1','2016-11-25','16:42:37'),(8,1,14,'床位','1','2016-11-25','17:09:45'),(9,1,17,'蒙古包','1','2016-11-28','11:19:27');
 
 /*Table structure for table `room_type` */
 
