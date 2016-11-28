@@ -490,9 +490,13 @@ $(document).ready(function(){
                 var html = td1 = td2 = td_bed = option = pledge = '';
                 var cash_pledge = {};
                 var in_date = new Date(check_in);
-                var in_day = in_date.getDate();var in_month = in_date.getMonth() - 0 + 1;var in_year = in_date.getFullYear();
+                var in_day = in_date.getDate();
+                var in_month = in_date.getMonth() - 0 + 1;
+                var in_year = in_date.getFullYear();
                 var out_date = new Date(check_out);
-                var out_day = out_date.getDate();var out_month = out_date.getMonth() - 0 + 1;var out_year = out_date.getFullYear();
+                var out_day = out_date.getDate();
+                var out_month = out_date.getMonth() - 0 + 1;
+                var out_year = out_date.getFullYear();
                 var layoutPrice = data.layoutPrice;var room = data.room;var priceSystem = data.priceSystem;
                 if(layoutPrice == '') {
                     $('#room_layout_data').html('<tr class="gradeX odd" role="row"><td class="sorting_1">无房</td><td></td></tr>');
@@ -532,7 +536,7 @@ $(document).ready(function(){
                                     '</tr>';
                             td1 = td2 = td_bed = option = pledge = '';   
                         }
-                        td1 = '<a href="#room" class="select_room">' + roomSellLayout[sell_layout_id].room_sell_layout_name + ' &#8226; ' 
+                        td1 = '<a href="#room" class="select_room">' + roomSellLayout[sell_layout_id].room_sell_layout_name + ' &#8226; ' + i 
                         //roomSellLayout[sell_layout_id].room_layout_name + 
                              + priceSystem[system_id].room_layout_price_system_name;
                         td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
@@ -541,19 +545,29 @@ $(document).ready(function(){
                     td2 += '<ul class="stat-boxes stat-boxes2">';
                     td2 += '<li><div class="left peity_bar_bad"><span>'+layoutPrice[i].this_month+'</span>'
                             +layoutPrice[i].this_year+'</div><div class="right price"><span><%$arrayLaguage["room_price"]["page_laguage_value"]%></span></div></li>';
-                    if(in_year == out_year) {
-                        if(in_month == out_month) {
+                    if(in_year == out_year) {//相同的年
+                        if(in_month == out_month) {//相同的月
                             loop_day = out_day;
-                        } else {
+                        } else {//不通的月
                             if(in_month < out_month) loop_day = in_months[in_month - 1];
                             if(out_month == layoutPrice[i].this_month) loop_day = out_day;
-                            if(in_month < layoutPrice[i].this_month) in_day = 1;
+                            if(in_month < layoutPrice[i].this_month) {
+                                in_day = 1;
+                            } else {
+                                in_day = in_date.getDate();  
+                            }
                         }
-                    } else {
-                        //console.log(layoutPrice[i].this_month);
+                    } else {//不同的年
                         loop_day = in_months[layoutPrice[i].this_month - 1];
                         if(out_month == layoutPrice[i].this_month && out_year == layoutPrice[i].this_year) loop_day = out_day;
-                        if(i > 0) in_day = 1;
+                        if(i > 0) {
+                            //console.log(layoutPrice[i].this_year +'=='+ in_year +'&&'+ layoutPrice[i].this_month +'=='+ in_month);
+                            if(layoutPrice[i].this_year == in_year && layoutPrice[i].this_month == in_month)  {
+                                in_day = in_date.getDate();
+                            } else {
+                                in_day = 1;
+                            }
+                        }
                         if(in_year == layoutPrice[i].this_year && in_month == layoutPrice[i].this_month) in_day = in_date.getDate();
                     }
                     

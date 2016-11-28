@@ -31,6 +31,7 @@
 .stat-boxes input{margin-bottom:1px !important;}
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #need_service_id li{margin-left:0px;}
+#controls_service .btn-group{ margin-bottom:5px; margin-left:0px; margin-right:5px;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -113,7 +114,7 @@
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
-                            <div class="controls">
+                            <div class="controls" id="controls_service">
                             <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%></a></div><%/section%>
                                 <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>

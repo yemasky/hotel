@@ -225,7 +225,7 @@ $cws->set_statistics($stats);
 td, body	{ background-color: #efefef; font-family: tahoma; font-size: 14px; }
 .demotx		{ font-size: 12px; width: 100%; height: 100px; }
 small		{ font-size: 12px; }
-//-->
+-->
 </style>
 </head>
 <body>
