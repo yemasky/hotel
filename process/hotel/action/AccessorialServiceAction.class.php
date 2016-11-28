@@ -31,6 +31,10 @@ class AccessorialServiceAction extends \BaseAction {
         }
     }
 
+    protected function tryexecute($objRequest, $objResponse) {
+        HotelService::instance()->rollback();//事务回滚
+    }
+
     /**
      * 首页显示
      */
@@ -77,11 +81,13 @@ class AccessorialServiceAction extends \BaseAction {
                     $arrayPostValue['hotel_service_price'] = -1;
                 }
                 unset($arrayPostValue['hotel_service_id']);
+                HotelService::instance()->startTransaction();
                 $hotel_server_id = HotelService::instance()->saveHotelService($arrayPostValue);
                 if(empty($arrayPostValue['hotel_service_father_id'])) {
-                    HotelService::instance()->updateHotelService(array('hotel_server_id'=>$hotel_server_id,
-                        'hotel_service_father_id'=>$hotel_server_id));
+                    HotelService::instance()->updateHotelService(array('hotel_service_id'=>$hotel_server_id),
+                        array('hotel_service_father_id'=>$hotel_server_id));
                 }
+                HotelService::instance()->commit();
                 return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
             }
         }

@@ -16,6 +16,18 @@ class HotelService extends \BaseService {
         return self::$objService;
     }
 
+    public function rollback() {
+        HotelDao::instance()->rollback();
+    }
+
+    public function startTransaction() {
+        HotelDao::instance()->startTransaction();
+    }
+
+    public function commit() {
+        HotelDao::instance()->commit();
+    }
+
     public function getHotelModules($hotel_id, $hashKey = null, $multiple = false) {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
@@ -61,62 +73,62 @@ class HotelService extends \BaseService {
     }
 
     public function saveHotelAttr($arrayData) {
-        return RoomDao::instance()->setTable('hotel_attribute')->insert($arrayData);
+        return HotelDao::instance()->setTable('hotel_attribute')->insert($arrayData);
     }
 
     public function updateHotelAttr($where, $row) {
-        return RoomDao::instance()->setTable('hotel_attribute')->update($where, $row);
+        return HotelDao::instance()->setTable('hotel_attribute')->update($where, $row);
     }
 
     public function deleteHotelAttr($where) {
-        return RoomDao::instance()->setTable('hotel_attribute')->delete($where);
+        return HotelDao::instance()->setTable('hotel_attribute')->delete($where);
     }
 
     public function getHotelImages($conditions, $hashKey = null) {
-        return RoomDao::instance()->setTable('hotel_images')->getList($conditions, '', $hashKey);
+        return HotelDao::instance()->setTable('hotel_images')->getList($conditions, '', $hashKey);
     }
 
     public function saveHotelImages($arrayData) {
-        return RoomDao::instance()->setTable('hotel_images')->insert($arrayData);
+        return HotelDao::instance()->setTable('hotel_images')->insert($arrayData);
     }
 
     public function deleteHotelImages($where) {
-        return RoomDao::instance()->setTable('hotel_images')->delete($where);
+        return HotelDao::instance()->setTable('hotel_images')->delete($where);
     }
 
     public function getHotelAttrValue($conditions, $hashKey = null, $multiple = false) {
-        return RoomDao::instance()->setTable('hotel_attribute_value')->getList($conditions, '', $hashKey, $multiple);
+        return HotelDao::instance()->setTable('hotel_attribute_value')->getList($conditions, '', $hashKey, $multiple);
     }
 
     public function saveHotelAttrValue($arrayData) {
-        return RoomDao::instance()->setTable('hotel_attribute_value')->insert($arrayData);
+        return HotelDao::instance()->setTable('hotel_attribute_value')->insert($arrayData);
     }
 
     public function batchSaveHotelAttrValue($arrayData, $insert_type = 'INSERT') {
-        return RoomDao::instance()->setTable('hotel_attribute_value')->batchInsert($arrayData, $insert_type);
+        return HotelDao::instance()->setTable('hotel_attribute_value')->batchInsert($arrayData, $insert_type);
     }
 
     public function updateHotelAttrValue($where, $row) {
-        return RoomDao::instance()->setTable('hotel_attribute_value')->update($where, $row);
+        return HotelDao::instance()->setTable('hotel_attribute_value')->update($where, $row);
     }
 
     public function deleteHotelAttrValue($where) {
-        return RoomDao::instance()->setTable('hotel_attribute_value')->delete($where);
+        return HotelDao::instance()->setTable('hotel_attribute_value')->delete($where);
     }
     //hotel_service
     public function getHotelService($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
-        return RoomDao::instance()->setTable('hotel_service')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+        return HotelDao::instance()->setTable('hotel_service')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
     }
 
     public function saveHotelService($arrayData) {
-        return RoomDao::instance()->setTable('hotel_service')->insert($arrayData);
+        return HotelDao::instance()->setTable('hotel_service')->insert($arrayData);
     }
 
     public function updateHotelService($where, $row) {
-        return RoomDao::instance()->setTable('hotel_service')->update($where, $row);
+        return HotelDao::instance()->setTable('hotel_service')->update($where, $row);
     }
 
     public function deleteHotelService($where) {
-        return RoomDao::instance()->setTable('hotel_service')->delete($where);
+        return HotelDao::instance()->setTable('hotel_service')->delete($where);
     }
 }
