@@ -136,8 +136,9 @@
                   <h4 class="alert-heading"><%$arrayLaguage['excute_update_success']['page_laguage_value']%></h4>
                 </div>
                 <ul class="quick-actions" id="rooms"><%section name=room loop=$arrayRoom%><%if $view=='1' && $arrayRoom[room].checked=='0'%><%else%><li> 
-                    <a href="#select_room"> <!--<i class="icon-home"></i>--> <span class="am-icon-home am-icon-sm"></span> <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>]
-                    <span id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_id%>" class="<%if $arrayRoom[room].checked!='0'%>am-icon-check-square<%else%>am-icon-square-o<%/if%> selectRoom" check="<%$arrayRoom[room].checked%>"></span>
+                    <a href="#select_room"> <!--<i class="icon-home"></i>--> <span class="am-icon-home am-icon-sm"></span> 
+                    <span id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_id%>" class="<%if $arrayRoom[room].checked!='0'%>am-icon-check-square<%else%>am-icon-square-o<%/if%> selectRoom am-blue-2F93FF" check="<%$arrayRoom[room].checked%>"></span>
+                    <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>]
                     </a>
                     <!--<%$arrayLaguage['orientations']['page_laguage_value']%>--><i class="am-icon-location-arrow"></i> <%$arrayLaguage[$arrayRoom[room].room_orientations]['page_laguage_value']%>
                     <%$arrayLaguage['room_area']['page_laguage_value']%>:<%$arrayRoom[room].room_area%>
