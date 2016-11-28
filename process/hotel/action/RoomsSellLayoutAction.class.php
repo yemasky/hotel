@@ -74,6 +74,14 @@ class RoomsSellLayoutAction extends \BaseAction {
                 $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                 $arrayPostValue['room_sell_add_date'] = getDay();
                 $arrayPostValue['room_sell_add_time']= getTime();
+                //判断重名
+                $conditions = DbConfig::$db_query_conditions;
+                $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_sell_layout_name'=>$arrayPostValue['room_sell_layout_name']);
+                $arrayResult = RoomService::instance()->getRoomSellLayout($conditions);
+                if(!empty($arrayResult)) {
+                    return $this->errorResponse('不允许售卖房型重名，请检查！');
+                }
+
                 RoomService::instance()->saveRoomSellLayout($arrayPostValue);
                 return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
             }
