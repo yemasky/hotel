@@ -430,7 +430,7 @@ $(document).ready(function(){
                                     //设置disable
                                     bookEdit.resetRoomStatus(room_id, sell_id, system_id, this.checked);
                                 } else {
-                                    $('#room_'+room_layout_id+'_'+room_id).remove();
+                                    $('#room_'+sell_id+'_'+room_id).remove();
                                     $("#room_data").removeData(room_id);  //移除
                                     //设置disable
                                     bookEdit.resetRoomStatus(room_id, sell_id, system_id, this.checked);
