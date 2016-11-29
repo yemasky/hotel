@@ -471,7 +471,7 @@ $(document).ready(function(){
                         $(this).parent().append('<div class="btn-icon-pg"><ul id="need_service_id"></ul></div>');
                     }
                     var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").attr('title')
-                              +' ￥ :  <input class="input-mini" value="'+$(this).find("option:selected").attr('price')+'" type="text">   '
+                              +' ￥ :  <input class="input-mini service_price" service_id="'+thisVal+'" value="'+$(this).find("option:selected").attr('price')+'" type="text">   '
                               +'数量 : <input class="input-mini" value="1" type="text"> 折扣 : <input class="input-mini" value="100" type="text"> '
                               +'备注 : <input class="input-large" value="" type="text"> <i class="am-icon-minus-square am-red-E43737 service_del"></i></li>';
                     $('#need_service_id').append(html);
@@ -583,12 +583,13 @@ $(document).ready(function(){
                         //td2 += td2; 与上一个相同的房型和价格体系
                     } else {
                         if(i > 0) {
-                            var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
-                                        +'<div class="right price"><span><input value="'+cash_pledge[layoutPrice[i - 1].sell_layout_id+'-'+layoutPrice[i - 1].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';
-                            //cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                             var _sell_layout_id = layoutPrice[i - 1].sell_layout_id;
-                            html += '<tr room_layout_id="'+roomSellLayout[_sell_layout_id].room_layout_id+'" sell_layout_id="'+_sell_layout_id+'" '
-                                   +'system_id="'+layoutPrice[i - 1].room_layout_price_system_id+'">'+
+                            var _system_id = layoutPrice[i - 1].room_layout_price_system_id;
+                            var html_id = 'room_layout_id="'+roomSellLayout[_sell_layout_id].room_layout_id+'" sell_layout_id="'+_sell_layout_id+'" system_id="'+_system_id+'"';
+                            var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
+                                        +'<div class="right pledge_price"><span><input system_id="'+_system_id+'" sell_layout="'+_sell_layout_id+'" value="'+cash_pledge[_sell_layout_id+'-'+_system_id]+'" class="span12" type="text"></span></div></li></ul>';
+                            //cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
+                            html += '<tr '+html_id+'>'+
                                         '<td class="details-control">'+td1+'</td>'+
                                         '<td>'+td2 + td_bed + pledge + '</td>'+
                                         //'<td>'+td_bed+'</td>'+
@@ -633,10 +634,11 @@ $(document).ready(function(){
                     var lastDay = (loop_day - 0) < 10 ? '0' + loop_day : loop_day;
                     BookEditClass.lastDate[sell_layout_id + '-' + system_id] = lastYear + '-' + lastMonth + '-' + lastDay;
                     for(var day_i = in_day; day_i<= loop_day; day_i++) {
-                        var this_day = layoutPrice[i].this_year+'-'+layoutPrice[i].this_month+'-'+day_i;
+                        var day = day_i < 10 ? '0'+day_i : day_i;
+                        var month = layoutPrice[i].this_month < 10 ? '0' + layoutPrice[i].this_month : layoutPrice[i].this_month;
+                        var this_day = layoutPrice[i].this_year+'-'+month+'-'+day;
                         var week_date = new Date(this_day);
                         var week = week_date.getDay();//room_layout_id="'++'"
-                        var day = day_i < 10 ? '0'+day_i : day_i;
                         var div_class = week == 0 || week == 6 ? 'peity_bar_good' : '';
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                             +'<input value="'+layoutPrice[i][day+'_day']+'" rdate="'+this_day+'" '
@@ -672,10 +674,10 @@ $(document).ready(function(){
                     //td_bed = '';
                     same_layout_system = sell_layout_id + '_' + system_id;
                 }
-                console.log(BookEditClass.lastDate);
+                //console.log(BookEditClass.lastDate);
                 var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
-                                        +'<div class="right price"><span>'
-                                        +'<input value="'+cash_pledge[layoutPrice[i].sell_layout_id+'-'+layoutPrice[i].room_layout_price_system_id]+'" class="span12" type="text"></span></div></li></ul>';//+' max_people="'+roomLayout[_room_layout_id].max_people+'"  max_children="'+roomLayout[_room_layout_id]..max_children+'">'+
+                                        +'<div class="right pledge_price"><span>'
+                                        +'<input system_id="'+system_id+'" sell_layout="'+sell_layout_id+'" value="'+cash_pledge[sell_layout_id+'-'+system_id]+'" class="span12" type="text"></span></div></li></ul>';//+' max_people="'+roomLayout[_room_layout_id].max_people+'"  max_children="'+roomLayout[_room_layout_id]..max_children+'">'+
                 html += '<tr room_layout_id="'+roomSellLayout[sell_layout_id].room_layout_id+'" sell_layout_id="'+sell_layout_id+'" system_id="'+system_id+'">'+
                             '<td class="details-control">'+td1+'</td>'+
                             '<td>'+td2 + td_bed + pledge + '</td>'+
@@ -781,7 +783,7 @@ $(document).ready(function(){
                 }
                 
                 var bookSelectRoom = BookEditClass.bookSelectRoom;
-                var room_price = 0;//客房价格
+                var room_price = pledge_price = service_price = 0;//客房价格 押金 需要的服务费
                 var select_html = ' <select class="input-small bookSelectRoom" name="book_user_room[]">';//用户选择房间号
                 var option = '';//选项
                 var days = $('#book_days_total').val();//总共住多少天
@@ -806,9 +808,6 @@ $(document).ready(function(){
                         if(layout == 'room') {
                             $('.layout_price').each(function(index, element) {
                                 //房型价格
-                                 //console.log('info:' + $(this).attr('sell_layout') + '===' + sell_id + '<-->' + $(this).attr('system_id'));
-                                 //console.log($(this).attr('sell_layout') == sell_id);
-                                 //console.log($(this).attr('system_id') == system_id);
                                 if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {//房型和systemID对应上
                                     var now_date = new Date($(this).attr('rdate'));
                                     var now_date_time = now_date.getTime();
@@ -824,9 +823,19 @@ $(document).ready(function(){
                                             BookEditClass.max_man++;
                                             select_room[val] = 1;
                                         }
-                                        console.log('room_price room:' + room_price);
+                                        console.log('room_price room:' + room_price + ' ' + $(this).attr('rdate'));
                                     }
                                 }
+                            });
+                            $('.pledge_price input').each(function(index, element) {
+                                //押金
+                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {//房型和systemID对应上
+                                    pledge_price += ($(this).val() - 0);
+                                }
+                            });
+                            $('.service_price').each(function(index, element) {
+                                //需要的服务费
+                                service_price += ($(this).val() - 0);
                             });
                         }
                         if(layout == 'bed') {
@@ -865,6 +874,8 @@ $(document).ready(function(){
                 });
                 select_html += option + '</select>';
                 $('#total_room_rate').val(room_price);
+                $('#book_total_cash_pledge').val(pledge_price);
+                $('#need_service_price').val(service_price);
                 console.log(room_price);
                 //room_price = days * room_price * ($('#discount').val() - 0) / 100;
                 var book_service_charge = $('#book_service_charge').val() - 0;

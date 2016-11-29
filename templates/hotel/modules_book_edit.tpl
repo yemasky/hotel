@@ -214,6 +214,8 @@
                                 <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
                                 <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
                                 <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
+                                <%$arrayLaguage['need_service_price']['page_laguage_value']%> :
+                                <input value="" type="text" class="input-mini book_price" id="need_service_price" name="need_service_price" />
                                 <%$arrayLaguage['service_charge']['page_laguage_value']%> :
                                 <input value="" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
 						    </div>
