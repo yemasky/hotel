@@ -14,7 +14,8 @@ $(document).ready(function(){
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
-        onSelectDate:function( ct ){
+        onSelectTime:function( ct ){
+            computeCheckDate($('#book_check_out').val());
             bookEdit.computeBookPrice(false);
         }
 	});
@@ -36,46 +37,7 @@ $(document).ready(function(){
                 $('#modal_fail_message').html("抱歉，这个时间不正确！");
                 return false;
             }
-            //console.log(date + '-====-' + nextWeekDateToDisable + '----'+ week_differ + '-----2016-11-22');
-            var outDate = new Date(this.getValue());
-            var inDate = new Date($('#book_check_in').val());
-            var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 + 1) + '-' + outDate.getDate() + ' 00:00:00');
-            var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 + 1) + '-' + inDate.getDate() + ' 00:00:00');
-            var days = Math.floor((outDateTime.getTime() - itDateTime.getTime())/(24*3600*1000));
-            var halfPrice = $('#half_price').val().substr(0, 2) - 0;
-            var checkout = '<%$hotel_checkout%>';
-            //标准结算日期
-            var  balance_date = new Date(this.getValue());
-            balance_date.setDate(balance_date.getDate() - 1);
-            if((outDate.getHours() - 0) > halfPrice) {
-                //算1天
-                outDateTime.setDate(outDateTime.getDate() + 1);
-                days = days - 0 + 1;
-                //加1天的结算日期
-                balance_date.setDate(balance_date.getDate() + 1);
-            }
-            if((outDate.getHours() - 0) <= halfPrice && (outDate.getHours() - 0) > checkout.substr(0, 2)) {
-                //算0.5天
-                outDateTime.setDate(outDateTime.getDate() + 1);
-                days = days - 0 + 0.5;
-                //加0.5天的结算日期
-                balance_date.setDate(balance_date.getDate() + 1);
-            }
-            $('#book_days_total').val(days);
-            
-            var day = outDateTime.getDate();
-            day = day < 10 ? '0' + day : day;
-            var month = outDateTime.getMonth() + 1;
-            month = month < 10 ? '0' + month : month;
-            $('#max_date').val(outDateTime.getFullYear() + '-' + month + '-' + day);
-            
-            var day = balance_date.getDate();
-            day = day < 10 ? '0' + day : day;
-            var month = balance_date.getMonth() + 1;
-            month = month < 10 ? '0' + month : month;
-            $('#balance_date').val(balance_date.getFullYear() + '-' + month + '-' + day);
-            bookEdit.computeBookPrice(true);
-            
+            computeCheckDate(this.getValue());
         }
 	});
 	//日历 时间控制
@@ -85,6 +47,48 @@ $(document).ready(function(){
     $('#half_price').datetimepicker({
 		datepicker:false,format:'H:i',step:30
 	});
+    
+    function computeCheckDate(computeDate) {
+        //console.log(date + '-====-' + nextWeekDateToDisable + '----'+ week_differ + '-----2016-11-22');
+        var outDate = new Date(computeDate);
+        var inDate = new Date($('#book_check_in').val());
+        var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 + 1) + '-' + outDate.getDate() + ' 00:00:00');
+        var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 + 1) + '-' + inDate.getDate() + ' 00:00:00');
+        var days = Math.floor((outDateTime.getTime() - itDateTime.getTime())/(24*3600*1000));
+        var halfPrice = $('#half_price').val().substr(0, 2) - 0;
+        var checkout = '<%$hotel_checkout%>';
+        //标准结算日期
+        var  balance_date = new Date(computeDate);
+        balance_date.setDate(balance_date.getDate() - 1);
+        if((outDate.getHours() - 0) > halfPrice) {
+            //算1天
+            outDateTime.setDate(outDateTime.getDate() + 1);
+            days = days - 0 + 1;
+            //加1天的结算日期
+            balance_date.setDate(balance_date.getDate() + 1);
+        }
+        if((outDate.getHours() - 0) <= halfPrice && (outDate.getHours() - 0) > checkout.substr(0, 2)) {
+            //算0.5天
+            outDateTime.setDate(outDateTime.getDate() + 1);
+            days = days - 0 + 0.5;
+            //加0.5天的结算日期
+            balance_date.setDate(balance_date.getDate() + 1);
+        }
+        $('#book_days_total').val(days);
+        
+        var day = outDateTime.getDate();
+        day = day < 10 ? '0' + day : day;
+        var month = outDateTime.getMonth() + 1;
+        month = month < 10 ? '0' + month : month;
+        $('#max_date').val(outDateTime.getFullYear() + '-' + month + '-' + day);
+        
+        var day = balance_date.getDate();
+        day = day < 10 ? '0' + day : day;
+        var month = balance_date.getMonth() + 1;
+        month = month < 10 ? '0' + month : month;
+        $('#balance_date').val(balance_date.getFullYear() + '-' + month + '-' + day);
+        bookEdit.computeBookPrice(true);
+    }
 	
 //});//add_attr_classes
 //$(document).ready(function(){
