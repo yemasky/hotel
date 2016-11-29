@@ -53,7 +53,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title"><i class="am-success am-icon-sm am-icon-puzzle-piece am-blue-16A2EF"></i> <%$arrayLaguage['info']['page_laguage_value']%></h3>
+                <h3 class="modal-title"><i class="am-success am-icon-sm am-icon-puzzle-piece am-blue-16A2EF"></i> <%$arrayLaguage['warm_prompt']['page_laguage_value']%></h3>
             </div>
             <div class="modal-body"><p class="alert alert-block" id="modal_info_message"></p></div>
             <div class="modal-footer">

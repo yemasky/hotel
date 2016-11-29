@@ -35,9 +35,9 @@
                             <div class="controls">
                                 <input class="span2" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" /> - 
                                 <input class="span2" type="text" id="time_end" name="time_end" value="<%$toDay%>" />
-                                <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                                <button class="btn btn-mini btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
-                                <a class="btn btn-primary" href="<%$add_book_url%>"><i class="am-icon-user-plus"></i>
+                                <a class="btn btn-mini btn-primary" href="<%$add_book_url%>"><i class="am-icon-user-plus"></i>
                                 <%$arrayLaguage['add_book']['page_laguage_value']%></a>
                             <%/if%>
                             </div>

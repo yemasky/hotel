@@ -145,6 +145,7 @@ class BookAction extends \BaseAction {
         $objResponse -> arrayPaymentType = $arrayPaymentType;
         $objResponse -> book_check_in = getDay() .' '. date("H") . ':00:00';
         $objResponse -> book_check_out = getDay(24) . ' ' . $hotel_checkout;
+        $objResponse -> thisDay = getDay();
         $objResponse -> hotel_checkout = $hotel_checkout;
         $objResponse -> hotel_checkin  = $hotel_checkin;
         $objResponse -> hotel_overtime  = $hotel_overtime;

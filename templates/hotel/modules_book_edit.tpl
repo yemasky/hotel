@@ -105,7 +105,7 @@
 								<input type="text" class="input-medium" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
 								<%$arrayLaguage['checkout']['page_laguage_value']%> :
 								<input type="text" class="input-medium" id="book_check_out" name="book_check_out" value="<%$book_check_out%>"/>
-                                <input id="max_date" value="" type="hidden">
+                                <input id="max_date" value="" type="hidden"><input id="balance_date" value="<%$thisDay%>" type="hidden">
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
@@ -207,16 +207,20 @@
 						  </div>
 						</div>
                         <div class="control-group hide book_form_step2">
+                            <label class="control-label"><%$arrayLaguage['total_room_rate']['page_laguage_value']%> :</label>
+							<div class="controls">
+                                <input value="" type="text" class="input-mini" id="total_room_rate" name="total_room_rate" />
+                                <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
+                                <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
+                                <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
+                                <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
+                                <%$arrayLaguage['service_charge']['page_laguage_value']%> :
+                                <input value="" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
+						    </div>
 							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
 							<div class="controls">
-							 <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
-							 <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
-							 <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
-                             <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
-							 <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
-                             <%$arrayLaguage['service_charge']['page_laguage_value']%> :
-							 <input value="" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
-						  </div>
+                                <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
+						    </div>
 						</div>
                         <div class="form-actions pagination-centered hide book_form_step2">
                             <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
