@@ -26,47 +26,73 @@ class BookOperateService extends \BaseService {
         $payment = $arrayPostValue['payment'];//支付 类型
         $payment_type = $arrayPostValue['payment_type'];//支付方式  微信支付宝等
         $is_pay = $arrayPostValue['is_pay'];//付款已到账
-        //联系信息
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        //联系信息 <!-- -->
         $arrayBill['book_contact_name']             = $arrayPostValue['book_contact_name'];//联系人
         $arrayBill['book_contact_mobile']           = $arrayPostValue['book_contact_mobile'];//联系人移动电话
         $arrayBill['user_id']                       = '';////
-        $arrayBill['hotel_id']                      = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        //来源
+        $arrayBill['hotel_id']                      = $hotel_id;
+        //来源 <!-- -->
         $arrayBill['book_type_id']                  = $arrayPostValue['book_type_id'];
+        $arrayBill['book_order_number_ourter']      = $objRequest -> book_order_number_ourter;//如果是OTA 有外部订单号
+        //折扣 <!-- -->
         $arrayBill['book_discount']                 = $arrayPostValue['book_discount'];//实际折扣
         $arrayBill['book_discount_id']              = $arrayPostValue['book_discount_id'];//折扣ID
         $arrayBill['book_discount_describe']        = $arrayPostValue['book_discount_describe'];//折扣描述
-        //入住日期
+        //半天房费计算时间 <!-- -->
+        $arrayBill['book_half_price']                    = $arrayPostValue['half_price'];
+        //入住日期 <!-- -->
         $arrayBill['book_check_in']                 = $arrayPostValue['book_check_in'];//入住时间
         $arrayBill['book_check_out']                = $arrayPostValue['book_check_out'];//退房时间
         $arrayBill['book_order_retention_time']     = $arrayPostValue['book_order_retention_time'];//订单保留时间
-        //主订单
+        //主订单 <!-- -->
         $arrayBill['book_order_number_main']        = '0';//主订单号
         $arrayBill['book_order_number']             = 1;//订单号
-        //
+        //订单状态 <!-- -->
         $arrayBill['book_order_number_status']      = '0';//订单状态 -1 失效 0预定成功 1入住 2退房完成
-        //
-        $arrayBill['book_total_price']              = $arrayPostValue['book_total_price'];//计算支付总价
-        //预付
+
+        //支付
+            //预付
         $arrayBill['book_prepayment_price']         = $arrayPostValue['book_prepayment_price'];//预付费
         if($payment == 1) {
             $arrayBill['book_is_prepayment']        = $is_pay;//是否已支付预付费
-            if($is_pay == 1) {
+            if($is_pay == 1) {//支付是否到账
                 $arrayBill['book_prepayment_date']  = getDateTime();//预付费支付时间
             }
             $arrayBill['prepayment_type_id']        = $payment_type;//预付 支付方式  微信支付宝等
+            $arrayBill['book_prepayment_account']       = '';//预付支付帐号
         }
-
-        $arrayBill['book_prepayment_account']       = '';//预付支付帐号
-        //全额支付
-        if($payment == 3) {
+            //全额支付 余额
+        if($payment == 3 || $payment == 2) {
             $arrayBill['book_is_pay']               = '1';//是否已经全额支付房费
+            $arrayBill['book_is_payment']           = $is_pay;//是否已到帐
             $arrayBill['payment_type_id']           = $payment_type;//预付 支付方式  微信支付宝等
+            if($is_pay == 1) {//支付是否到账
+                $arrayBill['book_pay_date']  = getDateTime();//支付时间
+            }
+        }
+        if($payment == 2) {//余额支付时间
+            $arrayBill['book_balance_payment_date'] = getDateTime();
         }
         $arrayBill['book_payment_voucher']          = $arrayPostValue['book_payment_voucher'];//付款凭证
+
+        //计算价格
+        //总房费
+        $arrayBill['book_total_room_rate']          = $arrayPostValue['total_room_rate'];//总房费
+        //总押金
+        $arrayBill['book_total_cash_pledge']        = $arrayPostValue['book_total_cash_pledge'];//总房费
+        //需要服务的费用
+        $arrayBill['book_need_service_price']       = $arrayPostValue['need_service_price'];//需要服务的费用
+        //服务费
+        $arrayBill['book_service_charge']           = $arrayPostValue['book_service_charge'];//服务费
+        //总费用
+        $arrayBill['book_total_price']              = $arrayPostValue['book_total_price'];//计算支付总价
+
         //时间
         $arrayBill['book_add_date']                 = getDay();
         $arrayBill['book_add_time']                 = getTime();
+        /******************************************************/
+        //
         $arrayLayoutPrice   = $arrayPostValue['layout_price'];
         $arrayExtraBedPrice = $arrayPostValue['extra_bed_price'];
         $arrayExtraBed = isset($arrayPostValue['extra_bed']) ? $arrayPostValue['extra_bed'] : null;

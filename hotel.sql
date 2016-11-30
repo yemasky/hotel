@@ -22,27 +22,30 @@ DROP TABLE IF EXISTS `book`;
 
 CREATE TABLE `book` (
   `book_id` bigint(19) NOT NULL AUTO_INCREMENT,
-  `book_type_id` int(11) NOT NULL COMMENT '预定类型',
+  `book_type_id` int(11) NOT NULL COMMENT '预定来源 类型',
   `user_id` bigint(19) NOT NULL,
   `hotel_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL COMMENT '真实房号',
-  `room_sell_layout_id` bigint(19) NOT NULL,
-  `room_layout_id` int(11) NOT NULL COMMENT '售卖房型ID',
-  `room_layout_price_id` int(11) NOT NULL COMMENT '价格ID',
+  `room_sell_layout_id` bigint(19) NOT NULL COMMENT '售卖房型ID',
+  `room_layout_id` int(11) NOT NULL COMMENT '基础房型',
+  `room_layout_price_id` int(11) NOT NULL COMMENT '售卖房型价格ID',
   `room_layout_price_system_id` int(11) DEFAULT NULL COMMENT '价格体系ID',
+  `book_total_room_rate` double NOT NULL COMMENT '总房价',
+  `book_room_extra_bed` tinyint(3) DEFAULT NULL COMMENT '加床 几张',
+  `book_need_service_price` double NOT NULL DEFAULT '0' COMMENT '需要服务的费用',
+  `book_service_charge` double NOT NULL DEFAULT '0' COMMENT '服务费',
   `book_total_price` double DEFAULT NULL COMMENT '支付总价',
   `book_total_cash_pledge` double DEFAULT NULL COMMENT '支付总押金',
-  `book_cash_pledge` int(11) NOT NULL DEFAULT '0' COMMENT '押金',
-  `book_service_charge` double NOT NULL DEFAULT '0' COMMENT '服务费',
+  `book_cash_pledge` double NOT NULL DEFAULT '0' COMMENT '押金',
   `book_room_layout_price` double DEFAULT NULL COMMENT '客房实际支付价格',
-  `book_room_extra_bed_price` double DEFAULT NULL COMMENT '加床单价',
-  `book_room_extra_bed` tinyint(3) DEFAULT NULL COMMENT '加床',
   `book_prepayment_price` double NOT NULL COMMENT '预付费',
   `book_is_prepayment` enum('0','1') NOT NULL DEFAULT '0' COMMENT '是否已支付预付费',
   `book_prepayment_date` datetime DEFAULT NULL COMMENT '预付费支付时间',
   `prepayment_type_id` tinyint(3) NOT NULL COMMENT '预付支付类型',
   `book_prepayment_account` varchar(50) DEFAULT NULL COMMENT '预付支付帐号',
+  `book_balance_payment_date` datetime DEFAULT NULL COMMENT '余款支付时间',
   `book_is_pay` enum('0','1') NOT NULL DEFAULT '0' COMMENT '是否已经全额支付房费',
+  `book_is_payment` enum('0','1') NOT NULL DEFAULT '0' COMMENT '是否已到帐',
   `book_pay_date` datetime DEFAULT NULL COMMENT '支付时间',
   `payment_type_id` tinyint(3) DEFAULT NULL COMMENT '支付类型',
   `book_payment_voucher` varchar(300) DEFAULT NULL COMMENT '付款凭证',
@@ -57,6 +60,7 @@ CREATE TABLE `book` (
   `book_check_out` datetime NOT NULL COMMENT '退房时间',
   `book_days_total` double DEFAULT NULL COMMENT '总共几天',
   `book_order_retention_time` varchar(50) NOT NULL DEFAULT '' COMMENT '订单保留时间',
+  `book_half_price` varchar(50) DEFAULT NULL COMMENT '半天房费计算时间',
   `book_contact_name` varchar(50) DEFAULT NULL COMMENT '联系人',
   `book_contact_emai` varchar(50) DEFAULT NULL COMMENT 'email',
   `book_contact_mobile` bigint(11) DEFAULT NULL COMMENT '联系人移动电话',
@@ -117,11 +121,27 @@ CREATE TABLE `book_discount` (
 
 insert  into `book_discount`(`book_discount_id`,`hotel_id`,`book_type_id`,`book_discount`,`book_discount_name`,`agreement_company_name`,`agreement_company_address`,`agreement_company_mobile`,`agreement_company_phone`,`agreement_company_fax`,`agreement_company_email`,`agreement_company_introduction`,`agreement_content`,`agreement_attachment`,`agreement_active_time_begin`,`agreement_active_time_end`,`book_discount_add_date`,`book_discount_add_time`) values (1,1,13,98,'金牌会员98折','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,6,95,'协议公司95折','东三环友好科技有限公司','协议公司地址',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,1,6,98,'协议公司98折','西三环友好科技有限公司',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
-/*Table structure for table `book_price` */
+/*Table structure for table `book_hotel_service` */
 
-DROP TABLE IF EXISTS `book_price`;
+DROP TABLE IF EXISTS `book_hotel_service`;
 
-CREATE TABLE `book_price` (
+CREATE TABLE `book_hotel_service` (
+  `book_id` bigint(19) NOT NULL,
+  `book_order_number` bigint(19) NOT NULL,
+  `hotel_service_id` int(11) NOT NULL DEFAULT '0',
+  `hotel_id` int(11) NOT NULL,
+  `hotel_service_price` double NOT NULL COMMENT '价格 -1 表示此类不含价格 0表示免费',
+  `book_hotel_service_num` mediumint(6) NOT NULL DEFAULT '1' COMMENT '数量',
+  `book_hotel_service_discount` mediumint(6) DEFAULT '100' COMMENT '折扣'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_hotel_service` */
+
+/*Table structure for table `book_room_extra_bed_price` */
+
+DROP TABLE IF EXISTS `book_room_extra_bed_price`;
+
+CREATE TABLE `book_room_extra_bed_price` (
   `book_id` bigint(19) NOT NULL,
   `book_order_number` bigint(19) NOT NULL,
   `room_layout_price_id` bigint(19) NOT NULL DEFAULT '0',
@@ -130,43 +150,94 @@ CREATE TABLE `book_price` (
   `hotel_id` int(11) NOT NULL,
   `room_layout_price_system_id` int(11) NOT NULL COMMENT '价格体系',
   `room_layout_price_is_active` enum('0','1','-1') DEFAULT '1' COMMENT '是否在活动状态的价格 0不活动 1活动 -1删除',
-  `employee_id` int(11) NOT NULL COMMENT '操作员工',
+  `employee_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作员工',
   `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
   `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
-  `01_day` int(8) DEFAULT NULL,
-  `02_day` int(8) DEFAULT NULL,
-  `03_day` int(8) DEFAULT NULL,
-  `04_day` int(8) DEFAULT NULL,
-  `05_day` int(8) DEFAULT NULL,
-  `06_day` int(8) DEFAULT NULL,
-  `07_day` int(8) DEFAULT NULL,
-  `08_day` int(8) DEFAULT NULL,
-  `09_day` int(8) DEFAULT NULL,
-  `10_day` int(8) DEFAULT NULL,
-  `11_day` int(8) DEFAULT NULL,
-  `12_day` int(8) DEFAULT NULL,
-  `13_day` int(8) DEFAULT NULL,
-  `14_day` int(8) DEFAULT NULL,
-  `15_day` int(8) DEFAULT NULL,
-  `16_day` int(8) DEFAULT NULL,
-  `17_day` int(8) DEFAULT NULL,
-  `18_day` int(8) DEFAULT NULL,
-  `19_day` int(8) DEFAULT NULL,
-  `20_day` int(8) DEFAULT NULL,
-  `21_day` int(8) DEFAULT NULL,
-  `22_day` int(8) DEFAULT NULL,
-  `23_day` int(8) DEFAULT NULL,
-  `24_day` int(8) DEFAULT NULL,
-  `25_day` int(8) DEFAULT NULL,
-  `26_day` int(8) DEFAULT NULL,
-  `27_day` int(8) DEFAULT NULL,
-  `28_day` int(8) DEFAULT NULL,
-  `29_day` int(8) DEFAULT NULL,
-  `30_day` int(8) DEFAULT NULL,
-  `31_day` int(8) DEFAULT NULL
+  `01_day` double DEFAULT NULL,
+  `02_day` double DEFAULT NULL,
+  `03_day` double DEFAULT NULL,
+  `04_day` double DEFAULT NULL,
+  `05_day` double DEFAULT NULL,
+  `06_day` double DEFAULT NULL,
+  `07_day` double DEFAULT NULL,
+  `08_day` double DEFAULT NULL,
+  `09_day` double DEFAULT NULL,
+  `10_day` double DEFAULT NULL,
+  `11_day` double DEFAULT NULL,
+  `12_day` double DEFAULT NULL,
+  `13_day` double DEFAULT NULL,
+  `14_day` double DEFAULT NULL,
+  `15_day` double DEFAULT NULL,
+  `16_day` double DEFAULT NULL,
+  `17_day` double DEFAULT NULL,
+  `18_day` double DEFAULT NULL,
+  `19_day` double DEFAULT NULL,
+  `20_day` double DEFAULT NULL,
+  `21_day` double DEFAULT NULL,
+  `22_day` double DEFAULT NULL,
+  `23_day` double DEFAULT NULL,
+  `24_day` double DEFAULT NULL,
+  `25_day` double DEFAULT NULL,
+  `26_day` double DEFAULT NULL,
+  `27_day` double DEFAULT NULL,
+  `28_day` double DEFAULT NULL,
+  `29_day` double DEFAULT NULL,
+  `30_day` double DEFAULT NULL,
+  `31_day` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `book_price` */
+/*Data for the table `book_room_extra_bed_price` */
+
+/*Table structure for table `book_room_price` */
+
+DROP TABLE IF EXISTS `book_room_price`;
+
+CREATE TABLE `book_room_price` (
+  `book_id` bigint(19) NOT NULL,
+  `book_order_number` bigint(19) NOT NULL,
+  `room_layout_price_id` bigint(19) NOT NULL DEFAULT '0',
+  `room_sell_layout_id` bigint(19) NOT NULL COMMENT '售卖房型ID',
+  `room_layout_id` int(11) NOT NULL COMMENT '基本房型ID',
+  `hotel_id` int(11) NOT NULL,
+  `room_layout_price_system_id` int(11) NOT NULL COMMENT '价格体系',
+  `room_layout_price_is_active` enum('0','1','-1') DEFAULT '1' COMMENT '是否在活动状态的价格 0不活动 1活动 -1删除',
+  `employee_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作员工',
+  `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
+  `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
+  `01_day` double DEFAULT NULL,
+  `02_day` double DEFAULT NULL,
+  `03_day` double DEFAULT NULL,
+  `04_day` double DEFAULT NULL,
+  `05_day` double DEFAULT NULL,
+  `06_day` double DEFAULT NULL,
+  `07_day` double DEFAULT NULL,
+  `08_day` double DEFAULT NULL,
+  `09_day` double DEFAULT NULL,
+  `10_day` double DEFAULT NULL,
+  `11_day` double DEFAULT NULL,
+  `12_day` double DEFAULT NULL,
+  `13_day` double DEFAULT NULL,
+  `14_day` double DEFAULT NULL,
+  `15_day` double DEFAULT NULL,
+  `16_day` double DEFAULT NULL,
+  `17_day` double DEFAULT NULL,
+  `18_day` double DEFAULT NULL,
+  `19_day` double DEFAULT NULL,
+  `20_day` double DEFAULT NULL,
+  `21_day` double DEFAULT NULL,
+  `22_day` double DEFAULT NULL,
+  `23_day` double DEFAULT NULL,
+  `24_day` double DEFAULT NULL,
+  `25_day` double DEFAULT NULL,
+  `26_day` double DEFAULT NULL,
+  `27_day` double DEFAULT NULL,
+  `28_day` double DEFAULT NULL,
+  `29_day` double DEFAULT NULL,
+  `30_day` double DEFAULT NULL,
+  `31_day` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_room_price` */
 
 /*Table structure for table `book_type` */
 
@@ -197,18 +268,6 @@ CREATE TABLE `book_type_laguage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_type_laguage` */
-
-/*Table structure for table `book_type_multi_laguage` */
-
-DROP TABLE IF EXISTS `book_type_multi_laguage`;
-
-CREATE TABLE `book_type_multi_laguage` (
-  `book_type_id` int(11) NOT NULL DEFAULT '0' COMMENT '预定类型：前台预定或电   协议公司预订  团队预定  渠道纸质订单',
-  `multi_laguage` enum('English') DEFAULT NULL,
-  `book_type_name` varchar(50) NOT NULL COMMENT '名称'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `book_type_multi_laguage` */
 
 /*Table structure for table `book_user` */
 
@@ -286,26 +345,6 @@ CREATE TABLE `company_laguage` (
 /*Data for the table `company_laguage` */
 
 insert  into `company_laguage`(`company_id`,`multi_laguage`,`company_name`,`company_address`,`company_country`,`company_province`,`company_city`,`company_town`) values (1,'English','欣得酒店','','','','','');
-
-/*Table structure for table `company_multi_laguage` */
-
-DROP TABLE IF EXISTS `company_multi_laguage`;
-
-CREATE TABLE `company_multi_laguage` (
-  `company_id` int(11) NOT NULL DEFAULT '0',
-  `multi_laguage` enum('English') NOT NULL,
-  `company_name` varchar(200) NOT NULL COMMENT '公司名称',
-  `company_address` varchar(200) NOT NULL COMMENT '公司地址',
-  `company_country` varchar(50) NOT NULL COMMENT '国家',
-  `company_province` varchar(50) NOT NULL COMMENT '省',
-  `company_city` varchar(50) NOT NULL COMMENT '市、县',
-  `company_town` varchar(50) NOT NULL COMMENT '城镇',
-  PRIMARY KEY (`company_id`,`multi_laguage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `company_multi_laguage` */
-
-insert  into `company_multi_laguage`(`company_id`,`multi_laguage`,`company_name`,`company_address`,`company_country`,`company_province`,`company_city`,`company_town`) values (1,'English','欣得酒店','','','','','');
 
 /*Table structure for table `department` */
 
@@ -436,18 +475,6 @@ CREATE TABLE `hotel_attribute_laguage` (
 
 /*Data for the table `hotel_attribute_laguage` */
 
-/*Table structure for table `hotel_attribute_multi_laguage` */
-
-DROP TABLE IF EXISTS `hotel_attribute_multi_laguage`;
-
-CREATE TABLE `hotel_attribute_multi_laguage` (
-  `hotel_attribute_id` int(11) NOT NULL DEFAULT '0',
-  `multi_laguage` enum('English') DEFAULT NULL,
-  `hotel_attribute_name` varchar(200) NOT NULL COMMENT '属性名称'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `hotel_attribute_multi_laguage` */
-
 /*Table structure for table `hotel_attribute_value` */
 
 DROP TABLE IF EXISTS `hotel_attribute_value`;
@@ -475,18 +502,6 @@ CREATE TABLE `hotel_attribute_value_laguage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `hotel_attribute_value_laguage` */
-
-/*Table structure for table `hotel_attribute_value_multi_laguage` */
-
-DROP TABLE IF EXISTS `hotel_attribute_value_multi_laguage`;
-
-CREATE TABLE `hotel_attribute_value_multi_laguage` (
-  `hotel_attribute_value_id` int(11) NOT NULL DEFAULT '0',
-  `hotel_attribute_id` int(11) NOT NULL,
-  `hotel_attribute_value` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `hotel_attribute_value_multi_laguage` */
 
 /*Table structure for table `hotel_images` */
 
@@ -555,7 +570,7 @@ CREATE TABLE `hotel_service` (
   `hotel_id` int(11) NOT NULL,
   `hotel_service_father_id` int(11) NOT NULL DEFAULT '0' COMMENT '父ID',
   `hotel_service_name` varchar(50) DEFAULT NULL,
-  `hotel_service_price` int(11) NOT NULL DEFAULT '-1' COMMENT '价格 -1 表示此类不含价格 0表示免费',
+  `hotel_service_price` double NOT NULL DEFAULT '-1' COMMENT '价格 -1 表示此类不含价格 0表示免费',
   `hotel_service_begin_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '开始时间',
   `hotel_service_end_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '失效时间',
   `hotel_service_ahead_datetime` smallint(6) NOT NULL DEFAULT '0' COMMENT '提前预定时间 0不需要预定',
@@ -855,20 +870,6 @@ CREATE TABLE `room_layout_attribute_laguage` (
 
 insert  into `room_layout_attribute_laguage`(`room_layout_attribute_id`,`multi_laguage`,`room_layout_attribute_name`) values (1,NULL,'客房设施'),(2,NULL,'浴室');
 
-/*Table structure for table `room_layout_attribute_multi_laguage` */
-
-DROP TABLE IF EXISTS `room_layout_attribute_multi_laguage`;
-
-CREATE TABLE `room_layout_attribute_multi_laguage` (
-  `room_layout_attribute_id` int(11) NOT NULL DEFAULT '0' COMMENT '客房属性',
-  `multi_laguage` enum('English') DEFAULT NULL,
-  `room_layout_attribute_name` varchar(100) NOT NULL COMMENT '客房属性名称'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `room_layout_attribute_multi_laguage` */
-
-insert  into `room_layout_attribute_multi_laguage`(`room_layout_attribute_id`,`multi_laguage`,`room_layout_attribute_name`) values (1,NULL,'客房设施'),(2,NULL,'浴室');
-
 /*Table structure for table `room_layout_attribute_value` */
 
 DROP TABLE IF EXISTS `room_layout_attribute_value`;
@@ -897,18 +898,6 @@ CREATE TABLE `room_layout_attribute_value_laguage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `room_layout_attribute_value_laguage` */
-
-/*Table structure for table `room_layout_attribute_value_multi_laguage` */
-
-DROP TABLE IF EXISTS `room_layout_attribute_value_multi_laguage`;
-
-CREATE TABLE `room_layout_attribute_value_multi_laguage` (
-  `room_layout_attribute_value_id` int(11) NOT NULL DEFAULT '0',
-  `multi_laguage` enum('English') DEFAULT NULL,
-  `room_layout_attribute_value` varchar(200) NOT NULL COMMENT '属性值'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `room_layout_attribute_value_multi_laguage` */
 
 /*Table structure for table `room_layout_images` */
 
@@ -953,37 +942,37 @@ CREATE TABLE `room_layout_price` (
   `employee_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作员工',
   `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
   `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
-  `01_day` int(8) DEFAULT NULL,
-  `02_day` int(8) DEFAULT NULL,
-  `03_day` int(8) DEFAULT NULL,
-  `04_day` int(8) DEFAULT NULL,
-  `05_day` int(8) DEFAULT NULL,
-  `06_day` int(8) DEFAULT NULL,
-  `07_day` int(8) DEFAULT NULL,
-  `08_day` int(8) DEFAULT NULL,
-  `09_day` int(8) DEFAULT NULL,
-  `10_day` int(8) DEFAULT NULL,
-  `11_day` int(8) DEFAULT NULL,
-  `12_day` int(8) DEFAULT NULL,
-  `13_day` int(8) DEFAULT NULL,
-  `14_day` int(8) DEFAULT NULL,
-  `15_day` int(8) DEFAULT NULL,
-  `16_day` int(8) DEFAULT NULL,
-  `17_day` int(8) DEFAULT NULL,
-  `18_day` int(8) DEFAULT NULL,
-  `19_day` int(8) DEFAULT NULL,
-  `20_day` int(8) DEFAULT NULL,
-  `21_day` int(8) DEFAULT NULL,
-  `22_day` int(8) DEFAULT NULL,
-  `23_day` int(8) DEFAULT NULL,
-  `24_day` int(8) DEFAULT NULL,
-  `25_day` int(8) DEFAULT NULL,
-  `26_day` int(8) DEFAULT NULL,
-  `27_day` int(8) DEFAULT NULL,
-  `28_day` int(8) DEFAULT NULL,
-  `29_day` int(8) DEFAULT NULL,
-  `30_day` int(8) DEFAULT NULL,
-  `31_day` int(8) DEFAULT NULL,
+  `01_day` double DEFAULT NULL,
+  `02_day` double DEFAULT NULL,
+  `03_day` double DEFAULT NULL,
+  `04_day` double DEFAULT NULL,
+  `05_day` double DEFAULT NULL,
+  `06_day` double DEFAULT NULL,
+  `07_day` double DEFAULT NULL,
+  `08_day` double DEFAULT NULL,
+  `09_day` double DEFAULT NULL,
+  `10_day` double DEFAULT NULL,
+  `11_day` double DEFAULT NULL,
+  `12_day` double DEFAULT NULL,
+  `13_day` double DEFAULT NULL,
+  `14_day` double DEFAULT NULL,
+  `15_day` double DEFAULT NULL,
+  `16_day` double DEFAULT NULL,
+  `17_day` double DEFAULT NULL,
+  `18_day` double DEFAULT NULL,
+  `19_day` double DEFAULT NULL,
+  `20_day` double DEFAULT NULL,
+  `21_day` double DEFAULT NULL,
+  `22_day` double DEFAULT NULL,
+  `23_day` double DEFAULT NULL,
+  `24_day` double DEFAULT NULL,
+  `25_day` double DEFAULT NULL,
+  `26_day` double DEFAULT NULL,
+  `27_day` double DEFAULT NULL,
+  `28_day` double DEFAULT NULL,
+  `29_day` double DEFAULT NULL,
+  `30_day` double DEFAULT NULL,
+  `31_day` double DEFAULT NULL,
   PRIMARY KEY (`room_layout_price_id`),
   UNIQUE KEY `room_price` (`hotel_id`,`room_layout_price_system_id`,`room_layout_date_year`,`room_layout_date_month`,`room_sell_layout_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
@@ -1008,37 +997,37 @@ CREATE TABLE `room_layout_price_extra_bed` (
   `room_layout_price_begin_datetime` date DEFAULT NULL,
   `room_layout_date_year` enum('2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030') NOT NULL,
   `room_layout_date_month` enum('1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL,
-  `01_day` int(8) DEFAULT NULL,
-  `02_day` int(8) DEFAULT NULL,
-  `03_day` int(8) DEFAULT NULL,
-  `04_day` int(8) DEFAULT NULL,
-  `05_day` int(8) DEFAULT NULL,
-  `06_day` int(8) DEFAULT NULL,
-  `07_day` int(8) DEFAULT NULL,
-  `08_day` int(8) DEFAULT NULL,
-  `09_day` int(8) DEFAULT NULL,
-  `10_day` int(8) DEFAULT NULL,
-  `11_day` int(8) DEFAULT NULL,
-  `12_day` int(8) DEFAULT NULL,
-  `13_day` int(8) DEFAULT NULL,
-  `14_day` int(8) DEFAULT NULL,
-  `15_day` int(8) DEFAULT NULL,
-  `16_day` int(8) DEFAULT NULL,
-  `17_day` int(8) DEFAULT NULL,
-  `18_day` int(8) DEFAULT NULL,
-  `19_day` int(8) DEFAULT NULL,
-  `20_day` int(8) DEFAULT NULL,
-  `21_day` int(8) DEFAULT NULL,
-  `22_day` int(8) DEFAULT NULL,
-  `23_day` int(8) DEFAULT NULL,
-  `24_day` int(8) DEFAULT NULL,
-  `25_day` int(8) DEFAULT NULL,
-  `26_day` int(8) DEFAULT NULL,
-  `27_day` int(8) DEFAULT NULL,
-  `28_day` int(8) DEFAULT NULL,
-  `29_day` int(8) DEFAULT NULL,
-  `30_day` int(8) DEFAULT NULL,
-  `31_day` int(8) DEFAULT NULL,
+  `01_day` double DEFAULT NULL,
+  `02_day` double DEFAULT NULL,
+  `03_day` double DEFAULT NULL,
+  `04_day` double DEFAULT NULL,
+  `05_day` double DEFAULT NULL,
+  `06_day` double DEFAULT NULL,
+  `07_day` double DEFAULT NULL,
+  `08_day` double DEFAULT NULL,
+  `09_day` double DEFAULT NULL,
+  `10_day` double DEFAULT NULL,
+  `11_day` double DEFAULT NULL,
+  `12_day` double DEFAULT NULL,
+  `13_day` double DEFAULT NULL,
+  `14_day` double DEFAULT NULL,
+  `15_day` double DEFAULT NULL,
+  `16_day` double DEFAULT NULL,
+  `17_day` double DEFAULT NULL,
+  `18_day` double DEFAULT NULL,
+  `19_day` double DEFAULT NULL,
+  `20_day` double DEFAULT NULL,
+  `21_day` double DEFAULT NULL,
+  `22_day` double DEFAULT NULL,
+  `23_day` double DEFAULT NULL,
+  `24_day` double DEFAULT NULL,
+  `25_day` double DEFAULT NULL,
+  `26_day` double DEFAULT NULL,
+  `27_day` double DEFAULT NULL,
+  `28_day` double DEFAULT NULL,
+  `29_day` double DEFAULT NULL,
+  `30_day` double DEFAULT NULL,
+  `31_day` double DEFAULT NULL,
   PRIMARY KEY (`room_sell_layout_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`room_layout_date_year`,`room_layout_date_month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

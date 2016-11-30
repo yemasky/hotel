@@ -482,7 +482,9 @@ $(document).ready(function(){
                         if($('#need_service_id').html() == '') {
                             $('#need_service_id').parent().remove();
                         }
-                    });                 
+                        bookEdit.computeBookPrice(false);
+                    });
+                    bookEdit.computeBookPrice(false);            
                 });
 
                 //增加减少人数
@@ -833,10 +835,6 @@ $(document).ready(function(){
                                     pledge_price += ($(this).val() - 0);
                                 }
                             });
-                            $('.service_price').each(function(index, element) {
-                                //需要的服务费
-                                service_price += ($(this).val() - 0);
-                            });
                         }
                         if(layout == 'bed') {
                             var room_id = $(this).attr('room');
@@ -871,6 +869,10 @@ $(document).ready(function(){
                             });
                         }
                     }
+                });
+                $('.service_price').each(function(index, element) {
+                    //需要的服务费
+                    service_price += ($(this).val() - 0);
                 });
                 select_html += option + '</select>';
                 $('#total_room_rate').val(room_price);
