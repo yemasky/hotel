@@ -132,14 +132,19 @@ class BookAction extends \BaseAction {
         $arrayHotelService = HotelService::instance()->getHotelService($conditions);
         $conditions['order'] = '';
         //
-        //赋值
+
         //hotel info
         $conditions['where'] = array('hotel_id'=>$hotel_id);
         $arrayHotel = HotelService::instance()->getHotel($conditions);
         $hotel_checkout = empty($arrayHotel[0]['hotel_checkout']) ? '12:00' : $arrayHotel[0]['hotel_checkout'];
         $hotel_checkin = empty($arrayHotel[0]['hotel_checkin']) ? '06:00' : $arrayHotel[0]['hotel_checkin'];
         $hotel_overtime = empty($arrayHotel[0]['hotel_overtime']) ? '18:00' : $arrayHotel[0]['hotel_overtime'];
-            //
+
+        //房型
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_sell_layout_valid'=>1);
+        $arraySellLayout = RoomService::instance()->getRoomSellLayout($conditions);
+
+        //赋值
         $objResponse -> view = '0';
         $objResponse -> arrayBookType = $arrayBookType;
         $objResponse -> arrayPaymentType = $arrayPaymentType;
@@ -151,6 +156,7 @@ class BookAction extends \BaseAction {
         $objResponse -> hotel_overtime  = $hotel_overtime;
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> arrayHotelService = $arrayHotelService;
+        $objResponse -> arraySellLayout = $arraySellLayout;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         $objResponse -> back_lis_url =

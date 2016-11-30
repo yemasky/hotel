@@ -483,7 +483,12 @@ $(document).ready(function(){
                     });
                     bookEdit.computeBookPrice(false);            
                 });
-
+                $('#sell_layout').change(function(e) {
+                    //select_sell_layout
+                    var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").text()
+                              +'<i class="am-icon-trash-o am-red-E43737 service_del"></i></li>';
+                    $('#select_sell_layout').append(html);
+                });
                 //增加减少人数
                 $('#addBookUser').click(function(e) {
                     var max_man = BookEditClass.max_man;
@@ -534,7 +539,8 @@ $(document).ready(function(){
                                 "pagingType":   "numbers"
                             })
                             $('#room_layout_length').hide();
-                            $('#room_layout_filter input').addClass('input-medium');
+                            $('#room_layout_filter input').addClass('input-small');
+                            $('#room_layout th').first().attr('style', 'width: 18%;');
                         } else {
                             $('#modal_fail').modal('show');
                             $('#modal_fail_message').html(data.message);

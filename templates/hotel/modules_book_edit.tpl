@@ -32,6 +32,7 @@
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #need_service_id li{margin-left:0px;}
 #controls_service .btn-group{ margin-bottom:5px; margin-left:0px; margin-right:5px;}
+#controls_sell_layout .btn-group{font-size:inherit !important; text-align:center;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -116,9 +117,21 @@
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_service">
-                            <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%><!-- <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%>--></a></div><%/section%>
+                                <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%><!-- <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%>--></a></div><%/section%>
+                            </div>
+                            <label class="control-label"><%$arrayLaguage['room_layout']['page_laguage_value']%> :</label>
+                            <div class="controls" id="controls_sell_layout">
+                                <select id="sell_layout" class="input-medium">
+                                    <option value=""><%$arrayLaguage['all']['page_laguage_value']%></option>
+                                    <%section name=i loop=$arraySellLayout%>
+                                        <option value="<%$arraySellLayout[i].room_sell_layout_id%>">
+                                            <%$arraySellLayout[i].room_sell_layout_name%>
+                                        </option>
+                                    <%/section%>
+                                 </select><div class="btn-group btn-icon-pg"><ul id="select_sell_layout"></ul></div>
                                 <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
+                            
 						</div>
 						<div class="control-group hide book_form_step2" id="room_layout_table">
 							<div class="controls">
@@ -225,7 +238,7 @@
                                 <%$arrayLaguage['need_service_price']['page_laguage_value']%> :
                                 <input value="" type="text" class="input-mini book_price" id="need_service_price" name="need_service_price" />
                                 <%$arrayLaguage['service_charge']['page_laguage_value']%> :
-                                <input value="" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
+                                <input value="0" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
 						    </div>
 							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
 							<div class="controls">
