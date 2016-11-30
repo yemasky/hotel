@@ -27,6 +27,7 @@ class BookOperateService extends \BaseService {
         $payment_type = $arrayPostValue['payment_type'];//支付方式  微信支付宝等
         $is_pay = $arrayPostValue['is_pay'];//付款已到账
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $arrayThenRoomPrice = json_decode(stripslashes($objRequest->thenRoomPrice), true);
         //联系信息 <!-- -->
         $arrayBill['book_contact_name']             = $arrayPostValue['book_contact_name'];//联系人
         $arrayBill['book_contact_mobile']           = $arrayPostValue['book_contact_mobile'];//联系人移动电话
@@ -37,7 +38,8 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_order_number_ourter']      = $objRequest -> book_order_number_ourter;//如果是OTA 有外部订单号
         //折扣 <!-- -->
         $arrayBill['book_discount']                 = $arrayPostValue['book_discount'];//实际折扣
-        $arrayBill['book_discount_id']              = $arrayPostValue['book_discount_id'];//折扣ID
+        if(isset($arrayPostValue['book_discount_id']))
+            $arrayBill['book_discount_id']          = $arrayPostValue['book_discount_id'];//折扣ID
         $arrayBill['book_discount_describe']        = $arrayPostValue['book_discount_describe'];//折扣描述
         //半天房费计算时间 <!-- -->
         $arrayBill['book_half_price']                    = $arrayPostValue['half_price'];
@@ -88,13 +90,16 @@ class BookOperateService extends \BaseService {
         //总费用
         $arrayBill['book_total_price']              = $arrayPostValue['book_total_price'];//计算支付总价
 
+        //备注
+        $arrayBill['book_comments']              = $arrayPostValue['comments'];//计算支付总价
         //时间
         $arrayBill['book_add_date']                 = getDay();
         $arrayBill['book_add_time']                 = getTime();
         /******************************************************/
         //
-        $arrayLayoutPrice   = $arrayPostValue['layout_price'];
-        $arrayExtraBedPrice = $arrayPostValue['extra_bed_price'];
+        //$arrayLayoutPrice   = $arrayPostValue['layout_price'];
+        //$arrayExtraBedPrice = $arrayPostValue['extra_bed_price'];
+        //加房
         $arrayExtraBed = isset($arrayPostValue['extra_bed']) ? $arrayPostValue['extra_bed'] : null;
         //根据房间插入不同的房间
         $arraybatchInsert = array();
@@ -102,42 +107,48 @@ class BookOperateService extends \BaseService {
         $arrayRoomLayoutRoomHash = array();
         $first = true;
         $i = 0;
-        foreach($arrayPostValue['room_layout_id'] as $room_layout_id => $arrayRoom) {
-            foreach($arrayRoom as $layout_system => $room_id) {
-                $arrayLayoutSystem = explode('-', $layout_system);
-                $system_id = $arrayLayoutSystem[0];$room_id = $arrayLayoutSystem[1];
-                $arrayRoomLayoutRoomHash[$room_id] = $room_layout_id;
-                //第一个个设为主订单
-                if($first) {
-                    $arrayBill['book_order_number_main'] = '1';//主订单号
-                    $arrayBill['room_layout_id'] = $room_layout_id;
-                    $arrayBill['room_id'] = $room_id;
-                    $arrayBill['room_layout_price_system_id'] = $system_id;
-                    $arrayBill['book_room_layout_price'] = $arrayLayoutPrice[$room_layout_id];
-                    $arrayBill['book_room_extra_bed']    = '';
-                    $arrayBill['book_room_extra_bed_price'] = 0;
-                    if(!empty($arrayExtraBed)) {
-                        if(isset($arrayExtraBed[$room_layout_id][$room_id])) {
-                            $arrayBill['book_room_extra_bed'] = $arrayExtraBed[$room_layout_id][$room_id];
-                            $arrayBill['book_room_extra_bed_price'] = $arrayExtraBedPrice[$room_layout_id];
-                        }
-                    }
-                    $first = false;
-                } else {
-                    $arraybatchInsertValue[$i - 1]['book_order_number_main'] = '0';//主订单号
-                    $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
-                    $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
-                    $arraybatchInsertValue[$i - 1]['room_layout_price_system_id'] = $system_id;
-                    $arraybatchInsertValue[$i - 1]['book_room_layout_price'] = $arrayLayoutPrice[$room_layout_id];
-                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '';
-                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed_price'] = 0;
-                    if(isset($arrayExtraBed[$room_layout_id][$room_id])) {
-                        $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = $arrayExtraBed[$room_layout_id][$room_id];
-                        $arraybatchInsertValue[$i - 1]['book_room_extra_bed_price'] = $arrayExtraBedPrice[$room_layout_id];
-                    }
+        //room_layout_id[6-19-1][18] [sell_id-room_layout-system_id][room]
+        foreach($arrayPostValue['room_layout_id'] as $roomLayoutSystem => $arrayRoom) {
+            $arrayLayoutSystem = explode('-', $roomLayoutSystem);
+            $sell_id = $arrayLayoutSystem[0];
+            $room_layout_id = $arrayLayoutSystem[1];
+            $system_id = $arrayLayoutSystem[2];$room_id = $arrayRoom[0];
+            $arrayRoomLayoutRoomHash[$room_id] = $room_layout_id;
+            //第一个个设为主订单
+            if($first) {
+                $arrayBill['book_order_number_main'] = '1';//主订单号
+                $arrayBill['room_sell_layout_id'] = $sell_id;
+                $arrayBill['room_layout_id'] = $room_layout_id;
+                $arrayBill['room_id'] = $room_id;
+                $arrayBill['room_layout_price_system_id'] = $system_id;
+                $arrayBill['book_room_extra_bed']    = '';
+                if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
+                    $arrayBill['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
                 }
-                $i++;
+                $arrayBill['book_cash_pledge'] = 0;
+                if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
+                    $arrayBill['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                }
+                $first = false;
+            } else {
+                $arraybatchInsertValue[$i - 1]['book_order_number_main'] = '0';//主订单号
+                $arraybatchInsertValue[$i - 1]['room_sell_layout_id'] = $sell_id;
+                $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
+                $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
+                $arraybatchInsertValue[$i - 1]['room_layout_price_system_id'] = $system_id;
+                $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '';
+                //$arraybatchInsertValue['book_room_sell_layout_price'] = '';//check-in ~ check-out房间总价
+                if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
+                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
+                }
+                $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = '0';
+                if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
+                    $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                }
             }
+            $i++;
+            //foreach($arrayRoom as $layout_system => $room_id) {
+            //}
         }
 
         //事务开启
@@ -148,28 +159,31 @@ class BookOperateService extends \BaseService {
         if(!empty($arraybatchInsertValue)) {
             foreach($arraybatchInsertValue as $k => $v) {
                 $arraybatchInsert[$k] = $arrayBill;
-                $arraybatchInsert[$k]['book_order_number'] = $book_order_number;
-                $arraybatchInsert[$k]['room_layout_id'] = $v['room_layout_id'];
-                $arraybatchInsert[$k]['room_id'] = $v['room_id'];
+                $arraybatchInsert[$k]['book_order_number']   = $book_order_number;
+                $arraybatchInsert[$k]['room_sell_layout_id'] = $v['room_sell_layout_id'];
+                $arraybatchInsert[$k]['room_layout_id']      = $v['room_layout_id'];
+                $arraybatchInsert[$k]['room_id']             = $v['room_id'];
                 $arraybatchInsert[$k]['room_layout_price_system_id'] = $v['room_layout_price_system_id'];
-                $arraybatchInsert[$k]['book_room_layout_price'] = $v['book_room_layout_price'];
+                //$arraybatchInsert[$k]['book_room_sell_layout_price'] = $v['book_room_sell_layout_price'];//check-in ~ check-out房间总价
                 $arraybatchInsert[$k]['book_room_extra_bed'] = $v['book_room_extra_bed'];
-                $arraybatchInsert[$k]['book_room_extra_bed_price'] = $v['book_room_extra_bed_price'];
+                $arraybatchInsert[$k]['book_cash_pledge']    = $v['book_cash_pledge'];
             }
         }
         if(!empty($arraybatchInsert)) BookDao::instance()->setTable('book')->batchInsert($arraybatchInsert);
 
         //添加住客
         $arrayBookUserData = array();
-        foreach($arrayPostValue['book_user_name'] as $i => $bookUser) {
-            if(!empty($bookUser) && !empty($arrayPostValue['book_user_id_card'][$i])) {
+        foreach($arrayPostValue['user_name'] as $i => $bookUser) {
+            if(!empty($bookUser) && !empty($arrayPostValue['user_id_card'][$i])) {
+                $arrayBookUserData[$i]['book_id'] = $book_id;
                 $arrayBookUserData[$i]['book_user_name'] = $bookUser;
                 $arrayBookUserData[$i]['book_order_number'] = $book_order_number;
-                $arrayBookUserData[$i]['book_user_id_card'] = $arrayPostValue['book_user_id_card'][$i];
-                $arrayBookUserData[$i]['book_user_id_card_type'] = $arrayPostValue['book_user_id_card_type'][$i];
-                $arrayBookUserData[$i]['room_layout_id'] = $arrayRoomLayoutRoomHash[$arrayPostValue['book_user_room'][$i]];
-                $arrayBookUserData[$i]['room_id'] = $arrayPostValue['book_user_room'][$i];
-                $arrayBookUserData[$i]['book_user_sex'] = $arrayPostValue['book_user_sex'][$i];
+                $arrayBookUserData[$i]['book_user_id_card'] = $arrayPostValue['user_id_card'][$i];
+                $arrayBookUserData[$i]['book_user_id_card_type'] = $arrayPostValue['user_id_card_type'][$i];
+                $arrayBookUserData[$i]['room_layout_id'] = '';//$arrayRoomLayoutRoomHash[$arrayPostValue['book_user_room'][$i]];
+                $arrayBookUserData[$i]['room_id'] = $arrayPostValue['user_room'][$i];
+                $arrayBookUserData[$i]['book_user_sex'] = $arrayPostValue['user_sex'][$i];
+                $arrayBookUserData[$i]['book_user_comments'] = $arrayPostValue['user_comments'][$i];
                 $arrayBookUserData[$i]['book_check_in'] = $arrayPostValue['book_check_in'];
                 $arrayBookUserData[$i]['book_check_out'] = $arrayPostValue['book_check_out'];
                 $arrayBookUserData[$i]['book_add_date'] = getDay();
@@ -178,6 +192,79 @@ class BookOperateService extends \BaseService {
         }
         if(!empty($arrayBookUserData)) BookDao::instance()->setTable('book_user')->batchInsert($arrayBookUserData);
 
+        //房价数据
+        $arraySameYearAndMonth = '';
+        foreach($arrayThenRoomPrice['room'] as $roomLayoutSystem => $arrayDatePrice) {
+            $arrayLayoutSystem = explode('-', $roomLayoutSystem);
+            $sell_id = $arrayLayoutSystem[0];
+            $room_layout_id = $arrayLayoutSystem[1];
+            $system_id = $arrayLayoutSystem[2];
+            foreach($arrayDatePrice as $date => $roomPrice) {
+                $arrayDate = explode('-', $date);
+                $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
+                if(isset($arraySameYearAndMonth[$year . '-' . $month])) {
+                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $roomPrice;
+                } else {
+                    for($i = 1; $i <= 31; $i++) {
+                        $i_day = $i < 10 ? '0' . $i : $i;
+                        $arraySameYearAndMonth[$year . '-' . $month][$i_day . '_day'] = '0';
+                    }
+                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $roomPrice;
+                    $arraySameYearAndMonth[$year . '-' . $month]['book_order_number'] = $book_order_number;
+                    $arraySameYearAndMonth[$year . '-' . $month]['book_id'] = $book_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_sell_layout_id'] = $sell_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_id'] = $room_layout_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['hotel_id'] = $hotel_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_price_system_id'] = $system_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_year'] = $year;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_month'] = $month;
+                }
+            }
+        }
+        if(!empty($arraySameYearAndMonth)) BookDao::instance()->setTable('book_room_price')->batchInsert($arraySameYearAndMonth);
+        //加床价格数据
+        $arraySameYearAndMonth = '';
+        foreach($arrayThenRoomPrice['bed'] as $roomLayoutSystem => $arrayDatePrice) {
+            $arrayLayoutSystem = explode('-', $roomLayoutSystem);
+            $sell_id = $arrayLayoutSystem[0];
+            $room_layout_id = $arrayLayoutSystem[1];
+            $system_id = $arrayLayoutSystem[2];
+            foreach($arrayDatePrice as $date => $bedPrice) {
+                $arrayDate = explode('-', $date);
+                $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
+                if(isset($arraySameYearAndMonth[$year . '-' . $month])) {
+                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $bedPrice;
+                } else {
+                    for($i = 1; $i <= 31; $i++) {
+                        $i_day = $i < 10 ? '0' . $i : $i;
+                        $arraySameYearAndMonth[$year . '-' . $month][$i_day . '_day'] = '0';
+                    }
+                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $bedPrice;
+                    $arraySameYearAndMonth[$year . '-' . $month]['book_order_number'] = $book_order_number;
+                    $arraySameYearAndMonth[$year . '-' . $month]['book_id'] = $book_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_sell_layout_id'] = $sell_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_id'] = $room_layout_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['hotel_id'] = $hotel_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_price_system_id'] = $system_id;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_year'] = $year;
+                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_month'] = $month;
+                }
+            }
+        }
+        if(!empty($arraySameYearAndMonth)) BookDao::instance()->setTable('book_room_extra_bed_price')->batchInsert($arraySameYearAndMonth);
+        //服务 service
+        $arrayServiceData = '';
+        foreach($arrayThenRoomPrice['service'] as $service_id => $price) {
+            $arrayService = explode('-', $price);
+            $arrayServiceData[$service_id]['book_order_number'] = $book_order_number;
+            $arrayServiceData[$service_id]['book_id'] = $book_id;
+            $arrayServiceData[$service_id]['hotel_id'] = $hotel_id;
+            $arrayServiceData[$service_id]['hotel_service_id'] = $service_id;
+            $arrayServiceData[$service_id]['hotel_service_price'] = $arrayService[0];
+            $arrayServiceData[$service_id]['book_hotel_service_num'] = $arrayService[1];
+            $arrayServiceData[$service_id]['book_hotel_service_discount'] = $arrayService[2];
+        }
+        if(!empty($arrayThenRoomPrice)) BookDao::instance()->setTable('book_hotel_service')->batchInsert($arrayServiceData);
         BookDao::instance()->commit();
         return $book_order_number;
     }

@@ -116,7 +116,7 @@
 							</div>
                             <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_service">
-                            <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%></a></div><%/section%>
+                            <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%><!-- <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%>--></a></div><%/section%>
                                 <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
 						</div>
@@ -141,32 +141,6 @@
                             <div id="addBed_data"></div>
 						  </div>
 						</div>
-						<div class="control-group hide book_form_step2">
-							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> <i class="am-icon-users am-yellow-E88A26"></i>:</label>
-							<div class="controls book_user_info">
-								<input name="book_user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
-								<%$arrayLaguage['sex']['page_laguage_value']%> :
-								<select name="book_user_sex[]" class="input-small">
-									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
-									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
-								</select>
-								<%$arrayLaguage['identity_information']['page_laguage_value']%> :
-								<select name="book_user_id_card_type[]" class="input-small">
-									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-									<%section name=card_type loop=$idCardType%>
-									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
-									<%/section%>
-								</select>
-								<input type="text" name="book_user_id_card[]" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
-                                <!--<%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
-                                <input type="text" name="book_cash_pledge[]" class="span1" placeholder="<%$arrayLaguage['cash_pledge']['page_laguage_value']%>"/>// 押金-->
-							</div>
-							<div class="controls">
-							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
-							<a href="#reduceBookUser" id="reduceBookUser" class="btn btn-warning btn-mini"><i class="am-icon-user-times"></i> <%$arrayLaguage['reduce_number_of_people']['page_laguage_value']%></a>
-							</div>
-						</div>
                         <div class="control-group hide book_form_step2">
 							<label class="control-label"><%$arrayLaguage['need_service']['page_laguage_value']%> :</label>
 							<div class="controls">
@@ -178,6 +152,40 @@
                                     </option>
                                 <%/section%>
 							 </select>
+                            </div>
+                        </div>
+                        <div class="control-group hide book_form_step2">
+							<label class="control-label"><%$arrayLaguage['check_in_information']['page_laguage_value']%> <i class="am-icon-users am-yellow-E88A26"></i>:</label>
+							<div class="controls book_user_info">
+								<input name="user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
+								<%$arrayLaguage['sex']['page_laguage_value']%> :
+								<select name="user_sex[]" class="input-small">
+									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
+									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
+								</select>
+								<%$arrayLaguage['identity_information']['page_laguage_value']%> :
+								<select name="user_id_card_type[]" class="input-small">
+									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+									<%section name=card_type loop=$idCardType%>
+									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
+									<%/section%>
+								</select>
+								<input type="text" name="user_id_card[]" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/>
+                                <%$arrayLaguage['user_comments']['page_laguage_value']%> :
+                                <input type="text" name="user_comments[]" class="input-large" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"/>
+                                <!--<%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
+                                <input type="text" name="book_cash_pledge[]" class="span1" placeholder="<%$arrayLaguage['cash_pledge']['page_laguage_value']%>"/>// 押金-->
+							</div>
+							<div class="controls">
+							<a href="#addBookUser" id="addBookUser" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> <%$arrayLaguage['add_number_of_people']['page_laguage_value']%></a>
+							<a href="#reduceBookUser" id="reduceBookUser" class="btn btn-warning btn-mini"><i class="am-icon-user-times"></i> <%$arrayLaguage['reduce_number_of_people']['page_laguage_value']%></a>
+							</div>
+						</div>
+                        <div class="control-group hide book_form_step2">
+                            <label class="control-label"><%$arrayLaguage['user_comments']['page_laguage_value']%> :</label>
+                            <div class="controls">
+                             <textarea name="comments" class="span8" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"></textarea>
                             </div>
                         </div>
                         <div class="control-group hide book_form_step2">
