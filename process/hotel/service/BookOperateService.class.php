@@ -112,41 +112,44 @@ class BookOperateService extends \BaseService {
             $arrayLayoutSystem = explode('-', $roomLayoutSystem);
             $sell_id = $arrayLayoutSystem[0];
             $room_layout_id = $arrayLayoutSystem[1];
-            $system_id = $arrayLayoutSystem[2];$room_id = $arrayRoom[0];
-            $arrayRoomLayoutRoomHash[$room_id] = $room_layout_id;
-            //第一个个设为主订单
-            if($first) {
-                $arrayBill['book_order_number_main'] = '1';//主订单号
-                $arrayBill['room_sell_layout_id'] = $sell_id;
-                $arrayBill['room_layout_id'] = $room_layout_id;
-                $arrayBill['room_id'] = $room_id;
-                $arrayBill['room_layout_price_system_id'] = $system_id;
-                $arrayBill['book_room_extra_bed']    = '';
-                if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
-                    $arrayBill['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
+            $system_id = $arrayLayoutSystem[2];
+            foreach($arrayRoom as $k => $room_id) {
+                //$room_id = $arrayRoom[0];
+                $arrayRoomLayoutRoomHash[$room_id] = $room_layout_id;
+                //第一个个设为主订单
+                if($first) {
+                    $arrayBill['book_order_number_main'] = '1';//主订单号
+                    $arrayBill['room_sell_layout_id'] = $sell_id;
+                    $arrayBill['room_layout_id'] = $room_layout_id;
+                    $arrayBill['room_id'] = $room_id;
+                    $arrayBill['room_layout_price_system_id'] = $system_id;
+                    $arrayBill['book_room_extra_bed']    = '';
+                    if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
+                        $arrayBill['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
+                    }
+                    $arrayBill['book_cash_pledge'] = 0;
+                    if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
+                        $arrayBill['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                    }
+                    $first = false;
+                } else {
+                    $arraybatchInsertValue[$i - 1]['book_order_number_main'] = '0';//主订单号
+                    $arraybatchInsertValue[$i - 1]['room_sell_layout_id'] = $sell_id;
+                    $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
+                    $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
+                    $arraybatchInsertValue[$i - 1]['room_layout_price_system_id'] = $system_id;
+                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '';
+                    //$arraybatchInsertValue['book_room_sell_layout_price'] = '';//check-in ~ check-out房间总价
+                    if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
+                        $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
+                    }
+                    $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = '0';
+                    if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
+                        $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                    }
                 }
-                $arrayBill['book_cash_pledge'] = 0;
-                if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
-                    $arrayBill['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
-                }
-                $first = false;
-            } else {
-                $arraybatchInsertValue[$i - 1]['book_order_number_main'] = '0';//主订单号
-                $arraybatchInsertValue[$i - 1]['room_sell_layout_id'] = $sell_id;
-                $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
-                $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
-                $arraybatchInsertValue[$i - 1]['room_layout_price_system_id'] = $system_id;
-                $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '';
-                //$arraybatchInsertValue['book_room_sell_layout_price'] = '';//check-in ~ check-out房间总价
-                if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
-                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
-                }
-                $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = '0';
-                if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
-                    $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
-                }
+                $i++;
             }
-            $i++;
             //foreach($arrayRoom as $layout_system => $room_id) {
             //}
         }
@@ -174,7 +177,7 @@ class BookOperateService extends \BaseService {
         //添加住客
         $arrayBookUserData = array();
         foreach($arrayPostValue['user_name'] as $i => $bookUser) {
-            if(!empty($bookUser) && !empty($arrayPostValue['user_id_card'][$i])) {
+            if(!empty($bookUser)) {
                 $arrayBookUserData[$i]['book_id'] = $book_id;
                 $arrayBookUserData[$i]['book_user_name'] = $bookUser;
                 $arrayBookUserData[$i]['book_order_number'] = $book_order_number;

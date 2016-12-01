@@ -33,6 +33,8 @@
                     </div>
                 </div>
                 <div class="widget-content">
+                    订单号：<%$arrayBookInfo[0].book_order_number%>
+                   <hr>
                    <table class="table table-bordered table-striped">
                       <thead>
                         <tr>

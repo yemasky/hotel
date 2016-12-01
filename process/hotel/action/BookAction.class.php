@@ -110,8 +110,8 @@ class BookAction extends \BaseAction {
             if($order_number == 0) return $this->errorResponse('预定失败！', $arrayPostValue);
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),//edit
-                    'order_number'=>encode($order_number)));
-            return $this->successResponse('预定成功', array('order_number'=>encode($order_number)), $redirect_url);
+                    'order_number'=>encode($order_number)));//array('order_number'=>encode($order_number))
+            return $this->successResponse('预定成功', $objRequest->getPost(), $redirect_url);
         }
 
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
@@ -164,7 +164,7 @@ class BookAction extends \BaseAction {
 
     protected function doEdit($objRequest, $objResponse) {
         $order_number = decode($objRequest -> order_number);
-
+        BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);
         //设置类别
     }
 
