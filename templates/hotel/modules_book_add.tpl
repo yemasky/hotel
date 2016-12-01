@@ -35,6 +35,7 @@
 #controls_sell_layout li{font-size:inherit !important; text-align:center; margin: 5px 0 0 0;}
 #controls_sell_layout select{ margin-top:-2px;}
 .btn-icon-pg li{min-width:auto !important;}
+/*.table-bordered th, .table-bordered td {border-left: 0px solid #ddd !important;}*/
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }

@@ -177,8 +177,9 @@ class BookOperateService extends \BaseService {
         //添加住客
         $arrayBookUserData = array();
         foreach($arrayPostValue['user_name'] as $i => $bookUser) {
-            if(!empty($bookUser)) {
+            if(!empty($bookUser) && !empty($arrayPostValue['user_id_card'][$i])) {
                 $arrayBookUserData[$i]['book_id'] = $book_id;
+                $arrayBookUserData[$i]['hotel_id'] = $hotel_id;
                 $arrayBookUserData[$i]['book_user_name'] = $bookUser;
                 $arrayBookUserData[$i]['book_order_number'] = $book_order_number;
                 $arrayBookUserData[$i]['book_user_id_card'] = $arrayPostValue['user_id_card'][$i];

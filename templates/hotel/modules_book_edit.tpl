@@ -12,6 +12,7 @@
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
+.table-bordered th, .table-bordered td {border-left: 0px solid #ddd !important;}
 </style>
 </head>
 <body>
@@ -33,50 +34,187 @@
                     </div>
                 </div>
                 <div class="widget-content">
-                    订单号：<%$arrayBookInfo[0].book_order_number%>
-                   <hr>
-                   <table class="table table-bordered table-striped">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Example</th>
-                          <th>Markup</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> Default </td>
-                          <td><span class="badge">1</span></td>
-                          <td><code>&lt;span class="badge"&gt;</code></td>
-                        </tr>
-                        <tr>
-                          <td> Success </td>
-                          <td><span class="badge badge-success">2</span></td>
-                          <td><code>&lt;span class="badge badge-success"&gt;</code></td>
-                        </tr>
-                        <tr>
-                          <td> Warning </td>
-                          <td><span class="badge badge-warning">4</span></td>
-                          <td><code>&lt;span class="badge badge-warning"&gt;</code></td>
-                        </tr>
-                        <tr>
-                          <td> Important </td>
-                          <td><span class="badge badge-important">6</span></td>
-                          <td><code>&lt;span class="badge badge-important"&gt;</code></td>
-                        </tr>
-                        <tr>
-                          <td> Info </td>
-                          <td><span class="badge badge-info">8</span></td>
-                          <td><code>&lt;span class="badge badge-info"&gt;</code></td>
-                        </tr>
-                        <tr>
-                          <td> Inverse </td>
-                          <td><span class="badge badge-inverse">10</span></td>
-                          <td><code>&lt;span class="badge badge-inverse"&gt;</code></td>
-                        </tr>
-                      </tbody>
-                    </table>
-					
+                    <div class="span4">
+						<div class="widget-box">
+							<div class="widget-title">
+								<span class="icon">
+									<i class="icon-eye-open"></i>
+								</span>
+								<h5>订单号：<%$arrayDataInfo[0].book_order_number%>  订单状态：<%$arrayDataInfo[0].book_order_number_status%></h5>
+							</div>
+							<div class="widget-content nopadding">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>价格信息</th>
+											<th>单位：元</th>
+                                            <th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>总价：</td>
+											<td><%$arrayDataInfo[0].book_total_price%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+										<tr>
+											<td>预付价：</td>
+											<td><%$arrayDataInfo[0].book_prepayment_price%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+										<tr>
+											<td>总房价：</td>
+											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+                                        <tr>
+											<td>附加服务费：</td>
+											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+                                        <tr>
+											<td>服务费：</td>
+											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+                                        <tr>
+											<td>总押金：</td>
+											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+                    <div class="span4">
+						<div class="widget-box">
+							<div class="widget-title">
+								<span class="icon">
+									<i class="icon-arrow-right"></i>
+								</span>
+								<h5>支付信息</h5>
+							</div>
+							<div class="widget-content nopadding">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>支付方式</th>
+											<th>状态</th>
+                                            <th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>支付状态：</td>
+											<td><%$arrayDataInfo[0].book_is_pay%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+										<tr>
+											<td>支付到账：</td>
+											<td><%$arrayDataInfo[0].book_pay_date%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+                                        <tr>
+											<td>支付方式：</td>
+											<td><%$arrayDataInfo[0].payment_type_id%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+										<tr>
+											<td>预付状态：</td>
+											<td><%$arrayDataInfo[0].book_is_prepayment%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+										<tr>
+											<td>预付到账：</td>
+											<td><%$arrayDataInfo[0].book_prepayment_date%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+										<tr>
+											<td>预付方式：</td>
+											<td><%$arrayDataInfo[0].prepayment_type_id%></td>
+                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+                      
+                   <div class="widget-box">   
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>房型-房间</th>
+                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrayDataInfo%>
+                                <tr>
+                                  <td>
+                                      <%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%>-
+                                      <%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]-
+                                      <%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%>
+                                  </td>
+                                  <td><%$arrayDataInfo[i].book_check_in%> ~ <%$arrayDataInfo[i].book_check_out%></td>
+                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                </tr>
+                              <%/section%>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
+                   <div class="widget-box">   
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>入住信息</th>
+                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrarBookUser%>
+                                <tr>
+                                  <td>
+                                      姓名：<%$arrarBookUser[i].book_user_name%> 性别：<%$arrarBookUser[i].book_user_sex%> 身份信息：<%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%>
+                                  </td>
+                                  <td><%$arrarBookUser[i].book_check_in%> ~ <%$arrarBookUser[i].book_check_out%></td>
+                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                </tr>
+                              <%/section%>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
+                   <div class="widget-box">   
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>附加服务</th>
+                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrarBookUser%>
+                                <tr>
+                                  <td>
+                                      姓名：<%$arrarBookUser[i].book_user_name%> 性别：<%$arrarBookUser[i].book_user_sex%> 身份信息：<%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%>
+                                  </td>
+                                  <td><%$arrarBookUser[i].book_check_in%> ~ <%$arrarBookUser[i].book_check_out%></td>
+                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                </tr>
+                              <%/section%>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
                 </div>
             </div>   
         </div>

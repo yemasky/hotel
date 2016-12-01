@@ -98,6 +98,23 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('payment_type')->delete($where);
     }
 
+    //入住用户信息
+    public function getBookUser($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->setTable('book_user')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveBookUser($arrayData) {
+        return BookDao::instance()->setTable('book_user')->insert($arrayData);
+    }
+
+    public function updateBookUser($where, $row) {
+        return BookDao::instance()->setTable('book_user')->update($where, $row);
+    }
+
+    public function deleteBookUser($where) {
+        return BookDao::instance()->setTable('book_user')->delete($where);
+    }
+
 
 
 }
