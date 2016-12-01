@@ -13,6 +13,8 @@ class BookAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
         $weekarray = array("日","一","二","三","四","五","六");
         $objResponse -> today = getDay() . " 星期".$weekarray[date("w")];
+        $objResponse -> back_lis_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view'])));
     }
 
     protected function service($objRequest, $objResponse) {
@@ -107,7 +109,7 @@ class BookAction extends \BaseAction {
             $order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
             if($order_number == 0) return $this->errorResponse('预定失败！', $arrayPostValue);
             $redirect_url =
-                \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view']),//edit
+                \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),//edit
                     'order_number'=>encode($order_number)));
             return $this->successResponse('预定成功', array('order_number'=>encode($order_number)), $redirect_url);
         }
@@ -151,8 +153,6 @@ class BookAction extends \BaseAction {
         $objResponse -> arraySellLayout = $arraySellLayout;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
-        $objResponse -> back_lis_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view'])));
         $objResponse -> book_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
         //

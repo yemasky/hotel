@@ -55,7 +55,7 @@ if(!defined("INC_FUNC_COMMON")) {
 				$execute_dir = "process/" . $execute_dir . "service/";
 				break;
 			case "Impl" :
-				$execute_dir = "process/" . $execute_dir . "impl/";
+				$execute_dir = "process/" . $execute_dir . "service/impl/";
 				break;
 			case "Util" :
 				$execute_dir = "process/" . $execute_dir . "utils/";
