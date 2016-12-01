@@ -95,16 +95,8 @@ class BookAction extends \BaseAction {
             $arrayDiscount = BookService::instance()->getBookDiscount($conditions, $fieldid);
             return $this->successResponse('', $arrayDiscount);
         }
-        $this->doEdit($objRequest, $objResponse);
-        //
-        $objResponse -> book_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
-        $objResponse->view = 'add';
-        $objResponse->setTplName("hotel/modules_book_edit");
-    }
 
-    protected function doEdit($objRequest, $objResponse) {
-        $order_number = decode($objRequest -> order_number);
+        //$this->doEdit($objRequest, $objResponse);
         $arrayPostValue= $objRequest->getPost();
         $conditions = DbConfig::$db_query_conditions;
 
@@ -163,6 +155,16 @@ class BookAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['view'])));
         $objResponse -> book_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
+        //
+        $objResponse -> book_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
+        $objResponse->view = 'add';
+        $objResponse->setTplName("hotel/modules_book_edit");
+    }
+
+    protected function doEdit($objRequest, $objResponse) {
+        $order_number = decode($objRequest -> order_number);
+
         //设置类别
     }
 

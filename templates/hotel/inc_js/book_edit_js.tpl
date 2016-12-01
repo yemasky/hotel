@@ -484,10 +484,19 @@ $(document).ready(function(){
                     bookEdit.computeBookPrice(false);            
                 });
                 $('#sell_layout').change(function(e) {
+                    if(this.value == '') {
+                        $('.sell_layout_del').parent().remove();
+                        return;
+                    }
                     //select_sell_layout
-                    var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").text()
-                              +'<i class="am-icon-trash-o am-red-E43737 service_del"></i></li>';
-                    $('#select_sell_layout').append(html);
+                    var html = ' <li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").text()
+                              +'<i class="am-icon-trash-o am-red-E43737 sell_layout_del"></i></li>';
+                    $('#sell_layout').after(html);
+                    $('.sell_layout_del').each(function(index, element) {
+                        $(this).click(function(e) {
+                            $(this).parent().remove();
+                        });
+                    });
                 });
                 //增加减少人数
                 $('#addBookUser').click(function(e) {

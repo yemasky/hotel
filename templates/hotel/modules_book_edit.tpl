@@ -32,7 +32,8 @@
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 #need_service_id li{margin-left:0px;}
 #controls_service .btn-group{ margin-bottom:5px; margin-left:0px; margin-right:5px;}
-#controls_sell_layout .btn-group{font-size:inherit !important; text-align:center;}
+#controls_sell_layout li{font-size:inherit !important; text-align:center; margin: 5px 0 0 0;}
+#controls_sell_layout select{ margin-top:-2px;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -115,20 +116,24 @@
                                 <input value="1" type="text" class="input-mini" id="book_days_total" name="book_days_total" />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
-                            <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
-                            <div class="controls" id="controls_service">
-                                <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%><!-- <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%>--></a></div><%/section%>
-                            </div>
                             <label class="control-label"><%$arrayLaguage['room_layout']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_sell_layout">
-                                <select id="sell_layout" class="input-medium">
+                                <div class="btn-icon-pg">
+                                <ul id="select_sell_layout">
+                                 <select id="sell_layout" class="input-medium">
                                     <option value=""><%$arrayLaguage['all']['page_laguage_value']%></option>
                                     <%section name=i loop=$arraySellLayout%>
                                         <option value="<%$arraySellLayout[i].room_sell_layout_id%>">
                                             <%$arraySellLayout[i].room_sell_layout_name%>
                                         </option>
                                     <%/section%>
-                                 </select><div class="btn-group btn-icon-pg"><ul id="select_sell_layout"></ul></div>
+                                 </select> 
+                                 </ul>
+                                 </div>
+                            </div>
+                            <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
+                            <div class="controls" id="controls_service">
+                                <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%><!-- <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%>--></a></div><%/section%>
                                 <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
                             

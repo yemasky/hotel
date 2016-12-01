@@ -58,9 +58,9 @@
                                     <option value="11">11</option>
                                     <option value="12">12</option>
                                 </select>
-                            <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                            <button class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
-                                <a class="btn btn-primary" href="<%$add_roomLayoutPriceSystem_url%>" id="add_room_layout"><i class="am-icon-plus-square"></i> 
+                                <a class="btn btn-primary btn-mini" href="<%$add_roomLayoutPriceSystem_url%>" id="add_room_layout"><i class="am-icon-plus-square"></i> 
                                 <%$arrayLaguage['manager_room_layout_price']['page_laguage_value']%></a>
                             <%/if%>
                             </div>
