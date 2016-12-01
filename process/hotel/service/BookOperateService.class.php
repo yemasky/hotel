@@ -284,6 +284,7 @@ class BookOperateService extends \BaseService {
         $arrayBookList = array();
         if(!empty($arrayBookInfo)) {
             foreach($arrayBookInfo as $i => $arrayBook) {
+                $arrayBook['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),'order_number'=>encode($arrayBook['book_order_number'])));
                 if($arrayBook['book_order_number_main'] == '1') {
                     $arrayBookList[$arrayBook['book_order_number']] = $arrayBook;
                     $arrayBookList[$arrayBook['book_order_number']]['child'][] = $arrayBook;

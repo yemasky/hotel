@@ -247,7 +247,7 @@ $(document).ready(function(){
                         hotel_service[hotel_server_id] = '';
                     }
                 });
-                /*$('#server_-1').click(function(e) {
+                $('#server_-1').click(function(e) {
                     var hotel_service = BookEditClass.hotel_service;
                     var length = 0;
                     for(i in hotel_service) {
@@ -285,7 +285,7 @@ $(document).ready(function(){
                             $(this).parent().remove();
                         });
                      }
-                });*/
+                });
                 //联系信息事件
                 //$('#contact_mobile,#contact_name,#contact_email').bind("keyup") = 
                 $('#begin_book').bind("click", function(e) {

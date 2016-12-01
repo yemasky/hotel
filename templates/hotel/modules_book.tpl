@@ -55,10 +55,8 @@
                                     <a class="btn btn-primary" href="#"><i class="am-icon-gear"></i> User</a>
                                     <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
+                                        <li><a data-target="#" href="<%$arrayBookList[book].edit_url%>"><i class="icon-pencil"></i> Edit</a></li>
                                         <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#"><i class="i"></i> Make admin</a></li>
                                     </ul>
                                 </div>
                             </div>

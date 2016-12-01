@@ -159,7 +159,7 @@ class BookAction extends \BaseAction {
         $objResponse -> book_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         $objResponse->view = 'add';
-        $objResponse->setTplName("hotel/modules_book_edit");
+        //$objResponse->setTplName("hotel/modules_book_edit");
     }
 
     protected function doEdit($objRequest, $objResponse) {

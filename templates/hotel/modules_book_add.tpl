@@ -137,7 +137,7 @@
                                 <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%><!-- <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayHotelService[i].hotel_service_price%>--></a></div><%/section%>
                                 <a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                             </div>
-                            <!--<div class="controls">
+                            <div class="controls">
                                 <div class="btn-icon-pg">
                                 <ul>
                                  <select id="service_type" class="input-medium">
@@ -151,7 +151,7 @@
                                  <li><i class="am-icon-check-square"></i><%$arrayLaguage['base_room_price']['page_laguage_value']%><i id="server_-1" class="am-icon-trash-o am-red-E43737 service_type_del"></i></li>
                                  </ul>
                                  </div>
-                            </div>-->
+                            </div>
                             
 						</div>
 						<div class="control-group hide book_form_step2" id="room_layout_table">
@@ -280,6 +280,6 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<%include file="hotel/inc_js/book_edit_js.tpl"%>
+<%include file="hotel/inc_js/book_add_js.tpl"%>
 </body>
 </html>
