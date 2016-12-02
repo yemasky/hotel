@@ -9,10 +9,11 @@
 <!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.dataTables.min.1.10.12.css" />
 <style type="text/css">
+.custom-date-style{ cursor:pointer; color:#666666 !important;}
+.table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
-.table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
 </style>
 </head>
 <body>
@@ -200,7 +201,7 @@
                             </span>
                             <h5>客房信息</h5>
                             <div class="buttons">
-                                <a class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                <a id="add_room" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
                                 <%$arrayLaguage['add']['page_laguage_value']%></a>
                             </div>
                         </div>
@@ -209,8 +210,8 @@
                               <thead>
                                 <tr>
                                   <th>房型</th>
-                                  <th>房间</th>
                                   <th>价格体系</th>
+                                  <th>房间</th>
                                   <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
                                   <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                   <th></th>
@@ -220,13 +221,96 @@
                               <%section name=i loop=$arrayDataInfo%>
                                 <tr>
                                   <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
-                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>
+                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td><%$arrayDataInfo[i].book_check_in%></td>
                                   <td><%$arrayDataInfo[i].book_check_out%></td>
                                   <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
                               <%/section%>
+                                <tr id="add_room_tr" class="hide">
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td><div class="input-prepend input-append fr">
+                                  <a id="cancel_add_room" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
+                                  <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                  </div></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
+                   <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>入住信息</h5>
+                            <div class="buttons">
+                                <a id="add_user" class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> 
+                                <%$arrayLaguage['add']['page_laguage_value']%></a>
+                            </div>
+                        </div>
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>姓名</th>
+                                  <th>性别</th>
+                                  <th>身份信息</th>
+                                  <th>证件号码</th>
+                                  <th>入住房号</th>
+                                  <th>备注</th>
+                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
+                                  <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrayBookUser%>
+                                <tr>
+                                  <td><%$arrayBookUser[i].book_user_name%></td>
+                                  <td><%if $arrayBookUser[i].book_user_sex==1%>男<%else%>女<%/if%></td>
+                                  <td><%if $arrayBookUser[i].book_user_id_card_type!=''%><%$arrayLaguage[$arrayBookUser[i].book_user_id_card_type]['page_laguage_value']%><%/if%></td>
+                                  <td><%$arrayBookUser[i].book_user_id_card%></td>
+                                  <td><%$arrayRoomInfo[$arrayBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayBookUser[i].room_id].room_number%>]</td>
+                                  <td><%$arrayBookUser[i].book_user_comments%></td>
+                                  <td><%$arrayBookUser[i].book_check_in%></td>
+                                  <td><%$arrayBookUser[i].book_check_out%></td>
+                                  <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                </tr>
+                              <%/section%>
+                              <tr id="add_user_tr" class="hide">
+                                  <td><input name="user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" /></td>
+                                  <td>
+                                      <select name="user_sex" class="input-small">
+                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                        <option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
+                                        <option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
+                                      </select>
+                                  </td>
+                                  <td>
+                                  <select name="user_id_card_type" class="input-small">
+									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+									<%section name=card_type loop=$idCardType%>
+									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
+									<%/section%>
+								  </select>
+                                  </td>
+                                  <td><input type="text" name="user_id_card" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/></td>
+                                  <td></td>
+                                  <td><input type="text" name="user_comments" class="input-large" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"/></td>
+                                  <td><input class="input-medium" type="text" id="user_check_in"></td>
+                                  <td><input class="input-medium" type="text" id="user_check_out"></td>
+                                  <td><div class="input-prepend input-append fr">
+                                  <a id="cancel_add_user" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
+                                  <a id="asve_add_user" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                  </div>
+                                  </td>
+                                </tr>
                               </tbody>
                             </table>
                        </div>
@@ -260,48 +344,6 @@
                                   <td><%$arrayBookHotelService[i].hotel_service_price%></td>
                                   <td><%$arrayBookHotelService[i].book_hotel_service_num%></td>
                                   <td><%$arrayBookHotelService[i].book_hotel_service_discount%></td>
-                                  <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
-                                </tr>
-                              <%/section%>
-                              </tbody>
-                            </table>
-                       </div>
-                   </div>
-                   <div class="widget-box">
-                        <div class="widget-title">
-                            <span class="icon">
-                                <i class="icon-arrow-right"></i>
-                            </span>
-                            <h5>入住信息</h5>
-                            <div class="buttons">
-                                <a class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> 
-                                <%$arrayLaguage['add']['page_laguage_value']%></a>
-                            </div>
-                        </div>
-                       <div class="widget-content nopadding">  
-                            <table class="table table-bordered table-striped">
-                              <thead>
-                                <tr>
-                                  <th>姓名</th>
-                                  <th>性别</th>
-                                  <th>身份信息</th>
-                                  <th>证件号码</th>
-                                  <th>入住房号</th>
-                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
-                                  <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <%section name=i loop=$arrayBookUser%>
-                                <tr>
-                                  <td><%$arrayBookUser[i].book_user_name%></td>
-                                  <td><%if $arrayBookUser[i].book_user_sex==1%>男<%else%>女<%/if%></td>
-                                  <td><%if $arrayBookUser[i].book_user_id_card_type!=''%><%$arrayLaguage[$arrayBookUser[i].book_user_id_card_type]['page_laguage_value']%><%/if%></td>
-                                  <td><%$arrayBookUser[i].book_user_id_card%></td>
-                                  <td><%$arrayRoomInfo[$arrayBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayBookUser[i].room_id].room_number%>]</td>
-                                  <td><%$arrayBookUser[i].book_check_in%></td>
-                                  <td><%$arrayBookUser[i].book_check_out%></td>
                                   <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
                               <%/section%>
