@@ -67,15 +67,10 @@ class BookActionServiceImpl extends \BaseService  {
         //附加服务信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
         $arrayBookHotelService = BookService::instance()->getBookHotelService($conditions);
-        $arrayHotelService = array();
-        if(!empty($arrayBookHotelService)) {
-            $arrayServiceId = array();
-            foreach($arrayBookHotelService as $i => $arrayService) {
-                $arrayServiceId[] = $arrayService['hotel_service_id'];
-            }
-            $conditions['where'] = array('hotel_id'=>$hotel_id,'IN'=>array('hotel_service_id'=>$arrayServiceId));
-            $arrayHotelService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
-        }
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $conditions['order'] = 'hotel_service_father_id ASC';
+        $arrayHotelService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
+        $conditions['order'] = '';
         //附加服务
         $arrayPaymentType = BookService::instance()->getPaymentType(null, '*', '');
         //来源

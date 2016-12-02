@@ -360,7 +360,13 @@
                                 </tr>
                               <%/section%>
                                 <tr id="add_service_tr" class="hide">
-                                  <td></td>
+                                  <td><select id="sell_layout" class="input-medium">
+                                    <%foreach key=service_id item=arrayService from=$arrayHotelService%>
+                                        <option value="<%$service_id%>">
+                                            <%$arrayService.hotel_service_name%>
+                                        </option>
+                                    <%/foreach%>
+                                 </select></td>
                                   <td></td>
                                   <td></td>
                                   <td></td>
