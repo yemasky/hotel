@@ -197,7 +197,7 @@
                                 <tr>
                                   <td><%$arrarBookUser[i].book_user_name%></td>
                                   <td><%if $arrarBookUser[i].book_user_sex==1%>男<%else%>女<%/if%></td>
-                                  <td><%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%></td>
+                                  <td><%if $arrarBookUser[i].book_user_id_card_type!=''%><%$arrayLaguage[$arrarBookUser[i].book_user_id_card_type]['page_laguage_value']%>：<%/if%> <%$arrarBookUser[i].book_user_id_card%></td>
                                   <td><%$arrayRoomInfo[$arrarBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrarBookUser[i].room_id].room_number%>]</td>
                                   <td><%$arrarBookUser[i].book_check_in%> ~ <%$arrarBookUser[i].book_check_out%></td>
                                   <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
@@ -222,6 +222,7 @@
                                   <th>价格</th>
                                   <th>数量</th>
                                   <th>折扣</th>
+                                  <th></th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -231,6 +232,7 @@
                                   <td><%$arrarBookHotelService[i].hotel_service_price%></td>
                                   <td><%$arrarBookHotelService[i].book_hotel_service_num%></td>
                                   <td><%$arrarBookHotelService[i].book_hotel_service_discount%></td>
+                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
                               <%/section%>
                               </tbody>

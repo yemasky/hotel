@@ -80,6 +80,7 @@ class BookActionServiceImpl extends \BaseService  {
         $arrayPaymentType = BookService::instance()->getPaymentType(null, '*', '');
 
         //赋值
+        $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> arrayDataInfo    = $arrayBookInfo;
         $objResponse -> arrayRoomInfo    = $arrayRoomInfo;
         $objResponse -> arraySellLayout  = $arraySellLayout;
