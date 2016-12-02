@@ -81,6 +81,9 @@ class BookActionServiceImpl extends \BaseService  {
         //来源
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)));
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id');
+        //变更历史
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
+        $arrayBookChange = BookService::instance()->getBookChange($conditions, '*', 'book_type_id');
         //赋值
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> orderStatus = ModulesConfig::$orderStatus;
@@ -93,5 +96,6 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> arrayHotelService = $arrayHotelService;
         $objResponse -> arrayPaymentType = $arrayPaymentType;
         $objResponse -> arrayBookType = $arrayBookType;
+        $objResponse -> arrayBookChange = $arrayBookChange;
     }
 }

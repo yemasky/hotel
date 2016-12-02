@@ -31,7 +31,7 @@ class BookService extends \BaseService {
     public function deleteBook($where) {
         return BookDao::instance()->setTable('book')->delete($where);
     }
-
+    //预定类别来源
     public function getBookType($conditions, $fieldid = '*', $hashKey = null) {
         return BookDao::instance()->setTable('book_type')->getList($conditions, $fieldid, $hashKey);
     }
@@ -48,6 +48,7 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('book_type')->delete($where);
     }
 
+    //折扣
     public function getBookDiscount($conditions, $fieldid = '*', $hashKey = null) {
         return BookDao::instance()->setTable('book_discount')->getList($conditions, $fieldid, $hashKey);
     }
@@ -132,5 +133,20 @@ class BookService extends \BaseService {
     public function deleteBookHotelService($where) {
         return BookDao::instance()->setTable('book_hotel_service')->delete($where);
     }
+    //预定变化历史
+    public function getBookChange($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->setTable('book_change')->getList($conditions, $field, $hashKey, $multiple);
+    }
 
+    public function saveBookChange($arrayData) {
+        return BookDao::instance()->setTable('book_change')->insert($arrayData);
+    }
+
+    public function updateBookChange($where, $row) {
+        return BookDao::instance()->setTable('book_change')->update($where, $row);
+    }
+
+    public function deleteBookChange($where) {
+        return BookDao::instance()->setTable('book_change')->delete($where);
+    }
 }

@@ -199,6 +199,10 @@
                                 <i class="icon-arrow-right"></i>
                             </span>
                             <h5>客房信息</h5>
+                            <div class="buttons">
+                                <a class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                <%$arrayLaguage['add']['page_laguage_value']%></a>
+                            </div>
                         </div>
                        <div class="widget-content nopadding">  
                             <table class="table table-bordered table-striped">
@@ -231,6 +235,10 @@
                                 <i class="icon-arrow-right"></i>
                             </span>
                             <h5>入住信息</h5>
+                            <div class="buttons">
+                                <a class="btn btn-primary btn-mini"><i class="am-icon-user-plus"></i> 
+                                <%$arrayLaguage['add']['page_laguage_value']%></a>
+                            </div>
                         </div>
                        <div class="widget-content nopadding">  
                             <table class="table table-bordered table-striped">
@@ -265,6 +273,10 @@
                                 <i class="icon-arrow-right"></i>
                             </span>
                             <h5>附加服务</h5>
+                            <div class="buttons">
+                                <a class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                <%$arrayLaguage['add']['page_laguage_value']%></a>
+                            </div>
                         </div>
                        <div class="widget-content nopadding">  
                             <table class="table table-bordered table-striped">
@@ -302,15 +314,14 @@
                             <table class="table table-bordered table-striped">
                               <thead>
                                 <tr>
-                                  <th>项目</th>
-                                  <th>价格</th>
-                                  <th>数量</th>
-                                  <th>折扣</th>
-                                  <th></th>
+                                  <th>变更项目</th>
+                                  <th>变更内容</th>
+                                  <th>涉及价钱</th>
+                                  <th>变更时间</th>
                                 </tr>
                               </thead>
                               <tbody>
-                              <%section name=i loop=$arrayBookHotelService%>
+                              <%section name=i loop=$arrayBookChange%>
                                 <tr>
                                   <td></td>
                                   <td></td>
