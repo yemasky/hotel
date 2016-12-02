@@ -229,6 +229,42 @@
                             </table>
                        </div>
                    </div>
+                   <div class="widget-box">   
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>附加服务</h5>
+                            <div class="buttons">
+                                <a class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                <%$arrayLaguage['add']['page_laguage_value']%></a>
+                            </div>
+                        </div>
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>项目</th>
+                                  <th>价格</th>
+                                  <th>数量</th>
+                                  <th>折扣</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrayBookHotelService%>
+                                <tr>
+                                  <td><%$arrayHotelService[$arrayBookHotelService[i].hotel_service_id].hotel_service_name%></td>
+                                  <td><%$arrayBookHotelService[i].hotel_service_price%></td>
+                                  <td><%$arrayBookHotelService[i].book_hotel_service_num%></td>
+                                  <td><%$arrayBookHotelService[i].book_hotel_service_discount%></td>
+                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                </tr>
+                              <%/section%>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
                    <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon">
@@ -260,42 +296,6 @@
                                   <td><%if $arrayBookUser[i].book_user_id_card_type!=''%><%$arrayLaguage[$arrayBookUser[i].book_user_id_card_type]['page_laguage_value']%>：<%/if%> <%$arrayBookUser[i].book_user_id_card%></td>
                                   <td><%$arrayRoomInfo[$arrayBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayBookUser[i].room_id].room_number%>]</td>
                                   <td><%$arrayBookUser[i].book_check_in%> ~ <%$arrayBookUser[i].book_check_out%></td>
-                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
-                                </tr>
-                              <%/section%>
-                              </tbody>
-                            </table>
-                       </div>
-                   </div>
-                   <div class="widget-box">   
-                        <div class="widget-title">
-                            <span class="icon">
-                                <i class="icon-arrow-right"></i>
-                            </span>
-                            <h5>附加服务</h5>
-                            <div class="buttons">
-                                <a class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
-                                <%$arrayLaguage['add']['page_laguage_value']%></a>
-                            </div>
-                        </div>
-                       <div class="widget-content nopadding">  
-                            <table class="table table-bordered table-striped">
-                              <thead>
-                                <tr>
-                                  <th>项目</th>
-                                  <th>价格</th>
-                                  <th>数量</th>
-                                  <th>折扣</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <%section name=i loop=$arrayBookHotelService%>
-                                <tr>
-                                  <td><%$arrayHotelService[$arrayBookHotelService[i].hotel_service_id].hotel_service_name%></td>
-                                  <td><%$arrayBookHotelService[i].hotel_service_price%></td>
-                                  <td><%$arrayBookHotelService[i].book_hotel_service_num%></td>
-                                  <td><%$arrayBookHotelService[i].book_hotel_service_discount%></td>
                                   <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
                               <%/section%>
