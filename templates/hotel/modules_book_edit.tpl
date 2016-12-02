@@ -126,7 +126,7 @@
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 										<tr>
-											<td><%$arrayLaguage['checkin_name']['page_laguage_value']%>：</td>
+											<td><%$arrayLaguage['book_man']['page_laguage_value']%>：</td>
 											<td><%$arrayDataInfo[0].book_contact_name%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
@@ -245,7 +245,7 @@
                               <thead>
                                 <tr>
                                   <th>项目</th>
-                                  <th>价格</th>
+                                  <th>单价</th>
                                   <th>数量</th>
                                   <th>折扣</th>
                                   <th></th>
