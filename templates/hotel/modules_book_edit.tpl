@@ -196,7 +196,7 @@
                               <%section name=i loop=$arrarBookUser%>
                                 <tr>
                                   <td><%$arrarBookUser[i].book_user_name%></td>
-                                  <td><%$arrarBookUser[i].book_user_sex%></td>
+                                  <td><%if $arrarBookUser[i].book_user_sex==1%>男<%else%>女<%/if%></td>
                                   <td><%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%></td>
                                   <td><%$arrayRoomInfo[$arrarBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrarBookUser[i].room_id].room_number%>]</td>
                                   <td><%$arrarBookUser[i].book_check_in%> ~ <%$arrarBookUser[i].book_check_out%></td>
