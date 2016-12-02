@@ -239,6 +239,38 @@
                             </table>
                        </div>
                    </div>
+                   <div class="widget-box">   
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>变更历史</h5>
+                        </div>
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>项目</th>
+                                  <th>价格</th>
+                                  <th>数量</th>
+                                  <th>折扣</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrarBookHotelService%>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              <%/section%>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
                 </div>
             </div>   
         </div>

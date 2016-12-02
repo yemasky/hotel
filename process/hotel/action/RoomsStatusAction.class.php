@@ -9,7 +9,7 @@
 namespace hotel;
 
 
-class AdministrationAction extends \BaseAction {
+class RoomsStatusAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
 
     }
