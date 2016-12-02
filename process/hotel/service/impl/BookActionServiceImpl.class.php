@@ -77,6 +77,7 @@ class BookActionServiceImpl extends \BaseService  {
             $arrayHotelService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
         }
         //附加服务
+        $arrayPaymentType = BookService::instance()->getPaymentType(null, '*', '');
 
         //赋值
         $objResponse -> arrayDataInfo    = $arrayBookInfo;
@@ -86,5 +87,6 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> arrarBookUser = $arrarBookUser;
         $objResponse -> arrarBookHotelService = $arrarBookHotelService;
         $objResponse -> arrayHotelService = $arrayHotelService;
+        $objResponse -> arrayPaymentType = $arrayPaymentType;
     }
 }

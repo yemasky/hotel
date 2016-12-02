@@ -12,7 +12,7 @@
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
-.table-bordered th, .table-bordered td {border-left: 1px solid #ddd !important;}
+.table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
 </style>
 </head>
 <body>
@@ -107,32 +107,32 @@
 									<tbody>
 										<tr>
 											<td>支付状态：</td>
-											<td><%$arrayDataInfo[0].book_is_pay%></td>
+											<td><%if $arrayDataInfo[0].book_is_pay==1%>已支付<%else%>未支付<%/if%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 										<tr>
 											<td>支付到账：</td>
-											<td><%$arrayDataInfo[0].book_pay_date%></td>
+											<td><%if $arrayDataInfo[0].book_pay_date ==''%>未到账<%else%>到账时间:<%$arrayDataInfo[0].book_pay_date%><%/if%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
                                         <tr>
 											<td>支付方式：</td>
-											<td><%$arrayDataInfo[0].payment_type_id%></td>
+											<td><%if $arrayDataInfo[0].payment_type_id > 0%><%$arrayPaymentType[$arrayDataInfo[0].payment_type_id].payment_type_name%><%else%>未支付<%/if%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 										<tr>
 											<td>预付状态：</td>
-											<td><%$arrayDataInfo[0].book_is_prepayment%></td>
+											<td><%if $arrayDataInfo[0].book_is_prepayment==1%>已预付<%else%>未预付<%/if%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 										<tr>
 											<td>预付到账：</td>
-											<td><%$arrayDataInfo[0].book_prepayment_date%></td>
+											<td><%if $arrayDataInfo[0].book_prepayment_date ==''%>未到账<%else%>到账时间: <%$arrayDataInfo[0].book_prepayment_date%><%/if%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 										<tr>
 											<td>预付方式：</td>
-											<td><%$arrayDataInfo[0].prepayment_type_id%></td>
+											<td><%if $arrayDataInfo[0].prepayment_type_id > 0%><%$arrayPaymentType[$arrayDataInfo[0].prepayment_type_id].payment_type_name%><%else%>未支付<%/if%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 									</tbody>
@@ -154,7 +154,7 @@
                                 <tr>
                                   <th>房型</th>
                                   <th>房间</th>
-                                  <th>服务</th>
+                                  <th>价格体系</th>
                                   <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                   <th></th>
                                 </tr>

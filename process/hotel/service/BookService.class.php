@@ -82,6 +82,7 @@ class BookService extends \BaseService {
         return $arrayBookType;
     }
 
+    //支付方式
     public function getPaymentType($conditions, $fieldid = '*', $hashKey = null) {
         return BookDao::instance()->setTable('payment_type')->getList($conditions, $fieldid, $hashKey);
     }
