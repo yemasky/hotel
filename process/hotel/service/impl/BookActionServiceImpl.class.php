@@ -63,14 +63,14 @@ class BookActionServiceImpl extends \BaseService  {
         $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_price_system_id');
         //入住信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
-        $arrarBookUser = BookService::instance()->getBookUser($conditions);
+        $arrayBookUser = BookService::instance()->getBookUser($conditions);
         //附加服务信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
-        $arrarBookHotelService = BookService::instance()->getBookHotelService($conditions);
+        $arrayBookHotelService = BookService::instance()->getBookHotelService($conditions);
         $arrayHotelService = array();
-        if(!empty($arrarBookHotelService)) {
+        if(!empty($arrayBookHotelService)) {
             $arrayServiceId = array();
-            foreach($arrarBookHotelService as $i => $arrayService) {
+            foreach($arrayBookHotelService as $i => $arrayService) {
                 $arrayServiceId[] = $arrayService['hotel_service_id'];
             }
             $conditions['where'] = array('hotel_id'=>$hotel_id,'IN'=>array('hotel_service_id'=>$arrayServiceId));
@@ -78,16 +78,19 @@ class BookActionServiceImpl extends \BaseService  {
         }
         //附加服务
         $arrayPaymentType = BookService::instance()->getPaymentType(null, '*', '');
-
+        //来源
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)));
+        $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id');
         //赋值
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> arrayDataInfo    = $arrayBookInfo;
         $objResponse -> arrayRoomInfo    = $arrayRoomInfo;
         $objResponse -> arraySellLayout  = $arraySellLayout;
         $objResponse -> arrayPriceSystem = $arrayPriceSystem;
-        $objResponse -> arrarBookUser = $arrarBookUser;
-        $objResponse -> arrarBookHotelService = $arrarBookHotelService;
+        $objResponse -> arrayBookUser = $arrayBookUser;
+        $objResponse -> arrayBookHotelService = $arrayBookHotelService;
         $objResponse -> arrayHotelService = $arrayHotelService;
         $objResponse -> arrayPaymentType = $arrayPaymentType;
+        $objResponse -> arrayBookType = $arrayBookType;
     }
 }
