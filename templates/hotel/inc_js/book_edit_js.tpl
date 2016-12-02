@@ -63,6 +63,12 @@ $(document).ready(function(){
                 $('#cancel_add_room').click(function(e) {
                     $('#add_room_tr').hide();
                 });
+                $('#add_service').click(function(e) {
+                    $('#add_service_tr').show('slow');
+                });
+                $('#cancel_add_service').click(function(e) {
+                    $('#add_service_tr').hide();
+                });
 
             };
             return bookEdit;

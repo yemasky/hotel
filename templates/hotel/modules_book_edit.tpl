@@ -334,7 +334,7 @@
                             </span>
                             <h5>附加服务</h5>
                             <div class="buttons">
-                                <a class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                <a id="add_service" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
                                 <%$arrayLaguage['add']['page_laguage_value']%></a>
                             </div>
                         </div>
@@ -359,6 +359,16 @@
                                   <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
                               <%/section%>
+                                <tr id="add_service_tr" class="hide">
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td><div class="input-prepend input-append fr">
+                                  <a id="cancel_add_service" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
+                                  <a id="asve_add_service" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                  </div></td>
+                                </tr>
                               </tbody>
                             </table>
                        </div>
