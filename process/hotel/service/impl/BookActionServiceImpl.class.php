@@ -64,11 +64,27 @@ class BookActionServiceImpl extends \BaseService  {
         //入住信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
         $arrarBookUser = BookService::instance()->getBookUser($conditions);
-        //
+        //附加服务信息
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
+        $arrarBookHotelService = BookService::instance()->getBookHotelService($conditions);
+        $arrayHotelService = array();
+        if(!empty($arrarBookHotelService)) {
+            $arrayServiceId = array();
+            foreach($arrarBookHotelService as $i => $arrayService) {
+                $arrayServiceId[] = $arrayService['hotel_service_id'];
+            }
+            $conditions['where'] = array('hotel_id'=>$hotel_id,'IN'=>array('hotel_service_id'=>$arrayServiceId));
+            $arrayHotelService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
+        }
+        //附加服务
+
+        //赋值
         $objResponse -> arrayDataInfo    = $arrayBookInfo;
         $objResponse -> arrayRoomInfo    = $arrayRoomInfo;
         $objResponse -> arraySellLayout  = $arraySellLayout;
         $objResponse -> arrayPriceSystem = $arrayPriceSystem;
         $objResponse -> arrarBookUser = $arrarBookUser;
+        $objResponse -> arrarBookHotelService = $arrarBookHotelService;
+        $objResponse -> arrayHotelService = $arrayHotelService;
     }
 }

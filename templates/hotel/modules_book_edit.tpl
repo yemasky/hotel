@@ -12,7 +12,7 @@
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
-.table-bordered th, .table-bordered td {border-left: 0px solid #ddd !important;}
+.table-bordered th, .table-bordered td {border-left: 1px solid #ddd !important;}
 </style>
 </head>
 <body>
@@ -142,11 +142,19 @@
 					</div>
                       
                    <div class="widget-box">   
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>客房信息</h5>
+                        </div>
                        <div class="widget-content nopadding">  
                             <table class="table table-bordered table-striped">
                               <thead>
                                 <tr>
-                                  <th>房型-房间</th>
+                                  <th>房型</th>
+                                  <th>房间</th>
+                                  <th>服务</th>
                                   <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                   <th></th>
                                 </tr>
@@ -154,11 +162,9 @@
                               <tbody>
                               <%section name=i loop=$arrayDataInfo%>
                                 <tr>
-                                  <td>
-                                      <%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%>-
-                                      <%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]-
-                                      <%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%>
-                                  </td>
+                                  <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
+                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
+                                  <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>
                                   <td><%$arrayDataInfo[i].book_check_in%> ~ <%$arrayDataInfo[i].book_check_out%></td>
                                   <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
@@ -167,12 +173,21 @@
                             </table>
                        </div>
                    </div>
-                   <div class="widget-box">   
+                   <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>入住信息</h5>
+                        </div>
                        <div class="widget-content nopadding">  
                             <table class="table table-bordered table-striped">
                               <thead>
                                 <tr>
-                                  <th>入住信息</th>
+                                  <th>姓名</th>
+                                  <th>性别</th>
+                                  <th>身份信息</th>
+                                  <th>入住房号</th>
                                   <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                   <th></th>
                                 </tr>
@@ -180,9 +195,10 @@
                               <tbody>
                               <%section name=i loop=$arrarBookUser%>
                                 <tr>
-                                  <td>
-                                      姓名：<%$arrarBookUser[i].book_user_name%> 性别：<%$arrarBookUser[i].book_user_sex%> 身份信息：<%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%>
-                                  </td>
+                                  <td><%$arrarBookUser[i].book_user_name%></td>
+                                  <td><%$arrarBookUser[i].book_user_sex%></td>
+                                  <td><%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%></td>
+                                  <td><%$arrayRoomInfo[$arrarBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrarBookUser[i].room_id].room_number%>]</td>
                                   <td><%$arrarBookUser[i].book_check_in%> ~ <%$arrarBookUser[i].book_check_out%></td>
                                   <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
@@ -192,23 +208,29 @@
                        </div>
                    </div>
                    <div class="widget-box">   
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>附加服务</h5>
+                        </div>
                        <div class="widget-content nopadding">  
                             <table class="table table-bordered table-striped">
                               <thead>
                                 <tr>
-                                  <th>附加服务</th>
-                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%> ~ <%$arrayLaguage['checkout']['page_laguage_value']%></th>
-                                  <th></th>
+                                  <th>项目</th>
+                                  <th>价格</th>
+                                  <th>数量</th>
+                                  <th>折扣</th>
                                 </tr>
                               </thead>
                               <tbody>
-                              <%section name=i loop=$arrarBookUser%>
+                              <%section name=i loop=$arrarBookHotelService%>
                                 <tr>
-                                  <td>
-                                      姓名：<%$arrarBookUser[i].book_user_name%> 性别：<%$arrarBookUser[i].book_user_sex%> 身份信息：<%$arrarBookUser[i].book_user_id_card_type%> <%$arrarBookUser[i].book_user_id_card%>
-                                  </td>
-                                  <td><%$arrarBookUser[i].book_check_in%> ~ <%$arrarBookUser[i].book_check_out%></td>
-                                  <td><a class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                  <td><%$arrayHotelService[$arrarBookHotelService[i].hotel_service_id].hotel_service_name%></td>
+                                  <td><%$arrarBookHotelService[i].hotel_service_price%></td>
+                                  <td><%$arrarBookHotelService[i].book_hotel_service_num%></td>
+                                  <td><%$arrarBookHotelService[i].book_hotel_service_discount%></td>
                                 </tr>
                               <%/section%>
                               </tbody>
