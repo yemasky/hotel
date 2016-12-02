@@ -69,17 +69,17 @@
 										</tr>
                                         <tr>
 											<td>附加服务费：</td>
-											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+											<td><%$arrayDataInfo[0].book_need_service_price%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
                                         <tr>
 											<td>服务费：</td>
-											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+											<td><%$arrayDataInfo[0].book_service_charge%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
                                         <tr>
 											<td>总押金：</td>
-											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
+											<td><%$arrayDataInfo[0].book_total_cash_pledge%></td>
                                             <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
 										</tr>
 									</tbody>
