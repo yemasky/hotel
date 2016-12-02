@@ -62,10 +62,10 @@
                 <div class="widget-content nopadding">
                     <form action="#" method="post" class="form-horizontal ui-formwizard" enctype="multipart/form-data" name="contact_form" id="contact_form">
                     	<div class="control-group" id="form-wizard-1">
-                            <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> 
+                            <label class="control-label"><%$arrayLaguage['checkin_name']['page_laguage_value']%> 
                             <i class="am-icon-user am-green-54B51C"></i> :</label>
                             <div class="controls">
-                            <input type="text" id="contact_name" name="contact_name" class="input-medium" placeholder="<%$arrayLaguage['contacts']['page_laguage_value']%>"  />
+                            <input type="text" id="contact_name" name="contact_name" class="input-medium" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>"  />
                             <%$arrayLaguage['mobile']['page_laguage_value']%> <i class="am-icon-mobile am-green-54B51C"></i> : 
                             <input type="text" id="contact_mobile" name="contact_mobile" class="input-medium" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
                             <!--<%$arrayLaguage['email']['page_laguage_value']%> : 

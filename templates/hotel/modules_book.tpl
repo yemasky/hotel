@@ -6,6 +6,8 @@
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <style type="text/css">
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
+.dropdown-menu {margin: 2px -65px 0 !important;}
+.dropdown-menu li{padding:0px !important;}
 </style>
 </head>
 <body>
@@ -33,11 +35,15 @@
                         <div class="control-group" id="form-wizard-1">
                             <label class="control-label"><%$arrayLaguage['please_select']['page_laguage_value']%> :</label>
                             <div class="controls">
-                                <input class="span2" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" /> - 
-                                <input class="span2" type="text" id="time_end" name="time_end" value="<%$toDay%>" />
-                                <button class="btn btn-mini btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                                <div class="input-prepend input-append">
+                                    <span class="add-on am-icon-calendar"></span>
+                                    <input class="input-small" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" />
+                                    <span class="add-on am-icon-user"></span>
+                                    <input class="input-small" type="text" id="user_name" name="user_name" value="<%$user_name%>" />
+                                    <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
+                                </div>
                             <%if $arrayRoleModulesEmployee['role_modules_action_permissions']> 0%>
-                                <a class="btn btn-mini btn-primary" href="<%$add_book_url%>"><i class="am-icon-user-plus"></i>
+                                <a class="btn btn-link" href="<%$add_book_url%>"><i class="am-icon-user-plus"></i>
                                 <%$arrayLaguage['add_book']['page_laguage_value']%></a>
                             <%/if%>
                             </div>
@@ -52,29 +58,33 @@
                         <i class="am-icon-user am-green-54B51C"></i>
                         	<div class="fr">
                                 <div class="btn-group">
-                                    <a class="btn btn-primary" href="#"><i class="am-icon-gear"></i> User</a>
+                                    <a class="btn btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
                                     <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a data-target="#" href="<%$arrayBookList[book].edit_url%>"><i class="icon-pencil"></i> Edit</a></li>
-                                        <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+                                        <li><a data-target="#" href="<%$arrayBookList[book].number_main.edit_url%>"><i class="am-icon-pencil-square-o"></i> Edit</a></li>
+                                        <li><a data-target="#" href="#"><i class="am-icon-trash-o"></i> Delete</a></li>
                                     </ul>
                                 </div>
                             </div>
-                          <a href="#collapse<%$arrayBookList[book].book_order_number%>" data-toggle="collapse">
-                            <strong><%$arrayBookList[book].book_contact_name%></strong> 
+                          <a href="#collapse<%$arrayBookList[book].number_main.book_order_number%>" data-toggle="collapse">
+                            <strong><%$arrayBookList[book].number_main.book_contact_name%></strong> 
                             <span class="user-info"> 
-                                <i class="am-icon-bed am-blue-17C6EA"></i>1 user <span> </span>
-                                <i class="am-icon-clock-o am-blue-17C6EA"></i> : <%$arrayBookList[book].book_add_date%> <%$arrayBookList[book].book_add_time%> 
-                                <i class="am-icon-mobile am-blue-17C6EA"></i> : <%$arrayBookList[book].book_contact_mobile%> 
-                            
+                                <i class="am-icon-bed am-blue-17C6EA"></i> : 
+                                <%$arrayBookList[book].room_num%> room <span> </span>
+                                <i class="am-icon-clock-o am-blue-17C6EA"></i> : 
+                                <%$arrayBookList[book].number_main.book_add_date%> <%$arrayBookList[book].number_main.book_add_time%> 
+                                <i class="am-icon-mobile am-blue-17C6EA"></i> : 
+                                <%$arrayBookList[book].number_main.book_contact_mobile%> 
+                                <i class="am-icon-commenting-o"></i> : 
+                                <%$arrayBookList[book].number_main.book_comments%></a>
                             </span>
-                          </a>
-                          <p><a href="#collapse<%$arrayBookList[book].book_order_number%>" data-toggle="collapse"><i class="am-icon-commenting-o"></i>
-                          <%$arrayBookList[book].book_comments%></a> </p>
+                          </a><p></p>
+                          <!--<p><a href="#collapse<%$arrayBookList[book].number_main.book_order_number%>" data-toggle="collapse"><i class="am-icon-commenting-o"></i>
+                          <%$arrayBookList[book].number_main.book_comments%></a> </p>-->
                           
                           </div>
                           <%section name=lodger loop=$arrayBookList[book].child%>
-                          <div class="collapse" id="collapse<%$arrayBookList[book].book_order_number%>">
+                          <div class="collapse" id="collapse<%$arrayBookList[book].number_main.book_order_number%>">
                                 <div class="new-update clearfix"><i class="icon-ok-sign"></i>
                                   <div class="update-done">
                                     <%$arrayBookList[book].child[lodger].book_contact_name%> <span><%$arrayBookList[book].child[lodger].book_comments%></span> 

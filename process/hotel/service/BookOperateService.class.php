@@ -278,22 +278,34 @@ class BookOperateService extends \BaseService {
         $toDay = $objRequest -> time_end;
         $thisDay = empty($thisDay) ? getDay() : $thisDay;
         $toDay = empty($toDay) ? getDay(7*24) : $toDay;
+        $user_name = $objRequest -> user_name;
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-            '>='=>array('book_check_in'=>$thisDay),
-            '<='=>array('book_check_out'=>$toDay));
+            '>='=>array('book_check_in'=>$thisDay));//'<='=>array('book_check_out'=>$toDay)
+        if(!empty($user_name)) {
+            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                '>='=>array('book_check_in'=>$thisDay),
+                'LIKE'=>array('book_contact_name'=>$user_name));//'<='=>array('book_check_out'=>$toDay)
+        }
         $conditions['order'] = 'book_check_in ASC, book_order_number ASC, book_order_number_main DESC';
         $arrayBookInfo = BookService::instance()->getBook($conditions);
         $arrayBookList = array();
         if(!empty($arrayBookInfo)) {
             foreach($arrayBookInfo as $i => $arrayBook) {
-                $arrayBook['edit_url'] = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),'order_number'=>encode($arrayBook['book_order_number'])));
+                $arrayBook['edit_url'] =
+                    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),'order_number'=>encode($arrayBook['book_order_number'])));
                 if($arrayBook['book_order_number_main'] == '1') {
-                    $arrayBookList[$arrayBook['book_order_number']] = $arrayBook;
+                    $arrayBookList[$arrayBook['book_order_number']]['number_main'] = $arrayBook;
                     $arrayBookList[$arrayBook['book_order_number']]['child'][] = $arrayBook;
                 } else {
                     $arrayBookList[$arrayBook['book_order_number']]['child'][] = $arrayBook;
+
+                }
+                if(isset($arrayBookList[$arrayBook['book_order_number']]['room_num'])) {
+                    $arrayBookList[$arrayBook['book_order_number']]['room_num'] = $arrayBookList[$arrayBook['book_order_number']]['room_num'] + 1;
+                } else {
+                    $arrayBookList[$arrayBook['book_order_number']]['room_num'] = 1;
                 }
             }
         }
@@ -304,6 +316,7 @@ class BookOperateService extends \BaseService {
         $objResponse -> thisMonth = getMonth();
         $objResponse -> thisDay = $thisDay;
         $objResponse -> toDay = $toDay;
+        $objResponse -> user_name = $user_name;
     }
 
     public function searchISBookRoomLayout($objRequest, $objResponse) {

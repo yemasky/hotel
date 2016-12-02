@@ -619,7 +619,7 @@ class DBQuery{
             $join = array ();
             foreach($conditions as $key => $condition) {
 				if(empty($key)) throw  new  Exception('$key is empty');
-                if($key == 'like') {
+                if($key == 'LIKE') {
                     foreach($condition as $condition_key => $condition_value) {
                         if(strpos($condition_key, '.') === false) {
                             $join[] = "`{$condition_key}` LIKE '%{$condition_value}%'";
