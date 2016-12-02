@@ -56,10 +56,10 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions['where'] = array('hotel_id'=>$hotel_id,'IN'=>array('room_id'=>$arrayRoomId));
         $arrayRoomInfo = RoomService::instance()->getRoom($conditions, '*', 'room_id');
         //房型
-        $conditions['where'] = array('hotel_id'=>$hotel_id,'IN'=>array('room_sell_layout_id'=>$arraySellLayoutId));
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'room_sell_layout_valid'=>1);
         $arraySellLayout = RoomService::instance()->getRoomSellLayout($conditions, '*', 'room_sell_layout_id');
         //价格体系
-        $conditions['where'] = array('IN'=>array('room_layout_price_system_id'=>$arraySystemID));
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$hotel_id)));
         $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions, '*', 'room_layout_price_system_id');
         //入住信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);

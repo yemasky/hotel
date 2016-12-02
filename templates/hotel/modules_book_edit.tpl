@@ -229,8 +229,20 @@
                                 </tr>
                               <%/section%>
                                 <tr id="add_room_tr" class="hide">
-                                  <td></td>
-                                  <td></td>
+                                  <td><select id="sell_layout" class="input-medium">
+                                    <%foreach key=room_sell_layout_id item=arrayLayout from=$arraySellLayout%>
+                                        <option value="<%$room_sell_layout_id%>">
+                                            <%$arrayLayout.room_sell_layout_name%>
+                                        </option>
+                                    <%/foreach%>
+                                 </select></td>
+                                  <td><select id="sell_layout" class="input-medium">
+                                    <%foreach key=system_id item=arraySystem from=$arrayPriceSystem%>
+                                        <option value="<%$system_id%>">
+                                            <%$arraySystem.room_layout_price_system_name%>
+                                        </option>
+                                    <%/foreach%>
+                                 </select></td>
                                   <td></td>
                                   <td></td>
                                   <td></td>
