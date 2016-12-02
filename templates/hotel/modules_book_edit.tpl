@@ -39,8 +39,8 @@
 							<div class="widget-title">
 								<span class="icon">
 									<i class="icon-eye-open"></i>
-								</span>
-								<h5>订单号：<%$arrayDataInfo[0].book_order_number%>  订单状态：<%$arrayDataInfo[0].book_order_number_status%></h5>
+								</span><!--A3 单状态 -1 失效 0预定成功 1入住 2退房完成-->
+								<h5>订单号：<%$arrayDataInfo[0].book_order_number%>  订单状态：<%$arrayLaguage[$orderStatus[$arrayDataInfo[0].book_order_number_status]]['page_laguage_value']%></h5>
 							</div>
 							<div class="widget-content nopadding">
 								<table class="table table-bordered">

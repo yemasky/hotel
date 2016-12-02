@@ -83,6 +83,7 @@ class BookActionServiceImpl extends \BaseService  {
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id');
         //赋值
         $objResponse -> idCardType = ModulesConfig::$idCardType;
+        $objResponse -> orderStatus = ModulesConfig::$orderStatus;
         $objResponse -> arrayDataInfo    = $arrayBookInfo;
         $objResponse -> arrayRoomInfo    = $arrayRoomInfo;
         $objResponse -> arraySellLayout  = $arraySellLayout;

@@ -36,6 +36,8 @@ class ModulesConfig extends \ModulesConfig {
     );
 
     public static $idCardType = array('id_card', 'passport', 'certificate_officers', 'other');
+    //<!--A3 单状态 -1 失效 0预定成功 1入住 2退房-->
+    public static $orderStatus = array(-1=>'order_failure', 0=>'order_success', 1=>'order_chechin', 2=>'order_no_show');
 
     public $room_layout_price_system_id = 1;
 
