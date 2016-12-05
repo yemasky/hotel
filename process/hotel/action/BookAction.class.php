@@ -59,6 +59,7 @@ class BookAction extends \BaseAction {
     }
 
     protected function doAdd($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions = DbConfig::$db_query_conditions;
         if($objRequest -> search == 'searchRoomLayout') {
             $this -> setDisplay();
@@ -82,8 +83,16 @@ class BookAction extends \BaseAction {
             $this -> setDisplay();
             $room_layout_id = $objRequest -> room_layout_id;
             if(empty($room_layout_id)) return $this->errorResponse('房型错误，请重新选择！');
-            $conditions['where'] = array('rlr.room_layout_id'=>$room_layout_id,
-                'r.hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+            //查找已预定和入住的房子
+            $arrayRoomId = BookOperateService::instance()->getHaveCheckInRoom($conditions, $hotel_id, $objRequest->book_check_in, $objRequest->book_check_out);
+            $arrayRoomId = '';
+            if(empty($arrayRoomId)) {
+                $conditions['where'] = array('rlr.room_layout_id'=>$room_layout_id,
+                    'r.hotel_id'=>$hotel_id);
+            } else {
+                $conditions['where'] = array('rlr.room_layout_id'=>$room_layout_id,
+                'r.hotel_id'=>$hotel_id,'NOT IN'=>array('r.room_id'=>$arrayRoomId));
+            }
             $arrayRoom = RoomService::instance()->getRoomLayoutRoomDetailed($conditions);
             return $this->successResponse('', $arrayRoom);
         }
@@ -92,7 +101,7 @@ class BookAction extends \BaseAction {
             $book_type_id = $objRequest -> book_type_id;
             if(empty($book_type_id)) return $this->errorResponse('数据错误，请重新选择！');
             $conditions['where'] = array('book_type_id'=>$book_type_id,
-                'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+                'hotel_id'=>$hotel_id);
             $fieldid = 'book_discount_id, book_discount, book_discount_name, agreement_company_name';
             $arrayDiscount = BookService::instance()->getBookDiscount($conditions, $fieldid);
             return $this->successResponse('', $arrayDiscount);
@@ -114,7 +123,7 @@ class BookAction extends \BaseAction {
             return $this->successResponse('预定成功', $objRequest->getPost(), $redirect_url);
         }
 
-        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        //$hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)));
         $arrayBookType = BookService::instance()->getBookType($conditions);
 

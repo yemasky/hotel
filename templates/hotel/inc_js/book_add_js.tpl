@@ -21,7 +21,6 @@ $(document).ready(function(){
 	});
 	$('#book_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
 		beforeShowDay: function(date) {
-            //new Date($('#book_check_in').val()).getDate()
 			//var dateToDisable = new Date($('#book_check_in').val());
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false];
@@ -77,13 +76,13 @@ $(document).ready(function(){
         $('#book_days_total').val(days);
         
         var day = outDateTime.getDate();
-        day = day < 10 ? '0' + day : day;
+        day = (day - 0) < 10 ? '0' + day : day;
         var month = outDateTime.getMonth() + 1;
         month = month < 10 ? '0' + month : month;
         $('#max_date').val(outDateTime.getFullYear() + '-' + month + '-' + day);
         
         var day = balance_date.getDate();
-        day = day < 10 ? '0' + day : day;
+        day = (day - 0) < 10 ? '0' + day : day;
         var month = balance_date.getMonth() + 1;
         month = month < 10 ? '0' + month : month;
         $('#balance_date').val(balance_date.getFullYear() + '-' + month + '-' + day);
@@ -411,7 +410,7 @@ $(document).ready(function(){
                         // Open this row 	row.data()
                         $('#modal_loading').show();
                         $.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id='+$(this).parent().attr('room_layout_id')
-                                +'&sell_id='+sell_id,
+                                +'&sell_id='+sell_id+'&book_check_in='+$('#book_check_in').val()+'&book_check_out='+$('#book_check_out').val(),
                           function(result){
                             $('#modal_loading').hide();
                             row.child(bookEdit.formatRoomTable(result, system_id, sell_id)).show();
@@ -560,20 +559,21 @@ $(document).ready(function(){
                 for(i in BookEditClass.hotel_service) {
                     if(BookEditClass.hotel_service[i] == 1) hotel_service += i + ',';
                 }
-                var check_in = $('#book_check_in').val();var check_out = $('#book_check_out').val();
+                var check_in = $('#book_check_in').val();var check_out = $('#book_check_out').val();var max_check_out = $('#book_check_out').val();
                 var checkOutDate = new Date(check_out);var today = checkOutDate.getDate();var thisHours = checkOutDate.getHours();
                 var halfPrice = $('#half_price').val().replace(':00', '');
                 if(thisHours > halfPrice) {
                     //算半天
                     checkOutDate.setDate(checkOutDate.getDate()+1);
-                    check_out = checkOutDate.getFullYear() + '-' + (checkOutDate.getMonth() - 0 + 1) + '-' + checkOutDate.getDate();                    
+                    var month = checkOutDate.getMonth() - 0 + 1; month = month < 10 ? '0' + month : month;
+                    var day = checkOutDate.getDate();day = day < 10 ? '0' + day : day;
+                    max_check_out = checkOutDate.getFullYear() + '-' + month + '-' + day;                    
                 }
                 //$('#book_form div').hide();
                 $.ajax({
                     url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&hotel_service=' + hotel_service,
                     type : "post",
-                    data : 'book_check_in=' + check_in
-                    + '&book_check_out=' + check_out,
+                    data : 'book_check_in=' + check_in + '&book_check_out=' + check_out + '&max_check_out=' + max_check_out,
                     dataType : "json",
                     success : function(result) {
                         $('#modal_loading').hide('show');
@@ -582,7 +582,7 @@ $(document).ready(function(){
                         if(data.success == 1) {
                             $('#room_layout_table').show();
                             table.destroy();
-                            $('#room_layout_data').html(bookEdit.resolverRoomLayoutData(data.itemData,check_in,check_out));
+                            $('#room_layout_data').html(bookEdit.resolverRoomLayoutData(data.itemData,check_in,max_check_out));
                             table = $('#room_layout').DataTable({
                                 "pagingType":   "numbers"
                             })

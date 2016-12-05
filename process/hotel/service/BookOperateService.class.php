@@ -319,21 +319,12 @@ class BookOperateService extends \BaseService {
         $objResponse -> user_name = $user_name;
     }
 
-    public function searchISBookRoomLayout($objRequest, $objResponse) {
-        $conditions = DbConfig::$db_query_conditions;
-        $book_check_in = $objRequest -> book_check_in;
-        $book_check_out = $objRequest -> book_check_out;
-        $arrayBookCheckIn = explode('-', $book_check_in);
-        $arrayBookCheckOut = explode('-', $book_check_out);
-        $hotel_service = $objRequest -> hotel_service;
-        $hotel_service = trim($hotel_service, ',');
-        if(empty($hotel_service)) {
-            return '';
-        }
+    public function getHaveCheckInRoom($conditions, $hotel_id, $book_check_in, $book_check_out) {
         //step1 {begin} 取得已住房间
-        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $conditions['where'] = "hotel_id = '".$hotel_id."' AND (book_check_in <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
-                                                     ."OR ('".$book_check_in."' <= book_check_in AND book_check_in < '".$book_check_out."')";
+        //$hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $conditions['where'] = "hotel_id = '".$hotel_id."' AND book_order_number_status >= 0 AND "
+            ."(book_check_in <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
+            ."OR ('".$book_check_in."' <= book_check_in AND book_check_in < '".$book_check_out."')";
         $arrayISBookRoomLayout = BookService::instance()->getBook($conditions, 'room_id, room_layout_id');
         /************************************************************************************************/
         $arrayRoomId = array();
@@ -342,6 +333,38 @@ class BookOperateService extends \BaseService {
                 $arrayRoomId[] = $v['room_id'];
             }
         }
+        //step1 {end} 取得已住房间
+        return $arrayRoomId;
+    }
+
+    public function searchISBookRoomLayout($objRequest, $objResponse) {
+        $conditions = DbConfig::$db_query_conditions;
+        $book_check_in = $objRequest -> book_check_in;
+        $book_check_out = $objRequest -> book_check_out;
+        $max_check_out = $objRequest -> max_check_out;
+        $arrayBookCheckIn = explode('-', $book_check_in);
+        $arrayBookCheckOut = explode('-', $book_check_out);
+        $arrayBookMaxCheckOut = explode('-', $max_check_out);
+        $hotel_service = $objRequest -> hotel_service;
+        $hotel_service = trim($hotel_service, ',');
+        if(empty($hotel_service)) {
+            return '';
+        }
+        //step1 {begin} 取得已住房间
+        /*$hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $conditions['where'] = "hotel_id = '".$hotel_id."' AND book_order_number_status >= 0 AND "
+                                          ."(book_check_in <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
+                                          ."OR ('".$book_check_in."' <= book_check_in AND book_check_in < '".$book_check_out."')";
+        $arrayISBookRoomLayout = BookService::instance()->getBook($conditions, 'room_id, room_layout_id');
+
+        $arrayRoomId = array();
+        if(!empty($arrayISBookRoomLayout)) {
+            foreach($arrayISBookRoomLayout as $k => $v) {
+                $arrayRoomId[] = $v['room_id'];
+            }
+        }*/
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $arrayRoomId = $this->getHaveCheckInRoom($conditions, $hotel_id, $book_check_in, $book_check_out);
         //step1 {end} 取得已住房间
 
         //{begin} 取得未住的房间和房型
@@ -412,7 +435,7 @@ class BookOperateService extends \BaseService {
             //{begin} 查找房型房价
             $conditions['where'] = array('hotel_id'=>$hotel_id,
                 '>='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckIn[0] . '-' . $arrayBookCheckIn[1] . '-01'),
-                '<='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckOut[0] . '-' . $arrayBookCheckOut[1] . '-28'),
+                '<='=>array('room_layout_price_begin_datetime'=>$arrayBookMaxCheckOut[0] . '-' . $arrayBookMaxCheckOut[1] . '-28'),
                 'IN'=>array('room_sell_layout_id'=>$arrayRoomSellLayoutId,'room_layout_price_system_id'=>$arrayRoomLayoutPriceSystemId));
             $fieid = 'room_layout_price_id, room_sell_layout_id sell_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,'
                     .'room_layout_date_year this_year,room_layout_date_month this_month,';
