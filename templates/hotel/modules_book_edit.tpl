@@ -11,6 +11,8 @@
 <style type="text/css">
 .custom-date-style{ cursor:pointer; color:#666666 !important;}
 .table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
+.dropdown-menu {margin: 2px -40px 0 !important; min-width:110px;}
+.dropdown-menu li{padding:0px !important;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -225,7 +227,20 @@
                                   <td><%$arrayDataInfo[i].book_check_in%></td>
                                   <td><%$arrayDataInfo[i].book_check_out%></td>
                                   <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
-                                  <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                  <td>
+                                  <div class="fr">
+                                    <div class="btn-group">
+                                        <a class="btn btn-primary btn-mini" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
+                                        <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-target="#" href=""><i class="am-icon-pencil-square-o"></i> 换房</a></li>
+                                            <li><a data-target="#" href="#"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
+                                            <li><a data-target="#" href="#"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
+                                            <li><a data-target="#" href="#"><i class="am-icon-trash-o"></i> 删除</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                  </td>
                                 </tr>
                               <%/section%>
                                 <tr id="add_room_tr" class="hide">
