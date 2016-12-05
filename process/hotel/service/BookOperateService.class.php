@@ -456,4 +456,8 @@ class BookOperateService extends \BaseService {
         //return BookDao::instance()->setTable($table)->getList($conditions, $fieid);
     }
 
+    public function searchISBookRoom($objRequest, $objResponse) {
+
+    }
+
 }

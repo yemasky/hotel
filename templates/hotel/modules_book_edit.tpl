@@ -49,39 +49,39 @@
 										<tr>
 											<th>价格信息</th>
 											<th>单位：元</th>
-                                            <th></th>
+                                            <th><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>总价</td>
 											<td><%$arrayDataInfo[0].book_total_price%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>预付价</td>
 											<td><%$arrayDataInfo[0].book_prepayment_price%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>总房价</td>
 											<td><%$arrayDataInfo[0].book_total_room_rate%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
                                         <tr>
 											<td>附加服务费</td>
 											<td><%$arrayDataInfo[0].book_need_service_price%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
                                         <tr>
 											<td>服务费</td>
 											<td><%$arrayDataInfo[0].book_service_charge%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
                                         <tr>
 											<td>总押金</td>
 											<td><%$arrayDataInfo[0].book_total_cash_pledge%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 									</tbody>
 								</table>
@@ -102,39 +102,39 @@
 										<tr>
 											<th>信息</th>
 											<th></th>
-                                            <th></th>
+                                            <th><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>来源</td>
 											<td><%$arrayBookType[$arrayDataInfo[0].book_type_id].book_type_name%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>折扣</td>
 											<td><%$arrayDataInfo[0].book_discount%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
                                         <tr>
 											<td>外部订单号</td>
 											<td><%$arrayDataInfo[0].book_order_number_ourter%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>订单保留时间</td>
 											<td><%$arrayDataInfo[0].book_order_retention_time%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td><%$arrayLaguage['book_man']['page_laguage_value']%>：</td>
 											<td><%$arrayDataInfo[0].book_contact_name%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td><%$arrayLaguage['mobile']['page_laguage_value']%>：</td>
 											<td><%$arrayDataInfo[0].book_contact_mobile%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 									</tbody>
 								</table>
@@ -155,39 +155,39 @@
 										<tr>
 											<th>支付方式</th>
 											<th>状态</th>
-                                            <th></th>
+                                            <th><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>支付状态</td>
 											<td><%if $arrayDataInfo[0].book_is_pay==1%>已支付<%else%>未支付<%/if%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>支付到账</td>
 											<td><%if $arrayDataInfo[0].book_pay_date ==''%>未到账<%else%>到账时间:<%$arrayDataInfo[0].book_pay_date%><%/if%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
                                         <tr>
 											<td>支付方式</td>
 											<td><%if $arrayDataInfo[0].payment_type_id > 0%><%$arrayPaymentType[$arrayDataInfo[0].payment_type_id].payment_type_name%><%else%>未支付<%/if%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>预付状态</td>
 											<td><%if $arrayDataInfo[0].book_is_prepayment==1%>已预付<%else%>未预付<%/if%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>预付到账</td>
 											<td><%if $arrayDataInfo[0].book_prepayment_date ==''%>未到账<%else%>到账时间: <%$arrayDataInfo[0].book_prepayment_date%><%/if%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 										<tr>
 											<td>预付方式</td>
 											<td><%if $arrayDataInfo[0].prepayment_type_id > 0%><%$arrayPaymentType[$arrayDataInfo[0].prepayment_type_id].payment_type_name%><%else%>未支付<%/if%></td>
-                                            <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                            <td></td>
 										</tr>
 									</tbody>
 								</table>
@@ -211,9 +211,9 @@
                                 <tr>
                                   <th>房型</th>
                                   <th>价格体系</th>
-                                  <th>房间</th>
                                   <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
                                   <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <th>房间</th>
                                   <th></th>
                                 </tr>
                               </thead>
@@ -222,29 +222,28 @@
                                 <tr>
                                   <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>
-                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td><%$arrayDataInfo[i].book_check_in%></td>
                                   <td><%$arrayDataInfo[i].book_check_out%></td>
+                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
                                 </tr>
                               <%/section%>
                                 <tr id="add_room_tr" class="hide">
                                   <td><select id="sell_layout" class="input-medium">
+                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                     <%foreach key=room_sell_layout_id item=arrayLayout from=$arraySellLayout%>
-                                        <option value="<%$room_sell_layout_id%>">
-                                            <%$arrayLayout.room_sell_layout_name%>
-                                        </option>
+                                        <option value="<%$room_sell_layout_id%>"><%$arrayLayout.room_sell_layout_name%></option>
                                     <%/foreach%>
                                  </select></td>
-                                  <td><select id="sell_layout" class="input-medium">
+                                  <td>
+                                    <select id="price_system" class="input-medium">
                                     <%foreach key=system_id item=arraySystem from=$arrayPriceSystem%>
-                                        <option value="<%$system_id%>">
-                                            <%$arraySystem.room_layout_price_system_name%>
-                                        </option>
+                                        <option sell_id="<%$arraySystem.room_sell_layout_id%>" value="<%$system_id%>"><%$arraySystem.room_layout_price_system_name%></option>
                                     <%/foreach%>
-                                 </select></td>
-                                  <td></td>
-                                  <td></td>
+                                    </select>
+                                  </td>
+                                  <td><input type="text" class="input-medium" id="room_check_in" value="" ></td>
+                                  <td><input type="text" class="input-medium" id="room_check_out" value="" ></td>
                                   <td></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_room" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
@@ -360,11 +359,12 @@
                                 </tr>
                               <%/section%>
                                 <tr id="add_service_tr" class="hide">
-                                  <td><select id="sell_layout" class="input-medium">
+                                  <td><select id="serviceItem" class="input-medium">
+                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                     <%foreach key=service_id item=arrayService from=$arrayHotelService%>
-                                        <option value="<%$service_id%>">
+                                        <%if $arrayService.hotel_service_price != -1%><option price="<%$arrayService.hotel_service_price%>" value="<%$service_id%>">
                                             <%$arrayService.hotel_service_name%>
-                                        </option>
+                                        </option><%/if%>
                                     <%/foreach%>
                                  </select></td>
                                   <td></td>
