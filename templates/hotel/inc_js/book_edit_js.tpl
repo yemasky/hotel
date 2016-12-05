@@ -126,8 +126,8 @@ $(document).ready(function(){
                 });
                 $('#serviceItem').change(function(e) {
                     $(this).parent().next().html('<input type="text" value="'+$(this).find("option:selected").attr('price')+'" class="input-small">');
-                    $(this).parent().next().next().html('<input type="text" value="" class="input-small">');
-                    $(this).parent().next().next().next().html('<input type="text" value="" class="input-small">');
+                    $(this).parent().next().next().html('<input type="text" value="1" class="input-small">');
+                    $(this).parent().next().next().next().html('<input type="text" value="100" class="input-small">');
                 });
             }
             bookEdit.groupSellLayoutSystem = function() {
