@@ -365,16 +365,16 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `department_id` int(11) NOT NULL AUTO_INCREMENT,
   `hotel_id` int(11) NOT NULL,
-  `department_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `department` int(11) DEFAULT NULL COMMENT '同属源父类ID',
+  `department_same` int(11) DEFAULT NULL COMMENT '同级父类ID',
+  `department_same_order` int(11) NOT NULL DEFAULT '0' COMMENT '同级排序',
   `department_father_id` int(11) NOT NULL DEFAULT '0' COMMENT '父类ID',
   `department_name` varchar(100) NOT NULL COMMENT '部门名称',
   PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `department` */
 
-insert  into `department`(`department_id`,`hotel_id`,`department_order`,`department`,`department_father_id`,`department_name`) values (1,1,1,NULL,1,'系统管理员');
+insert  into `department`(`department_id`,`hotel_id`,`department_same`,`department_same_order`,`department_father_id`,`department_name`) values (1,0,NULL,0,0,'系统管理员'),(2,1,1,0,0,'11'),(3,1,1,2,2,'22'),(4,1,1,2,2,'33'),(5,1,1,2,3,'44'),(6,1,1,2,0,'55');
 
 /*Table structure for table `employee` */
 

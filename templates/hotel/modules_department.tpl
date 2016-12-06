@@ -93,29 +93,25 @@
     </div>
 </div>
 <div id="edit_department" class="modal hide in" aria-hidden="false">
-<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_attr_classes" id="add_attr_classes" novalidate="novalidate">
+<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_attr_classes" id="add_attr_classes" novalidate>
   <div class="modal-header">
     <button data-dismiss="modal" class="close" type="button">×</button>
-    <h3>增加自定属性</h3>
+    <h3>添加部门</h3>
   </div>
   <div class="modal-body">
       <div class="widget-box">
         <div class="widget-content tab-content nopadding">
                 <div class="control-group">
-                    <label class="control-label">属性类别 :</label>
+                    <label class="control-label">部门属于 :</label>
                     <div class="controls">
-                        <select id="hotel_attribute_id" name="hotel_attribute_id" class="span2">
-                            <option value="">请选择</option>
-                            <option value="ATA=">订前必读</option>
-                            <option value="BjI=">酒店设施</option>
-                            <option value="ATY=">酒店周边</option>
-                         </select>
+                        <input id="department_parent_name" name="" class="span2" readonly value="" type="text">
+                        <input id="department_parent_id" name="" type="hidden" value="" >
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">属性名称 :</label>
+                    <label class="control-label">部门名称 :</label>
                     <div class="controls">
-                        <input id="hotel_attribute_name" name="hotel_attribute_name" class="span2" placeholder="" value="" type="text">
+                        <input id="" name="" class="span2" placeholder="" value="" type="text">
                     </div>
                 </div>
          </div>
@@ -140,19 +136,10 @@ $(document).ready(function(){
             department.initParameter = function() {
                 //var zNodes = DepartmentClass.zNodes;
                 DepartmentClass.zNodes = [
-                    { id:0, pId:0, name:"父节点 1", open:true},
-                    
-                    { id:12, pId:1, name:"叶子节点 1-2",isParent:true},
-                    { id:13, pId:1, name:"叶子节点 1-3"},
-                    { id:1, pId:0, name:"叶子节点 1-1---", open:true},
-                    { id:2, pId:0, name:"父节点 2", open:true},
-                    { id:21, pId:2, name:"叶子节点 2-1"},
-                    { id:22, pId:2, name:"叶子节点 2-2"},
-                    { id:23, pId:2, name:"叶子节点 2-3"},
-                    { id:3, pId:0, name:"父节点 3", open:true},
-                    { id:31, pId:3, name:"叶子节点 3-1"},
-                    { id:32, pId:3, name:"叶子节点 3-2"},
-                    { id:33, pId:3, name:"叶子节点 3-3"}
+                    { id:0, pId:0, name:"<%$arrayLoginEmployeeInfo.hotel_name%>", open:true},
+                    <%section name=i loop=$arrayDepartment%>
+                    {id:'<%$arrayDepartment[i].department_id%>',pId:'<%$arrayDepartment[i].department_father_id%>', name:"<%$arrayDepartment[i].department_name%>", open:true,isParent:true},
+                    <%/section%>
                 ];
                 //var setting = DepartmentClass.setting;
                 DepartmentClass.setting = {
@@ -233,6 +220,8 @@ $(document).ready(function(){
                 nodes = zTree.getSelectedNodes(),
                 treeNode = nodes[0];
                 if (treeNode) {
+                    $('#department_parent_name').val(treeNode.name);
+                    $('#department_parent_id').val(treeNode.id);
                     $('#edit_department').modal('show');
                     //treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
                 } else {
