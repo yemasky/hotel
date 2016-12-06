@@ -96,7 +96,7 @@
 <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_attr_classes" id="add_attr_classes" novalidate>
   <div class="modal-header">
     <button data-dismiss="modal" class="close" type="button">×</button>
-    <h3>添加部门</h3>
+    <h3>添加/编辑部门</h3>
   </div>
   <div class="modal-body">
       <div class="widget-box">
@@ -106,12 +106,13 @@
                     <div class="controls">
                         <input id="department_parent_name" name="" class="span2" readonly value="" type="text">
                         <input id="department_parent_id" name="" type="hidden" value="" >
+                        <input id="department_self_id" name="" type="hidden" value="" >
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">部门名称 :</label>
                     <div class="controls">
-                        <input id="" name="" class="span2" placeholder="" value="" type="text">
+                        <input id="department_self_name" name="" class="span2" placeholder="" value="" type="text">
                     </div>
                 </div>
          </div>
@@ -181,7 +182,9 @@ $(document).ready(function(){
                 var className = DepartmentClass.className;
                 className = (className === "dark" ? "":"dark");
                 department.showLog("[ "+department.getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-                return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+                $('#modal_delete').modal('show');
+				return;
+                //return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
             };
             department.onRemove = function(e, treeId, treeNode) {
                 department.showLog("[ "+department.getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
@@ -248,7 +251,14 @@ $(document).ready(function(){
                     $('#modal_info').modal('show');
                     return;
                 }
-                zTree.editName(treeNode);
+				parentNode = treeNode.getParentNode();
+				if(parentNode == null) return;
+				$('#department_parent_name').val(parentNode.name);
+				$('#department_parent_id').val('');
+				$('#department_self_id').val(parentNode.id);
+				$('#department_self_name').val(treeNode.name);
+				$('#edit_department').modal('show');
+                //zTree.editName(treeNode);
             };
             department.remove = function(e) {
                 var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
