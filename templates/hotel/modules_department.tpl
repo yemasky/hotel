@@ -141,9 +141,10 @@ $(document).ready(function(){
                 //var zNodes = DepartmentClass.zNodes;
                 DepartmentClass.zNodes = [
                     { id:0, pId:0, name:"父节点 1", open:true},
-                    { id:1, pId:0, name:"叶子节点 1-1", open:true},
+                    
                     { id:12, pId:1, name:"叶子节点 1-2",isParent:true},
                     { id:13, pId:1, name:"叶子节点 1-3"},
+                    { id:1, pId:0, name:"叶子节点 1-1---", open:true},
                     { id:2, pId:0, name:"父节点 2", open:true},
                     { id:21, pId:2, name:"叶子节点 2-1"},
                     { id:22, pId:2, name:"叶子节点 2-2"},

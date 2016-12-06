@@ -39,6 +39,7 @@ class DepartmentAction extends \BaseAction {
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
+        //$conditions['order'] = 'department_same_order ASC';
         $arrayDepartment = HotelService::instance()->getHotelDepartment($conditions);
         //
         $objResponse -> arrayDepartment = $arrayDepartment;

@@ -148,4 +148,18 @@ class HotelService extends \BaseService {
     public function deleteHotelDepartment($where) {
         return HotelDao::instance()->setTable('department')->delete($where);
     }
+
+    public function depthDepartment($arrayData) {
+        $arrayDepth = '';
+        if(!empty($arrayData)) {
+            foreach($arrayData as $i => $department) {
+                //father
+                if($department['department_id'] == $department['department_father_id']) {
+
+                } else {//is children
+                    $arrayDepth[$department['department_father_id']][$department['department_same_order']] = $department;
+                }
+            }
+        }
+    }
 }
