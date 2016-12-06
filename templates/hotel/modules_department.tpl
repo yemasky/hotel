@@ -92,6 +92,38 @@
     
     </div>
 </div>
+<div id="edit_department" class="modal hide in" aria-hidden="false">
+<form action="" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_attr_classes" id="add_attr_classes" novalidate="novalidate">
+  <div class="modal-header">
+    <button data-dismiss="modal" class="close" type="button">×</button>
+    <h3>增加自定属性</h3>
+  </div>
+  <div class="modal-body">
+      <div class="widget-box">
+        <div class="widget-content tab-content nopadding">
+                <div class="control-group">
+                    <label class="control-label">属性类别 :</label>
+                    <div class="controls">
+                        <select id="hotel_attribute_id" name="hotel_attribute_id" class="span2">
+                            <option value="">请选择</option>
+                            <option value="ATA=">订前必读</option>
+                            <option value="BjI=">酒店设施</option>
+                            <option value="ATY=">酒店周边</option>
+                         </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">属性名称 :</label>
+                    <div class="controls">
+                        <input id="hotel_attribute_name" name="hotel_attribute_name" class="span2" placeholder="" value="" type="text">
+                    </div>
+                </div>
+         </div>
+      </div>
+  </div>
+  <div class="modal-footer"> <button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
+</form>
+</div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
 <script type="text/javascript">
@@ -200,9 +232,12 @@ $(document).ready(function(){
                 nodes = zTree.getSelectedNodes(),
                 treeNode = nodes[0];
                 if (treeNode) {
-                    treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
+                    $('#edit_department').modal('show');
+                    //treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
                 } else {
-                    alert('请选择节点');
+                    $('#modal_info_message').html('请选择节点');
+                    $('#modal_info').modal('show');
+                    //alert('请选择节点');
                     return;
                     //treeNode = zTree.addNodes(null, {id:(100 + newCount), pId:0, isParent:isParent, name:"new node" + (newCount++)});
                 }
@@ -218,7 +253,9 @@ $(document).ready(function(){
                 nodes = zTree.getSelectedNodes(),
                 treeNode = nodes[0];
                 if (nodes.length == 0) {
-                    alert("请先选择一个节点");
+                    //alert("请先选择一个节点");
+                    $('#modal_info_message').html('请先选择一个节点');
+                    $('#modal_info').modal('show');
                     return;
                 }
                 zTree.editName(treeNode);
@@ -228,7 +265,9 @@ $(document).ready(function(){
                 nodes = zTree.getSelectedNodes(),
                 treeNode = nodes[0];
                 if (nodes.length == 0) {
-                    alert("请先选择一个节点");
+                    //alert("请先选择一个节点");
+                    $('#modal_info_message').html('请先选择一个节点');
+                    $('#modal_info').modal('show');
                     return;
                 }
                 var callbackFlag = $("#callbackTrigger").attr("checked");

@@ -36,20 +36,18 @@ class DepartmentAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $room_type = $objRequest->room_type;
-        $room_type = empty($room_type) ? 'room' : $room_type;
-        $arrayRoomAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
-        //赋值
-        sort($arrayRoomAttribute, SORT_NUMERIC);
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayDepartment = HotelService::instance()->getHotelDepartment($conditions);
         //
-        $objResponse -> arrayAttribute = $arrayRoomAttribute;
-        $objResponse -> add_room_attribute_url =
+        $objResponse -> arrayDepartment = $arrayDepartment;
+        $objResponse -> add_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add'])));
-        $objResponse -> delete_room_attribute_url =
+        $objResponse -> delete_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['delete'])));
         $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
         //设置类别
-        $objResponse -> room_type = $room_type;
     }
 
     protected function doAdd($objRequest, $objResponse) {

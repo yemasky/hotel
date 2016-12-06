@@ -131,4 +131,21 @@ class HotelService extends \BaseService {
     public function deleteHotelService($where) {
         return HotelDao::instance()->setTable('hotel_service')->delete($where);
     }
+
+    //hotel_department
+    public function getHotelDepartment($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return HotelDao::instance()->setTable('department')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+    }
+
+    public function saveHotelDepartment($arrayData) {
+        return HotelDao::instance()->setTable('department')->insert($arrayData);
+    }
+
+    public function updateHotelDepartment($where, $row) {
+        return HotelDao::instance()->setTable('department')->update($where, $row);
+    }
+
+    public function deleteHotelDepartment($where) {
+        return HotelDao::instance()->setTable('department')->delete($where);
+    }
 }
