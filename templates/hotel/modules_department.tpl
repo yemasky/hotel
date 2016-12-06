@@ -33,24 +33,38 @@
           <div class="widget-content tab-content">
            <div id="tab1" class="tab-pane active">
                <div class="btn-group pagination">
-               <button class="btn btn-primary">btn-primary</button>
-               <button class="btn btn-warning">btn-primary</button> <button class="btn btn-danger">btn-primary</button>
+               <button id="addParent" class="btn btn-primary">添加部门</button>
+               <button id="edit" class="btn btn-warning">编辑部门</button> 
+               <button id="remove" class="btn btn-danger">删除部门</button>
                </div>
                <div class="content_wrap">
-                   <div class="zTreeDemoBackground left">
-                       <ul id="treeDemo" class="ztree"></ul>
-                   </div>
-                   <div class="right">
-                       <ul class="info">
-                           <li class="title">
-                               <ul class="list">
-                                   <li>自定义图标不需要对 setting 进行特殊配置</li>
-                               </ul>
-                           </li>
-
-                       </ul>
-                   </div>
-               </div>
+                <div class="zTreeDemoBackground left">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+                <div class="right">
+                    <ul class="info">
+                        <li class="title">
+                            <ul class="list">
+                            <li>利用 addNodes / editName / removeNode / removeChildNodes 方法也可以实现 增 / 删 / 改 节点的目的，这里简单演示使用方法</li>
+                            <li>cancelEditName 方法仅仅是在节点进入名称编辑状态时有效，请在必要时使用，Demo 不进行此方法的演示</li>
+                            <li class="highlight_red">利用 setting.data.keep.parent / leaf 属性 实现了父节点、叶子节点的状态锁定</li>
+                            <li><p>对节点进行 增 / 删 / 改，试试看：<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> removeNode 方法是否触发 callback<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;[ <a  href="#" title="增加父节点" onclick="return false;">增加父节点</a> ]
+                                &nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="增加叶子节点" onclick="return false;">增加叶子节点</a> ]
+                                &nbsp;&nbsp;&nbsp;&nbsp;[ <a  href="#" title="编辑名称" onclick="return false;">编辑名称</a> ]<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;[ <a  href="#" title="删除节点" onclick="return false;">删除节点</a> ]
+                                &nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChildren" href="#" title="清空子节点" onclick="return false;">清空子节点</a> ]<br/>
+                                remove log:<br/>
+                                <ul id="log" class="log"></ul></p>
+                            </li>
+                            <li class="highlight_red">使用 zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChildNodes 方法，详细请参见 API 文档中的相关内容</li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
            </div>
     	   <div id="tab2" class="tab-pane">
                <form action="#" method="get" class="form-horizontal">
@@ -80,205 +94,164 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<SCRIPT type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
-		<!--
-		var setting = {
-			view: {
-				addHoverDom: addHoverDom,
-				removeHoverDom: removeHoverDom,
-				selectedMulti: false
-			},
-			edit: {
-				drag: {
-					autoExpandTrigger: true,
-					prev: dropPrev,
-					inner: dropInner,
-					next: dropNext
-				},
-				enable: true,
-				editNameSelectAll: true,
-				showRemoveBtn: showRemoveBtn,
-				showRenameBtn: showRenameBtn
-			},
-			data: {
-				simpleData: {
-					enable: true
-				}
-			},
-			callback: {
-				beforeDrag: beforeDrag,
-				beforeEditName: beforeEditName,
-				beforeRemove: beforeRemove,
-				beforeRename: beforeRename,
-				onRemove: onRemove,
-				onRename: onRename,
-				
-				
-				//beforeDrop: beforeDrop,
-				//beforeDragOpen: beforeDragOpen,
-				//onDrag: onDrag,
-				//onDrop: onDrop,
-				//onExpand: onExpand
-			}
-		};
+    <!--
+    var DepartmentClass = {
+		setting: {},
+        zNodes: [],
+        className: 'dark',
+        newCount: 1,
+        ZTreeObj: $.fn.zTree.getZTreeObj("treeDemo"),
+        instance: function() {
+            var department = {};
+            department.initParameter = function() {
+                //var zNodes = DepartmentClass.zNodes;
+                DepartmentClass.zNodes = [
+                    { id:0, pId:0, name:"父节点 1", open:true},
+                    { id:1, pId:0, name:"叶子节点 1-1", open:true},
+                    { id:12, pId:1, name:"叶子节点 1-2"},
+                    { id:13, pId:1, name:"叶子节点 1-3"},
+                    { id:2, pId:0, name:"父节点 2", open:true},
+                    { id:21, pId:2, name:"叶子节点 2-1"},
+                    { id:22, pId:2, name:"叶子节点 2-2"},
+                    { id:23, pId:2, name:"叶子节点 2-3"},
+                    { id:3, pId:0, name:"父节点 3", open:true},
+                    { id:31, pId:3, name:"叶子节点 3-1"},
+                    { id:32, pId:3, name:"叶子节点 3-2"},
+                    { id:33, pId:3, name:"叶子节点 3-3"}
+                ];
+                //var setting = DepartmentClass.setting;
+                DepartmentClass.setting = {
+                    view: {//addHoverDom: addHoverDom,//removeHoverDom: removeHoverDom,
+                        selectedMulti: false
+                    },
+                    edit: {enable: true,showRemoveBtn: false,showRenameBtn: false
+                    },
+                    data: {keep: {
+                            parent:true,
+                            leaf:true
+                        },
+                        simpleData: {
+                            enable: true
+                        }
+                    },
+                    callback: {
+                        beforeDrag: department.beforeDrag,
+                        beforeRemove: department.beforeRemove,
+                        beforeRename: department.beforeRename,
+                        onRemove: department.onRemove
+                    }
+                };
+            };
+            department.init = function() {
+                $.fn.zTree.init($("#treeDemo"), DepartmentClass.setting, DepartmentClass.zNodes);
+                $("#addParent").bind("click", {isParent:true}, department.add);
+                $("#addLeaf").bind("click", {isParent:false}, department.add);
+                $("#edit").bind("click", department.edit);
+                $("#remove").bind("click", department.remove);
+                $("#clearChildren").bind("click", department.clearChildren);
+            };
+            
+       		//var log, className = "dark";
+            department.beforeDrag = function (treeId, treeNodes) {
+                return false;
+            };
+		    department.beforeRemove = function (treeId, treeNode) {
+                var className = DepartmentClass.className;
+                className = (className === "dark" ? "":"dark");
+                department.showLog("[ "+department.getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+                return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+            };
+            department.onRemove = function(e, treeId, treeNode) {
+                department.showLog("[ "+department.getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+            };
+            department.beforeRename = function(treeId, treeNode, newName) {
+                if (newName.length == 0) {
+                    alert("节点名称不能为空.");
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                    setTimeout(function(){zTree.editName(treeNode)}, 10);
+                    return false;
+                }
+                return true;
+            };
+            department.showLog = function (str) {
+                var className = DepartmentClass.className;
+                log = $("#log");
+                log.append("<li class='"+className+"'>"+str+"</li>");
+                if(log.children("li").length > 8) {
+                    log.get(0).removeChild(log.children("li")[0]);
+                }
+            };
+            department.getTime = function() {
+                var now= new Date(),
+                h=now.getHours(),
+                m=now.getMinutes(),
+                s=now.getSeconds(),
+                ms=now.getMilliseconds();
+                return (h+":"+m+":"+s+ " " +ms);
+            };
 
-		var zNodes =[
-			{ id:0, pId:0, name:"父节点 1", open:true},
-			{ id:1, pId:0, name:"叶子节点 1-1"},
-			{ id:12, pId:1, name:"叶子节点 1-2"},
-			{ id:13, pId:1, name:"叶子节点 1-3"},
-			{ id:2, pId:0, name:"父节点 2", open:true},
-			{ id:21, pId:2, name:"叶子节点 2-1"},
-			{ id:22, pId:2, name:"叶子节点 2-2"},
-			{ id:23, pId:2, name:"叶子节点 2-3"},
-			{ id:3, pId:0, name:"父节点 3", open:true},
-			{ id:31, pId:3, name:"叶子节点 3-1"},
-			{ id:32, pId:3, name:"叶子节点 3-2"},
-			{ id:33, pId:3, name:"叶子节点 3-3"}
-		];
-		function dropPrev(treeId, nodes, targetNode) {
-			var pNode = targetNode.getParentNode();
-			if (pNode && pNode.dropInner === false) {
-				return false;
-			} else {
-				for (var i=0,l=curDragNodes.length; i<l; i++) {
-					var curPNode = curDragNodes[i].getParentNode();
-					if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		function dropInner(treeId, nodes, targetNode) {
-			if (targetNode && targetNode.dropInner === false) {
-				return false;
-			} else {
-				for (var i=0,l=curDragNodes.length; i<l; i++) {
-					if (!targetNode && curDragNodes[i].dropRoot === false) {
-						return false;
-					} else if (curDragNodes[i].parentTId && curDragNodes[i].getParentNode() !== targetNode && curDragNodes[i].getParentNode().childOuter === false) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		function dropNext(treeId, nodes, targetNode) {
-			var pNode = targetNode.getParentNode();
-			if (pNode && pNode.dropInner === false) {
-				return false;
-			} else {
-				for (var i=0,l=curDragNodes.length; i<l; i++) {
-					var curPNode = curDragNodes[i].getParentNode();
-					if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-
-		var log, className = "dark";
-		function beforeDrag(treeId, treeNodes) {
-			return false;
-		}
-		function beforeEditName(treeId, treeNode) {
-			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.selectNode(treeNode);
-			setTimeout(function() {
-				if (confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？")) {
-					setTimeout(function() {
-						zTree.editName(treeNode);
-					}, 0);
-				}
-			}, 0);
-			return false;
-		}
-		function beforeRemove(treeId, treeNode) {
-			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.selectNode(treeNode);
-			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
-		}
-		function onRemove(e, treeId, treeNode) {
-			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
-		}
-		function beforeRename(treeId, treeNode, newName, isCancel) {
-			className = (className === "dark" ? "":"dark");
-			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
-			if (newName.length == 0) {
-				setTimeout(function() {
-					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-					zTree.cancelEditName();
-					alert("节点名称不能为空.");
-				}, 0);
-				return false;
-			}
-			return true;
-		}
-		function onRename(e, treeId, treeNode, isCancel) {
-			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
-		}
-		function showRemoveBtn(treeId, treeNode) {
-			return !treeNode.isFirstNode;
-		}
-		function showRenameBtn(treeId, treeNode) {
-			return !treeNode.isLastNode;
-		}
-		function showLog(str) {
-			if (!log) log = $("#log");
-			log.append("<li class='"+className+"'>"+str+"</li>");
-			if(log.children("li").length > 8) {
-				log.get(0).removeChild(log.children("li")[0]);
-			}
-		}
-		function getTime() {
-			var now= new Date(),
-			h=now.getHours(),
-			m=now.getMinutes(),
-			s=now.getSeconds(),
-			ms=now.getMilliseconds();
-			return (h+":"+m+":"+s+ " " +ms);
-		}
-
-		var newCount = 1;
-		function addHoverDom(treeId, treeNode) {
-			var sObj = $("#" + treeNode.tId + "_span");
-			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-			var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-				+ "' title='add node' onfocus='this.blur();'></span>";
-			sObj.after(addStr);
-			var btn = $("#addBtn_"+treeNode.tId);
-			if (btn) btn.bind("click", function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				//zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
-				return false;
-			});
-		};
-		function removeHoverDom(treeId, treeNode) {
-			$("#addBtn_"+treeNode.tId).unbind().remove();
-		};
-		function selectAll() {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");
-		}
-		
-		function setTrigger() {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.setting.edit.drag.autoExpandTrigger = $("#callbackTrigger").attr("checked");
-		}
-		
-		
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-			$("#selectAll").bind("click", selectAll);
-			//$("#callbackTrigger").bind("change", {}, setTrigger);
-		});
-		//-->
-	</SCRIPT>
+            //var newCount = 1;
+            department.add = function(e) {
+                var newCount = DepartmentClass.newCount;
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                isParent = e.data.isParent,
+                nodes = zTree.getSelectedNodes(),
+                treeNode = nodes[0];
+                if (treeNode) {
+                    treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
+                } else {
+                    alert('请选择节点');
+                    return;
+                    //treeNode = zTree.addNodes(null, {id:(100 + newCount), pId:0, isParent:isParent, name:"new node" + (newCount++)});
+                }
+                if (treeNode) {
+                    zTree.editName(treeNode[0]);
+                } else {
+                    alert("叶子节点被锁定，无法增加子节点");
+                }
+                console.log(nodes);
+            };
+            department.edit = function() {
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getSelectedNodes(),
+                treeNode = nodes[0];
+                if (nodes.length == 0) {
+                    alert("请先选择一个节点");
+                    return;
+                }
+                zTree.editName(treeNode);
+            };
+            department.remove = function(e) {
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getSelectedNodes(),
+                treeNode = nodes[0];
+                if (nodes.length == 0) {
+                    alert("请先选择一个节点");
+                    return;
+                }
+                var callbackFlag = $("#callbackTrigger").attr("checked");
+                zTree.removeNode(treeNode, callbackFlag);
+            };
+            department.clearChildren = function(e) {
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getSelectedNodes(),
+                treeNode = nodes[0];
+                if (nodes.length == 0 || !nodes[0].isParent) {
+                    alert("请先选择一个父节点");
+                    return;
+                }
+                zTree.removeChildNodes(treeNode);
+            };
+            return department;		
+        }
+    }
+    var department = DepartmentClass.instance();
+    department.initParameter();
+    department.init();
+});//console.log($('#add_user_tr'));
+//-->
+</script>
 </body>
 </html>
