@@ -162,4 +162,20 @@ class HotelService extends \BaseService {
             }
         }
     }
+    //department_position
+    public function getHotelDepartmentPosition($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return HotelDao::instance()->setTable('department_position')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+    }
+
+    public function saveHotelDepartmentPosition($arrayData) {
+        return HotelDao::instance()->setTable('department_position')->insert($arrayData);
+    }
+
+    public function updateHotelDepartmentPosition($where, $row) {
+        return HotelDao::instance()->setTable('department_position')->update($where, $row);
+    }
+
+    public function deleteHotelDepartmentPosition($where) {
+        return HotelDao::instance()->setTable('department_position')->delete($where);
+    }
 }

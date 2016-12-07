@@ -26,7 +26,9 @@ class ModulesConfig extends \ModulesConfig {
         'roomLayoutPrice'   => array('edit'=>52, 'delete'=>54, 'add'=>53, 'view'=>21,
                                   'editSystem'=>55 ),
         'accessorialService'=> array('edit'=>59, 'delete'=>58, 'add'=>57, 'view'=>56),
-        'roomsSellLayout'=> array('edit'=>62, 'delete'=>63, 'add'=>61, 'view'=>60),
+        'roomsSellLayout'   => array('edit'=>62, 'delete'=>63, 'add'=>61, 'view'=>60),
+        'department'        => array('edit'=>72, 'delete'=>73, 'add'=>71, 'view'=>30),
+
     );
 
     public static $cacheKey = array(
