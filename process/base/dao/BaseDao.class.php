@@ -60,13 +60,13 @@ abstract class BaseDao{
 
     }
 
-    public function getCount($conditions, $fields = NULL) {
+    public function getCount($conditions_where, $fields = NULL) {
         if(empty($fields)) {
             $fields = 'COUNT('. $this->table_key .') count_num';
         } else {
             $fields = 'COUNT('. $fields .') count_num ';
         }
-        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->getOne($conditions, $fields);
+        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->getOne($conditions_where, $fields);
     }
 
     public function insert($arrayData, $insert_type = 'INSERT') {

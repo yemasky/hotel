@@ -36,20 +36,30 @@ class EmployeeAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $room_type = $objRequest->room_type;
-        $room_type = empty($room_type) ? 'room' : $room_type;
-        $arrayRoomAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
-        //赋值
-        sort($arrayRoomAttribute, SORT_NUMERIC);
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayDepartment = HotelService::instance()->getHotelDepartment($conditions, '*', 'department_id');
+
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        //$arrayPosition = HotelService::instance()->getHotelDepartmentPosition($conditions);
+        $arrayPosition = HotelService::instance()->getHotelDepartmentPosition($conditions, '*', 'department_position_id');
+
+        $arrayPageEmployee = $this->getPageEmployee($objRequest, $objResponse);
         //
-        $objResponse -> arrayAttribute = $arrayRoomAttribute;
-        $objResponse -> add_room_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add'])));
-        $objResponse -> delete_room_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['delete'])));
-        $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
+        $objResponse -> arrayDepartment = $arrayDepartment;
+        $objResponse -> arrayPosition = $arrayPosition;
+        $objResponse -> arrayPageEmployee = $arrayPageEmployee;
+        $objResponse -> add_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['add'])));
+        $objResponse -> edit_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['edit'])));
+        $objResponse -> delete_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['delete'])));
+        $objResponse -> view_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['view'])));
         //设置类别
-        $objResponse -> room_type = $room_type;
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -59,25 +69,8 @@ class EmployeeAction extends \BaseAction {
 
     protected function doEdit($objRequest, $objResponse) {
         $this->setDisplay();
-        $room_layout_attribute_id = decode($objRequest -> room_layout_attribute_id);
-        $arrayPostValue= $objRequest->getPost();
 
-        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $objRequest -> room_layout_attribute_id != '') {
-            $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            unset($arrayPostValue['room_layout_attribute_id']);
-            if($room_layout_attribute_id > 0) {
-                $arrayPostValue['room_layout_attribute_father_id'] = $room_layout_attribute_id;
-            }
-            $arrayPostValue['room_type'] = 'room';
-            $attribute_id = RoomService::instance()->saveRoomLayoutAttr($arrayPostValue);
-            if($objRequest -> room_layout_attribute_id == '0') {
-                RoomService::instance()->updateRoomLayoutAttr(array('room_layout_attribute_id'=>$attribute_id), array('room_layout_attribute_father_id'=>$attribute_id));
-            }
-            return $this->successResponse('保存客房属性成功');
-            //$room_layout_attribute_id = RoomService::instance()->saveRoom($arrayPostValue);
-
-        }
-        return $this->errorResponse('没有保存任何客房属性');
+        return $this->errorResponse('没有保存任数据');
         //$objResponse -> add_room_attribute_url =
         //    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit'])));
     }
@@ -85,6 +78,20 @@ class EmployeeAction extends \BaseAction {
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
 
+    }
+
+    protected function getPageEmployee($objRequest, $objResponse) {
+        $pn = $objRequest -> pn;
+        $pn = $pn > 0 ? $pn : 1;
+        $pn_rows = $objRequest -> pn_rows;
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $parameters['module'] = encode(decode($objRequest->module));
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayEmplayee = EmployeeService::instance()->pageEmployee($conditions, $pn, $pn_rows, $parameters);
+        $objResponse -> pn = $pn;
+        $objResponse -> page = $arrayEmplayee['page'];
+        return $arrayEmplayee;
     }
 
 }

@@ -49,4 +49,34 @@ class EmployeeService extends \BaseService {
     public function saveEmployeeDepartment($arrayData) {
         return EmployeeDao::instance()->saveEmployeeDepartment($arrayData);
     }
+    //
+    public function pageEmployee($conditions, $pn, $pn_rows, $parameters) {
+        $pn_rows = empty($pn_rows) ? DbConfig::page_rows : $pn_rows;
+        $count = EmployeeDao::instance()->setTable('employee')->getCount($conditions['where'], 'employee_id');
+        $all_page_num = ceil($count/$pn_rows);
+        $pn = $pn > $all_page_num ? $all_page_num : $pn;
+        $conditions['limit'] = ($pn - 1) * $pn_rows . ',' . $pn_rows;
+        $conditions['order'] = 'employee_id DESC';
+        $field = 'employee_id,company_id,department_id,department_position_id,employee_name,employee_sex,employee_add_date,employee_add_time';
+        $arrayEmployee = $this->getEmployee($conditions, $field);
+        return page($pn, $all_page_num, $arrayEmployee, $parameters);
+    }
+
+    public function getEmployee($conditions, $field = null, $hashKey = null, $multiple = false) {
+        return EmployeeDao::instance()->setTable('employee')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveEmployee($arrayData) {
+        return EmployeeDao::instance()->setTable('employee')->insert($arrayData);
+    }
+
+    public function updateEmployee($where, $row) {
+        return EmployeeDao::instance()->setTable('employee')->update($where, $row);
+    }
+
+    public function deleteEmployee($where) {
+        return EmployeeDao::instance()->setTable('employee')->delete($where);
+    }
+
+
 }
