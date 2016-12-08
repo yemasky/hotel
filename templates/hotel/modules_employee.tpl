@@ -50,8 +50,7 @@
                             <%section name=i loop=$arrayPageEmployee['list_data']%>
                               <li>
                                 <div class="left peity_bar_good"><span><span style="display: none;">2,4,9,7,12,10,12</span><img alt="User" src="<%$__RESOURCE%>img/demo/av1.jpg" width="40" height="40"></span><%if $arrayPageEmployee['list_data'][i].employee_sex==1%>男<%else%>女<%/if%></div>
-                                <div class="right"> <strong><%$arrayPageEmployee['list_data'][i].employee_name%></strong><%$arrayDepartment[$arrayPageEmployee['list_data'][i].department_id].department_name%><br>
-<%$arrayPosition[$arrayPageEmployee['list_data'][i].department_position_id].department_position_name%>                                
+                                <div class="right"> <strong><%$arrayPageEmployee['list_data'][i].employee_name%></strong><%$arrayDepartment[$arrayPageEmployee['list_data'][i].department_id].department_name%>-<%$arrayPosition[$arrayPageEmployee['list_data'][i].department_position_id].department_position_name%>                                
                                 </div>
                               </li>
                             <%/section%>
