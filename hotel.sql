@@ -714,13 +714,14 @@ DROP TABLE IF EXISTS `payment_type`;
 
 CREATE TABLE `payment_type` (
   `payment_type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `payment_type_name` varchar(50) DEFAULT NULL,
+  `hotel_id` int(11) NOT NULL,
+  `payment_type_name` varchar(50) NOT NULL,
   PRIMARY KEY (`payment_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `payment_type` */
 
-insert  into `payment_type`(`payment_type_id`,`payment_type_name`) values (1,'微信'),(2,'支付宝'),(3,'银行卡'),(4,'现金支付'),(5,'银行卡转账'),(6,'银行汇款'),(7,'支票'),(8,'VISA'),(9,'信用卡'),(10,'挂账');
+insert  into `payment_type`(`payment_type_id`,`hotel_id`,`payment_type_name`) values (1,0,'VISA'),(2,1,'支付宝'),(3,1,'银行卡'),(4,1,'现金支付'),(5,1,'银行卡转账'),(6,1,'银行汇款'),(7,1,'支票'),(8,1,'微信'),(9,1,'信用卡'),(10,1,'挂账');
 
 /*Table structure for table `role` */
 

@@ -95,7 +95,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="discount_data" class="panel-collapse collapse widget-content nopadding form-horizontal">
+                <div id="discount_data" class="panel-collapse collapse widget-content nopadding">
+                <form method="post" class="form-horizontal" enctype="multipart/form-data" name="edit_form" id="edit_form" novalidate>
                     <div class="control-group">
                         <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
                         <div class="controls"></div>
@@ -105,21 +106,26 @@
                         <div class="controls">
                             <input id="" name="" class="input-medium" placeholder="" value="" type="text">
                             折扣：<input id="" name="" class="input-medium" placeholder="" value="" type="text">
+                            <a data-toggle="collapse" data-target="#more_option" class="btn btn-primary btn-mini"><i class="am-icon-chevron-circle-down"></i> 更多选项</a>
                         </div>
-                        <label class="control-label">协议公司\团体等名称：</label>
-                        <div class="controls">
-                        <input id="" name="" class="input-large" placeholder="" value="" type="text">
-                        协议公司\团体等地址：
-                        <input id="" name="" class="input-large" placeholder="" value="" type="text">
+                        <div id="more_option" class="panel-collapse collapse">
+                            <label class="control-label">协议公司\团体等名称：</label>
+                            <div class="controls">
+                            <input id="" name="" class="input-large" placeholder="" value="" type="text">
+                            协议公司\团体等地址：
+                            <input id="" name="" class="input-large" placeholder="" value="" type="text">
+                            </div>
+                            <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                            <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
+                            <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                            <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
+                            <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                            <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
                         </div>
-                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
-                        <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
-                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
-                        <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
-                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
-                        <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
+                        <div class="controls"><button type="submit" data-loading-text="Loading..." class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#discount_data" class="btn" href="#">Cancel</a> 
+                        </div>  
                     </div>
-                    
+                </form>    
                 </div>
                 
                 <div class="widget-content">
