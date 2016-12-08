@@ -55,6 +55,8 @@ class MemberSettingAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['edit'])));
         $objResponse -> delete_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['delete'])));
+        $objResponse -> searchBookInfoUrl =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         //设置类别
     }
 

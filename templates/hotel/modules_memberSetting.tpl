@@ -49,7 +49,7 @@
                     </div>
                     </form>
                 </div>
-                <div id="edit_data" class="collapse widget-content nopadding">
+                <div id="edit_data" class="panel-collapse collapse widget-content nopadding">
                     <div class="control-group">
                         <div class="controls">
                             <form method="post" class="form-horizontal" enctype="multipart/form-data" name="edit_form" id="edit_form" novalidate>
@@ -88,19 +88,38 @@
                                     </div>
                                 </div>
                                 <div class="control-group"> 
-                                    <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#edit_data" class="btn" href="#">Cancel</a> 
+                                    <div class="controls"><button type="submit" id="save_info" data-loading-text="Loading..." class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#edit_data" class="btn" href="#">Cancel</a> 
                                     </div>  
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div id="discount_data" class="collapse widget-content nopadding">
+                <div id="discount_data" class="panel-collapse collapse widget-content nopadding form-horizontal">
                     <div class="control-group">
-                        <div class="controls">
-                            sssfafafaf
-                        </div>
+                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                        <div class="controls"></div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label">折扣名称：</label>
+                        <div class="controls">
+                            <input id="" name="" class="input-medium" placeholder="" value="" type="text">
+                            折扣：<input id="" name="" class="input-medium" placeholder="" value="" type="text">
+                        </div>
+                        <label class="control-label">协议公司\团体等名称：</label>
+                        <div class="controls">
+                        <input id="" name="" class="input-large" placeholder="" value="" type="text">
+                        协议公司\团体等地址：
+                        <input id="" name="" class="input-large" placeholder="" value="" type="text">
+                        </div>
+                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                        <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
+                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                        <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
+                        <label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%></label>
+                        <div class="controls"><input id="" name="" class="input-medium" placeholder="" value="" type="text"></div>
+                    </div>
+                    
                 </div>
                 
                 <div class="widget-content">
@@ -168,6 +187,7 @@ $(document).ready(function(){
         instance: function() {
             var memberSetting = {};
             memberSetting.init = function() {
+                //$('.collapse').collapse();
                 $('._edit .edit_btn').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
                     $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
@@ -175,28 +195,23 @@ $(document).ready(function(){
                     $('#book_type_name').val($(this).parent().attr('data-name'));
                     $('#book_type_id').val($(this).parent().attr('data-id'));
                     $('#type').val($(this).parent().attr('dtype'));
-                    $('#discount_data').collapse({toggle: true})
-                    $('#discount_data').collapse('hide');
-                    $('#edit_data').collapse({toggle: true})
                     $('#edit_data').collapse('show');
-                    
+                    $('#discount_data').collapse('hide');
                 });
                 $('._edit .discount_btn').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
                     $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
-                    $('#edit_data').collapse({toggle: true})
                     $('#edit_data').collapse('hide');
-                    $('#discount_data').collapse({toggle: true})
                     $('#discount_data').collapse('show');
-                    
+                    memberSetting.getDiscount($(this).parent().attr('data-id'));
                 });
                 $('.add_data').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
                     $('#book_type').val('');
                     $('#book_type_name').val('');
                     $('#book_type_id').val('');
-                    $('#edit_data').collapse({toggle: true})
                     $('#edit_data').collapse('show');
+                    $('#discount_data').collapse('hide');
                 });
                 $('#book_type').change(function(e) {
                     if($(this).val() == 0) {
@@ -207,16 +222,25 @@ $(document).ready(function(){
                     }
                 });
             };
+            memberSetting.getDiscount = function(book_type_id) {
+                $.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
+                    data = result;
+                    if(data.itemData != null && data.itemData != '') {
+                        
+                    } else {
+                        
+                    }
+                })
+            }
             return memberSetting;
         },
         
     }
     var memberSetting = MemberSettingClass.instance();
     memberSetting.init();
-    
-    
 
 })
+$('#edit_data').collapse('hide');$('#discount_data').collapse('hide');
 </script>
 </body>
 </html>
