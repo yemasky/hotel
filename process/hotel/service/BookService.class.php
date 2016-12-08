@@ -16,6 +16,16 @@ class BookService extends \BaseService {
         return self::$objService;
     }
 
+    public function startTransaction() {
+        BookDao::instance()->startTransaction();
+    }
+    public function commit() {
+        BookDao::instance()->commit();
+    }
+    public function rollback() {
+        BookDao::instance()->rollback();
+    }
+
     public function getBook($conditions, $field = '*', $hashKey = null, $multiple = false) {
         return BookDao::instance()->getBook($conditions, $field, $hashKey, $multiple);
     }
@@ -32,8 +42,8 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('book')->delete($where);
     }
     //预定类别来源
-    public function getBookType($conditions, $fieldid = '*', $hashKey = null) {
-        return BookDao::instance()->setTable('book_type')->getList($conditions, $fieldid, $hashKey);
+    public function getBookType($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return BookDao::instance()->setTable('book_type')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
     }
 
     public function saveBookType($arrayData) {

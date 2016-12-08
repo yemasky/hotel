@@ -20,8 +20,8 @@
                     <span class="icon"><i class="am-icon-cubes am-yellow-F58A17"></i></span>
                     <h5><%$selfNavigation.hotel_modules_name%></h5>
                     <div class="buttons" id="btn_room_layout">
-                        <a class="btn btn-primary btn-mini add_accessorial" href="#add"><i class="am-icon-plus-square"></i> 
-                        &#12288;<%$arrayLaguage['add_accessorial_service']['page_laguage_value']%></a>
+                        <a class="btn btn-primary btn-mini add_data" href="#add"><i class="am-icon-plus-square"></i> 
+                        &#12288;<%$arrayLaguage['add_category']['page_laguage_value']%></a>
                     </div>
                 </div>
                 <div class="widget-content nopadding">
@@ -29,67 +29,79 @@
                     <div class="control-group">
                      <%section name=i loop=$arrayData%>
                         <label class="control-label">
-                        <!--<%$arrayData[i].hotel_service_name%> :-->
+                        <!--<%$arrayData[i].book_type_name%> :-->
                         
                         </label>
-                        <div class="controls accessorial_edit">
+                        <div class="controls _edit">
                         <div class="btn-group">
-                            <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].hotel_service_name%></a><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                            <ul class="dropdown-menu" data-id="<%$arrayData[i].hotel_service_id%>" data-name="<%$arrayData[i].hotel_service_name%>" father-id="<%$arrayData[i].hotel_service_father_id%>" price="<%$arrayData[i].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $arrayData[i].children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul>
-                            
+                            <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].book_type_name%></a><%if $arrayData[i].hotel_id > 0%><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <ul class="dropdown-menu" data-id="<%$arrayData[i].book_type_id%>" data-name="<%$arrayData[i].book_type_name%>" father-id="<%$arrayData[i].book_type_father_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $arrayData[i].children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul><%/if%>
                         </div>
                         <%section name=j loop=$arrayData[i].children%>
-                            <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].children[j].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayData[i].children[j].hotel_service_price%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$arrayData[i].children[j].hotel_service_id%>" data-name="<%$arrayData[i].children[j].hotel_service_name%>" father-id="<%$arrayData[i].children[j].hotel_service_father_id%>" price="<%$arrayData[i].children[j].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
+                            <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].children[j].book_type_name%> <!--<i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayData[i].children[j].type%>--></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$arrayData[i].children[j].book_type_id%>" data-name="<%$arrayData[i].children[j].book_type_name%>" father-id="<%$arrayData[i].children[j].book_type_father_id%>" dtype="<%$arrayData[i].children[j].type%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li class="discount_btn"><a href="#discount"><i class="am-icon-puzzle-piece am-red-FB0000"></i> <%$arrayLaguage['discount']['page_laguage_value']%></a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
                         <%/section%>    
                         </div>
                         <%/section%>
                         <div class="controls">
-                            <a class="btn btn-primary btn-mini add_accessorial"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_accessorial_service']['page_laguage_value']%></a>
+                            <a class="btn btn-primary btn-mini add_data"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_category']['page_laguage_value']%></a>
                         </div>
                      
                     </div>
                     </form>
                 </div>
-                <div id="edit_accessorial" class="collapse widget-content nopadding">
+                <div id="edit_data" class="collapse widget-content nopadding">
                     <div class="control-group">
                         <div class="controls">
-                            <form method="post" class="form-horizontal" enctype="multipart/form-data" name="edit_accessorial_form" id="edit_accessorial_form" novalidate>
+                            <form method="post" class="form-horizontal" enctype="multipart/form-data" name="edit_form" id="edit_form" novalidate>
                                 <div class="modal-header">
-                                    <button data-toggle="collapse" data-target="#edit_accessorial" class="close" type="button">×</button>
-                                    <h3><%$arrayLaguage['add_or_edit_accessorial_service']['page_laguage_value']%></h3>
+                                    <button data-toggle="collapse" data-target="#edit_data" class="close" type="button">×</button>
+                                    <h3><%$arrayLaguage['add_or_edit_category']['page_laguage_value']%></h3>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label"><%$arrayLaguage['select_classes']['page_laguage_value']%> :</label>
+                                    <label class="control-label"><%$arrayLaguage['select_category']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <select name="hotel_service" id="hotel_service" class="span2">
+                                        <select name="book_type" id="book_type" class="span2">
                                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                        <option value="0"><%$arrayLaguage['new_service_classes']['page_laguage_value']%></option>
+                                        <option value="0"><%$arrayLaguage['new_category']['page_laguage_value']%></option>
                                         <%section name=i loop=$arrayData%>
-                                            <option value="<%$arrayData[i].hotel_service_id%>"><%$arrayData[i].hotel_service_name%></option>
+                                            <option value="<%$arrayData[i].book_type_id%>"><%$arrayData[i].book_type_name%></option>
                                         <%/section%>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label"><%$arrayLaguage['service_name']['page_laguage_value']%> :</label>
+                                    <label class="control-label"><%$arrayLaguage['selective_type']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <input id="hotel_service_name" name="hotel_service_name" class="span2" placeholder="" value="" type="text">
-                                        <input id="hotel_service_id" name="hotel_service_id" value="" type="hidden">
+                                        <select name="type" id="type" class="span2">
+                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                        <%section name=i loop=$memberType%>
+                                            <option value="<%$memberType[i]%>"><%$arrayLaguage[$memberType[i]]['page_laguage_value']%></option>
+                                        <%/section%>
+                                        </select>
                                     </div>
-                                    <label class="control-label"><%$arrayLaguage['price']['page_laguage_value']%> :</label>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label"><%$arrayLaguage['apellation']['page_laguage_value']%> :</label>
                                     <div class="controls">
-                                        <input id="hotel_service_price" name="hotel_service_price" class="span2" placeholder="" value="" type="text">(<%$arrayLaguage['0_free']['page_laguage_value']%>)
+                                        <input id="book_type_name" name="book_type_name" class="span2" placeholder="" value="" type="text">
+                                        <input id="book_type_id" name="book_type_id" value="" type="hidden">
                                     </div>
                                 </div>
                                 <div class="control-group"> 
-                                    <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#edit_accessorial" class="btn" href="#">Cancel</a> 
+                                    <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#edit_data" class="btn" href="#">Cancel</a> 
                                     </div>  
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                
+                <div id="discount_data" class="collapse widget-content nopadding">
+                    <div class="control-group">
+                        <div class="controls">
+                            sssfafafaf
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="widget-content">
                     
@@ -105,65 +117,16 @@
 <%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
 $(document).ready(function(){
-    var AccessorialServiceClass = {
-        instance: function() {
-            var accessorialService = {};
-            accessorialService.accessorial = function() {
-                $('.accessorial_edit .edit_btn').click(function(e) {
-                    $('.accessorial_edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
-                    $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
-                    $('#hotel_service').val($(this).parent().attr('father-id'));
-                    $('#hotel_service_price').val($(this).parent().attr('price'));
-                    $('#hotel_service_name').val($(this).parent().attr('data-name'));
-                    $('#hotel_service_id').val($(this).parent().attr('data-id'));
-                    $('#edit_accessorial').collapse({toggle: true})
-                    $('#edit_accessorial').collapse('show');
-                    $('#hotel_service_price').attr('disabled', false);
-                    if($(this).parent().attr('price') == -1) {
-                       $('#hotel_service_price').attr('disabled', true);
-                    }
-                });
-                $('.add_accessorial').click(function(e) {
-                    $('.accessorial_edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
-                    $('#hotel_service').val('');
-                    $('#hotel_service_price').val('');
-                    $('#hotel_service_name').val('');
-                    $('#hotel_service_id').val('');
-                    $('#edit_accessorial').collapse({toggle: true})
-                    $('#edit_accessorial').collapse('show');
-                    $('#hotel_service_price').attr('disabled', false);
-                });
-                $('#hotel_service').change(function(e) {
-                    if($(this).val() == 0) {
-                        $('#hotel_service_price').val('-1');
-                        $('#hotel_service_price').attr('disabled', true);
-                        $('#hotel_service_name').val('');
-                        $('#hotel_service_id').val('');
-                    } else {
-                        if($('#hotel_service_price').val() == -1) {
-                            $('#hotel_service_price').val('');
-                        }
-                        $('#hotel_service_price').attr('disabled', false);
-                    }
-                });
-            };
-            return accessorialService;
-        },
-        
-    }
-    var accessorialService = AccessorialServiceClass.instance();
-    accessorialService.accessorial();
-    
-    var edit_accessorial_form_validate = $("#edit_accessorial_form").validate({
+    var edit_form_validate = $("#edit_form").validate({
 		rules: {
-			hotel_service: {required: true},
-            hotel_service_name: {required: true},
-            hotel_service_price: {required: true,digits:true},
+			book_type: {required: true},
+            book_type_name: {required: true},
+            type: {required: true},
 		},
 		messages: {
-			hotel_service_name:"",
-            hotel_service:"",
-            hotel_service_price:"填0和整数",
+			book_type_name:"",
+            book_type:"",
+            type:'',
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -176,12 +139,12 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            var param = $("#edit_accessorial_form").serialize();
+            var param = $("#edit_form").serialize();
             var url = '';
-            var add = '<%$add_accessorialService_url%>';
-            var edit = '<%$edit_accessorialService_url%>';
+            var add = '<%$add_url%>';
+            var edit = '<%$edit_url%>';
             url = add;
-            if($('#hotel_service').val() > 0) url = edit;
+            if($('#book_type').val() > 0) url = edit;
             $.ajax({
                 url : url,
                 type : "post",dataType : "json",data: param,
@@ -200,6 +163,58 @@ $(document).ready(function(){
             return;
 		}
 	});
+    
+    var MemberSettingClass = {
+        instance: function() {
+            var memberSetting = {};
+            memberSetting.init = function() {
+                $('._edit .edit_btn').click(function(e) {
+                    $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
+                    $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
+                    $('#book_type').val($(this).parent().attr('father-id'));
+                    $('#book_type_name').val($(this).parent().attr('data-name'));
+                    $('#book_type_id').val($(this).parent().attr('data-id'));
+                    $('#type').val($(this).parent().attr('dtype'));
+                    $('#discount_data').collapse({toggle: true})
+                    $('#discount_data').collapse('hide');
+                    $('#edit_data').collapse({toggle: true})
+                    $('#edit_data').collapse('show');
+                    
+                });
+                $('._edit .discount_btn').click(function(e) {
+                    $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
+                    $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
+                    $('#edit_data').collapse({toggle: true})
+                    $('#edit_data').collapse('hide');
+                    $('#discount_data').collapse({toggle: true})
+                    $('#discount_data').collapse('show');
+                    
+                });
+                $('.add_data').click(function(e) {
+                    $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
+                    $('#book_type').val('');
+                    $('#book_type_name').val('');
+                    $('#book_type_id').val('');
+                    $('#edit_data').collapse({toggle: true})
+                    $('#edit_data').collapse('show');
+                });
+                $('#book_type').change(function(e) {
+                    if($(this).val() == 0) {
+                        $('#book_type_name').val('');
+                        $('#book_type_id').val('');
+                    } else {
+                        
+                    }
+                });
+            };
+            return memberSetting;
+        },
+        
+    }
+    var memberSetting = MemberSettingClass.instance();
+    memberSetting.init();
+    
+    
 
 })
 </script>

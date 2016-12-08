@@ -29,8 +29,11 @@ class ModulesConfig extends \ModulesConfig {
         'roomsSellLayout'   => array('edit'=>62, 'delete'=>63, 'add'=>61, 'view'=>60),
         'department'        => array('edit'=>72, 'delete'=>73, 'add'=>71, 'view'=>30),
         'employee'          => array('edit'=>75, 'delete'=>76, 'add'=>74, 'view'=>31),
+        'memberSetting'     => array('edit'=>78, 'delete'=>79, 'add'=>77, 'view'=>20),
 
     );
+
+    public static $memberType = array('OTA', 'member', 'agreement', 'team', 'walk-in', 'other');
 
     public static $cacheKey = array(
         'company' => array('company_default_id'=>'company_default_id_'),
