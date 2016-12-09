@@ -3,10 +3,7 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <style type="text/css">
-.form-horizontal .control-label{padding-top:10px;}
-.table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
-.table-bordered td{font-size:12px;}
-.table.in-check tr th:first-child, .table.in-check tr td:first-child {width: 45px;}
+.form-horizontal .btn-group {margin-bottom: 5px;margin-left: 0;margin-right: 5px;}
 </style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
