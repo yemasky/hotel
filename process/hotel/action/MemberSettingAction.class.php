@@ -99,6 +99,7 @@ class MemberSettingAction extends \BaseAction {
                     return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
                 } else {
                     BookService::instance()->startTransaction();
+                    $arrayData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                     $book_type_id = BookService::instance()->saveBookType($arrayData);
                     BookService::instance()->updateBookType(array('book_type_id'=>$book_type_id),
                             array('book_type_father_id'=>$book_type_id));

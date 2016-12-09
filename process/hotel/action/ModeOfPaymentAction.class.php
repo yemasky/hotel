@@ -41,89 +41,42 @@ class ModeOfPaymentAction extends \BaseAction {
     protected function doDefault($objRequest, $objResponse) {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
-        $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id', true, 'book_type_father_id');
-        // 折扣
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
-        $conditions['order'] = 'book_type_id ASC';
-        $arrayDiscount = BookService::instance()->getBookDiscount($conditions);
-        $conditions['order'] = '';
-        $arrayType = '';
-        if(!empty($arrayDiscount)) {
-            foreach($arrayBookType as $key => $BookType) {
-                foreach($BookType['children'] as $j => $Type) {
-                    $arrayType[$Type['book_type_id']] = $Type;
-                }
-            }
-        }
-        //print_r($arrayAccessorialService);
+        $arrayHotelPayment = HotelService::instance()->getHotelPaymentType($conditions);
+
         //赋值
-        //sort($arrayRoomAttribute, SORT_NUMERIC);
-        //
-        $objResponse -> arrayData = $arrayBookType;
-        $objResponse -> memberType = ModulesConfig::$memberType;
-        $objResponse -> arrayDiscount = $arrayDiscount;
-        $objResponse -> arrayType = $arrayType;
+        $objResponse -> arrayData = $arrayHotelPayment;
         $objResponse -> add_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['add'])));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['modeOfPayment']['add'])));
         $objResponse -> edit_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['edit'])));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['modeOfPayment']['edit'])));
         $objResponse -> delete_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['delete'])));
-        $objResponse -> searchBookInfoUrl =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['modeOfPayment']['delete'])));
         //设置类别
     }
 
     protected function doAdd($objRequest, $objResponse) {
-        $objRequest -> book_type_id = 0;
-        $objRequest -> book_discount_id = '';
+        $objRequest -> payment_type_id = 0;
         $this->doEdit($objRequest, $objResponse);
     }
 
     protected function doEdit($objRequest, $objResponse) {
         $this->setDisplay();
         $arrayPostValue= $objRequest->getPost();
-        $book_type_id = $objRequest -> book_type_id;
+        $payment_type_id = $objRequest -> payment_type_id;
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
-            $arrayData['book_type_name'] = $objRequest -> book_type_name;
-            $arrayData['type'] = $objRequest -> type;
-            if(isset($arrayPostValue['book_type_name']) && !empty($arrayData['book_type_name']) && !empty($arrayData['type'])) {
+            $arrayData['payment_type_name'] = $objRequest -> payment_type_name;
+            if(isset($arrayPostValue['payment_type_name']) && !empty($arrayData['payment_type_name'])) {
                 $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['view'])));
                 //$url = '';
-                if($book_type_id > 0) {
-                    $arrayData['book_type_father_id'] = $arrayPostValue['book_type'];
+                if($payment_type_id > 0) {
                     $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                        'book_type_id'=>$book_type_id);
-                    BookService::instance()->updateBookType($where, $arrayData);
+                        'payment_type_id'=>$payment_type_id);
+                    HotelService::instance()->updateHotelPaymentType($where, $arrayData);
                     return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
                 } else {
-                    BookService::instance()->startTransaction();
-                    $book_type_id = BookService::instance()->saveBookType($arrayData);
-                    BookService::instance()->updateBookType(array('book_type_id'=>$book_type_id),
-                            array('book_type_father_id'=>$book_type_id));
-                    BookService::instance()->commit();
-                    return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
-                }
-            }
-            $book_discount_id = $objRequest -> book_discount_id;
-            $book_discount_name = $objRequest -> book_discount_name;
-            if(isset($arrayPostValue['book_discount_name']) && !empty($book_discount_name) && isset($arrayPostValue['book_discount'])) {
-                $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['view'])));
-                //$url = '';
-                if($book_discount_id > 0) {
-                    $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                        'book_discount_id'=>$book_discount_id);
-                    unset($arrayPostValue['book_discount_id']);
-                    unset($arrayPostValue['discount_book_type_id']);
-                    BookService::instance()->updateBookDiscount($where, $arrayPostValue);
-                    return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
-                } else {
-                    unset($arrayPostValue['book_discount_id']);
-                    $arrayPostValue['book_type_id'] = $arrayPostValue['discount_book_type_id'];
-                    unset($arrayPostValue['discount_book_type_id']);
-                    $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-                    BookService::instance()->saveBookDiscount($arrayPostValue);
+                    $arrayData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                    HotelService::instance()->saveHotelPaymentType($arrayData);
                     return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
                 }
             }
