@@ -3,7 +3,7 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <style type="text/css">
-.btn-group .btn {border: 1px solid #8C8585}
+.form-horizontal .control-label{padding-top:10px;}
 </style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
@@ -28,16 +28,14 @@
                     <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
                     <div class="control-group">
                      <%section name=i loop=$arrayData%>
-                        <label class="control-label">
-                        <!--<%$arrayData[i].hotel_service_name%> :-->
-                        
-                        </label>
-                        <div class="controls accessorial_edit">
+                        <label class="control-label accessorial_edit">
                         <div class="btn-group">
                             <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].hotel_service_name%></a><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                             <ul class="dropdown-menu" data-id="<%$arrayData[i].hotel_service_id%>" data-name="<%$arrayData[i].hotel_service_name%>" father-id="<%$arrayData[i].hotel_service_father_id%>" price="<%$arrayData[i].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $arrayData[i].children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul>
                             
                         </div>
+                        </label>
+                        <div class="controls accessorial_edit">
                         <%section name=j loop=$arrayData[i].children%>
                             <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].children[j].hotel_service_name%> <i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayData[i].children[j].hotel_service_price%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$arrayData[i].children[j].hotel_service_id%>" data-name="<%$arrayData[i].children[j].hotel_service_name%>" father-id="<%$arrayData[i].children[j].hotel_service_father_id%>" price="<%$arrayData[i].children[j].hotel_service_price%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
                         <%/section%>    

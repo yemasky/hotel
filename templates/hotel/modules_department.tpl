@@ -29,7 +29,7 @@
                 <li id="position_manage"><a data-toggle="tab" href="#tab2"><%$arrayLaguage['position_manage']['page_laguage_value']%></a></li>
                 <li id="department_role_setting"><a data-toggle="tab" href="#tab3"><%$arrayLaguage['department_role_setting']['page_laguage_value']%></a></li>
             </ul>
-        </div>
+          </div>
           <div class="widget-content tab-content">
            <div id="tab1" class="tab-pane active">
                <div class="btn-group pagination">

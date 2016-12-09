@@ -42,13 +42,25 @@ class MemberSettingAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id', true, 'book_type_father_id');
-        sort($arrayBookType);
+        // 折扣
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $arrayDiscount = BookService::instance()->getBookDiscount($conditions);
+        $arrayType = '';
+        if(!empty($arrayDiscount)) {
+            foreach($arrayBookType as $key => $BookType) {
+                foreach($BookType['children'] as $j => $Type) {
+                    $arrayType[$Type['book_type_id']] = $Type;
+                }
+            }
+        }
         //print_r($arrayAccessorialService);
         //赋值
         //sort($arrayRoomAttribute, SORT_NUMERIC);
         //
         $objResponse -> arrayData = $arrayBookType;
         $objResponse -> memberType = ModulesConfig::$memberType;
+        $objResponse -> arrayDiscount = $arrayDiscount;
+        $objResponse -> arrayType = $arrayType;
         $objResponse -> add_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['add'])));
         $objResponse -> edit_url =
