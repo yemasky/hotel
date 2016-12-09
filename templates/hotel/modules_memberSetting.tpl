@@ -179,7 +179,7 @@
                 </div>
                 <div id="discount_data" class="panel-collapse collapse widget-content nopadding">
                 <form method="post" class="form-horizontal" enctype="multipart/form-data" name="discount_form" id="discount_form" novalidate>
-                    <input type="hidden" value="" name="book_discount_id">
+                    <input type="hidden" value="" name="book_discount_id" id="book_discount_id">
                     <div class="control-group">
                         <label class="control-label"><span id="discount_name"></span><%$arrayLaguage['discount']['page_laguage_value']%></label>
                         <div class="controls"></div>
@@ -309,8 +309,8 @@ $(document).ready(function(){
 		submitHandler: function() {
             var param = $("#discount_form").serialize();
             var url = '';
-            var add = '<%$add_discount_url%>';
-            var edit = '<%$edit_discount_url%>';
+            var add = '<%$add_url%>';
+            var edit = '<%$edit_url%>';
             url = add;
             if($('#book_discount_id').val() > 0) url = edit;
             $.ajax({

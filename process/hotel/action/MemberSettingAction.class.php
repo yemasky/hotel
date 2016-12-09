@@ -74,6 +74,7 @@ class MemberSettingAction extends \BaseAction {
 
     protected function doAdd($objRequest, $objResponse) {
         $objRequest -> book_type_id = 0;
+        $objRequest -> book_discount_id = '';
         $this->doEdit($objRequest, $objResponse);
     }
 
@@ -83,23 +84,42 @@ class MemberSettingAction extends \BaseAction {
         $book_type_id = $objRequest -> book_type_id;
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
-            $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['accessorialService']['view'])));
-            $url = '';
-            $arrayData['book_type_name'] = $arrayPostValue['book_type_name'];
-            $arrayData['type'] = $arrayPostValue['type'];
-            if($book_type_id > 0) {
-                $arrayData['book_type_father_id'] = $arrayPostValue['book_type'];
-                $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                    'book_type_id'=>$book_type_id);
-                BookService::instance()->updateBookType($where, $arrayData);
-                return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
-            } else {
-                BookService::instance()->startTransaction();
-                $book_type_id = BookService::instance()->saveBookType($arrayData);
-                BookService::instance()->updateBookType(array('book_type_id'=>$book_type_id),
-                        array('book_type_father_id'=>$book_type_id));
-                BookService::instance()->commit();
-                return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+            $arrayData['book_type_name'] = $objRequest -> book_type_name;
+            $arrayData['type'] = $objRequest -> type;
+            if(isset($arrayPostValue['book_type_name']) && !empty($arrayData['book_type_name']) && !empty($arrayData['type'])) {
+                $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['view'])));
+                //$url = '';
+                if($book_type_id > 0) {
+                    $arrayData['book_type_father_id'] = $arrayPostValue['book_type'];
+                    $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                        'book_type_id'=>$book_type_id);
+                    BookService::instance()->updateBookType($where, $arrayData);
+                    return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+                } else {
+                    BookService::instance()->startTransaction();
+                    $book_type_id = BookService::instance()->saveBookType($arrayData);
+                    BookService::instance()->updateBookType(array('book_type_id'=>$book_type_id),
+                            array('book_type_father_id'=>$book_type_id));
+                    BookService::instance()->commit();
+                    return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+                }
+            }
+            $book_discount_id = $objRequest -> book_discount_id;
+            $book_discount_name = $objRequest -> book_discount_name;
+            if(isset($arrayPostValue['book_discount_name']) && !empty($book_discount_name) && isset($arrayPostValue['book_discount'])) {
+                $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['view'])));
+                //$url = '';
+                if($book_discount_id > 0) {
+                    $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+                        'book_discount_id'=>$book_discount_id);
+                    unset($arrayPostValue['book_discount_id']);
+                    BookService::instance()->updateBookDiscount($where, $arrayPostValue);
+                    return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+                } else {
+                    unset($arrayPostValue['book_discount_id']);
+                    BookService::instance()->saveBookDiscount($arrayPostValue);
+                    return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
+                }
             }
         }
         return $this->errorResponse($objResponse->arrayLaguage['save_nothings']['page_laguage_value']);
