@@ -178,4 +178,20 @@ class HotelService extends \BaseService {
     public function deleteHotelDepartmentPosition($where) {
         return HotelDao::instance()->setTable('department_position')->delete($where);
     }
+    //payment_type
+    public function getHotelPaymentType($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return HotelDao::instance()->setTable('payment_type')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+    }
+
+    public function saveHotelPaymentType($arrayData) {
+        return HotelDao::instance()->setTable('payment_type')->insert($arrayData);
+    }
+
+    public function updateHotelPaymentType($where, $row) {
+        return HotelDao::instance()->setTable('payment_type')->update($where, $row);
+    }
+
+    public function deleteHotelPaymentType($where) {
+        return HotelDao::instance()->setTable('payment_type')->delete($where);
+    }
 }

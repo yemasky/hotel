@@ -93,23 +93,6 @@ class BookService extends \BaseService {
         return $arrayBookType;
     }
 
-    //支付方式
-    public function getPaymentType($conditions, $fieldid = '*', $hashKey = null) {
-        return BookDao::instance()->setTable('payment_type')->getList($conditions, $fieldid, $hashKey);
-    }
-
-    public function savePaymentType($arrayData) {
-        return BookDao::instance()->setTable('payment_type')->insert($arrayData);
-    }
-
-    public function updatePaymentType($where, $row) {
-        return BookDao::instance()->setTable('payment_type')->update($where, $row);
-    }
-
-    public function deletePaymentType($where) {
-        return BookDao::instance()->setTable('payment_type')->delete($where);
-    }
-
     //入住用户信息
     public function getBookUser($conditions, $field = '*', $hashKey = null, $multiple = false) {
         return BookDao::instance()->setTable('book_user')->getList($conditions, $field, $hashKey, $multiple);
