@@ -30,7 +30,7 @@
                 <div class="widget-title">
                     <ul class="nav nav-tabs">
                         <li class="active" id=""><a data-toggle="tab" href="#tab1">会员及来源</a></li>
-                        <li id="discount_tab"><a data-toggle="tab" href="#tab2">折扣</a></li>
+                        <li id="discount_tab"><a data-toggle="tab" href="#tab2"><i class="am-icon-puzzle-piece am-red-FB0000"></i> 折扣</a></li>
                     </ul>
                 </div>
                 <div class="widget-content nopadding tab-content">
@@ -46,7 +46,7 @@
                             </label>
                             <div class="controls _edit">
                             <%section name=j loop=$BookType.children%>
-                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.children[j].book_type_name%> <!--<i class="am-icon-rmb am-yellow-F58A17"></i> <%$BookType.children[j].type%>--></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$BookType.children[j].book_type_id%>" data-name="<%$BookType.children[j].book_type_name%>" father-id="<%$BookType.children[j].book_type_father_id%>" dtype="<%$BookType.children[j].type%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li class="discount_btn"><a href="#discount"><i class="am-icon-puzzle-piece am-red-FB0000"></i> <%$arrayLaguage['discount']['page_laguage_value']%></a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
+                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.children[j].book_type_name%> <!--<i class="am-icon-rmb am-yellow-F58A17"></i> <%$BookType.children[j].type%>--></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$BookType.children[j].book_type_id%>" data-name="<%$BookType.children[j].book_type_name%>" father-id="<%$BookType.children[j].book_type_father_id%>" dtype="<%$BookType.children[j].type%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li class="discount_btn"><a href="#discount"><i class="am-icon-puzzle-piece am-red-FB0000"></i> <%$arrayLaguage['add_discount']['page_laguage_value']%></a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
                             <%/section%>    
                             </div>
                          <%/foreach%>
@@ -180,6 +180,7 @@
                 <div id="discount_data" class="panel-collapse collapse widget-content nopadding">
                 <form method="post" class="form-horizontal" enctype="multipart/form-data" name="discount_form" id="discount_form" novalidate>
                     <input type="hidden" value="" name="book_discount_id" id="book_discount_id">
+                    <input type="hidden" value="" name="discount_book_type_id" id="discount_book_type_id">
                     <div class="control-group">
                         <label class="control-label"><span id="discount_name"></span><%$arrayLaguage['discount']['page_laguage_value']%></label>
                         <div class="controls"></div>
@@ -354,6 +355,7 @@ $(document).ready(function(){
                     $('#discount_data').collapse('show');
                     $('#discount_name').text($(this).parent().attr('data-name'));
                     $('#discount_form input').val('');
+                    $('#discount_book_type_id').val($(this).parent().attr('data-id'));
                 });
                 $('.add_data').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');

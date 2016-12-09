@@ -44,7 +44,9 @@ class MemberSettingAction extends \BaseAction {
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id', true, 'book_type_father_id');
         // 折扣
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['order'] = 'book_type_id ASC';
         $arrayDiscount = BookService::instance()->getBookDiscount($conditions);
+        $conditions['order'] = '';
         $arrayType = '';
         if(!empty($arrayDiscount)) {
             foreach($arrayBookType as $key => $BookType) {
@@ -113,10 +115,14 @@ class MemberSettingAction extends \BaseAction {
                     $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
                         'book_discount_id'=>$book_discount_id);
                     unset($arrayPostValue['book_discount_id']);
+                    unset($arrayPostValue['discount_book_type_id']);
                     BookService::instance()->updateBookDiscount($where, $arrayPostValue);
                     return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
                 } else {
                     unset($arrayPostValue['book_discount_id']);
+                    $arrayPostValue['book_type_id'] = $arrayPostValue['discount_book_type_id'];
+                    unset($arrayPostValue['discount_book_type_id']);
+                    $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
                     BookService::instance()->saveBookDiscount($arrayPostValue);
                     return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
                 }
