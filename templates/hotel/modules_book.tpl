@@ -38,6 +38,8 @@
                                 <div class="input-prepend input-append">
                                     <span class="add-on am-icon-calendar"></span>
                                     <input class="input-small" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" />
+                                    <span class="add-on am-icon-calendar"></span>
+                                    <input class="input-small" type="text" id="time_end" name="time_end" value="<%$toDay%>" />
                                     <span class="add-on am-icon-user"></span>
                                     <input class="input-small" type="text" id="user_name" name="user_name" value="<%$user_name%>" />
                                     <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
@@ -58,8 +60,8 @@
                         <i class="am-icon-user am-green-54B51C"></i>
                         	<div class="fr">
                                 <div class="btn-group">
-                                    <a class="btn btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
-                                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                    <a class="btn btn-mini btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
+                                    <a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a data-target="#" href="<%$arrayBookList[book].number_main.edit_url%>"><i class="am-icon-pencil-square-o"></i> Edit</a></li>
                                         <li><a data-target="#" href="#"><i class="am-icon-trash-o"></i> Delete</a></li>
@@ -76,9 +78,10 @@
                                 <i class="am-icon-mobile am-blue-17C6EA"></i> : 
                                 <%$arrayBookList[book].number_main.book_contact_mobile%> 
                                 <i class="am-icon-commenting-o"></i> : 
-                                <%$arrayBookList[book].number_main.book_comments%></a>
+                                <%$arrayBookList[book].number_main.book_comments%>
                             </span>
-                          </a><p></p>
+                          </a>
+                          <p></p>
                           <!--<p><a href="#collapse<%$arrayBookList[book].number_main.book_order_number%>" data-toggle="collapse"><i class="am-icon-commenting-o"></i>
                           <%$arrayBookList[book].number_main.book_comments%></a> </p>-->
                           

@@ -196,7 +196,7 @@ $(document).ready(function(){
 	});
     
     var BookEditClass = {
-        hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},
+        hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},sell_layout_list:{},
         hotelCheckDate: {'hotel_checkin':'<%$hotel_checkin%>', 'hotel_checkout':'<%$hotel_checkout%>'},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
@@ -526,12 +526,20 @@ $(document).ready(function(){
                         $('.sell_layout_del').parent().remove();
                         return;
                     }
+                    var text = BookEditClass.sell_layout_list[this.value];
+                    if(typeof(text) != 'undefined' && text != '') {
+                        return;
+                    }
+                    text = $.trim($(this).find("option:selected").text());
+                    BookEditClass.sell_layout_list[this.value] = text;
+                    console.log(BookEditClass.sell_layout_list);
                     //select_sell_layout
-                    var html = ' <li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").text()
+                    var html = ' <li data-id="'+this.value+'" data-text="'+text+'"><i class="am-icon-check-square"></i>'+$(this).find("option:selected").text()
                               +'<i class="am-icon-trash-o am-red-E43737 sell_layout_del"></i></li>';
                     $('#sell_layout').after(html);
                     $('.sell_layout_del').each(function(index, element) {
                         $(this).click(function(e) {
+                            BookEditClass.sell_layout_list[$(this).parent().attr('data-id')] = '';
                             $(this).parent().remove();
                         });
                     });
