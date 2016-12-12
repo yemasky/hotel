@@ -35,6 +35,8 @@
 #controls_sell_layout li{font-size:inherit !important; text-align:center; margin: 5px 0 0 0;}
 #controls_sell_layout select{ margin-top:-2px;}
 .btn-icon-pg li{min-width:auto !important;}
+#select_sell_layout li{margin:0 5px 5px 0;}
+input, select {border-radius: 0 !important;}
 /*.table-bordered th, .table-bordered td {border-left: 0px solid #ddd !important;}*/
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
@@ -120,8 +122,6 @@
 							</div>
                             <label class="control-label"><%$arrayLaguage['room_layout']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_sell_layout">
-                                <div class="btn-icon-pg">
-                                <ul id="select_sell_layout">
                                  <select id="sell_layout" class="input-medium">
                                     <option value=""><%$arrayLaguage['all']['page_laguage_value']%></option>
                                     <%section name=i loop=$arraySellLayout%>
@@ -130,12 +130,20 @@
                                         </option>
                                     <%/section%>
                                  </select> 
-                                 </ul>
-                                 </div>
+                                 <select id="price_system" class="input-medium">
+                                    <%section name=i loop=$arrayPriceSystem%>
+                                        <option sell_id="<%$arrayPriceSystem[i].room_sell_layout_id%>" value="<%$arrayPriceSystem[i].room_layout_price_system_id%>">
+                                            <%$arrayPriceSystem[i].room_layout_price_system_name%>
+                                        </option>
+                                    <%/section%>
+                                 </select> 
                             </div>
-                            <label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
+                            <div class="controls btn-icon-pg">
+                                <ul id="select_sell_layout"><a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a></ul>
+                            </div>
+                            <!--<label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_service">
-                                <!--<div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%></a></div><%/section%>-->
+                                <div class="btn-group"><a class="btn edit_checkbox" data-id="-1"><i class="am-icon-check-square-o edit_btn"></i> <%$arrayLaguage['base_room_price']['page_laguage_value']%></a></div><%section name=i loop=$arrayHotelService%><div class="btn-group"><a class="btn edit_checkbox" data-id="<%$arrayHotelService[i].hotel_service_id%>" href="#view"><i class="am-icon-square-o edit_btn"></i> <%$arrayHotelService[i].hotel_service_name%></a></div><%/section%>
                                 
                             </div>
                             <div class="controls">
@@ -152,7 +160,7 @@
                                  <li><i class="am-icon-check-square"></i><%$arrayLaguage['base_room_price']['page_laguage_value']%><i id="server_-1" class="am-icon-trash-o am-red-E43737 service_type_del"></i></li><a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a>
                                  </ul>
                                  </div>
-                            </div>
+                            </div>-->
                             
 						</div>
 						<div class="control-group hide book_form_step2" id="room_layout_table">

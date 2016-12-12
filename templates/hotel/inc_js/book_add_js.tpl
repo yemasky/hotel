@@ -197,6 +197,7 @@ $(document).ready(function(){
     
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},sell_layout_list:{},
+        priceSystem: {},
         hotelCheckDate: {'hotel_checkin':'<%$hotel_checkin%>', 'hotel_checkout':'<%$hotel_checkout%>'},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
@@ -222,6 +223,8 @@ $(document).ready(function(){
                 BookEditClass.orientations['southwest']='西南';
                 BookEditClass.orientations['northwest']='西北';
                 BookEditClass.orientations['no']='无';
+                //
+                bookEdit.groupSellLayoutSystem();
             },
             bookEdit.init = function() {
                 $('.edit_checkbox').click(function(e) {
@@ -257,8 +260,7 @@ $(document).ready(function(){
                         $('#modal_info_message').html('不能全部取消包含服务，必须包含一项服务！');
                         return;
                     }
-                    var hotel_server_id = $(this).attr('server_id');
-                    BookEditClass.hotel_service[hotel_server_id] = 0;
+                    BookEditClass.hotel_service[-1] = 0;
                     $(this).parent().remove();
                 });
                 $('#service_type').change(function(e) {
@@ -270,6 +272,7 @@ $(document).ready(function(){
                         $('#service_type').after(html);
                         hotel_service[hotel_server_id] = 1;
                         $('#server_'+hotel_server_id).click(function(e) {
+                            var hotel_service = BookEditClass.hotel_service;
                             var length = 0;
                             for(i in hotel_service) {
                                 if(hotel_service[i] == 1) length++;
@@ -279,7 +282,8 @@ $(document).ready(function(){
                                 $('#modal_info_message').html('不能全部取消包含服务，必须包含一项服务！');
                                 return;
                             }
-                            var hotel_server_id = $(this).attr('server_id');
+                            //var hotel_server_id = $(this).attr('server_id');
+                            //hotel_service[hotel_server_id] = 0;
                             BookEditClass.hotel_service[hotel_server_id] = 0;
                             $(this).parent().remove();
                         });
@@ -526,22 +530,62 @@ $(document).ready(function(){
                         $('.sell_layout_del').parent().remove();
                         return;
                     }
-                    var text = BookEditClass.sell_layout_list[this.value];
+                    
+                    var sellLayout = {};var select_html = '';
+                    var sell_id = $(this).val();
+                    var sell_name = $.trim($(this).find("option:selected").text());
+                    var priceSystem = BookEditClass.priceSystem;
+                    sellLayout[0] = priceSystem[0];
+                    if(typeof(priceSystem[sell_id]) != 'undefined') {
+                        sellLayout[sell_id] = priceSystem[sell_id];
+                    }
+                    for(sellId in sellLayout) {
+                        for(systemID in sellLayout[sellId]) {
+                            select_html += '<option sell_id="'+sellId+'" sell_name="'+sell_name+'" value="'+systemID+'">'+sellLayout[sellId][systemID]+'</option>';
+                        }
+                    }
+                    $('#price_system').html(select_html);
+                    
+                    var sell_del_id = this.value+'-'+1;
+                    
+                    var text = BookEditClass.sell_layout_list[sell_del_id];
                     if(typeof(text) != 'undefined' && text != '') {
                         return;
                     }
-                    text = $.trim($(this).find("option:selected").text());
-                    BookEditClass.sell_layout_list[this.value] = text;
+                    //text = 
+                    BookEditClass.sell_layout_list[sell_del_id] = sell_name;
                     console.log(BookEditClass.sell_layout_list);
-                    //select_sell_layout
-                    var html = ' <li data-id="'+this.value+'" data-text="'+text+'"><i class="am-icon-check-square"></i>'+$(this).find("option:selected").text()
-                              +'<i class="am-icon-trash-o am-red-E43737 sell_layout_del"></i></li>';
-                    $('#sell_layout').after(html);
-                    $('.sell_layout_del').each(function(index, element) {
-                        $(this).click(function(e) {
-                            BookEditClass.sell_layout_list[$(this).parent().attr('data-id')] = '';
-                            $(this).parent().remove();
-                        });
+                    var html = ' <li data-id="'+this.value+'" data-text="'+sell_name+'"><i class="am-icon-check-square"></i>'
+                              +sell_name+'-'+sellLayout[0][1]
+                              +'<i class="am-icon-trash-o am-red-E43737" id="sell_del_'+sell_del_id+'"></i></li>';
+                    $('#search_room_layout').before(html);
+                    $('#sell_del_'+sell_del_id).click(function(e) {
+                        BookEditClass.sell_layout_list[sell_del_id] = '';
+                        $(this).parent().remove();
+                    });
+                    //$('.sell_layout_del').each(function(index, element) {
+                        //$(this).click(function(e) {
+                            
+                        //});
+                    //});
+                    
+                });
+                $('#price_system').change(function(e) {
+                    var sell_del_id = $(this).find("option:selected").attr('sell_id') + '-' + this.value;
+                    var text = BookEditClass.sell_layout_list[sell_del_id];
+                    if(typeof(text) != 'undefined' && text != '') {
+                        return;
+                    }
+                    var sell_name = $(this).find("option:selected").attr('sell_name');
+                    var price_system_name = $.trim($(this).find("option:selected").text());
+                    var html = ' <li><i class="am-icon-check-square"></i>'
+                          +sell_name+'-'+price_system_name
+                          +'<i class="am-icon-trash-o am-red-E43737" id="sell_del_'+sell_del_id+'"></i></li>';
+                    BookEditClass.sell_layout_list[sell_del_id] = sell_name + '-' + price_system_name;
+                    $('#search_room_layout').before(html);
+                    $('#sell_del_'+sell_del_id).click(function(e) {
+                        BookEditClass.sell_layout_list[sell_del_id] = '';
+                        $(this).parent().remove();
                     });
                 });
                 //增加减少人数
@@ -965,8 +1009,20 @@ $(document).ready(function(){
                 //$('#room_layout_html').html(room_layout_html);	
                 $('.bookSelectRoom').remove();
                 $('.book_user_info').append(select_html);
+            };
+            bookEdit.groupSellLayoutSystem = function() {
+                var priceSystem = BookEditClass.priceSystem;
+                $('#price_system').children('option').each(function(index, element) {
+                    var sell_id = $(this).attr('sell_id');
+                    if(typeof(priceSystem[sell_id]) == 'undefined') {
+                        priceSystem[sell_id] = {};
+                        priceSystem[sell_id][$(this).val()] = $(this).text();
+                    } else {
+                        priceSystem[sell_id][$(this).val()] = $(this).text();
+                    }
+                    $('#price_system').html('');
+                });
             }
-            ;
             return bookEdit;
         },
         leapYear: function(year){

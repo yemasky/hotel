@@ -146,7 +146,9 @@ class BookAction extends \BaseAction {
         //房型
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_sell_layout_valid'=>1);
         $arraySellLayout = RoomService::instance()->getRoomSellLayout($conditions);
-
+        //价格体系
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$hotel_id)),'room_layout_price_system_valid'=>1);
+        $arrayPriceSystem = RoomService::instance()->getRoomLayoutPriceSystem($conditions);
         //赋值
         $objResponse -> view = '0';
         $objResponse -> arrayBookType = $arrayBookType;
@@ -160,6 +162,7 @@ class BookAction extends \BaseAction {
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> arrayHotelService = $arrayHotelService;
         $objResponse -> arraySellLayout = $arraySellLayout;
+        $objResponse -> arrayPriceSystem = $arrayPriceSystem;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         $objResponse -> book_url =
