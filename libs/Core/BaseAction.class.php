@@ -710,6 +710,8 @@ class DBQuery{
                             $join[] = "{$condition_key} = '{$condition_value}'";
                         }
                     }
+                }elseif ($key == '-') {
+                    $join[] = $condition;
                 } else {
                     if(strpos($key, '.') === false) {
                         $join[] = "`{$key}` = '{$condition}'";

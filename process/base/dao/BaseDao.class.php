@@ -45,6 +45,11 @@ abstract class BaseDao{
         return $this;
     }
 
+    public function whereRead($where) {
+        DBQuery::instance($this->getDsnRead())->where($where);
+        return $this;
+    }
+
     public function getList($conditions, $fields = NULL, $hashKey = NULL, $multiple = false, $fatherKey = '') {
         if(empty($fields)) {
             $fields = '*';

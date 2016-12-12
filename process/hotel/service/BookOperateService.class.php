@@ -345,6 +345,68 @@ class BookOperateService extends \BaseService {
         $arrayBookCheckIn = explode('-', $book_check_in);
         $arrayBookCheckOut = explode('-', $book_check_out);
         $arrayBookMaxCheckOut = explode('-', $max_check_out);
+        $sell_layout_list = $objRequest -> sell_layout_list;
+        $sell_layout_list = trim($sell_layout_list, ',');
+        if(empty($sell_layout_list)) {
+            return '';
+        }
+        $arraySellIdSystemID = explode(',', $sell_layout_list);
+        $arraySellSystem = '';
+        foreach($arraySellIdSystemID as $i => $value) {
+            $arrayKey = explode('-', $value);
+            $arraySellSystem[$arrayKey[0]][] = $arrayKey[1];
+        }
+        $whereSqlStr = '';
+        $or = '';
+        foreach($arraySellSystem as $sell_id => $arraySystemId) {
+            $whereSqlStr .= $or . ' (room_sell_layout_id = '.$sell_id.' AND room_layout_price_system_id IN('.implode(',', $arraySystemId).')) ';
+            $or = ' OR';
+        }
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $arrayRoomId = $this->getHaveCheckInRoom($conditions, $hotel_id, $book_check_in, $book_check_out);
+        //step1 {end} 取得已住房间
+
+        //{begin} 查找房型房价
+        $conditions['where'] = array('hotel_id'=>$hotel_id,
+            '>='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckIn[0] . '-' . $arrayBookCheckIn[1] . '-01'),
+            '<='=>array('room_layout_price_begin_datetime'=>$arrayBookMaxCheckOut[0] . '-' . $arrayBookMaxCheckOut[1] . '-28'),
+            '-'=>$whereSqlStr);
+        $fieid = 'room_layout_price_id, room_sell_layout_id sell_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,'
+            .'room_layout_date_year this_year,room_layout_date_month this_month,';
+        for($i = 1; $i <= 31; $i++) {
+            $day = $i < 10 ? '0' . $i . '_day,' : $i . '_day,';
+            $fieid .= $day;
+        }
+        $fieid = trim($fieid, ',');
+        $conditions['order'] = 'room_layout_id ASC, room_layout_price_system_id ASC';
+        $arrayLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $fieid);
+        /************************************************************************************************/
+        //{end} 查找房型房价
+        //加床房价
+        $fieid = 'room_sell_layout_id sell_layout_id, room_layout_id, room_layout_price_system_id,room_layout_price_begin_datetime,room_layout_date_year this_year,room_layout_date_month this_month,';
+        for($i = 1; $i <= 31; $i++) {
+            $day = $i < 10 ? '0' . $i . '_day,' : $i . '_day,';
+            $fieid .= $day;
+        }
+        $fieid = trim($fieid, ',');
+        $arrayLayoutExtraBedPrice = RoomService::instance()->getRoomLayoutExtraBedPrice($conditions, $fieid);
+        /************************************************************************************************/
+        $conditions['order'] = '';
+
+
+        $arrayBookPriceSystem['layoutPrice'] = $arrayLayoutPrice;
+        $arrayBookPriceSystem['extraBedPrice'] = $arrayLayoutExtraBedPrice;
+        return $arrayBookPriceSystem;
+    }
+
+    public function searchISBookRoomLayoutOld($objRequest, $objResponse) {
+        $conditions = DbConfig::$db_query_conditions;
+        $book_check_in = $objRequest -> book_check_in;
+        $book_check_out = $objRequest -> book_check_out;
+        $max_check_out = $objRequest -> max_check_out;
+        $arrayBookCheckIn = explode('-', $book_check_in);
+        $arrayBookCheckOut = explode('-', $book_check_out);
+        $arrayBookMaxCheckOut = explode('-', $max_check_out);
         $hotel_service = $objRequest -> hotel_service;
         $hotel_service = trim($hotel_service, ',');
         if(empty($hotel_service)) {

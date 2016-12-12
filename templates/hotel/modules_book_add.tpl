@@ -123,7 +123,7 @@ input, select {border-radius: 0 !important;}
                             <label class="control-label"><%$arrayLaguage['room_layout']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_sell_layout">
                                  <select id="sell_layout" class="input-medium">
-                                    <option value=""><%$arrayLaguage['all']['page_laguage_value']%></option>
+                                    <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                     <%section name=i loop=$arraySellLayout%>
                                         <option value="<%$arraySellLayout[i].room_sell_layout_id%>">
                                             <%$arraySellLayout[i].room_sell_layout_name%>
