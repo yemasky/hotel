@@ -362,6 +362,7 @@ class BookOperateService extends \BaseService {
             $whereSqlStr .= $or . ' (room_sell_layout_id = '.$sell_id.' AND room_layout_price_system_id IN('.implode(',', $arraySystemId).')) ';
             $or = ' OR';
         }
+        $whereSqlStr = '('.$whereSqlStr.')';
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $arrayRoomId = $this->getHaveCheckInRoom($conditions, $hotel_id, $book_check_in, $book_check_out);
         //step1 {end} 取得已住房间
