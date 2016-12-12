@@ -71,8 +71,8 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions['order'] = 'hotel_service_father_id ASC';
         $arrayHotelService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
         $conditions['order'] = '';
-        //附加服务
-        $arrayPaymentType = HotelService::instance()->getHotelPaymentType(null, '*', '');
+        //支付方式
+        $arrayPaymentType = HotelService::instance()->getHotelPaymentType(null, '*', 'payment_type_id');
         //来源
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)));
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id');
