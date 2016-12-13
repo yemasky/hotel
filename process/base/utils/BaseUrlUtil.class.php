@@ -7,7 +7,8 @@
  * Time: 8:43
  */
 class BaseUrlUtil {
-    public static function Url($arrayValues) {
+    public static function Url($arrayValues = '') {
+        if(empty($arrayValues)) return 'index.php';
         $url = '';
         $mobule = '';
         foreach($arrayValues as $vk => $vv) {

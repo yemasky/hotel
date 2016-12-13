@@ -20,8 +20,8 @@ class RoomService extends \BaseService {
         RoomDao::instance()->rollback();
     }
 
-    public function getRoom($conditions, $field = '', $hashKey = null) {
-        return RoomDao::instance()->getRoom($conditions, $field, $hashKey);
+    public function getRoom($conditions, $field = '', $hashKey = null, $multiple = false, $fatherKey = '', $childrenKey = '') {
+        return RoomDao::instance()->getRoom($conditions, $field, $hashKey, $multiple, $fatherKey, $childrenKey);
     }
 
     public function saveRoom($arrayData) {

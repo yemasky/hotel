@@ -50,11 +50,11 @@ abstract class BaseDao{
         return $this;
     }
 
-    public function getList($conditions, $fields = NULL, $hashKey = NULL, $multiple = false, $fatherKey = '') {
+    public function getList($conditions, $fields = NULL, $hashKey = NULL, $multiple = false, $fatherKey = '', $childrenKey = '') {
         if(empty($fields)) {
             $fields = '*';
         }
-        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields, $hashKey, $multiple, $fatherKey);
+        return DBQuery::instance($this->getDsnRead())->setTable($this->table)->setKey($this->table_key)->group($conditions['group'])->order($conditions['order'])->limit($conditions['limit'])->getList($conditions['where'], $fields, $hashKey, $multiple, $fatherKey, $childrenKey);
     }
 
     public function getRow($conditions_where, $fields = NULL) {

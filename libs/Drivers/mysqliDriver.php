@@ -42,7 +42,7 @@ class mysqliDriver {
 	 * @param
 	 *        	sql 执行的SQL语句
 	 */
-	public function getQueryArrayResult($sql, $hashOrIdKey = null, $multiple = false, $fatherKey = ''){
+	public function getQueryArrayResult($sql, $hashOrIdKey = null, $multiple = false, $fatherKey = '', $childrenKey = ''){
 		$result = $this->execute($sql);
 		$rows = array ();
         if(empty($hashOrIdKey)) {
@@ -50,8 +50,14 @@ class mysqliDriver {
             }
             array_pop($rows);
         } elseif(!$multiple) {//$multiple单重
-            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $rows[$row[$hashOrIdKey]] = $row;
+            if(!empty($childrenKey)) {
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $rows[$row[$hashOrIdKey]][$row[$childrenKey]] = $row;
+                }
+            } else {
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $rows[$row[$hashOrIdKey]] = $row;
+                }
             }
         } elseif(!empty($fatherKey)) {//$multiple多重
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -60,12 +66,22 @@ class mysqliDriver {
                     $rows[$row[$fatherKey]] = $row;
                     $rows[$row[$fatherKey]]['children'] = $children;
                 } else {
-                    $rows[$row[$fatherKey]]['children'][] = $row;
+                    if(!empty($childrenKey)) {
+                        $rows[$row[$fatherKey]]['children'][$row[$childrenKey]] = $row;
+                    } else {
+                        $rows[$row[$fatherKey]]['children'][] = $row;
+                    }
                 }
             }
         } else {//$multiple多重
-            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $rows[$row[$hashOrIdKey]][] = $row;
+            if(!empty($childrenKey)) {
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $rows[$row[$hashOrIdKey]][$row[$childrenKey]][] = $row;
+                }
+            } else {
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $rows[$row[$hashOrIdKey]][] = $row;
+                }
             }
         }
 

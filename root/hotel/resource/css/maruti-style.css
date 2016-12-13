@@ -503,6 +503,9 @@ a:hover {
 .stat-boxes .peity_bar_good, .stat-boxes .peity_line_good  {
 	color: #459D1C;
 }
+.stat-boxes .peity_bar_better, .stat-boxes .peity_line_better  {
+	color:#75F35C;
+}
 .stat-boxes .peity_bar_neutral, .stat-boxes .peity_line_neutral  {
 	color: #757575;
 }
@@ -510,6 +513,9 @@ a:hover {
 	color: #BA1E20;
 }
 
+.stat-boxes .peity_bar_little, .stat-boxes .peity_line_little  {
+	color: #ff9900;
+}
 .stats-plain {
 
 }

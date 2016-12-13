@@ -3,6 +3,7 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <style media="all" type="text/css">
+.quick-actions{text-align:left;}
 .quick-actions li{max-width:175px;}
 </style>
 </head>
@@ -35,7 +36,7 @@
               <div class="widget-content">
                 <ul class="quick-actions">
                 <%foreach key=key item=item from=$arrayRoom%>
-                <li> <a href="<%$item.url%>"> <i class="icon-home"></i> <%$item.room_name%> </a> </li>
+                <li> <a href="<%$item.url%>"> <i class="icon-home"></i> <%$item.room_name%> </a> [<%$arrayLaguage['room_number']['page_laguage_value']%> : <%$item.room_number%>]</li>
                 <%/foreach%>
                 </ul>
                </div>
