@@ -20,5 +20,14 @@ class RoomsStatusService extends \BaseService {
         RoomDao::instance()->rollback();
     }
 
+    public function getRoomStatus($conditions, $hotel_id, $book_check_in, $book_check_out) {
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'');
+        $conditions['where'] = "hotel_id = '".$hotel_id."' AND book_order_number_status >= 0 AND "
+            ."(book_check_in <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
+            ."OR ('".$book_check_in."' <= book_check_in AND book_check_in < '".$book_check_out."')";
+        $field = 'book_id, room_id, room_layout_id layout_id, room_sell_layout_id sell_id, book_order_number_status status, book_check_in check_in, book_check_out check_out';
+        $arrayISBookRoom = BookService::instance()->getBook($conditions, $field, 'room_id', true);
+        return $arrayISBookRoom;
+    }
 
 }

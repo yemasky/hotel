@@ -27,23 +27,23 @@
                 <div class="widget-content">
                     <ul class="stat-boxes stat-boxes2">
                       <li>
-                        <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
+                        <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
                         <div class="right"> <strong>预定</strong> Book </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_good"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
+                        <div class="left peity_bar_good"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
                         <div class="right"> <strong>入住</strong> Check in </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_neutral"><span><span style="display: none;">12,12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
+                        <div class="left peity_bar_neutral"><span><span style="display: none;">12,12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
                         <div class="right"> <strong>空房</strong> Vacant </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_bad"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
+                        <div class="left peity_bar_bad"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
                         <div class="right"> <strong>脏房</strong> Dirty </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_little"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
+                        <div class="left peity_bar_little"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
                         <div class="right"> <strong>维修</strong> Servicing </div>
                       </li>
                     </ul>
@@ -82,14 +82,18 @@
                                 <li>
                                     <div class="left peity_line_neutral">
                                     <%$arrayLaguage['room_floor']['page_laguage_value']%>
-                                    <span></span>
                                     </div>
                                     <div class="right"> <%$room_floor%> </div>
                                 </li>
                                 <%section name=i loop=$room%>
-                                  <li>
-                                    <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$room[i].room_number%>]</div>
-                                    <div class="right"> <strong>预定</strong> Book </div>
+                                  <li room_id="<%$room[i].room_id%>" status="<%$room[i].room_status%>">
+                                    <!--<div class="left peity_bar_better">
+                                        <span>
+                                            <span style="display: none;">12,12,12,12,12,12,12</span>
+                                            <canvas width="50" height="24"></canvas>
+                                        </span>[]
+                                    </div>-->
+                                    <div class="right"> <%$room[i].room_name%>[<%$room[i].room_number%>] </div>
                                   </li>
                                 <%/section%>
                             </ul>
@@ -110,13 +114,17 @@
 <script language="javascript">
 $(document).ready(function(){
 	// === Prepare peity charts === //
-	maruti.peity();
+	
     //日历
 	$.datetimepicker.setLocale('ch');
-	var dateToDisable =  new Date('<%$thisDay%>'); 
+	var dateToDisable =  new Date('<%$nowDay%>'); 
 	$('#time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
-        yearStart: '1980', yearEnd: '<%$nextYear%>', //yearOffset:1,maxDate:'+1970-01-02',
+        yearStart: '1980', //yearEnd: '<%$nextYear%>', yearOffset:1,maxDate:'+1970-01-02',
 		beforeShowDay: function(date) {
+            if (date.getTime() < dateToDisable.getTime()) {
+                //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
+				return [false];
+			}
             return [true];
 		},
         onGenerate:function( ct ){
@@ -131,14 +139,14 @@ $(document).ready(function(){
             }
         },
 	});
-	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '<%$nextYear%>',
+	$('#time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, //yearEnd: '<%$nextYear%>',
 		beforeShowDay: function(date) {//new Date($('#book_check_in').val()).getDate()
 			var dateToDisable = new Date($('#time_begin').val());
 			if (date.getTime() < dateToDisable.getTime()) {
                 //alert((date.getTime() + '----' + (dateToDisable.getTime() - 0 + 36000 * 24 * 6)));
 				return [false];
 			}
-			return [true, ""];
+			return [true];
 		},
         onGenerate:function( ct ){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
@@ -148,16 +156,64 @@ $(document).ready(function(){
     var thisModuleClass = {
         instance: function() {
             var thisModule = {};
-            thisModule.thisYear = '<%$thisYear%>';
-            thisModule.thisMonth = '<%$thisMonth%>';
-            thisModule.time_begin = '<%$thisDay%>';
-            thisModule.time_end = '<%$toDay%>';
+            thisModule.initParameter  = function() {
+                thisModule.thisYear   = '<%$thisYear%>';
+                thisModule.thisMonth  = '<%$thisMonth%>';
+                thisModule.time_begin = '<%$thisDay%>';
+                thisModule.time_end   = '<%$toDay%>';
+                thisModule.roomStatus = $.parseJSON('<%$arrayRoomStatus%>');
+            };
+            thisModule.init = function() {
+                thisModule.setRoomStatus();
+                var roomStatus = thisModule.roomStatus;
+                for(i in roomStatus) {
+                    //console.log(roomStatus[i][0]);
+                }
+            };
+            thisModule.computeCheckDate = function() {
+                var inDate = new Date($('#time_begin').val());
+                var outDate = new Date($('#time_end').val());
+                //var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 + 1) + '-' + outDate.getDate() + ' 00:00:00');
+                //var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 + 1) + '-' + inDate.getDate() + ' 00:00:00');
+                var days = Math.floor((outDate.getTime() - inDate.getTime())/(24*3600*1000));
+                return days + 1;
+            };
+            thisModule.computeRoomStatusDiv = function(className) {//peity_bar_better
+                var html = '<div class="left '+className+'"><span><span style="display: none;">12,12,12,12,12,12,12</span>'
+                           +'<canvas width="50" height="24"></canvas></span>[]</div>';
+                return html;
+            };
+            thisModule.setRoomStatus = function() {
+                var days = thisModule.computeCheckDate();
+                
+                var roomStatus = thisModule.roomStatus;
+                $('#room_status li').each(function(index, element) {
+                    var room_id = $(this).attr('room_id');
+                    var status = $(this).attr('status');
+                    var className = 'peity_bar_neutral';
+                    if(typeof(room_id) != 'undefined') {// && typeof(roomStatus[room_id]) != 'undefined'
+                        for(i = 0; i < days; i++) {
+                            if(typeof(roomStatus[room_id]) != 'undefined') {
+                                if(typeof(roomStatus[room_id][i]) != 'undefined' && roomStatus[room_id][i]['status'] == '0') className = 'peity_bar_better';
+                                if(typeof(roomStatus[room_id][i]) != 'undefined' && roomStatus[room_id][i]['status'] == '1') className = 'peity_bar_good';
+                            }
+                            if(status == 1) className = 'peity_bar_bad';
+                            if(status == 2) className = 'peity_bar_little';
+                            $(this).find('div').first().before(thisModule.computeRoomStatusDiv(className));
+                            className = 'peity_bar_neutral';
+                        }
+                    }
+                });
+                maruti.peity();
+            };
             return thisModule;
         },
 
     }
     var thisModule = thisModuleClass.instance();
-})
+    thisModule.initParameter();
+    thisModule.init();
+})//console.log();
 maruti = {
 		// === Peity charts === //
 		peity: function(){		

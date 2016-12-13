@@ -39,15 +39,18 @@ class RoomsStatusAction extends \BaseAction {
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_mansion', true, '', 'room_floor');
         $conditions['order'] = '';
         //房态
-        $arrayCheckInRoomId = BookOperateService::instance()->getHaveCheckInRoom($conditions, $hotel_id, $thisDay, $toDay);
+        $arrayCheckInRoom = RoomsStatusService::instance()->getRoomStatus($conditions, $hotel_id, $thisDay, $toDay);
+        //重新组合数据
+
 
         //赋值
         $objResponse -> arrayRoom = $arrayRoom;
-        $objResponse -> arrayCheckInRoomId = $arrayCheckInRoomId;
+        $objResponse -> arrayRoomStatus = json_encode($arrayCheckInRoom);
         $objResponse -> thisYear = getYear();
         $objResponse -> thisMonth = getMonth();
         $objResponse -> thisDay = $thisDay;
         $objResponse -> toDay = $toDay;
+        $objResponse -> nowDay = getDay();
         $objResponse -> module = $objRequest->module;
 
         $objResponse -> search_url =

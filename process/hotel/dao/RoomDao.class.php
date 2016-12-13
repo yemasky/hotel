@@ -30,7 +30,7 @@ class RoomDao extends \BaseDao {
     public function getRoom($conditions, $fileid = '', $hashKey = null, $multiple = false, $fatherKey = '', $childrenKey = ''){
         $cacheId = md5('getRoom' . json_encode($conditions) . $hashKey);
         if(empty($fileid) || $fileid == '*')
-            $fileid = 'room_id, hotel_id, room_name, room_describe, room_mansion, room_number, room_floor, room_area, room_orientations, room_add_date, room_add_time, room_type';
+            $fileid = 'room_id, hotel_id, room_status, room_name, room_describe, room_mansion, room_number, room_floor, room_area, room_orientations, room_add_date, room_add_time, room_type';
         return $this->setDsnRead($this->getDsnRead())->setTable('room')->getList($conditions, $fileid, $hashKey, $multiple, $fatherKey, $childrenKey);//->DBCache($cacheId)
     }
 }
