@@ -84,7 +84,6 @@ class mysqliDriver {
                 }
             }
         }
-
 		mysqli_free_result($result);
 		return $rows;
 	}

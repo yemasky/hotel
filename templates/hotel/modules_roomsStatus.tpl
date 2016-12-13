@@ -5,6 +5,10 @@
 <script src="<%$__RESOURCE%>js/jquery.peity.min.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
+<style type="text/css">
+#room_status ul{text-align:left;}
+#room_status .stat-boxes2{top:0px;}
+</style>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -23,23 +27,23 @@
                 <div class="widget-content">
                     <ul class="stat-boxes stat-boxes2">
                       <li>
-                        <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>+70%</div>
+                        <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
                         <div class="right"> <strong>预定</strong> Book </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_good"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>+20%</div>
+                        <div class="left peity_bar_good"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
                         <div class="right"> <strong>入住</strong> Check in </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_neutral"><span><span style="display: none;">12,12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>0%</div>
+                        <div class="left peity_bar_neutral"><span><span style="display: none;">12,12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
                         <div class="right"> <strong>空房</strong> Vacant </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_bad"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>-50%</div>
+                        <div class="left peity_bar_bad"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
                         <div class="right"> <strong>脏房</strong> Dirty </div>
                       </li>
                       <li>
-                        <div class="left peity_bar_little"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>-50%</div>
+                        <div class="left peity_bar_little"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$arrayLaguage['room_number']['page_laguage_value']%>]</div>
                         <div class="right"> <strong>维修</strong> Servicing </div>
                       </li>
                     </ul>
@@ -63,15 +67,28 @@
                     </form>
                 </div>
                 <div class="widget-title"><span class="icon"><i class="am-icon-bullseye"></i></span><h5><%$selfNavigation['hotel_modules_name']%></h5></div>
-                <div class="widget-content nopadding form-horizontal">
-                <%foreach key=room_mansion item=arrayMansion from=$arrayRoom%>
+                <div class="widget-content nopadding form-horizontal" id="room_status">
                     <div class="control-group">
+                        <label class="control-label"><%$arrayLaguage['room_mansion']['page_laguage_value']%> </label>
+                        <div class="controls"></div>
+                    </div>
+                    <%foreach key=room_mansion item=arrayMansion from=$arrayRoom%>
+                    <div class="control-group">
+                        <label class="control-label"><%$room_mansion%></label>
                         <div class="controls">
                             <%foreach key=room_floor item=room from=$arrayMansion%>
+                            <!--<label class="control-label"><%$room_floor%> :</label>-->
                             <ul class="stat-boxes stat-boxes2">
+                                <li>
+                                    <div class="left peity_line_neutral">
+                                    <%$arrayLaguage['room_floor']['page_laguage_value']%>
+                                    <span></span>
+                                    </div>
+                                    <div class="right"> <%$room_floor%> </div>
+                                </li>
                                 <%section name=i loop=$room%>
                                   <li>
-                                    <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>+70%</div>
+                                    <div class="left peity_bar_better"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[<%$room[i].room_number%>]</div>
                                     <div class="right"> <strong>预定</strong> Book </div>
                                   </li>
                                 <%/section%>
@@ -79,7 +96,7 @@
                             <%/foreach%>
                         </div>
                     </div>
-                 <%/foreach%>
+                    <%/foreach%>
                 </div>
             </div>
         </div>

@@ -34,13 +34,16 @@ class RoomsStatusAction extends \BaseAction {
         $hotel_id = $objResponse -> arrayLoginEmployeeInfo['hotel_id'];
         $conditions = DbConfig::$db_query_conditions;
         //房子
-        $conditions['where'] = array('hotel_id'=>$hotel_id);
-        $conditions['order'] = 'room_mansion, room_floor, room_number';
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_type'=>1);
+        $conditions['order'] = 'room_mansion, room_floor, room_number, room_id';
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_mansion', true, '', 'room_floor');
         $conditions['order'] = '';
-        print_r($arrayRoom);
+        //房态
+        $arrayCheckInRoomId = BookOperateService::instance()->getHaveCheckInRoom($conditions, $hotel_id, $thisDay, $toDay);
+
         //赋值
         $objResponse -> arrayRoom = $arrayRoom;
+        $objResponse -> arrayCheckInRoomId = $arrayCheckInRoomId;
         $objResponse -> thisYear = getYear();
         $objResponse -> thisMonth = getMonth();
         $objResponse -> thisDay = $thisDay;

@@ -330,7 +330,7 @@ class BookOperateService extends \BaseService {
         $arrayRoomId = array();
         if(!empty($arrayISBookRoomLayout)) {
             foreach($arrayISBookRoomLayout as $k => $v) {
-                $arrayRoomId[] = $v['room_id'];
+                $arrayRoomId[$v['room_id']] = $v['room_id'];
             }
         }
         //step1 {end} 取得已住房间
@@ -364,7 +364,7 @@ class BookOperateService extends \BaseService {
         }
         $whereSqlStr = '('.$whereSqlStr.')';
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $arrayRoomId = $this->getHaveCheckInRoom($conditions, $hotel_id, $book_check_in, $book_check_out);
+        //$arrayRoomId = $this->getHaveCheckInRoom($conditions, $hotel_id, $book_check_in, $book_check_out);
         //step1 {end} 取得已住房间
 
         //{begin} 查找房型房价
