@@ -56,8 +56,6 @@ $(document).ready(function(){
             thisModule.computeCheckDate = function() {
                 var inDate = new Date($('#time_begin').val());
                 var outDate = new Date($('#time_end').val());
-                //var outDateTime =new Date(outDate.getFullYear() + '-' + (outDate.getMonth() - 0 + 1) + '-' + outDate.getDate() + ' 00:00:00');
-                //var itDateTime =new Date(inDate.getFullYear() + '-' + (inDate.getMonth() - 0 + 1) + '-' + inDate.getDate() + ' 00:00:00');
                 var days = Math.floor((outDate.getTime() - inDate.getTime())/(24*3600*1000));
                 return days + 1;
             };
@@ -74,26 +72,42 @@ $(document).ready(function(){
                 var html_fr = '<div class="left">'+thisDay+'<span>sss</span><span>sss</span> </div>';
                 return html_fl + html_fr;
             };
+            thisModule.computeRoomStatusDate = function(newThisDay, roomStatus) {
+                var thisDayDate = new Date(newThisDay);var thisTime = thisDayDate.getTime();
+                var className = 'peity_bar_neutral';
+                for(var j in roomStatus) {
+                    var check_in = roomStatus[j].check_in;var check_out = roomStatus[j].check_out;
+                    var inDate = new Date(check_in);var inDateTime = inDate.getTime();
+                    var outDate = new Date(check_out);var outDateTime = outDate.getTime();
+                    console.log(roomStatus);
+                    if(thisTime >= inDateTime && thisTime <= outDateTime) {
+                        if(roomStatus[j]['status'] == '0') className = 'peity_bar_better';
+                        if(roomStatus[j]['status'] == '1') className = 'peity_bar_good';
+                        break;
+                    }
+                }
+                return className;
+            };
             thisModule.setRoomStatus = function() {
                 var days = thisModule.computeCheckDate();
                 var roomStatus = thisModule.roomStatus;
-                console.log(roomStatus);
                 $('#room_status li').each(function(index, element) {
                     var room_id = $(this).attr('room_id');
                     var status = $(this).attr('status');
                     var className = 'peity_bar_neutral';
+                    var beginDate = new Date($('#time_begin').val());
                     if(typeof(room_id) != 'undefined') {// && typeof(roomStatus[room_id]) != 'undefined'
-                        for(i = 0; i < days; i++) {
-                            var inDate = new Date($('#time_begin').val());
-                            var thisDay = new Date(inDate.setDate(inDate.getDate() + i));
-                            thisDay = thisDay.getFullYear() + '-' + (thisDay.getMonth() - 0 + 1) + '-' + thisDay.getDate();
+                        var k = 0;
+                        for(var i = 0; i < days; i++) {
+                            if(i > 0) k = 1;
+                            var thisDay = new Date(beginDate.setDate(beginDate.getDate() + k));
+                            var newThisDay = thisDay.getFullYear() + '-' + (thisDay.getMonth() - 0 + 1) + '-' + thisDay.getDate();
                             if(typeof(roomStatus[room_id]) != 'undefined') {
-                                if(typeof(roomStatus[room_id][i]) != 'undefined' && roomStatus[room_id][i]['status'] == '0') className = 'peity_bar_better';
-                                if(typeof(roomStatus[room_id][i]) != 'undefined' && roomStatus[room_id][i]['status'] == '1') className = 'peity_bar_good';
+                                className = thisModule.computeRoomStatusDate(newThisDay, roomStatus[room_id]);
                             }
                             if(status == 1) className = 'peity_bar_bad';
                             if(status == 2) className = 'peity_bar_little';
-                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className, thisDay));
+                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className, newThisDay));
                             className = 'peity_bar_neutral';
                         }
                     }
