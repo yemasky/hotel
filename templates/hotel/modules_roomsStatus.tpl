@@ -10,6 +10,7 @@
 #room_status .stat-boxes2{top:0px;}
 .form-horizontal .div-control-label {padding-top: 10px; margin-left:20px;width: 180px;float: left;text-align: right;}
 .form-horizontal .right{width:50px;}
+.room_status_ul .left{height:100px;}
 </style>
 </head>
 <body>
@@ -96,8 +97,7 @@
                                     <div class="right"> <%$room_floor%> </div>
                                 </li>
                             </ul>
-                             
-                            <ul class="stat-boxes stat-boxes2">
+                            <ul class="stat-boxes stat-boxes2 room_status_ul">
                                 <!--<li>
                                     <div class="left peity_line_neutral">
                                     
@@ -112,6 +112,7 @@
                                             <canvas width="50" height="24"></canvas>
                                         </span>[]
                                     </div>-->
+                                    <!--<div class="left"> <%$room[i].room_name%>[<%$room[i].room_number%>] </div>-->
                                     <div class="right"> <%$room[i].room_name%>[<%$room[i].room_number%>] </div>
                                   </li>
                                 <%/section%>

@@ -52,10 +52,6 @@ $(document).ready(function(){
             };
             thisModule.init = function() {
                 thisModule.setRoomStatus();
-                var roomStatus = thisModule.roomStatus;
-                for(i in roomStatus) {
-                    //console.log(roomStatus[i][0]);
-                }
             };
             thisModule.computeCheckDate = function() {
                 var inDate = new Date($('#time_begin').val());
@@ -65,28 +61,39 @@ $(document).ready(function(){
                 var days = Math.floor((outDate.getTime() - inDate.getTime())/(24*3600*1000));
                 return days + 1;
             };
-            thisModule.computeRoomStatusDiv = function(className) {//peity_bar_better
-                var html = '<div class="left '+className+'"><span><span style="display: none;">12,12,12,12,12,12,12</span>'
-                           +'<canvas width="50" height="24"></canvas></span>[]</div>';
-                return html;
+            thisModule.computeRoomStatusDiv = function(className, thisDay) {//peity_bar_better
+                var button = '<div class="btn-group">'
+                            +'<a class="btn btn-mini btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage["manage"]["page_laguage_value"]%></a>'
+                            +'<a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><div class="caret"></div></a>'
+                            +'<ul class="dropdown-menu">'
+                            +'<li><a data-target="#" href=""><i class="am-icon-pencil-square-o"></i> Edit</a></li>'
+                            +'<li><a data-target="#" href="#"><i class="am-icon-trash-o"></i> Delete</a></li>'
+                            +'</ul></div>';
+                var html_fl = '<div class="left '+className+'"><span><span style="display: none;">12,12,12,12,12,12,12</span>'
+                           +'<canvas width="70" height="70"></canvas></span>'+button+'</div>';
+                var html_fr = '<div class="left">'+thisDay+'<span>sss</span><span>sss</span> </div>';
+                return html_fl + html_fr;
             };
             thisModule.setRoomStatus = function() {
                 var days = thisModule.computeCheckDate();
-                
                 var roomStatus = thisModule.roomStatus;
+                console.log(roomStatus);
                 $('#room_status li').each(function(index, element) {
                     var room_id = $(this).attr('room_id');
                     var status = $(this).attr('status');
                     var className = 'peity_bar_neutral';
                     if(typeof(room_id) != 'undefined') {// && typeof(roomStatus[room_id]) != 'undefined'
                         for(i = 0; i < days; i++) {
+                            var inDate = new Date($('#time_begin').val());
+                            var thisDay = new Date(inDate.setDate(inDate.getDate() + i));
+                            thisDay = thisDay.getFullYear() + '-' + (thisDay.getMonth() - 0 + 1) + '-' + thisDay.getDate();
                             if(typeof(roomStatus[room_id]) != 'undefined') {
                                 if(typeof(roomStatus[room_id][i]) != 'undefined' && roomStatus[room_id][i]['status'] == '0') className = 'peity_bar_better';
                                 if(typeof(roomStatus[room_id][i]) != 'undefined' && roomStatus[room_id][i]['status'] == '1') className = 'peity_bar_good';
                             }
                             if(status == 1) className = 'peity_bar_bad';
                             if(status == 2) className = 'peity_bar_little';
-                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className));
+                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className, thisDay));
                             className = 'peity_bar_neutral';
                         }
                     }
@@ -107,17 +114,17 @@ maruti = {
 			$.fn.peity.defaults.line = {
 				strokeWidth: 1,
 				delimeter: ",",
-				height: 24,
+				height: 70,
 				max: null,
 				min: 0,
-				width: 50
+				width: 69
 			};
 			$.fn.peity.defaults.bar = {
 				delimeter: ",",
-				height: 24,
+				height: 70,
 				max: null,
 				min: 0,
-				width: 50
+				width: 69
 			};
 			$(".peity_line_good span").peity("line", {
 				colour: "#57a532",

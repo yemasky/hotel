@@ -47,6 +47,8 @@ class RoomsStatusAction extends \BaseAction {
         $objResponse -> arrayRoom = $arrayRoom;
         $objResponse -> arrayRoomStatus = json_encode($arrayCheckInRoom);
         $objResponse -> thisYear = getYear();
+        $objResponse -> yearEnd = getYear();
+        $objResponse -> nextYear = getYear();
         $objResponse -> thisMonth = getMonth();
         $objResponse -> thisDay = $thisDay;
         $objResponse -> toDay = $toDay;
