@@ -199,7 +199,7 @@ $(document).ready(function(){
                             }
                             if(status == 1) className = 'peity_bar_bad';
                             if(status == 2) className = 'peity_bar_little';
-                            $(this).find('div').first().before(thisModule.computeRoomStatusDiv(className));
+                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className));
                             className = 'peity_bar_neutral';
                         }
                     }
