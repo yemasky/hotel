@@ -31,7 +31,7 @@ class BookOperateService extends \BaseService {
         //联系信息 <!-- -->
         $arrayBill['book_contact_name']             = $arrayPostValue['book_contact_name'];//联系人
         $arrayBill['book_contact_mobile']           = $arrayPostValue['book_contact_mobile'];//联系人移动电话
-        $arrayBill['user_id']                       = '';////
+        $arrayBill['user_id']                       = '0';////
         $arrayBill['hotel_id']                      = $hotel_id;
         //来源 <!-- -->
         $arrayBill['book_type_id']                  = $arrayPostValue['book_type_id'];
@@ -123,7 +123,7 @@ class BookOperateService extends \BaseService {
                     $arrayBill['room_layout_id'] = $room_layout_id;
                     $arrayBill['room_id'] = $room_id;
                     $arrayBill['room_layout_price_system_id'] = $system_id;
-                    $arrayBill['book_room_extra_bed']    = '';
+                    $arrayBill['book_room_extra_bed']    = '0';
                     if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
                         $arrayBill['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
                     }
@@ -138,7 +138,7 @@ class BookOperateService extends \BaseService {
                     $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
                     $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
                     $arraybatchInsertValue[$i - 1]['room_layout_price_system_id'] = $system_id;
-                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '';
+                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '0';
                     //$arraybatchInsertValue['book_room_sell_layout_price'] = '';//check-in ~ check-out房间总价
                     if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
                         $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
