@@ -11,6 +11,7 @@
 .form-horizontal .div-control-label {padding-top: 10px; margin-left:20px;width: 180px;float: left;text-align: right;}
 .form-horizontal .right{width:50px;}
 .room_status_ul .left{height:100px;}
+.room_status_ul .dropdown-menu li{ display:list-item;}
 </style>
 </head>
 <body>

@@ -79,7 +79,6 @@ $(document).ready(function(){
                     var check_in = roomStatus[j].check_in;var check_out = roomStatus[j].check_out;
                     var inDate = new Date(check_in);var inDateTime = inDate.getTime();
                     var outDate = new Date(check_out);var outDateTime = outDate.getTime();
-                    console.log(roomStatus);
                     if(thisTime >= inDateTime && thisTime <= outDateTime) {
                         if(roomStatus[j]['status'] == '0') className = 'peity_bar_better';
                         if(roomStatus[j]['status'] == '1') className = 'peity_bar_good';
