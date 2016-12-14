@@ -64,8 +64,9 @@ $(document).ready(function(){
                             +'<a class="btn btn-mini btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage["manage"]["page_laguage_value"]%></a>'
                             +'<a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><div class="caret"></div></a>'
                             +'<ul class="dropdown-menu">'
-                            +'<li><a data-target="#" href=""><i class="am-icon-pencil-square-o"></i> Edit</a></li>'
-                            +'<li><a data-target="#" href="#"><i class="am-icon-trash-o"></i> Delete</a></li>'
+                            +'<li><a data-target="#" href="#t"><i class="am-icon-toggle-off"></i> 转为可预定</a></li>'
+                            +'<li><a data-target="#" href="#t"><i class="am-icon-toggle-off"></i> 转为脏房</a></li>'
+                            +'<li><a data-target="#" href="#t"><i class="am-icon-toggle-off"></i> 转为维修房</a></li>'
                             +'</ul></div>';
                 var html_fl = '<div class="left '+className+'"><span><span style="display: none;">12,12,12,12,12,12,12</span>'
                            +'<canvas width="70" height="70"></canvas></span>'+button+'</div>';

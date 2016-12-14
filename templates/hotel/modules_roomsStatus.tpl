@@ -12,6 +12,8 @@
 .form-horizontal .right{width:50px;}
 .room_status_ul .left{height:100px;}
 .room_status_ul .dropdown-menu li{ display:list-item;}
+.room_status_ul .dropdown-menu li a{ padding: 3px 0;}
+.room_status_ul .dropdown-menu li a:hover{ background:none;}
 </style>
 </head>
 <body>
