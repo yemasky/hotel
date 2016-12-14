@@ -184,7 +184,7 @@ class BookOperateService extends \BaseService {
                 $arrayBookUserData[$i]['book_order_number'] = $book_order_number;
                 $arrayBookUserData[$i]['book_user_id_card'] = $arrayPostValue['user_id_card'][$i];
                 $arrayBookUserData[$i]['book_user_id_card_type'] = $arrayPostValue['user_id_card_type'][$i];
-                $arrayBookUserData[$i]['room_layout_id'] = '';//$arrayRoomLayoutRoomHash[$arrayPostValue['book_user_room'][$i]];
+                $arrayBookUserData[$i]['room_layout_id'] = '0';//$arrayRoomLayoutRoomHash[$arrayPostValue['book_user_room'][$i]];
                 $arrayBookUserData[$i]['room_id'] = $arrayPostValue['user_room'][$i];
                 $arrayBookUserData[$i]['book_user_sex'] = $arrayPostValue['user_sex'][$i];
                 $arrayBookUserData[$i]['book_user_comments'] = $arrayPostValue['user_comments'][$i];
