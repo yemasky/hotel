@@ -30,4 +30,12 @@ class RoomsStatusService extends \BaseService {
         return $arrayISBookRoom;
     }
 
+    public function setRoomStatus($room_id, $status) {
+        $updateData['room_status'] = '0';
+        if($status == 'Dirty') $updateData['room_status'] = '1';
+        if($status == 'Servicing') $updateData['room_status'] = '2';
+        $where = array('room_id'=>$room_id);
+        return RoomService::instance()->updateRoom($where, $updateData);
+    }
+
 }

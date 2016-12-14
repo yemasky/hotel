@@ -52,6 +52,7 @@ $(document).ready(function(){
             };
             thisModule.init = function() {
                 thisModule.setRoomStatus();
+                thisModule.turnRoomStatus();
             };
             thisModule.computeCheckDate = function() {
                 var inDate = new Date($('#time_begin').val());
@@ -59,14 +60,14 @@ $(document).ready(function(){
                 var days = Math.floor((outDate.getTime() - inDate.getTime())/(24*3600*1000));
                 return days + 1;
             };
-            thisModule.computeRoomStatusDiv = function(className, thisDay) {//peity_bar_better
+            thisModule.computeRoomStatusDiv = function(className, thisDay, id) {//peity_bar_better
                 var button = '<div class="btn-group">'
                             +'<a class="btn btn-mini btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage["manage"]["page_laguage_value"]%></a>'
                             +'<a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><div class="caret"></div></a>'
-                            +'<ul class="dropdown-menu">'
-                            +'<li><a data-target="#" href="#t"><i class="am-icon-toggle-off"></i> 转为可预定</a></li>'
-                            +'<li><a data-target="#" href="#t"><i class="am-icon-toggle-off"></i> 转为脏房</a></li>'
-                            +'<li><a data-target="#" href="#t"><i class="am-icon-toggle-off"></i> 转为维修房</a></li>'
+                            +'<ul class="dropdown-menu" data-id="'+id+'">'
+                            +'<li><a data-target="#" href="#Book"><i class="am-icon-toggle-off"></i> 转为可预定</a></li>'
+                            +'<li><a data-target="#" href="#Dirty"><i class="am-icon-toggle-off"></i> 转为脏房</a></li>'
+                            +'<li><a data-target="#" href="#Servicing"><i class="am-icon-toggle-off"></i> 转为维修房</a></li>'
                             +'</ul></div>';
                 var html_fl = '<div class="left '+className+'"><span><span style="display: none;">12,12,12,12,12,12,12</span>'
                            +'<canvas width="70" height="70"></canvas></span>'+button+'</div>';
@@ -107,12 +108,28 @@ $(document).ready(function(){
                             }
                             if(status == 1) className = 'peity_bar_bad';
                             if(status == 2) className = 'peity_bar_little';
-                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className, newThisDay));
+                            $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className, newThisDay, room_id));
                             className = 'peity_bar_neutral';
                         }
                     }
                 });
                 maruti.peity();
+            };
+            thisModule.turnRoomStatus = function() {
+                $('.room_status_ul .dropdown-menu a').click(function(e) {
+                    var id = $(this).parent().parent().attr('data-id');
+                    var status = $(this).attr('href').replace('#','');
+                    $.getJSON('<%$search_url%>?module=<%$module%>&act=turn'+'&id='+id+'&status='+status, function(result) {
+                        data = result;
+						if(data.success == 1) {
+							$('#modal_success').modal('show');
+							$('#modal_success_message').html(data.message);
+						} else {
+							$('#modal_fail').modal('show');
+							$('#modal_fail_message').html(data.message);
+						}
+                    })
+                });
             };
             return thisModule;
         },
@@ -145,8 +162,8 @@ maruti = {
 				strokeColour: "#459D1C"
 			});
             $(".peity_line_better span").peity("line", {
-				colour: "#75F35C",
-				strokeColour: "#75F35C"
+				colour: "#f311c8",
+				strokeColour: "#f311c8"
 			});
 			$(".peity_line_bad span").peity("line", {
 				colour: "#FFC4C7",
@@ -164,7 +181,7 @@ maruti = {
 				colour: "#459D1C"
 			});
             $(".peity_bar_better span").peity("bar", {
-				colour: "#75F35C"
+				colour: "#f311c8"
 			});
 			$(".peity_bar_bad span").peity("bar", {
 				colour: "#BA1E20"

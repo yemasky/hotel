@@ -26,13 +26,22 @@ class RoomsStatusAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $conditions = DbConfig::$db_query_conditions;
+        $act = $objRequest -> act;
+        if($act == 'turn') {
+            $this->setDisplay();
+            if(RoomsStatusService::instance()->setRoomStatus($objRequest->id, $objRequest->status)) {
+                return $this->successResponse('设置成功！');
+            }
+            return $this->errorResponse('设置失败！');
+        }
         $thisDay = $objRequest -> time_begin;
         $toDay = $objRequest -> time_end;
         $thisDay = empty($thisDay) ? getDay() : $thisDay;
         $toDay = empty($toDay) ? getDay() : $toDay;
 
         $hotel_id = $objResponse -> arrayLoginEmployeeInfo['hotel_id'];
-        $conditions = DbConfig::$db_query_conditions;
+
         //房子
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_type'=>1);
         $conditions['order'] = 'room_mansion, room_floor, room_number, room_id';
@@ -40,7 +49,7 @@ class RoomsStatusAction extends \BaseAction {
         $conditions['order'] = '';
         //房态
         $arrayCheckInRoom = RoomsStatusService::instance()->getRoomStatus($conditions, $hotel_id, $thisDay, $toDay);
-        //重新组合数据
+        //入住信息
 
 
         //赋值
