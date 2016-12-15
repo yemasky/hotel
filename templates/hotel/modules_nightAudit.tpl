@@ -48,10 +48,17 @@
                 <div class="widget-title"><span class="icon"><i class="am-icon-server am-yellow-EBC012"></i></span><h5><%$selfNavigation['hotel_modules_name']%></h5></div>
                 <%if $act == 'night_audit'%>
                 <div class="widget-content nopadding form-horizontal" id="room_status">
+                    <%if ($isArriveTime)%>
                     <div class="control-group">
                         <label class="control-label">A</label>
                         <div class="controls"></div>
                     </div>
+                    <%else%>
+                     <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">还没到夜审时间！</div>
+                    </div>
+                    <%/if%>
                 </div>
                 <%else%>
                 <div class="widget-content nopadding form-horizontal" id="room_status">
