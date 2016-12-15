@@ -142,4 +142,20 @@ class BookService extends \BaseService {
     public function deleteBookChange($where) {
         return BookDao::instance()->setTable('book_change')->delete($where);
     }
+    //预定夜审
+    public function getBookNightAudit($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->setTable('book_night_audit')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveBookNightAudit($arrayData) {
+        return BookDao::instance()->setTable('book_night_audit')->insert($arrayData);
+    }
+
+    public function updateBookNightAudit($where, $row) {
+        return BookDao::instance()->setTable('book_night_audit')->update($where, $row);
+    }
+
+    public function deleteBookNightAudit($where) {
+        return BookDao::instance()->setTable('book_night_audit')->delete($where);
+    }
 }

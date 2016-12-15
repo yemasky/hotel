@@ -27,7 +27,7 @@
                     <span class="icon">
                         <i class="am-icon-clock-o am-yellow-E88A26"></i>
                     </span>
-                    <h5><%$selfNavigation['hotel_modules_name']%></h5>
+                    <h5></h5>
                 </div>
                 <div class="widget-content nopadding">
                     <form action="<%$search_url%>" method="get" class="form-horizontal ui-formwizard" enctype="multipart/form-data">
@@ -40,18 +40,28 @@
                                     <input class="input-small" type="text" id="time_begin" name="time_begin" value="<%$thisDay%>" />
                                     <button class="btn btn-primary"><i class="am-icon-search"></i> <%$arrayLaguage['search']['page_laguage_value']%></button >
                                 </div>
+                                <a id="begin_night_audit" class="btn btn-primary"><i class="am-icon-server am-yellow-EBC012"></i> <%$arrayLaguage['begin_night_audit']['page_laguage_value']%></a >
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="widget-title"><span class="icon"><i class="am-icon-server am-yellow-EBC012"></i></span><h5><%$selfNavigation['hotel_modules_name']%></h5></div>
+                <%if $act == 'night_audit'%>
                 <div class="widget-content nopadding form-horizontal" id="room_status">
                     <div class="control-group">
-                        <label class="control-label"> </label>
+                        <label class="control-label">A</label>
+                        <div class="controls"></div>
+                    </div>
+                </div>
+                <%else%>
+                <div class="widget-content nopadding form-horizontal" id="room_status">
+                    <div class="control-group">
+                        <label class="control-label">B </label>
                         <div class="controls"></div>
                     </div>
                     
                 </div>
+                <%/if%>
             </div>
         </div>
         

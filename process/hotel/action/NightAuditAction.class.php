@@ -26,8 +26,11 @@ class NightAuditAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $act = $objRequest -> act;
         $thisDay = $objRequest -> time_begin;
         $thisDay = empty($thisDay) ? getDay() : $thisDay;
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+
         //赋值
         $objResponse -> thisYear = getYear();
         $objResponse -> thisMonth = getMonth();
@@ -36,6 +39,33 @@ class NightAuditAction extends \BaseAction {
 
         $objResponse -> module = $objRequest->module;
         $objResponse -> search_url = \BaseUrlUtil::Url('');
+        $objResponse -> act = $act;
+
+        if($act == 'night_audit') {
+            $this->doNightAudit($objRequest, $objResponse);
+            return;
+        }
+
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_is_check_date'=>$thisDay);
+        $arrayThisDayBook = BookService::instance()->getBookNightAudit($conditions);
+
+        //赋值
+        $objResponse -> arrayData = $arrayThisDayBook;
+
+
         //设置类别
     }
+
+    protected function doNightAudit($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $nowDay = getDay();
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'hotel_service_setting_type'=>'night_audit');
+        $nightAuditTime = HotelService::instance()->getHotelServiceSetting($conditions);
+        $nightAuditTime = $nightAuditTime[0]['hotel_service_setting_value'];//夜审开始和截止时间
+        $nightAuditTime = $nowDay . ' ' . $nightAuditTime;
+
+    }
+
 }

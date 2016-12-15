@@ -24,6 +24,9 @@ $(document).ready(function(){
                 thisModule.time_begin = '<%$thisDay%>';
             };
             thisModule.init = function() {
+                $('#begin_night_audit').click(function(e) {
+                    window.location.href="<%$search_url%>?module=<%$module%>&act=night_audit"; 
+                });
             };
             
             return thisModule;
