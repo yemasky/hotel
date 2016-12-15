@@ -115,7 +115,7 @@ input, select {border-radius: 0 !important;}
 								<!--<%$arrayLaguage['number_of_people']['page_laguage_value']%> :
 								<input type="text" class="span1" id="room_layout_max_people" name="room_layout_max_people" placeholder="<%$arrayLaguage['number_of_people']['page_laguage_value']%>"  />-->
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
-                                <input value="18:00" type="text" class="input-mini" id="book_order_retention_time" name="book_order_retention_time" />
+                                <input value="<%$thisDay%> 18:00" type="text" class="input-medium" id="book_order_retention_time" name="book_order_retention_time" />
                                 <%$arrayLaguage['book_days_total']['page_laguage_value']%> :
                                 <input value="1" type="text" class="input-mini" id="book_days_total" name="book_days_total" />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->

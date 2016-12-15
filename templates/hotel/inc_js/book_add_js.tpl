@@ -41,7 +41,7 @@ $(document).ready(function(){
 	});
 	//日历 时间控制
 	$('#book_order_retention_time').datetimepicker({
-		datepicker:false,format:'H:i',step:30
+		theme:'dark',format:'Y-m-d H:i:00',step:30
 	});
     $('#half_price').datetimepicker({
 		datepicker:false,format:'H:i',step:30

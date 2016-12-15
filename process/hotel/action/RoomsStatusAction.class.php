@@ -56,16 +56,15 @@ class RoomsStatusAction extends \BaseAction {
         $objResponse -> arrayRoom = $arrayRoom;
         $objResponse -> arrayRoomStatus = json_encode($arrayCheckInRoom);
         $objResponse -> thisYear = getYear();
-        $objResponse -> yearEnd = getYear();
-        $objResponse -> nextYear = getYear();
+        $objResponse -> yearEnd = $objResponse -> nextYear = $objResponse -> thisYear + 1;
+        $objResponse -> nextYear = $objResponse -> nextYear = $objResponse -> thisYear + 1;
         $objResponse -> thisMonth = getMonth();
         $objResponse -> thisDay = $thisDay;
         $objResponse -> toDay = $toDay;
         $objResponse -> nowDay = getDay();
         $objResponse -> module = $objRequest->module;
 
-        $objResponse -> search_url =
-            \BaseUrlUtil::Url('');
+        $objResponse -> search_url = \BaseUrlUtil::Url('');
         //设置类别
     }
 }

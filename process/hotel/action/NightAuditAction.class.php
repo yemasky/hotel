@@ -26,7 +26,16 @@ class NightAuditAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $thisDay = $objRequest -> time_begin;
+        $thisDay = empty($thisDay) ? getDay() : $thisDay;
         //赋值
+        $objResponse -> thisYear = getYear();
+        $objResponse -> thisMonth = getMonth();
+        $objResponse -> thisDay = $thisDay;
+        $objResponse -> nextYear = $objResponse -> nextYear = $objResponse -> thisYear + 1;
+
+        $objResponse -> module = $objRequest->module;
+        $objResponse -> search_url = \BaseUrlUtil::Url('');
         //设置类别
     }
 }
