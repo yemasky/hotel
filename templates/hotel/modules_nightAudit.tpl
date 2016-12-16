@@ -7,8 +7,9 @@
 <style type="text/css">
 #room_status ul{text-align:left;}
 #room_status .stat-boxes2{top:0px;}
-.form-horizontal .div-control-label {padding-top: 10px; margin-left:20px;width: 180px;float: left;text-align: right;}
-.form-horizontal .right{width:50px;}
+.form-horizontal .div-control-label {padding-top: 10px; margin-left:20px;width: 248px;float: left;text-align: right;}
+.form-horizontal .controls { margin-left: 268px; padding: 10px 0;}
+.form-horizontal .right{min-width:70px; width:auto;}
 .room_status_ul .left{height:100px;}
 .room_status_ul .dropdown-menu li{ display:list-item;}
 .room_status_ul .dropdown-menu li a{ padding: 3px 0;}
@@ -49,9 +50,52 @@
                 <%if $act == 'night_audit'%>
                 <div class="widget-content nopadding form-horizontal" id="room_status">
                     <%if ($isArriveTime)%>
-                    <div class="control-group">
-                        <label class="control-label">A</label>
-                        <div class="controls"></div>
+                    <div class="widget-content nopadding form-horizontal" id="room_status">
+                        <div class="control-group">
+                            <label class="control-label"> </label>
+                            <div class="controls"></div>
+                        </div>
+                        <%foreach key=book_order_number item=arrayData from=$arrayDataInfo%>
+                        <div class="control-group">
+                            <div class="div-control-label">
+                                <ul class="stat-boxes stat-boxes2">
+                                    <li>
+                                        <div class="left peity_line_neutral">
+                                        <%$arrayLaguage['order_number']['page_laguage_value']%>
+                                        </div>
+                                        <div class="right"> <%$book_order_number%> </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="controls">
+                                <%foreach key=i item=book from=$arrayData%>
+                                <ul class="stat-boxes stat-boxes2">
+                                    <li>
+                                        <!--<div class="left peity_line_neutral">
+                                        1<%$arrayLaguage['room_number']['page_laguage_value']%>
+                                        </div>-->
+                                        <div class="left peity_line_neutral">
+                                        <%$arrayLaguage['room_number']['page_laguage_value']%>
+                                        </div>
+                                        <div class="right"> <%$arrayRoom[$book.room_id].room_name%>[<%$arrayRoom[$book.room_id].room_number%>] </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">入住日期</div>
+                                        <div class="right"> <%$book.book_check_in%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">退房日期</div>
+                                        <div class="right"> <%$book.book_check_out%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">联系人</div>
+                                        <div class="right"> <%$book.book_contact_name%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">电话</div>
+                                        <div class="right"> <%$book.book_contact_mobile%> </div>
+                                    </li>
+                                </ul>
+                                <%/foreach%>
+                            </div>
+                        </div>
+                        <%/foreach%>
                     </div>
                     <%else%>
                      <div class="control-group">

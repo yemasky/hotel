@@ -62,7 +62,7 @@ class NightAuditAction extends \BaseAction {
         $nowDay = getDay();
         $yesterday = getDay(-24);
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$hotel_id, 'hotel_service_setting_type'=>'night_audit');
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)), 'hotel_service_setting_type'=>'night_audit');
         $nightAuditTime = HotelService::instance()->getHotelServiceSetting($conditions);
         $nightAuditTime = $nightAuditTime[0]['hotel_service_setting_value'];//夜审开始和截止时间
 
@@ -74,9 +74,11 @@ class NightAuditAction extends \BaseAction {
         $objResponse-> isArriveTime = $isArriveTime;
         $arrayBookInfo = '';
         if($isArriveTime) {
-            $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_is_check'=>'0',
-                                         '>='=>array('book_add_date'=>$yesterday));
-            $arrayBookInfo = BookService::instance()->getBook($conditions);
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
+                                         '>='=>array('book_order_number_status'=>0));
+            $field = 'book_id, room_id, room_sell_layout_id, room_layout_id,book_room_extra_bed,book_order_number,book_check_in,book_check_out,'
+                .'book_order_retention_time,book_contact_name,book_contact_mobile,book_comments';
+            $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'book_order_number', true);
             if(!empty($arrayBookInfo)) {
                 foreach($arrayBookInfo as $i => $arrayBook) {
 
@@ -84,7 +86,14 @@ class NightAuditAction extends \BaseAction {
             }
 
         }
-        $objResponse -> arrayBookInfo = $arrayBookInfo;
+        //房子
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_type'=>1);
+        $conditions['order'] = 'room_mansion, room_floor, room_number, room_id';
+        $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_id');
+        $conditions['order'] = '';
+
+        $objResponse -> arrayDataInfo = $arrayBookInfo;
+        $objResponse -> arrayRoom = $arrayRoom;
 
 
     }
