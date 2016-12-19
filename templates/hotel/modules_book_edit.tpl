@@ -249,7 +249,7 @@
                                   <td><select id="sell_layout" class="input-medium">
                                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                     <%foreach key=room_sell_layout_id item=arrayLayout from=$arraySellLayout%>
-                                        <option value="<%$room_sell_layout_id%>"><%$arrayLayout.room_sell_layout_name%></option>
+                                        <option room_layout="<%$arrayLayout.room_layout_id%>" value="<%$room_sell_layout_id%>"><%$arrayLayout.room_sell_layout_name%></option>
                                     <%/foreach%>
                                  </select></td>
                                   <td>

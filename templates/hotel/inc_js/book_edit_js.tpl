@@ -15,14 +15,18 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
         onSelectTime:function( ct ){
-            //computeCheckDate($('#book_check_out').val());
-            //bookEdit.computeBookPrice(false);
+            var thisDate = new Date(this.getValue());
+            var nextDate = new Date(thisDate.setDate(thisDate.getDate() + 1));
+            var time_end_date = new Date($('#user_check_out').val());
+            if(time_end_date.getTime() < nextDate.getTime()) {
+                $('#user_check_out').val(nextDate);
+                $('#user_check_out').datetimepicker({value:nextDate});
+            }
         }
 	});
 	$('#user_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
 		beforeShowDay: function(date) {
-            //new Date($('#book_check_in').val()).getDate()
-			//var dateToDisable = new Date($('#book_check_in').val());
+			var dateToDisable = new Date($('#user_check_in').val());
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false];
 			}
@@ -37,7 +41,6 @@ $(document).ready(function(){
                 $('#modal_fail_message').html("抱歉，这个时间不正确！");
                 return false;
             }
-            //computeCheckDate(this.getValue());
         }
 	});
     
@@ -52,14 +55,18 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
         onSelectTime:function( ct ){
-            //computeCheckDate($('#book_check_out').val());
-            //bookEdit.computeBookPrice(false);
+            var thisDate = new Date(this.getValue());
+            var nextDate = new Date(thisDate.setDate(thisDate.getDate() + 1));
+            var time_end_date = new Date($('#room_check_out').val());
+            if(time_end_date.getTime() < nextDate.getTime()) {
+                $('#room_check_out').val(nextDate);
+                $('#room_check_out').datetimepicker({value:nextDate});
+            }
         }
 	});
 	$('#room_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:s', formatDate:'Y-m-d H:i:s',
 		beforeShowDay: function(date) {
-            //new Date($('#book_check_in').val()).getDate()
-			//var dateToDisable = new Date($('#book_check_in').val());
+			var dateToDisable = new Date($('#room_check_in').val());
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false];
 			}
@@ -88,7 +95,7 @@ $(document).ready(function(){
             var bookEdit = {};
             bookEdit.initParameter = function() {
                 bookEdit.groupSellLayoutSystem();
-            }
+            };
             bookEdit.init = function() {
                 $('#sell_layout').val('');
                 $('#serviceItem').val('');
@@ -129,7 +136,10 @@ $(document).ready(function(){
                     $(this).parent().next().next().html('<input type="text" value="1" class="input-small">');
                     $(this).parent().next().next().next().html('<input type="text" value="100" class="input-small">');
                 });
-            }
+                $('#sell_layout').change(function(e) {
+                    bookEdit.searchBookRoom(this.value, this.value);
+                });
+            };
             bookEdit.groupSellLayoutSystem = function() {
                 var priceSystem = BookEditClass.priceSystem;
                 $('#price_system').children('option').each(function(index, element) {
@@ -142,7 +152,15 @@ $(document).ready(function(){
                     }
                     $('#price_system').html('');
                 });
-            }
+            };
+            bookEdit.searchBookRoom = function(room_layout_id, sell_id) {
+                $.getJSON('<%$searchBookInfoUrl%>&search=searchRoom&room_layout_id='+room_layout_id
+                                +'&sell_id='+sell_id+'&book_check_in='+$('#room_check_in').val()+'&book_check_out='+$('#room_check_out').val(),
+                  function(result){
+                    $('#modal_loading').hide();
+                    //计算价格
+                })   
+            };
             return bookEdit;
         }
     }

@@ -15,6 +15,13 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
         onSelectTime:function( ct ){
+            var thisDate = new Date(this.getValue());
+            var nextDate = new Date(thisDate.setDate(thisDate.getDate() + 1));
+            var time_end_date = new Date($('#book_check_out').val());
+            if(time_end_date.getTime() < nextDate.getTime()) {
+                $('#book_check_out').val(nextDate);
+                $('#book_check_out').datetimepicker({value:nextDate});
+            }
             computeCheckDate($('#book_check_out').val());
             bookEdit.computeBookPrice(false);
         }
@@ -716,7 +723,7 @@ $(document).ready(function(){
                                     '</tr>';
                             td1 = td2 = td_bed = option = pledge = '';   
                         }
-                        td1 = '<a href="#room" class="select_room">' + roomSellLayout[sell_layout_id].room_sell_layout_name + ' &#8226; ' //+ i 
+                        td1 = '<a href="#room" class="select_room">' + roomSellLayout[sell_layout_id].room_sell_layout_name + '-' //+ i 
                         //roomSellLayout[sell_layout_id].room_layout_name + 
                              + priceSystem[system_id].room_layout_price_system_name;
                         td1 = td1 +' <i class="am-icon-search am-blue-16A2EF"></i></a>';
