@@ -149,12 +149,16 @@ insert  into `book_hotel_service`(`book_id`,`book_order_number`,`hotel_service_i
 DROP TABLE IF EXISTS `book_night_audit`;
 
 CREATE TABLE `book_night_audit` (
-  `book_night_audit_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `hotel_id` int(11) NOT NULL,
+  `book_night_audit_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '夜审营收报表',
+  `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `book_date` date NOT NULL COMMENT '当天时间',
+  `room_id` int(11) NOT NULL COMMENT '入住的客房',
+  `book_user_id_card_type` varchar(200) NOT NULL COMMENT '证件类型',
+  `book_user_id_card` varchar(200) NOT NULL COMMENT '证件号',
   `book_accounts_receivable` double NOT NULL COMMENT '应收账款',
   `book_real_income` double NOT NULL COMMENT '实际收款',
   `book_is_check_employee_id` int(11) NOT NULL COMMENT '夜审核对员工',
-  `book_is_check_comments` varchar(500) DEFAULT NULL,
+  `book_is_check_comments` varchar(500) DEFAULT NULL COMMENT '备注',
   `book_is_check_date` date NOT NULL COMMENT '时间',
   `book_is_check_time` time NOT NULL COMMENT '时间',
   `book_is_check_add_date` date NOT NULL COMMENT '添加时间',
@@ -823,7 +827,7 @@ CREATE TABLE `room` (
   `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
   `room_type` int(11) NOT NULL COMMENT '房间类别',
   `room_on_sell` bit(1) NOT NULL DEFAULT b'1' COMMENT '是否在售卖',
-  `room_status` enum('-1','0','1','2','3') DEFAULT '0' COMMENT '房间状态 -1 删除 0 正常 1脏房 2维修 3不进行使用',
+  `room_status` enum('-1','0','1','2','3','4','5','6') DEFAULT '0' COMMENT '房间状态 -1 删除 0正常 1预定 2入住 3预离 4脏房 5维修 6...',
   `room_name` varchar(200) NOT NULL COMMENT '原始房型名称 自定义',
   `room_describe` text NOT NULL COMMENT '原始房间描述',
   `room_mansion` varchar(50) DEFAULT NULL COMMENT '楼栋编号',
@@ -842,7 +846,7 @@ CREATE TABLE `room` (
 
 /*Data for the table `room` */
 
-insert  into `room`(`room_id`,`hotel_id`,`room_type`,`room_on_sell`,`room_status`,`room_name`,`room_describe`,`room_mansion`,`room_floor`,`room_number`,`room_area`,`room_orientations`,`room_add_date`,`room_add_time`,`temp_max_people`,`temp_max_children`,`temp_extra_bed`) values (0,0,0,'','0','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,0),(1,1,1,'','0','迎宾楼201客房','','A1','2','201',100,'south',NULL,NULL,0,0,0),(2,1,1,'','2','1号别墅102','','1','1','102',50,'east','2016-10-10','14:49:14',0,0,0),(3,1,1,'','0','迎宾楼202客房','','A1','2','202',50,'west','2016-10-10','15:04:11',0,0,0),(11,1,2,'','0','中餐厅','','A1','1','103',100,'north','2016-10-10','14:56:29',0,0,0),(13,1,2,'','0','西餐厅','','A1','29','2901',150,'north','2016-10-10','14:57:13',0,0,0),(15,1,8,'','0','空调机房','','A1','-1','101',30,'east','2016-10-10','15:25:20',0,0,0),(16,1,7,'','0','经理办公室','经理办公室','A1','1','116',15,'no','2016-10-10','15:28:51',0,0,0),(18,1,1,'','0','迎宾楼203客房','','A1','2','203',50,'south','2016-10-10','16:11:05',0,0,0),(19,1,1,'','0','1号别墅103','','1','1','103',50,'northeast','2016-10-10','16:16:27',0,0,0),(20,1,4,'','0','大宴会厅','','A1','2','220',400,'no','2016-11-25','15:36:11',0,0,0),(21,1,1,'','1','1号别墅101','','1','1','101',20,'east','2016-11-25','15:40:31',0,0,0),(22,1,1,'','0','迎宾楼301A','','2','3','301A',20,'south','2016-11-25','15:44:50',0,0,0),(23,1,1,'','0','迎宾楼301B','','2','3','301B',20,'south','2016-11-25','15:45:58',0,0,0),(24,1,1,'','0','迎宾楼301C','','2','3','301C',20,'south','2016-11-25','15:46:42',0,0,0),(25,1,1,'','0','迎宾楼301D','','2','3','301D',20,'south','2016-11-25','15:47:18',0,0,0),(26,1,1,'','0','6号别墅','','6','1','6-3',150,'south','2016-11-25','15:48:45',0,0,0),(27,1,3,'','0','第一会议室','','2','4','401',60,'east','2016-11-25','15:49:33',0,0,0),(28,1,3,'','0','第二会议室','','2','4','402',100,'north','2016-11-25','15:50:04',0,0,0),(29,1,7,'','0','财务办公室','','2','4','403',18,'south','2016-11-25','15:50:34',0,0,0),(30,1,2,'','0','咖啡厅','','2','1','108',90,'no','2016-11-25','15:51:14',0,0,0);
+insert  into `room`(`room_id`,`hotel_id`,`room_type`,`room_on_sell`,`room_status`,`room_name`,`room_describe`,`room_mansion`,`room_floor`,`room_number`,`room_area`,`room_orientations`,`room_add_date`,`room_add_time`,`temp_max_people`,`temp_max_children`,`temp_extra_bed`) values (0,0,0,'','0','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,0),(1,1,1,'','0','迎宾楼201客房','','A1','2','201',100,'south',NULL,NULL,0,0,0),(2,1,1,'','4','1号别墅102','','1','1','102',50,'east','2016-10-10','14:49:14',0,0,0),(3,1,1,'','0','迎宾楼202客房','','A1','2','202',50,'west','2016-10-10','15:04:11',0,0,0),(11,1,2,'','0','中餐厅','','A1','1','103',100,'north','2016-10-10','14:56:29',0,0,0),(13,1,2,'','0','西餐厅','','A1','29','2901',150,'north','2016-10-10','14:57:13',0,0,0),(15,1,8,'','0','空调机房','','A1','-1','101',30,'east','2016-10-10','15:25:20',0,0,0),(16,1,7,'','0','经理办公室','经理办公室','A1','1','116',15,'no','2016-10-10','15:28:51',0,0,0),(18,1,1,'','0','迎宾楼203客房','','A1','2','203',50,'south','2016-10-10','16:11:05',0,0,0),(19,1,1,'','0','1号别墅103','','1','1','103',50,'northeast','2016-10-10','16:16:27',0,0,0),(20,1,4,'','0','大宴会厅','','A1','2','220',400,'no','2016-11-25','15:36:11',0,0,0),(21,1,1,'','5','1号别墅101','','1','1','101',20,'east','2016-11-25','15:40:31',0,0,0),(22,1,1,'','0','迎宾楼301A','','2','3','301A',20,'south','2016-11-25','15:44:50',0,0,0),(23,1,1,'','3','迎宾楼301B','','2','3','301B',20,'south','2016-11-25','15:45:58',0,0,0),(24,1,1,'','0','迎宾楼301C','','2','3','301C',20,'south','2016-11-25','15:46:42',0,0,0),(25,1,1,'','0','迎宾楼301D','','2','3','301D',20,'south','2016-11-25','15:47:18',0,0,0),(26,1,1,'','0','6号别墅','','6','1','6-3',150,'south','2016-11-25','15:48:45',0,0,0),(27,1,3,'','0','第一会议室','','2','4','401',60,'east','2016-11-25','15:49:33',0,0,0),(28,1,3,'','0','第二会议室','','2','4','402',100,'north','2016-11-25','15:50:04',0,0,0),(29,1,7,'','0','财务办公室','','2','4','403',18,'south','2016-11-25','15:50:34',0,0,0),(30,1,2,'','0','咖啡厅','','2','1','108',90,'no','2016-11-25','15:51:14',0,0,0);
 
 /*Table structure for table `room_attribute` */
 
@@ -1245,7 +1249,7 @@ CREATE TABLE `user` (
   `user_birthday` date DEFAULT NULL COMMENT '用户生日',
   `user_address` varchar(200) DEFAULT NULL COMMENT '用户住址',
   `user_photo` varchar(200) DEFAULT NULL COMMENT '用户头像',
-  `user_id_card_type` varbinary(200) NOT NULL DEFAULT '' COMMENT '证件类型',
+  `user_id_card_type` varchar(200) NOT NULL DEFAULT '' COMMENT '证件类型',
   `user_id_card` varchar(200) NOT NULL DEFAULT '' COMMENT '证件号',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1292,6 +1296,7 @@ CREATE TABLE `user_login_log` (
   `user_login_time` time NOT NULL COMMENT '登录时间',
   `user_login_ip` varchar(64) NOT NULL COMMENT '登录IP',
   `user_login_status` bit(1) NOT NULL DEFAULT b'0' COMMENT '登录状态',
+  `user_activate` enum('0','1') NOT NULL DEFAULT '0' COMMENT '用户是否激活 0未激活 1激活',
   PRIMARY KEY (`user_login_log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

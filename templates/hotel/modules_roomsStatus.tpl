@@ -41,6 +41,10 @@
                         <div class="right"> <strong>入住</strong> Check in </div>
                       </li>
                       <li>
+                        <div class="left peity_bar_small"><span><span style="display: none;">12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
+                        <div class="right"> <strong>预离</strong> Departure </div>
+                      </li>
+                      <li>
                         <div class="left peity_bar_neutral"><span><span style="display: none;">12,12,12,12,12,12,12,12</span><canvas width="50" height="24"></canvas></span>[info]</div>
                         <div class="right"> <strong>空房</strong> Vacant </div>
                       </li>

@@ -48,7 +48,7 @@ class RoomsStatusAction extends \BaseAction {
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_mansion', true, '', 'room_floor');
         $conditions['order'] = '';
         //房态
-        $arrayCheckInRoom = RoomsStatusService::instance()->getRoomStatus($conditions, $hotel_id, $thisDay, $toDay);
+        $arrayCheckInRoom = RoomsStatusService::instance()->getBookRoomStatus($conditions, $hotel_id, $thisDay, $toDay);
         //入住信息
 
 

@@ -516,6 +516,10 @@ a:hover {
 .stat-boxes .peity_bar_little, .stat-boxes .peity_line_little  {
 	color: #ff9900;
 }
+
+.stat-boxes .peity_bar_small, .stat-boxes .peity_line_small  {
+	color: #bcb7ff;
+}
 .stats-plain {
 
 }

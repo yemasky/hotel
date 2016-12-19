@@ -71,7 +71,7 @@ $(document).ready(function(){
                             +'</ul></div>';
                 var html_fl = '<div class="left '+className+'"><span><span style="display: none;">12,12,12,12,12,12,12</span>'
                            +'<canvas width="70" height="70"></canvas></span>'+button+'</div>';
-                var html_fr = '<div class="left">'+thisDay+'<span>sss</span><span>sss</span> </div>';
+                var html_fr = '<div class="left">'+thisDay+'<span></span><span></span> </div>';
                 return html_fl + html_fr;
             };
             thisModule.computeRoomStatusDate = function(newThisDay, roomStatus) {
@@ -106,8 +106,9 @@ $(document).ready(function(){
                             if(typeof(roomStatus[room_id]) != 'undefined') {
                                 className = thisModule.computeRoomStatusDate(newThisDay, roomStatus[room_id]);
                             }
-                            if(status == 1) className = 'peity_bar_bad';
-                            if(status == 2) className = 'peity_bar_little';
+                            if(status == 4) className = 'peity_bar_bad';
+                            if(status == 5) className = 'peity_bar_little';
+                            if(status == 3) className = 'peity_bar_small';
                             $(this).find('div').last().before(thisModule.computeRoomStatusDiv(className, newThisDay, room_id));
                             className = 'peity_bar_neutral';
                         }
@@ -165,6 +166,10 @@ maruti = {
 				colour: "#f311c8",
 				strokeColour: "#f311c8"
 			});
+            $(".peity_line_small span").peity("line", {
+				colour: "#bcb7ff",
+				strokeColour: "#bcb7ff"
+			});
 			$(".peity_line_bad span").peity("line", {
 				colour: "#FFC4C7",
 				strokeColour: "#BA1E20"
@@ -182,6 +187,9 @@ maruti = {
 			});
             $(".peity_bar_better span").peity("bar", {
 				colour: "#f311c8"
+			});
+            $(".peity_bar_small span").peity("bar", {
+				colour: "#bcb7ff"
 			});
 			$(".peity_bar_bad span").peity("bar", {
 				colour: "#BA1E20"

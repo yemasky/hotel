@@ -1033,7 +1033,8 @@ $(document).ready(function(){
                 var roomSellLayout = BookEditClass.roomSellLayout;
                 $('#sell_layout').children('option').each(function(index, element) {
                     roomSellLayout[this.value] = {};
-                    roomSellLayout[this.value]['room_layout_id'] = this.value;
+                    roomSellLayout[this.value]['room_layout_id'] = $(this).attr('room_layout');
+                    roomSellLayout[this.value]['sell_id'] = this.value;
                     roomSellLayout[this.value]['room_sell_layout_name'] = $.trim($(this).text());
                 })
                 BookEditClass.roomSellLayout = roomSellLayout;

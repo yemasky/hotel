@@ -125,7 +125,7 @@ input, select {border-radius: 0 !important;}
                                  <select id="sell_layout" class="input-medium">
                                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                     <%section name=i loop=$arraySellLayout%>
-                                        <option value="<%$arraySellLayout[i].room_sell_layout_id%>">
+                                        <option room_layout="<%$arraySellLayout[i].room_layout_id%>" value="<%$arraySellLayout[i].room_sell_layout_id%>">
                                             <%$arraySellLayout[i].room_sell_layout_name%>
                                         </option>
                                     <%/section%>

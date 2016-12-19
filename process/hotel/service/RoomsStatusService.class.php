@@ -20,7 +20,7 @@ class RoomsStatusService extends \BaseService {
         RoomDao::instance()->rollback();
     }
 
-    public function getRoomStatus($conditions, $hotel_id, $book_check_in, $book_check_out) {
+    public function getBookRoomStatus($conditions, $hotel_id, $book_check_in, $book_check_out) {
         $conditions['where'] = array('hotel_id'=>$hotel_id,'');
         $conditions['where'] = "hotel_id = '".$hotel_id."' AND book_order_number_status >= 0 AND "
             ."(book_check_in <= '".$book_check_in."' AND '".$book_check_in."' < book_check_out) "
