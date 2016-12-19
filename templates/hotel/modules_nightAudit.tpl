@@ -74,16 +74,16 @@
                                         <!--<div class="left peity_line_neutral">
                                         1<%$arrayLaguage['room_number']['page_laguage_value']%>
                                         </div>-->
+                                        <div class="left peity_line_neutral">入住日期</div>
+                                        <div class="right"> <%$book.book_check_in%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral text-warning">退房日期</div>
+                                        <div class="right"> <%$book.book_check_out%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
                                         <div class="left peity_line_neutral">
                                         <%$arrayLaguage['room_number']['page_laguage_value']%>
                                         </div>
                                         <div class="right"> <%$arrayRoom[$book.room_id].room_name%>[<%$arrayRoom[$book.room_id].room_number%>] </div>
-                                        <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">入住日期</div>
-                                        <div class="right"> <%$book.book_check_in%> </div>
-                                        <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">退房日期</div>
-                                        <div class="right"> <%$book.book_check_out%> </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
                                         <div class="left peity_line_neutral">联系人</div>
                                         <div class="right"> <%$book.book_contact_name%> </div>
