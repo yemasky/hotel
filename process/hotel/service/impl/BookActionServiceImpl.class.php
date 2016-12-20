@@ -92,6 +92,7 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> arrayPaymentType = $arrayPaymentType;
         $objResponse -> arrayBookType = $arrayBookType;
         $objResponse -> arrayBookChange = $arrayBookChange;
+        $objResponse -> thisDay = getDay();
 
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));

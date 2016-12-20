@@ -13,6 +13,16 @@
 .table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
 .dropdown-menu {margin: 2px -40px 0 !important; min-width:110px;}
 .dropdown-menu li{padding:0px !important;}
+.stat-boxes2{top:0px;right:0px; text-align:left;}
+.stat-boxes .right strong{ font-size:14px; font-weight:normal;}
+.stat-boxes .left{padding: 2px 5px 5px 1px;margin-right: 1px; text-align:center;}
+.stat-boxes .left span{font-size:12px; font-style:italic;}
+.stat-boxes .cash_pledge {line-height: 25px; font-size:12px}
+.stat-boxes .right{padding:1px 0 0; width: 55px;}
+.stat-boxes .price{width: 45px !important;}
+.stat-boxes .right span{ line-height: 30px;}
+.stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 13px;}
+.stat-boxes input{margin-bottom:1px !important;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -229,7 +239,7 @@
                                   <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
                                   <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
-                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
+                                  <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
                                   <td>
                                   <div class="fr">
                                     <div class="btn-group">
@@ -262,8 +272,8 @@
                                     <%/foreach%>
                                     </select>
                                   </td>
-                                  <td></td>
-                                  <td></td>
+                                  <td id="layout_room"></td>
+                                  <td id="extra_bed"></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_room" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
                                   <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
@@ -397,6 +407,37 @@
                                   <a id="asve_add_service" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
                                   </div></td>
                                 </tr>
+                              </tbody>
+                            </table>
+                       </div>
+                   </div>
+                   <div class="widget-box">   
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-arrow-right"></i>
+                            </span>
+                            <h5>结算价格</h5>
+                        </div>
+                       <div class="widget-content nopadding">  
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>变更项目</th>
+                                  <th>变更内容</th>
+                                  <th>涉及价钱</th>
+                                  <th>变更时间</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <%section name=i loop=$arrayBookChange%>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              <%/section%>
                               </tbody>
                             </table>
                        </div>

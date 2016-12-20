@@ -381,6 +381,7 @@ class BookOperateService extends \BaseService {
         $fieid = trim($fieid, ',');
         $conditions['order'] = 'room_layout_id ASC, room_layout_price_system_id ASC';
         $arrayLayoutPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $fieid);
+        $arrayLayoutPrice = empty($arrayLayoutPrice) ? '' : $arrayLayoutPrice;
         /************************************************************************************************/
         //{end} 查找房型房价
         //加床房价
