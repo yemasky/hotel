@@ -67,6 +67,7 @@ $(document).ready(function(){
 	$('#room_check_out').datetimepicker({theme:'dark', format: 'Y-m-d H:i:00', formatDate:'Y-m-d H:i:00',
 		beforeShowDay: function(date) {
 			var dateToDisable = new Date($('#room_check_in').val());
+            dateToDisable.setDate(dateToDisable.getDate() - 1);
 			if (date.getTime() < dateToDisable.getTime()) {
 				return [false];
 			}
@@ -76,12 +77,11 @@ $(document).ready(function(){
             $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
         },
         onSelectTime:function(date) {
-            if(new Date(this.getValue()) <= new Date($('#book_check_in').val())) {
+            if(new Date(this.getValue()) <= new Date($('#room_check_in').val())) {
                 $('#modal_fail').modal('show');
                 $('#modal_fail_message').html("抱歉，这个时间不正确！");
                 return false;
             }
-            //computeCheckDate(this.getValue());
         }
 	});
     
@@ -181,6 +181,14 @@ $(document).ready(function(){
                     $('#modal_info').modal('show');
                     $('#modal_info_message').html('请选择入住日期/离店日期！');
                     return;
+                }
+                if(new Date(check_out) <= new Date(check_in)) {
+                    $('#modal_fail').modal('show');
+                    $('#modal_fail_message').html("抱歉，这个时间不正确！");
+                    return false;
+                }
+                if(sell_id == '') {
+                    return;   
                 }
                 var max_check_out = $('#room_check_out').val();
                 var checkOutDate = new Date(check_out);var today = checkOutDate.getDate();var thisHours = checkOutDate.getHours();

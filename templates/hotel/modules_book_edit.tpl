@@ -276,7 +276,7 @@
                                   <td id="extra_bed"></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_room" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                  <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                  <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['confirm']['page_laguage_value']%></a>
                                   </div></td>
                                 </tr>
                                 <tr id="room_layout_data" class="hide">
