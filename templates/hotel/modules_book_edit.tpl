@@ -115,7 +115,7 @@
 										</tr>
 										<tr>
 											<td>折扣</td>
-											<td><%$arrayDataInfo[0].book_discount%></td>
+											<td><%$arrayDataInfo[0].book_discount%><input id="discount" type="hidden" value="<%$arrayDataInfo[0].book_discount%>"></td>
                                             <td></td>
 										</tr>
                                         <tr>
@@ -202,6 +202,7 @@
                                 <i class="icon-arrow-right"></i>
                             </span>
                             <h5>客房信息</h5>
+                            <input id="half_price" value="<%$arrayDataInfo[0].book_half_price%>" name="half_price" type="hidden">
                             <div class="buttons">
                                 <a id="add_room" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
                                 <%$arrayLaguage['add']['page_laguage_value']%></a>
@@ -216,6 +217,7 @@
                                   <th>房型</th>
                                   <th>价格体系</th>
                                   <th>房间</th>
+                                  <th>加床</th>
                                   <th></th>
                                 </tr>
                               </thead>
@@ -226,6 +228,7 @@
                                   <td><%$arrayDataInfo[i].book_check_out%></td>
                                   <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
+                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td>
                                   <div class="fr">
@@ -260,10 +263,14 @@
                                     </select>
                                   </td>
                                   <td></td>
+                                  <td></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_room" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
                                   <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
                                   </div></td>
+                                </tr>
+                                <tr id="room_layout_data" class="hide">
+                                  <td colspan="7"><div class="input-prepend input-append fr"></div></td>
                                 </tr>
                               </tbody>
                             </table>

@@ -44,6 +44,7 @@ $(document).ready(function(){
                 return false;
             }
             computeCheckDate(this.getValue());
+            bookEdit.computeBookPrice(false);
         }
 	});
 	//日历 时间控制
