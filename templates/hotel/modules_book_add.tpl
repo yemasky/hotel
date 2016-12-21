@@ -195,6 +195,7 @@ input, select {border-radius: 0 !important;}
                                     </option>
                                 <%/section%>
 							 </select>
+                             <div class="btn-icon-pg" id="need_service_info"></div>
                             </div>
                         </div>
                         <div class="control-group hide book_form_step2">

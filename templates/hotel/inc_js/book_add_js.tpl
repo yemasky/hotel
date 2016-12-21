@@ -524,22 +524,22 @@ $(document).ready(function(){
                     //bookNeed_service
                     var need_service_id = $('#need_service_id').attr('id');
                     if(typeof(need_service_id) == 'undefined') {
-                        $(this).parent().append('<div class="btn-icon-pg"><ul id="need_service_id"></ul></div>');
+                        $('#need_service_info').append('<ul id="need_service_id"></ul>');
                     }
                     var html = '<li><i class="am-icon-check-square"></i>'+$(this).find("option:selected").attr('title')
                               +' ￥ :  <input class="input-mini service_price" service_id="'+thisVal+'" value="'+$(this).find("option:selected").attr('price')+'" type="text">   '
-                              +'数量 : <input class="input-mini" value="1" type="text"> 折扣 : <input class="input-mini" value="100" type="text"> '
-                              +'<i class="am-icon-trash-o am-red-E43737 service_del"></i></li>';
+                              +'数量 : <input class="input-mini" value="1" type="text" id="service_num'+thisVal+'"> 折扣 : <input class="input-mini" value="100" type="text" id="service_discount'+thisVal+'"> '
+                              +'<i class="am-icon-trash-o am-red-E43737" id="service_del'+thisVal+'"></i></li>';
                     $('#need_service_id').append(html);
-                    BookEditClass.bookNeed_service[thisVal] = 1;
-                    $('.service_del').click(function(e) {
+                    $('#service_del'+thisVal).click(function(e) {
                         $(this).parent().remove();
                         BookEditClass.bookNeed_service[thisVal] = 0;
-                        if($('#need_service_id').html() == '') {
-                            $('#need_service_id').parent().remove();
-                        }
                         bookEdit.computeBookPrice(false);
                     });
+                    $('#service_num'+thisVal+',#service_discount'+thisVal).keyup(function(e) {
+                        bookEdit.computeBookPrice(false);
+                    });
+                    BookEditClass.bookNeed_service[thisVal] = 1;
                     bookEdit.computeBookPrice(false);            
                 });
                 $('#sell_layout').change(function(e) {
