@@ -102,7 +102,7 @@ input, select {border-radius: 0 !important;}
 						</div>
 						<div class="control-group hide book_form_step1">
                             <div class="controls">
-                                <input id="half_price" class="input-mini" value="18:00" name="half_price" style="" aria-invalid="false" type="text">
+                                <input id="half_price" class="input-mini" value="<%$hotel_overtime%>" name="half_price" style="" aria-invalid="false" type="text">
                                 <%$arrayLaguage['before_half_of_the_rate']['page_laguage_value']%>
                                 <code>[<%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
                                 <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>                            </div>

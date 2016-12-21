@@ -91,10 +91,11 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_total_price']              = $arrayPostValue['book_total_price'];//计算支付总价
 
         //备注
-        $arrayBill['book_comments']              = $arrayPostValue['comments'];//计算支付总价
+        $arrayBill['book_comments']                 = $arrayPostValue['comments'];//计算支付总价
         //时间
         $arrayBill['book_add_date']                 = getDay();
         $arrayBill['book_add_time']                 = getTime();
+        $arrayBill['book_add_datetime']             = getDateTime();
         /******************************************************/
         //
         //$arrayLayoutPrice   = $arrayPostValue['layout_price'];
@@ -133,22 +134,22 @@ class BookOperateService extends \BaseService {
                     }
                     $first = false;
                 } else {
-                    $arraybatchInsertValue[$i - 1]['book_order_number_main'] = '0';//主订单号
-                    $arraybatchInsertValue[$i - 1]['room_sell_layout_id'] = $sell_id;
-                    $arraybatchInsertValue[$i - 1]['room_layout_id'] = $room_layout_id;
-                    $arraybatchInsertValue[$i - 1]['room_id'] = $room_id;
-                    $arraybatchInsertValue[$i - 1]['room_layout_price_system_id'] = $system_id;
-                    $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = '0';
+                    $arraybatchInsertValue[$i]['book_order_number_main'] = '0';//主订单号
+                    $arraybatchInsertValue[$i]['room_sell_layout_id'] = $sell_id;
+                    $arraybatchInsertValue[$i]['room_layout_id'] = $room_layout_id;
+                    $arraybatchInsertValue[$i]['room_id'] = $room_id;
+                    $arraybatchInsertValue[$i]['room_layout_price_system_id'] = $system_id;
+                    $arraybatchInsertValue[$i]['book_room_extra_bed'] = '0';
                     //$arraybatchInsertValue['book_room_sell_layout_price'] = '';//check-in ~ check-out房间总价
                     if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
-                        $arraybatchInsertValue[$i - 1]['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
+                        $arraybatchInsertValue[$i]['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
                     }
-                    $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = '0';
+                    $arraybatchInsertValue[$i]['book_cash_pledge'] = '0';
                     if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
-                        $arraybatchInsertValue[$i - 1]['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                        $arraybatchInsertValue[$i]['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
                     }
+                    $i++;
                 }
-                $i++;
             }
             //foreach($arrayRoom as $layout_system => $room_id) {
             //}
@@ -159,9 +160,21 @@ class BookOperateService extends \BaseService {
         $book_id = BookService::instance()->saveBook($arrayBill);
         $book_order_number = \Utilities::getOrderNumber($book_id);
         BookService::instance()->updateBook(array('book_id'=>$book_id), array('book_order_number'=>$book_order_number));
+        unset($arrayBill['book_contact_name']);
+        unset($arrayBill['book_contact_mobile']);
+        if(isset($arrayBill['book_total_room_rate']))unset($arrayBill['book_total_room_rate']);//总房费
+        if(isset($arrayBill['book_prepayment_price']))unset($arrayBill['book_prepayment_price']);//预付价
+        if(isset($arrayBill['book_total_cash_pledge']))unset($arrayBill['book_total_cash_pledge']);//A1 总押金
+        if(isset($arrayBill['book_need_service_price']))unset($arrayBill['book_need_service_price']);//附加服务费
+        if(isset($arrayBill['book_service_charge']))unset($arrayBill['book_service_charge']);//服务费
+        if(isset($arrayBill['book_total_price']))unset($arrayBill['book_total_price']);//A1 支付总价
+        //if(isset($arrayBill['prepayment_type_id']))unset($arrayBill['prepayment_type_id']);
+        //if(isset($arrayBill['book_prepayment_date']))unset($arrayBill['book_prepayment_date']);
+        //if(isset($arrayBill['book_is_prepayment'])) unset($arrayBill['book_is_prepayment']);
         if(!empty($arraybatchInsertValue)) {
             foreach($arraybatchInsertValue as $k => $v) {
                 $arraybatchInsert[$k] = $arrayBill;
+                $arraybatchInsert[$k]['book_order_number_main'] = '0';//主订单号
                 $arraybatchInsert[$k]['book_order_number']   = $book_order_number;
                 $arraybatchInsert[$k]['room_sell_layout_id'] = $v['room_sell_layout_id'];
                 $arraybatchInsert[$k]['room_layout_id']      = $v['room_layout_id'];
@@ -177,7 +190,7 @@ class BookOperateService extends \BaseService {
         //添加住客
         $arrayBookUserData = array();
         foreach($arrayPostValue['user_name'] as $i => $bookUser) {
-            if(!empty($bookUser) && !empty($arrayPostValue['user_id_card'][$i])) {
+            if(!empty($bookUser)) {
                 $arrayBookUserData[$i]['book_id'] = $book_id;
                 $arrayBookUserData[$i]['hotel_id'] = $hotel_id;
                 $arrayBookUserData[$i]['book_user_name'] = $bookUser;
@@ -198,7 +211,7 @@ class BookOperateService extends \BaseService {
 
         //房价数据
         $arraySameYearAndMonth = '';
-        foreach($arrayThenRoomPrice['room'] as $roomLayoutSystem => $arrayDatePrice) {
+        foreach($arrayThenRoomPrice['room'] as $roomLayoutSystem => $arrayDatePrice) {//当时房价
             $arrayLayoutSystem = explode('-', $roomLayoutSystem);
             $sell_id = $arrayLayoutSystem[0];
             $room_layout_id = $arrayLayoutSystem[1];
@@ -206,22 +219,23 @@ class BookOperateService extends \BaseService {
             foreach($arrayDatePrice as $date => $roomPrice) {
                 $arrayDate = explode('-', $date);
                 $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
-                if(isset($arraySameYearAndMonth[$year . '-' . $month])) {
-                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $roomPrice;
+                $id = $year . '-' . $month . '-' . $sell_id . '-' . $room_layout_id . '-' . $system_id;
+                if(isset($arraySameYearAndMonth[$id])) {
+                    $arraySameYearAndMonth[$id][$day . '_day'] = $roomPrice;
                 } else {
                     for($i = 1; $i <= 31; $i++) {
                         $i_day = $i < 10 ? '0' . $i : $i;
-                        $arraySameYearAndMonth[$year . '-' . $month][$i_day . '_day'] = '0';
+                        $arraySameYearAndMonth[$id][$i_day . '_day'] = '-1';
                     }
-                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $roomPrice;
-                    $arraySameYearAndMonth[$year . '-' . $month]['book_order_number'] = $book_order_number;
-                    $arraySameYearAndMonth[$year . '-' . $month]['book_id'] = $book_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_sell_layout_id'] = $sell_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_id'] = $room_layout_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['hotel_id'] = $hotel_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_price_system_id'] = $system_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_year'] = $year;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_month'] = $month;
+                    $arraySameYearAndMonth[$id][$day . '_day'] = $roomPrice;
+                    $arraySameYearAndMonth[$id]['book_order_number'] = $book_order_number;
+                    $arraySameYearAndMonth[$id]['book_id'] = $book_id;
+                    $arraySameYearAndMonth[$id]['room_sell_layout_id'] = $sell_id;
+                    $arraySameYearAndMonth[$id]['room_layout_id'] = $room_layout_id;
+                    $arraySameYearAndMonth[$id]['hotel_id'] = $hotel_id;
+                    $arraySameYearAndMonth[$id]['room_layout_price_system_id'] = $system_id;
+                    $arraySameYearAndMonth[$id]['room_layout_date_year'] = $year;
+                    $arraySameYearAndMonth[$id]['room_layout_date_month'] = $month;
                 }
             }
         }
@@ -236,22 +250,23 @@ class BookOperateService extends \BaseService {
             foreach($arrayDatePrice as $date => $bedPrice) {
                 $arrayDate = explode('-', $date);
                 $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
-                if(isset($arraySameYearAndMonth[$year . '-' . $month])) {
-                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $bedPrice;
+                $id = $year . '-' . $month . '-' . $sell_id . '-' . $room_layout_id . '-' . $system_id;
+                if(isset($arraySameYearAndMonth[$id])) {
+                    $arraySameYearAndMonth[$id][$day . '_day'] = $bedPrice;
                 } else {
                     for($i = 1; $i <= 31; $i++) {
                         $i_day = $i < 10 ? '0' . $i : $i;
-                        $arraySameYearAndMonth[$year . '-' . $month][$i_day . '_day'] = '0';
+                        $arraySameYearAndMonth[$id][$i_day . '_day'] = '0';
                     }
-                    $arraySameYearAndMonth[$year . '-' . $month][$day . '_day'] = $bedPrice;
-                    $arraySameYearAndMonth[$year . '-' . $month]['book_order_number'] = $book_order_number;
-                    $arraySameYearAndMonth[$year . '-' . $month]['book_id'] = $book_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_sell_layout_id'] = $sell_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_id'] = $room_layout_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['hotel_id'] = $hotel_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_price_system_id'] = $system_id;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_year'] = $year;
-                    $arraySameYearAndMonth[$year . '-' . $month]['room_layout_date_month'] = $month;
+                    $arraySameYearAndMonth[$id][$day . '_day'] = $bedPrice;
+                    $arraySameYearAndMonth[$id]['book_order_number'] = $book_order_number;
+                    $arraySameYearAndMonth[$id]['book_id'] = $book_id;
+                    $arraySameYearAndMonth[$id]['room_sell_layout_id'] = $sell_id;
+                    $arraySameYearAndMonth[$id]['room_layout_id'] = $room_layout_id;
+                    $arraySameYearAndMonth[$id]['hotel_id'] = $hotel_id;
+                    $arraySameYearAndMonth[$id]['room_layout_price_system_id'] = $system_id;
+                    $arraySameYearAndMonth[$id]['room_layout_date_year'] = $year;
+                    $arraySameYearAndMonth[$id]['room_layout_date_month'] = $month;
                 }
             }
         }

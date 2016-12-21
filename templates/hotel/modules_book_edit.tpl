@@ -274,13 +274,24 @@
                                   </td>
                                   <td id="layout_room"></td>
                                   <td id="extra_bed"></td>
-                                  <td><div class="input-prepend input-append fr">
-                                  <a id="cancel_add_room" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
+                                  <td>
+                                  <div class="input-prepend input-append fr">
+                                  <a id="search_room" class="btn btn-success btn-mini"><i class="am-icon-search"></i><%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                  <a id="cancel_add_room" class="btn btn-warning btn-mini"><i class="am-icon-minus-circle"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
                                   <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['confirm']['page_laguage_value']%></a>
                                   </div></td>
                                 </tr>
                                 <tr id="room_layout_data" class="hide">
                                   <td colspan="7"><div class="input-prepend input-append fr"></div></td>
+                                </tr>
+                                <tr id="room_layout_data_price" class="hide">
+                                  <td colspan="7">
+                                   <p class="text-center">
+                                   <input type="hidden" value="" name="balance_date" id="balance_date">
+                                   房费：<input value="" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
+                                   总共几天 : <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
+                                   </p>
+                                  </td>
                                 </tr>
                               </tbody>
                             </table>
@@ -429,15 +440,12 @@
                                 </tr>
                               </thead>
                               <tbody>
-                              <%section name=i loop=$arrayBookChange%>
                                 <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
+                                  <td colspan="4">
+                                   房费：<input value="" class="input-mini" id="" name="" type="text">
+                                   总共几天 : <input value="1" class="input-mini" id="" name="" aria-invalid="false" type="text">
+                                  </td>
                                 </tr>
-                              <%/section%>
                               </tbody>
                             </table>
                        </div>

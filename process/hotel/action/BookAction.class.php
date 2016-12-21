@@ -175,7 +175,6 @@ class BookAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
-        $order_number = decode($objRequest -> order_number);
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);
         //设置类别
     }

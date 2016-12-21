@@ -79,6 +79,13 @@ class BookActionServiceImpl extends \BaseService  {
         //变更历史
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
         $arrayBookChange = BookService::instance()->getBookChange($conditions, '*', 'book_type_id');
+
+        //hotel info
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayHotel = HotelService::instance()->getHotel($conditions);
+        $hotel_checkout = empty($arrayHotel[0]['hotel_checkout']) ? '12:00' : $arrayHotel[0]['hotel_checkout'];
+        $hotel_checkin = empty($arrayHotel[0]['hotel_checkin']) ? '06:00' : $arrayHotel[0]['hotel_checkin'];
+        $hotel_overtime = empty($arrayHotel[0]['hotel_overtime']) ? '18:00' : $arrayHotel[0]['hotel_overtime'];
         //赋值
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> orderStatus = ModulesConfig::$orderStatus;
@@ -93,6 +100,10 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> arrayBookType = $arrayBookType;
         $objResponse -> arrayBookChange = $arrayBookChange;
         $objResponse -> thisDay = getDay();
+
+        $objResponse -> hotel_checkout = $hotel_checkout;
+        $objResponse -> hotel_checkin  = $hotel_checkin;
+        $objResponse -> hotel_overtime  = $hotel_overtime;
 
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
