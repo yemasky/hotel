@@ -243,13 +243,13 @@
                                   <td>
                                   <div class="fr">
                                     <div class="btn-group">
-                                        <a class="btn btn-primary btn-mini" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
+                                        <a class="btn btn-primary btn-mini" href="#"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
                                         <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a data-target="#" href=""><i class="am-icon-pencil-square-o"></i> 换房</a></li>
-                                            <li><a data-target="#" href="#"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
-                                            <li><a data-target="#" href="#"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
-                                            <li><a data-target="#" href="#"><i class="am-icon-trash-o"></i> 删除</a></li>
+                                        <ul class="dropdown-menu" room_id="<%$arrayDataInfo[i].room_id%>" book_id="<%$arrayDataInfo[i].book_id%>">
+                                            <li class="change_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
+                                            <li class="continued_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
+                                            <li class="check_out_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
+                                            <li class="cancel_room"><a data-target="#" href="#t"><i class="am-icon-close"></i> 取消</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -278,7 +278,6 @@
                                   <div class="input-prepend input-append fr">
                                   <a id="search_room" class="btn btn-success btn-mini"><i class="am-icon-search"></i><%$arrayLaguage['find_room']['page_laguage_value']%></a>
                                   <a id="cancel_add_room" class="btn btn-warning btn-mini"><i class="am-icon-minus-circle"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                  <a id="asve_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['confirm']['page_laguage_value']%></a>
                                   </div></td>
                                 </tr>
                                 <tr id="room_layout_data" class="hide">
@@ -288,8 +287,12 @@
                                   <td colspan="7">
                                    <p class="text-center">
                                    <input type="hidden" value="" name="balance_date" id="balance_date">
-                                   房费：<input value="" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
-                                   总共几天 : <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
+                                   <%$arrayLaguage['total_room_rate']['page_laguage_value']%>：<input value="" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
+                                   <%$arrayLaguage['book_days_total']['page_laguage_value']%>: <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
+                                   <span class="input-prepend input-append text-center">
+                                   <a id="room_rate_calculation" class="btn btn-primary btn-mini"><i class="am-icon-minus-circle"></i><%$arrayLaguage['room_rate_calculation']['page_laguage_value']%></a>
+                                   <a id="save_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['confirm']['page_laguage_value']%></a>
+                                   </span>
                                    </p>
                                   </td>
                                 </tr>

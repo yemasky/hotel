@@ -60,7 +60,7 @@
                         <i class="am-icon-user am-green-54B51C"></i>
                         	<div class="fr">
                                 <div class="btn-group">
-                                    <a class="btn btn-mini btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
+                                    <a class="btn btn-mini btn-primary" data-target="#" href="<%$arrayBookList[book].number_main.edit_url%>"><i class="am-icon-sun-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
                                     <a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a data-target="#" href="<%$arrayBookList[book].number_main.edit_url%>"><i class="am-icon-pencil-square-o"></i> Edit</a></li>
