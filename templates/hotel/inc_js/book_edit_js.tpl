@@ -195,6 +195,9 @@ $(document).ready(function(){
                     $(this).parent().prev().prev().html('<i class="am-icon-circle-o"></i> 管理');
                     BookEditClass.tempRoomEdit['edit'] = '';
                 });
+                $('#am-icon-calculator').click(function(e) {
+                    $('#rate_calculation').show('fast');
+                });
             };
             bookEdit.changeRoom = function(type, _this) {
                 var room_id = $(_this).parent().attr('room_id');
@@ -438,7 +441,7 @@ $(document).ready(function(){
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                             +'<input value="'+layoutPrice[i][day+'_day']+'" rdate="'+this_day+'" '
                             +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
-                            +'class="layout_price span12" type="text" ></div></li>';
+                            +'class="layout_price span12" type="text" readonly ></div></li>';
                         if(typeof(cash_pledge[sell_layout_id+'-'+system_id]) == 'undefined') {
                             cash_pledge[sell_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                         }
@@ -462,7 +465,7 @@ $(document).ready(function(){
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                                 +'<input value="'+bed[day+'_day']+'" beddate="'+this_day+'" '
                                 +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
-                                +'class="span12 extra_bed_price" type="text" >'
+                                +'class="span12 extra_bed_price" type="text" readonly >'
                                 +'</div></li>';
                         }    
                         td_bed += '</ul>';
@@ -549,6 +552,7 @@ $(document).ready(function(){
                 var balance_date = new Date($('#balance_date').val());//结算日
                 var balance_date_time = balance_date.getTime();
                 var days = $('#book_days_total').val();//总共住多少天
+                var discount = $('#discount').val();
                 var is_half = days.indexOf(".") > 0 ? true : false;
                 var select_room = {};
                 var room_price = bed_price =  0;//客房价格 押金 需要的服务费
@@ -571,8 +575,10 @@ $(document).ready(function(){
                         room_price += price;
                     }
                 });
+                room_price = room_price * discount / 100;
                 tempRoomPrice['room']['room_price'] = room_price;
                 tempRoomPrice['room']['room_id'] = $('#select_room').val();
+                tempRoomPrice['room']['total_room_rate'] = room_price;
                 tempRoomPrice['room']['totle_price'] = room_price;
                 var val = $('#extra_bed select').val();
                 if(val > 0) {
@@ -580,10 +586,6 @@ $(document).ready(function(){
                     tempRoomPrice['bed']['room_key'] = room_key;
                     var room_id = $('#extra_bed select').attr('room');
                     if(tempRoomPrice['room']['room_id'] == room_id) {
-                        //var room_layout_system = $('#room_data').data(room_id);// +'-'+ system_id
-                        //var room_layout_system = room_layout_system.split('-');
-                        //room_layout_id = room_layout_system[0];
-                        //system_id = room_layout_system[1];
                         $('.extra_bed_price').each(function(index, element) {
                             //房型价格
                             //相同room_layout
@@ -594,7 +596,7 @@ $(document).ready(function(){
                                 var price = $(this).val() - 0;
                                 tempRoomPrice['bed'][beddate] = price;//加床
                                 if(now_date_time == balance_date_time && is_half) {
-                                    price = price * 0.5;
+                                    price = price * 1;
                                 }
                                 bed_price = price * val + bed_price;
                             }
@@ -604,7 +606,8 @@ $(document).ready(function(){
                         tempRoomPrice['room']['totle_price'] = tempRoomPrice['room']['totle_price'] + bed_price;
                     }
                 }
-                $('#total_room_rate').val(tempRoomPrice['room']['totle_price']);
+                $('#total_extra_bed_price').val(bed_price);
+                $('#total_room_rate').val(tempRoomPrice['room']['total_room_rate']);
                 BookEditClass.tempRoomPrice = tempRoomPrice;
             };
             bookEdit.saveAddRoom = function() {
@@ -613,16 +616,17 @@ $(document).ready(function(){
                     return;
                 }
                 var check_in = $('#room_check_in').val();var check_out = $('#room_check_out').val();
-                var sell_layout = $.trim($('#sell_layout').find('option:selected').text());
-                var price_system = $.trim($('#price_system').find('option:selected').text());
-                var layout_room = $.trim($('#select_room').find('option:selected').text());
+                var sell_layout_name = $.trim($('#sell_layout').find('option:selected').text());
+                var price_system_name = $.trim($('#price_system').find('option:selected').text());
+                var room_name = $.trim($('#select_room').find('option:selected').text());
                 var extra_bed = $.trim($('#extra_bed').find('option:selected').text());
                 var room_id = $('#select_room').val();
                 var html = '<tr>';
-                html += '<td>'+check_in+'</td><td>'+check_out+'</td><td>'+sell_layout+'</td>'
-                       +'<td>'+price_system+'</td><td>'+layout_room+'</td><td>'+extra_bed+'</td>'
+                html += '<td>'+check_in+'</td><td>'+check_out+'</td><td>'+sell_layout_name+'</td>'
+                       +'<td>'+price_system_name+'</td><td>'+room_name+'</td><td>'+extra_bed+'</td>'
+                       +'<td><code class="fr"><%$arrayLaguage["new_add_room"]["page_laguage_value"]%></code></td>'
                        +'<td><a id="cancel_add_room'+room_id+'" class="btn btn-warning btn-mini fr">'
-                       +'<i class="am-icon-minus-circle"></i><%$arrayLaguage["cancel"]["page_laguage_value"]%></a><code class="fr"><%$arrayLaguage["new_add_room"]["page_laguage_value"]%></code></td></tr>';
+                       +'<i class="am-icon-minus-circle"></i><%$arrayLaguage["cancel"]["page_laguage_value"]%></a></td></tr>';
                 $('#add_room_tr').before(html);
                 $('#sell_layout').val('');$('#room_layout_data').hide('fast');$('#room_layout_data_price').hide('fast');
                 $('#cancel_add_room'+room_id).click(function(e) {
@@ -648,4 +652,12 @@ $(document).ready(function(){
     bookEdit.initParameter();
     bookEdit.init();
 });//console.log($('#add_user_tr'));
+$(function(){
+    $('body #rate_calculation').each(function(){
+        $(this).dragging({
+            move : 'both',
+            randomPosition : false
+        });
+    });
+});
 </script>

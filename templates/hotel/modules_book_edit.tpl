@@ -3,6 +3,7 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
+<script src="<%$__RESOURCE%>js/drag.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
 <script type="text/javascript" src="<%$__RESOURCE%>js/jquery.datetimepicker.full.min.js"></script>
 <script src="<%$__RESOURCE%>js/jquery.dataTables.min.1.10.12.js"></script>
@@ -23,6 +24,7 @@
 .stat-boxes .right span{ line-height: 30px;}
 .stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 13px;}
 .stat-boxes input{margin-bottom:1px !important;}
+#rate_calculation{width:190px; height:230px; top:60%; left:50%;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -125,7 +127,7 @@
 										</tr>
 										<tr>
 											<td>折扣</td>
-											<td><%$arrayDataInfo[0].book_discount%><input id="discount" type="hidden" value="<%$arrayDataInfo[0].book_discount%>"></td>
+											<td><%$arrayDataInfo[0].book_discount%></td>
                                             <td></td>
 										</tr>
                                         <tr>
@@ -228,7 +230,8 @@
                                   <th>价格体系</th>
                                   <th>房间</th>
                                   <th>加床</th>
-                                  <th></th>
+                                  <th>状态</th>
+                                  <th>管理</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -240,6 +243,7 @@
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
                                   <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
                                   <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
+                                  <td></td>
                                   <td>
                                   <div class="fr">
                                     <div class="btn-group">
@@ -274,6 +278,7 @@
                                   </td>
                                   <td id="layout_room"></td>
                                   <td id="extra_bed"></td>
+                                  <td id="book_change"></td>
                                   <td>
                                   <div class="input-prepend input-append fr">
                                   <a id="search_room" class="btn btn-success btn-mini"><i class="am-icon-search"></i><%$arrayLaguage['find_room']['page_laguage_value']%></a>
@@ -286,12 +291,19 @@
                                 <tr id="room_layout_data_price" class="hide">
                                   <td colspan="7">
                                    <p class="text-center">
-                                   <input type="hidden" value="" name="balance_date" id="balance_date">
-                                   <%$arrayLaguage['total_room_rate']['page_laguage_value']%>：<input value="" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
-                                   <%$arrayLaguage['book_days_total']['page_laguage_value']%>: <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
                                    <span class="input-prepend input-append text-center">
-                                   <a id="room_rate_calculation" class="btn btn-primary btn-mini"><i class="am-icon-minus-circle"></i><%$arrayLaguage['room_rate_calculation']['page_laguage_value']%></a>
-                                   <a id="save_add_room" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['confirm']['page_laguage_value']%></a>
+                                   <input type="hidden" value="" name="balance_date" id="balance_date">
+                                   <span class="add-on"><%$arrayLaguage['discount']['page_laguage_value']%></span>
+                                   <input id="discount" class="input-mini" type="text" value="<%$arrayDataInfo[0].book_discount%>">
+                                   <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%></span>
+                                   <input value="0" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
+                                   <span class="add-on">加床费</span>
+                                   <input id="total_extra_bed_price" class="input-mini" type="text" value="0">
+                                   <span class="add-on"><%$arrayLaguage['book_days_total']['page_laguage_value']%></span>
+                                   <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
+                                   
+                                   <a id="room_rate_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> <%$arrayLaguage['room_rate_calculation']['page_laguage_value']%></a>
+                                   <a id="save_add_room" class="btn btn-primary"><i class="am-icon-save"></i> <%$arrayLaguage['confirm']['page_laguage_value']%></a>
                                    </span>
                                    </p>
                                   </td>
@@ -494,6 +506,10 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
+<div id="rate_calculation" class="hide">
+    <div id="rate_calculation_move" class="text-center">计算器 <i class="am-icon-arrows-alt"></i></div>
+    <iframe src="<%$__RESOURCE%>static/calculator/index.html" frameborder="0" width="190" height="230" marginheight="0" marginwidth="0" scrolling="no"></iframe>
+</div>
 <%include file="hotel/inc_js/book_edit_js.tpl"%>
 </body>
 </html>
