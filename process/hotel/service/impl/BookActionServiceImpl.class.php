@@ -104,7 +104,6 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> hotel_checkout = $hotel_checkout;
         $objResponse -> hotel_checkin  = $hotel_checkin;
         $objResponse -> hotel_overtime  = $hotel_overtime;
-
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
     }

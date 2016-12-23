@@ -24,7 +24,7 @@
 .stat-boxes .right span{ line-height: 30px;}
 .stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 13px;}
 .stat-boxes input{margin-bottom:1px !important;}
-#rate_calculation{width:190px; height:230px; top:60%; left:50%;}
+#rate_calculation{width:190px; height:248px; top:60%; left:50%;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -229,6 +229,8 @@
                                   <th>房型</th>
                                   <th>价格体系</th>
                                   <th>房间</th>
+                                  <th>可住人数</th>
+                                  <th>可住儿童</th>
                                   <th>加床</th>
                                   <th>状态</th>
                                   <th>管理</th>
@@ -241,7 +243,9 @@
                                   <td><%$arrayDataInfo[i].book_check_out%></td>
                                   <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
-                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
+                                  <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
+                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%></td>
+                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
                                   <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
                                   <td></td>
                                   <td>
@@ -286,10 +290,10 @@
                                   </div></td>
                                 </tr>
                                 <tr id="room_layout_data" class="hide">
-                                  <td colspan="7"><div class="input-prepend input-append fr"></div></td>
+                                  <td colspan="8"><div class="input-prepend input-append fr"></div></td>
                                 </tr>
                                 <tr id="room_layout_data_price" class="hide">
-                                  <td colspan="7">
+                                  <td colspan="8">
                                    <p class="text-center">
                                    <span class="input-prepend input-append text-center">
                                    <input type="hidden" value="" name="balance_date" id="balance_date">
@@ -506,10 +510,10 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
+<%include file="hotel/inc_js/book_edit_js.tpl"%>
 <div id="rate_calculation" class="hide">
     <div id="rate_calculation_move" class="text-center">计算器 <i class="am-icon-arrows-alt"></i></div>
     <iframe src="<%$__RESOURCE%>static/calculator/index.html" frameborder="0" width="190" height="230" marginheight="0" marginwidth="0" scrolling="no"></iframe>
 </div>
-<%include file="hotel/inc_js/book_edit_js.tpl"%>
 </body>
 </html>
