@@ -224,14 +224,11 @@ class RoomsLayoutAction extends \BaseAction {
                     //$arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'];
                     //$arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_people'];
                     //$arrayRoom[$i]['room_layout_room_max_children'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_children'];
-                    $arrayRoom[$i]['room_layout_room_extra_bed'] =
-                        empty($arrayRoom[$i]['temp_extra_bed']) ? $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'] : $arrayRoom[$i]['temp_extra_bed'];
-                    $arrayRoom[$i]['room_layout_room_max_people'] =
-                        empty($arrayRoom[$i]['temp_max_people']) ? $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_people'] : $arrayRoom[$i]['temp_max_people'];
-                    $arrayRoom[$i]['room_layout_room_max_children'] =
-                        empty($arrayRoom[$i]['temp_max_children']) ? $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_children'] : $arrayRoom[$i]['temp_max_children'];
                 }
                 $arrayRoom[$i]['room_id'] = str_replace('=', '',encode($arrayRoom[$i]['room_id']));
+                $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoom[$i]['temp_extra_bed'];
+                $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoom[$i]['temp_max_people'];
+                $arrayRoom[$i]['room_layout_room_max_children'] = $arrayRoom[$i]['temp_max_children'];
             }
         }
         //房型类别

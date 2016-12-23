@@ -85,7 +85,7 @@ class BookAction extends \BaseAction {
             if(empty($room_layout_id)) return $this->errorResponse('房型错误，请重新选择！');
             //查找已预定和入住的房子
             $arrayRoomId = BookOperateService::instance()->getHaveCheckInRoom($conditions, $hotel_id, $objRequest->book_check_in, $objRequest->book_check_out);
-            $arrayRoomId = '';
+            //$arrayRoomId = '';
             if(empty($arrayRoomId)) {
                 $conditions['where'] = array('rlr.room_layout_id'=>$room_layout_id,
                     'r.hotel_id'=>$hotel_id);

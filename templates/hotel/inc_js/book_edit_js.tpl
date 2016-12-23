@@ -272,7 +272,7 @@ $(document).ready(function(){
                         data = result;
                         if(data.success == 1) {
                            var html = bookEdit.resolverRoomLayoutData(data, check_in, check_out);
-                           $('#room_layout_data').html('<td colspan="8"><table>' + html + '</table></td>');
+                           $('#room_layout_data').html('<td colspan="10"><table>' + html + '</table></td>');
                            $('#room_layout_data').show('fast');
                            $('#room_layout_data_price').show('fast');
                         } else {
@@ -337,8 +337,8 @@ $(document).ready(function(){
                              +itemData[i].room_name+'['+itemData[i].room_number+']'
                              //+BookEditClass.orientations[itemData[i].room_orientations]
                              //+' '+itemData[i].room_area+'㎡'
-                             +itemData[i].max_people
-                             +itemData[i].max_children
+                             +' / ' + itemData[i].max_people
+                             +' / ' + itemData[i].max_children
                              +'</option>';
                         //selectHtml = '';
                    }
@@ -625,9 +625,15 @@ $(document).ready(function(){
             };
             bookEdit.saveAddRoom = function() {
                 var tempPrice = $('#total_room_rate').val();
+                var room_id = $('#select_room').val();
                 if(tempPrice == '' || tempPrice == 0) {
                     $('#modal_info').modal('show');
                     $('#modal_info_message').html("抱歉，请计算房费！");
+                    return;
+                }
+                if(room_id == '') {
+                    $('#modal_info').modal('show');
+                    $('#modal_info_message').html("抱歉，没有选择房间或者无房！");
                     return;
                 }
                 var check_in = $('#room_check_in').val();var check_out = $('#room_check_out').val();
@@ -635,10 +641,12 @@ $(document).ready(function(){
                 var price_system_name = $.trim($('#price_system').find('option:selected').text());
                 var room_name = $.trim($('#select_room').find('option:selected').text());
                 var extra_bed = $.trim($('#extra_bed').find('option:selected').text());
-                var room_id = $('#select_room').val();
+                var max_people = $('#select_room').find('option:selected').attr('max_people');
+                var max_children = $('#select_room').find('option:selected').attr('max_children');
                 var html = '<tr>';
                 html += '<td>'+check_in+'</td><td>'+check_out+'</td><td>'+sell_layout_name+'</td>'
-                       +'<td>'+price_system_name+'</td><td>'+room_name+'</td><td>'+extra_bed+'</td>'
+                       +'<td>'+price_system_name+'</td><td>'+room_name+' / '+max_people+' / '+max_children+'</td>'
+                       +'<td>'+extra_bed+'</td>'
                        +'<td><code class="fr"><%$arrayLaguage["new_add_room"]["page_laguage_value"]%></code></td>'
                        +'<td><a id="cancel_add_room'+room_id+'" class="btn btn-warning btn-mini fr">'
                        +'<i class="am-icon-minus-circle"></i><%$arrayLaguage["cancel"]["page_laguage_value"]%></a></td></tr>';

@@ -228,10 +228,8 @@
                                   <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                   <th>房型</th>
                                   <th>价格体系</th>
-                                  <th>房间</th>
-                                  <th>可住人数</th>
-                                  <th>可住儿童</th>
-                                  <th>加床</th>
+                                  <th>房间 / 可住人数 / 可住儿童</th>
+                                  <th>可加床/已加</th>
                                   <th>状态</th>
                                   <th>管理</th>
                                 </tr>
@@ -243,9 +241,7 @@
                                   <td><%$arrayDataInfo[i].book_check_out%></td>
                                   <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
                                   <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
-                                  <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]</td>
-                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%></td>
-                                  <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
+                                  <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>] / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%> / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
                                   <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
                                   <td></td>
                                   <td>
