@@ -24,7 +24,10 @@
 .stat-boxes .right span{ line-height: 30px;}
 .stat-boxes li{margin:0px 1px 0;padding: 0 3px;line-height: 13px;}
 .stat-boxes input{margin-bottom:1px !important;}
-#rate_calculation{width:190px; height:248px; top:60%; left:50%;}
+#rate_calculation{width:190px; height:248px; top:100%; left:50%;}
+#book_nav{margin-bottom:0px;}
+#tab1, #tab2, #tab3{margin-top:0px; margin-bottom:0px;}
+#calculation-box{margin-top:0px;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -63,7 +66,7 @@
 										<tr>
 											<th>价格信息</th>
 											<th>单位：元</th>
-                                            <th><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></th>
+                                            <th><!--<a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a>--></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -116,7 +119,7 @@
 										<tr>
 											<th>信息</th>
 											<th></th>
-                                            <th><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></th>
+                                            <th><!--<a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a>--></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -169,24 +172,38 @@
 										<tr>
 											<th>支付方式</th>
 											<th>状态</th>
-                                            <th><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></th>
+                                            <th><a class="btn btn-mini btn-warning fr"><i class="am-icon-credit-card-alt"></i> <%$arrayLaguage['close_an_account']['page_laguage_value']%></a></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>支付状态</td>
 											<td><%if $arrayDataInfo[0].book_is_pay==1%>已支付<%else%>未支付<%/if%></td>
-                                            <td></td>
+                                            <td><select name="book_payment" id="book_payment" class="input-small hide">
+                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                                <option value="1"><%$arrayLaguage['prepayment']['page_laguage_value']%></option>
+                                                <option value="2"><%$arrayLaguage['remaining_sum']['page_laguage_value']%></option>
+                                                <option value="3"><%$arrayLaguage['full-payout']['page_laguage_value']%></option>
+                                             </select></td>
 										</tr>
 										<tr>
 											<td>支付到账</td>
 											<td><%if $arrayDataInfo[0].book_pay_date ==''%>未到账<%else%>到账时间:<%$arrayDataInfo[0].book_pay_date%><%/if%></td>
-                                            <td></td>
+                                            <td><select name="book_is_pay" id="book_is_pay" class="input-small hide">
+								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+								<option value="1"><%$arrayLaguage['already_collection']['page_laguage_value']%></option>
+								<option value="2"><%$arrayLaguage['not_receivable']['page_laguage_value']%></option>
+							 </select></td>
 										</tr>
                                         <tr>
 											<td>支付方式</td>
 											<td><%if $arrayDataInfo[0].payment_type_id > 0%><%$arrayPaymentType[$arrayDataInfo[0].payment_type_id].payment_type_name%><%else%>未支付<%/if%></td>
-                                            <td></td>
+                                            <td><select name="book_payment_type" id="book_payment_type" class="input-small hide">
+                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                                <%foreach key=payment_type_id item=arrayType from=$arrayPaymentType%>
+                                                <option value="<%$payment_type_id%>"><%$arrayType.payment_type_name%></option>
+                                                <%/foreach%>
+                                             </select></td>
 										</tr>
 										<tr>
 											<td>预付状态</td>
@@ -196,126 +213,266 @@
 										<tr>
 											<td>预付到账</td>
 											<td><%if $arrayDataInfo[0].book_prepayment_date ==''%>未到账<%else%>到账时间: <%$arrayDataInfo[0].book_prepayment_date%><%/if%></td>
-                                            <td></td>
+                                            <td><select name="book_is_prpay" id="book_is_prpay" class="input-small hide">
+								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+								<option value="1"><%$arrayLaguage['already_collection']['page_laguage_value']%></option>
+								<option value="2"><%$arrayLaguage['not_receivable']['page_laguage_value']%></option>
+							 </select></td>
 										</tr>
 										<tr>
 											<td>预付方式</td>
 											<td><%if $arrayDataInfo[0].prepayment_type_id > 0%><%$arrayPaymentType[$arrayDataInfo[0].prepayment_type_id].payment_type_name%><%else%>未支付<%/if%></td>
-                                            <td></td>
+                                            <td><select name="book_prpayment_type" id="book_prpayment_type" class="input-small hide">
+                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                                <%foreach key=payment_type_id item=arrayType from=$arrayPaymentType%>
+                                                <option value="<%$payment_type_id%>"><%$arrayType.payment_type_name%></option>
+                                                <%/foreach%>
+                                             </select></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>  
-                   <div class="widget-box">   
-                        <div class="widget-title">
-                            <span class="icon">
-                                <i class="icon-arrow-right"></i>
-                            </span>
-                            <h5>客房信息</h5>
-                            <input id="half_price" value="<%$arrayDataInfo[0].book_half_price%>" name="half_price" type="hidden">
-                            <div class="buttons">
-                                <a id="add_room" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
-                                <%$arrayLaguage['add']['page_laguage_value']%></a>
-                            </div>
-                        </div>
-                       <div class="widget-content nopadding">  
-                            <table class="table table-bordered table-striped">
-                              <thead>
-                                <tr>
-                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
-                                  <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
-                                  <th>房型</th>
-                                  <th>价格体系</th>
-                                  <th>房间 / 可住人数 / 可住儿童</th>
-                                  <th>可加床/已加</th>
-                                  <th>状态</th>
-                                  <th>管理</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <%section name=i loop=$arrayDataInfo%>
-                                <tr>
-                                  <td><%$arrayDataInfo[i].book_check_in%></td>
-                                  <td><%$arrayDataInfo[i].book_check_out%></td>
-                                  <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
-                                  <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
-                                  <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>] / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%> / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
-                                  <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
-                                  <td></td>
-                                  <td>
-                                  <div class="fr">
-                                    <div class="btn-group">
-                                        <a class="btn btn-primary btn-mini" href="#"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
-                                        <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                        <ul class="dropdown-menu" room_id="<%$arrayDataInfo[i].room_id%>" book_id="<%$arrayDataInfo[i].book_id%>">
-                                            <li class="change_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
-                                            <li class="continued_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
-                                            <li class="check_out_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
-                                            <li class="cancel_room"><a data-target="#" href="#t"><i class="am-icon-close"></i> 取消</a></li>
-                                        </ul>
-                                    </div>
+                    <ul class="nav nav-tabs" id="book_nav">
+                        <li class="active" id=""><a data-toggle="tab" href="#tab1"><i class="am-icon-bed am-red-FB0000"></i> 客房信息</a></li>
+                        <!--<li id=""><a data-toggle="tab" href="#tab2"><i class="am-icon-group am-red-FB0000"></i> 入住信息</a></li>-->
+                        <li id=""><a data-toggle="tab" href="#tab3"><i class="am-icon-object-group am-red-FB0000"></i> 附加服务</a></li>
+                    </ul>
+                    <div class="nopadding tab-content">
+                        <div id="tab1" class="widget-box tab-pane active">   
+                            <div class="widget-title">
+                                <span class="icon">
+                                    <i class="icon-arrow-right"></i>
+                                </span>
+                                <h5>客房信息</h5>
+                                <input id="half_price" value="<%$arrayDataInfo[0].book_half_price%>" name="half_price" type="hidden">
+                                <div class="buttons">
+                                    <a id="add_room" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                    <%$arrayLaguage['add']['page_laguage_value']%></a>
                                 </div>
-                                  </td>
-                                </tr>
-                              <%/section%>
-                                <tr id="add_room_tr" class="hide">
-                                  <td><input type="text" class="input-medium" id="room_check_in" value="" ></td>
-                                  <td><input type="text" class="input-medium" id="room_check_out" value="" ></td>
-                                  <td><select id="sell_layout" class="input-medium">
-                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                    <%foreach key=room_sell_layout_id item=arrayLayout from=$arraySellLayout%>
-                                        <option room_layout="<%$arrayLayout.room_layout_id%>" value="<%$room_sell_layout_id%>"><%$arrayLayout.room_sell_layout_name%></option>
-                                    <%/foreach%>
-                                 </select></td>
-                                  <td>
-                                    <select id="price_system" class="input-medium">
-                                    <%foreach key=system_id item=arraySystem from=$arrayPriceSystem%>
-                                        <option sell_id="<%$arraySystem.room_sell_layout_id%>" value="<%$system_id%>"><%$arraySystem.room_layout_price_system_name%></option>
-                                    <%/foreach%>
-                                    </select>
-                                  </td>
-                                  <td id="layout_room"></td>
-                                  <td id="extra_bed"></td>
-                                  <td id="book_change"></td>
-                                  <td>
-                                  <div class="input-prepend input-append fr">
-                                  <a id="search_room" class="btn btn-success btn-mini"><i class="am-icon-search"></i><%$arrayLaguage['find_room']['page_laguage_value']%></a>
-                                  <a id="cancel_add_room" class="btn btn-warning btn-mini"><i class="am-icon-minus-circle"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                  </div></td>
-                                </tr>
-                                <tr id="room_layout_data" class="hide">
-                                  <td colspan="8"><div class="input-prepend input-append fr"></div></td>
-                                </tr>
-                                <tr id="room_layout_data_price" class="hide">
-                                  <td colspan="8">
-                                   <p class="text-center">
-                                   <span class="input-prepend input-append text-center">
-                                   <input type="hidden" value="" name="balance_date" id="balance_date">
-                                   <span class="add-on"><%$arrayLaguage['discount']['page_laguage_value']%></span>
-                                   <input id="discount" class="input-mini" type="text" value="<%$arrayDataInfo[0].book_discount%>">
-                                   <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%></span>
-                                   <input value="0" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
-                                   <span class="add-on">加床费</span>
-                                   <input id="total_extra_bed_price" class="input-mini" type="text" value="0">
-                                   <span class="add-on"><%$arrayLaguage['book_days_total']['page_laguage_value']%></span>
-                                   <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
-                                   
-                                   <a id="room_rate_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> <%$arrayLaguage['room_rate_calculation']['page_laguage_value']%></a>
-                                   <a id="save_add_room" class="btn btn-primary"><i class="am-icon-save"></i> <%$arrayLaguage['confirm']['page_laguage_value']%></a>
-                                   </span>
-                                   </p>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
+                            </div>
+                           <div class="widget-content nopadding">  
+                                <table class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
+                                      <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                      <th>房型</th>
+                                      <th>价格体系</th>
+                                      <th>房间 / 可住人数 / 可住儿童</th>
+                                      <th>可加床/已加</th>
+                                      <th>状态</th>
+                                      <th>管理</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  <%section name=i loop=$arrayDataInfo%>
+                                    <tr>
+                                      <td><%$arrayDataInfo[i].book_check_in%></td>
+                                      <td><%$arrayDataInfo[i].book_check_out%></td>
+                                      <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
+                                      <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
+                                      <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>] / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%> / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
+                                      <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
+                                      <td></td>
+                                      <td>
+                                      <div class="fr">
+                                        <div class="btn-group">
+                                            <a class="btn btn-primary btn-mini" href="#t"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
+                                            <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                            <ul class="dropdown-menu" room_id="<%$arrayDataInfo[i].room_id%>" book_id="<%$arrayDataInfo[i].book_id%>">
+                                                <li class="change_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
+                                                <li class="continued_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
+                                                <li class="check_out_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
+                                                <li class="cancel_room"><a data-target="#" href="#t"><i class="am-icon-close"></i> 取消</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                      </td>
+                                    </tr>
+                                  <%/section%>
+                                    <tr id="add_room_tr" class="hide">
+                                      <td><input type="text" class="input-medium" id="room_check_in" value="" ></td>
+                                      <td><input type="text" class="input-medium" id="room_check_out" value="" ></td>
+                                      <td><select id="sell_layout" class="input-medium">
+                                            <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                        <%foreach key=room_sell_layout_id item=arrayLayout from=$arraySellLayout%>
+                                            <option room_layout="<%$arrayLayout.room_layout_id%>" value="<%$room_sell_layout_id%>"><%$arrayLayout.room_sell_layout_name%></option>
+                                        <%/foreach%>
+                                     </select></td>
+                                      <td>
+                                        <select id="price_system" class="input-medium">
+                                        <%foreach key=system_id item=arraySystem from=$arrayPriceSystem%>
+                                            <option sell_id="<%$arraySystem.room_sell_layout_id%>" value="<%$system_id%>"><%$arraySystem.room_layout_price_system_name%></option>
+                                        <%/foreach%>
+                                        </select>
+                                      </td>
+                                      <td id="layout_room"></td>
+                                      <td id="extra_bed"></td>
+                                      <td id="book_change"></td>
+                                      <td>
+                                      <div class="input-prepend input-append fr">
+                                      <a id="search_room" class="btn btn-success btn-mini"><i class="am-icon-search"></i><%$arrayLaguage['find_room']['page_laguage_value']%></a>
+                                      <a id="cancel_add_room" class="btn btn-warning btn-mini"><i class="am-icon-minus-circle"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
+                                      </div></td>
+                                    </tr>
+                                    <tr id="room_layout_data" class="hide">
+                                      <td colspan="8"><div class="input-prepend input-append fr"></div></td>
+                                    </tr>
+                                    <tr id="room_layout_data_price" class="hide">
+                                      <td colspan="8">
+                                       <p class="text-center">
+                                       <span class="input-prepend input-append text-center">
+                                       <input type="hidden" value="" name="balance_date" id="balance_date">
+                                       <span class="add-on"><%$arrayLaguage['discount']['page_laguage_value']%></span>
+                                       <input id="discount" class="input-mini" type="text" value="<%$arrayDataInfo[0].book_discount%>">
+                                       <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%></span>
+                                       <input value="0" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
+                                       <span class="add-on">加床费</span>
+                                       <input id="total_extra_bed_price" class="input-mini" type="text" value="0">
+                                       <span class="add-on"><%$arrayLaguage['cash_pledge']['page_laguage_value']%></span>
+                                        <input value="" type="text" class="input-mini cash_pledge" id="cash_pledge" name="cash_pledge" />
+                                       <span class="add-on"><%$arrayLaguage['book_days_total']['page_laguage_value']%></span>
+                                       <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
+                                       
+                                       <a id="room_rate_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> <%$arrayLaguage['room_rate_calculation']['page_laguage_value']%></a>
+                                       <a id="save_add_room" class="btn btn-primary"><i class="am-icon-save"></i> <%$arrayLaguage['confirm']['page_laguage_value']%></a>
+                                       </span>
+                                       </p>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                           </div>
+                       </div>
+                       <div id="tab3" class="widget-box tab-pane">   
+                            <div class="widget-title">
+                                <span class="icon">
+                                    <i class="icon-arrow-right"></i>
+                                </span>
+                                <h5>附加服务</h5>
+                                <div class="buttons">
+                                    <a id="add_service" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
+                                    <%$arrayLaguage['add']['page_laguage_value']%></a>
+                                </div>
+                            </div>
+                           <div class="widget-content nopadding">  
+                                <table class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th>项目</th>
+                                      <th>单价</th>
+                                      <th>数量</th>
+                                      <th>折扣</th>
+                                      <th></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  <%section name=i loop=$arrayBookHotelService%>
+                                    <tr>
+                                      <td><%$arrayHotelService[$arrayBookHotelService[i].hotel_service_id].hotel_service_name%></td>
+                                      <td><%$arrayBookHotelService[i].hotel_service_price%></td>
+                                      <td><%$arrayBookHotelService[i].book_hotel_service_num%></td>
+                                      <td><%$arrayBookHotelService[i].book_hotel_service_discount%></td>
+                                      <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                    </tr>
+                                  <%/section%>
+                                    <tr id="add_service_tr" class="hide">
+                                      <td><select id="serviceItem" class="input-medium">
+                                            <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                        <%foreach key=service_id item=arrayService from=$arrayHotelService%>
+                                            <%if $arrayService.hotel_service_price != -1%><option price="<%$arrayService.hotel_service_price%>" value="<%$service_id%>">
+                                                <%$arrayService.hotel_service_name%>
+                                            </option><%/if%>
+                                        <%/foreach%>
+                                     </select></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td><div class="input-prepend input-append fr">
+                                      <a id="cancel_add_service" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
+                                      <a id="asve_add_service" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                      </div></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                           </div>
+                       </div>
+                       <div id="calculation-box" class="widget-box hide">   
+                            <div class="widget-title">
+                                <span class="icon">
+                                    <i class="icon-arrow-right"></i>
+                                </span>
+                                <h5>结算价格</h5>
+                            </div>
+                           <div class="widget-content nopadding">  
+                                <table class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td colspan="4" class="text-center">
+                                         <p class="text-center">
+                                         <span class="input-prepend input-append text-center">
+                                            <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%> :</span>
+                                            <input value="" type="text" class="input-mini" id="book_room_rate" name="book_room_rate" />
+                                            <span class="add-on">加床费</span>
+                                            <input id="book_extra_bed_price" class="input-mini" type="text" value="0">
+                                            <span class="add-on"><%$arrayLaguage['cash_pledge']['page_laguage_value']%> :</span>
+                                            <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
+                                            <span class="add-on"><%$arrayLaguage['need_service_price']['page_laguage_value']%> :</span>
+                                            <input value="" type="text" class="input-mini book_price" id="need_service_price" name="need_service_price" />
+                                            <span class="add-on"><%$arrayLaguage['service_charge']['page_laguage_value']%> :</span>
+                                            <input value="0" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
+                                            <span class="add-on"><%$arrayLaguage['total_price']['page_laguage_value']%> :</span>
+                                            <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
+                                        </span>
+                                        </p>
+                                        <p class="text-center">
+                                        <span class="input-prepend input-append text-center">
+                                            <span class="add-on"><%$arrayLaguage['pay']['page_laguage_value']%> :</span>
+                                             <select name="payment" id="payment" class="input-small">
+                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                                <option value="1"><%$arrayLaguage['prepayment']['page_laguage_value']%></option>
+                                                <option value="2"><%$arrayLaguage['remaining_sum']['page_laguage_value']%></option>
+                                                <option value="3"><%$arrayLaguage['full-payout']['page_laguage_value']%></option>
+                                             </select>
+                                             <span class="add-on"><%$arrayLaguage['payment_type']['page_laguage_value']%> :</span>
+                                             <select name="payment_type" id="payment_type" class="input-small">
+                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                                <%foreach key=payment_type_id item=arrayType from=$arrayPaymentType%>
+                                                <option value="<%$payment_type_id%>"><%$arrayType.payment_type_name%></option>
+                                                <%/foreach%>
+                                             </select>
+                                             <span class="add-on"><%$arrayLaguage['money_has_to_account']['page_laguage_value']%> :</span>
+                                             <select name="is_pay" id="is_pay" class="input-small">
+                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                                <option value="1"><%$arrayLaguage['already_collection']['page_laguage_value']%></option>
+                                                <option value="2"><%$arrayLaguage['not_receivable']['page_laguage_value']%></option>
+                                             </select>
+                                             <span class="add-on"><%$arrayLaguage['payment_voucher']['page_laguage_value']%> :</span>
+                                             <input value="" type="text" class="input-large" id="book_payment_voucher" name="book_payment_voucher" />
+                                             <a id="save_book_room" class="btn btn-primary"><i class="am-icon-save"></i> <%$arrayLaguage['save']['page_laguage_value']%></a>
+                                         </span>
+                                         </p>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                           </div>
                        </div>
                    </div>
                    <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon">
-                                <i class="icon-arrow-right"></i>
+                                <i class="am-icon-group am-red-FB0000"></i>
                             </span>
                             <h5>入住信息</h5>
                             <div class="buttons">
@@ -363,11 +520,11 @@
                                   </td>
                                   <td>
                                   <select name="user_id_card_type" class="input-small">
-									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-									<%section name=card_type loop=$idCardType%>
-									<option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
-									<%/section%>
-								  </select>
+                                    <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                    <%section name=card_type loop=$idCardType%>
+                                    <option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
+                                    <%/section%>
+                                  </select>
                                   </td>
                                   <td><input type="text" name="user_id_card" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/></td>
                                   <td></td>
@@ -384,87 +541,7 @@
                             </table>
                        </div>
                    </div>
-                   <div class="widget-box">   
-                        <div class="widget-title">
-                            <span class="icon">
-                                <i class="icon-arrow-right"></i>
-                            </span>
-                            <h5>附加服务</h5>
-                            <div class="buttons">
-                                <a id="add_service" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> 
-                                <%$arrayLaguage['add']['page_laguage_value']%></a>
-                            </div>
-                        </div>
-                       <div class="widget-content nopadding">  
-                            <table class="table table-bordered table-striped">
-                              <thead>
-                                <tr>
-                                  <th>项目</th>
-                                  <th>单价</th>
-                                  <th>数量</th>
-                                  <th>折扣</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <%section name=i loop=$arrayBookHotelService%>
-                                <tr>
-                                  <td><%$arrayHotelService[$arrayBookHotelService[i].hotel_service_id].hotel_service_name%></td>
-                                  <td><%$arrayBookHotelService[i].hotel_service_price%></td>
-                                  <td><%$arrayBookHotelService[i].book_hotel_service_num%></td>
-                                  <td><%$arrayBookHotelService[i].book_hotel_service_discount%></td>
-                                  <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
-                                </tr>
-                              <%/section%>
-                                <tr id="add_service_tr" class="hide">
-                                  <td><select id="serviceItem" class="input-medium">
-                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                    <%foreach key=service_id item=arrayService from=$arrayHotelService%>
-                                        <%if $arrayService.hotel_service_price != -1%><option price="<%$arrayService.hotel_service_price%>" value="<%$service_id%>">
-                                            <%$arrayService.hotel_service_name%>
-                                        </option><%/if%>
-                                    <%/foreach%>
-                                 </select></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td><div class="input-prepend input-append fr">
-                                  <a id="cancel_add_service" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                  <a id="asve_add_service" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
-                                  </div></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                       </div>
-                   </div>
-                   <div class="widget-box">   
-                        <div class="widget-title">
-                            <span class="icon">
-                                <i class="icon-arrow-right"></i>
-                            </span>
-                            <h5>结算价格</h5>
-                        </div>
-                       <div class="widget-content nopadding">  
-                            <table class="table table-bordered table-striped">
-                              <thead>
-                                <tr>
-                                  <th>变更项目</th>
-                                  <th>变更内容</th>
-                                  <th>涉及价钱</th>
-                                  <th>变更时间</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td colspan="4">
-                                   房费：<input value="" class="input-mini" id="" name="" type="text">
-                                   总共几天 : <input value="1" class="input-mini" id="" name="" aria-invalid="false" type="text">
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                       </div>
-                   </div>
+                   
                    <div class="widget-box">   
                         <div class="widget-title">
                             <span class="icon">
@@ -508,7 +585,7 @@
 <%include file="hotel/inc/modal_box.tpl"%>
 <%include file="hotel/inc_js/book_edit_js.tpl"%>
 <div id="rate_calculation" class="hide">
-    <div id="rate_calculation_move" class="text-center">计算器 <i class="am-icon-arrows-alt"></i></div>
+    <div id="rate_calculation_move" class="text-center"><i class="am-icon-arrows-alt fl"></i> 计算器  <i id="close_calculation" class="am-icon-times-circle fr am-red-FB0000 close"></i></div>
     <iframe src="<%$__RESOURCE%>static/calculator/index.html" frameborder="0" width="190" height="230" marginheight="0" marginwidth="0" scrolling="no"></iframe>
 </div>
 </body>

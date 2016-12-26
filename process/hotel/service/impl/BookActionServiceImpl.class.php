@@ -23,11 +23,7 @@ class BookActionServiceImpl extends \BaseService  {
 
     public function doEditBookAction($objRequest, $objResponse) {
         $order_number = decode($objRequest -> order_number);
-        if(empty($order_number) || !is_numeric($order_number)) {
-            $objResponse -> message_http404 = '页面没找到！';
-            $objResponse -> setTplName("hotel/modules_http404");
-            return;
-        }
+
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number);
@@ -106,5 +102,11 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> hotel_overtime  = $hotel_overtime;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
+        $objResponse -> saveBookInfoUrl =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
+    }
+
+    protected function doSavebookAction($objRequest, $objResponse) {
+
     }
 }

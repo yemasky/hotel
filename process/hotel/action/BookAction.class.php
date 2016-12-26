@@ -175,6 +175,18 @@ class BookAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
+        $order_number = decode($objRequest -> order_number);
+        if(empty($order_number) || !is_numeric($order_number)) {
+            $objResponse -> message_http404 = '页面没找到！';
+            $objResponse -> setTplName("hotel/modules_http404");
+            return;
+        }
+        $act = $objRequest -> savebook;
+        if($act == 'savebook') {
+            $this->setDisplay();
+            $arrayResult = BookActionServiceImpl::instance()->doSavebookAction($objRequest, $objResponse);
+            return $this->successResponse('保存数据成功！', $arrayResult);
+        }
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);
         //设置类别
     }
