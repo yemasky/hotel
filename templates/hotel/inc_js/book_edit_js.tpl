@@ -196,15 +196,22 @@ $(document).ready(function(){
                 $('.check_out_room').click(function(e) {
                     var room_id = $(this).parent().attr('room_id');
                     var select_room_id = BookEditClass.tempRoomEdit['room_id'];
-                    if(select_room_id == room_id) {
-                        BookEditClass.tempRoomEdit['edit'] = '';
-                    } else {
+                    if(typeof(select_room_id) != 'undefined') {
+                        if(select_room_id == room_id) {
+                            BookEditClass.tempRoomEdit['edit'] = '';
+                        } else {
+                            $('#modal_info').modal('show');
+                            $('#modal_info_message').html('依次操作，请先取消上一次操作！');
+                            return;
+                        }
+                    }
+                    if(typeof(BookEditClass.thenRoomPrice[room_id]) != 'undefined' && BookEditClass.thenRoomPrice[room_id] != '') {
                         $('#modal_info').modal('show');
-                        $('#modal_info_message').html('依次操作，请先取消上一次操作！');
+                        $('#modal_info_message').html('请先取消之前的设定！再进行更改。');
                         return;
                     }
                     $(this).parent().prev().prev().html('<i class="am-icon-circle am-yellow-FFAA3C"></i>' + $(this).children().text());
-                    //$('#add_room_tr').show('slow');
+                    $('#check-out-box').show('slow');
                     //
                     //bookEdit.changeRoom('check_out_room', this);
                 });
@@ -394,7 +401,11 @@ $(document).ready(function(){
                    BookEditClass.selectBed = selectBed;
                    if(selectRoomhtml == '') selectRoomhtml = '<option value="">无房</option>';
                    selectRoomhtml = '<select id="select_room">'+ selectRoomhtml+'</select>';	  
+                } else {
+                   selectRoomhtml = '<option value="">无房</option>';
+                   selectRoomhtml = '<select id="select_room">'+ selectRoomhtml+'</select>';	  
                 }
+                
                 return selectRoomhtml;
             };
             //分解房型、价格体系数据 

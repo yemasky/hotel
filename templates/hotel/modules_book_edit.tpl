@@ -27,7 +27,7 @@
 #rate_calculation{width:190px; height:248px; top:100%; left:50%;}
 #book_nav{margin-bottom:0px;}
 #tab1, #tab2, #tab3{margin-top:0px; margin-bottom:0px;}
-#calculation-box{margin-top:0px;}
+#calculation-box,#check-out-box{margin-top:0px;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -468,7 +468,39 @@
                                 </table>
                            </div>
                        </div>
+                       <div id="check-out-box" class="widget-box hide">   
+                            <div class="widget-title">
+                                <span class="icon">
+                                    <i class="icon-arrow-right"></i>
+                                </span>
+                                <h5>退房/附加服务</h5>
+                            </div>
+                           <div class="widget-content nopadding">  
+                                <table class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th>房间</th>
+                                      <th>退房日期</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>1</td>
+                                      <td>2</td>
+                                      <td colspan="3" class="text-center">
+                                         
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                           </div>
+                       </div>
                    </div>
+                   
+                  
                    <div class="widget-box">
                         <div class="widget-title">
                             <span class="icon">
