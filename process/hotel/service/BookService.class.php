@@ -158,4 +158,37 @@ class BookService extends \BaseService {
     public function deleteBookNightAudit($where) {
         return BookDao::instance()->setTable('book_night_audit')->delete($where);
     }
+
+    //入住房价信息
+    public function getBookRoomPrice($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->setTable('book_room_price')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveBookRoomPrice($arrayData) {
+        return BookDao::instance()->setTable('book_room_price')->insert($arrayData);
+    }
+
+    public function updateBookRoomPrice($where, $row) {
+        return BookDao::instance()->setTable('book_room_price')->update($where, $row);
+    }
+
+    public function deleteBookRoomPrice($where) {
+        return BookDao::instance()->setTable('book_room_price')->delete($where);
+    }
+    //加床价格
+    public function getBookRoomExtraBedPrice($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->setTable('book_room_extra_bed_price')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveBookRoomExtraBedPrice($arrayData) {
+        return BookDao::instance()->setTable('book_room_extra_bed_price')->insert($arrayData);
+    }
+
+    public function updateBookRoomExtraBedPrice($where, $row) {
+        return BookDao::instance()->setTable('book_room_extra_bed_price')->update($where, $row);
+    }
+
+    public function deleteBookRoomExtraBedPrice($where) {
+        return BookDao::instance()->setTable('book_room_extra_bed_price')->delete($where);
+    }
 }

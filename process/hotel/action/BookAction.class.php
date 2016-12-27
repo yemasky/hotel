@@ -165,8 +165,8 @@ class BookAction extends \BaseAction {
         $objResponse -> arrayPriceSystem = $arrayPriceSystem;
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
-        $objResponse -> book_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
+        //$objResponse -> book_url =
+            //\BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
         //
         $objResponse -> book_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
@@ -181,11 +181,22 @@ class BookAction extends \BaseAction {
             $objResponse -> setTplName("hotel/modules_http404");
             return;
         }
-        $act = $objRequest -> savebook;
+        $act = $objRequest -> act;
         if($act == 'savebook') {
             $this->setDisplay();
-            $arrayResult = BookActionServiceImpl::instance()->doSavebookAction($objRequest, $objResponse);
+            $arrayResult = BookActionServiceImpl::instance()->doSaveEditbookAction($objRequest, $objResponse);
             return $this->successResponse('保存数据成功！', $arrayResult);
+        }
+        if($act == 'saveBookPayment') {
+            $this->setDisplay();
+            BookActionServiceImpl::instance()->doSaveEditBookPayment($objRequest, $objResponse);
+            $redirect_url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),'order_number'=>encode($order_number)));
+            return $this->successResponse('保存数据成功！', '' , $redirect_url);
+        }
+        if($act == 'checkInRoom') {
+            $this->setDisplay();
+            BookActionServiceImpl::instance()->doEditCheckInRoom($objRequest, $objResponse);
+            return $this->successResponse('保存数据成功！', '');
         }
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);
         //设置类别

@@ -60,6 +60,12 @@ class BookActionServiceImpl extends \BaseService  {
         //入住信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
         $arrayBookUser = BookService::instance()->getBookUser($conditions);
+        //入住房价信息
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
+        $arrayBookRoomPrice = BookService::instance()->getBookRoomPrice($conditions, '*', 'room_sell_layout_id');
+        //入住加床价格信息
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
+        $arrayBookRoomExtraBedPrice = BookService::instance()->getBookRoomExtraBedPrice($conditions, '*', 'room_sell_layout_id');
         //附加服务信息
         $conditions['where'] = array('hotel_id'=>$hotel_id,'book_order_number'=>$order_number);
         $arrayBookHotelService = BookService::instance()->getBookHotelService($conditions);
@@ -86,6 +92,8 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> idCardType = ModulesConfig::$idCardType;
         $objResponse -> orderStatus = ModulesConfig::$orderStatus;
         $objResponse -> arrayDataInfo    = $arrayBookInfo;
+        $objResponse -> arrayBookRoomPrice    = $arrayBookRoomPrice;
+        $objResponse -> arrayBookRoomExtraBedPrice    = $arrayBookRoomExtraBedPrice;
         $objResponse -> arrayRoomInfo    = $arrayRoomInfo;
         $objResponse -> arraySellLayout  = $arraySellLayout;
         $objResponse -> arrayPriceSystem = $arrayPriceSystem;
@@ -103,10 +111,40 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> searchBookInfoUrl =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['add'])));
         $objResponse -> saveBookInfoUrl =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit'])));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),'order_number'=>encode($order_number)));
     }
 
-    protected function doSavebookAction($objRequest, $objResponse) {
+    public function doSaveEditbookAction($objRequest, $objResponse) {
+
+    }
+
+    public function doSaveEditBookPayment($objRequest, $objResponse) {
+        $order_number = decode($objRequest -> order_number);
+        $book_is_pay = $objRequest -> book_is_pay;
+        $book_payment = $objRequest -> book_payment;
+        $book_payment_type = $objRequest -> book_payment_type;
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number,
+            'book_order_number_main'=>'1');
+        $arrayUpdate['book_is_pay'] = $book_is_pay;$arrayUpdate['book_is_payment'] = $book_payment;
+        $arrayUpdate['payment_type_id'] = $book_payment_type;
+        $arrayUpdate['book_pay_date'] = getDateTime();
+        BookService::instance()->updateBook($conditions['where'], $arrayUpdate);
+    }
+
+    public function doEditCheckInRoom($objRequest, $objResponse) {
+        $order_number = decode($objRequest -> order_number);
+        $book_id = $objRequest -> book_id;
+        $room_id = $objRequest -> room_id;
+        $conditions = DbConfig::$db_query_conditions;
+        if($book_id == 'ALL' && $room_id = 'ALL') {
+            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number);
+        } else {
+            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number,
+                'book_id'=>$book_id, 'room_id'=>$room_id);
+        }
+        $arrayUpdate['book_order_number_status'] = '1';
+        BookService::instance()->updateBook($conditions['where'], $arrayUpdate);
 
     }
 }

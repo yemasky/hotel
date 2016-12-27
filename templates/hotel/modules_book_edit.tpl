@@ -28,6 +28,7 @@
 #book_nav{margin-bottom:0px;}
 #tab1, #tab2, #tab3{margin-top:0px; margin-bottom:0px;}
 #calculation-box,#check-out-box{margin-top:0px;}
+.tab-content {overflow:visible;}
 @media (max-width: 480px){
 .stat-boxes2 {margin:auto;}
 }
@@ -172,7 +173,15 @@
 										<tr>
 											<th>支付方式</th>
 											<th>状态</th>
-                                            <th><a class="btn btn-mini btn-warning fr"><i class="am-icon-credit-card-alt"></i> <%$arrayLaguage['close_an_account']['page_laguage_value']%></a></th>
+                                            <th>
+                                                <input type="hidden" value="<%$arrayDataInfo[0].book_is_pay%>" name="book_is_pay_status" id="book_is_pay_status">
+                                                <%if $arrayDataInfo[0].book_is_pay==1%>
+                                                <code class="fr"><i class="am-icon-credit-card-alt"></i> 已结算</code>
+                                                <%else%>
+                                                <a id="close_an_account" class="btn btn-mini btn-warning fr"><i class="am-icon-credit-card-alt"></i> <%$arrayLaguage['close_an_account']['page_laguage_value']%></a>
+                                                <a id="save_an_account" class="btn btn-mini btn-success fr hide"><i class="am-icon-credit-card-alt"></i> <%$arrayLaguage['save']['page_laguage_value']%></a>
+                                                <%/if%>
+                                            </th>
 										</tr>
 									</thead>
 									<tbody>
@@ -256,45 +265,51 @@
                                 <table class="table table-bordered table-striped">
                                   <thead>
                                     <tr>
-                                      <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
-                                      <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                       <th>房型</th>
                                       <th>价格体系</th>
                                       <th>房间 / 可住人数 / 可住儿童</th>
                                       <th>可加床/已加</th>
+                                      <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
+                                      <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                       <th>状态</th>
-                                      <th>管理</th>
+                                      <th book_id='ALL' room_id='ALL'><a id="all_check_in" class="btn btn-mini btn-warning fr"><i class="am-icon-slideshare"></i> 入住完成</a></th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                   <%section name=i loop=$arrayDataInfo%>
                                     <tr>
-                                      <td><%$arrayDataInfo[i].book_check_in%></td>
-                                      <td><%$arrayDataInfo[i].book_check_out%></td>
                                       <td><%$arraySellLayout[$arrayDataInfo[i].room_sell_layout_id].room_sell_layout_name%></td>
                                       <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
-                                      <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>] / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%> / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
-                                      <td><%$arrayDataInfo[i].book_room_extra_bed%></td>
-                                      <td></td>
+                                      <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>" max_people="<%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%>" max_children="<%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%>" extra_bed="<%$arrayDataInfo[i].book_room_extra_bed%>" name="<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>] / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%> / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
+                                      <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_extra_bed%> / <%$arrayDataInfo[i].book_room_extra_bed%></td>
+                                      <td><%$arrayDataInfo[i].book_check_in%></td>
+                                      <td><%$arrayDataInfo[i].book_check_out%></td>
+                                      <td class="all_check_in">
+                                      <%if $arrayDataInfo[i].book_order_number_status=='0'%><code class="fr"><i class="am-icon-circle-thin"></i> 未入住</code>
+                                      <%elseif $arrayDataInfo[i].book_order_number_status=='1'%><code class="fr"><i class="am-icon-child"></i> 已入住</code>
+                                      <%elseif $arrayDataInfo[i].book_order_number_status=='-1'%><code class="fr"><i class="am-icon-circle-o-notch"></i> 已退房</code>
+                                      <%elseif $arrayDataInfo[i].book_order_number_status=='-99'%><code class="fr"><i class="am-icon-credit-card-alt"></i> 已失效</code>
+                                      <%else%>
+                                      <%/if%>
+                                      </td>
                                       <td>
                                       <div class="fr">
                                         <div class="btn-group">
                                             <a class="btn btn-primary btn-mini" href="#t"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
                                             <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                             <ul class="dropdown-menu" room_id="<%$arrayDataInfo[i].room_id%>" book_id="<%$arrayDataInfo[i].book_id%>">
+                                                <li class="check_in_room"><a data-target="#" href="#t"><i class="am-icon-child"></i> 入住</a></li>
                                                 <li class="change_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
                                                 <li class="continued_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
                                                 <li class="check_out_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
                                                 <li class="cancel_room"><a data-target="#" href="#t"><i class="am-icon-close"></i> 取消</a></li>
                                             </ul>
                                         </div>
-                                    </div>
+                                      </div>
                                       </td>
                                     </tr>
                                   <%/section%>
                                     <tr id="add_room_tr" class="hide">
-                                      <td><input type="text" class="input-medium" id="room_check_in" value="" ></td>
-                                      <td><input type="text" class="input-medium" id="room_check_out" value="" ></td>
                                       <td><select id="sell_layout" class="input-medium">
                                             <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                         <%foreach key=room_sell_layout_id item=arrayLayout from=$arraySellLayout%>
@@ -310,6 +325,8 @@
                                       </td>
                                       <td id="layout_room"></td>
                                       <td id="extra_bed"></td>
+                                      <td><input type="text" class="input-medium" id="room_check_in" value="" ></td>
+                                      <td><input type="text" class="input-medium" id="room_check_out" value="" ></td>                                      
                                       <td id="book_change"></td>
                                       <td>
                                       <div class="input-prepend input-append fr">
@@ -399,6 +416,36 @@
                                 </table>
                            </div>
                        </div>
+                       <div id="check-out-box" class="widget-box hide">   
+                            <div class="widget-title">
+                                <span class="icon">
+                                    <i class="icon-arrow-right"></i>
+                                </span>
+                                <h5>退房/附加服务</h5>
+                            </div>
+                           <div class="widget-content nopadding">  
+                                <table class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th>房间</th>
+                                      <th>退房日期</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>1</td>
+                                      <td>2</td>
+                                      <td colspan="3" class="text-center">
+                                         
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                           </div>
+                       </div>
                        <div id="calculation-box" class="widget-box hide">   
                             <div class="widget-title">
                                 <span class="icon">
@@ -468,36 +515,6 @@
                                 </table>
                            </div>
                        </div>
-                       <div id="check-out-box" class="widget-box hide">   
-                            <div class="widget-title">
-                                <span class="icon">
-                                    <i class="icon-arrow-right"></i>
-                                </span>
-                                <h5>退房/附加服务</h5>
-                            </div>
-                           <div class="widget-content nopadding">  
-                                <table class="table table-bordered table-striped">
-                                  <thead>
-                                    <tr>
-                                      <th>房间</th>
-                                      <th>退房日期</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>1</td>
-                                      <td>2</td>
-                                      <td colspan="3" class="text-center">
-                                         
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                           </div>
-                       </div>
                    </div>
                    
                   
@@ -523,6 +540,7 @@
                                   <th>入住房号</th>
                                   <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
                                   <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <th>房卡</th>
                                   <th>备注</th>
                                   <th></th>
                                 </tr>
@@ -537,8 +555,21 @@
                                   <td><%$arrayRoomInfo[$arrayBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayBookUser[i].room_id].room_number%>]</td>
                                   <td><%$arrayBookUser[i].book_check_in%></td>
                                   <td><%$arrayBookUser[i].book_check_out%></td>
+                                  <td><%$arrayBookUser[i].book_user_room_card%></td>
                                   <td><%$arrayBookUser[i].book_user_comments%></td>
-                                  <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                  <td>
+                                    <div class="fr">
+                                        <div class="btn-group">
+                                            <a class="btn btn-primary btn-mini" href="#t"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
+                                            <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                            <ul class="dropdown-menu" room_id="<%$arrayBookUser[i].room_id%>" book_id="<%$arrayBookUser[i].book_id%>">
+                                                <li class="user_room_card"><a data-target="#" href="#t"><i class="am-icon-credit-card"></i> 已办房卡</a></li>
+                                                <li class="return_user_room_card"><a data-target="#" href="#t"><i class="am-icon-exchange"></i> 已退房卡</a></li>
+                                                <li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
+                                            </ul>
+                                        </div>
+                                     </div>
+                                  </td>
                                 </tr>
                               <%/section%>
                               <tr id="add_user_tr" class="hide">
@@ -559,9 +590,10 @@
                                   </select>
                                   </td>
                                   <td><input type="text" name="user_id_card" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/></td>
-                                  <td></td>
+                                  <td id="check_in_room_num"></td>
                                   <td><input class="input-medium" type="text" id="user_check_in"></td>
                                   <td><input class="input-medium" type="text" id="user_check_out"></td>
+                                  <td></td>
                                   <td><input type="text" name="user_comments" class="input-large" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"/></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_user" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>

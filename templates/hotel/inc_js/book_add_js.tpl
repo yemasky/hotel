@@ -879,6 +879,8 @@ $(document).ready(function(){
                               + html
                               +'</tbody>'
                               +'</table>';	  
+                   } else {
+                       html = '<table class="table table-bordered table-striped with-check"><thead><tr><th></th></tr></thead><tbody><tr><td>无房</td></tr></tbody></table>';
                    }
                    return html;
                } else {
