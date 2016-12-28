@@ -578,15 +578,15 @@
                                             <ul class="dropdown-menu" room_id="<%$arrayBookUser[i].room_id%>" book_id="<%$arrayBookUser[i].book_id%>">
                                                 <li class="user_room_card"><a data-target="#" href="#t"><i class="am-icon-credit-card"></i> 已办房卡</a></li>
                                                 <li class="return_user_room_card"><a data-target="#" href="#t"><i class="am-icon-exchange"></i> 已退房卡</a></li>
-                                                <li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
+                                                <li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 编辑信息</a></li>
                                             </ul>
                                         </div>
                                      </div>
                                   </td>
                                 </tr>
                               <%/section%>
-                              <form action="" enctype="multipart/form-data" name="add_user_form" id="add_user_form" method="post" class="form-horizontal">
                               <tr id="add_user_tr" class="hide">
+                              <form enctype="multipart/form-data" name="add_user_form" id="add_user_form" method="post" class="form-horizontal">
                                   <td><input name="room_user_name" id="room_user_name" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" /></td>
                                   <td>
                                       <select name="room_user_sex" id="room_user_sex" class="input-small">
@@ -608,14 +608,15 @@
                                   <!--<td><input class="input-medium" type="text" id="user_check_in"></td>
                                   <td><input class="input-medium" type="text" id="user_check_out"></td>-->
                                   <td></td>
-                                  <td><input type="text" name="user_comments" class="input-large" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"/></td>
+                                  <td><input type="text" name="user_comments" id="user_comments" class="input-large" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"/></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_user" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                  <button id="save_add_user" class="btn btn-primary btn-mini" type="submit"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></button>
+                                  <a id="save_add_user" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
                                   </div>
                                   </td>
-                              </tr>
                               </form>
+                              </tr>
+                              
                               </tbody>
                             </table>
                        </div>

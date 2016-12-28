@@ -148,4 +148,10 @@ class BookActionServiceImpl extends \BaseService  {
         BookService::instance()->updateBook($conditions['where'], $arrayUpdate);
 
     }
+
+    public function doAddBookUser($objRequest, $objResponse) {
+        $order_number = decode($objRequest -> order_number);
+
+
+    }
 }

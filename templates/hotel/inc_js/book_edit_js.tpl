@@ -258,10 +258,30 @@ $(document).ready(function(){
                 });
             };
             bookEdit.saveAddUser = function() {
+                var room_user_name = $.trim($('#room_user_name').val());
+                var user_id_card = $.trim($('#user_id_card').val());var room_user_sex = $('#room_user_sex').val();
+                var room_user_sex_text = $('#room_user_sex').find('option:selected').text();
+                var user_id_card_type = $('#user_id_card_type').val();
+                var user_id_card_type_text = $('#user_id_card_type').find('option:selected').text();
+                var check_in_room_num = $.trim($('#check_in_room_num select').val());
+                var check_in_room_num_text = $('#check_in_room_num').find('option:selected').text();
+                var user_lodger_type = $('#check_in_room_num select').find('option:selected').attr('type');
+                var error_message = '';
+                if(room_user_name == '') error_message += '姓名/';
+                if(room_user_sex == '') error_message += '性别/';
+                if(user_id_card_type == '') error_message += '身份信息/';
+                if(user_id_card == '') error_message += '证件号码/';
+                if(check_in_room_num == '') error_message += '入住房号/';
+                if(error_message != '') {
+                    $('#modal_info').modal('show');
+                    $('#modal_info_message').html(error_message + ' 必填！');
+                    return;
+                }
+                var user_comments = $('#user_comments').val();
                 $('#modal_save').modal('show');
                 var param = $("#add_user_form").serialize();
                 $.ajax({
-                    url : '<%$saveBookInfoUrl%>',type : "post",dataType : "json",data: param+'&user_lodger_type='+$('#check_in_room_num select').find('option:selected').attr('type'),
+                    url : '<%$saveBookInfoUrl%>&act=addBookUser',type : "post",dataType : "json",data: param+'&user_lodger_type='+user_lodger_type,
                     success : function(result) {
                         $('#modal_save').modal('hide');
                         data = result;
@@ -269,6 +289,21 @@ $(document).ready(function(){
                             room_layout_id = data.itemData.room_layout_id;
                              $('#modal_success').modal('show');
                              $('#modal_success_message').html(data.message);
+                             var html = '<tr><td>'+room_user_name+'</td><td>'+room_user_sex_text+'</td><td>'+user_id_card_type_text+'</td><td>'+user_id_card+'</td>'
+                                       +'<td class="check_in_info" room_id="'+check_in_room_num+'" user_lodger_type="'+user_lodger_type+'">'+check_in_room_num_text+'</td>'
+                                       +'<td>未领</td><td>'+user_comments+'</td><td>'
+                                       +'<div class="fr"><div class="btn-group"><a class="btn btn-primary btn-mini" href="#t">'
+                                       +'<i class="am-icon-circle-o"></i> 管理</a>'
+                                       +'<a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#">'
+                                       +'<span class="caret"></span></a>'
+                                       +'<ul class="dropdown-menu" room_id="2" book_id="1">'
+                                       +'<li class="user_room_card"><a data-target="#" href="#t"><i class="am-icon-credit-card"></i> 已办房卡</a></li>'
+                                       +'<li class="return_user_room_card"><a data-target="#" href="#t"><i class="am-icon-exchange"></i> 已退房卡</a></li>'
+                                       +'<li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 编辑信息</a></li>'
+                                       +'</ul></div></div></td></tr>';
+                             $('#add_user_tr').before(html);
+                             $('#add_user_tr input,#add_user_tr select').val('');
+                             $('#add_user_tr').hide();
                         } else {
                             $('#modal_fail').modal('show');
                             $('#modal_fail_message').html(data.message);
@@ -866,7 +901,7 @@ $(document).ready(function(){
             bookEdit.bookRoomAddUser = function() {
                 var room_info = BookEditClass.room_info;
                 var max_man = 0;var max_num = 0;
-                var selectHtml = '<select name="check_in_room_num">';
+                var selectHtml = '<select name="check_in_room_num"><option value=""><%$arrayLaguage["please_select"]["page_laguage_value"]%></option>';
                 var have_check_in = {};
                 have_check_in['adult'] = {};have_check_in['children'] = {};have_check_in['extra_bed'] = {};
                 $('.check_in_info').each(function(index, element) {

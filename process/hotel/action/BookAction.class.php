@@ -198,6 +198,11 @@ class BookAction extends \BaseAction {
             BookActionServiceImpl::instance()->doEditCheckInRoom($objRequest, $objResponse);
             return $this->successResponse('保存数据成功！', '');
         }
+        if($act == 'addBookUser') {
+            $this->setDisplay();
+            BookActionServiceImpl::instance()->doAddBookUser($objRequest, $objResponse);
+            return $this->successResponse('保存数据成功！', '');
+        }
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);
         //设置类别
     }
