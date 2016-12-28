@@ -303,7 +303,9 @@
                                             <a class="btn btn-primary btn-mini" href="#t"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
                                             <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                             <ul class="dropdown-menu" room_id="<%$arrayDataInfo[i].room_id%>" book_id="<%$arrayDataInfo[i].book_id%>">
+                                                <%if $arrayDataInfo[i].book_order_number_status=='0'%>
                                                 <li class="check_in_room"><a data-target="#" href="#t"><i class="am-icon-child"></i> 入住</a></li>
+                                                <%/if%>
                                                 <li class="change_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 换房</a></li>
                                                 <li class="continued_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 续住</a></li>
                                                 <li class="check_out_room"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 退房</a></li>
