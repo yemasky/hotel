@@ -59,7 +59,7 @@
 								<span class="icon">
 									<i class="icon-eye-open"></i>
 								</span><!--A3 单状态 -1 失效 0预定成功 1入住 2退房完成-->
-								<h5>订单号：<%$arrayDataInfo[0].book_order_number%>  订单状态：<%$arrayLaguage[$orderStatus[$arrayDataInfo[0].book_order_number_status]]['page_laguage_value']%></h5>
+								<h5>订单号：<%$arrayDataInfo[0].book_order_number%>  订单状态：<%$arrayLaguage[$orderStatus[$arrayDataInfo[0].book_order_number_main_status]]['page_laguage_value']%></h5>
 							</div>
 							<div class="widget-content nopadding">
 								<table class="table table-bordered">
@@ -272,7 +272,12 @@
                                       <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
                                       <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                       <th>状态</th>
-                                      <th book_id='ALL' room_id='ALL'><a id="all_check_in" class="btn btn-mini btn-warning fr"><i class="am-icon-slideshare"></i> 入住完成</a></th>
+                                      <th book_id='ALL' room_id='ALL'>
+                                      <div class="btn-group fr">
+                                        <a id="all_check_out" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 办理退房</a>
+                                        <a id="all_check_in" class="btn btn-mini btn-warning"><i class="am-icon-slideshare"></i> 入住完成</a>
+                                      </div>
+                                      </th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -538,8 +543,8 @@
                                   <th>身份信息</th>
                                   <th>证件号码</th>
                                   <th>入住房号</th>
-                                  <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
-                                  <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
+                                  <!--<th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
+                                  <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>-->
                                   <th>房卡</th>
                                   <th>备注</th>
                                   <th></th>
@@ -552,10 +557,18 @@
                                   <td><%if $arrayBookUser[i].book_user_sex==1%>男<%else%>女<%/if%></td>
                                   <td><%if $arrayBookUser[i].book_user_id_card_type!=''%><%$arrayLaguage[$arrayBookUser[i].book_user_id_card_type]['page_laguage_value']%><%/if%></td>
                                   <td><%$arrayBookUser[i].book_user_id_card%></td>
-                                  <td><%$arrayRoomInfo[$arrayBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayBookUser[i].room_id].room_number%>]</td>
-                                  <td><%$arrayBookUser[i].book_check_in%></td>
-                                  <td><%$arrayBookUser[i].book_check_out%></td>
-                                  <td><%$arrayBookUser[i].book_user_room_card%></td>
+                                  <td class="check_in_info" room_id="<%$arrayBookUser[i].room_id%>" user_lodger_type="<%$arrayBookUser[i].book_user_lodger_type%>">
+                                    <%$arrayRoomInfo[$arrayBookUser[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayBookUser[i].room_id].room_number%>] - 
+                                    <%$arrayLaguage[$arrayBookUser[i].book_user_lodger_type]['page_laguage_value']%>
+                                  </td>
+                                  <!--<td><%$arrayBookUser[i].book_check_in%></td>
+                                  <td><%$arrayBookUser[i].book_check_out%></td>-->
+                                  <td>
+                                  <%if $arrayBookUser[i].book_user_room_card=='0'%>未领
+                                  <%elseif $arrayBookUser[i].book_user_room_card=='1'%>已领
+                                  <%elseif $arrayBookUser[i].book_user_room_card=='-1'%>已退
+                                  <%/if%>
+                                  </td>
                                   <td><%$arrayBookUser[i].book_user_comments%></td>
                                   <td>
                                     <div class="fr">
@@ -572,35 +585,37 @@
                                   </td>
                                 </tr>
                               <%/section%>
+                              <form action="" enctype="multipart/form-data" name="add_user_form" id="add_user_form" method="post" class="form-horizontal">
                               <tr id="add_user_tr" class="hide">
-                                  <td><input name="user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" /></td>
+                                  <td><input name="room_user_name" id="room_user_name" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" /></td>
                                   <td>
-                                      <select name="user_sex" class="input-small">
+                                      <select name="room_user_sex" id="room_user_sex" class="input-small">
                                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                         <option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
                                         <option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
                                       </select>
                                   </td>
                                   <td>
-                                  <select name="user_id_card_type" class="input-small">
+                                  <select name="user_id_card_type" id="user_id_card_type" class="input-small">
                                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                     <%section name=card_type loop=$idCardType%>
                                     <option value="<%$idCardType[card_type]%>"><%$arrayLaguage[$idCardType[card_type]]['page_laguage_value']%></option>
                                     <%/section%>
                                   </select>
                                   </td>
-                                  <td><input type="text" name="user_id_card" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/></td>
+                                  <td><input type="text" name="user_id_card" id="user_id_card" class="input-medium" placeholder="<%$arrayLaguage['identification_number']['page_laguage_value']%>"/></td>
                                   <td id="check_in_room_num"></td>
-                                  <td><input class="input-medium" type="text" id="user_check_in"></td>
-                                  <td><input class="input-medium" type="text" id="user_check_out"></td>
+                                  <!--<td><input class="input-medium" type="text" id="user_check_in"></td>
+                                  <td><input class="input-medium" type="text" id="user_check_out"></td>-->
                                   <td></td>
                                   <td><input type="text" name="user_comments" class="input-large" placeholder="<%$arrayLaguage['user_comments']['page_laguage_value']%>"/></td>
                                   <td><div class="input-prepend input-append fr">
                                   <a id="cancel_add_user" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                  <a id="asve_add_user" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                  <button id="save_add_user" class="btn btn-primary btn-mini" type="submit"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></button>
                                   </div>
                                   </td>
-                                </tr>
+                              </tr>
+                              </form>
                               </tbody>
                             </table>
                        </div>

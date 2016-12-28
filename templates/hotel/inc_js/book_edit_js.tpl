@@ -253,6 +253,28 @@ $(document).ready(function(){
                 $('#all_check_in').click(function(e) {
                     bookEdit.checkInRoom(this);
                 });
+                $('#save_add_user').click(function(e) {
+                    bookEdit.saveAddUser();
+                });
+            };
+            bookEdit.saveAddUser = function() {
+                $('#modal_save').modal('show');
+                var param = $("#add_user_form").serialize();
+                $.ajax({
+                    url : '<%$saveBookInfoUrl%>',type : "post",dataType : "json",data: param+'&user_lodger_type='+$('#check_in_room_num select').find('option:selected').attr('type'),
+                    success : function(result) {
+                        $('#modal_save').modal('hide');
+                        data = result;
+                        if(data.success == 1) {
+                            room_layout_id = data.itemData.room_layout_id;
+                             $('#modal_success').modal('show');
+                             $('#modal_success_message').html(data.message);
+                        } else {
+                            $('#modal_fail').modal('show');
+                            $('#modal_fail_message').html(data.message);
+                        }
+                    }
+                });
             };
             bookEdit.checkInRoom = function(_this) {
                 var book_is_pay_status = $('#book_is_pay_status').val();
@@ -844,27 +866,58 @@ $(document).ready(function(){
             bookEdit.bookRoomAddUser = function() {
                 var room_info = BookEditClass.room_info;
                 var max_man = 0;var max_num = 0;
-                var selectHtml = '<select>';
-                for(room_id in room_info) {
-                    max_man = room_info[room_id].max_people - 0 + (room_info[room_id].extra_bed - 0);
+                var selectHtml = '<select name="check_in_room_num">';
+                var have_check_in = {};
+                have_check_in['adult'] = {};have_check_in['children'] = {};have_check_in['extra_bed'] = {};
+                $('.check_in_info').each(function(index, element) {
+                    var room_id = $(this).attr('room_id');
+                    var user_lodger_type = $(this).attr('user_lodger_type');
+                    if(typeof(have_check_in[user_lodger_type][room_id]) == 'undefined') {
+                        have_check_in[user_lodger_type][room_id] = 1;
+                    } else {
+                        have_check_in[user_lodger_type][room_id]++;
+                    }
+                });
+                for(var room_id in room_info) {
+                    var name = $.trim(room_info[room_id].name);
+                    if(name == '') continue;
+                    max_man = room_info[room_id].max_people - 0;// + (room_info[room_id].extra_bed - 0);
                     for(var i = 0; i < max_man; i++) {
-                        var name = $.trim(room_info[room_id].name);
-                        if(name == '') continue;
-                        console.log(name);
-                        selectHtml += '<option value="'+room_id+'">'+name+'</option>';
+                        //if(have_check_in['adult'][room_id]);
+                        if(typeof(have_check_in['adult'][room_id]) == 'undefined') {
+                            selectHtml += '<option value="'+room_id+'" type="adult">'+name+'-<%$arrayLaguage["adult"]["page_laguage_value"]%></option>';
+                        } else {
+                            if(have_check_in['adult'][room_id] <= 0) 
+                                selectHtml += '<option value="'+room_id+'" type="adult">'+name+'-<%$arrayLaguage["adult"]["page_laguage_value"]%></option>';
+                            have_check_in['adult'][room_id]--;
+                        }
                         max_num++;
                     }
                     max_man = (room_info[room_id].max_children - 0);
                     for(var i = 0; i < max_man; i++) {
-                        var name = $.trim(room_info[room_id].name);
-                        if(name == '') continue;
-                        console.log(name);
-                        selectHtml += '<option value="'+room_id+'">'+name+'-Children</option>';
+                        if(typeof(have_check_in['children'][room_id]) == 'undefined') {
+                            selectHtml += '<option value="'+room_id+'" type="children">'+name+'-<%$arrayLaguage["children"]["page_laguage_value"]%></option>';
+                        } else {
+                            if(have_check_in['children'][room_id] <= 0) 
+                                selectHtml += '<option value="'+room_id+'" type="children">'+name+'-<%$arrayLaguage["children"]["page_laguage_value"]%></option>';
+                            have_check_in['children'][room_id]--;
+                        }
+                        max_num++;
+                    }
+                    max_man = room_info[room_id].extra_bed - 0;
+                    for(var i = 0; i < max_man; i++) {
+                        if(typeof(have_check_in['extra_bed'][room_id]) == 'undefined') {
+                            selectHtml += '<option value="'+room_id+'" type="extra_bed">'+name+'-<%$arrayLaguage["extra_bed"]["page_laguage_value"]%></option>';
+                        } else {
+                            if(have_check_in['extra_bed'][room_id] <= 0) 
+                                selectHtml += '<option value="'+room_id+'" type="extra_bed">'+name+'-<%$arrayLaguage["extra_bed"]["page_laguage_value"]%></option>';
+                            have_check_in['extra_bed'][room_id]--;
+                        }
                         max_num++;
                     }
                     max_man = 0;
                 }
-                selectHtml += '</select>'; console.log(selectHtml);
+                selectHtml += '</select>';
                 $('#check_in_room_num').html(selectHtml);
                 $('#add_user_tr').show('slow');
             }

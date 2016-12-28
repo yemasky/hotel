@@ -61,10 +61,9 @@
                         	<div class="fr">
                                 <div class="btn-group">
                                     <a class="btn btn-mini btn-primary" data-target="#" href="<%$arrayBookList[book].number_main.edit_url%>"><i class="am-icon-sun-o"></i> 
-                                    <%if $arrayBookList[book].number_main.book_order_number_status == '0'%>办理入住
-                                    <%elseif  $arrayBookList[book].number_main.book_order_number_status == '1'%>入住完成
-                                    <%elseif  $arrayBookList[book].number_main.book_order_number_status == '-1'%>退房完成
-                                    <%elseif  $arrayBookList[book].number_main.book_order_number_status == '-99'%>失效
+                                    <%if $arrayBookList[book].number_main.book_order_number_main_status == '0'%>办理入住
+                                    <%elseif  $arrayBookList[book].number_main.book_order_number_main_status == '1'%>入住完成
+                                    <%elseif  $arrayBookList[book].number_main.book_order_number_main_status == '-1'%>退房完成
                                     <%else%><%$arrayLaguage['manage']['page_laguage_value']%>
                                     <%/if%>
                                     </a>

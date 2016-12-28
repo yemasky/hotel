@@ -139,6 +139,7 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions = DbConfig::$db_query_conditions;
         if($book_id == 'ALL' && $room_id = 'ALL') {
             $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number);
+            $arrayUpdate['book_order_number_main_status'] = '1';
         } else {
             $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number,
                 'book_id'=>$book_id, 'room_id'=>$room_id);
