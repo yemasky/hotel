@@ -55,7 +55,7 @@
                             <label class="control-label"> 
                                 <div>
                                     <i class="am-icon-check-square-o am-green-54B51C">正常</i>&#12288;
-                                    <i class="am-icon-exclamation-circle am-yellow-FFAA3C">不正常</i>
+                                    <i class="am-icon-exclamation-circle am-red-FA0A0A">不正常</i>
                                 </div>
                             </label>
                             <div class="controls"></div>
@@ -82,7 +82,7 @@
                                         <div class="left">
                                         
                                             <i class="am-icon-check-square-o am-green-54B51C am-icon-sm">正常</i>
-                                            <i class="am-icon-exclamation-circle am-yellow-FFAA3C am-icon-sm"></i>
+                                            <i class="am-icon-exclamation-circle am-red-FA0A0A am-icon-sm"></i>
                                         </div>
                                         <div class="left peity_line_neutral">
                                         <%$arrayLaguage['room_number']['page_laguage_value']%>

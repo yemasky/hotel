@@ -75,11 +75,9 @@ CREATE TABLE `book` (
   `book_change` enum('0','1','2','3','4','5','6','-2','-3') NOT NULL DEFAULT '0' COMMENT '0无变化  1新增 2换房 3续房 -2已换房 -3已续房',
   `book_change_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book` */
-
-insert  into `book`(`book_id`,`book_type_id`,`user_id`,`hotel_id`,`room_id`,`room_sell_layout_id`,`room_layout_id`,`room_layout_price_id`,`room_layout_price_system_id`,`book_room_extra_bed`,`book_room_sell_layout_price`,`book_cash_pledge`,`book_cash_pledge_returns`,`book_total_price`,`book_prepayment_price`,`book_total_room_rate`,`book_need_service_price`,`book_service_charge`,`book_total_cash_pledge`,`book_is_pay`,`book_is_payment`,`book_pay_date`,`book_is_prepayment`,`book_prepayment_date`,`prepayment_type_id`,`book_prepayment_account`,`book_balance_payment_date`,`payment_type_id`,`book_payment_voucher`,`book_order_number_main`,`book_order_number`,`book_order_number_main_status`,`book_order_number_status`,`book_discount_id`,`book_discount`,`book_discount_describe`,`book_order_number_ourter`,`book_check_in`,`book_check_out`,`book_days_total`,`book_order_retention_time`,`book_half_price`,`book_contact_name`,`book_contact_emai`,`book_contact_mobile`,`book_contact_second_name`,`book_contact_second_mobile`,`book_add_date`,`book_add_time`,`book_comments`,`book_add_datetime`,`book_change`,`book_change_datetime`) values (1,13,0,1,2,1,1,0,1,0,NULL,1800,'0',16372,5200,16072,300,0,4900,'0','0',NULL,'1','2016-12-21 13:51:28',14,'',NULL,NULL,'','1',1074625577745641,'0',0,1,98,'折扣98折','','2016-12-23 13:00:00','2016-12-27 12:00:00',NULL,'2016-12-21 18:00','18:00','李某某',NULL,18500353881,NULL,NULL,'2016-12-21','13:51:28','','2016-12-21 13:51:28','0',NULL),(2,13,0,1,3,1,1,0,1,0,NULL,1800,'0',16372,0,0,0,0,NULL,'0','0',NULL,'1','2016-12-21 13:51:28',14,'',NULL,NULL,'','0',1074625577745641,'0',0,1,98,'折扣98折','','2016-12-23 13:00:00','2016-12-27 12:00:00',NULL,'2016-12-21 18:00','18:00',NULL,NULL,NULL,NULL,NULL,'2016-12-21','13:51:28','','2016-12-21 13:51:28','0',NULL),(3,13,0,1,19,2,18,0,1,0,NULL,700,'0',16372,0,0,0,0,NULL,'0','0',NULL,'1','2016-12-21 13:51:28',14,'',NULL,NULL,'','0',1074625577745641,'0',0,1,98,'折扣98折','','2016-12-23 13:00:00','2016-12-27 12:00:00',NULL,'2016-12-21 18:00','18:00',NULL,NULL,NULL,NULL,NULL,'2016-12-21','13:51:28','','2016-12-21 13:51:28','0',NULL),(4,13,0,1,21,2,18,0,1,0,NULL,700,'0',16372,0,0,0,0,NULL,'0','0',NULL,'1','2016-12-21 13:51:28',14,'',NULL,NULL,'','0',1074625577745641,'0',0,1,98,'折扣98折','','2016-12-23 13:00:00','2016-12-27 12:00:00',NULL,'2016-12-21 18:00','18:00',NULL,NULL,NULL,NULL,NULL,'2016-12-21','13:51:28','','2016-12-21 13:51:28','0',NULL),(5,13,0,1,2,1,1,0,1,0,NULL,1000,'0',2020,2020,1960,60,0,1960,'1','','2016-12-27 11:35:30','1','2016-12-21 14:22:47',14,'',NULL,13,'','1',5036263316184562,'1',1,1,98,'','','2016-12-21 13:00:00','2016-12-22 12:00:00',NULL,'2016-12-21 18:00','18:00','李先生',NULL,18500353881,NULL,NULL,'2016-12-21','14:22:47','','2016-12-21 14:22:47','0',NULL),(6,13,0,1,19,2,18,0,1,0,NULL,500,'0',NULL,0,0,0,0,NULL,'0','0',NULL,'1','2016-12-21 14:22:47',14,'',NULL,NULL,'','0',5036263316184562,'1',1,1,98,'','','2016-12-21 13:00:00','2016-12-22 12:00:00',NULL,'2016-12-21 18:00','18:00',NULL,NULL,NULL,NULL,NULL,'2016-12-21','14:22:47','','2016-12-21 14:22:47','0',NULL),(7,13,0,1,21,2,18,0,1,0,NULL,500,'0',NULL,0,0,0,0,NULL,'0','0',NULL,'1','2016-12-21 14:22:47',14,'',NULL,NULL,'','0',5036263316184562,'1',1,1,98,'','','2016-12-21 13:00:00','2016-12-22 12:00:00',NULL,'2016-12-21 18:00','18:00',NULL,NULL,NULL,NULL,NULL,'2016-12-21','14:22:47','','2016-12-21 14:22:47','0',NULL),(8,13,0,1,26,1,1,0,1,1,NULL,1800,'0',3340,2164,2940,400,0,1764,'0','0',NULL,'1','2016-12-24 16:01:01',3,'',NULL,NULL,'','1',8054398253226548,'0',0,1,98,'','','2016-12-24 15:00:00','2016-12-26 12:00:00',NULL,'2016-12-24 18:00','18:00','李先生',NULL,18500353881,NULL,NULL,'2016-12-24','16:01:01','','2016-12-24 16:01:01','0',NULL);
 
 /*Table structure for table `book_change` */
 
@@ -147,26 +145,30 @@ CREATE TABLE `book_hotel_service` (
 
 /*Data for the table `book_hotel_service` */
 
-insert  into `book_hotel_service`(`book_id`,`book_order_number`,`hotel_service_id`,`hotel_id`,`hotel_service_price`,`book_hotel_service_num`,`book_hotel_service_discount`) values (1,1074625577745641,3,1,60,5,100),(5,5036263316184562,3,1,60,1,100),(8,8054398253226548,7,1,100,1,100),(8,8054398253226548,20,1,300,1,100);
-
 /*Table structure for table `book_night_audit` */
 
 DROP TABLE IF EXISTS `book_night_audit`;
 
 CREATE TABLE `book_night_audit` (
-  `book_night_audit_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '夜审营收报表',
+  `book_night_audit_id` bigint(19) NOT NULL AUTO_INCREMENT COMMENT '夜审营收报表',
+  `book_order_number` bigint(19) NOT NULL COMMENT '订单号',
+  `book_id` bigint(19) NOT NULL,
   `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
-  `book_date` date NOT NULL COMMENT '当天时间',
-  `room_id` int(11) NOT NULL COMMENT '入住的客房',
-  `book_user_id_card_type` varchar(200) NOT NULL COMMENT '证件类型',
-  `book_user_id_card` varchar(200) NOT NULL COMMENT '证件号',
-  `book_accounts_receivable` double NOT NULL COMMENT '应收账款',
-  `book_real_income` double NOT NULL COMMENT '实际收款',
+  `book_type_id` int(11) NOT NULL COMMENT '来源',
+  `book_discount_id` int(11) NOT NULL COMMENT '折扣ID',
+  `book_discount` double NOT NULL COMMENT '折扣',
+  `room_sell_layout_id` int(11) NOT NULL COMMENT '销售房型',
+  `room_layout_id` int(11) NOT NULL COMMENT '基础房型',
+  `room_layout_price_system_id` int(11) NOT NULL DEFAULT '0' COMMENT '价格体系ID',
+  `book_night_audit_datetime` datetime NOT NULL COMMENT '夜审时间',
+  `book_night_audit_date` date NOT NULL COMMENT '当天时间',
+  `book_night_audit_time` time NOT NULL COMMENT '当天时间',
+  `room_id` int(11) NOT NULL DEFAULT '0' COMMENT '入住的客房',
+  `book_night_audit_income_type` enum('room','service','service_charge','extra_bed') NOT NULL DEFAULT 'room' COMMENT '营收类型 room：客房 service：服务类型 service_charge  服务费 extra_bed 加床',
+  `book_night_audit_income` double NOT NULL COMMENT '收入',
   `book_is_check_employee_id` int(11) NOT NULL COMMENT '夜审核对员工',
   `book_is_check_comments` varchar(500) DEFAULT NULL COMMENT '备注',
-  `book_is_check_date` date NOT NULL COMMENT '时间',
-  `book_is_check_time` time NOT NULL COMMENT '时间',
-  `book_is_check_add_date` date NOT NULL COMMENT '添加时间',
+  `book_is_check_add_datetime` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`book_night_audit_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -290,8 +292,6 @@ CREATE TABLE `book_room_price` (
 
 /*Data for the table `book_room_price` */
 
-insert  into `book_room_price`(`book_id`,`book_order_number`,`room_layout_price_id`,`room_sell_layout_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (1,1074625577745641,0,1,1,1,1,0,'2016','12',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,700,700,500,500,0,0,0,0,0),(5,5036263316184562,0,1,1,1,1,0,'2016','12',-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1000,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1),(5,5036263316184562,0,2,18,1,1,0,'2016','12',-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,500,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1),(8,8054398253226548,0,1,1,1,1,0,'2016','12',-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1800,1200,-1,-1,-1,-1,-1,-1);
-
 /*Table structure for table `book_type` */
 
 DROP TABLE IF EXISTS `book_type`;
@@ -353,8 +353,6 @@ CREATE TABLE `book_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_user` */
-
-insert  into `book_user`(`book_id`,`hotel_id`,`user_id`,`room_id`,`book_order_number`,`room_sell_layout_id`,`room_layout_id`,`book_user_name`,`book_user_sex`,`book_user_lodger_type`,`book_user_mobile`,`book_user_email`,`book_user_address`,`book_user_id_card_type`,`book_user_id_card`,`book_is_extra_bed`,`book_check_in`,`book_check_out`,`book_add_date`,`book_add_time`,`book_user_comments`,`book_user_change`,`book_user_room_card`) values (1,1,0,2,1074625577745641,0,0,'李1','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李2','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李3','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李4','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李5','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李6','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李7','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(1,1,0,2,1074625577745641,0,0,'李8','','adult',0,NULL,NULL,'','','0','2016-12-23 13:00:00','2016-12-27 12:00:00','2016-12-21','13:51:28','','0','0'),(5,1,0,2,5036263316184562,0,0,'李1','','adult',0,NULL,NULL,'','','0','2016-12-21 13:00:00','2016-12-22 12:00:00','2016-12-21','14:22:47','','0','0'),(5,1,0,19,5036263316184562,0,0,'李2','','adult',0,NULL,NULL,'','','0','2016-12-21 13:00:00','2016-12-22 12:00:00','2016-12-21','14:22:47','','0','0'),(5,1,0,2,5036263316184562,0,0,'李3','','adult',0,NULL,NULL,'','','0','2016-12-21 13:00:00','2016-12-22 12:00:00','2016-12-21','14:22:47','','0','0'),(5,1,0,19,5036263316184562,0,0,'李4','','adult',0,NULL,NULL,'','','0','2016-12-21 13:00:00','2016-12-22 12:00:00','2016-12-21','14:22:47','','0','0'),(5,1,0,21,5036263316184562,0,0,'李5','','adult',0,NULL,NULL,'','','0','2016-12-21 13:00:00','2016-12-22 12:00:00','2016-12-21','14:22:47','','0','0'),(5,1,0,21,5036263316184562,0,0,'李6','','adult',0,NULL,NULL,'','','0','2016-12-21 13:00:00','2016-12-22 12:00:00','2016-12-21','14:22:47','','0','0'),(8,1,0,26,8054398253226548,0,0,'李1','1','adult',0,NULL,NULL,'id_card','','0','2016-12-24 15:00:00','2016-12-26 12:00:00','2016-12-24','16:01:03','','0','0'),(8,1,0,26,8054398253226548,0,0,'李2','1','adult',0,NULL,NULL,'id_card','','0','2016-12-24 15:00:00','2016-12-26 12:00:00','2016-12-24','16:01:03','','0','0'),(8,1,0,26,8054398253226548,0,0,'李3','1','adult',0,NULL,NULL,'id_card','','0','2016-12-24 15:00:00','2016-12-26 12:00:00','2016-12-24','16:01:03','','0','0'),(8,1,0,26,8054398253226548,0,0,'李4','0','adult',0,NULL,NULL,'id_card','','0','2016-12-24 15:00:00','2016-12-26 12:00:00','2016-12-24','16:01:03','','0','0');
 
 /*Table structure for table `company` */
 
@@ -1194,7 +1192,7 @@ CREATE TABLE `room_layout_room` (
 
 /*Data for the table `room_layout_room` */
 
-insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_max_people`,`room_layout_room_max_children`,`room_layout_room_extra_bed`,`room_layout_room_orientations`) values (1,1,2,2,2,1,NULL),(1,1,3,2,2,1,NULL),(1,1,26,2,2,1,NULL),(2,1,2,2,2,1,NULL),(2,1,19,2,2,1,NULL),(2,1,21,2,2,1,NULL),(12,1,22,2,2,1,NULL),(12,1,23,2,2,1,NULL),(12,1,24,2,2,1,NULL),(12,1,25,2,2,1,NULL),(14,1,22,2,2,1,NULL),(14,1,23,2,2,1,NULL),(14,1,24,2,2,1,NULL),(14,1,25,2,2,1,NULL),(18,1,2,2,2,1,NULL),(18,1,19,2,2,1,NULL),(18,1,21,2,2,1,NULL),(19,1,3,2,2,1,NULL),(19,1,18,2,2,1,NULL),(20,1,3,2,2,1,NULL);
+insert  into `room_layout_room`(`room_layout_id`,`hotel_id`,`room_id`,`room_layout_room_max_people`,`room_layout_room_max_children`,`room_layout_room_extra_bed`,`room_layout_room_orientations`) values (1,1,2,2,2,0,NULL),(1,1,3,2,2,0,NULL),(1,1,26,2,2,0,NULL),(2,1,2,2,2,0,NULL),(2,1,19,2,2,0,NULL),(2,1,21,2,2,0,NULL),(12,1,22,2,2,0,NULL),(12,1,23,2,2,0,NULL),(12,1,24,2,2,0,NULL),(12,1,25,2,2,0,NULL),(14,1,22,2,2,0,NULL),(14,1,23,2,2,0,NULL),(14,1,24,2,2,0,NULL),(14,1,25,2,2,0,NULL),(18,1,2,2,2,1,NULL),(18,1,19,2,2,1,NULL),(18,1,21,2,2,1,NULL),(19,1,3,2,2,0,NULL),(19,1,18,2,2,0,NULL),(20,1,3,2,2,0,NULL);
 
 /*Table structure for table `room_layout_type` */
 

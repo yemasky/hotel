@@ -88,6 +88,7 @@ class RoomsLayoutAction extends \BaseAction {
     }
 
     protected function doEdit($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         if($objRequest -> act == 'updateLayoutImages') {
             $this->setDisplay();
             $url = $objRequest->url;
@@ -95,13 +96,13 @@ class RoomsLayoutAction extends \BaseAction {
             if(empty($room_layout_id)) return $this->errorResponse('错误的ID号，请检查');
 
             $conditions = DbConfig::$db_query_conditions;
-            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
                 'room_layout_images_path'=>$url, 'room_layout_id'=>$room_layout_id);
             $arrayLayoutImage = RoomService::instance()->getRoomLayoutImages($conditions);
             if (!empty($arrayLayoutImage)) {
                 return $this->errorResponse('此房型已经添加此图片');
             }
-            $room_layout_images_id = RoomService::instance()->saveRoomLayoutImages(array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            $room_layout_images_id = RoomService::instance()->saveRoomLayoutImages(array('hotel_id'=>$hotel_id,
                 'room_layout_images_path'=>$objRequest->url,
                 'room_layout_id'=>$room_layout_id,
                 'room_layout_images_filesize'=>0,
@@ -122,10 +123,10 @@ class RoomsLayoutAction extends \BaseAction {
             if(empty($room_layout_id) || empty($room_id)) return $this->errorResponse('错误的ID号，请检查');
 
             $conditions = DbConfig::$db_query_conditions;
-            $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'room_id'=>$room_id);
+            $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'room_id'=>$room_id, 'hotel_id'=>$hotel_id);
             if($checked == 'true') {
                 $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions);
-                $arrayRoomData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                $arrayRoomData['hotel_id'] = $hotel_id;
                 $arrayRoomData['room_id'] = $room_id;
                 $arrayRoomData['room_layout_id'] = $room_layout_id;
                 $arrayRoomData['room_layout_room_max_people'] = $max_people;
@@ -136,9 +137,14 @@ class RoomsLayoutAction extends \BaseAction {
                 } else {
                     RoomService::instance()->updateRoomLayoutRoom($conditions['where'], $arrayRoomData);
                 }
-                $where = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'room_id'=>$room_id);
-                $arrayUpdate['temp_max_people'] = $max_people;$arrayUpdate['temp_max_children'] = $max_children;$arrayUpdate['temp_extra_bed'] = $extra_bed;
-                RoomService::instance()->updateRoom($where, $arrayUpdate);
+                $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_id'=>$room_id);
+                $arrayRoomInfo = RoomService::instance()->getRoom($conditions);
+                if(empty($arrayRoomInfo[0]['temp_max_people'])) {
+                    $where = array('hotel_id'=>$hotel_id,'room_id'=>$room_id);
+                    $arrayUpdate['temp_max_people'] = $max_people;$arrayUpdate['temp_max_children'] = $max_children;$arrayUpdate['temp_extra_bed'] = $extra_bed;
+                    RoomService::instance()->updateRoom($where, $arrayUpdate);
+                }
+
             } elseif($checked == 'false') {
                 RoomService::instance()->deleteRoomLayoutRoom($conditions['where']);
             }
@@ -152,7 +158,7 @@ class RoomsLayoutAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $this->setDisplay();
-            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
                 'room_layout_name'=>$arrayPostValue['room_layout_name']);
             $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
             if(!empty($arrayRoomLayout)) {
@@ -169,7 +175,7 @@ class RoomsLayoutAction extends \BaseAction {
             if ($room_layout_id > 0) {
                 RoomService::instance()->updateRoomLayout(array('room_layout_id' => $room_layout_id), $arrayPostValue);
             } else {
-                $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                $arrayPostValue['hotel_id'] = $hotel_id;
                 $arrayPostValue['room_layout_add_date'] = date("Y-m-d");
                 $arrayPostValue['room_layout_add_time'] = getTime();
                 $room_layout_id = RoomService::instance()->saveRoomLayout($arrayPostValue);
@@ -183,15 +189,15 @@ class RoomsLayoutAction extends \BaseAction {
         if(empty($room_layout_id)) {
             $conditions['where'] = array('room_layout_id'=>0);
         } else {
-            $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+            $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$hotel_id);
         }
         $arrayRoomLayout = RoomService::instance()->getRoomLayout($conditions);
 
         //房型图片
-        $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$hotel_id);
         $objResponse -> arrayDataImages = RoomService::instance()->getRoomLayoutImages($conditions);
         //属性
-        $arrayAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], 'room');
+        $arrayAttribute = RoomService::instance()->getAttribute($hotel_id, 'room');
         $arrayAttributeValue = RoomService::instance()->getRoomLayoutAttrValue($conditions, '*', 'room_layout_attribute_id', true);
         //print_r($arrayAttribute);
         //print_r($arrayAttributeValue);
@@ -210,33 +216,33 @@ class RoomsLayoutAction extends \BaseAction {
         }
         sort($arrayAttribute, SORT_NUMERIC);
         //房型的房子
-        $conditions['where'] = array('room_layout_id'=>$room_layout_id);
+        $conditions['where'] = array('room_layout_id'=>$room_layout_id, 'hotel_id'=>$hotel_id);
         $arrayRoomLayoutRoom = RoomService::instance()->getRoomLayoutRoom($conditions, '*', 'room_id');
         //真实客房 房间状态 -1 删除 0 正常 1维修 2不进行使用
-        $conditions['where'] = array('room_type'=>'1', 'room_status'=>'0', 'hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['where'] = array('room_type'=>'1', 'hotel_id'=>$hotel_id);//'room_status'=>'0',
         $arrayRoom = RoomService::instance()->getRoom($conditions);
         if(!empty($arrayRoom)) {
             foreach($arrayRoom as $i => $arrayValue) {
                 $arrayRoom[$i]['checked'] = 0;
-                $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoom[$i]['room_layout_room_max_children'] = 0;
-                if(isset($arrayRoomLayoutRoom[$arrayValue['room_id']])){
-                    $arrayRoom[$i]['checked'] = $room_layout_id;
-                    //$arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'];
-                    //$arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_people'];
-                    //$arrayRoom[$i]['room_layout_room_max_children'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_children'];
-                }
-                $arrayRoom[$i]['room_id'] = str_replace('=', '',encode($arrayRoom[$i]['room_id']));
+                //$arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoom[$i]['room_layout_room_max_children'] = 0;
                 $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoom[$i]['temp_extra_bed'];
                 $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoom[$i]['temp_max_people'];
                 $arrayRoom[$i]['room_layout_room_max_children'] = $arrayRoom[$i]['temp_max_children'];
+                if(isset($arrayRoomLayoutRoom[$arrayValue['room_id']])){
+                    $arrayRoom[$i]['checked'] = $room_layout_id;
+                    $arrayRoom[$i]['room_layout_room_extra_bed'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_extra_bed'];
+                    $arrayRoom[$i]['room_layout_room_max_people'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_people'];
+                    $arrayRoom[$i]['room_layout_room_max_children'] = $arrayRoomLayoutRoom[$arrayValue['room_id']]['room_layout_room_max_children'];
+                }
+                $arrayRoom[$i]['room_id'] = str_replace('=', '',encode($arrayRoom[$i]['room_id']));
             }
         }
         //房型类别
-        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$hotel_id)));
         $arrayRoomLayoutType = RoomService::instance()->getRoomLayoutType($conditions, '*', 'room_layout_type_id');
 
         //room type
-        //$conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        //$conditions['where'] = array('IN'=>array('hotel_id'=>array(0,$hotel_id)));
         //$arrayRoomType = RoomService::instance()->getRoomType($conditions, '*', 'room_type_id');
         //赋值
         $objResponse -> view = '0';

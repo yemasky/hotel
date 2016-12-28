@@ -47,7 +47,7 @@ class NightAuditAction extends \BaseAction {
         }
 
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_is_check_date'=>$thisDay);
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_night_audit_date'=>$thisDay);
         $arrayThisDayBook = BookService::instance()->getBookNightAudit($conditions);
 
         //赋值

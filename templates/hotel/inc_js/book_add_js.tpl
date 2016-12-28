@@ -174,9 +174,16 @@ $(document).ready(function(){
                     $('#modal_info').modal('show');
                     return;
                 }
+                var user_lodger = {};
+                var i = 0;
+                $('. bookSelectRoom').each(function(index, element) {
+                    user_lodger[i] = {};
+                    var type = $(this).find('option:selected').attr('type');var room_id = $(this).val();
+                    user_lodger[i][room_id] = type;
+                });
 				var param = $("#book_form").serialize();
 				$.ajax({
-					url : '<%$book_url%>',type : "post",dataType : "json",data: param+'&thenRoomPrice='+JSON.stringify(BookEditClass.thenRoomPrice),
+					url : '<%$book_url%>',type : "post",dataType : "json",data: param+'&thenRoomPrice='+JSON.stringify(BookEditClass.thenRoomPrice)+'&user_lodger='+JSON.stringify(user_lodger),
 					success : function(result) {
                         data = result;
 						if(data.success == 1) {
@@ -951,12 +958,19 @@ $(document).ready(function(){
                                         }
                                         room_price += price;
                                         if(select_room[val] == 0) {
-                                            var num_prople = max_children - 0 + (max_people - 0);
-                                            console.log(num_prople);
+                                            var num_prople = (max_people - 0);
                                             for(p_i = 0; p_i < num_prople; p_i++) {
-                                                option += '<option value="'+val+'">'+bookSelectRoom[val]+'</option>';
+                                                option += '<option value="'+val+'" type="adult">'+bookSelectRoom[val]
+                                                       +'-<%$arrayLaguage["adult"]["page_laguage_value"]%></option>';
                                                 BookEditClass.max_man++;
                                             }
+                                            var num_prople = (max_children - 0);
+                                            for(p_i = 0; p_i < num_prople; p_i++) {
+                                                option += '<option value="'+val+'" type="children">'+bookSelectRoom[val]
+                                                       +'-<%$arrayLaguage["children"]["page_laguage_value"]%></option>';
+                                                BookEditClass.max_man++;
+                                            }
+                                            
                                             select_room[val] = 1;
                                         }
                                     }
@@ -995,7 +1009,8 @@ $(document).ready(function(){
                                         room_price = price * val + room_price;
                                         if(select_room[val + '_bed'] == 0) {
                                             for(i = 1; i <= val; i++) {
-                                                option += '<option value="'+room_id+'">'+bookSelectRoom[room_id]+'</option>';	
+                                                option += '<option value="'+room_id+'" type="extra_bed">'+bookSelectRoom[room_id]
+                                                       +'-<%$arrayLaguage["extra_bed"]["page_laguage_value"]%></option>';	
                                                 BookEditClass.max_man++;
                                             }
                                             select_room[val + '_bed'] = 1;

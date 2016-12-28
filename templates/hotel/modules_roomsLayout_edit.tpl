@@ -38,6 +38,10 @@
            <div id="tab1" class="tab-pane active">
             <form action="<%$add_room_layout_url%>" method="post" class="form-horizontal" enctype="multipart/form-data" name="add_room_layout_form" id="add_room_layout_form" novalidate> 
                 <div class="control-group">
+                    <label class="control-label"><%$arrayLaguage['room_layout_name']['page_laguage_value']%> :</label>
+                    <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['room_layout_name']['page_laguage_value']%>" name="room_layout_name" id="room_layout_name" value="<%$arrayDataInfo['room_layout_name']%>" /> </div>
+                </div>
+                <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['room_layout_type']['page_laguage_value']%> :</label>
                     <div class="controls">
                         <select name="room_layout_type_id" id="room_layout_type_id" class="span1">
@@ -47,10 +51,6 @@
                             <%/foreach%>
                         </select>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['room_layout_name']['page_laguage_value']%> :</label>
-                    <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['room_layout_name']['page_laguage_value']%>" name="room_layout_name" id="room_layout_name" value="<%$arrayDataInfo['room_layout_name']%>" /> </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['room_layout_valid']['page_laguage_value']%> :</label>
