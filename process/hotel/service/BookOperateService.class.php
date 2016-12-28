@@ -28,6 +28,7 @@ class BookOperateService extends \BaseService {
         $is_pay = $arrayPostValue['is_pay'];//付款已到账
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $arrayThenRoomPrice = json_decode(stripslashes($objRequest->thenRoomPrice), true);
+        $arrayUserLodger = json_decode(stripslashes($objRequest->user_lodger), true);
         //联系信息 <!-- -->
         $arrayBill['book_contact_name']             = $arrayPostValue['book_contact_name'];//联系人
         $arrayBill['book_contact_mobile']           = $arrayPostValue['book_contact_mobile'];//联系人移动电话
@@ -203,6 +204,7 @@ class BookOperateService extends \BaseService {
                 $arrayBookUserData[$i]['book_user_comments'] = $arrayPostValue['user_comments'][$i];
                 $arrayBookUserData[$i]['book_check_in'] = $arrayPostValue['book_check_in'];
                 $arrayBookUserData[$i]['book_check_out'] = $arrayPostValue['book_check_out'];
+                $arrayBookUserData[$i]['book_user_lodger_type'] = $arrayUserLodger[$i];
                 $arrayBookUserData[$i]['book_add_date'] = getDay();
                 $arrayBookUserData[$i]['book_add_time'] =getTime();
             }

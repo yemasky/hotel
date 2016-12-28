@@ -75,9 +75,11 @@ CREATE TABLE `book` (
   `book_change` enum('0','1','2','3','4','5','6','-2','-3') NOT NULL DEFAULT '0' COMMENT '0无变化  1新增 2换房 3续房 -2已换房 -3已续房',
   `book_change_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`book_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `book` */
+
+insert  into `book`(`book_id`,`book_type_id`,`user_id`,`hotel_id`,`room_id`,`room_sell_layout_id`,`room_layout_id`,`room_layout_price_id`,`room_layout_price_system_id`,`book_room_extra_bed`,`book_room_sell_layout_price`,`book_cash_pledge`,`book_cash_pledge_returns`,`book_total_price`,`book_prepayment_price`,`book_total_room_rate`,`book_need_service_price`,`book_service_charge`,`book_total_cash_pledge`,`book_is_pay`,`book_is_payment`,`book_pay_date`,`book_is_prepayment`,`book_prepayment_date`,`prepayment_type_id`,`book_prepayment_account`,`book_balance_payment_date`,`payment_type_id`,`book_payment_voucher`,`book_order_number_main`,`book_order_number`,`book_order_number_main_status`,`book_order_number_status`,`book_discount_id`,`book_discount`,`book_discount_describe`,`book_order_number_ourter`,`book_check_in`,`book_check_out`,`book_days_total`,`book_order_retention_time`,`book_half_price`,`book_contact_name`,`book_contact_emai`,`book_contact_mobile`,`book_contact_second_name`,`book_contact_second_mobile`,`book_add_date`,`book_add_time`,`book_comments`,`book_add_datetime`,`book_change`,`book_change_datetime`) values (1,13,0,1,2,2,18,0,1,1,NULL,500,'0',648,550,588,60,0,490,'1','1','2016-12-28 16:43:10','0',NULL,NULL,NULL,NULL,14,'','1',1072825915667642,'1',1,1,98,'','','2016-12-28 16:00:00','2016-12-29 12:00:00',NULL,'2016-12-28 18:00','18:00','李志林',NULL,18500353881,NULL,NULL,'2016-12-28','16:43:10','','2016-12-28 16:43:10','0',NULL);
 
 /*Table structure for table `book_change` */
 
@@ -144,6 +146,8 @@ CREATE TABLE `book_hotel_service` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_hotel_service` */
+
+insert  into `book_hotel_service`(`book_id`,`book_order_number`,`hotel_service_id`,`hotel_id`,`hotel_service_price`,`book_hotel_service_num`,`book_hotel_service_discount`) values (1,1072825915667642,3,1,60,1,100);
 
 /*Table structure for table `book_night_audit` */
 
@@ -241,6 +245,8 @@ CREATE TABLE `book_room_extra_bed_price` (
 
 /*Data for the table `book_room_extra_bed_price` */
 
+insert  into `book_room_extra_bed_price`(`book_id`,`book_order_number`,`room_layout_price_id`,`room_sell_layout_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (1,1072825915667642,0,2,18,1,1,0,'2016','12',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,100,0,0,0);
+
 /*Table structure for table `book_room_price` */
 
 DROP TABLE IF EXISTS `book_room_price`;
@@ -291,6 +297,8 @@ CREATE TABLE `book_room_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_room_price` */
+
+insert  into `book_room_price`(`book_id`,`book_order_number`,`room_layout_price_id`,`room_sell_layout_id`,`room_layout_id`,`hotel_id`,`room_layout_price_system_id`,`employee_id`,`room_layout_date_year`,`room_layout_date_month`,`01_day`,`02_day`,`03_day`,`04_day`,`05_day`,`06_day`,`07_day`,`08_day`,`09_day`,`10_day`,`11_day`,`12_day`,`13_day`,`14_day`,`15_day`,`16_day`,`17_day`,`18_day`,`19_day`,`20_day`,`21_day`,`22_day`,`23_day`,`24_day`,`25_day`,`26_day`,`27_day`,`28_day`,`29_day`,`30_day`,`31_day`) values (1,1072825915667642,0,2,18,1,1,0,'2016','12',-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,500,-1,-1,-1);
 
 /*Table structure for table `book_type` */
 
@@ -353,6 +361,8 @@ CREATE TABLE `book_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_user` */
+
+insert  into `book_user`(`book_id`,`hotel_id`,`user_id`,`room_id`,`book_order_number`,`room_sell_layout_id`,`room_layout_id`,`book_user_name`,`book_user_sex`,`book_user_lodger_type`,`book_user_mobile`,`book_user_email`,`book_user_address`,`book_user_id_card_type`,`book_user_id_card`,`book_is_extra_bed`,`book_check_in`,`book_check_out`,`book_add_date`,`book_add_time`,`book_user_comments`,`book_user_change`,`book_user_room_card`) values (1,1,0,2,1072825915667642,0,0,'张1','1','adult',0,NULL,NULL,'id_card','34567','0','2016-12-28 16:00:00','2016-12-29 12:00:00','2016-12-28','16:43:10','','0','0'),(1,1,0,2,1072825915667642,0,0,'张2','0','adult',0,NULL,NULL,'id_card','34567','0','2016-12-28 16:00:00','2016-12-29 12:00:00','2016-12-28','16:43:10','','0','0'),(1,1,0,2,1072825915667642,0,0,'张3','1','children',0,NULL,NULL,'id_card','34567','0','2016-12-28 16:00:00','2016-12-29 12:00:00','2016-12-28','16:43:10','','0','0'),(1,1,0,2,1072825915667642,0,0,'张4','1','children',0,NULL,NULL,'id_card','34567','0','2016-12-28 16:00:00','2016-12-29 12:00:00','2016-12-28','16:43:10','','0','0'),(1,1,0,2,1072825915667642,0,0,'张5','0','extra_bed',0,NULL,NULL,'id_card','34567','0','2016-12-28 16:00:00','2016-12-29 12:00:00','2016-12-28','16:43:10','','0','0');
 
 /*Table structure for table `company` */
 

@@ -176,10 +176,11 @@ $(document).ready(function(){
                 }
                 var user_lodger = {};
                 var i = 0;
-                $('. bookSelectRoom').each(function(index, element) {
-                    user_lodger[i] = {};
-                    var type = $(this).find('option:selected').attr('type');var room_id = $(this).val();
-                    user_lodger[i][room_id] = type;
+                $('.bookSelectRoom').each(function(index, element) {
+                    //user_lodger[i] = {};
+                    var type = $(this).find('option:selected').attr('type');//var room_id = $(this).val();
+                    user_lodger[i] = type;
+                    i++;
                 });
 				var param = $("#book_form").serialize();
 				$.ajax({

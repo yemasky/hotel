@@ -272,8 +272,8 @@
                                       <th><%$arrayLaguage['checkin']['page_laguage_value']%></th>
                                       <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>
                                       <th>状态</th>
-                                      <th book_id='ALL' room_id='ALL'>
-                                      <div class="btn-group fr">
+                                      <th>
+                                      <div class="btn-group fr" book_id='ALL' room_id='ALL'>
                                         <a id="all_check_out" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 办理退房</a>
                                         <a id="all_check_in" class="btn btn-mini btn-warning"><i class="am-icon-slideshare"></i> 入住完成</a>
                                       </div>
