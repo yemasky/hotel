@@ -97,6 +97,7 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_add_date']                 = getDay();
         $arrayBill['book_add_time']                 = getTime();
         $arrayBill['book_add_datetime']             = getDateTime();
+        //$arrayBill['book_night_audit_date']         = getDay(-24);//昨天的时间表示还可以夜审
         /******************************************************/
         //
         //$arrayLayoutPrice   = $arrayPostValue['layout_price'];

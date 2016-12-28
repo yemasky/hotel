@@ -74,12 +74,13 @@ CREATE TABLE `book` (
   `book_add_datetime` datetime DEFAULT NULL,
   `book_change` enum('0','1','2','3','4','5','6','-2','-3') NOT NULL DEFAULT '0' COMMENT '0无变化  1新增 2换房 3续房 -2已换房 -3已续房',
   `book_change_datetime` datetime DEFAULT NULL,
+  `book_night_audit_date` date DEFAULT NULL COMMENT '最后夜审日期',
   PRIMARY KEY (`book_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `book` */
 
-insert  into `book`(`book_id`,`book_type_id`,`user_id`,`hotel_id`,`room_id`,`room_sell_layout_id`,`room_layout_id`,`room_layout_price_id`,`room_layout_price_system_id`,`book_room_extra_bed`,`book_room_sell_layout_price`,`book_cash_pledge`,`book_cash_pledge_returns`,`book_total_price`,`book_prepayment_price`,`book_total_room_rate`,`book_need_service_price`,`book_service_charge`,`book_total_cash_pledge`,`book_is_pay`,`book_is_payment`,`book_pay_date`,`book_is_prepayment`,`book_prepayment_date`,`prepayment_type_id`,`book_prepayment_account`,`book_balance_payment_date`,`payment_type_id`,`book_payment_voucher`,`book_order_number_main`,`book_order_number`,`book_order_number_main_status`,`book_order_number_status`,`book_discount_id`,`book_discount`,`book_discount_describe`,`book_order_number_ourter`,`book_check_in`,`book_check_out`,`book_days_total`,`book_order_retention_time`,`book_half_price`,`book_contact_name`,`book_contact_emai`,`book_contact_mobile`,`book_contact_second_name`,`book_contact_second_mobile`,`book_add_date`,`book_add_time`,`book_comments`,`book_add_datetime`,`book_change`,`book_change_datetime`) values (1,13,0,1,2,2,18,0,1,1,NULL,500,'0',648,550,588,60,0,490,'1','1','2016-12-28 16:43:10','0',NULL,NULL,NULL,NULL,14,'','1',1072825915667642,'1',1,1,98,'','','2016-12-28 16:00:00','2016-12-29 12:00:00',NULL,'2016-12-28 18:00','18:00','李志林',NULL,18500353881,NULL,NULL,'2016-12-28','16:43:10','','2016-12-28 16:43:10','0',NULL);
+insert  into `book`(`book_id`,`book_type_id`,`user_id`,`hotel_id`,`room_id`,`room_sell_layout_id`,`room_layout_id`,`room_layout_price_id`,`room_layout_price_system_id`,`book_room_extra_bed`,`book_room_sell_layout_price`,`book_cash_pledge`,`book_cash_pledge_returns`,`book_total_price`,`book_prepayment_price`,`book_total_room_rate`,`book_need_service_price`,`book_service_charge`,`book_total_cash_pledge`,`book_is_pay`,`book_is_payment`,`book_pay_date`,`book_is_prepayment`,`book_prepayment_date`,`prepayment_type_id`,`book_prepayment_account`,`book_balance_payment_date`,`payment_type_id`,`book_payment_voucher`,`book_order_number_main`,`book_order_number`,`book_order_number_main_status`,`book_order_number_status`,`book_discount_id`,`book_discount`,`book_discount_describe`,`book_order_number_ourter`,`book_check_in`,`book_check_out`,`book_days_total`,`book_order_retention_time`,`book_half_price`,`book_contact_name`,`book_contact_emai`,`book_contact_mobile`,`book_contact_second_name`,`book_contact_second_mobile`,`book_add_date`,`book_add_time`,`book_comments`,`book_add_datetime`,`book_change`,`book_change_datetime`,`book_night_audit_date`) values (1,13,0,1,2,2,18,0,1,1,NULL,500,'0',648,550,588,60,0,490,'1','1','2016-12-28 16:43:10','0',NULL,NULL,NULL,NULL,14,'','1',1072825915667642,'1',1,1,98,'','','2016-12-28 16:00:00','2016-12-29 12:00:00',NULL,'2016-12-28 18:00','18:00','李志林',NULL,18500353881,NULL,NULL,'2016-12-28','16:43:10','','2016-12-28 16:43:10','0',NULL,'2016-12-27');
 
 /*Table structure for table `book_change` */
 
@@ -692,7 +693,7 @@ CREATE TABLE `hotel_service_setting` (
 
 /*Data for the table `hotel_service_setting` */
 
-insert  into `hotel_service_setting`(`hotel_service_setting_id`,`hotel_id`,`hotel_service_setting_name`,`hotel_service_setting_type`,`hotel_service_setting_value`,`hotel_service_setting_value_ext`) values (1,1,'夜审时间','night_audit','00:00',''),(2,1,'预定保留时间','book_order_retention_time','18:00',''),(3,1,'半天房费计算时间','half_price_date','18:00','');
+insert  into `hotel_service_setting`(`hotel_service_setting_id`,`hotel_id`,`hotel_service_setting_name`,`hotel_service_setting_type`,`hotel_service_setting_value`,`hotel_service_setting_value_ext`) values (1,1,'夜审时间','night_audit','00:00',''),(2,1,'预定保留时间','book_order_retention_time','18:00','');
 
 /*Table structure for table `hotels_attribute` */
 

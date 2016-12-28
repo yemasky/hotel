@@ -28,7 +28,11 @@ $(document).ready(function(){
                     window.location.href="<%$search_url%>?module=<%$module%>&act=night_audit"; 
                 });
             };
-            
+            thisModule.checkErrorNightAudit = function() {
+                $('.error_night_audit').each(function(index, element) {
+                    
+                });
+            };
             return thisModule;
         },
 

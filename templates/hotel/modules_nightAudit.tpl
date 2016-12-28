@@ -80,14 +80,19 @@
                                         1<%$arrayLaguage['room_number']['page_laguage_value']%>
                                         </div>-->
                                         <div class="left">
-                                        
-                                            <i class="am-icon-check-square-o am-green-54B51C am-icon-sm">正常</i>
-                                            <i class="am-icon-exclamation-circle am-red-FA0A0A am-icon-sm"></i>
+                                        <%if $book.book_order_number_status != '0'%>
+                                            <i class="am-icon-check-square-o am-green-54B51C am-icon-sm"></i>
+                                        <%else%>
+                                            <i class="am-icon-exclamation-circle am-red-FA0A0A am-icon-sm error_night_audit"></i>
+                                        <%/if%>
                                         </div>
                                         <div class="left peity_line_neutral">
                                         <%$arrayLaguage['room_number']['page_laguage_value']%>
                                         </div>
                                         <div class="right"> <%$arrayRoom[$book.room_id].room_name%>[<%$arrayRoom[$book.room_id].room_number%>] </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">价格</div>
+                                        <div class="right"> 99</div>
                                         <div class="left peity_line_neutral">&#12288;</div>
                                         <div class="left peity_line_neutral">入住日期</div>
                                         <div class="right"> <%$book.book_check_in%> </div>
@@ -106,6 +111,12 @@
                             </div>
                         </div>
                         <%/foreach%>
+                        <div class="control-group">
+                            <label class="control-label"></label>
+                            <div class="controls">
+                                <a id="" class="btn btn-success"><i class="am-icon-send am-yellow-EBC012"></i> 检查完毕，确定夜审</a>
+                            </div>
+                        </div>
                     </div>
                     <%else%>
                      <div class="control-group">

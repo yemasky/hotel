@@ -70,19 +70,25 @@ class NightAuditAction extends \BaseAction {
         $isArriveTime = false;
         if(strtotime(getDateTime()) >= strtotime($nowDay . ' ' . $nightAuditTime)) {
             $isArriveTime = true;
+            $nightAuditDate = getDateTime();
         }
         $objResponse-> isArriveTime = $isArriveTime;
         $arrayBookInfo = '';
         if($isArriveTime) {
             $conditions['where'] = array('hotel_id'=>$hotel_id,
-                                         '>='=>array('book_order_number_status'=>0));
-            $field = 'book_id, room_id, room_sell_layout_id, room_layout_id,book_room_extra_bed,book_order_number,book_check_in,book_check_out,'
+                                         '>='=>array('book_order_number_status'=>0,'book_check_out'=>$nightAuditDate),
+                                         '<='=>array('book_check_in'=>$nightAuditDate),
+                                         '<>'=>array('book_night_audit_date'=>$nowDay));
+            $field = 'book_id, room_id, room_sell_layout_id, room_layout_id,book_room_extra_bed,book_order_number,book_order_number_status,book_check_in,book_check_out,'
                 .'book_order_retention_time,book_contact_name,book_contact_mobile,book_comments';
             $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'book_order_number', true);
             if(!empty($arrayBookInfo)) {
-                foreach($arrayBookInfo as $i => $arrayBook) {
-
-                }
+                /*foreach($arrayBookInfo as $i => $arrayBook) {
+                    $arrayBookInfo[$i]['is_correct'] = 0;
+                    if($arrayBookInfo[$i]['book_order_number_status'] != '0') {
+                        $arrayBookInfo[$i]['is_correct'] = 1;
+                    }
+                }*/
             }
 
         }
@@ -91,6 +97,11 @@ class NightAuditAction extends \BaseAction {
         $conditions['order'] = 'room_mansion, room_floor, room_number, room_id';
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_id');
         $conditions['order'] = '';
+
+        //核对价格
+        $conditions['where'] = array('hotel_id'=>$hotel_id,
+                                     'IN'=>array('book_order_number'=>''));
+
 
         $objResponse -> arrayDataInfo = $arrayBookInfo;
         $objResponse -> arrayRoom = $arrayRoom;
