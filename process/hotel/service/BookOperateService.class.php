@@ -98,7 +98,7 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_add_date']                 = getDay();
         $arrayBill['book_add_time']                 = getTime();
         $arrayBill['book_add_datetime']             = getDateTime();
-        //$arrayBill['book_night_audit_date']         = getDay(-24);//昨天的时间表示还可以夜审
+        $arrayBill['book_night_audit_date']         = getDay(-24);//昨天的时间表示还可以夜审
         /******************************************************/
         //
         //$arrayLayoutPrice   = $arrayPostValue['layout_price'];
@@ -264,7 +264,7 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['room_sell_layout_id'] = $sell_id;
                     $arrayNightAudit[$iNightAudit]['room_layout_id'] = $room_layout_id;
                     $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = $system_id;
-                    $arrayNightAudit[$iNightAudit]['book_night_audit_date'] = $year . '-' . $month . '-' . $day;
+                    $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $year . '-' . $month . '-' . $day;//财日
                     $arrayNightAudit[$iNightAudit]['room_price'] = $roomPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $roomPrice * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'room';
@@ -315,7 +315,7 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['room_sell_layout_id'] = $sell_id;
                     $arrayNightAudit[$iNightAudit]['room_layout_id'] = $room_layout_id;
                     $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = $system_id;
-                    $arrayNightAudit[$iNightAudit]['book_night_audit_date'] = $year . '-' . $month . '-' . $day;
+                    $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $year . '-' . $month . '-' . $day;//财日
                     $arrayNightAudit[$iNightAudit]['room_price'] = $bedPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $bedPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_bed';
@@ -348,7 +348,7 @@ class BookOperateService extends \BaseService {
             $arrayNightAudit[$iNightAudit]['room_sell_layout_id'] = 0;
             $arrayNightAudit[$iNightAudit]['room_layout_id'] = 0;
             $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = 0;
-            $arrayNightAudit[$iNightAudit]['book_night_audit_date'] = $iNightAuditDate;//算在第一天的夜审
+            $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//算在第一天的夜审 财日
             $arrayNightAudit[$iNightAudit]['room_price'] = $arrayService[0];
             $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayService[0] * $arrayService[2] / 100;
             $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'service';

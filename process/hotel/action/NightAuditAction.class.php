@@ -73,7 +73,7 @@ class NightAuditAction extends \BaseAction {
             $nightAuditDate = getDateTime();
         }
         $objResponse-> isArriveTime = $isArriveTime;
-        $arrayBookInfo = '';
+        $arrayBookInfo = '';$arrayBookOrderNumber = '';
         if($isArriveTime) {
             $conditions['where'] = array('hotel_id'=>$hotel_id,
                                          '>='=>array('book_order_number_status'=>0,'book_check_out'=>$nightAuditDate),
@@ -83,12 +83,14 @@ class NightAuditAction extends \BaseAction {
                 .'book_order_retention_time,book_contact_name,book_contact_mobile,book_comments';
             $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'book_order_number', true);
             if(!empty($arrayBookInfo)) {
-                /*foreach($arrayBookInfo as $i => $arrayBook) {
-                    $arrayBookInfo[$i]['is_correct'] = 0;
+                foreach($arrayBookInfo as $book_order_number => $arrayBook) {
+                    $arrayBookOrderNumber[] = $book_order_number;
+                    /*$arrayBookInfo[$i]['is_correct'] = 0;
                     if($arrayBookInfo[$i]['book_order_number_status'] != '0') {
                         $arrayBookInfo[$i]['is_correct'] = 1;
-                    }
-                }*/
+                    }*/
+
+                }
             }
         }
         //房子
@@ -99,11 +101,12 @@ class NightAuditAction extends \BaseAction {
 
         //核对价格
         $conditions['where'] = array('hotel_id'=>$hotel_id,
-                                     'IN'=>array('book_order_number'=>''));
+                                     'IN'=>array('book_order_number'=>$arrayBookOrderNumber));
 
-
+        $arrayBookNightAudit = BookService::instance()->getBookNightAudit($conditions);
         $objResponse -> arrayDataInfo = $arrayBookInfo;
         $objResponse -> arrayRoom = $arrayRoom;
+        $objResponse -> arrayBookNightAudit = $arrayBookNightAudit;
 
 
     }

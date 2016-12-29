@@ -14,6 +14,7 @@
 .room_status_ul .dropdown-menu li{ display:list-item;}
 .room_status_ul .dropdown-menu li a{ padding: 3px 0;}
 .room_status_ul .dropdown-menu li a:hover{ background:none;}
+#room_status li{margin:0 10px 0;}
 </style>
 </head>
 <body>
@@ -91,8 +92,23 @@
                                         </div>
                                         <div class="right"> <%$arrayRoom[$book.room_id].room_name%>[<%$arrayRoom[$book.room_id].room_number%>] </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">价格</div>
-                                        <div class="right"> 99</div>
+                                        <div class="left peity_line_neutral">入住日期</div>
+                                        <div class="right"> <%$book.book_check_in%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">退房日期</div>
+                                        <div class="right"> <%$book.book_check_out%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">联系人</div>
+                                        <div class="right"> <%$book.book_contact_name%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">电话</div>
+                                        <div class="right"> <%$book.book_contact_mobile%> </div>
+                                    </li>
+                                    <li>
+                                        <div class="left peity_line_neutral">
+                                        <%$arrayLaguage['room_number']['page_laguage_value']%>
+                                        </div>
+                                        <div class="right"> <%$arrayRoom[$book.room_id].room_name%>[<%$arrayRoom[$book.room_id].room_number%>] </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
                                         <div class="left peity_line_neutral">入住日期</div>
                                         <div class="right"> <%$book.book_check_in%> </div>
