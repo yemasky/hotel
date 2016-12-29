@@ -723,7 +723,7 @@ $(document).ready(function(){
                             var _system_id = layoutPrice[i - 1].room_layout_price_system_id;
                             var html_id = 'room_layout_id="'+roomSellLayout[_sell_layout_id].room_layout_id+'" sell_layout_id="'+_sell_layout_id+'" system_id="'+_system_id+'"';
                             var pledge = '<ul class="stat-boxes stat-boxes2"><li><div class="left peity_bar_bad cash_pledge"><%$arrayLaguage["cash_pledge"]["page_laguage_value"]%></div>'
-                                        +'<div class="right pledge_price"><span><input system_id="'+_system_id+'" sell_layout="'+_sell_layout_id+'" value="'+cash_pledge[_sell_layout_id+'-'+_system_id]+'" class="span12" type="text"></span></div></li></ul>';
+                                        +'<div class="right pledge_price"><span><input system_id="'+_system_id+'" sell_layout="'+_sell_layout_id+'" value="'+cash_pledge[_sell_layout_id+'-'+_system_id]+'" class="span12" type="text" /></span></div></li></ul>';
                             //cash_pledge[room_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                             html += '<tr '+html_id+'>'+
                                         '<td class="details-control">'+td1+'</td>'+
@@ -778,7 +778,7 @@ $(document).ready(function(){
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                             +'<input value="'+layoutPrice[i][day+'_day']+'" rdate="'+this_day+'" '
                             +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
-                            +'class="layout_price span12" type="text" ></div></li>';
+                            +'class="layout_price span12" type="text" readonly ></div></li>';
                         if(typeof(cash_pledge[sell_layout_id+'-'+system_id]) == 'undefined') {
                             cash_pledge[sell_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                         }
@@ -802,7 +802,7 @@ $(document).ready(function(){
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                                 +'<input value="'+bed[day+'_day']+'" beddate="'+this_day+'" '
                                 +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
-                                +'class="span12 extra_bed_price" type="text" >'
+                                +'class="span12 extra_bed_price" type="text" readonly >'
                                 +'</div></li>';
                         }    
                         td_bed += '</ul>';
@@ -921,7 +921,8 @@ $(document).ready(function(){
                 }
                 thenRoomPrice = BookEditClass.thenRoomPrice = {};
                 var bookSelectRoom = BookEditClass.bookSelectRoom;
-                thenRoomPrice['room'] = {};thenRoomPrice['bed'] = {}; thenRoomPrice['pledge'] = {};thenRoomPrice['service'] = {};
+                thenRoomPrice['room'] = {};thenRoomPrice['bed'] = {}; thenRoomPrice['pledge'] = {};
+                thenRoomPrice['room_id'] = {};thenRoomPrice['bed_room_id'] = {};thenRoomPrice['service'] = {};
                 var room_price = pledge_price = service_price = 0;//客房价格 押金 需要的服务费
                 var select_html = ' <select class="input-small bookSelectRoom" name="user_room[]">';//用户选择房间号
                 var option = '';//选项
@@ -932,7 +933,7 @@ $(document).ready(function(){
                 var balance_date_time = balance_date.getTime();
                 BookEditClass.max_man = 0;//人数
                 $("#room_layout_html input").each(function (i) {
-                    var val = $(this).val() - 0; //获取单个value 如果大于0 表示有客房
+                    var val = $(this).val() - 0; //获取单个value 如果大于0 表示有客房{客房数量 加床数量}
                     var select_room = {};
                     if(val > 0) {
                         var layout = $(this).attr('layout');//room or bed
@@ -942,7 +943,14 @@ $(document).ready(function(){
                         select_room[val] = 0;//是否已经选择room
                         select_room[val + '_bed'] = 0;//是否有加床
                         var room_key = sell_id + '-' + room_layout + '-' + system_id;
+                        if(typeof(thenRoomPrice['room_id'][room_key]) == 'undefined') {
+                            thenRoomPrice['room_id'][room_key] = {};
+                        }
+                        if(typeof(thenRoomPrice['bed_room_id'][room_key]) == 'undefined') {
+                            thenRoomPrice['bed_room_id'][room_key] = {};
+                        }
                         if(layout == 'room') {
+                            thenRoomPrice['room_id'][room_key][val] = val;
                             var max_people = $(this).attr('max_people');var max_children = $(this).attr('max_children');
                             thenRoomPrice['room'][room_key] = {};
                             $('.layout_price').each(function(index, element) {
@@ -998,6 +1006,7 @@ $(document).ready(function(){
                                 //房型价格
                                 if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {
                                     //相同room_layout
+                                    thenRoomPrice['bed_room_id'][room_key][room_id] = room_id;
                                     var beddate = $(this).attr('beddate');
                                     var now_date = new Date(beddate);
                                     var now_date_time = now_date.getTime();

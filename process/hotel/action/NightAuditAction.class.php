@@ -90,7 +90,6 @@ class NightAuditAction extends \BaseAction {
                     }
                 }*/
             }
-
         }
         //房子
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_type'=>1);
