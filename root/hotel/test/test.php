@@ -1,4 +1,7 @@
 <?php
+
+ phpinfo();
+return;
 require_once ("../config.php");
 
 $dsn = "pdo:mysql://localhost:3306/softforum?user=soft&password=@!#$%&`~=+'\"&characterEncoding=utf-8";

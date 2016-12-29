@@ -74,8 +74,8 @@
                                 </ul>
                             </div>
                             <div class="controls">
-                                <%foreach key=i item=book from=$arrayData%>
                                 <ul class="stat-boxes stat-boxes2">
+                                <%foreach key=i item=book from=$arrayData%>
                                     <li>
                                         <!--<div class="left peity_line_neutral">
                                         1<%$arrayLaguage['room_number']['page_laguage_value']%>
@@ -104,26 +104,54 @@
                                         <div class="left peity_line_neutral">电话</div>
                                         <div class="right"> <%$book.book_contact_mobile%> </div>
                                     </li>
-                                    <li>
-                                        <div class="left peity_line_neutral">
-                                        <%$arrayLaguage['room_number']['page_laguage_value']%>
-                                        </div>
-                                        <div class="right"> <%$arrayRoom[$book.room_id].room_name%>[<%$arrayRoom[$book.room_id].room_number%>] </div>
+                                    <%if isset($arrayBookNightAudit[$book.book_order_number]) && isset($arrayBookNightAudit[$book.book_order_number][$book.room_id])%>
+                                    <%foreach key=j item=nightAudit from=$arrayBookNightAudit[$book.book_order_number][$book.room_id]%>
+                                    <%if $nightAudit.book_night_audit_income_type=='room' || $nightAudit.book_night_audit_income_type=='extra_bed'%>
+                                    <li class="nightAudit" data-id="<%$nightAudit.book_night_audit_id%>">
+                                        <div class="left"><%$arrayLaguage[$nightAudit.book_night_audit_income_type]['page_laguage_value']%></div>
+                                        <div class="left peity_line_neutral">日期</div>
+                                        <div class="right"> <%$nightAudit.book_night_audit_fiscal_day%> </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">入住日期</div>
-                                        <div class="right"> <%$book.book_check_in%> </div>
+                                        <div class="left peity_line_neutral">收入</div>
+                                        <div class="right"> <%$nightAudit.book_night_audit_income%> </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">退房日期</div>
-                                        <div class="right"> <%$book.book_check_out%> </div>
+                                        <div class="left peity_line_neutral">原价</div>
+                                        <div class="right"> <%$nightAudit.room_price%> </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">联系人</div>
-                                        <div class="right"> <%$book.book_contact_name%> </div>
+                                        <div class="left peity_line_neutral">折扣</div>
+                                        <div class="right"> <%$nightAudit.book_discount%> </div>
                                         <div class="left peity_line_neutral">&#12288;</div>
-                                        <div class="left peity_line_neutral">电话</div>
-                                        <div class="right"> <%$book.book_contact_mobile%> </div>
+                                        <div class="left peity_line_neutral">是否有效</div>
+                                        <div class="right"> <%$nightAudit.book_night_audit_valid%> </div>
                                     </li>
-                                </ul>
+                                    <%/if%>
+                                    <%/foreach%>
+                                    <%/if%>
                                 <%/foreach%>
+                                <%if isset($arrayBookNightAudit[$book_order_number])%>
+                                    <%foreach key=room_id item=nightAudit from=$arrayBookNightAudit[$book_order_number]%>
+                                    <%if $nightAudit.0.book_night_audit_income_type!='room' || $nightAudit.0.book_night_audit_income_type!='extra_bed'%>
+                                    <li class="nightAudit" data-id="<%$nightAudit.book_night_audit_id%>">
+                                        <div class="left"><%$arrayLaguage[$nightAudit.0.book_night_audit_income_type]['page_laguage_value']%></div>
+                                        <div class="left peity_line_neutral">日期</div>
+                                        <div class="right"> <%$nightAudit.0.book_night_audit_fiscal_day%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">收入</div>
+                                        <div class="right"> <%$nightAudit.0.book_night_audit_income%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">原价</div>
+                                        <div class="right"> <%$nightAudit.0.room_price%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">折扣</div>
+                                        <div class="right"> <%$nightAudit.0.book_discount%> </div>
+                                        <div class="left peity_line_neutral">&#12288;</div>
+                                        <div class="left peity_line_neutral">是否有效</div>
+                                        <div class="right"> <%$nightAudit.0.book_night_audit_valid%> </div>
+                                    </li>
+                                    <%/if%>
+                                    <%/foreach%>
+                                <%/if%>
+                                </ul>
                             </div>
                         </div>
                         <%/foreach%>

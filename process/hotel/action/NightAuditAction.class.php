@@ -52,8 +52,6 @@ class NightAuditAction extends \BaseAction {
 
         //赋值
         $objResponse -> arrayData = $arrayThisDayBook;
-
-
         //设置类别
     }
 
@@ -101,9 +99,10 @@ class NightAuditAction extends \BaseAction {
 
         //核对价格
         $conditions['where'] = array('hotel_id'=>$hotel_id,
-                                     'IN'=>array('book_order_number'=>$arrayBookOrderNumber));
+                                     'IN'=>array('book_order_number'=>$arrayBookOrderNumber),
+                                     '<='=>array('book_night_audit_fiscal_day'=>getDay()));
+        $arrayBookNightAudit = BookService::instance()->getBookNightAudit($conditions, '*', 'book_order_number', true, '', 'room_id');
 
-        $arrayBookNightAudit = BookService::instance()->getBookNightAudit($conditions);
         $objResponse -> arrayDataInfo = $arrayBookInfo;
         $objResponse -> arrayRoom = $arrayRoom;
         $objResponse -> arrayBookNightAudit = $arrayBookNightAudit;
