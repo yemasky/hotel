@@ -32,6 +32,7 @@ class ModulesConfig extends \ModulesConfig {
         'memberSetting'     => array('edit'=>78, 'delete'=>79, 'add'=>77, 'view'=>20),
         'modeOfPayment'     => array('edit'=>81, 'delete'=>82, 'add'=>80, 'view'=>23),
         'nightAudit'        => array('edit'=>70, 'delete'=>00, 'add'=>69, 'view'=>68),
+        'cancellationPolicy'=> array('edit'=>85, 'delete'=>84, 'add'=>83, 'view'=>22),
 
     );
 

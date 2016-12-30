@@ -22,5 +22,22 @@ class RoleService extends \BaseService {
         return RoleDao::instance()->getRoleModulesEmployee($conditions);
     }
 
+    //角色
+    public function getRole($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return RoleDao::instance()->setTable('role')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+    }
+
+    public function saveRole($arrayData) {
+        return RoleDao::instance()->setTable('role')->insert($arrayData);
+    }
+
+    public function updateRole($where, $row) {
+        return RoleDao::instance()->setTable('role')->update($where, $row);
+    }
+
+    public function deleteRole($where) {
+        return RoleDao::instance()->setTable('role')->delete($where);
+    }
+
 
 }

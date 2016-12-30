@@ -95,6 +95,7 @@ $(document).ready(function(){
                     <%/section%>
                 ];
                 DepartmentClass.zNodes['position_tree'] = [];
+                DepartmentClass.zNodes['role_tree'] = [];
             };
             department.init = function() {
                 $.fn.zTree.init($("#department_tree"), DepartmentClass.setting, DepartmentClass.zNodes['department_tree']);
@@ -108,49 +109,10 @@ $(document).ready(function(){
                     $('#department_position').val(0);
                 });
                 $('#position_manage').click(function(e) {
-                    $('#department_position').val(1);
-                    DepartmentClass.ZTreeObj['id'] = 'position_tree';
-                    if(DepartmentClass.zNodes['position_tree'] != '') return;
-                    $.getJSON('<%$view_url%>&act=getPosition', function(result){
-                        data = result;
-                        if(data.success == 1) {
-                            var treeObj = $.fn.zTree.getZTreeObj("department_tree");
-                            var nodes = treeObj.getNodes();
-                            var nodesArray = treeObj.transformToArray(treeObj.getNodes());
-                            var position = [];
-                            var j = 0;
-                            itemData = data.itemData;
-                            for(i in itemData) {
-                                position[j] = {};
-                                position[j]['id'] = 'P' + itemData[i]['department_position_id'];
-                                position[j]['pId'] = itemData[i]['department_id'];
-                                position[j]['name'] = itemData[i]['department_position_name'];
-                                position[j]['open'] = true;  
-                                position[j]['isParent'] = false;
-                                j++;
-                                //open:true,isParent:true                                
-                            }
-                            for(i in nodesArray) {
-                               position[j] = {};
-                               position[j]['id'] = nodesArray[i]['id'];
-                               position[j]['pId'] = nodesArray[i]['pId'];
-                               position[j]['name'] = nodesArray[i]['name'];       
-                               position[j]['open'] = true;  
-                               position[j]['isParent'] = true;    
-                               j++;                      
-                            }
-                            DepartmentClass.zNodes['position_tree'] = position;
-                            //
-                            $.fn.zTree.init($("#position_tree"), DepartmentClass.setting, position);
-                        } else {
-                            $('#modal_fail').modal('show');
-                            $('#modal_fail_message').html(data.message);
-                        }
-                    });
-                    
+                    department.departmentPosition();
                 });
                 $('#department_role_setting').click(function(e) {
-                    DepartmentClass.ZTreeObj['id'] = 'role_tree';
+                    department.roleSetting();
                 });
             };
             
@@ -221,6 +183,16 @@ $(document).ready(function(){
                         return;
                     }
                 } 
+                if(DepartmentClass.ZTreeObj['id'] == 'role_tree') {
+                    $('#edit_department').find('h3').text('添加/编辑角色');
+                    parentNode = treeNode.getParentNode();
+                    if(parentNode == null || treeNode.id.substr(0,1) != 'P') {
+                        $('#modal_info_message').html('无法在此节点添加角色！');
+                        $('#modal_info').modal('show');
+                        return;
+                    }
+                    $('#role_department_id').val(treeNode.pId);
+                }
                 $('#department_parent_name').val(treeNode.name);
                 $('#department_parent_id').val(treeNode.id);
                 $('#department_self_name').val('');
@@ -256,6 +228,13 @@ $(document).ready(function(){
                     $('#modal_info_message').html('无法编辑此节点！此节点不是职位');
                     $('#modal_info').modal('show');
                     return;
+                }
+                if(DepartmentClass.ZTreeObj['id'] == 'role_tree') {
+                    if(treeNode.id.substr(0,1) != 'R') {
+                        $('#modal_info_message').html('无法在此节点编辑角色！');
+                        $('#modal_info').modal('show');
+                        return;
+                    }
                 }
 				$('#department_parent_name').val(parentNode.name);
 				$('#department_parent_id').val('');
@@ -297,7 +276,90 @@ $(document).ready(function(){
             };
             department.updateDepartment = function() {
                 
-            }
+            };
+            department.departmentPosition = function() {
+                $('#department_position').val(1);
+                DepartmentClass.ZTreeObj['id'] = 'position_tree';
+                if(DepartmentClass.zNodes['position_tree'] != '') return;
+                $.getJSON('<%$view_url%>&act=getPosition', function(result){
+                    data = result;
+                    if(data.success == 1) {
+                        var treeObj = $.fn.zTree.getZTreeObj("department_tree");
+                        var nodes = treeObj.getNodes();
+                        var nodesArray = treeObj.transformToArray(treeObj.getNodes());
+                        var position = [];
+                        var j = 0;
+                        itemData = data.itemData;
+                        for(i in itemData) {
+                            position[j] = {};
+                            position[j]['id'] = 'P' + itemData[i]['department_position_id'];
+                            position[j]['pId'] = itemData[i]['department_id'];
+                            position[j]['name'] = itemData[i]['department_position_name'];
+                            position[j]['open'] = true;  
+                            position[j]['isParent'] = false;
+                            j++;
+                            //open:true,isParent:true                                
+                        }
+                        for(i in nodesArray) {
+                           position[j] = {};
+                           position[j]['id'] = nodesArray[i]['id'];
+                           position[j]['pId'] = nodesArray[i]['pId'];
+                           position[j]['name'] = nodesArray[i]['name'];       
+                           position[j]['open'] = true;  
+                           position[j]['isParent'] = true;    
+                           j++;                      
+                        }
+                        DepartmentClass.zNodes['position_tree'] = position;
+                        //
+                        $.fn.zTree.init($("#position_tree"), DepartmentClass.setting, position);
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
+                });
+            };
+            department.roleSetting = function() {
+                $('#department_position').val('2');
+                department.departmentPosition();
+                DepartmentClass.ZTreeObj['id'] = 'role_tree';
+                if(DepartmentClass.zNodes['role_tree'] != '') return;
+                $.getJSON('<%$view_url%>&act=getRole', function(result){
+                    data = result;
+                    if(data.success == 1) {
+                        var treeObj = $.fn.zTree.getZTreeObj("position_tree");
+                        var nodes = treeObj.getNodes();
+                        var nodesArray = treeObj.transformToArray(treeObj.getNodes());
+                        var position = [];
+                        var j = 0;
+                        itemData = data.itemData;
+                        for(i in itemData) {
+                            position[j] = {};
+                            position[j]['id'] = 'R' + itemData[i]['role_id'];
+                            position[j]['pId'] = 'P' + itemData[i]['department_position_id'];
+                            position[j]['name'] = itemData[i]['role_name'];
+                            position[j]['open'] = true;  
+                            position[j]['isParent'] = false;
+                            j++;
+                            //open:true,isParent:true                                
+                        }
+                        for(i in nodesArray) {
+                           position[j] = {};
+                           position[j]['id'] = nodesArray[i]['id'];
+                           position[j]['pId'] = nodesArray[i]['pId'];
+                           position[j]['name'] = nodesArray[i]['name'];       
+                           position[j]['open'] = true;  
+                           position[j]['isParent'] = true;
+                           j++;                      
+                        }
+                        DepartmentClass.zNodes['role_tree'] = position;
+                        //
+                        $.fn.zTree.init($("#role_tree"), DepartmentClass.setting, position);
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
+                });
+            };
             return department;		
         }
     }

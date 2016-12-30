@@ -57,17 +57,24 @@
                     <ul id="position_tree" class="ztree"></ul>
                 </div>
                 <div class="right">
-                    <ul id="log" class="log"></ul>
+                    <ul id="" class="log"></ul>
                 </div>
                 </div>
            </div>
            <div id="tab3" class="tab-pane">
-               <form action="#" method="get" class="form-horizontal">
-                   <div class="control-group">
-                       <label class="control-label">First Name :</label>
-                       <div class="controls"><input type="text" class="span20" placeholder="First name" /></div>
-                   </div>
-               </form>
+               <div class="btn-group pagination">
+               <button id="" class="btn btn-primary addParentTree"><i class="am-icon-plus-circle"></i> 添加角色</button>
+               <button id="" class="btn btn-warning editTree"><i class="am-icon-edit"></i> 编辑角色</button> 
+               <button id="" class="btn btn-danger removeTree"><i class="am-icon-minus-circle"></i> 删除角色</button>
+               </div>
+               <div class="content_wrap">
+                <div>
+                    <ul id="role_tree" class="ztree"></ul>
+                </div>
+                <div class="right">
+                    <ul id="" class="log"></ul>
+                </div>
+                </div>
            </div>
            
            </div>
@@ -95,6 +102,7 @@
                         <input id="department_parent_id" name="department_parent_id" type="hidden" value="" >
                         <input id="department_self_id" name="department_self_id" type="hidden" value="" >
                         <input id="department_position" name="department_position" type="hidden" value="0" >
+                        <input id="role_department_id" name="role_department_id" type="hidden" value="" >
                     </div>
                 </div>
                 <div class="control-group">
