@@ -16,12 +16,24 @@ class NightAuditAction extends \BaseAction {
 
     protected function service($objRequest, $objResponse) {
         switch($objRequest->getAction()) {
+            case 'edit':
+                $this->doEdit($objRequest, $objResponse);
+                break;
+            case 'add':
+                $this->doAdd($objRequest, $objResponse);
+                break;
+            case 'delete':
+                $this->doDelete($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
         }
     }
 
+    protected function tryexecute($objRequest, $objResponse) {
+        BookService::instance()->rollback();
+    }
     /**
      * 首页显示
      */
@@ -72,6 +84,7 @@ class NightAuditAction extends \BaseAction {
         }
         $objResponse-> isArriveTime = $isArriveTime;
         $arrayBookInfo = '';$arrayBookOrderNumber = '';
+        $arrayBookEditUrl = '';
         if($isArriveTime) {
             $conditions['where'] = array('hotel_id'=>$hotel_id,
                                          '>='=>array('book_order_number_status'=>0,'book_check_out'=>$nightAuditDate),
@@ -87,6 +100,8 @@ class NightAuditAction extends \BaseAction {
                     if($arrayBookInfo[$i]['book_order_number_status'] != '0') {
                         $arrayBookInfo[$i]['is_correct'] = 1;
                     }*/
+                    $arrayBookEditUrl[$book_order_number]['url'] =
+                        \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),'order_number'=>encode($book_order_number)));
 
                 }
             }
@@ -96,18 +111,64 @@ class NightAuditAction extends \BaseAction {
         $conditions['order'] = 'room_mansion, room_floor, room_number, room_id';
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_id');
         $conditions['order'] = '';
+        //服务
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'hotel_service_valid'=>1, '<>'=>array('hotel_service_price'=>-1));
+        $arrayService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
 
         //核对价格
-        $conditions['where'] = array('hotel_id'=>$hotel_id,
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'book_is_night_audit'=>'0',
                                      'IN'=>array('book_order_number'=>$arrayBookOrderNumber),
                                      '<='=>array('book_night_audit_fiscal_day'=>getDay()));
         $arrayBookNightAudit = BookService::instance()->getBookNightAudit($conditions, '*', 'book_order_number', true, '', 'room_id');
 
         $objResponse -> arrayDataInfo = $arrayBookInfo;
+        $objResponse -> arrayBookEditUrl = $arrayBookEditUrl;
         $objResponse -> arrayRoom = $arrayRoom;
         $objResponse -> arrayBookNightAudit = $arrayBookNightAudit;
+        $objResponse -> arrayService = $arrayService;
 
+        //
+        $objResponse -> nightAuditUrl =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['nightAudit']['add'])));
+    }
 
+    protected function doAdd($objRequest, $objResponse) {
+        $key = $objRequest->key;
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $this->setDisplay();
+        $arrayBookNightAudit = json_decode(stripslashes($key), true);//
+        if(empty($arrayBookNightAudit)) {
+            return $this->errorResponse('数据异常');
+        }
+        $arrayBookNightAuditId = '';$arrayOrderNumber = '';$arrayRoom = '';
+        foreach($arrayBookNightAudit as $id => $value) {
+            if($id == 'room_id') {
+                $arrayRoom[$value] = $value;
+            } else {
+                $arrayBookNightAuditId[$id] = $id;
+                $arrayOrderNumber[$value] = $value;
+            }
+        }
+        $where = array('hotel_id'=>$hotel_id,
+            'IN'=>array('book_night_audit_id'=>$arrayBookNightAuditId));
+        $updateData['book_night_audit_date'] = getDay();
+        $updateData['book_night_audit_datetime'] = getDateTime();
+        $updateData['book_is_night_audit'] = '1';
+        $updateData['book_is_check_employee_id'] = $objResponse->arrayLoginEmployeeInfo['employee_id'];
+        BookService::instance()->startTransaction();
+        BookService::instance()->updateBookNightAudit($where, $updateData);
+        $where = array('hotel_id'=>$hotel_id,
+            'IN'=>array('book_order_number'=>$arrayOrderNumber));
+        $updateBook['book_night_audit_date'] = getDay();
+        BookService::instance()->updateBook($where, $updateBook);
+        //设置脏房
+        $where = array('hotel_id'=>$hotel_id, 'IN'=>array('room_id'=>$arrayRoom));
+        $updateRoom['room_status'] = 4;
+        RoomService::instance()->updateRoom($where, $updateRoom);
+        BookService::instance()->commit();
+        $url =
+            \BaseUrlUtil::Url(array('module'=>ModulesConfig::$modulesConfig['nightAudit']['view'],'act'=>'night_audit'));
+        return $this->successResponse('操作成功！','', $url);
     }
 
 }

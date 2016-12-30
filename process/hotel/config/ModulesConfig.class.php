@@ -31,6 +31,7 @@ class ModulesConfig extends \ModulesConfig {
         'employee'          => array('edit'=>75, 'delete'=>76, 'add'=>74, 'view'=>31),
         'memberSetting'     => array('edit'=>78, 'delete'=>79, 'add'=>77, 'view'=>20),
         'modeOfPayment'     => array('edit'=>81, 'delete'=>82, 'add'=>80, 'view'=>23),
+        'nightAudit'        => array('edit'=>70, 'delete'=>00, 'add'=>69, 'view'=>68),
 
     );
 

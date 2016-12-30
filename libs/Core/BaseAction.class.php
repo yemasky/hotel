@@ -449,7 +449,7 @@ abstract class BaseAction{
                     return;
                 }
             } else {
-                $this->errorResponse('系统异常', array($e->getMessage()));
+                $this->errorResponse('系统异常', array($e->getMessage(),$e->getTraceAsString()));
             }
 		}
 		if(!empty($this->redirect_url)) {

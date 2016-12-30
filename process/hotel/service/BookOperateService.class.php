@@ -26,6 +26,7 @@ class BookOperateService extends \BaseService {
         $payment = $arrayPostValue['payment'];//支付 类型
         $payment_type = $arrayPostValue['payment_type'];//支付方式  微信支付宝等
         $is_pay = $arrayPostValue['is_pay'];//付款已到账
+        $is_pay = $is_pay == 2 ? '0' : '1';
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $employee_id = $objResponse->arrayLoginEmployeeInfo['employee_id'];
         $arrayThenRoomPrice = json_decode(stripslashes($objRequest->thenRoomPrice), true);
@@ -44,7 +45,7 @@ class BookOperateService extends \BaseService {
             $arrayBill['book_discount_id']          = $arrayPostValue['book_discount_id'];//折扣ID
         $arrayBill['book_discount_describe']        = $arrayPostValue['book_discount_describe'];//折扣描述
         //半天房费计算时间 <!-- -->
-        $arrayBill['book_half_price']                    = $arrayPostValue['half_price'];
+        $arrayBill['book_half_price']               = $arrayPostValue['half_price'];
         //入住日期 <!-- -->
         $arrayBill['book_check_in']                 = $arrayPostValue['book_check_in'];//入住时间
         $arrayBill['book_check_out']                = $arrayPostValue['book_check_out'];//退房时间
@@ -247,6 +248,8 @@ class BookOperateService extends \BaseService {
                 //夜审数据
                 foreach($arrayThenRoomPrice['room_id'][$roomLayoutSystem] as $r_id => $room_id) {
                     $arrayNightAudit[$iNightAudit]['room_id'] = $room_id;
+                    $arrayNightAudit[$iNightAudit]['hotel_service_id'] = '0';
+                    $arrayNightAudit[$iNightAudit]['hotel_service_num'] = '0';
                     $arrayNightAudit[$iNightAudit]['book_order_number'] = $book_order_number;
                     $arrayNightAudit[$iNightAudit]['book_id'] = $book_id;
                     $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
@@ -265,7 +268,7 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['room_layout_id'] = $room_layout_id;
                     $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = $system_id;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $year . '-' . $month . '-' . $day;//财日
-                    $arrayNightAudit[$iNightAudit]['room_price'] = $roomPrice;
+                    $arrayNightAudit[$iNightAudit]['price'] = $roomPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $roomPrice * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'room';
                     $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
@@ -307,6 +310,8 @@ class BookOperateService extends \BaseService {
                 //夜审数据
                 foreach($arrayThenRoomPrice['bed_room_id'][$roomLayoutSystem] as $r_id => $room_id) {
                     $arrayNightAudit[$iNightAudit]['room_id'] = $room_id;
+                    $arrayNightAudit[$iNightAudit]['hotel_service_id'] = '0';
+                    $arrayNightAudit[$iNightAudit]['hotel_service_num'] = '0';
                     $arrayNightAudit[$iNightAudit]['book_order_number'] = $book_order_number;
                     $arrayNightAudit[$iNightAudit]['book_id'] = $book_id;
                     $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
@@ -317,7 +322,7 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['room_layout_id'] = $room_layout_id;
                     $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = $system_id;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $year . '-' . $month . '-' . $day;//财日
-                    $arrayNightAudit[$iNightAudit]['room_price'] = $bedPrice;
+                    $arrayNightAudit[$iNightAudit]['price'] = $bedPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $bedPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_bed';
                     $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
@@ -340,7 +345,9 @@ class BookOperateService extends \BaseService {
             $arrayServiceData[$service_id]['book_hotel_service_num'] = $arrayService[1];
             $arrayServiceData[$service_id]['book_hotel_service_discount'] = $arrayService[2];
             //夜审数据
-            $arrayNightAudit[$iNightAudit]['room_id'] = $service_id;//
+            $arrayNightAudit[$iNightAudit]['room_id'] = '0';//
+            $arrayNightAudit[$iNightAudit]['hotel_service_id'] = $service_id;
+            $arrayNightAudit[$iNightAudit]['hotel_service_num'] = $arrayService[1];
             $arrayNightAudit[$iNightAudit]['book_order_number'] = $book_order_number;
             $arrayNightAudit[$iNightAudit]['book_id'] = $book_id;
             $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
@@ -351,12 +358,12 @@ class BookOperateService extends \BaseService {
             $arrayNightAudit[$iNightAudit]['room_layout_id'] = '0';
             $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = '0';
             $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//算在第一天的夜审 财日
-            $arrayNightAudit[$iNightAudit]['room_price'] = $arrayService[0];
-            $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayService[0] * $arrayService[2] / 100;
-            $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'service';
+            $arrayNightAudit[$iNightAudit]['price'] = $arrayService[0];
+            $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayService[0] * $arrayService[2] * $arrayService[1] / 100;
+            $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_service';
             $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
             $arrayNightAudit[$iNightAudit]['book_is_check_add_datetime'] = getDateTime();
-            $arrayNightAudit[$iNightAudit]['unique_key'] = substr(microtime(6), 0 , 6);
+            $arrayNightAudit[$iNightAudit]['unique_key'] = rand(100000000, 999999999);
             $iNightAudit++;
         }
         if(!empty($arrayThenRoomPrice)) BookDao::instance()->setTable('book_hotel_service')->batchInsert($arrayServiceData);

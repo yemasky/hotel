@@ -121,12 +121,14 @@ class BookActionServiceImpl extends \BaseService  {
     public function doSaveEditBookPayment($objRequest, $objResponse) {
         $order_number = decode($objRequest -> order_number);
         $book_is_pay = $objRequest -> book_is_pay;
+        $book_is_pay = $book_is_pay == 2 ? '0' : '1';
         $book_payment = $objRequest -> book_payment;
+        $book_payment = $book_payment < 2 ? '0' : '1';
         $book_payment_type = $objRequest -> book_payment_type;
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number,
-            'book_order_number_main'=>'1');
-        $arrayUpdate['book_is_pay'] = $book_is_pay;$arrayUpdate['book_is_payment'] = $book_payment;
+        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number);
+        $arrayUpdate['book_is_pay'] = $book_is_pay;
+        $arrayUpdate['book_is_payment'] = $book_payment;
         $arrayUpdate['payment_type_id'] = $book_payment_type;
         $arrayUpdate['book_pay_date'] = getDateTime();
         BookService::instance()->updateBook($conditions['where'], $arrayUpdate);

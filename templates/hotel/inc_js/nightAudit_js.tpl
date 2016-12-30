@@ -27,11 +27,41 @@ $(document).ready(function(){
                 $('#begin_night_audit').click(function(e) {
                     window.location.href="<%$search_url%>?module=<%$module%>&act=night_audit"; 
                 });
+                $('#check_night_audit').click(function(e) {
+                    thisModule.checkNightAudit();
+                });
             };
             thisModule.checkErrorNightAudit = function() {
                 $('.error_night_audit').each(function(index, element) {
                     
                 });
+            };
+            thisModule.checkNightAudit = function() {
+                var nightAudit = {};
+                $('.nightAudit').each(function(index, element) {
+                    var data_id = $(this).attr('data-id');
+                    var number = $(this).attr('number');
+                    var room_id = $(this).attr('room_id');
+                    nightAudit[data_id] = number;
+                    nightAudit['room_id'] = room_id;
+                });
+                if(nightAudit == '') {
+                    $('#modal_info').modal('show');
+                    $('#modal_info_message').html('无数据!');
+                    return;
+                }
+                var param = 'key='+JSON.stringify(nightAudit);
+                var url = '<%$nightAuditUrl%>';
+                $.getJSON(url, param, function(result){
+                    data = result;
+                    if(data.success == 1) {
+                        $('#modal_success').modal('show');
+                        $('#modal_success_message').html(data.message);
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
+                })
             };
             return thisModule;
         },

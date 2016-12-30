@@ -343,6 +343,7 @@ $(document).ready(function(){
             bookEdit.saveAnAccount = function() {
                 var book_payment = $('#book_payment').val();var book_is_pay = $('#book_is_pay').val();var book_payment_type = $('#book_payment_type').val();
                 if(book_payment == '') {$('#modal_info').modal('show');$('#modal_info_message').html('请选择支付状态！'); return;}
+                if(book_payment == '1') {$('#modal_info').modal('show');$('#modal_info_message').html('必须为全额或者余额支付！'); return;}
                 if(book_is_pay == '') {$('#modal_info').modal('show');$('#modal_info_message').html('请选择支付是否到账收款！'); return;}
                 if(book_payment_type == '') {$('#modal_info').modal('show');$('#modal_info_message').html('请选择支付方式！'); return;}
                 $('#modal_save').modal('show');
