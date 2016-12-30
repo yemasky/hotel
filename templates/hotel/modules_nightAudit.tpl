@@ -127,7 +127,7 @@
                                 <%/foreach%>
                                 <%if isset($arrayBookNightAudit[$book_order_number]) && isset($arrayBookNightAudit[$book.book_order_number][0])%>
                                     <%foreach key=room_id item=nightAudit from=$arrayBookNightAudit[$book_order_number][0]%>
-                                    <li class="nightAudit" data-id="<%$nightAudit.book_night_audit_id%>">
+                                    <li class="nightAudit" data-id="<%$nightAudit.book_night_audit_id%>" number="<%$book_order_number%>" room_id="0">
                                         <div class="left peity_line_neutral">日期</div>
                                         <div class="right"> <%$nightAudit.book_night_audit_fiscal_day%> </div>
                                         <div class="left peity_line_neutral">&#12288;</div>

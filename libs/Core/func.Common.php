@@ -278,7 +278,7 @@ if(!defined("INC_FUNC_COMMON")) {
 		if(__Debug) {
 			print_r($msg);
 		}
-		writeLog('errorHandler', $msg);
+		writeLog('#errorHandler', $msg);
 		/* Don't execute PHP internal error handler */
 		return true;
 	}

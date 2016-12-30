@@ -134,21 +134,26 @@ class NightAuditAction extends \BaseAction {
 
     protected function doAdd($objRequest, $objResponse) {
         $key = $objRequest->key;
+        $room = $objRequest->room;
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $this->setDisplay();
         $arrayBookNightAudit = json_decode(stripslashes($key), true);//
-        if(empty($arrayBookNightAudit)) {
+        $arrayRoom  = json_decode(stripslashes($room), true);//
+        if(empty($arrayBookNightAudit) || empty($arrayRoom)) {
             return $this->errorResponse('数据异常');
         }
-        $arrayBookNightAuditId = '';$arrayOrderNumber = '';$arrayRoom = '';
+        $arrayBookNightAuditId = '';$arrayOrderNumber = '';$arrayRoomId = '';
         foreach($arrayBookNightAudit as $id => $value) {
-            if($id == 'room_id') {
-                $arrayRoom[$value] = $value;
-            } else {
-                $arrayBookNightAuditId[$id] = $id;
-                $arrayOrderNumber[$value] = $value;
-            }
+            $arrayBookNightAuditId[$id] = $id;
+            $arrayOrderNumber[$value] = $value;
         }
+        foreach($arrayRoom as $id => $value) {
+            if($id > 0) $arrayRoomId[] = $id;
+        }
+        if(empty($arrayRoomId)) {
+            return $this->errorResponse("参数错误！");
+        }
+
         $where = array('hotel_id'=>$hotel_id,
             'IN'=>array('book_night_audit_id'=>$arrayBookNightAuditId));
         $updateData['book_night_audit_date'] = getDay();
@@ -162,12 +167,12 @@ class NightAuditAction extends \BaseAction {
         $updateBook['book_night_audit_date'] = getDay();
         BookService::instance()->updateBook($where, $updateBook);
         //设置脏房
-        $where = array('hotel_id'=>$hotel_id, 'IN'=>array('room_id'=>$arrayRoom));
+        $where = array('IN'=>array('room_id'=>$arrayRoomId),'hotel_id'=>$hotel_id);
         $updateRoom['room_status'] = 4;
         RoomService::instance()->updateRoom($where, $updateRoom);
         BookService::instance()->commit();
         $url =
-            \BaseUrlUtil::Url(array('module'=>ModulesConfig::$modulesConfig['nightAudit']['view'],'act'=>'night_audit'));
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['nightAudit']['view']),'act'=>'night_audit'));
         return $this->successResponse('操作成功！','', $url);
     }
 

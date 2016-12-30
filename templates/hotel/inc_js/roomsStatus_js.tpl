@@ -65,7 +65,7 @@ $(document).ready(function(){
                             +'<a class="btn btn-mini btn-primary" href="#"><i class="am-icon-sun-o"></i> <%$arrayLaguage["manage"]["page_laguage_value"]%></a>'
                             +'<a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><div class="caret"></div></a>'
                             +'<ul class="dropdown-menu" data-id="'+id+'">'
-                            +'<li><a data-target="#" href="#Book"><i class="am-icon-toggle-off"></i> 转为可预定</a></li>'
+                            +'<li><a data-target="#" href="#Book"><i class="am-icon-toggle-off"></i> 转为可预定[干净/好房]</a></li>'
                             +'<li><a data-target="#" href="#Dirty"><i class="am-icon-toggle-off"></i> 转为脏房</a></li>'
                             +'<li><a data-target="#" href="#Servicing"><i class="am-icon-toggle-off"></i> 转为维修房</a></li>'
                             +'</ul></div>';

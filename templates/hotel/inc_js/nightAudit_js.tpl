@@ -37,20 +37,20 @@ $(document).ready(function(){
                 });
             };
             thisModule.checkNightAudit = function() {
-                var nightAudit = {};
+                var nightAudit = {};var room = {};
                 $('.nightAudit').each(function(index, element) {
                     var data_id = $(this).attr('data-id');
                     var number = $(this).attr('number');
                     var room_id = $(this).attr('room_id');
                     nightAudit[data_id] = number;
-                    nightAudit['room_id'] = room_id;
+                    room[room_id] = '';
                 });
                 if(nightAudit == '') {
                     $('#modal_info').modal('show');
                     $('#modal_info_message').html('无数据!');
                     return;
                 }
-                var param = 'key='+JSON.stringify(nightAudit);
+                var param = 'key='+JSON.stringify(nightAudit)+'&room='+JSON.stringify(room);
                 var url = '<%$nightAuditUrl%>';
                 $.getJSON(url, param, function(result){
                     data = result;
