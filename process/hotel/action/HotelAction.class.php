@@ -165,6 +165,11 @@ class HotelAction extends \BaseAction {
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $this->setDisplay();
             if($hotel_id > 0) {
+                if($arrayPostValue['hotel_wifi'] == '1') {
+                    $arrayPostValue['hotel_wifi'] = true;
+                } else {
+                    $arrayPostValue['hotel_wifi'] = false;
+                }
                 HotelService::instance()->updateHotel(array('hotel_id' => $hotel_id), $arrayPostValue);
                 $objResponse->update_success = 1;
                 $this->setDisplay();

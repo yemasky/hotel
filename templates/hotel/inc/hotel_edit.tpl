@@ -158,8 +158,8 @@
                 <div class="control-group">
                     <label class="control-label"><%$arrayAttribute[attr].hotel_attribute_name%> :</label>
                     <div class="controls">
-                    <%section name=attr_childen loop=$arrayAttribute[attr].childen%>
-                    <label class="control-label"><%$arrayAttribute[attr].childen[attr_childen].hotel_attribute_name%> :</label>
+                    <%section name=attr_childen loop=$arrayAttribute[attr].children%>
+                    <label class="control-label"><%$arrayAttribute[attr].children[attr_childen].hotel_attribute_name%> :</label>
                     <div class="controls">
                         <input type="text" class="span2" value=""  />
                         <a href="#add" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
