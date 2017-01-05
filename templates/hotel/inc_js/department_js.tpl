@@ -22,7 +22,11 @@ $(document).ready(function(){
 		},
 		submitHandler: function() {
             var add_url = '<%$add_url%>'; var edit_url = '<%$edit_url%>'
+            var role_add_url = '<%$role_add_url%>'; var role_edit_url = '<%$role_edit_url%>'
             var url = ($('#department_parent_id').val() - 0) > 0 ? add_url : edit_url;
+            if(DepartmentClass.ZTreeObj['id'] == 'role_tree') {
+                url = ($('#department_parent_id').val() - 0) > 0 ? role_add_url : role_edit_url;
+            }
             var param = $("#edit_department_form").serialize();
             $('#edit_department').modal('hide');
             $('#modal_save').show('fast');
@@ -38,13 +42,15 @@ $(document).ready(function(){
                          var zTree = DepartmentClass.ZTreeObj['ztree'];
                          var treeNode = DepartmentClass.ZTreeObj['treeNode'];
                          var newCount = DepartmentClass.ZTreeObj['newCount'];
-                         var isParent = ($('#department_position').val() - 0) == 1 ? false : true;
+                         var isParent = ($('#department_position').val() - 0) >= 1 ? false : true;
                          //var isParent = DepartmentClass.ZTreeObj['isParent'];
                          if(newCount == '') {
                              treeNode.name = $('#department_self_name').val();
                              zTree.editName(treeNode);
                          } else {
-                            zTree.addNodes(treeNode, {id:data.itemData.id, pId:treeNode.id, isParent:isParent, name:$('#department_self_name').val()});
+                             var id = data.itemData.id;
+                             if(DepartmentClass.ZTreeObj['id'] == 'role_tree') {id = 'R'+id;};
+                            zTree.addNodes(treeNode, {id:id, pId:treeNode.id, isParent:isParent, name:$('#department_self_name').val()});
                          }
                     } else {
                         $('#modal_fail').modal('show');
@@ -56,11 +62,8 @@ $(document).ready(function(){
 	});
     
     var DepartmentClass = {
-		setting: {},
-        zNodes: [],
-        className: 'dark',
-        newCount: 1,
-        ZTreeObj: {},
+		setting: {},zNodes: [],className: 'dark',newCount: 1,ZTreeObj: {},
+        modules: '',
         instance: function() {
             var department = {};
             department.initParameter = function() {
@@ -83,7 +86,9 @@ $(document).ready(function(){
                         beforeDrag: department.beforeDrag,
                         beforeRemove: department.beforeRemove,
                         beforeRename: department.beforeRename,
-                        onRemove: department.onRemove
+                        onRemove: department.onRemove,
+                        beforeClick: department.beforeClick,
+                        onClick: department.onNodeClick,
                     }
                 };
                 DepartmentClass.ZTreeObj['id'] = 'department_tree';
@@ -274,6 +279,29 @@ $(document).ready(function(){
                 }
                 zTree.removeChildNodes(treeNode);
             };
+            department.beforeClick = function() {
+                
+            };
+            department.onNodeClick = function(event, treeId, treeNode) {
+                if(treeNode.id.substr(0 , 1) != 'R') return;
+                $('#modal_loading').show('fast');
+                var modules = DepartmentClass.modules;
+                var have_modules = 1;
+                if(modules == '') have_modules = 0;
+                $.getJSON('<%$role_url%>&have_modules='+have_modules+'&role_id='+treeNode.id, function(result) {
+                    data = result;
+                    if(data.success == 1) {
+                        if(data.itemData.Modules != '') {
+                            DepartmentClass.modules = data.itemData.Modules;
+                        }
+                        department.setModules();
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
+                    $('#modal_loading').hide('fast');
+                })
+            };
             department.updateDepartment = function() {
                 
             };
@@ -319,9 +347,18 @@ $(document).ready(function(){
                 });
             };
             department.roleSetting = function() {
-                $('#department_position').val('2');
                 department.departmentPosition();
-                DepartmentClass.ZTreeObj['id'] = 'role_tree';
+                var roleTree = setInterval(function(){
+                    var treeObj = $.fn.zTree.getZTreeObj("position_tree");
+                    if(treeObj != null) {
+                        clearInterval(roleTree);
+                        department.roleSettingTree();
+                    }
+                },500);
+            };
+            department.roleSettingTree = function() {
+              $('#department_position').val(2);
+              DepartmentClass.ZTreeObj['id'] = 'role_tree';
                 if(DepartmentClass.zNodes['role_tree'] != '') return;
                 $.getJSON('<%$view_url%>&act=getRole', function(result){
                     data = result;
@@ -358,7 +395,25 @@ $(document).ready(function(){
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
                     }
-                });
+                });  
+            };
+            department.setModules = function() {
+                var modules = DepartmentClass.modules;
+                console.log(modules);
+                var li = '';
+                for(id in modules) {//role_power
+                    li += '<div class="control-group">';
+                    for(i in modules[id]) {
+                        if(modules[id][i].modules_father_id == modules[id][i].modules_id) {
+                           li += '<label class="control-label">'+modules[id][i].modules_name
+                                +'<i class="am-icon-check-square"></i></label><div class="controls">';
+                        } else {
+                           li += '<label class="span2 text-right">' + modules[id][i].modules_name + '<i class="am-icon-check-square"></i> </label>';
+                        }
+                    }
+                    li += '</div></div>';
+                }
+                $('#role_power').html(li);
             };
             return department;		
         }

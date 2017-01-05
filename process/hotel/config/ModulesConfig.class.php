@@ -33,6 +33,7 @@ class ModulesConfig extends \ModulesConfig {
         'modeOfPayment'     => array('edit'=>81, 'delete'=>82, 'add'=>80, 'view'=>23),
         'nightAudit'        => array('edit'=>70, 'delete'=>00, 'add'=>69, 'view'=>68),
         'cancellationPolicy'=> array('edit'=>85, 'delete'=>84, 'add'=>83, 'view'=>22),
+        'role'              => array('edit'=>87, 'delete'=>88, 'add'=>86, 'view'=>47),
 
     );
 

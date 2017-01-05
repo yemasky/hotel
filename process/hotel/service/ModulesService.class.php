@@ -17,12 +17,35 @@ class ModulesService extends \BaseService {
     }
 
     public function getModules($module_id = null) {
-        $arrayModules = ModulesDao::instance()->getModules(\DbConfig::$db_query_conditions);
+        $conditions = \DbConfig::$db_query_conditions;
+        $conditions['where'] = array('modules_open'=>1);
+        $arrayModules = ModulesDao::instance()->getModules($conditions);
         if(!empty($module_id)) {
             return $arrayModules[$module_id];
         }
         return $arrayModules;
     }
 
+    public function getModulesSort() {
+        $arrayModules = $this->getModules();
+        $arrarSortModules = '';
+        foreach($arrayModules as $id => $arrayModule) {
+            //$arrayModule['modules_id'] = encode($arrayModule['modules_id']);
+            $arrarSortModules[$arrayModule['modules_father_id']][] = $arrayModule;
+        }
+        return $arrarSortModules;
+    }
+
+    public function saveModules($arrayData) {
+        return ModulesDao::instance()->setTable('modules')->insert($arrayData);
+    }
+
+    public function updateModules($where, $row) {
+        return ModulesDao::instance()->setTable('modules')->update($where, $row);
+    }
+
+    public function deleteModules($where) {
+        return ModulesDao::instance()->setTable('modules')->delete($where);
+    }
 
 }

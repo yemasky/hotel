@@ -16,12 +16,24 @@ class RoleService extends \BaseService {
         return self::$objService;
     }
 
+    //员工权限
     public function getRoleModulesEmployee($employee_id) {
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$employee_id);
         return RoleDao::instance()->getRoleModulesEmployee($conditions);
     }
 
+    public function saveRoleModulesEmployee($arrayData) {
+        return RoleDao::instance()->setTable('role_modules_employee')->insert($arrayData);
+    }
+
+    public function updateRoleModulesEmployee($where, $row) {
+        return RoleDao::instance()->setTable('role_modules_employee')->update($where, $row);
+    }
+
+    public function deleteRoleModulesEmployee($where) {
+        return RoleDao::instance()->setTable('role_modules_employee')->delete($where);
+    }
     //角色
     public function getRole($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
         return RoleDao::instance()->setTable('role')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
@@ -39,5 +51,21 @@ class RoleService extends \BaseService {
         return RoleDao::instance()->setTable('role')->delete($where);
     }
 
+    //角色权限
+    public function getRoleModules($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
+        return RoleDao::instance()->setTable('role_modules')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+    }
+
+    public function saveRoleModules($arrayData) {
+        return RoleDao::instance()->setTable('role_modules')->insert($arrayData);
+    }
+
+    public function updateRoleModules($where, $row) {
+        return RoleDao::instance()->setTable('role_modules')->update($where, $row);
+    }
+
+    public function deleteRoleModules($where) {
+        return RoleDao::instance()->setTable('role_modules')->delete($where);
+    }
 
 }

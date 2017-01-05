@@ -9,6 +9,8 @@
 .ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
 .ztree li ul.level0 {padding:0; background:none;}
 .ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+.btn-icon-pg ul li{min-width: auto;}
+#role_power label{margin-left:0px;}
 </style>
 </head>
 <body>
@@ -68,12 +70,18 @@
                <button id="" class="btn btn-danger removeTree"><i class="am-icon-minus-circle"></i> 删除角色</button>
                </div>
                <div class="content_wrap">
-                <div>
+                <div class="span2 fl">
                     <ul id="role_tree" class="ztree"></ul>
                 </div>
-                <div class="right">
-                    <ul id="" class="log"></ul>
-                </div>
+                <div class="span10 fl">
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon"><i class="icon-th-list"></i></span><h5>权限</h5>
+                        </div>
+                        <div class="widget-content tab-content nopadding form-horizontal" id="role_power">
+                        
+                        </div>
+                    </div>
                 </div>
            </div>
            

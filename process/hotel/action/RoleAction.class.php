@@ -35,20 +35,23 @@ class RoleAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-        $room_type = $objRequest->room_type;
-        $room_type = empty($room_type) ? 'room' : $room_type;
-        $arrayRoomAttribute = RoomService::instance()->getAttribute($objResponse->arrayLoginEmployeeInfo['hotel_id'], $room_type);
-        //赋值
-        sort($arrayRoomAttribute, SORT_NUMERIC);
-        //
-        $objResponse -> arrayAttribute = $arrayRoomAttribute;
-        $objResponse -> add_room_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['add'])));
-        $objResponse -> delete_room_attribute_url =
-            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['delete'])));
-        $objResponse -> arayRoomType = ModulesConfig::$modulesConfig['roomsSetting']['room_type'];
-        //设置类别
-        $objResponse -> room_type = $room_type;
+        $role_id = $objRequest -> role_id;
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $role_id = trim($role_id, 'R');
+        if($role_id > 0) {
+            $have_modules = $objRequest->have_modules;
+            $this->setDisplay();
+            $conditions = DbConfig::$db_query_conditions;
+            $conditions['where'] = array('hotel_id'=>$hotel_id,'role_id' => $role_id);
+            //$arrayRole = RoleService::instance()->getRole($conditions);
+            $arrayRoleModules = RoleService::instance()->getRoleModules($conditions);
+            $arrayModules = '';
+            if($have_modules == '0') {
+                $arrayModules = ModulesService::instance()->getModulesSort();
+            }
+            $arrayResult = array('RoleModules'=>$arrayRoleModules,'Modules'=>$arrayModules);
+            return $this->successResponse('', $arrayResult);
+        }
     }
 
     protected function doAdd($objRequest, $objResponse) {
@@ -58,32 +61,34 @@ class RoleAction extends \BaseAction {
 
     protected function doEdit($objRequest, $objResponse) {
         $this->setDisplay();
-        $room_layout_attribute_id = decode($objRequest -> room_layout_attribute_id);
+        $department_parent_id = $objRequest -> department_parent_id;
+        $department_self_id = $objRequest -> department_self_id;
+        $department_self_name = trim($objRequest -> department_self_name);
+        $department_position = $objRequest -> department_position;
         $arrayPostValue= $objRequest->getPost();
-
-        if(!empty($arrayPostValue) && is_array($arrayPostValue) && $objRequest -> room_layout_attribute_id != '') {
-            $arrayPostValue['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-            unset($arrayPostValue['room_layout_attribute_id']);
-            if($room_layout_attribute_id > 0) {
-                $arrayPostValue['room_layout_attribute_father_id'] = $room_layout_attribute_id;
+        if(!empty($arrayPostValue) && is_array($arrayPostValue) && !empty($department_self_name)) {
+            $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            if($department_position == 2) {
+                $role_id = trim($department_self_id, 'R');
+                $department_parent_id = trim($department_parent_id, 'P');
+                if($role_id > 0) {
+                    $where = array('hotel_id'=>$hotel_id, 'role_id'=>$role_id);
+                    RoleService::instance()->updateRole($where, array('role_name'=>$department_self_name));
+                    return $this->successResponse('编辑成功');
+                }
+                $role_department_id = $objRequest -> role_department_id;
+                if($department_parent_id >= 0) {
+                    $id = RoleService::instance()->saveRole(array('role_name'=>$department_self_name,'department_position_id'=>$department_parent_id,
+                        'hotel_id'=>$hotel_id, 'department_id'=>$role_department_id, 'company_id'=>$objResponse->arrayLoginEmployeeInfo['company_id']));
+                    return $this->successResponse('保存成功', array('id'=>$id));
+                }
             }
-            $arrayPostValue['room_type'] = 'room';
-            $attribute_id = RoomService::instance()->saveRoomLayoutAttr($arrayPostValue);
-            if($objRequest -> room_layout_attribute_id == '0') {
-                RoomService::instance()->updateRoomLayoutAttr(array('room_layout_attribute_id'=>$attribute_id), array('room_layout_attribute_father_id'=>$attribute_id));
-            }
-            return $this->successResponse('保存客房属性成功');
-            //$room_layout_attribute_id = RoomService::instance()->saveRoom($arrayPostValue);
-
         }
-        return $this->errorResponse('没有保存任何客房属性');
-        //$objResponse -> add_room_attribute_url =
-        //    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit'])));
+        return $this->errorResponse('没有保存任何数据');
     }
 
     protected function doDelete($objRequest, $objResponse) {
         $this->setDisplay();
-
     }
 
 }

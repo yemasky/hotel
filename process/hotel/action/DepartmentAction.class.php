@@ -59,6 +59,13 @@ class DepartmentAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['department']['delete'])));
         $objResponse -> view_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['department']['view'])));
+        $objResponse -> role_add_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['role']['add'])));
+        $objResponse -> role_edit_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['role']['edit'])));
+        $objResponse -> role_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['role']['view'])));
+
         //设置类别
     }
 
@@ -92,7 +99,8 @@ class DepartmentAction extends \BaseAction {
                 }
             } elseif($department_position == 2) {
                 $role_id = trim($department_self_id, 'R');
-                if($department_self_id > 0) {
+                $department_parent_id = trim($department_parent_id, 'P');
+                if($role_id > 0) {
                     $where = array('hotel_id'=>$hotel_id, 'role_id'=>$role_id);
                     RoleService::instance()->updateRole($where, array('role_name'=>$department_self_name));
                     return $this->successResponse('编辑成功');
@@ -100,7 +108,7 @@ class DepartmentAction extends \BaseAction {
                 $role_department_id = $objRequest -> role_department_id;
                 if($department_parent_id >= 0) {
                     $id = RoleService::instance()->saveRole(array('role_name'=>$department_self_name,'department_position_id'=>$department_parent_id,
-                        'hotel_id'=>$hotel_id, 'department_id'=>$role_department_id));
+                        'hotel_id'=>$hotel_id, 'department_id'=>$role_department_id, 'company_id'=>$objResponse->arrayLoginEmployeeInfo['company_id']));
                     return $this->successResponse('保存成功', array('id'=>$id));
                 }
             } else {
