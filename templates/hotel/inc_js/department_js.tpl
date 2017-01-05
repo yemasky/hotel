@@ -295,6 +295,9 @@ $(document).ready(function(){
                             DepartmentClass.modules = data.itemData.Modules;
                         }
                         department.setModules();
+                        $('.role_modules').click(function(e) {
+                            department.setRoleModules(this);
+                        });
                     } else {
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
@@ -405,15 +408,21 @@ $(document).ready(function(){
                     li += '<div class="control-group">';
                     for(i in modules[id]) {
                         if(modules[id][i].modules_father_id == modules[id][i].modules_id) {
-                           li += '<label class="control-label">'+modules[id][i].modules_name
+                           li += '<label data-id='+modules[id][i].modules_id+' class="control-label role_modules">'+modules[id][i].modules_name
                                 +'<i class="am-icon-check-square"></i></label><div class="controls">';
                         } else {
-                           li += '<label class="span2 text-right">' + modules[id][i].modules_name + '<i class="am-icon-check-square"></i> </label>';
+                           li += '<label data-id='+modules[id][i].modules_id+' class="span2 text-right role_modules">' + modules[id][i].modules_name + '<i class="am-icon-check-square"></i> </label>';
                         }
                     }
                     li += '</div></div>';
                 }
                 $('#role_power').html(li);
+            };
+            department.setRoleModules = function(_this) {
+                var id = $(_this).attr('data-id');
+                $.getJSON('', function() {
+                    
+                })
             };
             return department;		
         }
