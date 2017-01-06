@@ -17,22 +17,22 @@ class RoleService extends \BaseService {
     }
 
     //员工权限
-    public function getRoleModulesEmployee($employee_id) {
+    public function getRoleEmployee($employee_id) {
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$employee_id);
-        return RoleDao::instance()->getRoleModulesEmployee($conditions);
+        return RoleDao::instance()->getRoleEmployee($conditions);
     }
 
-    public function saveRoleModulesEmployee($arrayData) {
-        return RoleDao::instance()->setTable('role_modules_employee')->insert($arrayData);
+    public function saveRoleEmployee($arrayData) {
+        return RoleDao::instance()->setTable('role_employee')->insert($arrayData);
     }
 
-    public function updateRoleModulesEmployee($where, $row) {
-        return RoleDao::instance()->setTable('role_modules_employee')->update($where, $row);
+    public function updateRoleEmployee($where, $row) {
+        return RoleDao::instance()->setTable('role_employee')->update($where, $row);
     }
 
-    public function deleteRoleModulesEmployee($where) {
-        return RoleDao::instance()->setTable('role_modules_employee')->delete($where);
+    public function deleteRoleEmployee($where) {
+        return RoleDao::instance()->setTable('role_employee')->delete($where);
     }
     //角色
     public function getRole($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {

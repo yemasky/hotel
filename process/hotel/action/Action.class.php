@@ -57,7 +57,18 @@ class Action extends \BaseAction {
             $modules_id = decode(trim($objRequest->module));
             if(!empty($modules_id)) {
                 $action = '';
-                $arrayRoleModulesEmployeePermissions = RoleService::instance()->getRoleModulesEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
+                $arrayRoleEmployee = RoleService::instance()->getRoleEmployee($objResponse->arrayLoginEmployeeInfo['employee_id']);
+                $arrayRoleModulesEmployeePermissions = '';
+                if(!empty($arrayRoleEmployee)) {
+                    foreach($arrayRoleEmployee as $k => $v) {
+                        $arrayRoleId [] = $v['role_id'];
+                    }
+                    $hotel_id = $v['hotel_id'];
+                    $conditions = DbConfig::$db_query_conditions;
+                    $conditions['where'] = array('hotel_id'=>$hotel_id,
+                        'IN'=>array('role_id'=>$arrayRoleId));
+                    $arrayRoleModulesEmployeePermissions = RoleService::instance()->getRoleModules($conditions, '*', 'modules_id');
+                }
                 if(!isset($arrayRoleModulesEmployeePermissions[$modules_id])) {
                     //无权限
                     $module_action_tpl = $action = 'noPermission';

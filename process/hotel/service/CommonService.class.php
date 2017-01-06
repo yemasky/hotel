@@ -18,7 +18,18 @@ class CommonService extends \BaseService {
 
     //取得登录用户权限模块
     public function getEmployeeModules($arrayLoginEmployeeInfo) {
-        $arrayRoleModulesEmployee = RoleService::instance()->getRoleModulesEmployee($arrayLoginEmployeeInfo['employee_id']);
+        $arrayRoleEmployee = RoleService::instance()->getRoleEmployee($arrayLoginEmployeeInfo['employee_id']);
+        $arrayRoleModulesEmployee = '';
+        if(!empty($arrayRoleEmployee)) {
+            foreach($arrayRoleEmployee as $k => $v) {
+                $arrayRoleId [] = $v['role_id'];
+            }
+            $hotel_id = $v['hotel_id'];
+            $conditions = DbConfig::$db_query_conditions;
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
+                'IN'=>array('role_id'=>$arrayRoleId));
+            $arrayRoleModulesEmployee = RoleService::instance()->getRoleModules($conditions, '*', 'modules_id');
+        }
         $arrayHotelModules = HotelService::instance()->getHotelModules($arrayLoginEmployeeInfo['hotel_id']);
         $arrayModules = ModulesService::instance()->getModules();
 
