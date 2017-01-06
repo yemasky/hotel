@@ -57,7 +57,7 @@ class EmployeeService extends \BaseService {
         $pn = $pn > $all_page_num ? $all_page_num : $pn;
         $conditions['limit'] = ($pn - 1) * $pn_rows . ',' . $pn_rows;
         $conditions['order'] = 'employee_id DESC';
-        $field = 'employee_id,company_id,department_id,department_position_id,employee_name,employee_sex,employee_add_date,employee_add_time';
+        $field = 'employee_id,company_id,department_id,department_position_id,employee_name,employee_photo,employee_sex,employee_add_date,employee_add_time';
         $arrayEmployee = $this->getEmployee($conditions, $field);
         return page($pn, $all_page_num, $arrayEmployee, $parameters);
     }

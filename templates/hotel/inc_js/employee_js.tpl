@@ -1,14 +1,18 @@
 <script type="text/javascript">
 $(document).ready(function(){
     <!--
-    var department_edit_validate = $("#edit_department_form").validate({
+    var department_edit_validate = $("#add_employee_form").validate({
 		rules: {
-			department_self_name: {required: true},
-            //contact_email: {email: true},
+			employee_name: {required: true},
+            employee_sex: {required: true},
+            employee_mobile: {required: true},
+            upload_images_url: {required: true},
 		},
 		messages: {
-			department_self_name:"请填写部门名称",
-            //contact_email:""
+			employee_name:"请填写姓名",
+            employee_sex:"",
+            employee_mobile:"",
+            upload_images_url:"",
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -21,10 +25,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            var add_url = '<%$add_url%>'; var edit_url = '<%$edit_url%>'
-            var url = ($('#department_parent_id').val() - 0) > 0 ? add_url : edit_url;
-            var param = $("#edit_department_form").serialize();
-            $('#edit_department').modal('hide');
+            var param = $("#add_employee_form").serialize();
             $('#modal_save').show('fast');
             $.ajax({
                 url : url,type : "post",dataType : "json",data: param,
@@ -32,20 +33,7 @@ $(document).ready(function(){
                     data = result;
                     $('#modal_save').hide('fast');
                     if(data.success == 1) {
-                        room_layout_id = data.itemData.room_layout_id;
-                         $('#modal_success').modal('show');
-                         $('#modal_success_message').html(data.message);
-                         var zTree = EmployeeClass.ZTreeObj['ztree'];
-                         var treeNode = EmployeeClass.ZTreeObj['treeNode'];
-                         var newCount = EmployeeClass.ZTreeObj['newCount'];
-                         var isParent = ($('#department_position').val() - 0) == 1 ? false : true;
-                         //var isParent = EmployeeClass.ZTreeObj['isParent'];
-                         if(newCount == '') {
-                             treeNode.name = $('#department_self_name').val();
-                             zTree.editName(treeNode);
-                         } else {
-                            zTree.addNodes(treeNode, {id:data.itemData.id, pId:treeNode.id, isParent:isParent, name:$('#department_self_name').val()});
-                         }
+                        
                     } else {
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
@@ -54,7 +42,21 @@ $(document).ready(function(){
             });
 		}
 	});
-    
+    //日历
+	$.datetimepicker.setLocale('ch');
+	$('#employee_birthday').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
+        yearStart: '1930', yearEnd: '<%$yearEnd%>', //yearOffset:1,maxDate:'+1970-01-02',
+		beforeShowDay: function(date) {
+            if (date.getFullYear() > '<%$yearEnd%>') {
+				return [false];
+			}
+            return [true];
+		},
+        onGenerate:function( ct ){
+            $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+       
+	});
     var EmployeeClass = {
 		setting: {},
         ZTreeObj: {},
@@ -112,6 +114,8 @@ $(document).ready(function(){
                     $('#modal_info').modal('show');
                     return;
                 }
+                $('#employee_page').hide('fast');
+                $('#employee_add').show('fast');
 				
             };
             employee.beforeClick = function(treeId, treeNode, clickFlag) {
