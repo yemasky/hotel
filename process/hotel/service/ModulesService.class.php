@@ -39,6 +39,9 @@ class ModulesService extends \BaseService {
             if($arrayModule['modules_action'] == 'add') $action = 1;
             if($arrayModule['modules_action'] == 'edit') $action = 2;
             if($arrayModule['modules_action'] == 'delete') $action = 3;
+            if($arrayModule['modules_action'] == 'editSystem') $action = 4;
+            if($arrayModule['modules_action'] == 'saveAttrValue') $action = 5;
+            if($arrayModule['modules_action'] == 'uploadImages') $action = 6;
             if(!isset($arrayKey[$arrayModule['module']])) {
                 $arrayKey[$arrayModule['module']] = $i;
                 $i++;

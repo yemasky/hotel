@@ -56,8 +56,8 @@ class RoleService extends \BaseService {
         return RoleDao::instance()->setTable('role_modules')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
     }
 
-    public function saveRoleModules($arrayData) {
-        return RoleDao::instance()->setTable('role_modules')->insert($arrayData);
+    public function saveRoleModules($arrayData, $insert_type = 'INSERT') {
+        return RoleDao::instance()->setTable('role_modules')->insert($arrayData, $insert_type);
     }
 
     public function updateRoleModules($where, $row) {

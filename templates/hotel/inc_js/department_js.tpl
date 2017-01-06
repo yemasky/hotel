@@ -288,7 +288,8 @@ $(document).ready(function(){
                 var modules = DepartmentClass.modules;
                 var have_modules = 1;
                 if(modules == '') have_modules = 0;
-                $.getJSON('<%$role_url%>&have_modules='+have_modules+'&role_id='+treeNode.id, function(result) {
+                var role_id = treeNode.id;
+                $.getJSON('<%$role_url%>&have_modules='+have_modules+'&role_id='+role_id, function(result) {
                     data = result;
                     if(data.success == 1) {
                         if(data.itemData.Modules != '') {
@@ -299,7 +300,7 @@ $(document).ready(function(){
                             department.checkRoleModules(data.itemData.RoleModules);
                         }
                         $('.role_modules').click(function(e) {
-                            department.setRoleModules(this);
+                            department.setRoleModules(this, role_id);
                         });
                     } else {
                         $('#modal_fail').modal('show');
@@ -422,11 +423,46 @@ $(document).ready(function(){
                 }
                 $('#role_power').html(li);
             };
-            department.setRoleModules = function(_this) {
+            department.setRoleModules = function(_this, role_id) {
                 var id = $(_this).attr('data-id');
-                $('#modal_save').modal('show');
                 var type = $(_this).find('i').hasClass('am-icon-check-circle');
-                $.getJSON('<%$role_edit_url%>&act=editRoleModule&id='+id+'&type='+type, function(result) {
+                var father_id = $(_this).parent().prev().attr('data-id');
+                if(typeof(father_id) == 'undefined') {
+                    //菜单
+                    var have_children = false;
+                    $(_this).next().find('i').each(function(index, element) {
+                        if($(this).hasClass('am-icon-check-circle')) {
+                            have_children = true;
+                            return;   
+                        }
+                    });
+                    if(have_children) {
+                        $('#modal_info').modal('show');
+                        $('#modal_info_message').html('请先取消菜单下的功能！');
+                        return;   
+                    }
+                }
+                $('#modal_save').modal('show');
+                var father_type = $(_this).parent().prev().find('i').hasClass('am-icon-check-circle');
+                var url = '<%$role_edit_url%>&act=editRoleModule&id='+id+'&type='+type+'&role_id='+role_id
+                         +'&father_id='+father_id+'&father_type='+father_type;
+                $.getJSON(url, function(result) {
+                    data = result;
+                    if(data.success == 1) {
+                        if(type) {
+                            $(_this).find('i').addClass('am-icon-circle-thin');$(_this).find('i').removeClass('am-icon-check-circle');
+                        } else {
+                            $(_this).find('i').removeClass('am-icon-circle-thin');$(_this).find('i').addClass('am-icon-check-circle');
+                        }
+                        if(father_type == false) {
+                            $(_this).parent().prev().find('i').removeClass('am-icon-circle-thin');
+                            $(_this).parent().prev().find('i').addClass('am-icon-check-circle');
+                        }
+                        $('#modal_save').modal('hide');
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
                     
                 })
             };

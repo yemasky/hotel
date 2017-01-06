@@ -66,14 +66,29 @@ class RoleAction extends \BaseAction {
         $department_self_name = trim($objRequest -> department_self_name);
         $department_position = $objRequest -> department_position;
         $arrayPostValue= $objRequest->getPost();
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $act = $objRequest -> act;
         if($act == 'editRoleModule') {
             $type = $objRequest->type;
-            return $this->successResponse('');
+            $arrayData['role_id'] = trim($objRequest -> role_id, 'R');
+            $arrayData['hotel_id'] = $hotel_id;
+            $arrayData['modules_id'] = $objRequest->id;
+            if($type == 'false') {
+                $father_id = $objRequest->father_id;
+                $father_type = $objRequest->father_type;
+                $arrayData['role_modules_action_permissions'] = '4';
+                RoleService::instance()->saveRoleModules($arrayData);
+                if($father_type == 'false' && $father_id > 0) {
+                    $arrayData['modules_id'] = $father_id;
+                    RoleService::instance()->saveRoleModules($arrayData);
+                }
+            } else {
+                RoleService::instance()->deleteRoleModules($arrayData);
+            }
+            return $this->successResponse('保存数据成功！');
         }
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && !empty($department_self_name)) {
-            $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
             if($department_position == 2) {
                 $role_id = trim($department_self_id, 'R');
                 $department_parent_id = trim($department_parent_id, 'P');
