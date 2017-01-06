@@ -27,11 +27,24 @@ class ModulesService extends \BaseService {
     }
 
     public function getModulesSort() {
-        $arrayModules = $this->getModules();
-        $arrarSortModules = '';
+        $conditions = \DbConfig::$db_query_conditions;
+        $conditions['where'] = array('modules_open'=>1);
+        $field = 'modules_id, modules_father_id father_id, modules_name, modules_module module, modules_action, modules_action_permissions permissions';
+        $arrayModules = ModulesDao::instance()->getModules($conditions, $field, 'modules_id');
+        $arrarSortModules = '';$arrayKey = '';
+        $i = 0;$key = 0;
         foreach($arrayModules as $id => $arrayModule) {
             //$arrayModule['modules_id'] = encode($arrayModule['modules_id']);
-            $arrarSortModules[$arrayModule['modules_father_id']][] = $arrayModule;
+            if(empty($arrayModule['modules_action'])) $action = 0;
+            if($arrayModule['modules_action'] == 'add') $action = 1;
+            if($arrayModule['modules_action'] == 'edit') $action = 2;
+            if($arrayModule['modules_action'] == 'delete') $action = 3;
+            if(!isset($arrayKey[$arrayModule['module']])) {
+                $arrayKey[$arrayModule['module']] = $i;
+                $i++;
+            }
+            $key = $arrayKey[$arrayModule['module']];
+            $arrarSortModules[$arrayModule['father_id']][$key][$action] = $arrayModule;
         }
         return $arrarSortModules;
     }

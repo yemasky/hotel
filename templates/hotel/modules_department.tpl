@@ -78,7 +78,13 @@
                         <div class="widget-title">
                             <span class="icon"><i class="icon-th-list"></i></span><h5>权限</h5>
                         </div>
-                        <div class="widget-content tab-content nopadding form-horizontal" id="role_power">
+                        <div class="widget-content nopadding form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label">菜单</label>
+                                <div class="controls"></div>
+                            </div>
+                        </div>
+                        <div class="widget-content nopadding form-horizontal" id="role_power">
                         
                         </div>
                     </div>

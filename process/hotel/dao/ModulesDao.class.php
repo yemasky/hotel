@@ -28,9 +28,10 @@ class ModulesDao extends \BaseDao {
         return DbConfig::dsnWrite();
     }
     
-    public function getModules($conditions){
+    public function getModules($conditions, $fileid = '', $hashKey = null, $multiple = false, $fatherKey = ''){
         $cacheId = md5('getModules');
-        $fileid = 'modules_id, modules_father_id, modules_name, modules_order, modules_module, modules_action, modules_action_field, modules_action_permissions, modules_ico, modules_show';
-        return $this->setDsnRead($this->getDsnRead())->setTable('modules')->getList($conditions, $fileid, 'modules_id');//DBCache($cacheId)->
+        if($fileid == '') $fileid = 'modules_id, modules_father_id, modules_name, modules_order, modules_module, modules_action, modules_action_field, modules_action_permissions, modules_ico, modules_show';
+        if($hashKey == null) $hashKey = 'modules_id';
+        return $this->setDsnRead($this->getDsnRead())->setTable('modules')->getList($conditions, $fileid, $hashKey, $multiple, $fatherKey);//DBCache($cacheId)->
     }
 }

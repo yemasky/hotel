@@ -295,6 +295,9 @@ $(document).ready(function(){
                             DepartmentClass.modules = data.itemData.Modules;
                         }
                         department.setModules();
+                        if(data.itemData.RoleModules != '') {
+                            department.checkRoleModules(data.itemData.RoleModules);
+                        }
                         $('.role_modules').click(function(e) {
                             department.setRoleModules(this);
                         });
@@ -402,16 +405,17 @@ $(document).ready(function(){
             };
             department.setModules = function() {
                 var modules = DepartmentClass.modules;
-                console.log(modules);
                 var li = '';
                 for(id in modules) {//role_power
                     li += '<div class="control-group">';
                     for(i in modules[id]) {
-                        if(modules[id][i].modules_father_id == modules[id][i].modules_id) {
-                           li += '<label data-id='+modules[id][i].modules_id+' class="control-label role_modules">'+modules[id][i].modules_name
-                                +'<i class="am-icon-check-square"></i></label><div class="controls">';
-                        } else {
-                           li += '<label data-id='+modules[id][i].modules_id+' class="span2 text-right role_modules">' + modules[id][i].modules_name + '<i class="am-icon-check-square"></i> </label>';
+                        for(j in modules[id][i]) {
+                            if(modules[id][i][j].father_id == modules[id][i][j].modules_id) {
+                               li += '<label data-id='+modules[id][i][j].modules_id+' class="control-label role_modules">'+modules[id][i][j].modules_name
+                                    +' <i class="am-icon-circle-thin"></i></label><div class="controls">';
+                            } else {
+                               li += '<label data-id='+modules[id][i][j].modules_id+' class="span2 text-right role_modules">' + modules[id][i][j].modules_name + ' <i class="am-icon-circle-thin"></i> </label>';
+                            }
                         }
                     }
                     li += '</div></div>';
@@ -420,9 +424,20 @@ $(document).ready(function(){
             };
             department.setRoleModules = function(_this) {
                 var id = $(_this).attr('data-id');
-                $.getJSON('', function() {
+                $('#modal_save').modal('show');
+                var type = $(_this).find('i').hasClass('am-icon-check-circle');
+                $.getJSON('<%$role_edit_url%>&act=editRoleModule&id='+id+'&type='+type, function(result) {
                     
                 })
+            };
+            department.checkRoleModules = function(data) {
+                $('#role_power .role_modules').each(function(index, element) {
+                    var id = $(this).attr('data-id');
+                    if(typeof(data[id]) != 'undefined') {
+                        $(this).find('i').addClass('am-icon-check-circle');$(this).find('i').removeClass('am-icon-circle-thin');
+                    }
+                });
+                
             };
             return department;		
         }

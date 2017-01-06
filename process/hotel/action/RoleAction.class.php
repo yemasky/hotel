@@ -44,7 +44,7 @@ class RoleAction extends \BaseAction {
             $conditions = DbConfig::$db_query_conditions;
             $conditions['where'] = array('hotel_id'=>$hotel_id,'role_id' => $role_id);
             //$arrayRole = RoleService::instance()->getRole($conditions);
-            $arrayRoleModules = RoleService::instance()->getRoleModules($conditions);
+            $arrayRoleModules = RoleService::instance()->getRoleModules($conditions,'modules_id, role_modules_action_permissions permissions', 'modules_id');
             $arrayModules = '';
             if($have_modules == '0') {
                 $arrayModules = ModulesService::instance()->getModulesSort();
@@ -66,6 +66,12 @@ class RoleAction extends \BaseAction {
         $department_self_name = trim($objRequest -> department_self_name);
         $department_position = $objRequest -> department_position;
         $arrayPostValue= $objRequest->getPost();
+        $act = $objRequest -> act;
+        if($act == 'editRoleModule') {
+            $type = $objRequest->type;
+            return $this->successResponse('');
+        }
+
         if(!empty($arrayPostValue) && is_array($arrayPostValue) && !empty($department_self_name)) {
             $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
             if($department_position == 2) {
