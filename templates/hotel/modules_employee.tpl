@@ -72,7 +72,7 @@
                                 <div class="widget-box">
                                     <form method="post" class="form-horizontal" enctype="multipart/form-data" name="add_employee_form" id="add_employee_form" novalidate>
                                         <div class="modal-header">
-                                            <button data-toggle="collapse" data-target="#edit_accessorial" class="close" type="button">×</button>
+                                            <button class="close" type="button">×</button>
                                             <h3>添加员工</h3>
                                         </div>
                                         <div class="control-group">
@@ -118,7 +118,7 @@
                                             
                                         </div>
                                         <div class="control-group"> 
-                                            <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a data-toggle="collapse" data-target="#edit_accessorial" class="btn" href="#">Cancel</a> 
+                                            <div class="controls"><button type="submit" id="save_info" class="btn btn-success pagination-centered">Save</button> <a class="btn" href="#close" id="close">Cancel</a> 
                                             </div>  
                                         </div>
                                     </form>

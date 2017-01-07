@@ -18,8 +18,9 @@ KindEditor.plugin('filemanager', function(K) {
 	function bindTitle(el, data) {
 		if (data.is_dir) {
 			el.attr('title', data.filename);
+            //el.attr('title', data.name);
 		} else {
-			el.attr('title', makeFileTitle(data.filename, data.filesize, data.datetime));
+			el.attr('title', makeFileTitle(data.name, data.filesize, data.datetime));
 		}
 	}
 	self.plugin.filemanagerDialog = function(options) {
@@ -52,7 +53,7 @@ KindEditor.plugin('filemanager', function(K) {
 			'<div class="ke-clearfix"></div>',
 			'</div>',
 			// body start
-			'<div class="ke-plugin-filemanager-body"></div>',
+			'<div class="ke-plugin-filemanager-body"></div><div class="images_page">page</div>',
 			'</div>'
 		].join('');
 		var dialog = self.createDialog({
@@ -139,8 +140,9 @@ KindEditor.plugin('filemanager', function(K) {
 					K(this).removeClass('ke-on');
 				});
 				var iconUrl = imgPath + (data.is_dir ? 'folder-16.gif' : 'file-16.gif'),
-					img = K('<img src="' + iconUrl + '" width="16" height="16" alt="' + data.filename + '" align="absmiddle" />'),
+					img = K('<img src="' + iconUrl + '" width="16" height="16" alt="' + data.name + '" align="absmiddle" />'),
 					cell0 = K(row[0].insertCell(0)).addClass('ke-cell ke-name').append(img).append(document.createTextNode(' ' + data.filename));
+                    //cell0 = K(row[0].insertCell(0)).addClass('ke-cell ke-name').append(img).append(document.createTextNode(' ' + data.name));
 				if (!data.is_dir || data.has_file) {
 					row.css('cursor', 'pointer');
 					cell0.attr('title', data.filename);
@@ -169,7 +171,7 @@ KindEditor.plugin('filemanager', function(K) {
 				div.append(photoDiv);
 				var fileUrl = result.current_url + data.filename,
 					iconUrl = data.is_dir ? imgPath + 'folder-64.gif' : (data.is_photo ? fileUrl : imgPath + 'file-64.gif');
-				var img = K('<img src="' + iconUrl + '" width="80" height="80" alt="' + data.filename + '" />');
+				var img = K('<img src="' + iconUrl + '" width="80" height="80" alt="' + data.name + '" />');
 				if (!data.is_dir || data.has_file) {
 					photoDiv.css('cursor', 'pointer');
 					bindTitle(photoDiv, data);
@@ -178,7 +180,11 @@ KindEditor.plugin('filemanager', function(K) {
 					photoDiv.attr('title', lang.emptyFolder);
 				}
 				photoDiv.append(img);
-				div.append('<div class="ke-name" title="' + data.filename + '">' + data.filename + '</div>');
+                if (data.is_dir) {
+                    div.append('<div class="ke-name" title="' + data.filename + '">' + data.filename + '</div>');
+                } else {
+                    div.append('<div class="ke-name" title="' + data.name + '">' + data.name + '</div>');
+                }
 			}
 		}
 		viewTypeBox.val(viewType);

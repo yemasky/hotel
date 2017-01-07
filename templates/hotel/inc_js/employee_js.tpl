@@ -5,14 +5,14 @@ $(document).ready(function(){
 		rules: {
 			employee_name: {required: true},
             employee_sex: {required: true},
-            employee_mobile: {required: true},
+            employee_mobile: {required: true,isMobile: true},
             upload_images_url: {required: true},
 		},
 		messages: {
 			employee_name:"请填写姓名",
             employee_sex:"",
-            employee_mobile:"",
-            upload_images_url:"",
+            employee_mobile:"请填写正确的手机号码！",
+            upload_images_url:"请上传或选择图片！",
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -27,13 +27,15 @@ $(document).ready(function(){
 		submitHandler: function() {
             var param = $("#add_employee_form").serialize();
             $('#modal_save').show('fast');
+            var url = '';
             $.ajax({
                 url : url,type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
                     $('#modal_save').hide('fast');
                     if(data.success == 1) {
-                        
+                        $('#modal_success').modal('show');
+                        $('#modal_success_message').html(data.message);
                     } else {
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
@@ -91,6 +93,10 @@ $(document).ready(function(){
             employee.init = function() {
                 $.fn.zTree.init($("#zTree"), EmployeeClass.setting, EmployeeClass.zNodes['zTree']);
                 $(".addTree").bind("click", employee.addEmployee);
+                $('#close,.close').click(function(e) {
+                    $('#employee_page').show('fast');
+                    $('#employee_add').hide('fast');
+                });
             };
             
             employee.addEmployee = function() {
@@ -131,5 +137,9 @@ $(document).ready(function(){
     employee.initParameter();
     employee.init();
 });//console.log($('#add_user_tr'));
+
+function uploadSuccess(url, title) {
+    $('#upload_images_url').val(url);
+}
 //-->
 </script>

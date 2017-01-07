@@ -63,10 +63,10 @@ class EmployeeAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['view'])));
         $objResponse -> upload_images_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
-                'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type'],'hotel_id'=>encode($hotel_id)));
+                'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type'],'hotel_id'=>encode($hotel_id),'type'=>'employee'));
         $objResponse -> upload_manager_img_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
-                'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type'],'act'=>'manager_img','hotel_id'=>encode($hotel_id)));
+                'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type'],'act'=>'manager_img','hotel_id'=>encode($hotel_id),'type'=>'employee'));
         //设置类别
     }
 

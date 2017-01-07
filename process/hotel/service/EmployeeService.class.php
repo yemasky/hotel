@@ -77,6 +77,22 @@ class EmployeeService extends \BaseService {
     public function deleteEmployee($where) {
         return EmployeeDao::instance()->setTable('employee')->delete($where);
     }
+    //employee_images
+    public function getEmployeeImages($conditions, $field = null, $hashKey = null, $multiple = false) {
+        return EmployeeDao::instance()->setTable('employee_images')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveEmployeeImages($arrayData) {
+        return EmployeeDao::instance()->setTable('employee_images')->insert($arrayData);
+    }
+
+    public function updateEmployeeImages($where, $row) {
+        return EmployeeDao::instance()->setTable('employee_images')->update($where, $row);
+    }
+
+    public function deleteEmployeeImages($where) {
+        return EmployeeDao::instance()->setTable('employee_images')->delete($where);
+    }
 
 
 }
