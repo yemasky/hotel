@@ -53,15 +53,15 @@
                         <div class="controls" id="employee_page">
                             <ul id="employee" class="stat-boxes stat-boxes2">
                             <%section name=i loop=$arrayPageEmployee['list_data']%>
-                              <li>
+                              <li class="PageEmployee" data-id="<%$arrayPageEmployee['list_data'][i].employee_id%>"><a href="#e">
                                 <div class="left peity_bar_good">
                                     <span>
-                                        <img src="<%$__IMGWEB%><%$arrayPageEmployee['list_data'][i].employee_photo%>" width="40" onerror="this.src='data/userimg/user_b.png'" border="0" />
+                                        <img src="<%$__IMGWEB%><%$arrayPageEmployee['list_data'][i].employee_photo%>" width="40" height="40" onerror="this.src='data/userimg/user_b.png'" border="0" />
                                     </span>
                                     <%if $arrayPageEmployee['list_data'][i].employee_sex==1%>男<%else%>女<%/if%>
                                 </div>
-                                <div class="right"> <strong><%$arrayPageEmployee['list_data'][i].employee_name%></strong><%$arrayDepartment[$arrayPageEmployee['list_data'][i].department_id].department_name%>-<%$arrayPosition[$arrayPageEmployee['list_data'][i].department_position_id].department_position_name%>                                
-                                </div>
+                                <div class="right"> <strong class="employee_name"><%$arrayPageEmployee['list_data'][i].employee_name%></strong><span class="department_name" data-id="<%$arrayPageEmployee['list_data'][i].department_id%>"><%$arrayDepartment[$arrayPageEmployee['list_data'][i].department_id].department_name%></span>-<span class="department_position_name" data-id="<%$arrayPageEmployee['list_data'][i].department_position_id%>"><%$arrayPosition[$arrayPageEmployee['list_data'][i].department_position_id].department_position_name%></span>                        
+                                </div></a>
                               </li>
                             <%/section%>
                             </ul>
@@ -70,10 +70,11 @@
                         <div class="controls hide" id="employee_add">
                             <div class="widget-content nopadding in collapse" style="height: auto;">
                                 <div class="widget-box">
-                                    <form method="post" class="form-horizontal" enctype="multipart/form-data" name="add_employee_form" id="add_employee_form" novalidate>
+                                    <form method="post" class="form-horizontal" enctype="multipart/form-data" name="add_employee_form" id="add_employee_form" novalidate>  
+                                        <input type="hidden" value="" name="employee_id" id="employee_id" >
                                         <div class="modal-header">
                                             <button class="close" type="button">×</button>
-                                            <h3>添加员工</h3>
+                                            <h3>添加/修改员工</h3>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">姓名 :</label>

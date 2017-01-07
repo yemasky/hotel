@@ -107,6 +107,9 @@ $(document).ready(function(){
                     role[position_id][role_id] = $.trim(this.text);
                 });
                 EmployeeClass.role = role;
+                $('.PageEmployee').click(function(e) {
+                    employee.editEmployee(this);
+                });
             };
             
             employee.addEmployee = function() {
@@ -137,13 +140,16 @@ $(document).ready(function(){
             employee.beforeClick = function(treeId, treeNode, clickFlag) {
                 return (treeNode.click != false);
             };
-            onClick: employee.onClick = function(event, treeId, treeNode, clickFlag) {
+            employee.onClick = function(event, treeId, treeNode, clickFlag) {
                 var parentNode = treeNode.getParentNode();
                 var position = treeNode.id.replace('P', '');
                 $('#department').val(treeNode.pId);
                 $('#department_id').val(parentNode.name);
                 $('#department_position_id').val(treeNode.name);
                 $('#department_position').val(position);
+                employee.setRole(position);
+            };
+            employee.setRole = function(position) {
                 var option = '<option value="0"><%$arrayLaguage["please_select"]["page_laguage_value"]%></option>';
                 var role = EmployeeClass.role;
                 if(typeof(role[position]) == 'undefined') {
@@ -154,6 +160,34 @@ $(document).ready(function(){
                 }
                 $('#role_id').html(option);
             };
+            employee.editEmployee = function(_this) {
+                $('#modal_loading').modal('show');
+                $.getJSON('<%$view_url%>&employee_id='+$(_this).attr('data-id'), function(result) {
+                    data = result;
+                    $('#modal_loading').modal('hide');
+                    if(data.success == 1) {
+                        $('#employee_page').hide('fast');
+                        $('#employee_add').show('fast');
+                        var employeeInfo = data.itemData[0];
+                        $('#employee_name').val(employeeInfo.employee_name);
+                        $('#employee_sex').val(employeeInfo.employee_sex);
+                        $('#employee_birthday').val(employeeInfo.employee_birthday);
+                        $('#employee_mobile').val(employeeInfo.employee_mobile);
+                        $('#upload_images_url').val(employeeInfo.employee_photo);
+                        $('#department_id').val($.trim($(_this).find('.department_name').text()));
+                        $('#department').val($(_this).find('.department_name').attr('data-id'));
+                        $('#department_position_id').val($.trim($(_this).find('.department_position_name').text()));
+                        var position = $(_this).find('.department_position_name').attr('data-id');
+                        $('#department_position').val(position);
+                        $('#employee_id').val(employeeInfo.employee_id);
+                        employee.setRole(position);
+                        $('#role_id').val(employeeInfo.role_id);
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
+                })
+            }
             return employee;		
         }
     }

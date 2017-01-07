@@ -36,8 +36,20 @@ class EmployeeAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $employee_id = $objRequest -> employee_id;
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions = DbConfig::$db_query_conditions;
+        if($employee_id > 0) {
+            $this->setDisplay();
+            $conditions['where'] = array('hotel_id'=>$hotel_id, 'employee_id'=>$employee_id);
+            $arrayEmployee = EmployeeService::instance()->getEmployee($conditions);
+            if(!empty($arrayEmployee)) {
+                unset($arrayEmployee[0]['employee_password']);
+                unset($arrayEmployee[0]['employee_password_salt']);
+            }
+            return $this->successResponse('', $arrayEmployee);
+        }
+
         $conditions['where'] = array('hotel_id'=>$hotel_id);
         $arrayDepartment = HotelService::instance()->getHotelDepartment($conditions, '*', 'department_id');
 
@@ -82,26 +94,36 @@ class EmployeeAction extends \BaseAction {
     protected function doEdit($objRequest, $objResponse) {
         $this->setDisplay();
         $arrayPost = $objRequest->getPost();
+        $employee_id = $objRequest -> employee_id;
         if(!empty($arrayPost)) {
+            unset($arrayPost['employee_id']);
             $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            $company_id = $objResponse->arrayLoginEmployeeInfo['company_id'];
             $saveData = $arrayPost;
             unset($saveData['upload_images_url']);
-            $saveData['company_id'] = $objResponse->arrayLoginEmployeeInfo['company_id'];
-            $saveData['hotel_id'] = $hotel_id;
             $saveData['employee_photo'] = str_replace('/data/images/', '', $arrayPost['upload_images_url']);
-            $saveData['employee_password_salt'] = rand(10000, 1000000);
-            //
-            $saveData['employee_password'] = md5(md5('985632147') . md5($saveData['employee_password_salt']));
-            $saveData['employee_add_date'] = getDay();
-            $saveData['employee_add_time'] = getTime();
-            $employee_id = EmployeeService::instance()->saveEmployee($saveData);
-            //
-            EmployeeService::instance()->saveEmployeeDepartment(array('company_id'=>$saveData['company_id'],'hotel_id'=>$hotel_id,
-                'employee_id'=>$employee_id,'department_id'=>$saveData['department_id'],'department_position_id'=>$saveData['department_position_id']));
+            if(empty($employee_id)) {
+                $saveData['company_id'] = $company_id;
+                $saveData['hotel_id'] = $hotel_id;
+                $saveData['employee_password_salt'] = rand(10000, 900000000);
+                //
+                $saveData['employee_password'] = md5(md5('985632147') . md5($saveData['employee_password_salt']));
+                $saveData['employee_add_date'] = getDay();
+                $saveData['employee_add_time'] = getTime();
+                $employee_id = EmployeeService::instance()->saveEmployee($saveData);
+                //
+                EmployeeService::instance()->saveEmployeeDepartment(array('company_id'=>$company_id,'hotel_id'=>$hotel_id,
+                    'employee_id'=>$employee_id,'department_id'=>$saveData['department_id'],'department_position_id'=>$saveData['department_position_id']));
+            } else {
+                $where = array('employee_id'=>$employee_id, 'hotel_id'=>$hotel_id);
+                EmployeeService::instance()->updateEmployee($where, $saveData);
+                RoleService::instance()->deleteRoleEmployee($where);
+            }
             //保存权限
             if($saveData['role_id'] > 0) {
                 RoleService::instance()->saveRoleEmployee(array('hotel_id'=>$hotel_id,'role_id'=>$saveData['role_id'],'employee_id'=>$employee_id));
             }
+
             return $this->successResponse('成功保存数据', $arrayPost);
         }
         return $this->errorResponse('没有保存任数据');
