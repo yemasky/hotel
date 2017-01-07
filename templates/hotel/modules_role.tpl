@@ -25,7 +25,7 @@
                         <div class="control-group">
                             <label class="control-label _edit"></label>
                             <div class="controls _edit">
-                            <%$selfNavigation.hotel_modules_name%> : 酒店部门管理设置角色。
+                            <%$selfNavigation.hotel_modules_name%> : 在酒店部门管理设置角色。
                             </div>
                             <div class="controls">
                                 
