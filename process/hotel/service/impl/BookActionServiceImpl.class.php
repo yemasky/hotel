@@ -152,8 +152,29 @@ class BookActionServiceImpl extends \BaseService  {
     }
 
     public function doAddBookUser($objRequest, $objResponse) {
-        $order_number = decode($objRequest -> order_number);
+        $arraySaveData['book_id'] = $objRequest -> book_id;//
+        $arraySaveData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $arraySaveData['book_order_number'] = decode($objRequest -> order_number);
+        $arraySaveData['room_id'] = $objRequest -> room_num;//
+        $arraySaveData['room_sell_layout_id'] = $objRequest -> sell_layout_id;//
+        $arraySaveData['room_layout_id'] = $objRequest -> layout_id;//
+        //
+        $arraySaveData['book_user_name'] = $objRequest->room_user_name;
+        $arraySaveData['book_user_sex'] = $objRequest->room_user_sex;
+        $arraySaveData['book_user_lodger_type'] = $objRequest->user_lodger_type;
+        $arraySaveData['book_user_id_card_type'] = $objRequest->user_id_card_type;
+        $arraySaveData['book_user_id_card'] = $objRequest->user_id_card;
+        $arraySaveData['book_user_comments'] = $objRequest->user_comments;
 
+        $arraySaveData['book_add_date'] = getDay();
+        $arraySaveData['book_add_time'] = getTime();
+        BookService::instance()->saveBookUser($arraySaveData);
+    }
+
+    public function setUserRoomCard($objRequest, $objResponse) {
+        $arraySaveData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $arraySaveData['book_order_number'] = decode($objRequest -> order_number);
+        $arraySaveData['room_id'] = $objRequest -> room_num;//
 
     }
 }

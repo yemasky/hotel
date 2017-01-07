@@ -60,6 +60,9 @@
 									<i class="icon-eye-open"></i>
 								</span><!--A3 单状态 -1 失效 0预定成功 1入住 2退房完成-->
 								<h5>订单号：<%$arrayDataInfo[0].book_order_number%>  订单状态：<%$arrayLaguage[$orderStatus[$arrayDataInfo[0].book_order_number_main_status]]['page_laguage_value']%></h5>
+                                <input type="hidden" name="main_book_id" id="main_book_id" value="<%$arrayDataInfo[0].book_id%>">
+                                <input type="hidden" name="sell_layout_id" id="sell_layout_id" value="<%$arrayDataInfo[0].room_sell_layout_id%>">
+                                <input type="hidden" name="layout_id" id="layout_id" value="<%$arrayDataInfo[0].room_layout_id%>">
 							</div>
 							<div class="widget-content nopadding">
 								<table class="table table-bordered">
@@ -549,7 +552,12 @@
                                   <th><%$arrayLaguage['checkout']['page_laguage_value']%></th>-->
                                   <th>房卡</th>
                                   <th>备注</th>
-                                  <th></th>
+                                  <th>
+                                    <div class="btn-group fr" book_id='ALL' room_id='ALL'>
+                                        <a class="btn btn-mini btn-danger user_room_card"><i class="am-icon-sign-out"></i> 已退房卡</a>
+                                        <a class="btn btn-mini btn-warning return_user_room_card"><i class="am-icon-slideshare"></i> 已办房卡</a>
+                                      </div>
+                                  </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -580,7 +588,7 @@
                                             <ul class="dropdown-menu" room_id="<%$arrayBookUser[i].room_id%>" book_id="<%$arrayBookUser[i].book_id%>">
                                                 <li class="user_room_card"><a data-target="#" href="#t"><i class="am-icon-credit-card"></i> 已办房卡</a></li>
                                                 <li class="return_user_room_card"><a data-target="#" href="#t"><i class="am-icon-exchange"></i> 已退房卡</a></li>
-                                                <li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 编辑信息</a></li>
+                                                <li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 取消入住</a></li>
                                             </ul>
                                         </div>
                                      </div>

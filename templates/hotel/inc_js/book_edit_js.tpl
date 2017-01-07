@@ -256,7 +256,19 @@ $(document).ready(function(){
                 $('#save_add_user').click(function(e) {
                     bookEdit.saveAddUser();
                 });
+                //办房卡
+                $('.user_room_card,.return_user_room_card').click(function(e) {
+                    var val = 1;
+                    if($(this).hasClass('return_user_room_card')) val = 2;
+                    bookEdit.setUserRoomCard(this, val);
+                });
             };
+            bookEdit.setUserRoomCard = function(_this, val) {
+                var url = '<%$saveBookInfoUrl%>&act=setUserRoomCard&room_num='+$(_this).parent().attr('room_id')+'&val='+val;
+                $.getJSON(url, function(result) {
+                    
+                })
+            }
             bookEdit.saveAddUser = function() {
                 var room_user_name = $.trim($('#room_user_name').val());
                 var user_id_card = $.trim($('#user_id_card').val());var room_user_sex = $('#room_user_sex').val();
@@ -280,8 +292,10 @@ $(document).ready(function(){
                 var user_comments = $('#user_comments').val();
                 $('#modal_save').modal('show');
                 var param = $("#add_user_form").serialize();
+                param = param+'&user_lodger_type='+user_lodger_type + '&room_num='+$('#check_in_room_num select').val()
+                      +'&book_id='+$('#main_book_id').val()+'&sell_layout_id='+$('#sell_layout_id').val()+'&layout_id='+$('#layout_id').val()
                 $.ajax({
-                    url : '<%$saveBookInfoUrl%>&act=addBookUser',type : "post",dataType : "json",data: param+'&user_lodger_type='+user_lodger_type,
+                    url : '<%$saveBookInfoUrl%>&act=addBookUser',type : "post",dataType : "json",data: param,
                     success : function(result) {
                         $('#modal_save').modal('hide');
                         data = result;

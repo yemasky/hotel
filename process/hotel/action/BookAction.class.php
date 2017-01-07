@@ -203,6 +203,11 @@ class BookAction extends \BaseAction {
             BookActionServiceImpl::instance()->doAddBookUser($objRequest, $objResponse);
             return $this->successResponse('保存数据成功！', '');
         }
+        if($act == 'setUserRoomCard') {
+            $this->setDisplay();
+            BookActionServiceImpl::instance()->setUserRoomCard($objRequest, $objResponse);
+            return $this->successResponse('保存数据成功！', '');
+        }
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);
         //设置类别
     }
