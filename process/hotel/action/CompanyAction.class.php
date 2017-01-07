@@ -40,14 +40,14 @@ class CompanyAction extends \BaseAction {
             $this->view($objRequest, $objResponse);
             return;
         }
-        $pn = empty($objRequest->pn) ? 1 : $objRequest->pn;
+        $pn = $objRequest->pn;
+        $pn = empty($pn) ? 1 : $pn;
         $pn_rows = $objRequest->pn_rows;
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $parameters['module'] = encode(decode($objRequest->module));
         $arrayPageCompanyId = EmployeeService::instance()->pageEmployeeCompany($conditions, $pn, $pn_rows, $parameters);
-
         $arrayCompany = null;
         if(!empty($arrayPageCompanyId['list_data'])) {
             $stringCompanyId = '';

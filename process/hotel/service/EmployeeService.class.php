@@ -25,6 +25,7 @@ class EmployeeService extends \BaseService {
         $count = EmployeeDao::instance()->getEmployeeDepartmentCount($conditions['where'], 'DISTINCT company_id');
         $all_page_num = ceil($count/$pn_rows);
         $pn = $pn > $all_page_num ? $all_page_num : $pn;
+        $pn = $pn <= 0 ? 1 : $pn;
         $conditions['limit'] = ($pn - 1) * $pn_rows . ',' . $pn_rows;
         $conditions['order'] = 'company_id DESC';
         $arrayEmployeeCompany = self::getEmployeeCompany($conditions);
@@ -40,6 +41,7 @@ class EmployeeService extends \BaseService {
         $count = EmployeeDao::instance()->getEmployeeDepartmentCount($conditions['where'], 'DISTINCT hotel_id');
         $all_page_num = ceil($count/$pn_rows);
         $pn = $pn > $all_page_num ? $all_page_num : $pn;
+        $pn = $pn <= 0 ? 1 : $pn;
         $conditions['limit'] = ($pn - 1) * $pn_rows . ',' . $pn_rows;
         $conditions['order'] = 'hotel_id DESC';
         $arrayEmployeeHotel = $this->getEmployeeHotel($conditions);

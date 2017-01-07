@@ -480,6 +480,7 @@ CREATE TABLE `employee` (
   `hotel_id` int(11) NOT NULL COMMENT '默认酒店',
   `department_id` int(11) NOT NULL,
   `department_position_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
   `employee_name` varchar(50) NOT NULL COMMENT '名字',
   `employee_sex` enum('0','1') NOT NULL COMMENT '性别',
   `employee_birthday` date DEFAULT NULL COMMENT '出生日期',
@@ -490,12 +491,13 @@ CREATE TABLE `employee` (
   `employee_password_salt` varchar(50) NOT NULL,
   `employee_add_date` date NOT NULL,
   `employee_add_time` time NOT NULL,
-  PRIMARY KEY (`employee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`employee_id`),
+  UNIQUE KEY `hotel_id` (`hotel_id`,`employee_mobile`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `employee` */
 
-insert  into `employee`(`employee_id`,`company_id`,`hotel_id`,`department_id`,`department_position_id`,`employee_name`,`employee_sex`,`employee_birthday`,`employee_photo`,`employee_mobile`,`employee_email`,`employee_password`,`employee_password_salt`,`employee_add_date`,`employee_add_time`) values (1,1,1,1,1,'cooc','1',NULL,NULL,18500353881,'kefu@yelove.cn','74ac44b1aaec5037c424ccece16bdd14','585568','2016-09-20','18:00:22'),(2,1,1,1,2,'李勤勤','1',NULL,NULL,0,NULL,'','','0000-00-00','00:00:00'),(3,1,1,1,3,'王明明','1',NULL,NULL,0,NULL,'','','0000-00-00','00:00:00'),(4,1,1,2,7,'李刚国','1',NULL,NULL,0,NULL,'','','0000-00-00','00:00:00');
+insert  into `employee`(`employee_id`,`company_id`,`hotel_id`,`department_id`,`department_position_id`,`role_id`,`employee_name`,`employee_sex`,`employee_birthday`,`employee_photo`,`employee_mobile`,`employee_email`,`employee_password`,`employee_password_salt`,`employee_add_date`,`employee_add_time`) values (1,1,1,1,1,0,'cooc','1',NULL,NULL,18500353881,'kefu@yelove.cn','74ac44b1aaec5037c424ccece16bdd14','585568','2016-09-20','18:00:22'),(2,1,1,1,2,0,'李勤勤','1',NULL,NULL,3,NULL,'','','0000-00-00','00:00:00'),(3,1,1,1,3,0,'王明明','1',NULL,NULL,2,NULL,'','','0000-00-00','00:00:00'),(4,1,1,2,7,0,'李刚国','1',NULL,NULL,1,NULL,'','','0000-00-00','00:00:00'),(5,1,1,1,1,1,'武1','1','2003-01-31','2017/0107/20170107120214_14987.jpg',18522323661,NULL,'921a868131156f889dfbce43eec13605','46919','2017-01-07','13:57:12'),(8,1,1,1,1,2,'123456','1','2003-01-07','/2017/0107/20170107143919_74692.png',18522323662,NULL,'9e4a8d4425861d737adccfde55aebac5','695278','2017-01-07','14:40:18');
 
 /*Table structure for table `employee_department` */
 
@@ -513,25 +515,26 @@ CREATE TABLE `employee_department` (
 
 /*Data for the table `employee_department` */
 
-insert  into `employee_department`(`company_id`,`hotel_id`,`employee_id`,`department_id`,`department_position_id`) values (1,0,1,0,0),(1,20,1,0,0),(1,21,1,0,0),(1,22,1,0,0),(2,1,1,1,0),(3,0,1,0,0),(4,0,1,0,0),(5,0,1,0,0),(6,0,1,0,0),(7,0,1,0,0),(8,2,1,0,0),(8,3,1,0,0),(8,4,1,0,0),(8,5,1,0,0),(8,6,1,0,0),(8,7,1,0,0),(8,8,1,0,0),(8,9,1,0,0),(8,10,1,0,0),(8,11,1,0,0),(8,12,1,0,0),(8,13,1,0,0),(8,14,1,0,0),(8,15,1,0,0),(8,16,1,0,0),(8,17,1,0,0),(8,18,1,0,0),(8,19,1,0,0);
+insert  into `employee_department`(`company_id`,`hotel_id`,`employee_id`,`department_id`,`department_position_id`) values (1,0,1,0,0),(1,1,8,1,1),(1,20,1,0,0),(1,21,1,0,0),(1,22,1,0,0),(2,1,1,1,0),(3,0,1,0,0),(4,0,1,0,0),(5,0,1,0,0),(6,0,1,0,0),(7,0,1,0,0),(8,2,1,0,0),(8,3,1,0,0),(8,4,1,0,0),(8,5,1,0,0),(8,6,1,0,0),(8,7,1,0,0),(8,8,1,0,0),(8,9,1,0,0),(8,10,1,0,0),(8,11,1,0,0),(8,12,1,0,0),(8,13,1,0,0),(8,14,1,0,0),(8,15,1,0,0),(8,16,1,0,0),(8,17,1,0,0),(8,18,1,0,0),(8,19,1,0,0);
 
 /*Table structure for table `employee_images` */
 
 DROP TABLE IF EXISTS `employee_images`;
 
 CREATE TABLE `employee_images` (
-  `employee_images_id` bigint(19) NOT NULL DEFAULT '0',
+  `employee_images_id` bigint(19) NOT NULL AUTO_INCREMENT,
   `hotel_id` int(11) NOT NULL,
   `employee_images_name` varchar(100) DEFAULT NULL,
   `employee_images_path` varchar(200) NOT NULL DEFAULT '' COMMENT '路径',
   `employee_images_filesize` int(11) NOT NULL DEFAULT '0' COMMENT '图片大小',
   `employee_images_add_date` date NOT NULL,
-  `employee_images_add_time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `employee_images_add_time` time NOT NULL,
+  PRIMARY KEY (`employee_images_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `employee_images` */
 
-insert  into `employee_images`(`employee_images_id`,`hotel_id`,`employee_images_name`,`employee_images_path`,`employee_images_filesize`,`employee_images_add_date`,`employee_images_add_time`) values (0,1,'787473251178185292','2017/0107/20170107120214_14987.jpg',175446,'2017-01-07','12:02:14');
+insert  into `employee_images`(`employee_images_id`,`hotel_id`,`employee_images_name`,`employee_images_path`,`employee_images_filesize`,`employee_images_add_date`,`employee_images_add_time`) values (1,1,'787473251178185292','2017/0107/20170107120214_14987.jpg',175446,'2017-01-07','12:02:14'),(2,1,'870473979794485665','2017/0107/20170107143919_74692.png',7790,'2017-01-07','14:39:19');
 
 /*Table structure for table `hotel` */
 
@@ -873,7 +876,7 @@ CREATE TABLE `role_employee` (
 
 /*Data for the table `role_employee` */
 
-insert  into `role_employee`(`hotel_id`,`role_id`,`employee_id`) values (1,1,1);
+insert  into `role_employee`(`hotel_id`,`role_id`,`employee_id`) values (1,1,1),(1,1,5),(1,2,8);
 
 /*Table structure for table `role_modules` */
 
@@ -889,7 +892,7 @@ CREATE TABLE `role_modules` (
 
 /*Data for the table `role_modules` */
 
-insert  into `role_modules`(`role_id`,`hotel_id`,`modules_id`,`role_modules_action_permissions`) values (1,1,1,'4'),(1,1,2,'4'),(1,1,3,'4'),(1,1,4,'4'),(1,1,5,'4'),(1,1,6,'4'),(1,1,7,'4'),(1,1,8,'4'),(1,1,9,'4'),(1,1,10,'4'),(1,1,11,'4'),(1,1,12,'4'),(1,1,13,'4'),(1,1,14,'4'),(1,1,15,'4'),(1,1,16,'4'),(1,1,17,'4'),(1,1,18,'4'),(1,1,19,'4'),(1,1,20,'4'),(1,1,21,'4'),(1,1,22,'4'),(1,1,23,'4'),(1,1,24,'4'),(1,1,25,'4'),(1,1,26,'4'),(1,1,27,'4'),(1,1,28,'4'),(1,1,29,'4'),(1,1,30,'4'),(1,1,31,'4'),(1,1,32,'4'),(1,1,33,'4'),(1,1,34,'4'),(1,1,35,'4'),(1,1,36,'4'),(1,1,37,'4'),(1,1,38,'4'),(1,1,39,'4'),(1,1,40,'4'),(1,1,41,'4'),(1,1,42,'4'),(1,1,43,'0'),(1,1,44,'4'),(1,1,45,'4'),(1,1,46,'4'),(1,1,47,'4'),(1,1,48,'4'),(1,1,49,'4'),(1,1,50,'4'),(1,1,51,'4'),(1,1,52,'4'),(1,1,53,'4'),(1,1,54,'4'),(1,1,55,'4'),(1,1,56,'4'),(1,1,57,'4'),(1,1,58,'4'),(1,1,59,'4'),(1,1,60,'4'),(1,1,61,'4'),(1,1,62,'4'),(1,1,63,'4'),(1,1,64,'4'),(1,1,65,'4'),(1,1,66,'4'),(1,1,67,'4'),(1,1,68,'4'),(1,1,69,'4'),(1,1,70,'4'),(1,1,71,'4'),(1,1,72,'4'),(1,1,73,'4'),(1,1,74,'4'),(1,1,75,'4'),(1,1,76,'4'),(1,1,77,'4'),(1,1,78,'4'),(1,1,79,'4'),(1,1,80,'4'),(1,1,81,'4'),(1,1,82,'4'),(1,1,83,'4'),(1,1,84,'4'),(1,1,85,'4'),(1,1,86,'4'),(1,1,87,'4'),(1,1,88,'4'),(1,1,89,'4'),(1,1,90,'4'),(1,1,91,'4'),(1,1,92,'4'),(1,1,93,'4'),(1,1,95,'4'),(1,1,96,'4'),(1,1,97,'4'),(1,1,98,'4'),(1,1,99,'4'),(1,1,100,'4'),(1,1,101,'4'),(2,1,1,'4'),(2,1,2,'4'),(2,1,3,'4'),(2,1,14,'4'),(2,1,15,'4'),(2,1,26,'4'),(2,1,35,'4'),(2,1,40,'4'),(2,1,42,'4'),(2,1,66,'4');
+insert  into `role_modules`(`role_id`,`hotel_id`,`modules_id`,`role_modules_action_permissions`) values (1,1,1,'4'),(1,1,2,'4'),(1,1,3,'4'),(1,1,4,'4'),(1,1,5,'4'),(1,1,6,'4'),(1,1,7,'4'),(1,1,8,'4'),(1,1,9,'4'),(1,1,10,'4'),(1,1,11,'4'),(1,1,12,'4'),(1,1,13,'4'),(1,1,14,'4'),(1,1,15,'4'),(1,1,16,'4'),(1,1,17,'4'),(1,1,18,'4'),(1,1,19,'4'),(1,1,20,'4'),(1,1,21,'4'),(1,1,22,'4'),(1,1,23,'4'),(1,1,24,'4'),(1,1,25,'4'),(1,1,26,'4'),(1,1,27,'4'),(1,1,28,'4'),(1,1,29,'4'),(1,1,30,'4'),(1,1,31,'4'),(1,1,32,'4'),(1,1,33,'4'),(1,1,34,'4'),(1,1,35,'4'),(1,1,36,'4'),(1,1,37,'4'),(1,1,38,'4'),(1,1,39,'4'),(1,1,40,'4'),(1,1,41,'4'),(1,1,42,'4'),(1,1,43,'0'),(1,1,44,'4'),(1,1,45,'4'),(1,1,46,'4'),(1,1,47,'4'),(1,1,48,'4'),(1,1,49,'4'),(1,1,50,'4'),(1,1,51,'4'),(1,1,52,'4'),(1,1,53,'4'),(1,1,54,'4'),(1,1,55,'4'),(1,1,56,'4'),(1,1,57,'4'),(1,1,58,'4'),(1,1,59,'4'),(1,1,60,'4'),(1,1,61,'4'),(1,1,62,'4'),(1,1,63,'4'),(1,1,64,'4'),(1,1,65,'4'),(1,1,66,'4'),(1,1,67,'4'),(1,1,68,'4'),(1,1,69,'4'),(1,1,70,'4'),(1,1,71,'4'),(1,1,72,'4'),(1,1,73,'4'),(1,1,74,'4'),(1,1,75,'4'),(1,1,76,'4'),(1,1,77,'4'),(1,1,78,'4'),(1,1,79,'4'),(1,1,80,'4'),(1,1,81,'4'),(1,1,82,'4'),(1,1,83,'4'),(1,1,84,'4'),(1,1,85,'4'),(1,1,86,'4'),(1,1,87,'4'),(1,1,88,'4'),(1,1,89,'4'),(1,1,90,'4'),(1,1,91,'4'),(1,1,92,'4'),(1,1,93,'4'),(1,1,95,'4'),(1,1,96,'4'),(1,1,97,'4'),(1,1,98,'4'),(1,1,99,'4'),(1,1,100,'4'),(1,1,101,'4'),(2,1,1,'4'),(2,1,2,'4'),(2,1,3,'4'),(2,1,14,'4'),(2,1,15,'4'),(2,1,26,'4'),(2,1,35,'4'),(2,1,40,'4'),(2,1,42,'4'),(2,1,48,'4'),(2,1,66,'4');
 
 /*Table structure for table `room` */
 

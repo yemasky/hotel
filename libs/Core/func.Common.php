@@ -305,6 +305,7 @@ if(!defined("INC_FUNC_COMMON")) {
 	}
 
 	function page($pn, $all_page_num, $list_data, $parameters, $show_pages = 5) {
+		if(empty($all_page_num)) return array('page'=>0, 'list_data'=>'');
 		$arrayResultPage = "";
 		$mod_pn = $pn % $show_pages;
 		if($mod_pn != 0) {

@@ -56,7 +56,7 @@
                               <li>
                                 <div class="left peity_bar_good">
                                     <span>
-                                        <img src="/<%$arrayPageEmployee['list_data'][i].employee_photo%>" width="40" onerror="this.src='data/userimg/user_b.png'" border="0" />
+                                        <img src="<%$__IMGWEB%><%$arrayPageEmployee['list_data'][i].employee_photo%>" width="40" onerror="this.src='data/userimg/user_b.png'" border="0" />
                                     </span>
                                     <%if $arrayPageEmployee['list_data'][i].employee_sex==1%>男<%else%>女<%/if%>
                                 </div>
@@ -105,15 +105,21 @@
                                         <div class="control-group">
                                             <label class="control-label">部门 :</label>
                                             <div class="controls">
-                                                <input id="department_id" name="department_id" class="span2" value="" readonly type="text">
+                                                <input id="department_id" class="span2" value="" readonly type="text">
+                                                <input id="department" name="department_id" value="" type="hidden">
                                             </div>
                                             <label class="control-label">职位 :</label>
                                             <div class="controls">
-                                                <input id="department_position_id" name="department_position_id" class="span2" value="" readonly type="text">
+                                                <input id="department_position_id" class="span2" value="" readonly type="text">
+                                                <input id="department_position" name="department_position_id" value="" type="hidden">
                                             </div>
                                             <label class="control-label">权限 :</label>
                                             <div class="controls">
-                                                <input id="role_id" name="role_id" class="span2" value="" readonly type="text">
+                                                <select id="role_id" name="role_id" class="input-small">
+                                                <%section name=i loop=$arrayRole%>
+                                                <option value="<%$arrayRole[i].role_id%>" position="<%$arrayRole[i].department_position_id%>"><%$arrayRole[i].role_name%></option>
+                                                <%/section%>
+                                                </select>
                                             </div>
                                             
                                         </div>

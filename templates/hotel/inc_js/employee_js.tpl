@@ -27,7 +27,7 @@ $(document).ready(function(){
 		submitHandler: function() {
             var param = $("#add_employee_form").serialize();
             $('#modal_save').show('fast');
-            var url = '';
+            var url = '<%$add_url%>';
             $.ajax({
                 url : url,type : "post",dataType : "json",data: param,
                 success : function(result) {
@@ -60,7 +60,7 @@ $(document).ready(function(){
        
 	});
     var EmployeeClass = {
-		setting: {},
+		setting: {},role: {},
         ZTreeObj: {},
         zNodes:{},
         instance: function() {
@@ -97,6 +97,16 @@ $(document).ready(function(){
                     $('#employee_page').show('fast');
                     $('#employee_add').hide('fast');
                 });
+                var role = EmployeeClass.role;
+                $('#role_id option').each(function(index, element) {
+                    var role_id = this.value;
+                    var position_id = $(this).attr('position');
+                    if(typeof(role[position_id]) == 'undefined') {
+                        role[position_id] = {};
+                    }
+                    role[position_id][role_id] = $.trim(this.text);
+                });
+                EmployeeClass.role = role;
             };
             
             employee.addEmployee = function() {
@@ -109,7 +119,7 @@ $(document).ready(function(){
                     $('#modal_info').modal('show');
                     return;
                 }
-				parentNode = treeNode.getParentNode();
+				var parentNode = treeNode.getParentNode();
 				if(parentNode == null) {
                     $('#modal_info_message').html('无法在此添加员工');
                     $('#modal_info').modal('show');
@@ -128,7 +138,21 @@ $(document).ready(function(){
                 return (treeNode.click != false);
             };
             onClick: employee.onClick = function(event, treeId, treeNode, clickFlag) {
-                //alert(treeNode.id);
+                var parentNode = treeNode.getParentNode();
+                var position = treeNode.id.replace('P', '');
+                $('#department').val(treeNode.pId);
+                $('#department_id').val(parentNode.name);
+                $('#department_position_id').val(treeNode.name);
+                $('#department_position').val(position);
+                var option = '<option value="0"><%$arrayLaguage["please_select"]["page_laguage_value"]%></option>';
+                var role = EmployeeClass.role;
+                if(typeof(role[position]) == 'undefined') {
+                } else {
+                    for(var role_id in role[position]) {
+                        option +='<option value="'+role_id+'">'+role[position][role_id]+'</option>';
+                    }
+                }
+                $('#role_id').html(option);
             };
             return employee;		
         }

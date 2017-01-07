@@ -47,12 +47,16 @@ class EmployeeAction extends \BaseAction {
         $arrayPosition = HotelService::instance()->getHotelDepartmentPosition($conditions, '*', 'department_position_id');
 
         $arrayPageEmployee = $this->getPageEmployee($objRequest, $objResponse);
+        //role
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayRole = RoleService::instance()->getRole($conditions);
         //
         $objResponse -> yearEnd = date("Y") - 14;
         $objResponse -> yearBegin = date("Y") - 14 . '-' . date("m") . '-' .date("d");
         $objResponse -> arrayDepartment = $arrayDepartment;
         $objResponse -> arrayPosition = $arrayPosition;
         $objResponse -> arrayPageEmployee = $arrayPageEmployee;
+        $objResponse -> arrayRole = $arrayRole;
         $objResponse -> add_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['add'])));
         $objResponse -> edit_url =
@@ -77,7 +81,29 @@ class EmployeeAction extends \BaseAction {
 
     protected function doEdit($objRequest, $objResponse) {
         $this->setDisplay();
-
+        $arrayPost = $objRequest->getPost();
+        if(!empty($arrayPost)) {
+            $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+            $saveData = $arrayPost;
+            unset($saveData['upload_images_url']);
+            $saveData['company_id'] = $objResponse->arrayLoginEmployeeInfo['company_id'];
+            $saveData['hotel_id'] = $hotel_id;
+            $saveData['employee_photo'] = str_replace('/data/images/', '', $arrayPost['upload_images_url']);
+            $saveData['employee_password_salt'] = rand(10000, 1000000);
+            //
+            $saveData['employee_password'] = md5(md5('985632147') . md5($saveData['employee_password_salt']));
+            $saveData['employee_add_date'] = getDay();
+            $saveData['employee_add_time'] = getTime();
+            $employee_id = EmployeeService::instance()->saveEmployee($saveData);
+            //
+            EmployeeService::instance()->saveEmployeeDepartment(array('company_id'=>$saveData['company_id'],'hotel_id'=>$hotel_id,
+                'employee_id'=>$employee_id,'department_id'=>$saveData['department_id'],'department_position_id'=>$saveData['department_position_id']));
+            //保存权限
+            if($saveData['role_id'] > 0) {
+                RoleService::instance()->saveRoleEmployee(array('hotel_id'=>$hotel_id,'role_id'=>$saveData['role_id'],'employee_id'=>$employee_id));
+            }
+            return $this->successResponse('成功保存数据', $arrayPost);
+        }
         return $this->errorResponse('没有保存任数据');
         //$objResponse -> add_room_attribute_url =
         //    \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsAttribute']['edit'])));
