@@ -101,13 +101,13 @@ $(document).ready(function(){
     var contact_validate = $("#contact_form").validate({
 		rules: {
 			contact_name: {required: true},
-			contact_mobile: {required: true,isMobile: true},
-            //contact_email: {email: true},
+			contact_mobile: {isMobile: true},
+            contact_email: {email: true},
 		},
 		messages: {
 			contact_name:"请填写联系人",
 			contact_mobile:"请填写正确的移动电话号码",
-            //contact_email:""
+            contact_email:"请填写正确的email"
 		},
 		errorClass: "text-error",
 		errorElement: "span",
@@ -307,7 +307,7 @@ $(document).ready(function(){
                 //联系信息事件
                 //$('#contact_mobile,#contact_name,#contact_email').bind("keyup") = 
                 $('#begin_book').bind("click", function(e) {
-                    if($('#contact_mobile').val().length == 11) {
+                    if($('#contact_mobile').val().length == 11 || $('#contact_email').val() != '') {
                         $('#modal_loading').show();
                         $.ajax({url : "<%$searchBookInfoUrl%>&search=searchUserMemberLevel",type : "post",
                            dataType : "json",

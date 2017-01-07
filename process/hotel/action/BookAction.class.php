@@ -75,7 +75,7 @@ class BookAction extends \BaseAction {
             }
             if(!empty($objRequest -> book_contact_email)) {
                 $conditions['where'] = array('user_email'=>$objRequest -> book_contact_email);
-                //$arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
+                $arrayBookType = BookService::instance()->getBookTypeDiscount($conditions);
             }
             return $this->successResponse('', $arrayBookType);
         }

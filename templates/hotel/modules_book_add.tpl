@@ -70,8 +70,8 @@ input, select {border-radius: 0 !important;}
                             <input type="text" id="contact_name" name="contact_name" class="input-medium" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>"  />
                             <%$arrayLaguage['mobile']['page_laguage_value']%> <i class="am-icon-mobile am-green-54B51C"></i> : 
                             <input type="text" id="contact_mobile" name="contact_mobile" class="input-medium" placeholder="<%$arrayLaguage['mobile']['page_laguage_value']%>"  />
-                            <!--<%$arrayLaguage['email']['page_laguage_value']%> : 
-                            <input type="text" id="contact_email" name="contact_email" class="span2" placeholder="<%$arrayLaguage['email']['page_laguage_value']%>"  />-->
+                            <%$arrayLaguage['email']['page_laguage_value']%> : 
+                            <input type="text" id="contact_email" name="contact_email" class="span2" placeholder="<%$arrayLaguage['email']['page_laguage_value']%>"  />
                             <a href="#begin_book" id="begin_book" class="btn btn-primary btn-mini"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['begin_book']['page_laguage_value']%></a>
                             </div>
                         </div>
