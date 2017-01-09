@@ -70,7 +70,12 @@
 										<tr>
 											<th>价格信息</th>
 											<th>单位：元</th>
-                                            <th><!--<a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a>--></th>
+                                            <th>
+                                            <div class="btn-group fr">
+                                                <a id="" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 办理退房</a>
+                                                <a id="" class="btn btn-mini btn-warning"><i class="am-icon-credit-card-alt"></i> 退押金</a>
+                                            </div>
+                                            </th>
 										</tr>
 									</thead>
 									<tbody>
@@ -102,7 +107,7 @@
                                         <tr>
 											<td>总押金</td>
 											<td><%$arrayDataInfo[0].book_total_cash_pledge%></td>
-                                            <td></td>
+                                            <td><code><i class="am-icon-credit-card-alt"></i> <%if $arrayDataInfo[0].book_cash_pledge_returns==1%>已退<%else%>未退<%/if%></code></td>
 										</tr>
 									</tbody>
 								</table>
@@ -277,7 +282,7 @@
                                       <th>状态</th>
                                       <th>
                                       <div class="btn-group fr" book_id='ALL' room_id='ALL'>
-                                        <a id="all_check_out" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 办理退房</a>
+                                        <a id="all_check_out" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 全部退房</a>
                                         <a id="all_check_in" class="btn btn-mini btn-warning"><i class="am-icon-slideshare"></i> 入住完成</a>
                                       </div>
                                       </th>
@@ -352,7 +357,14 @@
                                        <p class="text-center">
                                        <span class="input-prepend input-append text-center">
                                        <input type="hidden" value="" name="balance_date" id="balance_date">
-                                       <span class="add-on"><%$arrayLaguage['discount']['page_laguage_value']%></span>
+                                       <span class="add-on">
+                                            <%if $arrayDataInfo[0].book_discount_type == 0%>
+                                            <%$arrayLaguage['discount']['page_laguage_value']%>
+                                            <%else%>
+                                            直减
+                                            <%/if%>
+                                            <input type="hidden" value="<%$arrayDataInfo[0].book_discount_type%>" name="book_discount_type" id="book_discount_type">
+                                       </span>
                                        <input id="discount" class="input-mini" type="text" value="<%$arrayDataInfo[0].book_discount%>">
                                        <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%></span>
                                        <input value="0" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
@@ -438,19 +450,21 @@
                                   <thead>
                                     <tr>
                                       <th>房间</th>
+                                      <th>入住时间</th>
                                       <th>退房日期</th>
-                                      <th></th>
-                                      <th></th>
+                                      <th>已住（天）</th>
+                                      <th>退款金额</th>
                                       <th></th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     <tr>
-                                      <td>1</td>
-                                      <td>2</td>
-                                      <td colspan="3" class="text-center">
-                                         
-                                      </td>
+                                      <td id="return_room_name"></td>
+                                      <td id="return_check_in_date"></td>
+                                      <td id="return_check_out_date"><%$thisDayTime%></td>
+                                      <td id="return_check_in_days"></td>
+                                      <td id="return_price"></td>
+                                      <td></td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -476,6 +490,7 @@
                                   <tbody>
                                     <tr>
                                       <td colspan="4" class="text-center">
+                                      <form name="re_book" id="re_book" enctype="multipart/form-data">
                                          <p class="text-center">
                                          <span class="input-prepend input-append text-center">
                                             <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%> :</span>
@@ -516,9 +531,10 @@
                                              </select>
                                              <span class="add-on"><%$arrayLaguage['payment_voucher']['page_laguage_value']%> :</span>
                                              <input value="" type="text" class="input-large" id="book_payment_voucher" name="book_payment_voucher" />
-                                             <a id="save_book_room" class="btn btn-primary"><i class="am-icon-save"></i> <%$arrayLaguage['save']['page_laguage_value']%></a>
+                                             <a id="save_book_room" class="btn btn-primary"><i class="am-icon-save"></i> 保存</a>
                                          </span>
                                          </p>
+                                         </form>
                                       </td>
                                     </tr>
                                   </tbody>

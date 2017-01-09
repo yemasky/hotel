@@ -104,6 +104,7 @@ class BookActionServiceImpl extends \BaseService  {
         $objResponse -> arrayBookType = $arrayBookType;
         $objResponse -> arrayBookChange = $arrayBookChange;
         $objResponse -> thisDay = getDay();
+        $objResponse -> thisDayTime = getDateTime();
 
         $objResponse -> hotel_checkout = $hotel_checkout;
         $objResponse -> hotel_checkin  = $hotel_checkin;
@@ -115,7 +116,7 @@ class BookActionServiceImpl extends \BaseService  {
     }
 
     public function doSaveEditbookAction($objRequest, $objResponse) {
-
+        BookOperateService::instance()->saveEditReBookInfo($objRequest, $objResponse);
     }
 
     public function doSaveEditBookPayment($objRequest, $objResponse) {

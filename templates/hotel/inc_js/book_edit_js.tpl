@@ -214,7 +214,7 @@ $(document).ready(function(){
                     $(this).parent().prev().prev().html('<i class="am-icon-circle am-yellow-FFAA3C"></i>' + $(this).children().text());
                     $('#check-out-box').show('slow');
                     //
-                    //bookEdit.changeRoom('check_out_room', this);
+                    $('#return_room_name').html();
                 });
                 $('.cancel_room').click(function(e) {
                     var room_id = $(this).parent().attr('room_id');
@@ -536,7 +536,7 @@ $(document).ready(function(){
                         }
                         selectRoomhtml += '<option '+checked_room+' value="'+itemData[i].room_id+'" system_id="'+system_id+'" sell_id="'+sell_id+'"'
                              +'room_layout="'+itemData[i].room_layout_id+'" max_people="'+itemData[i].max_people+'" max_children="'+itemData[i].max_children+'"'
-                             +' title="'+itemData[i].room_number+'" >'
+                             +' title="'+itemData[i].room_number+'" max_extra_bed="'+itemData[i].extra_bed+'">'
                              +itemData[i].room_name+'['+itemData[i].room_number+']'
                              //+BookEditClass.orientations[itemData[i].room_orientations]
                              //+' '+itemData[i].room_area+'㎡'
@@ -773,6 +773,7 @@ $(document).ready(function(){
                 var balance_date_time = balance_date.getTime();
                 var days = $('#book_days_total').val();//总共住多少天
                 var discount = $('#discount').val();
+                var book_discount_type = $('#book_discount_type').val();
                 var is_half = days.indexOf(".") > 0 ? true : false;
                 var select_room = {};
                 var room_price = bed_price =  0;//客房价格 押金 需要的服务费
@@ -796,13 +797,22 @@ $(document).ready(function(){
                         room_price += price;
                     }
                 });
-                room_price = room_price * discount / 100;
-                tempRoomPrice['room']['room_price'] = room_price;
+                if(book_discount_type == 0) {
+                    room_price = room_price * discount / 100;
+                } else if(book_discount_type == 1) {
+                    room_price = room_price - discount * Math.floor($('#book_days_total').val());
+                }
+                tempRoomPrice['room']['room_price'] = room_price;//总房价
                 tempRoomPrice['room']['cash_pledge'] = $('.pledge_price input').first().val();//押金
-                tempRoomPrice['room']['room_id'] = $('#select_room').val();
-                tempRoomPrice['room']['total_room_rate'] = room_price;
-                tempRoomPrice['room']['totle_price'] = room_price;
+                tempRoomPrice['room']['room_id'] = $('#select_room').val();//房号
+                tempRoomPrice['room']['total_room_rate'] = room_price;//总房价
+                tempRoomPrice['room']['totle_price'] = room_price;//总价
+                tempRoomPrice['room']['room_check_in'] = $('#room_check_in').val();
+                tempRoomPrice['room']['room_check_out'] = $('#room_check_out').val();
+                tempRoomPrice['room']['book_days_total'] = $('#book_days_total').val();
+                tempRoomPrice['room']['discount'] = $('#discount').val();
                 var val = $('#extra_bed select').val();
+                tempRoomPrice['room']['extra_bed'] = val;
                 if(val > 0) {
                     tempRoomPrice['bed'] = {};
                     tempRoomPrice['bed']['room_key'] = room_key;
@@ -819,7 +829,7 @@ $(document).ready(function(){
                                 var price = $(this).val() - 0;
                                 tempRoomPrice['bed']['beddate'][beddate] = price;//加床
                                 if(now_date_time == balance_date_time && is_half) {
-                                    price = price * 1;
+                                    //price = price * 1; 加床算全价
                                 }
                                 bed_price = price * val + bed_price;
                             }
@@ -831,7 +841,7 @@ $(document).ready(function(){
                 }
                 $('#total_extra_bed_price').val(bed_price);
                 $('#total_room_rate').val(tempRoomPrice['room']['total_room_rate']);
-                $('#cash_pledge').val($('.pledge_price input').first().val());
+                $('#cash_pledge').val(tempRoomPrice['room']['cash_pledge']);
                 BookEditClass.tempRoomPrice = tempRoomPrice;
             };
             bookEdit.saveAddRoom = function() {
@@ -851,7 +861,7 @@ $(document).ready(function(){
                 var sell_layout_name = $.trim($('#sell_layout').find('option:selected').text());
                 var price_system_name = $.trim($('#price_system').find('option:selected').text());
                 var room_name = $.trim($('#select_room').find('option:selected').text());
-                var extra_bed = $.trim($('#extra_bed').find('option:selected').text());
+                var extra_bed = $('#select_room').find('option:selected').attr('max_extra_bed') + ' / ' + $.trim($('#extra_bed').find('option:selected').text());
                 var max_people = $('#select_room').find('option:selected').attr('max_people');
                 var max_children = $('#select_room').find('option:selected').attr('max_children');
                 var tempRoomEdit = BookEditClass.tempRoomEdit;
@@ -860,7 +870,7 @@ $(document).ready(function(){
                 if(tempRoomEdit['edit'] == 'continued_room') code_text = '续住';
                 var html = '<tr>';
                 html += '<td>'+sell_layout_name+'</td>'
-                       +'<td>'+price_system_name+'</td><td>'+room_name+' / '+max_people+' / '+max_children+'</td>'
+                       +'<td>'+price_system_name+'</td><td>'+room_name+'</td>'
                        +'<td>'+extra_bed+'</td><td>'+check_in+'</td><td>'+check_out+'</td>'
                        +'<td><code class="fr">'+code_text+'</code></td>'
                        +'<td><a id="cancel_add_room'+room_id+'" class="btn btn-warning btn-mini fr">'
@@ -888,7 +898,6 @@ $(document).ready(function(){
                 BookEditClass.tempRoomPrice = {};
                 BookEditClass.tempRoomEdit['edit'] = '';
                 BookEditClass.room_info_id[room_id] = tempRoomPrice['room']['room_id'];//这个房号已经使用
-                
             };
             bookEdit.computeAllBookPrice = function() {
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
@@ -897,18 +906,19 @@ $(document).ready(function(){
                     if(typeof(thenRoomPrice[room_id]['data']) == 'undefined') continue;
                     all_totle_price += (thenRoomPrice[room_id]['data']['room']['totle_price'] - 0);
                     all_cash_pledge += (thenRoomPrice[room_id]['data']['room']['cash_pledge'] - 0);
-                    if(typeof(thenRoomPrice[room_id]['bed']) != 'undefined' && room_id == thenRoomPrice[room_id]['bed']['room_id']) {
-                        book_extra_bed_price += (thenRoomPrice[room_id]['bed']['bed_price'] - 0);
+                    if(typeof(thenRoomPrice[room_id]['data']['bed']) != 'undefined' 
+                        && room_id == thenRoomPrice[room_id]['data']['bed']['room_id']) {
+                        book_extra_bed_price += (thenRoomPrice[room_id]['data']['bed']['bed_price'] - 0);
                     }
                 }
                 $('#book_room_rate').val(all_totle_price);$('#book_total_cash_pledge').val(all_cash_pledge);
                 $('#book_extra_bed_price').val(book_extra_bed_price);
                 $('#total_price').val(all_totle_price - 0 +　all_cash_pledge - 0　+　book_extra_bed_price);
-                
+                $('#add_room_tr').hide('fast');
             };
             bookEdit.saveBookRoom = function() {
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
-                var data = JSON.stringify(thenRoomPrice);
+                var data = 'data='+JSON.stringify(thenRoomPrice) + '&' + $("#re_book").serialize();
                 $.post('<%$saveBookInfoUrl%>&act=savebook', data, function(result) {
                     
                 }, 'json')

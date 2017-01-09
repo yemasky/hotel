@@ -74,8 +74,8 @@
                                     </ul>
                                 </div>
                             </div>
-                          <a href="#collapse<%$arrayBookList[book].number_main.book_order_number%>" data-toggle="collapse">
-                            <strong><%$arrayBookList[book].number_main.book_contact_name%></strong> 
+                            <a href="#collapse<%$arrayBookList[book].number_main.book_order_number%>" data-toggle="collapse">
+                            <strong><%$arrayBookList[book].number_main.book_contact_name%></strong>
                             <span class="user-info"> 
                                 <i class="am-icon-bed am-blue-17C6EA"></i> : 
                                 <%$arrayBookList[book].room_num%> room <span> </span>
