@@ -102,7 +102,7 @@ class BookAction extends \BaseAction {
             if(empty($book_type_id)) return $this->errorResponse('数据错误，请重新选择！');
             $conditions['where'] = array('book_type_id'=>$book_type_id,
                 'hotel_id'=>$hotel_id);
-            $fieldid = 'book_discount_id, book_discount, book_discount_name, agreement_company_name';
+            $fieldid = 'book_discount_id, book_discount, book_discount_type, book_discount_name, agreement_company_name';
             $arrayDiscount = BookService::instance()->getBookDiscount($conditions, $fieldid);
             return $this->successResponse('', $arrayDiscount);
         }

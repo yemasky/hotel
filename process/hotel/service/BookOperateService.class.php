@@ -33,7 +33,9 @@ class BookOperateService extends \BaseService {
         $arrayUserLodger = json_decode(stripslashes($objRequest->user_lodger), true);
         //联系信息 <!-- -->
         $arrayBill['book_contact_name']             = $arrayPostValue['book_contact_name'];//联系人
-        $arrayBill['book_contact_mobile']           = $arrayPostValue['book_contact_mobile'];//联系人移动电话
+        if(!empty($arrayPostValue['book_contact_mobile']))
+            $arrayBill['book_contact_mobile']       = $arrayPostValue['book_contact_mobile'];//联系人移动电话
+        $arrayBill['book_contact_email']            = $arrayPostValue['book_contact_email'];//联系人email
         $arrayBill['user_id']                       = '0';////
         $arrayBill['hotel_id']                      = $hotel_id;
         //来源 <!-- -->
@@ -41,6 +43,7 @@ class BookOperateService extends \BaseService {
         $arrayBill['book_order_number_ourter']      = $objRequest -> book_order_number_ourter;//如果是OTA 有外部订单号
         //折扣 <!-- -->
         $arrayBill['book_discount']                 = $arrayPostValue['book_discount'];//实际折扣
+        $arrayBill['book_discount_type']            = $arrayPostValue['book_discount_type'];
         if(isset($arrayPostValue['book_discount_id']))
             $arrayBill['book_discount_id']          = $arrayPostValue['book_discount_id'];//折扣ID
         $arrayBill['book_discount_describe']        = $arrayPostValue['book_discount_describe'];//折扣描述

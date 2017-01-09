@@ -79,6 +79,7 @@ input, select {border-radius: 0 !important;}
 					<form action="#" method="post" class="form-horizontal ui-formwizard" enctype="multipart/form-data" name="book_form" id="book_form">
 						<input type="hidden" value="" name="book_contact_name" id="book_contact_name">
 						<input type="hidden" value="" name="book_contact_mobile" id="book_contact_mobile">
+                        <input type="hidden" value="" name="book_contact_email" id="book_contact_email">
 						<div class="control-group hide book_form_step1">
 							<label class="control-label"><%$arrayLaguage['book_type']['page_laguage_value']%> :</label>
 							<div class="controls">
@@ -95,6 +96,8 @@ input, select {border-radius: 0 !important;}
 						<div class="control-group hide book_form_step1">
 							<label class="control-label"><%$arrayLaguage['discount']['page_laguage_value']%> :</label>
 							<div class="controls">
+                                 <span id="discount_type">折扣</span>
+                                 <input type="hidden" name="book_discount_type" id="book_discount_type" value="0">
 								 <input type="text" id="discount" name="book_discount" class="input-mini book_price" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>" value="100"  />
 								 <%$arrayLaguage['discount_describe']['page_laguage_value']%> :
 								 <input type="text" id="book_discount_describe" name="book_discount_describe" class="input-large" placeholder="<%$arrayLaguage['discount_describe']['page_laguage_value']%>"  />
@@ -117,7 +120,7 @@ input, select {border-radius: 0 !important;}
                                 <%$arrayLaguage['book_order_retention_time']['page_laguage_value']%> :
                                 <input value="<%$thisDay%> 18:00" type="text" class="input-medium" id="book_order_retention_time" name="book_order_retention_time" />
                                 <%$arrayLaguage['book_days_total']['page_laguage_value']%> :
-                                <input value="1" type="text" class="input-mini" id="book_days_total" name="book_days_total" />
+                                <input value="1" type="text" class="input-mini" id="book_days_total" name="book_days_total" readonly />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
                             <label class="control-label"><%$arrayLaguage['room_layout']['page_laguage_value']%> :</label>
@@ -183,6 +186,9 @@ input, select {border-radius: 0 !important;}
                             <div id="room_data"></div>
                             <div id="addBed_data"></div>
 						  </div>
+                          <!--<label class="control-label hide">已选房间 :</label>
+                          <div class="controls hide" id="select_rooms">
+                          </div>-->
 						</div>
                         <div class="control-group hide book_form_step2">
 							<label class="control-label"><%$arrayLaguage['need_service']['page_laguage_value']%> :</label>
@@ -262,8 +268,10 @@ input, select {border-radius: 0 !important;}
                             <label class="control-label"><%$arrayLaguage['total_room_rate']['page_laguage_value']%> :</label>
 							<div class="controls">
                                 <input value="" type="text" class="input-mini" id="total_room_rate" name="total_room_rate" />
-                                <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
-                                <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
+                                含（房费 :
+                                <span id="room_all_price"></span>
+                                加床费用 :
+                                <span id="bed_all_price"></span>）
                                 <%$arrayLaguage['cash_pledge']['page_laguage_value']%> :
                                 <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
                                 <%$arrayLaguage['need_service_price']['page_laguage_value']%> :
@@ -271,13 +279,20 @@ input, select {border-radius: 0 !important;}
                                 <%$arrayLaguage['service_charge']['page_laguage_value']%> :
                                 <input value="0" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
 						    </div>
+                            <div class="controls">
+                            <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
+                                <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
+                            </div>
 							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>
 							<div class="controls">
                                 <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
 						    </div>
 						</div>
                         <div class="form-actions pagination-centered hide book_form_step2">
-                            <button type="submit" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning" id="computed_value" ><i class="am-icon-calculator"></i> 计算核对价格</button>
+                                <button type="submit" class="btn btn-primary pagination-centered save_info"><i class="am-icon-save"></i> <%$arrayLaguage['save_next']['page_laguage_value']%></button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -130,7 +130,7 @@ class BookActionServiceImpl extends \BaseService  {
         $arrayUpdate['book_is_pay'] = $book_is_pay;
         $arrayUpdate['book_is_payment'] = $book_payment;
         $arrayUpdate['payment_type_id'] = $book_payment_type;
-        $arrayUpdate['book_pay_date'] = getDateTime();
+        if($book_is_pay > 0) $arrayUpdate['book_pay_date'] = getDateTime();
         BookService::instance()->updateBook($conditions['where'], $arrayUpdate);
     }
 

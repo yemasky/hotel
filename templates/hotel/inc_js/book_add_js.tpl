@@ -162,6 +162,7 @@ $(document).ready(function(){
 			if(contact_validate.form()) {
 				$('#book_contact_mobile').val($('#contact_mobile').val());
 				$('#book_contact_name').val($('#contact_name').val());
+                $('#book_contact_email').val($('#contact_email').val());
                 var have_room  = false;
                 $('#room_layout_html input').each(function(index, element) {
                     if($(this).attr('layout') == 'room'){
@@ -321,6 +322,10 @@ $(document).ready(function(){
                                        $('#book_discount_id,.book_discount_id').remove();
                                        $('#book_type_id').val(data.itemData.book_type_id);
                                        $('#discount').val(data.itemData.book_discount);
+                                       $('#discount_type').text('折扣');$('#book_discount_type').val('0');
+                                       if(data.itemData.book_discount_type == 1) {
+                                           $('#discount_type').text('直减'); $('#book_discount_type').val('1');
+                                       }
                                        if(data.itemData.agreement_company_name != '') {
                                            var book_discount_id = ' <input readonly id="book_discount_id" value="'
                                                 + data.itemData.book_discount_name + data.itemData.agreement_company_name+'" type="text" class="span2"/> '
@@ -362,7 +367,7 @@ $(document).ready(function(){
                                 var discount_html = ' <select name="book_discount_id" class="span2 book_discount_id select_discount">';
                                 var option = '';
                                 for(i in data.itemData) {
-                                    option += '<option value="'+data.itemData[i].book_discount_id+'">'
+                                    option += '<option value="'+data.itemData[i].book_discount_id+'" type="'+data.itemData[i].book_discount_type+'">'
                                            +data.itemData[i].book_discount_name + data.itemData[i].agreement_company_name +'</option>';
                                     book_discount_list[data.itemData[i].book_discount_id + '_0'] = data.itemData[i].book_discount;
                                     if(i == 0) {
@@ -375,11 +380,21 @@ $(document).ready(function(){
                                 $('#book_type_id').after(discount_html);
                                 $('.select_discount').change(function(e) {
                                     $('#discount').val(book_discount_list[$(this).val() + '_0']);
+                                    $('#discount_type').text('折扣');$('#book_discount_type').val('0');
+                                    if($(this).find('option:selected').attr('type') == 1) {
+                                        $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                                    }
+                                    bookEdit.computeBookPrice(true);
                                 })
+                                $('#discount_type').text('折扣');$('#book_discount_type').val('0');
+                                if($('.select_discount').find('option:selected').attr('type') == 1) {
+                                    $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                                }
                             } else {
                                 book_discount_list[book_type_id] = '';
                                 book_discount_list[book_type_id + '_'] = 100;
                                 $('#discount').val(100);
+                                $('#discount_type').text('折扣');$('#book_discount_type').val('0');
                             }
                             if(booktype == 'OTA') 
                                 $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input  name="book_order_number_ourter" value="" class="span2" type="text"></span>');
@@ -389,12 +404,22 @@ $(document).ready(function(){
                         $('#book_type_id').after(book_discount_list[book_type_id]);
                         $('.select_discount').change(function(e) {
                             $('#discount').val(book_discount_list[$(this).val() + '_0']);
+                            $('#discount_type').text('折扣');$('#book_discount_type').val('0');
+                            if($(this).find('option:selected').attr('type') == 1) {
+                                $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                            }
+                            bookEdit.computeBookPrice(true);
                         })
                         $('#discount').val(book_discount_list[book_type_id + '_']);
+                        $('#discount_type').text('折扣');$('#book_discount_type').val('0');
+                        if($(this).find('option:selected').attr('type') == 1) {
+                            $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                        }
                         if(booktype == 'OTA') 
                             $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input name="book_order_number_ourter" value="" class="span2" type="text"></span>');
                         bookEdit.computeBookPrice(true);
                     }
+                    
                 });
                 //搜索客房价格
                 $('#search_room_layout').click(function(e) {
@@ -456,6 +481,8 @@ $(document).ready(function(){
                                         var max_people = $(this).attr('max_people');var max_children = $(this).attr('max_children');
                                         if (checkedStatus == this.checked) {
                                             $('#room_'+sell_id+'_'+room_id).remove();
+                                            $('#extra_bed_'+sell_id+'_'+room_id).remove();
+                                            $('#select_room_'+sell_id+'_'+room_id).remove();
                                             $("#room_data").removeData(room_id);  //移除
                                             //$(this).closest('.checker > span').removeClass('checked');
                                         }
@@ -466,6 +493,9 @@ $(document).ready(function(){
                                                           +'max_people="'+max_people+'" max_children="'+max_children+'" />';
                                             $('#room_layout_html').append(room_lauout_input);
                                             $('#room_data').data(room_id, sell_id+'-'+ system_id);
+                                            /*var select_rooms = '<label class="span2 text-left role_modules" id="select_room_'+sell_id+'_'+room_id+'">'
+                                                             +$(this).attr('room_name')+' <i class="am-icon-check-circle"></i> </label>';
+                                            $('#select_rooms').append(select_rooms);*/
                                             bookSelectRoom[room_id] = room_name;
                                             //$(this).closest('.checker > span').addClass('checked');
                                         }
@@ -490,11 +520,16 @@ $(document).ready(function(){
                                                          +'max_people="'+max_people+'" max_children="'+max_children+'" />';
                                     $('#room_layout_html').append(room_lauout_input);
                                     $('#room_data').data(room_id, sell_id+'-'+ system_id);
+                                    /*var select_rooms = '<label class="span2 text-left role_modules" id="select_room_'+sell_id+'_'+room_id+'">'
+                                                             +$(this).attr('room_name')+' <i class="am-icon-check-circle"></i> </label>';
+                                    $('#select_rooms').append(select_rooms);*/
                                     bookSelectRoom[room_id] = room_name;
                                     //设置disable
                                     bookEdit.resetRoomStatus(room_id, sell_id, system_id, this.checked);
                                 } else {
                                     $('#room_'+sell_id+'_'+room_id).remove();
+                                    $('#extra_bed_'+sell_id+'_'+room_id).remove();
+                                    $('#select_room_'+sell_id+'_'+room_id).remove();
                                     $("#room_data").removeData(room_id);  //移除
                                     //设置disable
                                     bookEdit.resetRoomStatus(room_id, sell_id, system_id, this.checked);
@@ -587,6 +622,9 @@ $(document).ready(function(){
                     $('#sell_del_'+sell_del_id).click(function(e) {
                         BookEditClass.sell_layout_list[sell_del_id] = '';
                         $(this).parent().remove();
+                        if($('#select_sell_layout li').size() == 0) {
+                            $('#sell_layout').val('');$('#price_system').html('');
+                        }
                     });
                     //$('.sell_layout_del').each(function(index, element) {
                         //$(this).click(function(e) {
@@ -611,6 +649,9 @@ $(document).ready(function(){
                     $('#sell_del_'+sell_del_id).click(function(e) {
                         BookEditClass.sell_layout_list[sell_del_id] = '';
                         $(this).parent().remove();
+                        if($('#select_sell_layout li').size() == 0) {
+                            $('#sell_layout').val('');$('#price_system').html('');
+                        }
                     });
                 });
                 //增加减少人数
@@ -625,6 +666,9 @@ $(document).ready(function(){
                     if(BookEditClass.BookUser_num == 1) return;
                     $(this).parent().prev().remove();
                     BookEditClass.BookUser_num--;
+                });
+                $('#computed_value').click(function(e) {
+                    bookEdit.computeBookPrice(true);  
                 });
             },
             //搜索RoomLayout
@@ -673,6 +717,7 @@ $(document).ready(function(){
                             $('#modal_fail').modal('show');
                             $('#modal_fail_message').html(data.message);
                         }
+                        bookEdit.computeBookPrice(false);//计算房费
                     }
                 });
             },
@@ -858,7 +903,7 @@ $(document).ready(function(){
                                  +'<td>'
                                  +'<input '+checked_room+' type="checkbox" value="'+itemData[i].room_id+'" system_id="'+system_id+'" sell_id="'+sell_id+'"'
                                  +'room_layout="'+itemData[i].room_layout_id+'" max_people="'+itemData[i].max_people+'" max_children="'+itemData[i].max_children+'"'
-                                 +' title="'+itemData[i].room_number+'" />'
+                                 +' title="'+itemData[i].room_number+'" room_name="'+itemData[i].room_name+'['+itemData[i].room_number+']" />'
                                  +'</td>'
                                  +'<td>'+itemData[i].room_name+'['+itemData[i].room_number+']<i class="am-icon-location-arrow am-blue-3F91DD"></i>'
                                  +BookEditClass.orientations[itemData[i].room_orientations]
@@ -932,6 +977,7 @@ $(document).ready(function(){
                 var balance_date = new Date($('#balance_date').val());//结算日
                 var balance_date_time = balance_date.getTime();
                 BookEditClass.max_man = 0;//人数
+                var bed_all_price = 0;var room_all_price = 0;
                 $("#room_layout_html input").each(function (i) {
                     var val = $(this).val() - 0; //获取单个value 如果大于0 表示有客房{客房数量 加床数量}
                     var select_room = {};
@@ -963,9 +1009,9 @@ $(document).ready(function(){
                                         var price = $(this).val() - 0;
                                         thenRoomPrice['room'][room_key][rdate] = price;//房费
                                         if(now_date_time == balance_date_time && is_half) {
-                                            price = price * 0.5;
+                                            price = price * 0.5; 
                                         }
-                                        room_price += price;
+                                        room_price += price;room_all_price += price; 
                                         if(select_room[val] == 0) {
                                             var num_prople = (max_people - 0);
                                             for(p_i = 0; p_i < num_prople; p_i++) {
@@ -1014,9 +1060,9 @@ $(document).ready(function(){
                                         var price = $(this).val() - 0;
                                         thenRoomPrice['bed'][room_key][beddate] = price;//加床
                                         if(now_date_time == balance_date_time && is_half) {
-                                            price = price * 0.5;
+                                            //price = price * 0.5; 加床没半价
                                         }
-                                        room_price = price * val + room_price;
+                                        room_price = price * val + room_price; bed_all_price += price * val;
                                         if(select_room[val + '_bed'] == 0) {
                                             for(i = 1; i <= val; i++) {
                                                 option += '<option value="'+room_id+'" type="extra_bed">'+bookSelectRoom[room_id]
@@ -1032,8 +1078,17 @@ $(document).ready(function(){
                     }
                 });
                 select_html += option + '</select>';//用户房间结束
-                room_price = room_price * ($('#discount').val() - 0) / 100; //房费
-                pledge_price = pledge_price * ($('#discount').val() - 0) / 100; //押金
+                //房费
+                var book_discount_type = $('#book_discount_type').val();
+                if(book_discount_type == '0') {
+                    room_price = room_price * ($('#discount').val() - 0) / 100; 
+                    room_all_price = room_all_price  * ($('#discount').val() - 0) / 100; 
+                } else {
+                    room_price = room_price - $('#discount').val() * Math.floor($('#book_days_total').val());
+                    room_all_price = room_all_price - $('#discount').val() * Math.floor($('#book_days_total').val());
+                }
+                //押金
+                pledge_price = pledge_price * ($('#discount').val() - 0) / 100; 
                 $('.service_price').each(function(index, element) {
                     //需要的服务费
                     var price = $(this).val() - 0;
@@ -1043,12 +1098,15 @@ $(document).ready(function(){
                     service_price += (price * service_num * service_discount) / 100;
                     thenRoomPrice['service'][service_id] = price + '-' + service_num + '-' + service_discount;
                 });//附加服务费
+                 console.log(room_price);
                 $('#total_room_rate').val(room_price);//总房费 
+                $('#room_all_price').text(room_all_price);//房费
+                $('#bed_all_price').text(bed_all_price);//加床
                 $('#book_total_cash_pledge').val(pledge_price);//押金
                 $('#need_service_price').val(service_price);
                 //room_price = days * room_price * ($('#discount').val() - 0) / 100;
                 var book_service_charge = $('#book_service_charge').val() - 0;//服务费
-                var total_price = book_service_charge + room_price +　service_price;//总价=服务费+房费+附加服务费
+                var total_price = book_service_charge + room_price +　service_price + pledge_price;//总价=服务费+房费+附加服务费+押金
                 /////////
                 $('#total_price').val(total_price);
                 $('#prepayment').val(pledge_price + service_price);//预付金 = 押金+附加服务费
