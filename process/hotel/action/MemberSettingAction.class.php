@@ -88,6 +88,8 @@ class MemberSettingAction extends \BaseAction {
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $arrayData['book_type_name'] = $objRequest -> book_type_name;
             $arrayData['type'] = $objRequest -> type;
+            if(empty($arrayPostValue['agreement_active_time_begin'])) unset($arrayPostValue['agreement_active_time_begin']);
+            if(empty($arrayPostValue['agreement_active_time_end'])) unset($arrayPostValue['agreement_active_time_end']);
             if(isset($arrayPostValue['book_type_name']) && !empty($arrayData['book_type_name']) && !empty($arrayData['type'])) {
                 $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['view'])));
                 //$url = '';

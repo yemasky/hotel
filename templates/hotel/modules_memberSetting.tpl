@@ -80,7 +80,7 @@
                                   <td class="discount_td" btype="agreement_company_name"><%$arrayDiscount[i].agreement_company_name%></td>
                                   <td>
                                     <div class="btn-group">
-                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
+                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>" class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
                                        <button data-id="<%$arrayDiscount[i].book_discount_id%>" class="btn btn-mini btn-danger removeBtn"><i class="am-icon-minus-circle"></i> 删除</button>
                                     </div>
                                   </td>
@@ -189,6 +189,10 @@
                         <label class="control-label">折扣名称：</label>
                         <div class="controls">
                             <input id="book_discount_name" name="book_discount_name" class="input-medium" value="" type="text">
+                            <select name="book_discount_type" id="book_discount_type" class="input-small">
+                                <option value="0">打折</option>
+                                <option value="1">直减</option>
+                            </select>
                             折扣：<input id="book_discount" name="book_discount" class="input-medium" value="" type="text">
                             <a data-toggle="collapse" data-target="#more_option" class="btn btn-primary btn-mini"><i class="am-icon-chevron-circle-down"></i> 更多选项</a>
                         </div>
@@ -385,7 +389,9 @@ $(document).ready(function(){
                 });
                 $('.editBtn').click(function(e) {
                     var id = $(this).attr('data-id');
+                    var type = $(this).attr('type');
                     $('#book_discount_id').val(id);
+                    $('#book_discount_type').val(type);
                     $('#discount_tr'+id).find('td').each(function(index, element) {
                         memberSetting.editDiscount(this);
                     });
