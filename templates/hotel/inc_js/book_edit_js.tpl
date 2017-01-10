@@ -91,7 +91,7 @@ $(document).ready(function(){
     
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},tempRoomPrice:{},
-        hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},
+        hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},tempServicePrice: {},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
         priceSystem:{},
@@ -179,9 +179,15 @@ $(document).ready(function(){
                     bookEdit.computeCheckDate();
                 });
                 $('#serviceItem').change(function(e) {
-                    $(this).parent().next().html('<input type="text" value="'+$(this).find("option:selected").attr('price')+'" class="input-small">');
-                    $(this).parent().next().next().html('<input type="text" value="1" class="input-small">');
-                    $(this).parent().next().next().next().html('<input type="text" value="100" class="input-small">');
+                    var price = $(this).find("option:selected").attr('price');
+                    var _next = $(this).parent().next();
+                    _next.html('<input price="'+price+'" readonly id="service_price" type="text" value="'+price+'" class="input-small">');
+                    _next.next().html('<input id="service_num" type="text" value="1" class="input-small">');
+                    _next.next().next().html('<input id="service_discount" type="text" value="100" class="input-small">');
+                    _next.next().next().next().html('<input readonly id="service_total_price" type="text" value="'+price+'" class="input-small">');
+                    $('#service_num,#service_discount').keyup(function(e) {
+                        bookEdit.computeServicePrice(this);
+                    });
                 });
                 $('#save_add_room').click(function(e) {
                     bookEdit.saveAddRoom();
@@ -262,6 +268,11 @@ $(document).ready(function(){
                     if($(this).hasClass('return_user_room_card')) val = 2;
                     bookEdit.setUserRoomCard(this, val);
                 });
+                //附加服务
+                $('#save_add_service').click(function(e) {
+                    bookEdit.saveAddService(this);
+                });
+                
             };
             bookEdit.setUserRoomCard = function(_this, val) {
                 var url = '<%$saveBookInfoUrl%>&act=setUserRoomCard&room_num='+$(_this).parent().attr('room_id')+'&val='+val;
@@ -899,6 +910,54 @@ $(document).ready(function(){
                 BookEditClass.tempRoomEdit['edit'] = '';
                 BookEditClass.room_info_id[room_id] = tempRoomPrice['room']['room_id'];//这个房号已经使用
             };
+            bookEdit.saveAddService = function(_this) {
+                var id = $('#serviceItem').val();
+                if(id == '') return;
+                var tempServicePrice = BookEditClass.tempServicePrice;
+                var service_price = $('#service_price').val();var service_num = $('#service_num').val();
+                var discount = $('#service_discount').val();
+                var service_total_price = $('#service_total_price').val();
+                var key = 'service_' + id + '-' + discount;
+                if(typeof(tempServicePrice[key]) == 'undefined' || tempServicePrice[key] == '') {
+                    tempServicePrice[key] = {};
+                    var html = '<tr id="'+key+'">';
+                    html += '<td>'+$.trim($('#serviceItem').find('option:selected').text())+'</td>'
+                           +'<td>'+service_price+'</td>'
+                           +'<td>'+service_num+'</td><td>'+discount+'</td>'
+                           +'<td>'+service_total_price+'</td>'
+                           +'<td><code>新增</code><a id="cancel_'+key+'" class="btn btn-warning btn-mini fr" data-id="'+key+'"><i class="am-icon-minus-circle"></i> 取消</a></td>'
+                           +'</tr>';
+                    $('#add_service_tr').before(html);
+                    $('#cancel_'+key).click(function(e) {
+                        $('#'+key).remove();
+                        BookEditClass.tempServicePrice[key] = '';
+                    });
+                    tempServicePrice[key]['service_price'] = service_price;
+                    tempServicePrice[key]['service_num'] = service_num;
+                    tempServicePrice[key]['service_discount'] = discount;
+                    tempServicePrice[key]['service_total_price'] = service_total_price;
+                    BookEditClass.tempServicePrice = tempServicePrice;
+                } else {
+                    tempServicePrice[key]['service_num'] = (tempServicePrice[key]['service_num'] - 0) + (service_num - 0);
+                    tempServicePrice[key]['service_total_price'] = (tempServicePrice[key]['service_total_price'] - 0) + (service_total_price - 0) ;
+                    $('#'+key).find('td').eq(2).text(tempServicePrice[key]['service_num']);
+                    $('#'+key).find('td').eq(4).text(tempServicePrice[key]['service_total_price']);
+                    if(tempServicePrice[key]['service_total_price'] <= 0) {
+                        $('#'+key).remove();
+                        tempServicePrice[key] = '';
+                    }
+                    BookEditClass.tempServicePrice = tempServicePrice;                    
+                }
+                $('#add_service_tr').hide('fast');
+            };
+            bookEdit.computeServicePrice = function(_this) {
+                $('#service_total_price').val($('#service_price').val() * $('#service_num').val()* $('#service_discount').val()/100);
+            };
+            bookEdit.cancelAddService = function(_this) {
+                var id = $(_this).attr('data-id');
+                $('#'+id).remove();
+                
+            };
             bookEdit.computeAllBookPrice = function() {
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
                 var all_totle_price = 0;var all_cash_pledge = 0;var book_extra_bed_price = 0;
@@ -914,6 +973,7 @@ $(document).ready(function(){
                 $('#book_room_rate').val(all_totle_price);$('#book_total_cash_pledge').val(all_cash_pledge);
                 $('#book_extra_bed_price').val(book_extra_bed_price);
                 $('#total_price').val(all_totle_price - 0 +　all_cash_pledge - 0　+　book_extra_bed_price);
+                //$('#prepayment').val(pledge_price + service_price);//预付金 = 押金+附加服务费
                 $('#add_room_tr').hide('fast');
             };
             bookEdit.saveBookRoom = function() {

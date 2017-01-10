@@ -37,6 +37,7 @@ class BookOperateService extends \BaseService {
             $arrayBill['book_contact_mobile']       = $arrayPostValue['book_contact_mobile'];//联系人移动电话
         $arrayBill['book_contact_email']            = $arrayPostValue['book_contact_email'];//联系人email
         $arrayBill['user_id']                       = '0';////
+        $arrayBill['employee_id']                   = $employee_id;
         $arrayBill['hotel_id']                      = $hotel_id;
         //来源 <!-- -->
         $arrayBill['book_type_id']                  = $arrayPostValue['book_type_id'];
@@ -200,6 +201,7 @@ class BookOperateService extends \BaseService {
         foreach($arrayPostValue['user_name'] as $i => $bookUser) {
             if(!empty($bookUser)) {
                 $arrayBookUserData[$i]['book_id'] = $book_id;
+                $arrayBookUserData[$i]['employee_id'] = $employee_id;
                 $arrayBookUserData[$i]['hotel_id'] = $hotel_id;
                 $arrayBookUserData[$i]['book_user_name'] = $bookUser;
                 $arrayBookUserData[$i]['book_order_number'] = $book_order_number;
@@ -240,6 +242,7 @@ class BookOperateService extends \BaseService {
                     }
                     $arraySameYearAndMonth[$id][$day . '_day'] = $roomPrice;
                     $arraySameYearAndMonth[$id]['book_order_number'] = $book_order_number;
+                    $arraySameYearAndMonth[$id]['employee_id'] = $employee_id;
                     $arraySameYearAndMonth[$id]['book_id'] = $book_id;
                     $arraySameYearAndMonth[$id]['room_sell_layout_id'] = $sell_id;
                     $arraySameYearAndMonth[$id]['room_layout_id'] = $room_layout_id;
@@ -255,6 +258,7 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['hotel_service_num'] = '0';
                     $arrayNightAudit[$iNightAudit]['book_order_number'] = $book_order_number;
                     $arrayNightAudit[$iNightAudit]['book_id'] = $book_id;
+                    $arrayNightAudit[$iNightAudit]['employee_id'] = $employee_id;
                     $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
                     $arrayNightAudit[$iNightAudit]['book_type_id'] = $arrayPostValue['book_type_id'];
                     if(!isset($arrayPostValue['book_discount_id'])) {
@@ -302,6 +306,7 @@ class BookOperateService extends \BaseService {
                     }
                     $arraySameYearAndMonth[$id][$day . '_day'] = $bedPrice;
                     $arraySameYearAndMonth[$id]['book_order_number'] = $book_order_number;
+                    $arraySameYearAndMonth[$id]['employee_id'] = $employee_id;
                     $arraySameYearAndMonth[$id]['book_id'] = $book_id;
                     $arraySameYearAndMonth[$id]['room_sell_layout_id'] = $sell_id;
                     $arraySameYearAndMonth[$id]['room_layout_id'] = $room_layout_id;
@@ -317,6 +322,7 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['hotel_service_num'] = '0';
                     $arrayNightAudit[$iNightAudit]['book_order_number'] = $book_order_number;
                     $arrayNightAudit[$iNightAudit]['book_id'] = $book_id;
+                    $arrayNightAudit[$iNightAudit]['employee_id'] = $employee_id;
                     $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
                     $arrayNightAudit[$iNightAudit]['book_type_id'] = $arrayPostValue['book_type_id'];
                     $arrayNightAudit[$iNightAudit]['book_discount_id'] = '0';//加床默认为 100 折扣
@@ -342,6 +348,7 @@ class BookOperateService extends \BaseService {
             $arrayService = explode('-', $price);
             $arrayServiceData[$service_id]['book_order_number'] = $book_order_number;
             $arrayServiceData[$service_id]['book_id'] = $book_id;
+            $arrayServiceData[$service_id]['employee_id'] = $employee_id;
             $arrayServiceData[$service_id]['hotel_id'] = $hotel_id;
             $arrayServiceData[$service_id]['hotel_service_id'] = $service_id;
             $arrayServiceData[$service_id]['hotel_service_price'] = $arrayService[0];
@@ -353,6 +360,7 @@ class BookOperateService extends \BaseService {
             $arrayNightAudit[$iNightAudit]['hotel_service_num'] = $arrayService[1];
             $arrayNightAudit[$iNightAudit]['book_order_number'] = $book_order_number;
             $arrayNightAudit[$iNightAudit]['book_id'] = $book_id;
+            $arrayNightAudit[$iNightAudit]['employee_id'] = $employee_id;
             $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
             $arrayNightAudit[$iNightAudit]['book_type_id'] = $arrayPostValue['book_type_id'];
             $arrayNightAudit[$iNightAudit]['book_discount_id'] = '0';//加床默认为 100 折扣
@@ -380,37 +388,43 @@ class BookOperateService extends \BaseService {
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $employee_id  = $objResponse->arrayLoginEmployeeInfo['employee_id'];
         $data = json_decode(stripslashes($objRequest->data), true);
+        $book_is_payment = $objRequest -> is_pay;
+        if($book_is_payment == 2) $book_is_payment = '0';
+        $payment_type = $objRequest -> payment_type;
+        $is_pay = $objRequest -> payment;
+        $book_is_prepayment = '0';
+        if($is_pay < 2) {//预付
+            $book_is_prepayment = '1';
+            $prepayment_type_id = $payment_type;
+        }
+        if($is_pay >= 2) $is_pay = 1;
         //old info
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hote_id'=>$hotel_id, 'book_order_number'=>$order_number, 'book_order_number_main'=>1);
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number, 'book_order_number_main'=>1);
         $arrayOldBookInfo = BookService::instance()->getBook($conditions);
         if(empty($arrayOldBookInfo)) {
-            return false;
+            return array(0, '找不到可更改的订单！');
         }
         $arrayOldBookInfo = $arrayOldBookInfo[0];
         $arrayBookInfo = '';//book数据
+        $arrayRoomPrice = $arrayRoomExtraBedPrice = '';//房价和床价历史成交数据
         $arrayNightAudit = '';//book_night_audit数据
         $arrayHotelService = '';//book_hotel_service数据
-        $arrayRoomPrice = $arrayRoomExtraBedPrice = '';//房价和床价历史成交数据
         foreach($data as $room_id => $arrayData) {
             $arrayBookInfo[$room_id]['book_type_id'] = $arrayOldBookInfo['book_type_id'];//?
             $arrayBookInfo[$room_id]['user_id'] = 0;
+            $arrayBookInfo[$room_id]['employee_id'] = $employee_id;
             $arrayBookInfo[$room_id]['hotel_id'] = $hotel_id;
             $arrayBookInfo[$room_id]['room_id'] = $room_id;
-            //房价
-            $arrayRoomPrice[$room_id]['book_id'] = $arrayOldBookInfo['book_id'];
-            $arrayRoomPrice[$room_id]['book_order_number'] = $order_number;
-
-
+            $book_change = 0;
+            if($arrayData['type'] != '0') $book_change = $arrayData['type'];
+            //add_room新增 change_room换房 continued_room续房
             foreach($arrayData['data'] as $k => $arrayInfo) {
                 $arrayKey = explode('-', $arrayInfo['room_key']);
-                $arrayBookInfo[$room_id]['room_sell_layout_id'] = $arrayKey[0];
-                $arrayBookInfo[$room_id]['room_layout_id'] = $arrayKey[1];
-                $arrayBookInfo[$room_id]['room_layout_price_system_id'] = $arrayKey[2];
-                //房价
-                $arrayRoomPrice[$room_id]['room_sell_layout_id'] = $arrayKey[0];
-                $arrayRoomPrice[$room_id]['room_layout_id'] = $arrayKey[1];
-                $arrayRoomPrice[$room_id]['room_layout_price_system_id'] = $arrayKey[2];
+                $sell_id = $arrayKey[0];$room_layout_id = $arrayKey[1];$system_id = $arrayKey[2];
+                $arrayBookInfo[$room_id]['room_sell_layout_id'] = $sell_id;
+                $arrayBookInfo[$room_id]['room_layout_id'] = $room_layout_id;
+                $arrayBookInfo[$room_id]['room_layout_price_system_id'] = $system_id;
 
                 if($k == 'room') {
                     $arrayBookInfo[$room_id]['book_room_extra_bed'] = $arrayInfo['extra_bed'];
@@ -423,27 +437,136 @@ class BookOperateService extends \BaseService {
                     $arrayBookInfo[$room_id]['book_discount_type'] = $arrayOldBookInfo['book_discount_type'];
                     $arrayBookInfo[$room_id]['book_discount'] = $arrayInfo['discount'];
                     //付款信息
-                    $arrayBookInfo[$room_id]['book_is_pay payment'] = '';//A2 是否全额支付
-                    $arrayBookInfo[$room_id]['book_is_payment'] = $arrayInfo['is_pay']; //A2 全额是否到帐
-                    $arrayBookInfo[$room_id]['book_pay_date'] = ''; //A2 全额支付时间
-                    $arrayBookInfo[$room_id]['payment_type_id'] = $arrayInfo['payment_type'];//A 支付类型
+                    if($book_is_prepayment == 1) {//预付 //已入住不能预付
+                        if($arrayOldBookInfo['book_order_number_main_status'] != 1) {
+                            return array(0, '只有预定的订单能进行预付费更改,请选择全额付款！');
+                        }
+                        $arrayBookInfo[$room_id]['book_prepayment_price'] = $objRequest -> book_prepayment_price;//预付费
+                        $arrayBookInfo[$room_id]['book_is_prepayment'] = $book_is_payment;  //A2 是否已预付
+                        if($book_is_payment == 1)  $arrayBookInfo[$room_id]['book_prepayment_date'] = getDateTime();
+                        $arrayBookInfo[$room_id]['prepayment_type_id'] = $payment_type;  //A2 预付支付类型
+                        //
+                    } else {
+                        $arrayBookInfo[$room_id]['book_is_pay'] = $is_pay;//A2 是否全额支付
+                        $arrayBookInfo[$room_id]['book_is_payment'] = $book_is_payment; //A2 全额是否到帐
+                        if($is_pay == 1) $arrayBookInfo[$room_id]['book_pay_date'] = getDateTime(); //A2 全额支付时间 只改变当前的book_id
+                        $arrayBookInfo[$room_id]['payment_type_id'] = $payment_type;//A 支付类型
+
+                    }
+                    $updateMain['book_total_price'] = ''; //A1 支付总价
+                    $updateMain['book_total_room_rate'] = ''; //A1 总房价
+                    $updateMain['book_need_service_price'] = ''; //A1 附加服务费
+                    $updateMain['book_service_charge'] = ''; //A1 服务费
+                    $updateMain['book_total_cash_pledge'] = ''; //A1 总押金
+
                     //
-                    $arrayBookInfo[$room_id]['book_payment_voucher'] = $arrayInfo['book_payment_voucher'];//A 付款凭证
+                    $arrayBookInfo[$room_id]['book_payment_voucher'] = $objRequest -> book_payment_voucher;//A 付款凭证
                     $arrayBookInfo[$room_id]['book_days_total'] = $arrayInfo['book_days_total'];
 
                     $arrayBookInfo[$room_id]['book_add_date'] = $arrayInfo['book_days_total'];
                     $arrayBookInfo[$room_id]['book_add_time'] = $arrayInfo['book_days_total'];
                     $arrayBookInfo[$room_id]['book_add_datetime '] = $arrayInfo['book_days_total'];
-                    $book_change = 0;
-                    if($arrayInfo['type'] == 'add_room') $book_change = 1;
                     $arrayBookInfo[$room_id]['book_change '] = $book_change;
+                    //房价
+                    foreach($arrayInfo['rdate'] as $date => $price) {
+                        $arrayDate = explode('-', $date);
+                        $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
+                        $id = $year . '-' . $month . '-' . $sell_id . '-' . $room_layout_id . '-' . $system_id;
+                        //房价
+                        if(!isset($arrayRoomPrice[$id])) {
+                            $arrayRoomPrice[$id]['book_id'] = $arrayOldBookInfo['book_id'];
+                            $arrayRoomPrice[$id]['book_order_number'] = $order_number;
+                            $arrayRoomPrice[$id]['room_sell_layout_id'] = $sell_id;
+                            $arrayRoomPrice[$id]['room_layout_id'] = $room_layout_id;
+                            $arrayRoomPrice[$id]['room_layout_price_system_id'] = $system_id;
+                            $arrayRoomPrice[$id]['employee_id'] = $employee_id;
+                            $arrayRoomPrice[$id]['hotel_id'] = $hotel_id;
+                            $arrayRoomPrice[$id]['room_layout_date_year'] = $year;
+                            $arrayRoomPrice[$id]['room_layout_date_month'] = $month;
+                        }
+                        $arrayRoomPrice[$id][$date . '_day'] = $price;
+                        //夜审
+                        $nightAuditKey = $id . '-' . $day;
+                        $arrayNightAudit[$nightAuditKey]['book_order_number'] = $order_number;
+                        $arrayNightAudit[$nightAuditKey]['book_id'] = $arrayOldBookInfo['book_id'];
+                        $arrayNightAudit[$nightAuditKey]['employee_id'] = $employee_id;
+                        $arrayNightAudit[$nightAuditKey]['hotel_id'] = $hotel_id;
+                        $arrayNightAudit[$nightAuditKey]['book_type_id'] = $arrayOldBookInfo['book_type_id'];
+                        $arrayNightAudit[$nightAuditKey]['book_discount_id'] = $arrayOldBookInfo['book_discount_id'];
+                        $arrayNightAudit[$nightAuditKey]['book_discount'] = $arrayOldBookInfo['book_discount'];
+                        $arrayNightAudit[$nightAuditKey]['room_sell_layout_id'] = $sell_id;
+                        $arrayNightAudit[$nightAuditKey]['room_layout_id'] = $room_layout_id;
+                        $arrayNightAudit[$nightAuditKey]['room_layout_price_system_id'] = $system_id;
+                        $arrayNightAudit[$nightAuditKey]['book_night_audit_fiscal_day'] = $date;
+                        $arrayNightAudit[$nightAuditKey]['room_id'] = $room_id;
+                        $arrayNightAudit[$nightAuditKey]['price'] = $price;
+                        $arrayNightAudit[$nightAuditKey]['book_night_audit_income'] = $price;//收入（折扣后）
+                        //营收类型 room：客房 service：服务类型 service_charge  服务费 extra_bed 加床
+                        $arrayNightAudit[$nightAuditKey]['book_night_audit_income_type'] = 'room';
+                        $arrayNightAudit[$nightAuditKey]['book_is_check_employee_id'] = $employee_id;
+                        $arrayNightAudit[$nightAuditKey]['book_is_check_add_datetime'] = getDateTime();
 
+                    }
+                }
+                if($k == 'bed') {
+                    foreach($arrayInfo['beddate'] as $date => $price) {
+                        $arrayDate = explode('-', $date);
+                        $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
+                        $id = $year . '-' . $month . '-' . $sell_id . '-' . $room_layout_id . '-' . $system_id;
+                        //房价
+                        if(!isset($arrayRoomExtraBedPrice[$id])) {
+                            $arrayRoomExtraBedPrice[$id]['book_id'] = $arrayOldBookInfo['book_id'];
+                            $arrayRoomExtraBedPrice[$id]['book_order_number'] = $order_number;
+                            $arrayRoomExtraBedPrice[$id]['room_sell_layout_id'] = $sell_id;
+                            $arrayRoomExtraBedPrice[$id]['room_layout_id'] = $room_layout_id;
+                            $arrayRoomExtraBedPrice[$id]['room_layout_price_system_id'] = $system_id;
+                            $arrayRoomExtraBedPrice[$id]['employee_id'] = $employee_id;
+                            $arrayRoomExtraBedPrice[$id]['hotel_id'] = $hotel_id;
+                            $arrayRoomExtraBedPrice[$id]['room_layout_date_year'] = $year;
+                            $arrayRoomExtraBedPrice[$id]['room_layout_date_month'] = $month;
+                        }
+                        $arrayRoomExtraBedPrice[$id][$date . '_day'] = $price;
+                        //夜审
+                        $nightAuditKey = $id . '-' . $day;
+                        $arrayNightAudit[$nightAuditKey]['book_order_number'] = $order_number;
+                        $arrayNightAudit[$nightAuditKey]['book_id'] = $arrayOldBookInfo['book_id'];
+                        $arrayNightAudit[$nightAuditKey]['employee_id'] = $employee_id;
+                        $arrayNightAudit[$nightAuditKey]['hotel_id'] = $hotel_id;
+                        $arrayNightAudit[$nightAuditKey]['book_type_id'] = $arrayOldBookInfo['book_type_id'];
+                        $arrayNightAudit[$nightAuditKey]['book_discount_id'] = $arrayOldBookInfo['book_discount_id'];
+                        $arrayNightAudit[$nightAuditKey]['book_discount'] = $arrayOldBookInfo['book_discount'];
+                        $arrayNightAudit[$nightAuditKey]['room_sell_layout_id'] = $sell_id;
+                        $arrayNightAudit[$nightAuditKey]['room_layout_id'] = $room_layout_id;
+                        $arrayNightAudit[$nightAuditKey]['room_layout_price_system_id'] = $system_id;
+                        $arrayNightAudit[$nightAuditKey]['book_night_audit_fiscal_day'] = $date;
+                        $arrayNightAudit[$nightAuditKey]['room_id'] = $room_id;
+                        $arrayNightAudit[$nightAuditKey]['price'] = $price;
+                        $arrayNightAudit[$nightAuditKey]['book_night_audit_income'] = $price;//收入（折扣后）
+                        //营收类型 room：客房 service：服务类型 service_charge  服务费 extra_bed 加床
+                        $arrayNightAudit[$nightAuditKey]['book_night_audit_income_type'] = 'extra_bed';
+                        $arrayNightAudit[$nightAuditKey]['book_is_check_employee_id'] = $employee_id;
+                        $arrayNightAudit[$nightAuditKey]['book_is_check_add_datetime'] = getDateTime();
+                    }
                 }
 
             }
 
 
         }
+        //事务开启
+        /*
+        BookDao::instance()->startTransaction();
+        if(!empty($arrayBookInfo)) {
+            BookDao::instance()->setTable('book')->batchInsert($arrayBookInfo);
+        }
+        if(!empty($arrayRoomPrice)) {
+            BookDao::instance()->setTable('book_room_price')->batchInsert($arrayRoomPrice);
+        }
+        if(!empty($arrayRoomExtraBedPrice)) {
+            BookDao::instance()->setTable('book_room_extra_bed_price')->batchInsert($arrayRoomExtraBedPrice);
+        }
+        BookDao::instance()->commit();*/
+        return array(1,'');
     }
     public function getBookInfo($objRequest, $objResponse) {
         $thisDay = $objRequest -> time_begin;

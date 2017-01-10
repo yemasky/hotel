@@ -279,8 +279,8 @@ input, select {border-radius: 0 !important;}
                                 <%$arrayLaguage['service_charge']['page_laguage_value']%> :
                                 <input value="0" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
 						    </div>
+                            <label class="control-label"><%$arrayLaguage['prepayment_price']['page_laguage_value']%> :</label>
                             <div class="controls">
-                            <%$arrayLaguage['prepayment_price']['page_laguage_value']%> :
                                 <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
                             </div>
 							<label class="control-label"><%$arrayLaguage['total_price']['page_laguage_value']%> :</label>

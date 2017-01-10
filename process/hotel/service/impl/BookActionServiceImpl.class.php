@@ -116,7 +116,7 @@ class BookActionServiceImpl extends \BaseService  {
     }
 
     public function doSaveEditbookAction($objRequest, $objResponse) {
-        BookOperateService::instance()->saveEditReBookInfo($objRequest, $objResponse);
+        return BookOperateService::instance()->saveEditReBookInfo($objRequest, $objResponse);
     }
 
     public function doSaveEditBookPayment($objRequest, $objResponse) {

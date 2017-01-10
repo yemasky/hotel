@@ -404,6 +404,7 @@
                                       <th>单价</th>
                                       <th>数量</th>
                                       <th>折扣</th>
+                                      <th>总价</th>
                                       <th></th>
                                     </tr>
                                   </thead>
@@ -414,7 +415,18 @@
                                       <td><%$arrayBookHotelService[i].hotel_service_price%></td>
                                       <td><%$arrayBookHotelService[i].book_hotel_service_num%></td>
                                       <td><%$arrayBookHotelService[i].book_hotel_service_discount%></td>
-                                      <td><a class="btn btn-primary btn-mini fr"><i class="am-icon-edit"></i><%$arrayLaguage['edit']['page_laguage_value']%></a></td>
+                                      <td><%$arrayBookHotelService[i].hotel_service_price * $arrayBookHotelService[i].book_hotel_service_num * $arrayBookHotelService[i].book_hotel_service_discount / 100%></td>
+                                      <td>
+                                          <div class="fr">
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary btn-mini" href="#t"><i class="am-icon-circle-o"></i> 管理</a>
+                                                <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                                <ul class="dropdown-menu" room_id="21" book_id="8">
+                                                    <li class="user_room_card"><a data-target="#" href="#t"><i class="am-icon-credit-card"></i> 退订服务</a></li>
+                                                </ul>
+                                            </div>
+                                          </div>
+                                      </td>
                                     </tr>
                                   <%/section%>
                                     <tr id="add_service_tr" class="hide">
@@ -429,9 +441,10 @@
                                       <td></td>
                                       <td></td>
                                       <td></td>
+                                      <td></td>
                                       <td><div class="input-prepend input-append fr">
                                       <a id="cancel_add_service" class="btn btn-primary btn-mini"><i class="am-icon-edit"></i><%$arrayLaguage['cancel']['page_laguage_value']%></a>
-                                      <a id="asve_add_service" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['save']['page_laguage_value']%></a>
+                                      <a id="save_add_service" class="btn btn-primary btn-mini"><i class="am-icon-save"></i><%$arrayLaguage['confirm']['page_laguage_value']%></a>
                                       </div></td>
                                     </tr>
                                   </tbody>
@@ -505,6 +518,8 @@
                                             <input value="0" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
                                             <span class="add-on"><%$arrayLaguage['total_price']['page_laguage_value']%> :</span>
                                             <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
+                                            <span class="add-on"><%$arrayLaguage['prepayment_price']['page_laguage_value']%> :</span>
+                                            <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
                                         </span>
                                         </p>
                                         <p class="text-center">
