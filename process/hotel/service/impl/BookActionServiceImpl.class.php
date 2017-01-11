@@ -154,6 +154,7 @@ class BookActionServiceImpl extends \BaseService  {
 
     public function doAddBookUser($objRequest, $objResponse) {
         $arraySaveData['book_id'] = $objRequest -> book_id;//
+        $arraySaveData['employee_id'] = $objResponse->arrayLoginEmployeeInfo['employee_id'];//
         $arraySaveData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $arraySaveData['book_order_number'] = decode($objRequest -> order_number);
         $arraySaveData['room_id'] = $objRequest -> room_num;//

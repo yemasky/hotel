@@ -932,6 +932,7 @@ $(document).ready(function(){
                         $('#'+key).remove();
                         BookEditClass.tempServicePrice[key] = '';
                     });
+                    tempServicePrice[key]['id'] = id;
                     tempServicePrice[key]['service_price'] = service_price;
                     tempServicePrice[key]['service_num'] = service_num;
                     tempServicePrice[key]['service_discount'] = discount;
@@ -946,9 +947,10 @@ $(document).ready(function(){
                         $('#'+key).remove();
                         tempServicePrice[key] = '';
                     }
-                    BookEditClass.tempServicePrice = tempServicePrice;                    
+                    BookEditClass.tempServicePrice = tempServicePrice;
                 }
                 $('#add_service_tr').hide('fast');
+                bookEdit.computeAllBookPrice();                    
             };
             bookEdit.computeServicePrice = function(_this) {
                 $('#service_total_price').val($('#service_price').val() * $('#service_num').val()* $('#service_discount').val()/100);
@@ -960,6 +962,7 @@ $(document).ready(function(){
             };
             bookEdit.computeAllBookPrice = function() {
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
+                var tempServicePrice = BookEditClass.tempServicePrice;
                 var all_totle_price = 0;var all_cash_pledge = 0;var book_extra_bed_price = 0;
                 for(room_id in thenRoomPrice) {
                     if(typeof(thenRoomPrice[room_id]['data']) == 'undefined') continue;
@@ -972,13 +975,21 @@ $(document).ready(function(){
                 }
                 $('#book_room_rate').val(all_totle_price);$('#book_total_cash_pledge').val(all_cash_pledge);
                 $('#book_extra_bed_price').val(book_extra_bed_price);
-                $('#total_price').val(all_totle_price - 0 +　all_cash_pledge - 0　+　book_extra_bed_price);
+                var need_service_price = 0;
+                for(var key in tempServicePrice) {//need_service_price
+                    need_service_price += (tempServicePrice[key].service_total_price - 0);
+                    
+                }
+                $('#need_service_price').val(need_service_price);
+                $('#total_price').val((all_totle_price - 0) +　(all_cash_pledge - 0)　+　(book_extra_bed_price - 0) + (need_service_price - 0));
                 //$('#prepayment').val(pledge_price + service_price);//预付金 = 押金+附加服务费
                 $('#add_room_tr').hide('fast');
+                console.log(tempServicePrice);
             };
             bookEdit.saveBookRoom = function() {
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
-                var data = 'data='+JSON.stringify(thenRoomPrice) + '&' + $("#re_book").serialize();
+                var tempServicePrice = BookEditClass.tempServicePrice;
+                var data = 'data='+JSON.stringify(thenRoomPrice) + '&' + $("#re_book").serialize() + '&service='+JSON.stringify(tempServicePrice);
                 $.post('<%$saveBookInfoUrl%>&act=savebook', data, function(result) {
                     
                 }, 'json')
