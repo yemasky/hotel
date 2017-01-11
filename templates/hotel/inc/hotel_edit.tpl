@@ -27,13 +27,25 @@
                 <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['hotel_name']['page_laguage_value']%>" name="hotel_name" id="hotel_name" value="<%$arrayDataInfo['hotel_name']%>" /> </div>
             </div>
             <div class="control-group">
+                <label class="control-label">酒店英文名称 :</label>
+                <div class="controls"><input type="text" class="span3" placeholder="酒店英文名称" name="hotel_en_name" id="hotel_en_name" value="<%$arrayDataInfo['hotel_en_name']%>" /> </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">酒店简称 :</label>
+                <div class="controls"><input type="text" class="span3" placeholder="酒店简称" name="hotel_short_name" id="hotel_short_name" value="<%$arrayDataInfo['hotel_short_name']%>" /> </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">酒店官网 :</label>
+                <div class="controls"><input type="text" class="span3" placeholder="酒店官网" name="hotel_web" id="hotel_web" value="<%$arrayDataInfo['hotel_web']%>" /> </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_mobile']['page_laguage_value']%> :</label>
                 <div class="controls">
                     <input type="text" class="span3" placeholder="<%$arrayLaguage['hotel_mobile']['page_laguage_value']%>" name="hotel_mobile" id="hotel_mobile" value="<%$arrayDataInfo['hotel_mobile']%>" />
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label"><%$arrayLaguage['hotel_phone']['page_laguage_value']%> :</label>
+                <label class="control-label">酒店总机 :</label>
                 <div class="controls">
                     <input type="text" class="span3" placeholder="<%$arrayLaguage['hotel_phone']['page_laguage_value']%>" name="hotel_phone" value="<%$arrayDataInfo['hotel_phone']%>" /> 
                 </div>
@@ -80,12 +92,27 @@
                     <input type="hidden" name="hotel_longitude" id="hotel_longitude" value="<%$arrayDataInfo['hotel_longitude']%>" />
                     <input type="hidden" name="hotel_latitude" id="hotel_latitude" value="<%$arrayDataInfo['hotel_latitude']%>" />
             </div>
-            
+            <div class="control-group">
+                <label class="control-label">最近路口或标志建筑 :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_nearest_intersection" name="hotel_nearest_intersection" class="span6" placeholder="最近路口或标志建筑 " value="<%$arrayDataInfo['hotel_nearest_intersection']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><%$arrayLaguage['brand']['page_laguage_value']%> :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_brand" name="hotel_brand" class="span3" placeholder="<%if $arrayDataInfo['hotel_brand']==''%><%$arrayLaguage['brand']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_brand']%><%/if%>" value="<%$arrayDataInfo['hotel_brand']%>"  /> 
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_type']['page_laguage_value']%> :</label>
                 <div class="controls">
                     <select id="hotel_type" name="hotel_type" class="span3">
                         <option value="hotel"<%if $arrayDataInfo['hotel_type']=='hotel'%> selected="selected"<%/if%>><%$arrayLaguage['hotel']['page_laguage_value']%></option>
+                        <option value="boutique_hotel"<%if $arrayDataInfo['hotel_type']=='boutique_hotel'%> selected="selected"<%/if%>>精品酒店</option>
+                        <option value="design_hotel "<%if $arrayDataInfo['hotel_type']=='design_hotel'%> selected="selected"<%/if%>>设计酒店</option>
+                        <option value="B&B"<%if $arrayDataInfo['hotel_type']=='B&B'%> selected="selected"<%/if%>>民宿</option>
+                        <option value="holiday_village"<%if $arrayDataInfo['hotel_type']=='holiday_village'%> selected="selected"<%/if%>>度假村</option>
                     </select>
                 </div>
             </div>
@@ -105,6 +132,24 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">开业年月 :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_opening_date" name="hotel_opening_date" class="span1" placeholder="开业年月" value="<%$arrayDataInfo['hotel_opening_date']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">最新装修年月 :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_latest_decoration_date" name="hotel_latest_decoration_date" class="span1" placeholder="最新装修年月" value="<%$arrayDataInfo['hotel_latest_decoration_date']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">客房总数 :</label>
+                <div class="controls">
+                    <input type="text" id="hotel_number_of_rooms" name="hotel_number_of_rooms" class="span1" placeholder="客房总数" value="<%$arrayDataInfo['hotel_number_of_rooms']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label"><%$arrayLaguage['hotel_wifi']['page_laguage_value']%> :</label>
                 <div class="controls">
                     <select id="hotel_wifi" name="hotel_wifi" class="span3">
@@ -112,12 +157,6 @@
                         <option value="1"<%if $arrayDataInfo['hotel_wifi'] == 1%> selected="selected"<%/if%>><%$arrayLaguage['have']['page_laguage_value']%></option>
                         <option value="0"<%if $arrayDataInfo['hotel_wifi'] == 0%> selected="selected"<%/if%>><%$arrayLaguage['not_have']['page_laguage_value']%></option>
                     </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label"><%$arrayLaguage['brand']['page_laguage_value']%> :</label>
-                <div class="controls">
-                    <input type="text" id="hotel_brand" name="hotel_brand" class="span3" placeholder="<%if $arrayDataInfo['hotel_brand']==''%><%$arrayLaguage['brand']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_brand']%><%/if%>" value="<%$arrayDataInfo['hotel_brand']%>"  /> 
                 </div>
             </div>
             <div class="control-group">
@@ -138,13 +177,113 @@
                     <textarea class="span6" style="height:300px;" id="hotel_booking_notes" name="hotel_booking_notes" placeholder="<%if $arrayDataInfo['hotel_booking_notes']==''%><%$arrayLaguage['hotel_booking_notes']['page_laguage_value']%><%else%><%$arrayDataInfo['hotel_booking_notes']%><%/if%>" value="<%$arrayDataInfo['hotel_booking_notes']%>"  ><%$arrayDataInfo['hotel_booking_notes']%></textarea> 
                 </div>
             </div>
+            <div class="widget-title">
+                    <span class="icon">
+                        <i class="icon-align-justify"></i>									
+                    </span>
+                    <h5>联系方式</h5>
+            </div>
             <div class="control-group">
-                <label class="control-label"><%$arrayLaguage['hotel_introduce']['page_laguage_value']%></label>
+                <label class="control-label">负责人/店长/总经理 :</label>
+                <div class="controls">
+                    姓名: <input type="text" id="hotel_general_manager" name="hotel_general_manager" class="span1" placeholder="姓名" value="<%$arrayDataInfo['hotel_general_manager']%>"  /> 
+                    职务: <input type="text" id="hotel_general_manager_title" name="hotel_general_manager_title" class="span1" placeholder="职务" value="<%$arrayDataInfo['hotel_general_manager_title']%>"  /> 
+                    手机: <input type="text" id="hotel_general_manager_mobile" name="hotel_general_manager_mobile" class="span1" placeholder="手机" value="<%$arrayDataInfo['hotel_general_manager_mobile']%>"  /> 
+                    电话: <input type="text" id="hotel_general_manager_phone" name="hotel_general_manager_phone" class="span1" placeholder="电话" value="<%$arrayDataInfo['hotel_general_manager_phone']%>"  /> 
+                    邮箱: <input type="text" id="hotel_general_manager_email" name="hotel_general_manager_email" class="span1" placeholder="邮箱" value="<%$arrayDataInfo['hotel_general_manager_email']%>"  /> 
+                    传真: <input type="text" id="hotel_general_manager_fax" name="hotel_general_manager_fax" class="span1" placeholder="传真" value="<%$arrayDataInfo['hotel_general_manager_fax']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">销售部联系人 :</label>
+                <div class="controls">
+                    姓名: <input type="text" id="hotel_sales_contact" name="hotel_sales_contact" class="span1" placeholder="姓名" value="<%$arrayDataInfo['hotel_sales_contact']%>"  /> 
+                    职务: <input type="text" id="hotel_sales_contact_title" name="hotel_sales_contact_title" class="span1" placeholder="职务" value="<%$arrayDataInfo['hotel_sales_contact_title']%>"  /> 
+                    手机: <input type="text" id="hotel_sales_contact_mobile" name="hotel_sales_contact_mobile" class="span1" placeholder="手机" value="<%$arrayDataInfo['hotel_sales_contact_mobile']%>"  /> 
+                    电话: <input type="text" id="hotel_sales_contact_phone" name="hotel_sales_contact_phone" class="span1" placeholder="电话" value="<%$arrayDataInfo['hotel_sales_contact_phone']%>"  /> 
+                    邮箱: <input type="text" id="hotel_sales_contact_email" name="hotel_sales_contact_email" class="span1" placeholder="邮箱" value="<%$arrayDataInfo['hotel_sales_contact_email']%>"  /> 
+                    传真: <input type="text" id="hotel_sales_contact_fax" name="hotel_sales_contact_fax" class="span1" placeholder="传真" value="<%$arrayDataInfo['hotel_sales_contact_fax']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">预订部联系人 :</label>
+                <div class="controls">
+                    姓名: <input type="text" id="hotel_reservation_contact" name="hotel_reservation_contact" class="span1" placeholder="姓名" value="<%$arrayDataInfo['hotel_reservation_contact']%>"  /> 
+                    职务: <input type="text" id="hotel_reservation_contact_title" name="hotel_reservation_contact_title" class="span1" placeholder="职务" value="<%$arrayDataInfo['hotel_reservation_contact_title']%>"  /> 
+                    手机: <input type="text" id="hotel_reservation_contact_mobile" name="hotel_reservation_contact_mobile" class="span1" placeholder="手机" value="<%$arrayDataInfo['hotel_reservation_contact_mobile']%>"  /> 
+                    电话: <input type="text" id="hotel_reservation_contact_phone" name="hotel_reservation_contact_phone" class="span1" placeholder="电话" value="<%$arrayDataInfo['hotel_reservation_contact_phone']%>"  /> 
+                    邮箱: <input type="text" id="hotel_reservation_contact_email" name="hotel_reservation_contact_email" class="span1" placeholder="邮箱" value="<%$arrayDataInfo['hotel_reservation_contact_email']%>"  /> 
+                    传真: <input type="text" id="hotel_reservation_contact_fax" name="hotel_reservation_contact_fax" class="span1" placeholder="传真" value="<%$arrayDataInfo['hotel_reservation_contact_fax']%>"  /> 
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">财务部联系人 :</label>
+                <div class="controls">
+                    姓名: <input type="text" id="hotel_finance_contact" name="hotel_finance_contact" class="span1" placeholder="姓名" value="<%$arrayDataInfo['hotel_finance_contact']%>"  /> 
+                    职务: <input type="text" id="hotel_finance_contact_title" name="hotel_finance_contact_title" class="span1" placeholder="职务" value="<%$arrayDataInfo['hotel_finance_contact_title']%>"  /> 
+                    手机: <input type="text" id="hotel_finance_contact_mobile" name="hotel_finance_contact_mobile" class="span1" placeholder="手机" value="<%$arrayDataInfo['hotel_finance_contact_mobile']%>"  /> 
+                    电话: <input type="text" id="hotel_finance_contact_phone" name="hotel_finance_contact_phone" class="span1" placeholder="电话" value="<%$arrayDataInfo['hotel_finance_contact_phone']%>"  /> 
+                    邮箱: <input type="text" id="hotel_finance_contact_email" name="hotel_finance_contact_email" class="span1" placeholder="邮箱" value="<%$arrayDataInfo['hotel_finance_contact_email']%>"  /> 
+                    传真: <input type="text" id="hotel_finance_contact_fax" name="hotel_finance_contact_fax" class="span1" placeholder="传真" value="<%$arrayDataInfo['hotel_finance_contact_fax']%>"  /> 
+                </div>
+            </div>
+            <div class="widget-title">
+                    <span class="icon">
+                        <i class="icon-align-justify"></i>									
+                    </span>
+                    <h5>全方位酒店介绍</h5>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><%$arrayLaguage['hotel_introduce']['page_laguage_value']%>: </label>
                 <div class="controls">
                     <textarea class="span6" style="height:300px;"  placeholder="<%$arrayLaguage['hotel_introduce']['page_laguage_value']%>" name="hotel_introduce" value="<%$arrayDataInfo['hotel_introduce']%>" ><%$arrayDataInfo['hotel_introduce']%></textarea>
                 </div>
             </div>
-           
+            <div class="control-group">
+                <label class="control-label">设计风格: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="设计风格" name="hotel_design_style" value="<%$arrayDataInfo['hotel_design_style']%>" ><%$arrayDataInfo['hotel_design_style']%></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">建筑特色: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="建筑特色" name="hotel_architectural_feature" value="<%$arrayDataInfo['hotel_architectural_feature']%>" ><%$arrayDataInfo['hotel_architectural_feature']%></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">酒店特色: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="酒店特色" name="hotel_features" value="<%$arrayDataInfo['hotel_features']%>" ><%$arrayDataInfo['hotel_features']%></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">早餐介绍: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="早餐介绍" name="hotel_breakfast_introduction" value="<%$arrayDataInfo['hotel_breakfast_introduction']%>" ><%$arrayDataInfo['hotel_breakfast_introduction']%></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">餐厅特色: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="餐厅特色" name="hotel_restaurant_features" value="<%$arrayDataInfo['hotel_restaurant_features']%>" ><%$arrayDataInfo['hotel_restaurant_features']%></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">酒店交通: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="酒店交通" name="hotel_traffic" value="<%$arrayDataInfo['hotel_traffic']%>" ><%$arrayDataInfo['hotel_traffic']%></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">周边特色: </label>
+                <div class="controls">
+                    <textarea class="span6" style="height:300px;"  placeholder="周边特色" name="hotel_peripheral_features" value="<%$arrayDataInfo['hotel_peripheral_features']%>" ><%$arrayDataInfo['hotel_peripheral_features']%></textarea>
+                </div>
+            </div>
+            
+            
+            
             
             <div class="form-actions pagination-centered btn-icon-pg">
             	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->

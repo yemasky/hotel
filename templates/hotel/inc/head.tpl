@@ -5,6 +5,8 @@
 //定义全局变量
 var data = '';
 </script>
+<script src="<%$__RESOURCE%>js/jquery.min.js"></script>
+<!--<script src="<%$__RESOURCE%>js/jquery.min.1.11.1.js"></script>-->
 <!-- 2.0 -->
 <!--
 <link rel="stylesheet" href="<%$__RESOURCE%>css/bootstrap.min.css" />
@@ -15,7 +17,6 @@ var data = '';
 <!---->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/bootstrap.min.2.3.2.css" />
 <link rel="stylesheet" href="<%$__RESOURCE%>css/bootstrap-responsive.min.2.3.2.css" />
-<script src="<%$__RESOURCE%>js/jquery.min.js"></script>
 <script src="<%$__RESOURCE%>js/bootstrap.min.2.3.2.js"></script>
 <!-- commom -->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/maruti-style.css" />

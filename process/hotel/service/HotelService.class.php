@@ -34,9 +34,9 @@ class HotelService extends \BaseService {
         return HotelDao::instance()->getHotelModules($conditions, '*', $hashKey, $multiple);
     }
 
-    public function getHotel($conditions, $hashKey = null) {
+    public function getHotel($conditions, $field = '*', $hashKey = null) {
         if(empty($conditions['order'])) $conditions['order'] = 'hotel_id DESC';
-        return HotelDao::instance()->getHotel($conditions, null, $hashKey);
+        return HotelDao::instance()->getHotel($conditions, $field, $hashKey);
     }
 
     public function saveHotel($arrayData) {

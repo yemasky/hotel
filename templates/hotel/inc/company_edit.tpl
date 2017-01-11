@@ -8,15 +8,41 @@
             <div class="controls"><input type="text" class="span3" placeholder="<%$arrayLaguage['company_name']['page_laguage_value']%>" name="company_name" id="company_name" value="<%$arrayCompany['company_name']%>" /> </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><%$arrayLaguage['contact_information']['page_laguage_value']%> :</label>
+            <label class="control-label">联系电话 :</label>
             <div class="controls">
-                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_mobile']['page_laguage_value']%>" name="company_mobile" id="company_mobile" value="<%$arrayCompany['company_mobile']%>" />
+                <input type="text" class="input-medium" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>" name="company_phone" id="company_phone" value="<%$arrayCompany['company_phone']%>" />[010-88888888]
+                
+                <input type="text" class="input-medium" placeholder="<%$arrayLaguage['company_email']['page_laguage_value']%>" name="company_email" value="<%$arrayCompany['company_email']%>" /> 
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><%$arrayLaguage['company_phone']['page_laguage_value']%> :</label>
+            <label class="control-label">联系人手机 :</label>
             <div class="controls">
-                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_phone']['page_laguage_value']%>" name="company_phone" value="<%$arrayCompany['company_phone']%>" /> 
+                 <input type="text" class="input-medium" placeholder="<%$arrayLaguage['company_mobile']['page_laguage_value']%>" name="company_mobile" id="company_mobile" value="<%$arrayCompany['company_mobile']%>" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">财务负责人座机 :</label>
+            <div class="controls">
+                <input type="text" class="input-medium" placeholder="财务负责人座机" name="company_finance_phone" id="company_finance_phone" value="<%$arrayCompany['company_finance_phone']%>" />[010-88888888]
+                
+                <input type="text" class="input-medium" placeholder="联系email" name="company_finance_email" id="company_finance_email" value="<%$arrayCompany['company_finance_email']%>" /> 
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">销售负责人座机 :</label>
+            <div class="controls">
+                <input type="text" class="input-medium" placeholder="销售负责人座机" name="company_sales_phone" id="company_sales_phone" value="<%$arrayCompany['company_sales_phone']%>" />[010-88888888]
+                
+                <input type="text" class="input-medium" placeholder="联系email" name="company_sales_email" id="company_sales_email" value="" /> 
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">信息负责人座机 :</label>
+            <div class="controls">
+                <input type="text" class="input-medium" placeholder="信息负责人座机" name="company_information_phone" id="company_information_phone" value="<%$arrayCompany['company_information_phone']%>" />[010-88888888]
+                
+                <input type="text" class="input-medium" placeholder="联系email" name="company_information_email" id="company_information_email" value="<%$arrayCompany['company_information_email']%>" /> 
             </div>
         </div>
         <div class="control-group">
@@ -26,15 +52,15 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><%$arrayLaguage['company_email']['page_laguage_value']%> :</label>
+            <label class="control-label">公司网址 :</label>
             <div class="controls">
-                <input type="text" class="span3" placeholder="<%$arrayLaguage['company_email']['page_laguage_value']%>" name="company_email" value="<%$arrayCompany['company_email']%>" /> 
+                <input type="text" class="span3" placeholder="公司网址" name="company_web" id="company_web" value="<%$arrayCompany['company_web']%>" /> 
             </div>
         </div>
         <div class="control-group">
             <label class="control-label"><%$arrayLaguage['company_location']['page_laguage_value']%> :</label>
             <div class="controls ">
-                <select id="location_province" name="company_province" class="span1">
+                <select id="location_province" name="company_province" class="input-medium">
                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                 </select>
                 <select id="location_city" name="company_city" class="span1">

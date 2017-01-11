@@ -223,6 +223,20 @@ $('#hotel_checkin').datetimepicker({
 	format:'H:i',
 	step:30
 });
+$.datetimepicker.setLocale('ch');
+$('#hotel_opening_date').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, 
+    yearStart: '1900', yearEnd: '2050;', //yearOffset:1,maxDate:'+1970-01-02',
+    onGenerate:function( ct ){
+        $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+    },
+});
+$('#hotel_latest_decoration_date').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false, yearEnd: '2050',
+    onGenerate:function( ct ){
+        $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+    },
+});
+    
+
 </script>
 <script language="javascript">
 	function uploadSuccess(img_url, id) {

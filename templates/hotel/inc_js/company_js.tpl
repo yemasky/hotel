@@ -1,11 +1,3 @@
-<!--<script src="<%$__RESOURCE%>js/jquery.ui.custom.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap.min.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-colorpicker.js"></script>
-<script src="<%$__RESOURCE%>js/bootstrap-datepicker.js"></script>
-<script src="<%$__RESOURCE%>js/jquery.uniform.js"></script>
-<script src="<%$__RESOURCE%>js/select2.min.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.form_common.js"></script>-->
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <%include file="hotel/inc_js/location_js.tpl"%>
 <script type="text/javascript">
@@ -107,6 +99,8 @@ $(document).ready(function(){
 			company_name:{
 				required:true
 			},
+            company_phone:{required:true,isZonePhone:true},company_finance_phone:{required:true,isZonePhone:true},
+            company_sales_phone:{required:true,isZonePhone:true},company_information_phone:{required:true,isZonePhone:true},
 			company_province:{
 				required:true
 			},
@@ -124,7 +118,8 @@ $(document).ready(function(){
 			company_name:"请输入公司名称",
 			company_province:"",
 			company_mobile:"请输入正确移动电话号码",
-			company_address:"请输入公司地址"
+			company_address:"请输入公司地址",
+            company_phone:"请输入正确的电话号码",company_finance_phone:"请输入正确的电话号码",company_sales_phone:"请输入正确的电话号码",company_information_phone:"请输入正确的电话号码",
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -138,7 +133,23 @@ $(document).ready(function(){
 		}
 	});
 	$('#company_address').val("<%$arrayCompany['company_address']%>");
-
+    $('#company_phone,#company_finance_phone,#company_sales_phone,#company_information_phone').bind("click keyup", function(e) {
+        if($.trim(this.value) == '') this.value = '-';
+        if(this.value == '-') {
+            var position = 0;
+            var txtFocus = document.getElementById(this.id);
+            if ($.browser.msie) {
+                var range = txtFocus.createTextRange();
+                range.move("character", position);
+                range.select();
+            }
+            else {
+                //obj.setSelectionRange(startPosition, endPosition);
+                txtFocus.setSelectionRange(position, position);
+                txtFocus.focus();
+            }
+        }
+    });
 	
 });
 </script>

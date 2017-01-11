@@ -16,3 +16,8 @@ jQuery.validator.addMethod("isMobile&Email", function(value, element) {
 jQuery.validator.addMethod("isNumbersAndLetters-", function(value, element){
 	return this.optional(element) ||/^[a-zA-Z0-9\-]+$/.test(value);
 }, "只能包括英文字母、数字和-");
+jQuery.validator.addMethod("isZonePhone", function(value, element) {
+	var length = value.length;
+	var zonePhone = /^([0-9]{3,4})-([0-9]{7,8})$/;
+	return this.optional(element) || zonePhone.test(value);
+}, "请正确填写电话号码");

@@ -196,7 +196,7 @@ class HotelAction extends \BaseAction {
 
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id);
-        $arrayHotel = HotelService::instance()->getHotel($conditions);
+        $arrayHotel = HotelService::instance()->getHotel($conditions, '*');
 
         $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
         $arrayEmployeeCompany = EmployeeService::instance()->getEmployeeCompany($conditions);
