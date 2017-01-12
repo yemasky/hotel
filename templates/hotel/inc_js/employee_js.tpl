@@ -246,7 +246,8 @@ $(document).ready(function(){
                 $('#department_position_id').val(treeNode.name);
                 var position = treeNode.id.replace('P', '');
                 $('#department_position').val(position);
-                 EmployeeClass.employee_id = '';
+                EmployeeClass.employee_id = '';
+                $('#employee_images_url img').attr('src', '');
             };
             employee.beforeClick = function(treeId, treeNode, clickFlag) {
                 return (treeNode.click != false);
