@@ -66,6 +66,7 @@ class HttpRequest{
 	}
 
 	public function addArraySlashes($arrRs){
+	    if(empty($arrRs)) return NULL;
 		foreach($arrRs as $k => $v) {
 			if(is_array($v)) {
 				$arrRs[$k] = $this->addArraySlashes($v);

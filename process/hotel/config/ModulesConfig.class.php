@@ -28,7 +28,7 @@ class ModulesConfig extends \ModulesConfig {
         'accessorialService'=> array('edit'=>59, 'delete'=>58, 'add'=>57, 'view'=>56),
         'roomsSellLayout'   => array('edit'=>62, 'delete'=>63, 'add'=>61, 'view'=>60),
         'department'        => array('edit'=>72, 'delete'=>73, 'add'=>71, 'view'=>30),
-        'employee'          => array('edit'=>75, 'delete'=>76, 'add'=>74, 'view'=>31),
+        'employee'          => array('edit'=>75, 'delete'=>76, 'add'=>74, 'view'=>31, 'personnelFile'=>89),
         'memberSetting'     => array('edit'=>78, 'delete'=>79, 'add'=>77, 'view'=>20),
         'modeOfPayment'     => array('edit'=>81, 'delete'=>82, 'add'=>80, 'view'=>23),
         'nightAudit'        => array('edit'=>70, 'delete'=>00, 'add'=>69, 'view'=>68),

@@ -162,4 +162,11 @@ $(document).ready(function(){
 	});
 	
 });
+(function ($) {
+    $.getUrlParam = function (url, name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = url.match(reg);
+        if (r != null) return unescape(r[2]); return '';
+    }
+})(jQuery);
 

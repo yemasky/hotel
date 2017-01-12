@@ -96,5 +96,13 @@ class EmployeeService extends \BaseService {
         return EmployeeDao::instance()->setTable('employee_images')->delete($where);
     }
 
+    //employee_personnel_file
+    public function insertEmployeePersonnelFile($row) {
+        return EmployeeDao::instance()->setTable('employee_personnel_file')->insert($row, 'REPLACE');
+    }
+
+    public function getEmployeePersonnelFile($conditions, $field = null, $hashKey = null, $multiple = false) {
+        return EmployeeDao::instance()->setTable('employee_personnel_file')->getList($conditions, $field, $hashKey, $multiple);
+    }
 
 }

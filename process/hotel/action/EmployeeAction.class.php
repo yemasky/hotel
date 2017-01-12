@@ -26,6 +26,9 @@ class EmployeeAction extends \BaseAction {
             case 'delete':
                 $this->doDelete($objRequest, $objResponse);
                 break;
+            case 'personnelFile':
+                $this->doPersonnelFile($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -62,6 +65,9 @@ class EmployeeAction extends \BaseAction {
         //role
         $conditions['where'] = array('hotel_id'=>$hotel_id);
         $arrayRole = RoleService::instance()->getRole($conditions);
+        //人事信息权限
+        $arrayMyRole = $objResponse->arrayRoleModulesEmployeePermissions;
+        $personnelRole = isset($arrayMyRole[ModulesConfig::$modulesConfig['employee']['personnelFile']]) ? 1 : 0;
         //
         $objResponse -> yearEnd = date("Y") - 14;
         $objResponse -> yearBegin = date("Y") - 14 . '-' . date("m") . '-' .date("d");
@@ -69,6 +75,7 @@ class EmployeeAction extends \BaseAction {
         $objResponse -> arrayPosition = $arrayPosition;
         $objResponse -> arrayPageEmployee = $arrayPageEmployee;
         $objResponse -> arrayRole = $arrayRole;
+        $objResponse -> personnelRole = $personnelRole;
         $objResponse -> add_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['add'])));
         $objResponse -> edit_url =
@@ -77,6 +84,8 @@ class EmployeeAction extends \BaseAction {
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['delete'])));
         $objResponse -> view_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['view'])));
+        $objResponse -> personnelFile_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['employee']['personnelFile'])));
         $objResponse -> upload_images_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['upload']['uploadImages']),
                 'upload_type'=>ModulesConfig::$modulesConfig['hotel']['upload_type'],'hotel_id'=>encode($hotel_id),'type'=>'employee'));
@@ -124,7 +133,7 @@ class EmployeeAction extends \BaseAction {
                 RoleService::instance()->saveRoleEmployee(array('hotel_id'=>$hotel_id,'role_id'=>$saveData['role_id'],'employee_id'=>$employee_id));
             }
 
-            return $this->successResponse('成功保存数据', $arrayPost);
+            return $this->successResponse('成功保存数据', $employee_id);
         }
         return $this->errorResponse('没有保存任数据');
         //$objResponse -> add_room_attribute_url =
@@ -148,6 +157,31 @@ class EmployeeAction extends \BaseAction {
         $objResponse -> pn = $pn;
         $objResponse -> page = $arrayEmplayee['page'];
         return $arrayEmplayee;
+    }
+
+    protected function doPersonnelFile($objRequest, $objResponse) {
+        $this->setDisplay();
+        $arrayPost = $objRequest->getPost();
+        $employee_id = $objRequest -> employee_id;
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        if(!empty($arrayPost)) {
+            $arrayPost['employee_id'] = $employee_id;
+            $arrayPost['hotel_id'] = $hotel_id;
+            if(empty($arrayPost['employee_entry_date'])) unset($arrayPost['employee_entry_date']);
+            if(empty($arrayPost['employee_probation_date'])) unset($arrayPost['employee_probation_date']);
+            EmployeeService::instance()->insertEmployeePersonnelFile($arrayPost);
+            return $this->successResponse('保存成功！');
+        }
+        if($employee_id > 0) {
+            $conditions = DbConfig::$db_query_conditions;
+            $conditions['where'] = array('employee_id'=>$employee_id, 'hotel_id'=>$hotel_id);
+            $arrayResult = EmployeeService::instance()->getEmployeePersonnelFile($conditions);
+            if(!empty($arrayResult)) {
+                return $this->successResponse('', $arrayResult[0]);
+            }
+            return $this->errorResponse('没有取得任何数据');
+        }
+        return $this->errorResponse('没有保存任何数据！');
     }
 
 }

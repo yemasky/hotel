@@ -183,9 +183,13 @@ class UploadAction extends \BaseAction {
             }
             if($upload_type == 'hotel' && decode($objRequest -> hotel_id) > 0) {
                 if($type == 'employee') {
+                    $employee_id = $objRequest -> employee_id;
+                    $employee_id = empty($employee_id) ? '0' : $employee_id;
                     $id = EmployeeService::instance()->saveEmployeeImages(array('hotel_id'=>decode($objRequest -> hotel_id),
+                        'employee_id'=>$employee_id,
                         'employee_images_path'=>$relative_file,
                         'employee_images_filesize'=>$file_size,
+                        'employee_images_type'=>$objRequest -> images_type,
                         'employee_images_add_date'=>getDay(),
                         'employee_images_add_time'=>getTime(),
                         'employee_images_name'=>$this_file_name));
@@ -199,7 +203,7 @@ class UploadAction extends \BaseAction {
                 }
             }
             header('Content-type: text/html; charset=UTF-8');
-            echo json_encode(array('error' => 0, 'url' => $file_url, 'title'=>$id));
+            echo json_encode(array('error' => 0, 'url' => __IMGWEB . $file_url, 'title'=>$id));
         }
 
         //赋值
@@ -258,7 +262,13 @@ class UploadAction extends \BaseAction {
             if(strpos($path, $hotel) !== false) {
                 if(decode($objRequest ->hotel_id) > 0) {
                     if($type == 'employee') {
-                        $conditions['where'] = array('hotel_id'=>decode($objRequest ->hotel_id), '>'=>array('employee_images_filesize'=>0));
+                        $employee_id = $objRequest -> employee_id;
+                        if($employee_id > 0) {
+                            $conditions['where'] = array('hotel_id'=>decode($objRequest ->hotel_id), 'employee_id'=>$employee_id,
+                                '>'=>array('employee_images_filesize'=>0));
+                        } else {
+                            $conditions['where'] = array('hotel_id'=>decode($objRequest ->hotel_id), '>'=>array('employee_images_filesize'=>0));
+                        }
                         $arrayImages = EmployeeService::instance()->getEmployeeImages($conditions);
                         if(!empty($arrayImages)) {
                             foreach ($arrayImages as $k => $v) {
