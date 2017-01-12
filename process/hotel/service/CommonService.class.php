@@ -41,7 +41,9 @@ class CommonService extends \BaseService {
                 $arrayHotelModules[$i]['modules_module'] = $arrayModules[$arrayHotelModules[$i]['modules_id']]['modules_module'];
                 $arrayHotelModules[$i]['hotel_modules_ico'] = $arrayModules[$arrayHotelModules[$i]['modules_id']]['modules_ico'];
                 $arrayHotelModules[$i]['modules_action'] = $arrayModules[$arrayHotelModules[$i]['modules_id']]['modules_action'];
-                $arrayHotelModules[$i]['url'] = \BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
+                $arrayHotelModules[$i]['url'] = '#menu';
+                if($arrayHotelModules[$i]['modules_id'] != $arrayHotelModules[$i]['hotel_modules_father_id'])
+                    $arrayHotelModules[$i]['url'] = \BaseUrlUtil::Url(array('module'=>encode($arrayHotelModules[$i]['modules_id'])));
                 $arrayEmployeeModules[] = $arrayHotelModules[$i];
             }
         }
@@ -67,7 +69,9 @@ class CommonService extends \BaseService {
             $arrayNavigation[$i]['modules_module'] = $arrayModules[$arrayHotelModule['hotel_modules_father_id']]['modules_module'];
             $arrayNavigation[$i]['hotel_modules_ico'] = $arrayModules[$arrayHotelModule['hotel_modules_father_id']]['modules_ico'];
             $arrayNavigation[$i]['modules_action'] = $arrayModules[$arrayHotelModule['hotel_modules_father_id']]['modules_action'];
-            $arrayNavigation[$i]['url'] = \BaseUrlUtil::Url(array('module'=>encode($arrayHotelModule['hotel_modules_father_id'])));
+            $arrayNavigation[$i]['url'] = '#menu';
+            if($arrayNavigation[$i]['modules_id'] != $arrayNavigation[$i]['hotel_modules_father_id'])
+                $arrayNavigation[$i]['url'] = \BaseUrlUtil::Url(array('module'=>encode($arrayHotelModule['hotel_modules_father_id'])));
             $i++;
         }
         $arrayNavigation[$i] = $arrayHotelModules[$modules_id];
