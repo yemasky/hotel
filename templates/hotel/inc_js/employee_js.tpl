@@ -169,9 +169,7 @@ $(document).ready(function(){
                 $('#tab_employee_personnel').click(function() {
                     var employee_id = EmployeeClass.employee_id;
                     if (employee_edit_validate.form() && employee_id > 0) {
-                        if(typeof(EmployeeClass.employee_personnel_list[employee_id]) == 'undefined' || 
-                            EmployeeClass.employee_personnel_list[employee_id] == '')
-                            employee.getEmployeePersonnel(employee_id);
+                        employee.getEmployeePersonnel(employee_id);
                     } else {
                         $('#modal_info_message').html('请先保存员工基本信息！');
                         $('#modal_info').modal('show');
@@ -181,40 +179,49 @@ $(document).ready(function(){
             };
             
             employee.getEmployeePersonnel = function(employee_id) {
-                $('#modal_loading').modal('show');
-                $.getJSON('<%$personnelFile_url%>&employee_id=' + employee_id,function(result) {
-                    data = result;
-                    $('#modal_loading').modal('hide');
-                    if(data.success == 1) {
-                        var personnel = data.itemData;
-                        EmployeeClass.employee_personnel_list[employee_id] = personnel;
-                        for(key in personnel) {
-                            $('#' + key).val(personnel[key]);
-                            if(key == 'employee_photo_labor') {
-                                var labor = personnel[key].split('|');
-                                for(var i in labor) {
-                                    if(labor[i] != '') {
-                                        var li = '<li class="span2"><a id="photo_labor" class="thumbnail lightbox_trigger" href="'
-                                                 +labor[i]+'"><img src="'+labor[i]+'" /></a></li>';
-                                        $('#labor_list').append(li);
-                                    }
-                                }
-                            }
-                            if(key == 'employee_positive_id_card') { 
-                                $('#positive_id_card').attr('href', personnel[key]);
-                                $('#positive_id_card img').attr('src', personnel[key]);
-                            }
-                            if(key == 'employee_back_id_card') {
-                                $('#back_id_card').attr('href', personnel[key]);
-                                $('#back_id_card img').attr('src', personnel[key]);
+                if(typeof(EmployeeClass.employee_personnel_list[employee_id]) == 'undefined' || 
+                            EmployeeClass.employee_personnel_list[employee_id] == '') {
+                    $('#modal_loading').modal('show');
+                    $.getJSON('<%$personnelFile_url%>&employee_id=' + employee_id,function(result) {
+                        data = result;
+                        $('#modal_loading').modal('hide');
+                        if(data.success == 1) {
+                            var personnel = data.itemData;
+                            EmployeeClass.employee_personnel_list[employee_id] = personnel;
+                            employee.setEmployeePersonnel(personnel);
+                        } else {
+                            $('#modal_fail').modal('show');
+                            $('#modal_fail_message').html(data.message);
+                        }     
+                    })
+                } else{
+                    var personnel = EmployeeClass.employee_personnel_list[employee_id];
+                    employee.setEmployeePersonnel(personnel);
+                }
+            };
+            employee.setEmployeePersonnel = function(personnel) {
+                for(key in personnel) {
+                    $('#' + key).val(personnel[key]);
+                    if(key == 'employee_photo_labor') {
+                        var labor = personnel[key].split('|');
+                        for(var i in labor) {
+                            if(labor[i] != '') {
+                                var li = '<li class="span2"><a id="photo_labor" class="thumbnail lightbox_trigger" href="'
+                                         +labor[i]+'"><img src="'+labor[i]+'" /></a></li>';
+                                $('#labor_list').append(li);
                             }
                         }
-                    } else {
-                        $('#modal_fail').modal('show');
-                        $('#modal_fail_message').html(data.message);
-                    }     
-                })
-            };
+                    }
+                    if(key == 'employee_positive_id_card') { 
+                        $('#positive_id_card').attr('href', personnel[key]);
+                        $('#positive_id_card img').attr('src', personnel[key]);
+                    }
+                    if(key == 'employee_back_id_card') {
+                        $('#back_id_card').attr('href', personnel[key]);
+                        $('#back_id_card img').attr('src', personnel[key]);
+                    }
+                }
+            }
             employee.addEmployee = function() {
                 var zTree = $.fn.zTree.getZTreeObj(EmployeeClass.ZTreeObj['id']),
                 nodes = zTree.getSelectedNodes(),
