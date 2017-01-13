@@ -41,17 +41,26 @@ class MemberSettingAction extends \BaseAction {
     protected function doDefault($objRequest, $objResponse) {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
-        $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id', true, 'book_type_father_id');
+        $conditions['order'] = 'book_sales_type_id ASC';
+        //$arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id', true, 'book_type_father_id');
+        //print_r($arrayBookType);
+        $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_sales_type_id', false, 'book_type_father_id', 'book_type_id');
         // 折扣
         $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
         $conditions['order'] = 'book_type_id ASC';
         $arrayDiscount = BookService::instance()->getBookDiscount($conditions);
         $conditions['order'] = '';
+        //销售来源
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array('0', $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        $arrayBookSalesType = BookService::instance()->getBookSalesType($conditions, '*', 'book_sales_type_id');
+
         $arrayType = '';
         if(!empty($arrayDiscount)) {
-            foreach($arrayBookType as $key => $BookType) {
-                foreach($BookType['children'] as $j => $Type) {
-                    $arrayType[$Type['book_type_id']] = $Type;
+            foreach($arrayBookType as $key => $arrayDateBook) {
+                foreach($arrayDateBook as $key => $BookType) {
+                    foreach($BookType['children'] as $j => $Type) {
+                        $arrayType[$Type['book_type_id']] = $Type;
+                    }
                 }
             }
         }
@@ -59,10 +68,11 @@ class MemberSettingAction extends \BaseAction {
         //赋值
         //sort($arrayRoomAttribute, SORT_NUMERIC);
         //
-        $objResponse -> arrayData = $arrayBookType;
+        $objResponse -> arrayDataInfo = $arrayBookType;
         $objResponse -> memberType = ModulesConfig::$memberType;
         $objResponse -> arrayDiscount = $arrayDiscount;
         $objResponse -> arrayType = $arrayType;
+        $objResponse -> arrayBookSalesType = $arrayBookSalesType;
         $objResponse -> add_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['add'])));
         $objResponse -> edit_url =
@@ -88,6 +98,7 @@ class MemberSettingAction extends \BaseAction {
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $arrayData['book_type_name'] = $objRequest -> book_type_name;
             $arrayData['type'] = $objRequest -> type;
+            $arrayData['book_sales_type_id'] = $objRequest -> book_sales_type_id;
             if(empty($arrayPostValue['agreement_active_time_begin'])) unset($arrayPostValue['agreement_active_time_begin']);
             if(empty($arrayPostValue['agreement_active_time_end'])) unset($arrayPostValue['agreement_active_time_end']);
             if(isset($arrayPostValue['book_type_name']) && !empty($arrayData['book_type_name']) && !empty($arrayData['type'])) {

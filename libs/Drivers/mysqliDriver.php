@@ -39,7 +39,7 @@ class mysqliDriver {
 	/**
 	 * 按SQL语句获取记录结果，返回数组
 	 *
-	 * @param
+	 * @param $hashOrIdKey hash key 或者 IdKey，$childrenKey key 或者 只取children
 	 *        	sql 执行的SQL语句
 	 */
 	public function getQueryArrayResult($sql, $hashOrIdKey = null, $multiple = false, $fatherKey = '', $childrenKey = ''){
@@ -49,14 +49,33 @@ class mysqliDriver {
             while($rows[] = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             }
             array_pop($rows);
-        } elseif(!$multiple) {//$multiple单重
-            if(!empty($childrenKey)) {
-                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $rows[$row[$hashOrIdKey]][$row[$childrenKey]] = $row;
+        } elseif(!$multiple) {
+            if(empty($fatherKey)) {//hash $multiple单重
+                if(!empty($childrenKey)) {
+                    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $rows[$row[$hashOrIdKey]][$row[$childrenKey]] = $row;
+                    }
+                } else {
+                    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $rows[$row[$hashOrIdKey]] = $row;
+                    }
                 }
             } else {
-                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $rows[$row[$hashOrIdKey]] = $row;
+                if(!empty($childrenKey)) {//hash $multiple多重 $fatherKey 不变  $childrenKey  = 主键
+                    $key = $childrenKey;
+                    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        if($row[$fatherKey] == $row[$key]) {//father
+                            $children = isset($rows[$row[$hashOrIdKey]][$row[$fatherKey]]['children']) ? $rows[$row[$hashOrIdKey]][$row[$fatherKey]]['children'] : '';
+                            $rows[$row[$hashOrIdKey]][$row[$fatherKey]] = $row;
+                            $rows[$row[$hashOrIdKey]][$row[$fatherKey]]['children'] = $children;
+                        } else {
+                            $rows[$row[$hashOrIdKey]][$row[$fatherKey]]['children'][] = $row;
+                        }
+                    }
+                } else {
+                    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                        $rows[$row[$hashOrIdKey]][$row[$fatherKey]][] = $row;
+                    }
                 }
             }
         } elseif(!empty($fatherKey)) {//$multiple多重

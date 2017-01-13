@@ -4,9 +4,14 @@
 <%include file="hotel/inc/head.tpl"%>
 <style type="text/css">
 .form-horizontal .control-label{padding-top:10px;}
+.form-horizontal .controls{padding: 5px 0 5px 0;}
+.form-horizontal .control-label {padding-top: 5px;}
 .table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
 .table-bordered td{font-size:12px;}
 .table.in-check tr th:first-child, .table.in-check tr td:first-child {width: 45px;}
+.tab-content{overflow:visible;}
+.quick-actions{margin-top:5px;}
+.quick-actions li{font-size:14px; font-weight:bold; padding:10px;}
 </style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
@@ -29,30 +34,37 @@
                 </div>
                 <div class="widget-title">
                     <ul class="nav nav-tabs">
-                        <li class="active" id=""><a data-toggle="tab" href="#tab1">会员及来源</a></li>
-                        <li id="discount_tab"><a data-toggle="tab" href="#tab2"><i class="am-icon-puzzle-piece am-red-FB0000"></i> 折扣</a></li>
+                        <li class="active" id=""><a data-toggle="tab" href="#tab1">客人来源</a></li>
+                        <li id="discount_tab"><a data-toggle="tab" href="#tab2"><i class="am-icon-puzzle-piece am-red-FB0000"></i> 折扣管理</a></li>
                     </ul>
                 </div>
                 <div class="widget-content nopadding tab-content">
                     <div id="tab1" class="tab-pane active">
                         <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
                         <div class="control-group">
-                         <%foreach key=book_type_id item=BookType from=$arrayData%>
-                            <label class="control-label _edit">
-                            <div class="btn-group">
-                                <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.book_type_name%></a><%if $BookType.hotel_id > 0%><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                <ul class="dropdown-menu" data-id="<%$BookType.book_type_id%>" data-name="<%$BookType.book_type_name%>" father-id="<%$BookType.book_type_father_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $BookType.children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul><%/if%>
-                            </div>
-                            </label>
-                            <div class="controls _edit">
-                            <%section name=j loop=$BookType.children%>
-                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.children[j].book_type_name%> <!--<i class="am-icon-rmb am-yellow-F58A17"></i> <%$BookType.children[j].type%>--></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$BookType.children[j].book_type_id%>" data-name="<%$BookType.children[j].book_type_name%>" father-id="<%$BookType.children[j].book_type_father_id%>" dtype="<%$BookType.children[j].type%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li class="discount_btn"><a href="#discount"><i class="am-icon-puzzle-piece am-red-FB0000"></i> <%$arrayLaguage['add_discount']['page_laguage_value']%></a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
-                            <%/section%>    
+                         <%foreach key=book_sales_type_id item=arrayData from=$arrayDataInfo%>
+                            <div class="control-group">
+                               <label class="control-label"><ul class="quick-actions"><li><%$arrayBookSalesType[$book_sales_type_id].book_sales_type_name%></li></ul></label>
+                               <%foreach key=book_type_id item=BookType from=$arrayData%>
+                               <div class="controls"> 
+                                    <label class="control-label _edit">
+                                    <div class="btn-group">
+                                        <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.book_type_name%></a><%if $BookType.hotel_id > 0%><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu" data-id="<%$BookType.book_type_id%>" data-name="<%$BookType.book_type_name%>" father-id="<%$BookType.book_type_father_id%>" dtype="<%$BookType.type%>" sales_type="<%$BookType.book_sales_type_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $BookType.children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul><%/if%>
+                                    </div>
+                                    </label>
+                                    <div class="controls _edit">
+                                    <%section name=j loop=$BookType.children%>
+                                        <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.children[j].book_type_name%> </a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$BookType.children[j].book_type_id%>" data-name="<%$BookType.children[j].book_type_name%>" father-id="<%$BookType.children[j].book_type_father_id%>" dtype="<%$BookType.children[j].type%>" sales_type="<%$BookType.children[j].book_sales_type_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li class="discount_btn"><a href="#discount"><i class="am-icon-puzzle-piece am-red-FB0000"></i> <%$arrayLaguage['add_discount']['page_laguage_value']%></a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
+                                    <%/section%>    
+                                    </div>
+                                 </div>
+                                 <%/foreach%>
                             </div>
                          <%/foreach%>
-                            <div class="controls">
-                                <a class="btn btn-primary btn-mini add_data"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_category']['page_laguage_value']%></a>
-                            </div>
+                         <div class="controls">
+                            <a class="btn btn-primary btn-mini add_data"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_category']['page_laguage_value']%></a>
+                         </div>
                          
                         </div>
                         </form>
@@ -62,7 +74,7 @@
                             <table class="table table-bordered table-striped with-check">
                               <tbody>
                                 <tr>
-                                  <td><i class="am-icon-circle"></i></td>
+                                  <td><i></i></td>
                                   <td><%$arrayLaguage['apellation']['page_laguage_value']%></td>
                                   <td>折扣名称</td>
                                   <td><%$arrayLaguage['discount']['page_laguage_value']%></td>
@@ -137,29 +149,33 @@
                             <form method="post" class="form-horizontal" enctype="multipart/form-data" name="edit_form" id="edit_form" novalidate>
                                 <div class="modal-header">
                                     <button data-toggle="collapse" data-target="#edit_data" class="close" type="button">×</button>
-                                    <h3><%$arrayLaguage['add_or_edit_category']['page_laguage_value']%></h3>
+                                    <h3>添加/修改来源</h3>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label"><%$arrayLaguage['select_category']['page_laguage_value']%> :</label>
+                                    <label class="control-label">客人来源 :</label>
                                     <div class="controls">
-                                        <select name="book_type" id="book_type" class="span2">
-                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                        <option value="0"><%$arrayLaguage['new_category']['page_laguage_value']%></option>
-                                        <%foreach key=book_type_id item=Data from=$arrayData%>
-                                            <option value="<%$Data.book_type_id%>"><%$Data.book_type_name%></option>
-                                        <%/foreach%>
-                                        </select>
+                                        <label class="inline">
+                                            <span id="type_1" class="set_type" value="1" type="member"><i class="am-icon-circle-thin"></i> 本店直销</span>
+                                            <span id="type_2" class="set_type" value="2" type="OTA"><i class="am-icon-circle-thin"></i> 分销渠道</span>
+                                            <span id="type_3" class="set_type" value="3" type="agreement"><i class="am-icon-circle-thin"></i> 集团预定</span>
+                                            <input type="hidden" value="" name="book_sales_type_id" id="book_sales_type_id" >
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label"><%$arrayLaguage['selective_type']['page_laguage_value']%> :</label>
+                                    <label class="control-label">属于 :</label>
                                     <div class="controls">
-                                        <select name="type" id="type" class="span2">
+                                        <select id="book_type_select" class="span2">
                                         <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                                        <%section name=i loop=$memberType%>
-                                            <option value="<%$memberType[i]%>"><%$arrayLaguage[$memberType[i]]['page_laguage_value']%></option>
-                                        <%/section%>
+                                        <option value="0"><%$arrayLaguage['new_category']['page_laguage_value']%></option>
+                                        <%foreach key=book_sales_type_id item=arrayData from=$arrayDataInfo%>
+                                            <%foreach key=book_type_id item=Data from=$arrayData%>
+                                                <option value="<%$Data.book_type_id%>"><%$Data.book_type_name%></option>
+                                            <%/foreach%>
+                                        <%/foreach%>    
                                         </select>
+                                        <input type="hidden" name="type" id="type" value="">
+                                        <input type="hidden" name="book_type" id="book_type" value="">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -193,7 +209,11 @@
                                 <option value="0">打折</option>
                                 <option value="1">直减</option>
                             </select>
-                            折扣：<input id="book_discount" name="book_discount" class="input-medium" value="" type="text">
+                            折扣：
+                            <div class="input-append">
+                            <input id="book_discount" name="book_discount" class="input-small" value="" type="text">
+                            <span class="add-on" id="book_discount_add_on">%</span>
+                            </div>
                             <a data-toggle="collapse" data-target="#more_option" class="btn btn-primary btn-mini"><i class="am-icon-chevron-circle-down"></i> 更多选项</a>
                         </div>
                     </div>
@@ -232,8 +252,9 @@
                 </div>
                 
                 <div class="widget-content">
-                    
+                    <br>
                 </div>
+                
             </div>   
         </div>
 					
@@ -243,196 +264,6 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<script language="javascript">
-$(document).ready(function(){
-    var edit_form_validate = $("#edit_form").validate({
-		rules: {
-			book_type: {required: true},
-            book_type_name: {required: true},
-            type: {required: true},
-		},
-		messages: {
-			book_type_name:"",
-            book_type:"",
-            type:'',
-		},
-		errorClass: "text-error",
-		errorElement: "span",
-		highlight:function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('success');
-			$(element).parents('.control-group').addClass('error');
-		},
-		unhighlight: function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('error');
-			$(element).parents('.control-group').addClass('success');
-		},
-		submitHandler: function() {
-            var param = $("#edit_form").serialize();
-            var url = '';
-            var add = '<%$add_url%>';
-            var edit = '<%$edit_url%>';
-            url = add;
-            if($('#book_type').val() > 0) url = edit;
-            $.ajax({
-                url : url,
-                type : "post",dataType : "json",data: param,
-                success : function(result) {
-                    data = result;
-                    if(data.success == 1) {
-                        $('#modal_success').modal('show');
-                        $('#modal_success_message').html(data.message);
-                        
-                    } else {
-                        $('#modal_fail').modal('show');
-                        $('#modal_fail_message').html(data.message);
-                    }
-                }
-            });
-            return;
-		}
-	});
-    
-    var discount_form_validate = $("#discount_form").validate({
-		rules: {
-			book_discount_name: {required: true},
-            book_discount: {required: true},
-		},
-		messages: {
-			book_discount_name:"",
-            book_discount:"",
-		},
-		errorClass: "text-error",
-		errorElement: "span",
-		highlight:function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('success');
-			$(element).parents('.control-group').addClass('error');
-		},
-		unhighlight: function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('error');
-			$(element).parents('.control-group').addClass('success');
-		},
-		submitHandler: function() {
-            var param = $("#discount_form").serialize();
-            var url = '';
-            var add = '<%$add_url%>';
-            var edit = '<%$edit_url%>';
-            url = add;
-            if($('#book_discount_id').val() > 0) url = edit;
-            $.ajax({
-                url : url,
-                type : "post",dataType : "json",data: param,
-                success : function(result) {
-                    data = result;
-                    if(data.success == 1) {
-                        $('#modal_success').modal('show');
-                        $('#modal_success_message').html(data.message);
-                        
-                    } else {
-                        $('#modal_fail').modal('show');
-                        $('#modal_fail_message').html(data.message);
-                    }
-                }
-            });
-            return;
-		}
-	});
-    
-    var MemberSettingClass = {
-        instance: function() {
-            var memberSetting = {};
-            memberSetting.init = function() {
-                //$('.collapse').collapse();
-                $('._edit .edit_btn').click(function(e) {
-                    $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
-                    $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
-                    $('#book_type').val($(this).parent().attr('father-id'));
-                    $('#book_type_name').val($(this).parent().attr('data-name'));
-                    $('#book_type_id').val($(this).parent().attr('data-id'));
-                    $('#type').val($(this).parent().attr('dtype'));
-                    $('#edit_data').collapse('show');
-                    $('#discount_data').collapse('hide');
-                });
-                $('._edit .discount_btn').click(function(e) {
-                    $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
-                    $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
-                    $('#edit_data').collapse('hide');
-                    $('#discount_data').collapse('show');
-                    $('#discount_name').text($(this).parent().attr('data-name'));
-                    $('#discount_form input').val('');
-                    $('#discount_book_type_id').val($(this).parent().attr('data-id'));
-                });
-                $('.add_data').click(function(e) {
-                    $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
-                    $('#book_type').val('');
-                    $('#book_type_name').val('');
-                    $('#book_type_id').val('');
-                    $('#edit_data').collapse('show');
-                    $('#discount_data').collapse('hide');
-                });
-                $('#book_type').change(function(e) {
-                    if($(this).val() == 0) {
-                        $('#book_type_name').val('');
-                        $('#book_type_id').val('');
-                    } else {
-                        
-                    }
-                });
-                $('#discount_tab').click(function(e) {
-                    $('#discount_data').collapse('hide');$('#edit_data').collapse('hide');
-                })
-                $('.discount_td').click(function(e) {
-                    if($(this).parent().next().hasClass('hide')) {
-                        $(this).parent().next().removeClass('hide');
-                    } else {
-                        $(this).parent().next().addClass('hide');
-                    }
-                });
-                $('.editBtn').click(function(e) {
-                    var id = $(this).attr('data-id');
-                    var type = $(this).attr('type');
-                    $('#book_discount_id').val(id);
-                    $('#book_discount_type').val(type);
-                    $('#discount_tr'+id).find('td').each(function(index, element) {
-                        memberSetting.editDiscount(this);
-                    });
-                    $('#discount_tr'+id).next().find('td').each(function(index, element) {
-                        memberSetting.editDiscount(this);
-                    });
-                    $('#discount_data').collapse('show');
-                });
-                $('.removeBtn').click(function(e) {
-                    //$(this).parent().parent().parent().next().addClass('hide');
-                }); 
-            };
-            memberSetting.getDiscount = function(book_type_id) {
-                $.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
-                    data = result;
-                    if(data.itemData != null && data.itemData != '') {
-                        
-                    } else {
-                        
-                    }
-                })
-            };
-            memberSetting.editDiscount = function(_this) {
-                if(typeof($(_this).attr('btype') != 'undefined')) {
-                    var btype = $(_this).attr('btype');
-                    $('#'+btype).val($(_this).text());
-                    if(btype == 'agreement_company_name') {
-                        if($(_this).text() == '') $('#more_option').collapse('hide');
-                        if($(_this).text() != '') $('#more_option').collapse('show');
-                    }
-                }
-            }
-            return memberSetting;
-        },
-        
-    }
-    var memberSetting = MemberSettingClass.instance();
-    memberSetting.init();
-
-})
-$('#edit_data').collapse('hide');$('#discount_data').collapse('hide');$('#more_option').collapse('hide');
-</script>
+<%include file="hotel/inc_js/memberSetting_js.tpl"%>
 </body>
 </html>

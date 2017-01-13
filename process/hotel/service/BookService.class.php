@@ -42,8 +42,8 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('book')->delete($where);
     }
     //预定类别来源
-    public function getBookType($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '') {
-        return BookDao::instance()->setTable('book_type')->getList($conditions, $field, $hashKey, $multiple, $fatherKey);
+    public function getBookType($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '', $childrenKey = '') {
+        return BookDao::instance()->setTable('book_type')->getList($conditions, $field, $hashKey, $multiple, $fatherKey, $childrenKey);
     }
 
     public function saveBookType($arrayData) {
@@ -58,6 +58,22 @@ class BookService extends \BaseService {
         return BookDao::instance()->setTable('book_type')->delete($where);
     }
 
+    //销售来源
+    public function getBookSalesType($conditions, $field = '*', $hashKey = null, $multiple = false, $fatherKey = '', $childrenKey = '') {
+        return BookDao::instance()->setTable('book_sales_type')->getList($conditions, $field, $hashKey, $multiple, $fatherKey, $childrenKey);
+    }
+
+    public function saveBookSalesType($arrayData) {
+        return BookDao::instance()->setTable('book_sales_type')->insert($arrayData);
+    }
+
+    public function updateBookSalesType($where, $row) {
+        return BookDao::instance()->setTable('book_sales_type')->update($where, $row);
+    }
+
+    public function deleteBookSalesType($where) {
+        return BookDao::instance()->setTable('book_sales_type')->delete($where);
+    }
     //折扣
     public function getBookDiscount($conditions, $fieldid = '*', $hashKey = null) {
         return BookDao::instance()->setTable('book_discount')->getList($conditions, $fieldid, $hashKey);
