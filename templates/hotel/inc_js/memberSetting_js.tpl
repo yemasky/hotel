@@ -170,6 +170,7 @@ $(document).ready(function(){
                     if(type == 1) {
                         $('#book_discount_add_on').text('元');
                     }
+                    $('#discount_name').text('')
                 });
                 $('#book_discount_type').change(function () {
                     $('#book_discount_add_on').text('%');

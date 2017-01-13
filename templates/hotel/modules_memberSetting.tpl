@@ -77,8 +77,11 @@
                                   <td><i></i></td>
                                   <td><%$arrayLaguage['apellation']['page_laguage_value']%></td>
                                   <td>折扣名称</td>
+                                  <td>类别</td>
                                   <td><%$arrayLaguage['discount']['page_laguage_value']%></td>
                                   <td>公司名称</td>
+                                  <td>开始时间</td>
+                                  <td>结束时间</td>
                                   <td></td>
                                 </tr>
                               </tbody>
@@ -88,8 +91,11 @@
                                   <td class="discount_td"><div class="checker" id="uniform-undefined"><span><%$smarty.section.i.index+1%></span></div></td>
                                   <td class="discount_td" btype="book_type_name"><%$arrayType[$arrayDiscount[i].book_type_id].book_type_name%></td>
                                   <td class="discount_td" btype="book_discount_name"><%$arrayDiscount[i].book_discount_name%></td>
+                                  <td class="discount_td" btype="book_discount"><%if $arrayDiscount[i].book_discount_type==1%>直减<%else%>折扣<%/if%></td>
                                   <td class="discount_td" btype="book_discount"><%$arrayDiscount[i].book_discount%></td>
                                   <td class="discount_td" btype="agreement_company_name"><%$arrayDiscount[i].agreement_company_name%></td>
+                                  <td><%$arrayDiscount[i].agreement_active_time_begin%></td>
+                                  <td><%$arrayDiscount[i].agreement_active_time_end%></td>
                                   <td>
                                     <div class="btn-group">
                                        <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>" class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
