@@ -12,6 +12,7 @@
 .tab-content{overflow:visible;}
 .quick-actions{margin-top:5px;}
 .quick-actions li{font-size:14px; font-weight:bold; padding:10px;}
+.e_parent{ width:108px;}
 </style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.datetimepicker.css" />
@@ -51,8 +52,8 @@
                                <div class="controls"> 
                                     <label class="control-label _edit">
                                     <div class="btn-group">
-                                        <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.book_type_name%></a><%if $BookType.hotel_id > 0%><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                        <ul class="dropdown-menu" data-id="<%$BookType.book_type_id%>" data-name="<%$BookType.book_type_name%>" father-id="<%$BookType.book_type_father_id%>" dtype="<%$BookType.type%>" sales_type="<%$BookType.book_sales_type_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $BookType.children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul><%/if%>
+                                        <a class="btn btn-inverse edit_checkbox e_parent" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.book_type_name%></a><%if $BookType.hotel_id > 0%><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu" data-id="<%$BookType.book_type_id%>" data-name="<%$BookType.book_type_name%>" father-id="<%$BookType.book_type_father_id%>" dtype="<%$BookType.type%>" sales_type="<%$BookType.book_sales_type_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><%if $BookType.children==''%><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li><%/if%></ul><%else%><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="am-icon-genderless"></span></a><%/if%>
                                     </div>
                                     </label>
                                     <div class="controls _edit">
@@ -108,7 +109,7 @@
                                   </td>
                                 </tr>
                                 <tr class="hide">
-                                  <td colspan="6">
+                                  <td colspan="10">
                                       <table class="table table-bordered table-striped with-check in-check">
                                           <tbody>
                                             <tr>
