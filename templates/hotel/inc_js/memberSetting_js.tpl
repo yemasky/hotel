@@ -97,7 +97,19 @@ $(document).ready(function(){
             return;
 		}
 	});
-    
+    $.datetimepicker.setLocale('ch');
+    $('#agreement_active_time_begin').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
+        yearStart: '1930', yearEnd: '2050', //yearOffset:1,maxDate:'+1970-01-02',
+        onGenerate:function( ct ){
+        $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+    });
+    $('#agreement_active_time_end').datetimepicker({theme:'dark', format: 'Y-m-d', formatDate:'Y-m-d',timepicker:false,
+        yearStart: '1930', yearEnd: '2050', //yearOffset:1,maxDate:'+1970-01-02',
+        onGenerate:function( ct ){
+        $(this).find('.xdsoft_other_month').removeClass('xdsoft_other_month').addClass('custom-date-style');
+        },
+    });
     var MemberSettingClass = {
         type_select:{},
         instance: function() {
