@@ -92,7 +92,7 @@
                                   <td class="discount_td" btype="book_type_name"><%$arrayType[$arrayDiscount[i].book_type_id].book_type_name%></td>
                                   <td class="discount_td" btype="book_discount_name"><%$arrayDiscount[i].book_discount_name%></td>
                                   <td class="discount_td" btype="book_discount"><%if $arrayDiscount[i].book_discount_type==1%>直减<%else%>折扣<%/if%></td>
-                                  <td class="discount_td" btype="book_discount"><%$arrayDiscount[i].book_discount%></td>
+                                  <td class="discount_td" btype="book_discount"><%$arrayDiscount[i].book_discount%><%if $arrayDiscount[i].book_discount_type==1%>元<%else%>%<%/if%></td>
                                   <td class="discount_td" btype="agreement_company_name"><%$arrayDiscount[i].agreement_company_name%></td>
                                   <td><%$arrayDiscount[i].agreement_active_time_begin%></td>
                                   <td><%$arrayDiscount[i].agreement_active_time_end%></td>
