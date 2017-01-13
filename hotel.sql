@@ -112,7 +112,7 @@ CREATE TABLE `book_discount` (
   `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
   `book_type_id` int(11) NOT NULL COMMENT '预订类型',
   `book_discount` double NOT NULL DEFAULT '100' COMMENT '折扣',
-  `book_discount_type` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '折扣类别 0折扣 1减',
+  `book_discount_type` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '折扣类别 0折扣 1直减',
   `book_discount_name` varchar(100) NOT NULL DEFAULT '' COMMENT '折扣名称',
   `agreement_company_name` varchar(100) NOT NULL DEFAULT '' COMMENT '协议公司\\团体等名称',
   `agreement_company_contacts` varchar(50) DEFAULT NULL COMMENT '联系人',
@@ -124,8 +124,8 @@ CREATE TABLE `book_discount` (
   `agreement_company_introduction` varchar(500) DEFAULT NULL COMMENT '协议公司\\团体等介绍',
   `agreement_content` text COMMENT '协议内容',
   `agreement_attachment` varchar(255) DEFAULT NULL COMMENT '协议附件',
-  `agreement_active_time_begin` datetime DEFAULT NULL COMMENT '协议有效时间 开始时间',
-  `agreement_active_time_end` datetime DEFAULT NULL COMMENT '协议有效时间 结束时间',
+  `agreement_active_time_begin` date DEFAULT NULL COMMENT '协议有效时间 开始时间',
+  `agreement_active_time_end` date DEFAULT NULL COMMENT '协议有效时间 结束时间',
   `book_discount_add_date` date DEFAULT NULL COMMENT '添加时间',
   `book_discount_add_time` time DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`book_discount_id`)
@@ -133,7 +133,7 @@ CREATE TABLE `book_discount` (
 
 /*Data for the table `book_discount` */
 
-insert  into `book_discount`(`book_discount_id`,`hotel_id`,`book_type_id`,`book_discount`,`book_discount_type`,`book_discount_name`,`agreement_company_name`,`agreement_company_contacts`,`agreement_company_address`,`agreement_company_mobile`,`agreement_company_phone`,`agreement_company_fax`,`agreement_company_email`,`agreement_company_introduction`,`agreement_content`,`agreement_attachment`,`agreement_active_time_begin`,`agreement_active_time_end`,`book_discount_add_date`,`book_discount_add_time`) values (1,1,13,98,'0','金牌会员98折','','',NULL,'','',NULL,'','','',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL),(2,1,6,96,'0','协议公司96折','东三环友好科技有限公司','','协议公司地址','','',NULL,'','','',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL),(3,1,6,98,'0','协议公司98折','西三环友好科技有限公司',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,1,14,99,'0','银卡会员98折','','',NULL,'','',NULL,'','','',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL),(5,1,14,98.5,'0','银卡会员98.5折','','',NULL,'','',NULL,'','','',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL),(6,1,13,97,'0','金卡会员97折','','',NULL,'','',NULL,'','','',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL),(7,1,10,99,'0','携程99折','','',NULL,'','',NULL,'','','',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,NULL),(8,1,14,80,'1','银卡直减','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL);
+insert  into `book_discount`(`book_discount_id`,`hotel_id`,`book_type_id`,`book_discount`,`book_discount_type`,`book_discount_name`,`agreement_company_name`,`agreement_company_contacts`,`agreement_company_address`,`agreement_company_mobile`,`agreement_company_phone`,`agreement_company_fax`,`agreement_company_email`,`agreement_company_introduction`,`agreement_content`,`agreement_attachment`,`agreement_active_time_begin`,`agreement_active_time_end`,`book_discount_add_date`,`book_discount_add_time`) values (1,1,13,98,'0','金牌会员98折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(2,1,6,96,'0','协议公司96折','东三环友好科技有限公司','','协议公司地址','','',NULL,'','','',NULL,'2017-01-03','2017-01-20',NULL,NULL),(3,1,6,98,'0','协议公司98折','西三环友好科技有限公司',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,1,14,99,'0','银卡会员98折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(5,1,14,98.5,'0','银卡会员98.5折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(6,1,13,97,'0','金卡会员97折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(7,1,10,99,'0','携程99折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(8,1,14,80,'1','银卡直减','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `book_hotel_service` */
 
@@ -335,7 +335,7 @@ CREATE TABLE `book_sales_type` (
 
 /*Data for the table `book_sales_type` */
 
-insert  into `book_sales_type`(`book_sales_type_id`,`hotel_id`,`book_sales_type_name`,`type`) values (1,0,'直销渠道','member'),(2,0,'分销渠道','OTA'),(3,0,'集团预定','agreement');
+insert  into `book_sales_type`(`book_sales_type_id`,`hotel_id`,`book_sales_type_name`,`type`) values (1,0,'本店直销','member'),(2,0,'分销渠道','OTA'),(3,0,'集团预定','agreement');
 
 /*Table structure for table `book_type` */
 
