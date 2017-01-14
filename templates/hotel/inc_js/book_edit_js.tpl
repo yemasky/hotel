@@ -272,12 +272,27 @@ $(document).ready(function(){
                 $('#save_add_service').click(function(e) {
                     bookEdit.saveAddService(this);
                 });
-                
+                //退押金
+                $('#return_deposit_money').click(function(e) {
+                    bookEdit.returnDepositMoney();
+                });
+            };
+            bookEdit.returnDepositMoney = function () {
+                $('#modal_update').modal('show');
+                $('#modal_update_message').html('确定退押金，请按 Confirm (确定) 按钮！');
             };
             bookEdit.setUserRoomCard = function(_this, val) {
-                var url = '<%$saveBookInfoUrl%>&act=setUserRoomCard&room_num='+$(_this).parent().attr('room_id')+'&val='+val;
+                $('#modal_save').modal('show');
+                var book_user_id = $(_this).parent().attr('book_user_id');
+                var url = '<%$saveBookInfoUrl%>&act=setUserRoomCard&id='+book_user_id+'&val='+val;
+                var text = '已领';if(val == 2) text = '已退';
                 $.getJSON(url, function(result) {
-                    
+                    $('#modal_save').modal('hide');
+                    if(book_user_id == 'ALL') {
+                        $('.book_card').html(text);
+                    } else {
+                        $('#book_card' + book_user_id).html(text);
+                    }
                 })
             }
             bookEdit.saveAddUser = function() {

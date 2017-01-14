@@ -29,7 +29,7 @@
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h5><i class="am-icon-warning am-icon-md am-yellow-EBC012"></i> <%$arrayLaguage['warning']['page_laguage_value']%></h5>
           </div>
-          <div class="modal-body"><p class="alert alert-block" id="modal_delete_message"><%$arrayLaguage['warning_confirm_update']['page_laguage_value']%></p></div>
+          <div class="modal-body"><p class="alert alert-block" id="modal_update_message"><%$arrayLaguage['warning_confirm_update']['page_laguage_value']%></p></div>
           <div class="modal-footer"> <a data-dismiss="modal" id="update_sumbit" class="btn btn-primary" href="#sumbit">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
         </div>
     </div>
@@ -107,7 +107,7 @@ $(document).ready(function(){
 		});
 	});
 	$("#update_sumbit").click(function(){
-		update_sumbit();
+		if($.isFunction(update_sumbit)) update_sumbit();
 	});
 	$(".btn.btn-danger.btn-mini").click(function(){
 		delete_url = $(this).attr("url");

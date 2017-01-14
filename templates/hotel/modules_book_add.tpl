@@ -210,7 +210,6 @@ input, select {border-radius: 0 !important;}
 								<input name="user_name[]" value="" type="text" class="input-small" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>" />
 								<%$arrayLaguage['sex']['page_laguage_value']%> :
 								<select name="user_sex[]" class="input-small">
-									<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 									<option value="1"><%$arrayLaguage['male']['page_laguage_value']%></option>
 									<option value="0"><%$arrayLaguage['female']['page_laguage_value']%></option>
 								</select>

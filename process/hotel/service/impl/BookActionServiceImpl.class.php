@@ -174,9 +174,18 @@ class BookActionServiceImpl extends \BaseService  {
     }
 
     public function setUserRoomCard($objRequest, $objResponse) {
-        $arraySaveData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $arraySaveData['book_order_number'] = decode($objRequest -> order_number);
-        $arraySaveData['room_id'] = $objRequest -> room_num;//
+        $type = $objRequest -> val;
+        $where['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $where['book_order_number'] = decode($objRequest -> order_number);
+        $where['book_user_id'] = $objRequest -> id;//
+        if($where['book_user_id'] = 'ALL') {
+            unset($where['book_user_id']);
+        }
+        $book_user_room_card = 0;
+        if($type == 1) $book_user_room_card = 1;
+        if($type == 2) $book_user_room_card = 2;
+        $arrayUpdate['book_user_room_card'] = $book_user_room_card;
+        return BookService::instance()->updateBookUser($where, $arrayUpdate);
 
     }
 }

@@ -73,7 +73,11 @@
                                             <th>
                                             <div class="btn-group fr">
                                                 <a id="" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 办理退房</a>
-                                                <a id="" class="btn btn-mini btn-warning"><i class="am-icon-credit-card-alt"></i> 退押金</a>
+                                                <%if $arrayDataInfo[0].book_cash_pledge_returns==1%>
+                                                <code><i class="am-icon-credit-card-alt"></i> 已退押金</code>
+                                                <%else%>
+                                                <a id="return_deposit_money" class="btn btn-mini btn-warning"><i class="am-icon-credit-card-alt"></i> 退押金</a>
+                                                <%/if%>
                                             </div>
                                             </th>
 										</tr>
@@ -584,9 +588,9 @@
                                   <th>房卡</th>
                                   <th>备注</th>
                                   <th>
-                                    <div class="btn-group fr" book_id='ALL' room_id='ALL'>
-                                        <a class="btn btn-mini btn-danger user_room_card"><i class="am-icon-sign-out"></i> 已退房卡</a>
-                                        <a class="btn btn-mini btn-warning return_user_room_card"><i class="am-icon-slideshare"></i> 已办房卡</a>
+                                    <div class="btn-group fr" book_id='ALL' room_id='ALL' book_user_id='ALL'>
+                                        <a class="btn btn-mini btn-danger return_user_room_card"><i class="am-icon-sign-out"></i> 已退房卡</a>
+                                        <a class="btn btn-mini btn-warning user_room_card"><i class="am-icon-slideshare"></i> 已办房卡</a>
                                       </div>
                                   </th>
                                 </tr>
@@ -604,10 +608,10 @@
                                   </td>
                                   <!--<td><%$arrayBookUser[i].book_check_in%></td>
                                   <td><%$arrayBookUser[i].book_check_out%></td>-->
-                                  <td>
+                                  <td id="book_card<%$arrayBookUser[i].book_user_id%>" class="book_card">
                                   <%if $arrayBookUser[i].book_user_room_card=='0'%>未领
                                   <%elseif $arrayBookUser[i].book_user_room_card=='1'%>已领
-                                  <%elseif $arrayBookUser[i].book_user_room_card=='-1'%>已退
+                                  <%elseif $arrayBookUser[i].book_user_room_card=='2'%>已退
                                   <%/if%>
                                   </td>
                                   <td><%$arrayBookUser[i].book_user_comments%></td>
@@ -616,7 +620,7 @@
                                         <div class="btn-group">
                                             <a class="btn btn-primary btn-mini" href="#t"><i class="am-icon-circle-o"></i> <%$arrayLaguage['manage']['page_laguage_value']%></a>
                                             <a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                            <ul class="dropdown-menu" room_id="<%$arrayBookUser[i].room_id%>" book_id="<%$arrayBookUser[i].book_id%>">
+                                            <ul class="dropdown-menu" room_id="<%$arrayBookUser[i].room_id%>" book_id="<%$arrayBookUser[i].book_id%>" book_user_id="<%$arrayBookUser[i].book_user_id%>">
                                                 <li class="user_room_card"><a data-target="#" href="#t"><i class="am-icon-credit-card"></i> 已办房卡</a></li>
                                                 <li class="return_user_room_card"><a data-target="#" href="#t"><i class="am-icon-exchange"></i> 已退房卡</a></li>
                                                 <li class="user_room_edit"><a data-target="#" href="#t"><i class="am-icon-pencil-square-o"></i> 取消入住</a></li>
