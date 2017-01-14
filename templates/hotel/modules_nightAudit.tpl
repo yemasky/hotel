@@ -84,7 +84,11 @@
                                         <%if $book.book_order_number_status != '0' || $book.book_is_pay == '0'%>
                                             <i class="am-icon-check-square-o am-green-54B51C am-icon-sm"></i>
                                         <%else%>
-                                            <i class="am-icon-exclamation-circle am-red-FA0A0A am-icon-sm error_night_audit"></i>
+                                            <i class="am-icon-exclamation-circle am-red-FA0A0A am-icon-sm error_night_audit">
+                                            <%if $book.book_order_number_status == '0'%>未入住<%/if%>
+                                            <%if $book.book_is_pay == '0'%> 未付款<%/if%>
+                                            <%if $book.book_is_pay == '1'%> 已付款<%/if%>
+                                            </i>
                                         <%/if%>
                                         </div>
                                         <div class="left peity_line_neutral">

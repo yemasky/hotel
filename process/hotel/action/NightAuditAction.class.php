@@ -90,7 +90,7 @@ class NightAuditAction extends \BaseAction {
                                          '>='=>array('book_order_number_status'=>0,'book_check_out'=>$nightAuditDate),
                                          '<='=>array('book_check_in'=>$nightAuditDate),
                                          '<>'=>array('book_night_audit_date'=>$nowDay));
-            $field = 'book_id, room_id, room_sell_layout_id, room_layout_id,book_room_extra_bed,book_order_number,book_order_number_status,book_check_in,book_check_out,'
+            $field = 'book_id, room_id, room_sell_layout_id, room_layout_id,book_room_extra_bed,book_is_pay,book_order_number,book_order_number_status,book_check_in,book_check_out,'
                 .'book_order_retention_time,book_contact_name,book_contact_mobile,book_comments';
             $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'book_order_number', true);
             if(!empty($arrayBookInfo)) {
@@ -112,7 +112,7 @@ class NightAuditAction extends \BaseAction {
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_id');
         $conditions['order'] = '';
         //服务
-        $conditions['where'] = array('hotel_id'=>$hotel_id, 'hotel_service_valid'=>1, '<>'=>array('hotel_service_price'=>-1));
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id, 0)), 'hotel_service_valid'=>1, '<>'=>array('hotel_service_price'=>-1));
         $arrayService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
 
         //核对价格

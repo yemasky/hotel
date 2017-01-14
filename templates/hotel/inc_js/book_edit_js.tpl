@@ -99,22 +99,14 @@ $(document).ready(function(){
             var bookEdit = {};
             bookEdit.initParameter = function() {
                 BookEditClass.weekday=new Array(7);
-                BookEditClass.weekday[0]="日"
-                BookEditClass.weekday[1]="一"
-                BookEditClass.weekday[2]="二"
-                BookEditClass.weekday[3]="三"
-                BookEditClass.weekday[4]="四"
-                BookEditClass.weekday[5]="五"
+                BookEditClass.weekday[0]="日";BookEditClass.weekday[1]="一";BookEditClass.weekday[2]="二";
+                BookEditClass.weekday[3]="三";BookEditClass.weekday[4]="四";BookEditClass.weekday[5]="五";
                 BookEditClass.weekday[6]="六";
                 BookEditClass.orientations=new Array(7);
-                BookEditClass.orientations['east']='东';
-                BookEditClass.orientations['south']='南';
-                BookEditClass.orientations['west']='西';
-                BookEditClass.orientations['north']='北';
-                BookEditClass.orientations['southeast']='东南';
-                BookEditClass.orientations['northeast']='东北';
-                BookEditClass.orientations['southwest']='西南';
-                BookEditClass.orientations['northwest']='西北';
+                BookEditClass.orientations['east']='东';BookEditClass.orientations['south']='南';
+                BookEditClass.orientations['west']='西';BookEditClass.orientations['north']='北';
+                BookEditClass.orientations['southeast']='东南';BookEditClass.orientations['northeast']='东北';
+                BookEditClass.orientations['southwest']='西南';BookEditClass.orientations['northwest']='西北';
                 BookEditClass.orientations['no']='无';
                 bookEdit.groupSellLayoutSystem();
                 BookEditClass.tempRoomEdit['edit'] = '';
