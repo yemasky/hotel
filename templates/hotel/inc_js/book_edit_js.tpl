@@ -121,19 +121,6 @@ $(document).ready(function(){
                 $('#cancel_add_user').click(function(e) {
                     $('#add_user_tr').hide();
                 });
-                $('#add_room').click(function(e) {
-                    $('#add_room_tr').show('slow');
-                    $('#calculation-box').show('slow');
-                    BookEditClass.tempRoomEdit['edit'] = 'add_room';
-                });
-                $('#cancel_add_room').click(function(e) {
-                    $('#add_room_tr').hide();
-                    $('#room_layout_data').hide();
-                    $('#room_layout_data_price').hide();
-                    if(BookEditClass.tempRoomEdit['edit'] == 'add_room') {
-                        BookEditClass.tempRoomEdit['edit'] = '';
-                    }
-                });
                 $('#add_service').click(function(e) {
                     $('#add_service_tr').show('slow');
                     $('#calculation-box').show('slow');
@@ -185,6 +172,21 @@ $(document).ready(function(){
                     bookEdit.saveAddRoom();
                     bookEdit.computeAllBookPrice();
                 });
+                $('#add_room').click(function(e) {
+                    $('#add_room_tr').show('slow');
+                    $('#calculation-box').show('slow');
+                    BookEditClass.tempRoomEdit['edit'] = 'add_room';
+                    BookEditClass.tempRoomEdit['room_id'] = '';
+                    BookEditClass.tempRoomEdit['book_id'] = '';
+                });
+                $('#cancel_add_room').click(function(e) {
+                    $('#add_room_tr').hide();
+                    $('#room_layout_data').hide();
+                    $('#room_layout_data_price').hide();
+                    if(BookEditClass.tempRoomEdit['edit'] == 'add_room') {
+                        BookEditClass.tempRoomEdit['edit'] = '';
+                    }
+                });
                 $('.change_room').click(function(e) {
                     bookEdit.changeRoom('change_room', this)
                 });
@@ -193,40 +195,28 @@ $(document).ready(function(){
                 });
                 //退房
                 $('.check_out_room').click(function(e) {
-                    var room_id = $(this).parent().attr('room_id');
-                    var select_room_id = BookEditClass.tempRoomEdit['room_id'];
-                    if(typeof(select_room_id) != 'undefined') {
-                        if(select_room_id == room_id) {
-                            BookEditClass.tempRoomEdit['edit'] = '';
-                        } else {
-                            $('#modal_info').modal('show');
-                            $('#modal_info_message').html('依次操作，请先取消上一次操作！');
-                            return;
-                        }
-                    }
-                    if(typeof(BookEditClass.thenRoomPrice[room_id]) != 'undefined' && BookEditClass.thenRoomPrice[room_id] != '') {
-                        $('#modal_info').modal('show');
-                        $('#modal_info_message').html('请先取消之前的设定！再进行更改。');
-                        return;
-                    }
-                    $(this).parent().prev().prev().html('<i class="am-icon-circle am-yellow-FFAA3C"></i>' + $(this).children().text());
-                    $('#check-out-box').show('slow');
-                    //
-                    $('#return_room_name').html();
+                    bookEdit.changeRoom('check_out_room', this);
+                    return;
                 });
                 $('.cancel_room').click(function(e) {
                     var room_id = $(this).parent().attr('room_id');
                     var select_room_id = BookEditClass.tempRoomEdit['room_id'];
-                    //$('.change_room,.continued_room,.check_out_room').each(function(index, element) {
-                        //if($(this).parent().attr('room_id') == room_id) {
-                        if(select_room_id == room_id) {
-                            $(this).parent().prev().prev().html('<i class="am-icon-circle-o"></i> 管理');
-                            BookEditClass.tempRoomEdit['edit'] = '';
-                        }
-                    //});
+                    if(select_room_id == room_id) {
+                        $(this).parent().prev().prev().html('<i class="am-icon-circle-o"></i> 管理');
+                        BookEditClass.tempRoomEdit['edit'] = '';
+                    }
                     $('#cancel_add_room'+room_id).parent().parent().remove();
-                    BookEditClass.thenRoomPrice[room_id] = '';
                     BookEditClass.room_info_id[room_id] = '';//移除使用房间
+                    var thenRoomPrice = BookEditClass.thenRoomPrice;
+                    for(room_key in thenRoomPrice) {
+                        if(thenRoomPrice[room_key].type_room_id == room_id) {
+                            BookEditClass.thenRoomPrice[room_key] = '';
+                            $(this).parent().prev().prev().html('<i class="am-icon-circle-o"></i> 管理');
+                            $('#cancel_add_room'+room_key).parent().parent().remove();
+                            BookEditClass.tempRoomEdit['edit'] = '';
+                            break;
+                        }
+                    }
                 });
                 $('#am-icon-calculator').click(function(e) {
                     $('#rate_calculation').show('fast');
@@ -418,19 +408,44 @@ $(document).ready(function(){
                         $('#modal_info_message').html('依次操作，请先取消上一次操作！');
                         return;
                     }
-                } 
-                if(typeof(BookEditClass.thenRoomPrice[room_id]) != 'undefined' && BookEditClass.thenRoomPrice[room_id] != '') {
-                    $('#modal_info').modal('show');
-                    $('#modal_info_message').html('请先取消之前的设定！再进行更改。');
-                    return;
+                }
+                var thenRoomPrice = BookEditClass.thenRoomPrice;
+                for(room_key in thenRoomPrice) {
+                    if(thenRoomPrice[room_key].type_room_id == room_id) {
+                        $('#modal_info').modal('show');
+                        $('#modal_info_message').html('请先取消之前的设定！再进行更改。');
+                        return;
+                    }
                 }
                 BookEditClass.tempRoomEdit['edit'] = type;
                 BookEditClass.tempRoomEdit['room_id'] = room_id;
                 BookEditClass.tempRoomEdit['book_id'] = $(_this).parent().attr('book_id');
-                $('#add_room_tr').show('slow');
-                $('#calculation-box').show('slow');
-                $(_this).parent().prev().prev().html('<i class="am-icon-circle am-red-FA0A0A"></i>' + $(_this).children().text());
+                $('#layout_room').attr('type', type);
+                if(type != 'check_out_room') {
+                    $('#add_room_tr').show('slow');
+                    $('#calculation-box').show('slow');
+                    $(_this).parent().prev().prev().html('<i class="am-icon-circle am-red-FA0A0A"></i>' + $(_this).children().text());
+                } else {
+                    //退房
+                    $(_this).parent().prev().prev().html('<i class="am-icon-circle am-yellow-FFAA3C"></i>' + $(_this).children().text());
+                    $('#check-out-box').show('slow');
+                    $('#add_room_tr').hide();
+                    bookEdit.returnRoom(_this);
+                }
             };
+            bookEdit.returnRoom = function (_this) {
+                var book_id = $(_this).parent().attr('book_id');
+                var room_info = $(_this).parent().parent().parent().parent().parent();
+                $('#return_room_tr .return_room_name').html($.trim(room_info.find('.room_info_id').text()));
+                $('#return_room_tr .return_check_in_date').html($.trim(room_info.find('.book_check_in').text()));
+                $('#return_room_tr').clone().removeClass('hide').attr('id', '').insertBefore('#return_room_tr');
+                //$(this).parent().prev().clone().insertBefore($(this).parent());
+                $.getJSON('<%$saveBookInfoUrl%>&act=returnBook&book_id='+book_id, function (result) {
+                    data = result;
+                    BookEditClass.tempRoomEdit = {};
+                    BookEditClass.tempRoomEdit['edit'] = '';
+                })
+            }
             bookEdit.resetchangeRoom = function(room_id) {
                 $('.change_room,.continued_room,.check_out_room').each(function(index, element) {
                     if($(this).parent().attr('room_id') != room_id) {
@@ -912,8 +927,11 @@ $(document).ready(function(){
                 BookEditClass.thenRoomPrice[room_id] = {};
                 BookEditClass.thenRoomPrice[room_id]['data'] = tempRoomPrice;
                 BookEditClass.thenRoomPrice[room_id]['type'] = BookEditClass.tempRoomEdit['edit'];
+                BookEditClass.thenRoomPrice[room_id]['type_room_id'] = BookEditClass.tempRoomEdit['room_id'];
+                BookEditClass.thenRoomPrice[room_id]['type_book_id'] = BookEditClass.tempRoomEdit['book_id'];
                 //
                 BookEditClass.tempRoomPrice = {};
+                BookEditClass.tempRoomEdit = {};
                 BookEditClass.tempRoomEdit['edit'] = '';
                 BookEditClass.room_info_id[room_id] = tempRoomPrice['room']['room_id'];//这个房号已经使用
             };

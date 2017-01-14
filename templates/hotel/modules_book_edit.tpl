@@ -299,8 +299,8 @@
                                       <td><%$arrayPriceSystem[$arrayDataInfo[i].room_layout_price_system_id].room_layout_price_system_name%></td>                   
                                       <td class="room_info_id" room_id="<%$arrayDataInfo[i].room_id%>" max_people="<%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%>" max_children="<%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%>" extra_bed="<%$arrayDataInfo[i].book_room_extra_bed%>" name="<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>]"><%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_name%>[<%$arrayRoomInfo[$arrayDataInfo[i].room_id].room_number%>] / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_people%> / <%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_max_children%></td>
                                       <td><%$arrayRoomInfo[$arrayDataInfo[i].room_id].temp_extra_bed%> / <%$arrayDataInfo[i].book_room_extra_bed%></td>
-                                      <td><%$arrayDataInfo[i].book_check_in%></td>
-                                      <td><%$arrayDataInfo[i].book_check_out%></td>
+                                      <td class="book_check_in"><%$arrayDataInfo[i].book_check_in%></td>
+                                      <td class="book_check_out"><%$arrayDataInfo[i].book_check_out%></td>
                                       <td class="all_check_in">
                                       <%if $arrayDataInfo[i].book_order_number_status=='0'%><code class="fr"><i class="am-icon-circle-thin"></i> 未入住</code>
                                       <%elseif $arrayDataInfo[i].book_order_number_status=='1'%><code class="fr"><i class="am-icon-child"></i> 已入住</code>
@@ -460,7 +460,7 @@
                                 <span class="icon">
                                     <i class="icon-arrow-right"></i>
                                 </span>
-                                <h5>退房/附加服务</h5>
+                                <h5>退房</h5>
                             </div>
                            <div class="widget-content nopadding">  
                                 <table class="table table-bordered table-striped">
@@ -475,12 +475,12 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <td id="return_room_name"></td>
-                                      <td id="return_check_in_date"></td>
-                                      <td id="return_check_out_date"><%$thisDayTime%></td>
-                                      <td id="return_check_in_days"></td>
-                                      <td id="return_price"></td>
+                                    <tr id="return_room_tr" class="hide">
+                                      <td class="return_room_name"></td>
+                                      <td class="return_check_in_date"></td>
+                                      <td class="return_check_out_date"><%$thisDayTime%></td>
+                                      <td class="return_check_in_days"></td>
+                                      <td class="return_price"></td>
                                       <td></td>
                                     </tr>
                                   </tbody>

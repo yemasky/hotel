@@ -9,6 +9,8 @@
 namespace hotel;
 
 
+use vakata\database\Exception;
+
 class BookActionServiceImpl extends \BaseService  {
     private static $objService = null;
 
@@ -178,14 +180,49 @@ class BookActionServiceImpl extends \BaseService  {
         $where['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $where['book_order_number'] = decode($objRequest -> order_number);
         $where['book_user_id'] = $objRequest -> id;//
-        if($where['book_user_id'] = 'ALL') {
-            unset($where['book_user_id']);
-        }
+        if($where['book_user_id'])
         $book_user_room_card = 0;
         if($type == 1) $book_user_room_card = 1;
         if($type == 2) $book_user_room_card = 2;
         $arrayUpdate['book_user_room_card'] = $book_user_room_card;
         return BookService::instance()->updateBookUser($where, $arrayUpdate);
+    }
+
+    //退订
+    public function returnBook($objRequest, $objResponse) {
+        //计算退款金额 订单
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $book_id = $objRequest -> book_id;
+        $order_number = decode($objRequest -> order_number);
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_id'=>$book_id, 'book_order_number'=>$order_number);
+        $arrayBookInfo = BookService::instance()->getBook($conditions);
+        if(!empty($arrayBookInfo)) $arrayBookInfo = $arrayBookInfo[0];
+        if($arrayBookInfo['book_order_number_main'] != 1) {
+            $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number_main'=>1, 'book_order_number'=>$order_number);
+            $arrayBookMainInfo = BookService::instance()->getBook($conditions);
+            if(!empty($arrayBookMainInfo)) {
+                $arrayBookMainInfo = $arrayBookMainInfo[0];
+            } else {
+                return NULL;
+            }
+        } else {
+            $arrayBookMainInfo = $arrayBookInfo;
+        }
+        //夜审数据 book_night_audit
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,'room_id'=>$arrayBookInfo['room_id']);
+        $arrayNightAudit = BookService::instance()->getBookNightAudit($conditions);
+        //挂帐公司
+        if($arrayBookMainInfo['']) {
+
+        } else {
+            //已付款的
+            if($arrayBookMainInfo['']) {
+
+            } else {
+
+            }
+        }
 
     }
 }
