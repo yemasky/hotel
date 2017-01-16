@@ -53,6 +53,7 @@
                     </div>
                 </div>
                 <div class="widget-content">
+                    <div class="span12">
                     <div class="span4">
 						<div class="widget-box">
 							<div class="widget-title">
@@ -254,12 +255,14 @@
 								</table>
 							</div>
 						</div>
-					</div>  
+					</div>
+                    </div>
                     <ul class="nav nav-tabs" id="book_nav">
                         <li class="active" id=""><a data-toggle="tab" href="#tab1"><i class="am-icon-bed am-red-FB0000"></i> 客房信息</a></li>
                         <!--<li id=""><a data-toggle="tab" href="#tab2"><i class="am-icon-group am-red-FB0000"></i> 入住信息</a></li>-->
                         <li id=""><a data-toggle="tab" href="#tab3"><i class="am-icon-object-group am-red-FB0000"></i> 附加服务</a></li>
                     </ul>
+                    
                     <div class="nopadding tab-content">
                         <div id="tab1" class="widget-box tab-pane active">   
                             <div class="widget-title">

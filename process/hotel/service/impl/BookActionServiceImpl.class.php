@@ -192,42 +192,93 @@ class BookActionServiceImpl extends \BaseService  {
     public function returnBook($objRequest, $objResponse) {
         //计算退款金额 订单
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $book_id = $objRequest -> book_id;
+        $book_id = json_decode(stripslashes($objRequest->book_id), true);
         $order_number = decode($objRequest -> order_number);
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_id'=>$book_id, 'book_order_number'=>$order_number);
-        $arrayBookInfo = BookService::instance()->getBook($conditions);
-        if(!empty($arrayBookInfo)) {
-            $arrayBookInfo = $arrayBookInfo[0];
-        } else {
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,
+                                     'IN'=>array('book_id'=>$book_id));
+        $field = 'book_id, room_id, book_room_sell_layout_price, book_cash_pledge, book_cash_pledge_returns, book_total_price, book_total_room_rate,
+            book_need_service_price, book_service_charge, book_total_cash_pledge, book_is_pay, book_is_payment, payment_type_id, book_prepayment_price,
+            book_is_prepayment, prepayment_type_id, book_order_number_main, book_order_number_main, book_order_number_main_status, book_order_number_status,
+            book_half_price';
+        $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'room_id');
+        if(empty($arrayBookInfo)) {
             throw new \Exception("订单错误，找不到数据.");
         }
-
-        if($arrayBookInfo['book_order_number_main'] != 1) {
+        $arrayBookMainInfo = '';$arrayRoomId = '';$arrayRoomConsume = '';
+        foreach($arrayBookInfo as $room_id => $arrayData){
+            if($arrayData['book_order_number_main'] == 1) {
+                $arrayBookMainInfo = $arrayData;
+            }
+            $arrayRoomId[$arrayData['room_id']] = $arrayData['room_id'];
+            $arrayRoomConsume[$room_id]['cash_pledge'] = $arrayData['book_cash_pledge'];
+        };
+        if(empty($arrayBookMainInfo)) {
             $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number_main'=>1, 'book_order_number'=>$order_number);
             $arrayBookMainInfo = BookService::instance()->getBook($conditions);
             if(!empty($arrayBookMainInfo)) {
                 $arrayBookMainInfo = $arrayBookMainInfo[0];
             } else {
-                return NULL;
+                throw new \Exception("订单错误，找不到主订单.");
             }
-        } else {
-            $arrayBookMainInfo = $arrayBookInfo;
         }
+
         //夜审数据 book_night_audit
-        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,'room_id'=>$arrayBookInfo['room_id']);
+        //退款 客房退款 -- 服务退款
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,//未夜审
+            'book_night_audit_valid'=>'1',//有效
+            'IN'=>array('room_id'=>$arrayRoomId));
+        $conditions['order'] = 'book_night_audit_fiscal_day ASC';
         $arrayNightAudit = BookService::instance()->getBookNightAudit($conditions);
-        //挂帐公司
+        $conditions['order'] = '';
+
+        //计算公式： 总收款 = (房费 + 加床费 + 附加服务费 + 服务费) - 以消费的费用 = 余额 ，退押金 =  押金 - 超额消费
+        //全额是否到帐 0 book_is_payment 未到账
+        //计算以消费
+
+
+        $book_total_price = 0;//总额
         if($arrayBookMainInfo['book_is_payment'] == '0') {
-
-        } else {
-            //已付款的
-            if($arrayBookMainInfo['book_is_payment'] == '1') {
-
+            if($arrayBookMainInfo['book_is_prepayment'] == '0') {//未预付 什么都没有退
             } else {
-
+                $book_total_price = $arrayBookMainInfo['book_prepayment_price'];//预付费就是总额
+            }
+        } else {
+            //已到账
+            $book_total_price = $arrayBookMainInfo['book_total_price'];
+        }
+        //已消费
+        //当天日期
+        $thisDay = getDay();
+        $checkoutDate = getDay(-24);//结算日期 昨天
+        //现在结算时间
+        $thisHoue = date("H");
+        $checkoutHalf = 0;
+        //半天消费计算
+        //hotel info
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayHotel = HotelService::instance()->getHotel($conditions);
+        $hotel_checkout = empty($arrayHotel[0]['hotel_checkout']) ? '12:00' : $arrayHotel[0]['hotel_checkout'];
+        $hotel_overtime = $arrayBookMainInfo['book_half_price'];//半天时间
+        if($thisHoue > $hotel_checkout && $thisHoue < $hotel_overtime) {//半天
+            $checkoutHalf = 1;$checkoutDate = getDay();
+        }
+        if($thisHoue > $hotel_overtime) {//加1天
+            $checkoutDate = getDay();
+        }
+        //消费的金额
+        foreach($arrayNightAudit as $i => $arrayData) {
+            $room_id = $arrayData['room_id'];
+            if($checkoutDate >= $arrayData['book_night_audit_fiscal_day']) {
+                if(!isset($arrayRoomConsume[$room_id]['consume'])) {
+                    $arrayRoomConsume[$room_id]['consume'] = 0;
+                    $arrayRoomConsume[$room_id]['days'] = 1;
+                }
+                $arrayRoomConsume[$room_id]['consume'] += $arrayData['book_night_audit_income'];
+                $arrayRoomConsume[$room_id]['days']++;
             }
         }
+        return $arrayRoomConsume;
 
     }
 }

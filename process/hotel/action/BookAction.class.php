@@ -211,8 +211,8 @@ class BookAction extends \BaseAction {
         }
         if($act == 'returnBook') {
             $this->setDisplay();
-            BookActionServiceImpl::instance()->returnBook($objRequest, $objResponse);
-            return $this->successResponse('获取数据成功！', '');
+            $arrayRoomConsume = BookActionServiceImpl::instance()->returnBook($objRequest, $objResponse);
+            return $this->successResponse('获取数据成功！', $arrayRoomConsume);
         }
 
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);

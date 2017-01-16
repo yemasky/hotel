@@ -222,6 +222,7 @@ $(document).ready(function(){
                         BookEditClass.returnRoom[book_id] = '';
                         $('#return_room_'+book_id).remove();
                         if($('#return_room_tr').prev().html() == null) $('#check-out-box').hide('flast');
+                        $('#room_layout_data').hide('flast');
                     }
                 });
                 $('#am-icon-calculator').click(function(e) {
