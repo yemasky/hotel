@@ -42,9 +42,8 @@ class ModeOfPaymentAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
         $conditions['order'] = 'payment_type_id ASC';
-        $arrayHotelPayment = HotelService::instance()->getHotelPaymentType($conditions);
+        $arrayHotelPayment = HotelService::instance()->getHotelPaymentType($conditions, '*', 'payment_type_id', true, 'payment_type_father_id');
         $conditions['order'] = '';
-
         //赋值
         $objResponse -> arrayData = $arrayHotelPayment;
         $objResponse -> add_url =
@@ -68,6 +67,7 @@ class ModeOfPaymentAction extends \BaseAction {
 
         if(!empty($arrayPostValue) && is_array($arrayPostValue)) {
             $arrayData['payment_type_name'] = $objRequest -> payment_type_name;
+            $arrayData['payment_type_father_id'] = $objRequest -> father_id;
             if(isset($arrayPostValue['payment_type_name']) && !empty($arrayData['payment_type_name'])) {
                 $url = \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['modeOfPayment']['view'])));
                 //$url = '';

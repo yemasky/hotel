@@ -4,6 +4,15 @@
 <%include file="hotel/inc/head.tpl"%>
 <style type="text/css">
 .form-horizontal .btn-group {margin-bottom: 5px;margin-left: 0;margin-right: 5px;}
+
+.form-horizontal .control-label{padding-top:10px;}
+.form-horizontal .controls{padding: 5px 0 20px 0;}
+.form-horizontal .control-label {padding-top: 5px;}
+.table-bordered th, .table-bordered td:first-child {border-left: 0px solid #ddd !important;}
+.table-bordered td{font-size:12px;}
+.table.in-check tr th:first-child, .table.in-check tr td:first-child {width: 45px;}
+.tab-content{overflow:visible;}
+.quick-actions{margin-top:5px;}
 </style>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
@@ -27,19 +36,29 @@
                 <div class="widget-content nopadding">
                     <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
                         <div class="control-group">
-                            <label class="control-label _edit"><%$selfNavigation.hotel_modules_name%> : </label>
+                           <label class="control-label _edit"><%$selfNavigation.hotel_modules_name%> : </label>
                             <div class="controls _edit">
-                            <%section name=i loop=$arrayData%>
-                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayData[i].payment_type_name%> <!--<i class="am-icon-rmb am-yellow-F58A17"></i> <%$arrayData[i].type%>--></a><%if $arrayData[i].hotel_id > 0%><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$arrayData[i].payment_type_id%>" data-name="<%$arrayData[i].payment_type_name%>" ><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul><%/if%></div>
+                            <%foreach key=payment_type_id item=payment_type from=$arrayData%>
+                            <label class="control-label ">
+                            <div class="btn-group">
+                            <a class="btn btn-inverse edit_checkbox" href="#view"><%$payment_type.payment_type_name%></a>
+                            </div>
+                            </label>
+                            <div class="controls ">
+                            <%section name=j loop=$payment_type.children%>
+                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$payment_type.children[j].payment_type_name%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$payment_type.children[j].payment_type_id%>" data-name="<%$payment_type.children[j].payment_type_name%>" father-id="<%$payment_type.children[j].payment_type_father_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
+                            <%sectionelse%>
+                            &#12288;
                             <%/section%>    
+                            </div>
+                            <%/foreach%>
                             </div>
                             <div class="controls">
                                 <a class="btn btn-primary btn-mini add_data"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_category']['page_laguage_value']%></a>
                             </div>
-                            <div class="controls">
+                                <div class="controls">
                             <br>
                             </div>
-                         
                         </div>
                     </form>
                     
@@ -51,6 +70,17 @@
                                 <div class="modal-header">
                                     <button data-toggle="collapse" data-target="#edit_data" class="close" type="button">×</button>
                                     <h3><%$arrayLaguage['add_or_edit_category']['page_laguage_value']%></h3>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">类别 :</label>
+                                    <div class="controls">
+                                        <select name="father_id" id="father_id">
+                                        <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                        <%foreach key=payment_type_id item=payment_type from=$arrayData%>
+                                        <option value="<%$payment_type_id%>"><%$payment_type.payment_type_name%></option>
+                                        <%/foreach%>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label"><%$arrayLaguage['apellation']['page_laguage_value']%> :</label>

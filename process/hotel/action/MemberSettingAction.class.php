@@ -58,8 +58,10 @@ class MemberSettingAction extends \BaseAction {
         if(!empty($arrayDiscount)) {
             foreach($arrayBookType as $key => $arrayDateBook) {
                 foreach($arrayDateBook as $key => $BookType) {
-                    foreach($BookType['children'] as $j => $Type) {
-                        $arrayType[$Type['book_type_id']] = $Type;
+                    if(!empty($BookType['children'])) {
+                        foreach($BookType['children'] as $j => $Type) {
+                            $arrayType[$Type['book_type_id']] = $Type;
+                        }
                     }
                 }
             }

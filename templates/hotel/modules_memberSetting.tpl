@@ -59,6 +59,8 @@
                                     <div class="controls _edit">
                                     <%section name=j loop=$BookType.children%>
                                         <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$BookType.children[j].book_type_name%> </a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$BookType.children[j].book_type_id%>" data-name="<%$BookType.children[j].book_type_name%>" father-id="<%$BookType.children[j].book_type_father_id%>" dtype="<%$BookType.children[j].type%>" sales_type="<%$BookType.children[j].book_sales_type_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-edit am-yellow-FFAA3C"></i> Edit</a></li><li class="discount_btn"><a href="#discount"><i class="am-icon-puzzle-piece am-red-FB0000"></i> <%$arrayLaguage['add_discount']['page_laguage_value']%></a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
+                                    <%sectionelse%>
+                                    &#12288;
                                     <%/section%>    
                                     </div>
                                  </div>

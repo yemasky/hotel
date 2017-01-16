@@ -213,7 +213,7 @@ $(document).ready(function(){
     
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},sell_layout_list:{},
-        priceSystem: {},roomSellLayout: {},
+        priceSystem: {},roomSellLayout: {},payment_type: {},
         hotelCheckDate: {'hotel_checkin':'<%$hotel_checkin%>', 'hotel_checkout':'<%$hotel_checkout%>'},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
@@ -222,22 +222,14 @@ $(document).ready(function(){
             bookEdit.initParameter = function() {
                 BookEditClass.hotel_service[-1] = 1;
                 BookEditClass.weekday=new Array(7);
-                BookEditClass.weekday[0]="日"
-                BookEditClass.weekday[1]="一"
-                BookEditClass.weekday[2]="二"
-                BookEditClass.weekday[3]="三"
-                BookEditClass.weekday[4]="四"
-                BookEditClass.weekday[5]="五"
+                BookEditClass.weekday[0]="日";BookEditClass.weekday[1]="一";BookEditClass.weekday[2]="二"
+                BookEditClass.weekday[3]="三";BookEditClass.weekday[4]="四";BookEditClass.weekday[5]="五"
                 BookEditClass.weekday[6]="六";
                 BookEditClass.orientations=new Array(7);
-                BookEditClass.orientations['east']='东';
-                BookEditClass.orientations['south']='南';
-                BookEditClass.orientations['west']='西';
+                BookEditClass.orientations['east']='东';BookEditClass.orientations['south']='南';BookEditClass.orientations['west']='西';
                 BookEditClass.orientations['north']='北';
-                BookEditClass.orientations['southeast']='东南';
-                BookEditClass.orientations['northeast']='东北';
-                BookEditClass.orientations['southwest']='西南';
-                BookEditClass.orientations['northwest']='西北';
+                BookEditClass.orientations['southeast']='东南';BookEditClass.orientations['northeast']='东北';
+                BookEditClass.orientations['southwest']='西南';BookEditClass.orientations['northwest']='西北';
                 BookEditClass.orientations['no']='无';
                 //
                 bookEdit.groupSellLayoutSystem();
@@ -670,6 +662,17 @@ $(document).ready(function(){
                 $('#computed_value').click(function(e) {
                     bookEdit.computeBookPrice(true);  
                 });
+                var payment_type = BookEditClass.payment_type;
+                $('#payment_type_father option').each(function () {
+                    var father = $(this).attr('father');
+                    if(father != this.value && this.value > 0) {
+                        if (typeof(payment_type[father]) == 'undefined') payment_type[father] = {};
+                        payment_type[father][this.value] = {};
+                        payment_type[father][this.value]['id'] = this.value;
+                        payment_type[father][this.value]['name'] = this.text;
+                    }
+                })
+console.log(payment_type);
             },
             //搜索RoomLayout
             bookEdit.ajaxGetRoomLayout = function() {
