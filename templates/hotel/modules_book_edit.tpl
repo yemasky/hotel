@@ -471,7 +471,8 @@
                                       <th>退房日期</th>
                                       <th>已住（天）</th>
                                       <th>退款金额</th>
-                                      <th></th>
+                                      <th>退款押金</th>
+                                      <th>操作</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -481,7 +482,15 @@
                                       <td class="return_check_out_date"><%$thisDayTime%></td>
                                       <td class="return_check_in_days"></td>
                                       <td class="return_price"></td>
-                                      <td></td>
+                                      <td class="return_cash_pledge"></td>
+                                      <td><!--<a id="cancel_return_room" class="btn btn-warning btn-mini fr cancel"><i class="am-icon-minus-circle"></i> 取消</a>--></td>
+                                    </tr>
+                                    <tr>
+                                      <td colspan="7" class="text-center">
+                                      <p class="text-center">
+                                      <a id="return_room_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> 计算退房明细</a>
+                                      </p>
+                                      </td>
                                     </tr>
                                   </tbody>
                                 </table>

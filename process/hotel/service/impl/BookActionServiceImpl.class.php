@@ -197,7 +197,12 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_id'=>$book_id, 'book_order_number'=>$order_number);
         $arrayBookInfo = BookService::instance()->getBook($conditions);
-        if(!empty($arrayBookInfo)) $arrayBookInfo = $arrayBookInfo[0];
+        if(!empty($arrayBookInfo)) {
+            $arrayBookInfo = $arrayBookInfo[0];
+        } else {
+            throw new \Exception("订单错误，找不到数据.");
+        }
+
         if($arrayBookInfo['book_order_number_main'] != 1) {
             $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number_main'=>1, 'book_order_number'=>$order_number);
             $arrayBookMainInfo = BookService::instance()->getBook($conditions);
@@ -213,11 +218,11 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,'room_id'=>$arrayBookInfo['room_id']);
         $arrayNightAudit = BookService::instance()->getBookNightAudit($conditions);
         //挂帐公司
-        if($arrayBookMainInfo['']) {
+        if($arrayBookMainInfo['book_is_payment'] == '0') {
 
         } else {
             //已付款的
-            if($arrayBookMainInfo['']) {
+            if($arrayBookMainInfo['book_is_payment'] == '1') {
 
             } else {
 

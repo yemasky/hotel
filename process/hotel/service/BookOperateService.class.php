@@ -577,68 +577,68 @@ class BookOperateService extends \BaseService {
                 }
 
             }
-            if(!empty($service)) {
-                if($iNightAuditDate == '') $iNightAuditDate = getDay();
-                foreach($service as $k => $arrayData) {
-                    $arrayHotelService[$k]['book_id'] = $arrayOldBookInfo['book_id'];
-                    $arrayHotelService[$k]['book_order_number'] = $order_number;
-                    $arrayHotelService[$k]['hotel_service_id'] = $arrayData['id'];
-                    $arrayHotelService[$k]['employee_id'] = $employee_id;
-                    $arrayHotelService[$k]['hotel_id'] = $hotel_id;
-                    $arrayHotelService[$k]['hotel_service_price'] = $arrayData['service_price'];
-                    $arrayHotelService[$k]['book_hotel_service_num'] = $arrayData['service_num'];
-                    $arrayHotelService[$k]['book_hotel_service_discount'] = $arrayData['service_discount'];
-                    $arrayHotelService[$k]['book_hotel_service_total_price'] = $arrayData['service_total_price'];
-                    //夜审
-                    $iNightAudit = $k;
-                    //夜审数据
-                    $arrayNightAudit[$iNightAudit]['room_id'] = '0';//
-                    $arrayNightAudit[$iNightAudit]['hotel_service_id'] = $arrayData['id'];
-                    $arrayNightAudit[$iNightAudit]['hotel_service_num'] = $arrayData['service_num'];
-                    $arrayNightAudit[$iNightAudit]['book_order_number'] = $order_number;
-                    $arrayNightAudit[$iNightAudit]['book_id'] = $arrayOldBookInfo['book_id'];
-                    $arrayNightAudit[$iNightAudit]['employee_id'] = $employee_id;
-                    $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
-                    $arrayNightAudit[$iNightAudit]['book_type_id'] = $arrayOldBookInfo['book_type_id'];
-                    $arrayNightAudit[$iNightAudit]['book_discount_id'] = '0';//加床默认为 100 折扣
-                    $arrayNightAudit[$iNightAudit]['book_discount'] = $arrayData['service_discount'];
-                    $arrayNightAudit[$iNightAudit]['room_sell_layout_id'] = '0';
-                    $arrayNightAudit[$iNightAudit]['room_layout_id'] = '0';
-                    $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = '0';
-                    $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//财日
-                    $arrayNightAudit[$iNightAudit]['price'] = $arrayData['service_price'];
-                    $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayData['service_total_price'];
-                    $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_service';
-                    $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
-                    $arrayNightAudit[$iNightAudit]['book_is_check_add_datetime'] = getDateTime();
-                    $arrayNightAudit[$iNightAudit]['unique_key'] = rand(100000000, 999999999);
-                }
-            }
-            $book_service_charge = $objRequest -> book_service_charge;
-            if(!empty($book_service_charge)) {
+        }
+
+        if(!empty($service)) {
+            if($iNightAuditDate == '') $iNightAuditDate = getDay();
+            foreach($service as $k => $arrayData) {
+                $arrayHotelService[$k]['book_id'] = $arrayOldBookInfo['book_id'];
+                $arrayHotelService[$k]['book_order_number'] = $order_number;
+                $arrayHotelService[$k]['hotel_service_id'] = $arrayData['id'];
+                $arrayHotelService[$k]['employee_id'] = $employee_id;
+                $arrayHotelService[$k]['hotel_id'] = $hotel_id;
+                $arrayHotelService[$k]['hotel_service_price'] = $arrayData['service_price'];
+                $arrayHotelService[$k]['book_hotel_service_num'] = $arrayData['service_num'];
+                $arrayHotelService[$k]['book_hotel_service_discount'] = $arrayData['service_discount'];
+                $arrayHotelService[$k]['book_hotel_service_total_price'] = $arrayData['service_total_price'];
+                //夜审
+                $iNightAudit = $k;
                 //夜审数据
                 $arrayNightAudit[$iNightAudit]['room_id'] = '0';//
-                $arrayNightAudit[$iNightAudit]['hotel_service_id'] = -1;
-                $arrayNightAudit[$iNightAudit]['hotel_service_num'] = 1;
+                $arrayNightAudit[$iNightAudit]['hotel_service_id'] = $arrayData['id'];
+                $arrayNightAudit[$iNightAudit]['hotel_service_num'] = $arrayData['service_num'];
                 $arrayNightAudit[$iNightAudit]['book_order_number'] = $order_number;
                 $arrayNightAudit[$iNightAudit]['book_id'] = $arrayOldBookInfo['book_id'];
                 $arrayNightAudit[$iNightAudit]['employee_id'] = $employee_id;
                 $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
                 $arrayNightAudit[$iNightAudit]['book_type_id'] = $arrayOldBookInfo['book_type_id'];
                 $arrayNightAudit[$iNightAudit]['book_discount_id'] = '0';//加床默认为 100 折扣
-                $arrayNightAudit[$iNightAudit]['book_discount'] = 100;
+                $arrayNightAudit[$iNightAudit]['book_discount'] = $arrayData['service_discount'];
                 $arrayNightAudit[$iNightAudit]['room_sell_layout_id'] = '0';
                 $arrayNightAudit[$iNightAudit]['room_layout_id'] = '0';
                 $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = '0';
-                $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//算在第一天的夜审 财日
-                $arrayNightAudit[$iNightAudit]['price'] = $book_service_charge;
-                $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $book_service_charge;
-                $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'service_charge';
+                $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//财日
+                $arrayNightAudit[$iNightAudit]['price'] = $arrayData['service_price'];
+                $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayData['service_total_price'];
+                $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_service';
                 $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
                 $arrayNightAudit[$iNightAudit]['book_is_check_add_datetime'] = getDateTime();
                 $arrayNightAudit[$iNightAudit]['unique_key'] = rand(100000000, 999999999);
             }
-
+        }
+        $book_service_charge = $objRequest -> book_service_charge;
+        if(!empty($book_service_charge)) {
+            //夜审数据
+            $arrayNightAudit[$iNightAudit]['room_id'] = '0';//
+            $arrayNightAudit[$iNightAudit]['hotel_service_id'] = -1;
+            $arrayNightAudit[$iNightAudit]['hotel_service_num'] = 1;
+            $arrayNightAudit[$iNightAudit]['book_order_number'] = $order_number;
+            $arrayNightAudit[$iNightAudit]['book_id'] = $arrayOldBookInfo['book_id'];
+            $arrayNightAudit[$iNightAudit]['employee_id'] = $employee_id;
+            $arrayNightAudit[$iNightAudit]['hotel_id'] = $hotel_id;
+            $arrayNightAudit[$iNightAudit]['book_type_id'] = $arrayOldBookInfo['book_type_id'];
+            $arrayNightAudit[$iNightAudit]['book_discount_id'] = '0';//加床默认为 100 折扣
+            $arrayNightAudit[$iNightAudit]['book_discount'] = 100;
+            $arrayNightAudit[$iNightAudit]['room_sell_layout_id'] = '0';
+            $arrayNightAudit[$iNightAudit]['room_layout_id'] = '0';
+            $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = '0';
+            $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//算在第一天的夜审 财日
+            $arrayNightAudit[$iNightAudit]['price'] = $book_service_charge;
+            $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $book_service_charge;
+            $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'service_charge';
+            $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
+            $arrayNightAudit[$iNightAudit]['book_is_check_add_datetime'] = getDateTime();
+            $arrayNightAudit[$iNightAudit]['unique_key'] = rand(100000000, 999999999);
         }
 
 

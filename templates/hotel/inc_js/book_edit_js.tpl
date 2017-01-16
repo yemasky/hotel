@@ -91,7 +91,7 @@ $(document).ready(function(){
     
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},tempRoomPrice:{},
-        hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},tempServicePrice: {},
+        hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},tempServicePrice: {},returnRoom:{},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
         priceSystem:{},
@@ -199,7 +199,7 @@ $(document).ready(function(){
                     return;
                 });
                 $('.cancel_room').click(function(e) {
-                    var room_id = $(this).parent().attr('room_id');
+                    var room_id = $(this).parent().attr('room_id');var book_id = $(this).parent().attr('book_id');
                     var select_room_id = BookEditClass.tempRoomEdit['room_id'];
                     if(select_room_id == room_id) {
                         $(this).parent().prev().prev().html('<i class="am-icon-circle-o"></i> 管理');
@@ -216,6 +216,12 @@ $(document).ready(function(){
                             BookEditClass.tempRoomEdit['edit'] = '';
                             break;
                         }
+                    }
+                    if(typeof(BookEditClass.returnRoom[book_id]) != 'undefined') {
+                        $(this).parent().prev().prev().html('<i class="am-icon-circle-o"></i> 管理');
+                        BookEditClass.returnRoom[book_id] = '';
+                        $('#return_room_'+book_id).remove();
+                        if($('#return_room_tr').prev().html() == null) $('#check-out-box').hide('flast');
                     }
                 });
                 $('#am-icon-calculator').click(function(e) {
@@ -258,6 +264,16 @@ $(document).ready(function(){
                 $('#return_deposit_money').click(function(e) {
                     bookEdit.returnDepositMoney();
                 });
+                //退房
+                $('#return_room_calculation').click(function () {
+                    bookEdit.returnRoomPriceCompute();
+                })
+            };
+            bookEdit.returnRoomPriceCompute = function() {
+                $.getJSON('<%$saveBookInfoUrl%>&act=returnBook&book_id='+JSON.stringify(BookEditClass.returnRoom), function (result) {
+                    data = result;
+
+                })
             };
             bookEdit.returnDepositMoney = function () {
                 $('#modal_update').modal('show');
@@ -402,6 +418,7 @@ $(document).ready(function(){
             };
             bookEdit.changeRoom = function(type, _this) {
                 var room_id = $(_this).parent().attr('room_id');
+                var book_id = $(_this).parent().attr('book_id')
                 if(BookEditClass.tempRoomEdit['edit'] != '') {
                     if(BookEditClass.tempRoomEdit['room_id'] != room_id) {
                         $('#modal_info').modal('show');
@@ -419,12 +436,17 @@ $(document).ready(function(){
                 }
                 BookEditClass.tempRoomEdit['edit'] = type;
                 BookEditClass.tempRoomEdit['room_id'] = room_id;
-                BookEditClass.tempRoomEdit['book_id'] = $(_this).parent().attr('book_id');
+                BookEditClass.tempRoomEdit['book_id'] = book_id;
                 $('#layout_room').attr('type', type);
                 if(type != 'check_out_room') {
                     $('#add_room_tr').show('slow');
                     $('#calculation-box').show('slow');
                     $(_this).parent().prev().prev().html('<i class="am-icon-circle am-red-FA0A0A"></i>' + $(_this).children().text());
+                    if(typeof(BookEditClass.returnRoom[book_id]) != 'undefined') {
+                        BookEditClass.returnRoom[book_id] = '';
+                        $('#return_room_'+book_id).remove();
+                        if($('#return_room_tr').prev().html() == null) $('#check-out-box').hide('flast');
+                    }
                 } else {
                     //退房
                     $(_this).parent().prev().prev().html('<i class="am-icon-circle am-yellow-FFAA3C"></i>' + $(_this).children().text());
@@ -436,16 +458,22 @@ $(document).ready(function(){
             bookEdit.returnRoom = function (_this) {
                 var book_id = $(_this).parent().attr('book_id');
                 var room_info = $(_this).parent().parent().parent().parent().parent();
+                if(typeof(BookEditClass.returnRoom[book_id]) != 'undefined' && BookEditClass.returnRoom[book_id] > 0) return;
                 $('#return_room_tr .return_room_name').html($.trim(room_info.find('.room_info_id').text()));
                 $('#return_room_tr .return_check_in_date').html($.trim(room_info.find('.book_check_in').text()));
-                $('#return_room_tr').clone().removeClass('hide').attr('id', '').insertBefore('#return_room_tr');
+                $('#return_room_tr').clone().removeClass('hide').attr('id', 'return_room_'+book_id).insertBefore('#return_room_tr');
+                /*$('#return_room_'+book_id).find('.cancel').attr('id', 'cancel_return_room'+book_id);
+                $('#cancel_return_room'+book_id).click(function(){
+                    $('#return_room_'+book_id).remove();
+                    BookEditClass.returnRoom[book_id] = '';
+                });*/
                 //$(this).parent().prev().clone().insertBefore($(this).parent());
-                $.getJSON('<%$saveBookInfoUrl%>&act=returnBook&book_id='+book_id, function (result) {
-                    data = result;
-                    BookEditClass.tempRoomEdit = {};
-                    BookEditClass.tempRoomEdit['edit'] = '';
-                })
+                BookEditClass.returnRoom[book_id] = book_id;
+                BookEditClass.tempRoomEdit = {};
+                BookEditClass.tempRoomEdit['edit'] = '';
+
             }
+
             bookEdit.resetchangeRoom = function(room_id) {
                 $('.change_room,.continued_room,.check_out_room').each(function(index, element) {
                     if($(this).parent().attr('room_id') != room_id) {
