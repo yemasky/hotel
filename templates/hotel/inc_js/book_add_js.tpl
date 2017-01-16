@@ -662,18 +662,28 @@ $(document).ready(function(){
                 $('#computed_value').click(function(e) {
                     bookEdit.computeBookPrice(true);  
                 });
+                bookEdit.setPaymentType();
+            },
+            bookEdit.setPaymentType = function () {
                 var payment_type = BookEditClass.payment_type;
+                var payment_type_select = '<option value=""><%$arrayLaguage["please_select"]["page_laguage_value"]%></option>';
+                payment_type[''] = '';
                 $('#payment_type_father option').each(function () {
                     var father = $(this).attr('father');
-                    if(father != this.value && this.value > 0) {
-                        if (typeof(payment_type[father]) == 'undefined') payment_type[father] = {};
-                        payment_type[father][this.value] = {};
-                        payment_type[father][this.value]['id'] = this.value;
-                        payment_type[father][this.value]['name'] = this.text;
+                    if(this.value > 0) {
+                        if (typeof(payment_type[father]) == 'undefined') payment_type[father] = '';
+                        if(father != this.value) {
+                            payment_type[father] += '<option value="'+this.value+'">'+this.text+'</option>'
+                        } else {
+                            payment_type_select += '<option value="'+this.value+'">'+this.text+'</option>'
+                        }
                     }
                 })
-console.log(payment_type);
-            },
+                $('#payment_type_father').html(payment_type_select);
+                $('#payment_type_father').change(function () {
+                    $('#payment_type').html(payment_type[this.value]);
+                });
+            };
             //搜索RoomLayout
             bookEdit.ajaxGetRoomLayout = function() {
                 $('#room_layout_data').html('<tr class="gradeX odd" role="row"><td class="sorting_1"></td><td></td></tr>');

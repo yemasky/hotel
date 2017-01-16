@@ -29,6 +29,9 @@ class RoomLayoutPriceAction extends \BaseAction {
             case 'editSystem':
                 $this->doEditRoomLayoutPriceSystem($objRequest, $objResponse);
                 break;
+            case 'agreement_corp':
+                $this->doAdd($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;

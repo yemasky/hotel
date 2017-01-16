@@ -253,8 +253,7 @@ input, select {border-radius: 0 !important;}
 								<option father="<%$arrayPaymentType[type].payment_type_father_id%>" value="<%$arrayPaymentType[type].payment_type_id%>"><%$arrayPaymentType[type].payment_type_name%></option>
 								<%/section%>
 							 </select>
-                             <select name="payment_type" id="payment_type" class="input-small">
-                             </select>
+                             <select name="payment_type" id="payment_type" class="input-small"></select>
 							 <%$arrayLaguage['money_has_to_account']['page_laguage_value']%> :
 							 <select name="is_pay" id="is_pay" class="input-small">
 								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>

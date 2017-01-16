@@ -128,7 +128,9 @@ class BookAction extends \BaseAction {
         $arrayBookType = BookService::instance()->getBookType($conditions);
 
         $conditions['where'] = null;
+        $conditions['order'] = 'payment_type_id ASC';
         $arrayPaymentType = HotelService::instance()->getHotelPaymentType($conditions);
+        $conditions['order'] = '';
         //附加服务项目
         $conditions['where'] = array('hotel_id'=>$hotel_id, '!='=>array('hotel_service_price'=>-1));
         $conditions['order'] = 'hotel_service_father_id ASC';
