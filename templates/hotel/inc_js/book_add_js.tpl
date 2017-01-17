@@ -799,10 +799,13 @@ $(document).ready(function(){
                     td2 += '<ul class="stat-boxes stat-boxes2">';
                     td2 += '<li><div class="left peity_bar_bad"><span>'+layoutPrice[i].this_month+'</span>'
                             +layoutPrice[i].this_year+'</div><div class="right price"><span><%$arrayLaguage["room_price"]["page_laguage_value"]%></span></div></li>';
-                    if(in_year == out_year) {//相同的年
-                        if(in_month == out_month) {//相同的月
+                    if(in_year == out_year) {
+                        //相同的年
+                        if(in_month == out_month) {
+                            //相同的月
                             loop_day = out_day;
-                        } else {//不通的月
+                        } else {
+                            //不通的月
                             if(in_month < out_month) loop_day = in_months[in_month - 1];
                             if(out_month == layoutPrice[i].this_month) loop_day = out_day;
                             if(in_month < layoutPrice[i].this_month) {
@@ -811,7 +814,8 @@ $(document).ready(function(){
                                 in_day = in_date.getDate();  
                             }
                         }
-                    } else {//不同的年
+                    } else {
+                    //不同的年
                         loop_day = in_months[layoutPrice[i].this_month - 1];
                         if(out_month == layoutPrice[i].this_month && out_year == layoutPrice[i].this_year) loop_day = out_day;
                         if(i > 0) {
@@ -979,7 +983,7 @@ $(document).ready(function(){
                 }
                 thenRoomPrice = BookEditClass.thenRoomPrice = {};
                 var bookSelectRoom = BookEditClass.bookSelectRoom;
-                thenRoomPrice['room'] = {};thenRoomPrice['bed'] = {}; thenRoomPrice['pledge'] = {};
+                thenRoomPrice['room'] = {};thenRoomPrice['bed'] = {}; thenRoomPrice['pledge'] = {};thenRoomPrice['half'] = {};
                 thenRoomPrice['room_id'] = {};thenRoomPrice['bed_room_id'] = {};thenRoomPrice['service'] = {};
                 var room_price = pledge_price = service_price = 0;//客房价格 押金 需要的服务费
                 var select_html = ' <select class="input-small bookSelectRoom" name="user_room[]">';//用户选择房间号
@@ -1011,10 +1015,11 @@ $(document).ready(function(){
                         if(layout == 'room') {
                             thenRoomPrice['room_id'][room_key][val] = val;
                             var max_people = $(this).attr('max_people');var max_children = $(this).attr('max_children');
-                            thenRoomPrice['room'][room_key] = {};
+                            thenRoomPrice['room'][room_key] = {};thenRoomPrice['room'][room_key]['room_price'] = 0;
                             $('.layout_price').each(function(index, element) {
                                 //房型价格  thenRoomPrice 正在订房当时的价格
-                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {//房型和systemID对应上
+                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {
+                                    //房型和systemID对应上
                                     var rdate = $(this).attr('rdate');
                                     var now_date = new Date(rdate);
                                     var now_date_time = now_date.getTime();
@@ -1022,9 +1027,12 @@ $(document).ready(function(){
                                         var price = $(this).val() - 0;
                                         thenRoomPrice['room'][room_key][rdate] = price;//房费
                                         if(now_date_time == balance_date_time && is_half) {
-                                            price = price * 0.5; 
+                                            price = price * 0.5;
+                                            thenRoomPrice['half'][rdate] = price;
                                         }
-                                        room_price += price;room_all_price += price; 
+                                        room_price += price;
+                                        room_all_price += price;
+                                        thenRoomPrice['room'][room_key]['room_price'] += price;
                                         if(select_room[val] == 0) {
                                             var num_prople = (max_people - 0);
                                             for(p_i = 0; p_i < num_prople; p_i++) {
@@ -1046,7 +1054,8 @@ $(document).ready(function(){
                             });
                             $('.pledge_price input').each(function(index, element) {
                                 //押金
-                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {//房型和systemID对应上
+                                if($(this).attr('sell_layout') == sell_id && $(this).attr('system_id') == system_id) {
+                                    //房型和systemID对应上
                                     var price = $(this).val() - 0;
                                     pledge_price += price;
                                     thenRoomPrice['pledge'][room_key] = price;//押金
@@ -1055,6 +1064,7 @@ $(document).ready(function(){
                         }
                         if(layout == 'bed') {
                             thenRoomPrice['bed'][room_key] = {};
+                            thenRoomPrice['bed'][room_key]['bed_price'] = 0;
                             var room_id = $(this).attr('room');
                             if(typeof($('#room_data').data(room_id)) == 'undefined') return;
                             var room_layout_system = $('#room_data').data(room_id);// +'-'+ system_id
@@ -1076,6 +1086,7 @@ $(document).ready(function(){
                                             //price = price * 0.5; 加床没半价
                                         }
                                         room_price = price * val + room_price; bed_all_price += price * val;
+                                        thenRoomPrice['bed'][room_key]['bed_price'] += price * val;
                                         if(select_room[val + '_bed'] == 0) {
                                             for(i = 1; i <= val; i++) {
                                                 option += '<option value="'+room_id+'" type="extra_bed">'+bookSelectRoom[room_id]

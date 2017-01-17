@@ -76,7 +76,10 @@ class BookActionServiceImpl extends \BaseService  {
         $arrayHotelService = HotelService::instance()->getHotelService($conditions, '*', 'hotel_service_id');
         $conditions['order'] = '';
         //支付方式
-        $arrayPaymentType = HotelService::instance()->getHotelPaymentType(null, '*', 'payment_type_id');
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array('0', $hotel_id)));
+        $conditions['order'] = 'payment_type_id ASC';
+        $arrayPaymentType = HotelService::instance()->getHotelPaymentType($conditions, '*', 'payment_type_id');
+        $conditions['order'] = '';
         //来源
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)));
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_type_id');
@@ -192,15 +195,20 @@ class BookActionServiceImpl extends \BaseService  {
     public function returnBook($objRequest, $objResponse) {
         //计算退款金额 订单
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $book_id = json_decode(stripslashes($objRequest->book_id), true);
+        $room_id = json_decode(stripslashes($objRequest->room_id), true);
+        if(!empty($room_id)) {
+            foreach($room_id as $k =>$v) {
+                if(empty($v)) unset($room_id[$k]);
+            }
+        }
         $order_number = decode($objRequest -> order_number);
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,
-                                     'IN'=>array('book_id'=>$book_id));
+                                     'IN'=>array('room_id'=>$room_id));
         $field = 'book_id, room_id, book_room_sell_layout_price, book_cash_pledge, book_cash_pledge_returns, book_total_price, book_total_room_rate,
             book_need_service_price, book_service_charge, book_total_cash_pledge, book_is_pay, book_is_payment, payment_type_id, book_prepayment_price,
             book_is_prepayment, prepayment_type_id, book_order_number_main, book_order_number_main, book_order_number_main_status, book_order_number_status,
-            book_half_price';
+            book_half_price, book_days_total';
         $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'room_id');
         if(empty($arrayBookInfo)) {
             throw new \Exception("订单错误，找不到数据.");
@@ -211,7 +219,16 @@ class BookActionServiceImpl extends \BaseService  {
                 $arrayBookMainInfo = $arrayData;
             }
             $arrayRoomId[$arrayData['room_id']] = $arrayData['room_id'];
-            $arrayRoomConsume[$room_id]['cash_pledge'] = $arrayData['book_cash_pledge'];
+            $arrayRoomConsume[$arrayData['room_id']]['cash_pledge'] = $arrayData['book_cash_pledge'];//押金
+            $arrayRoomConsume[$arrayData['room_id']]['days'] = $arrayData['book_days_total'];//天数
+            $arrayRoomConsume[$arrayData['room_id']]['return_room_rate'] = 0;
+            $arrayRoomConsume[$arrayData['room_id']]['return_cash_pledge'] = 0;
+            if($arrayData['book_is_prepayment'] == 1 || $arrayData['book_is_pay'] == 1) {
+                if($arrayData['payment_type_id'] != '9' && $arrayData['prepayment_type_id'] != '9') {
+                    $arrayRoomConsume[$arrayData['room_id']]['return_cash_pledge'] = $arrayData['book_cash_pledge'];//退押金
+                }
+            }
+
         };
         if(empty($arrayBookMainInfo)) {
             $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number_main'=>1, 'book_order_number'=>$order_number);
@@ -269,16 +286,45 @@ class BookActionServiceImpl extends \BaseService  {
         //消费的金额
         foreach($arrayNightAudit as $i => $arrayData) {
             $room_id = $arrayData['room_id'];
-            if($checkoutDate >= $arrayData['book_night_audit_fiscal_day']) {
-                if(!isset($arrayRoomConsume[$room_id]['consume'])) {
-                    $arrayRoomConsume[$room_id]['consume'] = 0;
-                    $arrayRoomConsume[$room_id]['days'] = 1;
+            if(!isset($arrayRoomConsume[$room_id]['consume'])) {
+                $arrayRoomConsume[$room_id]['consume'] = 0;
+                $arrayRoomConsume[$room_id]['count_days'] = 1;
+                $arrayRoomConsume[$room_id]['have_lived'] = 0;
+                $arrayRoomConsume[$room_id]['room_rate'] = 0;
+                $arrayRoomConsume[$room_id][''] = 0;
+            } else {
+                $arrayRoomConsume[$room_id]['count_days']++;
+            }
+            $arrayRoomConsume[$room_id]['room_rate'] += $arrayData['book_night_audit_income'];
+            if($checkoutDate <= $arrayData['book_night_audit_fiscal_day']) {
+                if($arrayData['room_id'] > 0 && $arrayData['book_night_audit_income_type'] == 'room' &&
+                    $arrayData['book_is_night_audit'] == '1' && $arrayData['book_night_audit_valid'] == '1') {
+                    $arrayRoomConsume[$room_id]['have_lived']++;
+                    $arrayRoomConsume[$room_id]['consume'] += $arrayData['book_night_audit_income'];
                 }
-                $arrayRoomConsume[$room_id]['consume'] += $arrayData['book_night_audit_income'];
-                $arrayRoomConsume[$room_id]['days']++;
             }
         }
-        return $arrayRoomConsume;
+        $arrayResunt['return']['return_room_rate'] = 0;
+        $arrayResunt['return']['return_cash_pledge'] = 0;
+        if($arrayBookMainInfo['book_is_prepayment'] == '1' || $arrayBookMainInfo['book_is_pay'] == '1') {
+            if($arrayBookMainInfo['payment_type_id'] != '9' && $arrayBookMainInfo['prepayment_type_id'] != '9') {
+                foreach($arrayRoomConsume as $room_id => $arrayPrice) {
+                    $arrayRoomConsume[$room_id]['return_room_rate'] = 0;
+                    if($arrayBookMainInfo['book_is_pay'] == 1) {
+                        $arrayRoomConsume[$room_id]['return_room_rate'] = $arrayRoomConsume[$room_id]['room_rate'] - $arrayRoomConsume[$room_id]['consume'];
+                    }
+                    $arrayResunt['return']['return_room_rate'] += $arrayRoomConsume[$room_id]['return_room_rate'];
+                    $arrayResunt['return']['return_cash_pledge'] += $arrayRoomConsume[$room_id]['return_cash_pledge'];
+                }
+            }
+        }
+        //print_r($arrayNightAudit);
+        $arrayResunt['room'] = $arrayRoomConsume;
+        return $arrayResunt;
+
+    }
+
+    protected function returnBookPrice($objRequest, $objResponse) {
 
     }
 }

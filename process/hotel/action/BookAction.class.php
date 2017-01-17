@@ -42,7 +42,6 @@ class BookAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
-
         BookOperateService::instance()->getBookInfo($objRequest, $objResponse);
 
         $objResponse -> search_url =
@@ -215,6 +214,11 @@ class BookAction extends \BaseAction {
             $this->setDisplay();
             $arrayRoomConsume = BookActionServiceImpl::instance()->returnBook($objRequest, $objResponse);
             return $this->successResponse('获取数据成功！', $arrayRoomConsume);
+        }
+        if($act == 'returnBookPrice') {
+            $this->setDisplay();
+            $arrayRoomConsume = BookActionServiceImpl::instance()->returnBookPrice($objRequest, $objResponse);
+            return $this->successResponse('更新数据成功！', $arrayRoomConsume);
         }
 
         BookActionServiceImpl::instance()->doEditBookAction($objRequest, $objResponse);

@@ -22,6 +22,8 @@ class BookOperateService extends \BaseService {
     }
 
     public function saveBookInfo($objRequest, $objResponse) {
+        print_r($objRequest);
+        return;
         $arrayPostValue = $objRequest->getPost();
         $payment = $arrayPostValue['payment'];//支付 类型
         $payment_type = $arrayPostValue['payment_type'];//支付方式  微信支付宝等
@@ -53,6 +55,7 @@ class BookOperateService extends \BaseService {
         //入住日期 <!-- -->
         $arrayBill['book_check_in']                 = $arrayPostValue['book_check_in'];//入住时间
         $arrayBill['book_check_out']                = $arrayPostValue['book_check_out'];//退房时间
+        $arrayBill['book_days_total']               = $arrayPostValue['book_days_total'];//退房时间
         $arrayBill['book_order_retention_time']     = $arrayPostValue['book_order_retention_time'];//订单保留时间
         //主订单 <!-- -->
         $arrayBill['book_order_number_main']        = '0';//主订单号
@@ -137,10 +140,12 @@ class BookOperateService extends \BaseService {
                     if(isset($arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id])) {
                         $arrayBill['book_room_extra_bed'] = $arrayExtraBed[$sell_id.'-'.$room_layout_id.'-'.$system_id][$room_id];
                     }
-                    $arrayBill['book_cash_pledge'] = 0;
+                    $arrayBill['book_cash_pledge'] = 0;//押金
                     if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
-                        $arrayBill['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                        $arrayBill['book_cash_pledge'] =
+                            $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id] * $arrayBill['book_discount'] / 100;
                     }
+                    $arrayBill['book_room_price'] = $arrayThenRoomPrice['room'][$sell_id.'-'.$room_layout_id.'-'.$system_id]['room_price'];
                     $first = false;
                 } else {
                     $arraybatchInsertValue[$i]['book_order_number_main'] = '0';//主订单号
@@ -155,7 +160,8 @@ class BookOperateService extends \BaseService {
                     }
                     $arraybatchInsertValue[$i]['book_cash_pledge'] = '0';
                     if(isset($arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id])) {
-                        $arraybatchInsertValue[$i]['book_cash_pledge'] = $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id];
+                        $arraybatchInsertValue[$i]['book_cash_pledge'] =
+                            $arrayThenRoomPrice['pledge'][$sell_id.'-'.$room_layout_id.'-'.$system_id] * $arrayBill['book_discount'] / 100;
                     }
                     $i++;
                 }
@@ -192,6 +198,7 @@ class BookOperateService extends \BaseService {
                 //$arraybatchInsert[$k]['book_room_sell_layout_price'] = $v['book_room_sell_layout_price'];//check-in ~ check-out房间总价
                 $arraybatchInsert[$k]['book_room_extra_bed'] = $v['book_room_extra_bed'];
                 $arraybatchInsert[$k]['book_cash_pledge']    = $v['book_cash_pledge'];
+
             }
         }
         if(!empty($arraybatchInsert)) BookDao::instance()->setTable('book')->batchInsert($arraybatchInsert);
@@ -276,7 +283,16 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = $system_id;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $year . '-' . $month . '-' . $day;//财日
                     $arrayNightAudit[$iNightAudit]['price'] = $roomPrice;
-                    $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $roomPrice * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
+                    $fiscal_day = date("Y-m-d", strtotime($year . '-' . $month . '-' . $day . ' - 24 HOUR'));
+                    $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = $fiscal_day . ' 12:00:00';
+                    $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = $year . '-' . $month . '-' . $day . ' 12:00:00';
+                    if(isset($arrayThenRoomPrice['half'][$date])) {
+                        $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayThenRoomPrice['half'][$date] * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
+                        $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = $year . '-' . $month . '-' . $day . ' 12:00:00';//半天房费计算时间 ？
+                        $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = $year . '-' . $month . '-' . $day . ' 18:00:00';//半天房费计算时间 ？
+                    } else {
+                        $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $roomPrice * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
+                    }
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'room';
                     $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
                     $arrayNightAudit[$iNightAudit]['book_is_check_add_datetime'] = getDateTime();
@@ -332,11 +348,18 @@ class BookOperateService extends \BaseService {
                     $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = $system_id;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $year . '-' . $month . '-' . $day;//财日
                     $arrayNightAudit[$iNightAudit]['price'] = $bedPrice;
+                    $fiscal_day = date("Y-m-d", strtotime($year . '-' . $month . '-' . $day . ' - 24 HOUR'));
+                    $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = $fiscal_day . ' 12:00:00';
+                    $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = $year . '-' . $month . '-' . $day . ' 12:00:00';
+                    if(isset($arrayThenRoomPrice['half'][$date])) {
+                        $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = $year . '-' . $month . '-' . $day . ' 12:00:00';//半天房费计算时间 ？
+                        $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = $year . '-' . $month . '-' . $day . ' 18:00:00';//半天房费计算时间 ？
+                    }
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $bedPrice;
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_bed';
                     $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
                     $arrayNightAudit[$iNightAudit]['book_is_check_add_datetime'] = getDateTime();
-                    $arrayNightAudit[$iNightAudit]['unique_key'] = '0';
+                    $arrayNightAudit[$iNightAudit]['unique_key'] = rand(100000000, 999999999);
                     $iNightAudit++;
                 }
             }
@@ -370,6 +393,8 @@ class BookOperateService extends \BaseService {
             $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = '0';
             $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//算在第一天的夜审 财日
             $arrayNightAudit[$iNightAudit]['price'] = $arrayService[0];
+            $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = NULL;
+            $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = NULL;
             $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayService[0] * $arrayService[2] * $arrayService[1] / 100;
             $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'extra_service';
             $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
@@ -394,6 +419,8 @@ class BookOperateService extends \BaseService {
             $arrayNightAudit[$iNightAudit]['room_layout_price_system_id'] = '0';
             $arrayNightAudit[$iNightAudit]['book_night_audit_fiscal_day'] = $iNightAuditDate;//算在第一天的夜审 财日
             $arrayNightAudit[$iNightAudit]['price'] = $arrayPostValue['book_service_charge'];
+            $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = NULL;
+            $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = NULL;
             $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayPostValue['book_service_charge'];
             $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'service_charge';
             $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;
@@ -454,7 +481,7 @@ class BookOperateService extends \BaseService {
                 if($k == 'room') {
                     $arrayBookInfo[$room_id]['book_room_extra_bed'] = $arrayInfo['extra_bed'];
                     $arrayBookInfo[$room_id]['book_room_sell_layout_price'] = $arrayInfo['total_room_rate'];
-                    $arrayBookInfo[$room_id]['book_cash_pledge'] = $arrayInfo['cash_pledge'];
+                    $arrayBookInfo[$room_id]['book_cash_pledge'] = $arrayInfo['cash_pledge'] * $arrayInfo['discount'] / 100 ;
                     $arrayBookInfo[$room_id]['book_check_in'] = $arrayInfo['room_check_in'];
                     $arrayBookInfo[$room_id]['book_check_out'] = $arrayInfo['room_check_out'];
                     $arrayBookInfo[$room_id]['book_order_number'] = $order_number;

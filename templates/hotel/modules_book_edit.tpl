@@ -112,7 +112,11 @@
                                         <tr>
 											<td>总押金</td>
 											<td><%$arrayDataInfo[0].book_total_cash_pledge%></td>
-                                            <td><code><i class="am-icon-credit-card-alt"></i> <%if $arrayDataInfo[0].book_cash_pledge_returns==1%>已退<%else%>未退<%/if%></code></td>
+                                            <td><code><i class="am-icon-credit-card-alt"></i> 
+                                                <%if $arrayDataInfo[0].book_total_cash_pledge_returns==1%>已退
+                                                <%elseif $arrayDataInfo[0].book_total_cash_pledge_returns==2%>部分已退
+                                                <%else%>未退<%/if%>
+                                                </code></td>
 										</tr>
 									</tbody>
 								</table>
@@ -289,7 +293,6 @@
                                       <th>状态</th>
                                       <th>
                                       <div class="btn-group fr" book_id='ALL' room_id='ALL'>
-                                        <a id="all_check_out" class="btn btn-mini btn-danger"><i class="am-icon-sign-out"></i> 全部退房</a>
                                         <a id="all_check_in" class="btn btn-mini btn-warning"><i class="am-icon-slideshare"></i> 入住完成</a>
                                       </div>
                                       </th>
@@ -473,8 +476,11 @@
                                       <th>入住时间</th>
                                       <th>退房日期</th>
                                       <th>已住（天）</th>
-                                      <th>退款金额</th>
-                                      <th>退款押金</th>
+                                      <th>已消费</th>
+                                      <th>总房价</th>
+                                      <th>押金</th>
+                                      <th>支付状态</th>
+                                      <th>预付状态</th>
                                       <th>操作</th>
                                     </tr>
                                   </thead>
@@ -484,14 +490,24 @@
                                       <td class="return_check_in_date"></td>
                                       <td class="return_check_out_date"><%$thisDayTime%></td>
                                       <td class="return_check_in_days"></td>
+                                      <td class="return_consume"></td>
                                       <td class="return_price"></td>
                                       <td class="return_cash_pledge"></td>
+                                      <td class="return_is_pay"></td>
+                                      <td class="return_is_prepayment"></td>
                                       <td><!--<a id="cancel_return_room" class="btn btn-warning btn-mini fr cancel"><i class="am-icon-minus-circle"></i> 取消</a>--></td>
                                     </tr>
                                     <tr>
-                                      <td colspan="7" class="text-center">
+                                      <td colspan="10">
                                       <p class="text-center">
-                                      <a id="return_room_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> 计算退房明细</a>
+                                        <span class="input-prepend input-append text-center">
+                                            <span class="add-on">退押金 :</span>
+                                            <input id="return_book_cash_pledge" class="input-mini" value="" name="book_room_rate" type="text">
+                                            <span class="add-on">退房费 :</span>
+                                            <input id="return_book_room_rate" class="input-mini" value="" name="book_room_rate" type="text">
+                                            <a id="return_room_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> 计算退房明细</a>
+                                      <a id="return_room_money" class="btn btn-warning"><i class="am-icon-credit-card-alt"></i> 确定退房</a>
+                                        </span>
                                       </p>
                                       </td>
                                     </tr>
@@ -522,20 +538,22 @@
                                       <form name="re_book" id="re_book" enctype="multipart/form-data">
                                          <p class="text-center">
                                          <span class="input-prepend input-append text-center">
-                                            <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%> :</span>
+                                            <span class="add-on">返/补差价 :</span>
+                                            <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%></span>
                                             <input value="" type="text" class="input-mini" id="book_room_rate" name="book_room_rate" />
                                             <span class="add-on">加床费</span>
                                             <input id="book_extra_bed_price" class="input-mini" type="text" value="0">
-                                            <span class="add-on"><%$arrayLaguage['cash_pledge']['page_laguage_value']%> :</span>
+                                            <span class="add-on"><%$arrayLaguage['cash_pledge']['page_laguage_value']%></span>
                                             <input value="" type="text" class="input-mini total_cash_pledge" id="book_total_cash_pledge" name="book_total_cash_pledge" />
-                                            <span class="add-on"><%$arrayLaguage['need_service_price']['page_laguage_value']%> :</span>
+                                            <span class="add-on"><%$arrayLaguage['need_service_price']['page_laguage_value']%></span>
                                             <input value="" type="text" class="input-mini book_price" id="need_service_price" name="need_service_price" />
-                                            <span class="add-on"><%$arrayLaguage['service_charge']['page_laguage_value']%> :</span>
+                                            <span class="add-on"><%$arrayLaguage['service_charge']['page_laguage_value']%></span>
                                             <input value="0" type="text" class="input-mini book_price" id="book_service_charge" name="book_service_charge" />
-                                            <span class="add-on"><%$arrayLaguage['total_price']['page_laguage_value']%> :</span>
+                                            <span class="add-on"><%$arrayLaguage['total_price']['page_laguage_value']%></span>
                                             <input value="" type="text" class="input-mini" id="total_price" name="book_total_price" />
-                                            <span class="add-on"><%$arrayLaguage['prepayment_price']['page_laguage_value']%> :</span>
+                                            <span class="add-on"><%$arrayLaguage['prepayment_price']['page_laguage_value']%></span>
                                             <input value="" type="text" class="input-mini" id="prepayment" name="book_prepayment_price" />
+                                            
                                         </span>
                                         </p>
                                         <p class="text-center">
@@ -548,12 +566,13 @@
                                                 <option value="3"><%$arrayLaguage['full-payout']['page_laguage_value']%></option>
                                              </select>
                                              <span class="add-on"><%$arrayLaguage['payment_type']['page_laguage_value']%> :</span>
-                                             <select name="payment_type" id="payment_type" class="input-small">
-                                                <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                             <select name="payment_type_father" id="payment_type_father" class="input-small">
+                                             <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
                                                 <%foreach key=payment_type_id item=arrayType from=$arrayPaymentType%>
-                                                <option value="<%$payment_type_id%>"><%$arrayType.payment_type_name%></option>
+                                                <option father="<%$arrayType.payment_type_father_id%>" value="<%$payment_type_id%>"><%$arrayType.payment_type_name%></option>
                                                 <%/foreach%>
                                              </select>
+                                             <select name="payment_type" id="payment_type" class="input-small"></select>
                                              <span class="add-on"><%$arrayLaguage['money_has_to_account']['page_laguage_value']%> :</span>
                                              <select name="is_pay" id="is_pay" class="input-small">
                                                 <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
