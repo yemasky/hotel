@@ -208,4 +208,22 @@ class BookService extends \BaseService {
     public function deleteBookRoomExtraBedPrice($where) {
         return BookDao::instance()->setTable('book_room_extra_bed_price')->delete($where);
     }
+
+    //book_returns
+    public function getBookReturns($conditions, $field = '*', $hashKey = null, $multiple = false) {
+        return BookDao::instance()->setTable('book_returns')->getList($conditions, $field, $hashKey, $multiple);
+    }
+
+    public function saveBookReturns($arrayData) {
+        return BookDao::instance()->setTable('book_returns')->insert($arrayData);
+    }
+
+    public function updateBookReturns($where, $row) {
+        return BookDao::instance()->setTable('book_returns')->update($where, $row);
+    }
+
+    public function deleteBookReturns($where) {
+        return BookDao::instance()->setTable('book_returns')->delete($where);
+    }
+
 }

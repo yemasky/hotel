@@ -22,8 +22,8 @@ class BookOperateService extends \BaseService {
     }
 
     public function saveBookInfo($objRequest, $objResponse) {
-        print_r($objRequest);
-        return;
+        //print_r($objRequest);
+        //return;
         $arrayPostValue = $objRequest->getPost();
         $payment = $arrayPostValue['payment'];//支付 类型
         $payment_type = $arrayPostValue['payment_type'];//支付方式  微信支付宝等
@@ -235,6 +235,7 @@ class BookOperateService extends \BaseService {
             $room_layout_id = $arrayLayoutSystem[1];
             $system_id = $arrayLayoutSystem[2];
             foreach($arrayDatePrice as $date => $roomPrice) {
+                if($date == 'room_price') continue;
                 $arrayDate = explode('-', $date);
                 $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
                 if($iNightAudit == 0)
@@ -310,6 +311,7 @@ class BookOperateService extends \BaseService {
             $room_layout_id = $arrayLayoutSystem[1];
             $system_id = $arrayLayoutSystem[2];
             foreach($arrayDatePrice as $date => $bedPrice) {
+                if($date == 'bed_price') continue;
                 $arrayDate = explode('-', $date);
                 $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
                 $id = $year . '-' . $month . '-' . $sell_id . '-' . $room_layout_id . '-' . $system_id;
@@ -439,6 +441,7 @@ class BookOperateService extends \BaseService {
         $employee_id  = $objResponse->arrayLoginEmployeeInfo['employee_id'];
         $data = json_decode(stripslashes($objRequest->data), true);
         $service = json_decode(stripslashes($objRequest->service), true);
+        $book_prepayment_price = $objRequest -> book_prepayment_price;
         $book_is_payment = $objRequest -> is_pay;
         if($book_is_payment == 2) $book_is_payment = '0';
         $payment_type = $objRequest -> payment_type;
@@ -461,16 +464,30 @@ class BookOperateService extends \BaseService {
         $arrayRoomPrice = $arrayRoomExtraBedPrice = '';//房价和床价历史成交数据
         $arrayNightAudit = '';//book_night_audit数据
         $arrayHotelService = '';//book_hotel_service数据
-        $iNightAuditDate = '';
+        $iNightAuditDate = '';$arrayUpdateRoom = '';$arrayUpdateNightAudit = '';
         foreach($data as $room_id => $arrayData) {
             $arrayBookInfo[$room_id]['book_type_id'] = $arrayOldBookInfo['book_type_id'];//?
-            $arrayBookInfo[$room_id]['user_id'] = 0;
+            $arrayBookInfo[$room_id]['user_id'] = '0';
             $arrayBookInfo[$room_id]['employee_id'] = $employee_id;
             $arrayBookInfo[$room_id]['hotel_id'] = $hotel_id;
             $arrayBookInfo[$room_id]['room_id'] = $room_id;
             $book_change = 0;
             if($arrayData['type'] != '0') $book_change = $arrayData['type'];
             //add_room新增 change_room换房 continued_room续房
+            if($arrayData['type'] =='change_room' || $arrayData['type'] =='continued_room') {
+                if($arrayData['type'] =='change_room') {
+                    $arrayUpdateRoom[$arrayData['type_room_id']]['book_change'] = 'have_change_room';
+                    $arrayUpdateNightAudit[$arrayData['type_room_id']]['book_night_audit_valid_reason'] = '-2';
+                } else {
+                    $arrayUpdateRoom[$arrayData['type_room_id']]['book_change'] = 'have_continued_room';
+                    $arrayUpdateNightAudit[$arrayData['type_room_id']]['book_night_audit_valid_reason'] = '-3';
+                }
+                $arrayUpdateRoom[$arrayData['type_room_id']]['book_cash_pledge_returns'] = '1';
+                $arrayUpdateRoom[$arrayData['type_room_id']]['book_order_number_status'] = '-1';
+                //夜审
+                $arrayUpdateNightAudit[$arrayData['type_room_id']]['book_night_audit_valid'] = '0';
+
+            }
             foreach($arrayData['data'] as $k => $arrayInfo) {
                 $arrayKey = explode('-', $arrayInfo['room_key']);
                 $sell_id = $arrayKey[0];$room_layout_id = $arrayKey[1];$system_id = $arrayKey[2];
@@ -480,7 +497,7 @@ class BookOperateService extends \BaseService {
 
                 if($k == 'room') {
                     $arrayBookInfo[$room_id]['book_room_extra_bed'] = $arrayInfo['extra_bed'];
-                    $arrayBookInfo[$room_id]['book_room_sell_layout_price'] = $arrayInfo['total_room_rate'];
+                    $arrayBookInfo[$room_id]['book_room_price'] = $arrayInfo['total_room_rate'];
                     $arrayBookInfo[$room_id]['book_cash_pledge'] = $arrayInfo['cash_pledge'] * $arrayInfo['discount'] / 100 ;
                     $arrayBookInfo[$room_id]['book_check_in'] = $arrayInfo['room_check_in'];
                     $arrayBookInfo[$room_id]['book_check_out'] = $arrayInfo['room_check_out'];
@@ -490,10 +507,10 @@ class BookOperateService extends \BaseService {
                     $arrayBookInfo[$room_id]['book_discount'] = $arrayInfo['discount'];
                     //付款信息
                     if($book_is_prepayment == 1) {//预付 //已入住不能预付
-                        if($arrayOldBookInfo['book_order_number_main_status'] != 1) {
+                        if($arrayOldBookInfo['book_order_number_main_status'] != '0') {
                             return array(0, '只有预定的订单能进行预付费更改,请选择全额付款！');
                         }
-                        $arrayBookInfo[$room_id]['book_prepayment_price'] = $objRequest -> book_prepayment_price;//预付费
+                        $arrayBookInfo[$room_id]['book_prepayment_price'] = $book_prepayment_price;;//预付费
                         $arrayBookInfo[$room_id]['book_is_prepayment'] = $book_is_payment;  //A2 是否已预付
                         if($book_is_payment == 1)  $arrayBookInfo[$room_id]['book_prepayment_date'] = getDateTime();
                         $arrayBookInfo[$room_id]['prepayment_type_id'] = $payment_type;  //A2 预付支付类型
@@ -515,10 +532,10 @@ class BookOperateService extends \BaseService {
                     $arrayBookInfo[$room_id]['book_payment_voucher'] = $objRequest -> book_payment_voucher;//A 付款凭证
                     $arrayBookInfo[$room_id]['book_days_total'] = $arrayInfo['book_days_total'];
 
-                    $arrayBookInfo[$room_id]['book_add_date'] = $arrayInfo['book_days_total'];
-                    $arrayBookInfo[$room_id]['book_add_time'] = $arrayInfo['book_days_total'];
-                    $arrayBookInfo[$room_id]['book_add_datetime '] = $arrayInfo['book_days_total'];
-                    $arrayBookInfo[$room_id]['book_change '] = $book_change;
+                    $arrayBookInfo[$room_id]['book_add_date'] = getDay();
+                    $arrayBookInfo[$room_id]['book_add_time'] = getTime();
+                    $arrayBookInfo[$room_id]['book_add_datetime'] = getDateTime();
+                    $arrayBookInfo[$room_id]['book_change'] = $book_change;
                     //房价
                     foreach($arrayInfo['rdate'] as $date => $price) {
                         $arrayDate = explode('-', $date);
@@ -537,7 +554,7 @@ class BookOperateService extends \BaseService {
                             $arrayRoomPrice[$id]['room_layout_date_year'] = $year;
                             $arrayRoomPrice[$id]['room_layout_date_month'] = $month;
                         }
-                        $arrayRoomPrice[$id][$date . '_day'] = $price;
+                        $arrayRoomPrice[$id][$day . '_day'] = $price;
                         //夜审
                         $nightAuditKey = $id . '-' . $day;
                         $arrayNightAudit[$nightAuditKey]['book_order_number'] = $order_number;
@@ -579,7 +596,7 @@ class BookOperateService extends \BaseService {
                             $arrayRoomExtraBedPrice[$id]['room_layout_date_year'] = $year;
                             $arrayRoomExtraBedPrice[$id]['room_layout_date_month'] = $month;
                         }
-                        $arrayRoomExtraBedPrice[$id][$date . '_day'] = $price;
+                        $arrayRoomExtraBedPrice[$id][$day . '_day'] = $price;
                         //夜审
                         $nightAuditKey = $id . '-' . $day;
                         $arrayNightAudit[$nightAuditKey]['book_order_number'] = $order_number;
@@ -670,8 +687,22 @@ class BookOperateService extends \BaseService {
 
 
         //事务开启
-        /*
+
         BookDao::instance()->startTransaction();
+        //先更新
+        if(!empty($arrayUpdateRoom)) {
+            foreach($arrayUpdateRoom as $room_id => $arrayUpdate) {
+                $where = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number, 'room_id'=>$room_id);
+                BookDao::instance()->setTable('book')->update($where, $arrayUpdate);
+            }
+        }
+        if(!empty($arrayUpdateNightAudit )) {
+            foreach($arrayUpdateNightAudit  as $room_id => $arrayUpdate) {
+                $where = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number, 'room_id'=>$room_id,
+                    'book_is_night_audit'=>'0', 'book_night_audit_valid'=>'1');
+                BookDao::instance()->setTable('book_night_audit')->update($where, $arrayUpdate);
+            }
+        }
         if(!empty($arrayBookInfo)) {
             BookDao::instance()->setTable('book')->batchInsert($arrayBookInfo);
         }
@@ -684,7 +715,7 @@ class BookOperateService extends \BaseService {
         if(!empty($arrayHotelService)) {
             BookDao::instance()->setTable('book_hotel_service')->batchInsert($arrayHotelService);
         }
-        BookDao::instance()->commit();*/
+        BookDao::instance()->commit();
         return array(1,'');
     }
     public function getBookInfo($objRequest, $objResponse) {
@@ -957,8 +988,5 @@ class BookOperateService extends \BaseService {
         //return BookDao::instance()->setTable($table)->getList($conditions, $fieid);
     }
 
-    public function searchISBookRoom($objRequest, $objResponse) {
-
-    }
 
 }

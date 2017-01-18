@@ -91,7 +91,8 @@ $(document).ready(function(){
     
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},tempRoomPrice:{},
-        hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},tempServicePrice: {},returnRoom:{},
+        hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},tempServicePrice: {},
+        returnRoom:{},returnRoomPrice:{},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
         priceSystem:{},payment_type:{},
@@ -273,8 +274,12 @@ $(document).ready(function(){
                 });
                 $('#return_room_money').click(function () {
                     bookEdit.returnRoomMoney();
+
                 });
                 bookEdit.setPaymentType();
+                $('#update_sumbit').click(function () {
+                    bookEdit.returnUpdateSumbit()
+                });
             };
             bookEdit.returnRoomMoney = function() {
                 var return_book_cash_pledge = $('#return_book_cash_pledge').val();
@@ -284,18 +289,33 @@ $(document).ready(function(){
                     $('#modal_info_message').html('请计算退房明细');
                     return;
                 }
-                var param = '&cash_pledge='+return_book_cash_pledge+'&room_rate='+return_book_room_rate
+                $('#modal_update').modal('show');
+                $('#modal_update_message').html('退房审核无误，请按 Confirm (确定) 按钮！');
+                $('#update_sumbit').attr('update', 'returnRoomMoney')
+
+            };
+            bookEdit.updateReturnRoomMoney = function() {
+                $('#save_info').modal('show')
+                var return_book_cash_pledge = $('#return_book_cash_pledge').val();
+                var return_book_room_rate = $('#return_book_room_rate').val();
+                var param = '&cash_pledge='+return_book_cash_pledge+'&room_rate='+return_book_room_rate+'&return=' + JSON.stringify(BookEditClass.returnRoomPrice)
                 $.getJSON('<%$saveBookInfoUrl%>&act=returnBookPrice&room_id='+JSON.stringify(BookEditClass.returnRoom)+param, function (result) {
+                    $('#save_info').modal('hide')
                     data = result;
                     if(data.success == 1) {
-
+                        window.location.reload();
                     } else {
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
                     }
-
                 })
-            };
+
+            }
+            bookEdit.returnUpdateSumbit = function () {
+                var update = $('#update_sumbit').attr('update')
+                if(update == 'returnRoomMoney') bookEdit.updateReturnRoomMoney();
+                
+            }
             bookEdit.setPaymentType = function () {
                 var payment_type = BookEditClass.payment_type;
                 var payment_type_select = '<option value=""><%$arrayLaguage["please_select"]["page_laguage_value"]%></option>';
@@ -330,6 +350,7 @@ $(document).ready(function(){
                         var return_price = data.itemData.return;
                         $('#return_book_cash_pledge').val(return_price.return_cash_pledge);
                         $('#return_book_room_rate').val(return_price.return_room_rate);
+                        BookEditClass.returnRoomPrice = data.itemData;
                     } else {
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
@@ -514,6 +535,7 @@ $(document).ready(function(){
                     $(_this).parent().prev().prev().html('<i class="am-icon-circle am-yellow-FFAA3C"></i>' + $(_this).children().text());
                     $('#check-out-box').show('slow');
                     $('#add_room_tr').hide();
+                    $('#calculation-box').hide('flast')
                     bookEdit.returnRoom(_this);
                     $('#return_book_cash_pledge').val('');
                     $('#return_book_room_rate').val('');
@@ -527,13 +549,7 @@ $(document).ready(function(){
                 $('#return_room_tr .return_room_name').html($.trim(room_info.find('.room_info_id').text()));
                 $('#return_room_tr .return_check_in_date').html($.trim(room_info.find('.book_check_in').text()));
                 $('#return_room_tr').clone().removeClass('hide').attr('id', 'return_room_'+room_id).insertBefore('#return_room_tr');
-                /*$('#return_room_'+room_id).find('.cancel').attr('id', 'cancel_return_room'+book_id);
-                $('#cancel_return_room'+book_id).click(function(){
-                    $('#return_room_'+room_id).remove();
-                    BookEditClass.returnRoom[book_id] = '';
-                });*/
-                //$(this).parent().prev().clone().insertBefore($(this).parent());
-                BookEditClass.returnRoom[room_id] = room_id;
+                BookEditClass.returnRoom[room_id] = book_id;
                 BookEditClass.tempRoomEdit = {};
                 BookEditClass.tempRoomEdit['edit'] = '';
 
@@ -602,7 +618,7 @@ $(document).ready(function(){
                         data = result;
                         if(data.success == 1) {
                            var html = bookEdit.resolverRoomLayoutData(data, check_in, check_out);
-                           $('#room_layout_data').html('<td colspan="10"><table>' + html + '</table></td>');
+                           $('#room_layout_data').html('<td colspan="12"><table>' + html + '</table></td>');
                            $('#room_layout_data').show('fast');
                            $('#room_layout_data_price').show('fast');
                         } else {
@@ -994,11 +1010,16 @@ $(document).ready(function(){
                 var code_text = '<%$arrayLaguage["new_add_room"]["page_laguage_value"]%>';
                 if(tempRoomEdit['edit'] == 'change_room') code_text = '换房';
                 if(tempRoomEdit['edit'] == 'continued_room') code_text = '续住';
+                var room_rate = $('#total_room_rate').val();
+                var cash_pledge = $('#cash_pledge').val();
                 var html = '<tr>';
                 html += '<td>'+sell_layout_name+'</td>'
                        +'<td>'+price_system_name+'</td><td>'+room_name+'</td>'
                        +'<td>'+extra_bed+'</td><td>'+check_in+'</td><td>'+check_out+'</td>'
                        +'<td><code class="fr">'+code_text+'</code></td>'
+                       +'<td>'+room_rate+'</td>'
+                       +'<td>'+cash_pledge+'</td>'
+                       +'<td></td><td></td>'
                        +'<td><a id="cancel_add_room'+room_id+'" class="btn btn-warning btn-mini fr">'
                        +'<i class="am-icon-minus-circle"></i><%$arrayLaguage["cancel"]["page_laguage_value"]%></a></td></tr>';
                 $('#add_room_tr').before(html);
@@ -1082,7 +1103,7 @@ $(document).ready(function(){
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
                 var tempServicePrice = BookEditClass.tempServicePrice;
                 var all_totle_price = 0;var all_cash_pledge = 0;var book_extra_bed_price = 0;
-                for(room_id in thenRoomPrice) {
+                for(var room_id in thenRoomPrice) {
                     if(typeof(thenRoomPrice[room_id]['data']) == 'undefined') continue;
                     all_totle_price += (thenRoomPrice[room_id]['data']['room']['totle_price'] - 0);
                     all_cash_pledge += (thenRoomPrice[room_id]['data']['room']['cash_pledge'] - 0);
@@ -1094,22 +1115,34 @@ $(document).ready(function(){
                 $('#book_room_rate').val(all_totle_price);$('#book_total_cash_pledge').val(all_cash_pledge);
                 $('#book_extra_bed_price').val(book_extra_bed_price);
                 var need_service_price = 0;
-                for(var key in tempServicePrice) {//need_service_price
+                for(var key in tempServicePrice) {
+                    //need_service_price
                     need_service_price += (tempServicePrice[key].service_total_price - 0);
                     
                 }
                 $('#need_service_price').val(need_service_price);
                 $('#total_price').val((all_totle_price - 0) +　(all_cash_pledge - 0)　+　(book_extra_bed_price - 0) + (need_service_price - 0));
-                //$('#prepayment').val(pledge_price + service_price);//预付金 = 押金+附加服务费
+                $('#prepayment').val((all_cash_pledge - 0) + (need_service_price - 0));//预付金 = 押金+附加服务费
                 $('#add_room_tr').hide('fast');
-                console.log(tempServicePrice);
             };
             bookEdit.saveBookRoom = function() {
+                if($('#payment_type').val() == '') {
+                    $('#modal_info').modal('show');
+                    $('#modal_info_message').html('请选择支付方式！');
+                    return;
+                }
                 var thenRoomPrice = BookEditClass.thenRoomPrice;
                 var tempServicePrice = BookEditClass.tempServicePrice;
                 var data = 'data='+JSON.stringify(thenRoomPrice) + '&' + $("#re_book").serialize() + '&service='+JSON.stringify(tempServicePrice);
                 $.post('<%$saveBookInfoUrl%>&act=savebook', data, function(result) {
-                    
+                    data = result;
+                    if(data.success == 1) {
+                        $('#modal_success').modal('show');
+                        $('#modal_success_message').html(data.message);
+                    } else {
+                        $('#modal_fail').modal('show');
+                        $('#modal_fail_message').html(data.message);
+                    }
                 }, 'json')
             };
             bookEdit.bookRoomAddUser = function() {

@@ -187,7 +187,7 @@ class BookAction extends \BaseAction {
             $this->setDisplay();
             $arrayResult = BookActionServiceImpl::instance()->doSaveEditbookAction($objRequest, $objResponse);
             if($arrayResult[0] == 1) return $this->successResponse('保存数据成功！', $arrayResult[1]);
-            return $this->errorResponse('保存失败', $arrayResult[1]);
+            return $this->errorResponse($arrayResult[1], $arrayResult);
         }
         if($act == 'saveBookPayment') {
             $this->setDisplay();

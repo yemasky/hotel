@@ -195,16 +195,21 @@ class BookActionServiceImpl extends \BaseService  {
     public function returnBook($objRequest, $objResponse) {
         //计算退款金额 订单
         $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
-        $room_id = json_decode(stripslashes($objRequest->room_id), true);
-        if(!empty($room_id)) {
-            foreach($room_id as $k =>$v) {
-                if(empty($v)) unset($room_id[$k]);
+        $arrayRoomBookId = json_decode(stripslashes($objRequest->room_id), true);
+        $arrayRoomId = '';
+        if(!empty($arrayRoomBookId)) {
+            foreach($arrayRoomBookId as $room_id =>$book_id) {
+                if(empty($book_id)) {
+                    unset($arrayRoomBookId[$room_id]);
+                } else {
+                    $arrayRoomId[] = $room_id;
+                }
             }
         }
         $order_number = decode($objRequest -> order_number);
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,
-                                     'IN'=>array('room_id'=>$room_id));
+                                     'IN'=>array('room_id'=>$arrayRoomId));
         $field = 'book_id, room_id, book_room_price, book_room_price, book_extra_bed_price, book_cash_pledge, book_cash_pledge_returns, book_total_price, book_total_room_rate,
             book_need_service_price, book_service_charge, book_total_cash_pledge, book_is_pay, book_is_payment, payment_type_id, book_prepayment_price,
             book_is_prepayment, prepayment_type_id, book_order_number_main, book_order_number_main, book_order_number_main_status, book_order_number_status,
@@ -325,6 +330,62 @@ class BookActionServiceImpl extends \BaseService  {
     }
 
     public function returnBookPrice($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $employee_id = $objResponse->arrayLoginEmployeeInfo['employee_id'];
+        $arrayRoomId = json_decode(stripslashes($objRequest->room_id), true);
+        $arrayReturn = json_decode(stripslashes($objRequest->return), true);
+        $order_number = decode($objRequest -> order_number);
+        BookService::instance()->startTransaction();
+        if(!empty($arrayRoomId)) {
+            foreach($arrayRoomId as $room_id =>$book_id) {
+                if(empty($book_id)) {
+                    unset($arrayRoomId[$room_id]);
+                } else {
+                    //更新book
+                    $where = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number, 'room_id'=>$room_id);
+                    $arrayUpdateData['book_cash_pledge_returns'] = '1';
+                    $arrayUpdateData['book_order_number_status'] = '-1';
+                    $arrayUpdateData['book_total_cash_pledge_returns'] = '2';
+                    BookService::instance()->updateBook($where, $arrayUpdateData);
+                    //插入数据
+                    $arrayInsert['employee_id'] = $employee_id;
+                    $arrayInsert['hotel_id'] = $hotel_id;
+                    $arrayInsert['book_id'] = $book_id;
+                    $arrayInsert['room_id'] = $room_id;
+                    $arrayInsert['book_order_number'] = $order_number;
+                    $arrayInsert['book_returns_date'] = getDay();
+                    $arrayInsert['book_returns_price'] = $arrayReturn['room'][$room_id]['return_room_rate'];
+                    $arrayInsert['book_returns_cash_pledge'] = $arrayReturn['room'][$room_id]['cash_pledge'];
+                    $arrayInsert['book_returns_type'] = 'room';
+                    $arrayInsert['book_returns_add_date'] = getDateTime();
+                    BookService::instance()->saveBookReturns($arrayInsert);
+                    //更新夜审数据
+                    $where = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number, 'room_id'=>$room_id);
+                    $arrayUpdateNightAudit['book_night_audit_valid_reason'] = '-1';
+                    $arrayUpdateNightAudit['book_night_audit_valid'] = '0';
+                    BookService::instance()->updateBookNightAudit($where, $arrayUpdateNightAudit);
 
+                }
+            }
+        }
+
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number);
+        $field = 'book_id, room_id, book_order_number_main, book_order_number_main, book_order_number_main_status, book_order_number_status,'
+                 .'book_cash_pledge_returns';
+        $arrayBookInfo = BookService::instance()->getBook($conditions, $field, 'room_id');
+        $book_cash_pledge_returns = 0;
+        if(!empty($arrayBookInfo)) {
+            foreach($arrayBookInfo as $room_id => $arrayBook) {
+                if($arrayBook['book_cash_pledge_returns'] == '1') $book_cash_pledge_returns++;
+            }
+            if($book_cash_pledge_returns == count($arrayBookInfo)) {//押金全部退完
+                $where = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number, 'book_order_number_main'=>'1');
+                $arrayUpdateData['book_total_cash_pledge_returns'] = '1';
+                $arrayUpdateData['book_order_number_main_status'] = '-1';
+                BookService::instance()->updateBook($where, $arrayUpdateData);
+            }
+        }
+        BookService::instance()->commit();
     }
 }

@@ -192,9 +192,7 @@ $(document).ready(function(){
 							room_layout_id = data.itemData.room_layout_id;
 							 $('#modal_success').modal('show');
 							 $('#modal_success_message').html(data.message);
-							 /*$('#modal_success').on('hidden.bs.modal', function () {
-
-							 })*/
+							 
 						} else {
 							$('#modal_fail').modal('show');
 							$('#modal_fail_message').html(data.message);
