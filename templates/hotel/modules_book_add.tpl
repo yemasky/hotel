@@ -108,7 +108,8 @@ input, select {border-radius: 0 !important;}
                                 <input id="half_price" class="input-mini" value="<%$hotel_overtime%>" name="half_price" style="" aria-invalid="false" type="text">
                                 <%$arrayLaguage['before_half_of_the_rate']['page_laguage_value']%>
                                 <code>[<%$arrayLaguage['hotel_checkin']['page_laguage_value']%>: <%$hotel_checkin%> - 
-                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>                            </div>
+                                <%$arrayLaguage['hotel_checkout']['page_laguage_value']%>: <%$hotel_checkout%>]</code>
+                            </div>
 							<label class="control-label"><%$arrayLaguage['checkin']['page_laguage_value']%> <i class="am-icon-calculator am-green-2BBAB0"></i> :</label>
 							<div class="controls">
 								<input type="text" class="input-medium" id="book_check_in" name="book_check_in" value="<%$book_check_in%>"/>
@@ -253,7 +254,7 @@ input, select {border-radius: 0 !important;}
 								<option father="<%$arrayPaymentType[type].payment_type_father_id%>" value="<%$arrayPaymentType[type].payment_type_id%>"><%$arrayPaymentType[type].payment_type_name%></option>
 								<%/section%>
 							 </select>
-                             <select name="payment_type" id="payment_type" class="input-small"></select>
+                             <select name="payment_type" id="payment_type" class="input-medium"></select>
 							 <%$arrayLaguage['money_has_to_account']['page_laguage_value']%> :
 							 <select name="is_pay" id="is_pay" class="input-small">
 								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
@@ -263,6 +264,12 @@ input, select {border-radius: 0 !important;}
 							 <%$arrayLaguage['payment_voucher']['page_laguage_value']%> :
 							 <input value="" type="text" class="input-large" id="book_payment_voucher" name="book_payment_voucher" />
 						  </div>
+                          <div class="controls hide" id="pre_licensing">
+                          预授权金额：<input value="" type="text" class="input-mini" id="book_credit_authorized_amount" name="book_credit_authorized_amount" />
+                          预授权单号：<input value="" type="text" class="input-mini" id="book_credit_authorized_number" name="book_credit_authorized_number" />
+                          预授权天数：<input value="" type="text" class="input-mini" id="book_credit_authorized_days" name="book_credit_authorized_days" />
+                          预授权卡号：<input value="" type="text" class="input-large" id="book_credit_card_number" name="book_credit_card_number" />
+                          </div>
 						</div>
                         <div class="control-group hide book_form_step2">
                             <label class="control-label"><%$arrayLaguage['total_room_rate']['page_laguage_value']%> :</label>

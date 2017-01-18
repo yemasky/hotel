@@ -682,6 +682,10 @@ $(document).ready(function(){
                 $('#payment_type_father').html(payment_type_select);
                 $('#payment_type_father').change(function () {
                     $('#payment_type').html(payment_type[this.value]);
+                    $('#pre_licensing').hide('falst')
+                    if(this.value == 4) {
+                        $('#pre_licensing').show('falst')
+                    }
                 });
             };
             //搜索RoomLayout
@@ -714,7 +718,7 @@ $(document).ready(function(){
                     dataType : "json",
                     success : function(result) {
                         $('#modal_loading').hide('show');
-                        $('#book_form div').show('show');
+                        $('#book_form .book_form_step2').show('show');
                         data = result;
                         if(data.success == 1) {
                             $('#room_layout_table').show();
