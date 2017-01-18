@@ -98,6 +98,7 @@ $(document).ready(function(){
 	
 //});//add_attr_classes
 //$(document).ready(function(){
+
     var contact_validate = $("#contact_form").validate({
 		rules: {
 			contact_name: {required: true},
@@ -123,15 +124,23 @@ $(document).ready(function(){
 
 		}
 	});
+	//插件
+	jQuery.validator.addMethod("pre-authorized", function(value, element) {
+		var father_id = $('#payment_type_father').val();//4
+		var amount = $('#book_credit_authorized_amount').val();var number = $('#book_credit_authorized_number').val();
+		var days = $('#book_credit_authorized_days').val();var card_number = $('#book_credit_card_number').val();
+		var pre_authorized = true;
+		if(father_id == 4) {
+			if(amount == '' || number == '' || days == '' || card_number == '') pre_authorized = false;
+		}
+		return this.optional(element) || pre_authorized;
+	}, "请正确填写预授权相关选项！");
 	var book_validate = $("#book_form").validate({
 		rules:{
-			book_type_id:{required:true},
-			book_discount:{required:true},
-			book_check_in:{required:true},
-			book_check_out:{required:true},
-			book_total_price:{required:true},
-			payment:{required:true},
-			payment_type:{required:true},
+			book_type_id:{required:true},book_discount:{required:true},
+			book_check_in:{required:true},book_check_out:{required:true},
+			book_total_price:{required:true},payment:{required:true},
+			payment_type:{required:true,"pre-authorized":true},
 			is_pay:{required:true}
 		},
 		messages: {
@@ -139,7 +148,7 @@ $(document).ready(function(){
 			book_discount:"请填写折扣",
 			book_total_price:"",
 			payment:"",
-			payment_type:"",
+			//payment_type:"",
 			is_pay:"",
 		},
 		errorClass: "text-error",
@@ -158,7 +167,7 @@ $(document).ready(function(){
                 $('#modal_fail_message').html("抱歉，这个时间不正确！");
                 return false;
             }
-            
+             return false;
 			if(contact_validate.form()) {
 				$('#book_contact_mobile').val($('#contact_mobile').val());
 				$('#book_contact_name').val($('#contact_name').val());

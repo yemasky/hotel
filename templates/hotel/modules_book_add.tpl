@@ -42,6 +42,7 @@ input, select {border-radius: 0 !important;}
 .stat-boxes2 {margin:auto;}
 }
 </style>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -248,7 +249,7 @@ input, select {border-radius: 0 !important;}
 								<option value="3"><%$arrayLaguage['full-payout']['page_laguage_value']%></option>
 							 </select>
 							 <%$arrayLaguage['payment_type']['page_laguage_value']%> :
-							 <select id="payment_type_father" class="input-small">
+							 <select id="payment_type_father" class="input-medium">
 								<option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
 								<%section name=type loop=$arrayPaymentType%>
 								<option father="<%$arrayPaymentType[type].payment_type_father_id%>" value="<%$arrayPaymentType[type].payment_type_id%>"><%$arrayPaymentType[type].payment_type_name%></option>

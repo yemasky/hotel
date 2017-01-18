@@ -146,11 +146,12 @@ class BookActionServiceImpl extends \BaseService  {
         $room_id = $objRequest -> room_id;
         $conditions = DbConfig::$db_query_conditions;
         if($book_id == 'ALL' && $room_id = 'ALL') {
-            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number);
+            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number,
+                'book_order_number_status'=>'0');
             $arrayUpdate['book_order_number_main_status'] = '1';
         } else {
             $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],'book_order_number'=>$order_number,
-                'book_id'=>$book_id, 'room_id'=>$room_id);
+                'book_order_number_status'=>'0', 'book_id'=>$book_id, 'room_id'=>$room_id);
         }
         $arrayUpdate['book_order_number_status'] = '1';
         BookService::instance()->updateBook($conditions['where'], $arrayUpdate);
@@ -209,6 +210,7 @@ class BookActionServiceImpl extends \BaseService  {
         $order_number = decode($objRequest -> order_number);
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,
+                                     '>='=>array('book_order_number_status'=>'0'),
                                      'IN'=>array('room_id'=>$arrayRoomId));
         $field = 'book_id, room_id, book_room_price, book_room_price, book_extra_bed_price, book_cash_pledge, book_cash_pledge_returns, book_total_price, book_total_room_rate,
             book_need_service_price, book_service_charge, book_total_cash_pledge, book_is_pay, book_is_payment, payment_type_id, book_prepayment_price,
@@ -218,6 +220,7 @@ class BookActionServiceImpl extends \BaseService  {
         if(empty($arrayBookInfo)) {
             throw new \Exception("订单错误，找不到数据.");
         }
+
         $arrayBookMainInfo = '';$arrayRoomId = '';$arrayRoomConsume = '';
         foreach($arrayBookInfo as $room_id => $arrayData){
             if($arrayData['book_order_number_main'] == 1) {
