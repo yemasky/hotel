@@ -112,6 +112,7 @@ DROP TABLE IF EXISTS `book_discount`;
 CREATE TABLE `book_discount` (
   `book_discount_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '折扣体系ID',
   `hotel_id` int(11) NOT NULL COMMENT '酒店ID',
+  `book_type_father_id` int(11) NOT NULL DEFAULT '0',
   `book_type_id` int(11) NOT NULL COMMENT '预订类型',
   `book_discount` double NOT NULL DEFAULT '100' COMMENT '折扣',
   `book_discount_type` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '折扣类别 0折扣 1直减',
@@ -131,11 +132,11 @@ CREATE TABLE `book_discount` (
   `book_discount_add_date` date DEFAULT NULL COMMENT '添加时间',
   `book_discount_add_time` time DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`book_discount_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_discount` */
 
-insert  into `book_discount`(`book_discount_id`,`hotel_id`,`book_type_id`,`book_discount`,`book_discount_type`,`book_discount_name`,`agreement_company_name`,`agreement_company_contacts`,`agreement_company_address`,`agreement_company_mobile`,`agreement_company_phone`,`agreement_company_fax`,`agreement_company_email`,`agreement_company_introduction`,`agreement_content`,`agreement_attachment`,`agreement_active_time_begin`,`agreement_active_time_end`,`book_discount_add_date`,`book_discount_add_time`) values (1,1,13,98,'0','金牌会员98折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(2,1,6,96,'0','协议公司96折','东三环友好科技有限公司','','协议公司地址','','',NULL,'','','',NULL,'2017-01-03','2017-01-20',NULL,NULL),(3,1,6,98,'0','协议公司98折','西三环友好科技有限公司',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,1,14,99,'0','银卡会员98折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(5,1,14,98.5,'0','银卡会员98.5折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(6,1,13,97,'0','金卡会员97折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(7,1,10,99,'0','携程99折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(8,1,14,80,'1','银卡直减','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL);
+insert  into `book_discount`(`book_discount_id`,`hotel_id`,`book_type_father_id`,`book_type_id`,`book_discount`,`book_discount_type`,`book_discount_name`,`agreement_company_name`,`agreement_company_contacts`,`agreement_company_address`,`agreement_company_mobile`,`agreement_company_phone`,`agreement_company_fax`,`agreement_company_email`,`agreement_company_introduction`,`agreement_content`,`agreement_attachment`,`agreement_active_time_begin`,`agreement_active_time_end`,`book_discount_add_date`,`book_discount_add_time`) values (1,1,1,13,98,'0','金牌会员98折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(2,1,5,6,96,'0','协议公司96折','东三环友好科技有限公司','','协议公司地址','','',NULL,'','','',NULL,'2017-01-03','2017-01-20',NULL,NULL),(3,1,5,6,98,'0','协议公司98折','西三环友好科技有限公司','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(4,1,1,14,99,'0','银卡会员98折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(5,1,1,14,98.5,'0','银卡会员98.5折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(6,1,1,13,97,'0','金卡会员97折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(7,1,8,10,99,'0','携程99折','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(8,1,1,14,80,'1','银卡直减','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(9,1,7,9,1111,'0','sdsaf','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(10,1,15,16,88,'0','5555','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(11,1,15,16,11,'0','ytugiohuyvcfgvhb11','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(12,1,15,16,123,'0','UYIOUYI','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL),(13,1,5,6,50,'0','E5RTYIUOI','','',NULL,'','',NULL,'','','',NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `book_expand` */
 
@@ -373,11 +374,11 @@ CREATE TABLE `book_type` (
   `book_type_comments` varchar(1000) DEFAULT NULL COMMENT '备注',
   `type` enum('OTA','member','agreement','team','walk-in','other') NOT NULL,
   PRIMARY KEY (`book_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_type` */
 
-insert  into `book_type`(`book_type_id`,`book_type_father_id`,`hotel_id`,`book_sales_type_id`,`book_type_name`,`book_type_comments`,`type`) values (1,1,0,1,'会员','','walk-in'),(2,2,0,1,'散客','','walk-in'),(3,2,1,1,'散客步入',NULL,'walk-in'),(4,4,0,3,'集团订房热线',NULL,'agreement'),(5,5,0,1,'协议公司',NULL,'agreement'),(6,5,1,1,'协议公司',NULL,'agreement'),(7,7,1,2,'国外OTA',NULL,'OTA'),(8,8,1,2,'国内OTA',NULL,'OTA'),(9,7,1,2,'booking',NULL,'OTA'),(10,8,1,2,'携程',NULL,'OTA'),(11,8,1,2,'去哪儿',NULL,'OTA'),(12,1,1,1,'普通会员',NULL,'member'),(13,1,1,1,'金卡会员',NULL,'member'),(14,1,1,1,'银卡会员',NULL,'member'),(15,15,1,1,'长租房',NULL,'member'),(16,15,1,1,'长租房',NULL,'member'),(17,2,1,1,'电话预订',NULL,'walk-in'),(18,4,1,3,'400电话',NULL,'agreement'),(19,19,1,1,'888',NULL,'member'),(20,20,1,1,'555',NULL,'member');
+insert  into `book_type`(`book_type_id`,`book_type_father_id`,`hotel_id`,`book_sales_type_id`,`book_type_name`,`book_type_comments`,`type`) values (1,1,0,1,'会员','','walk-in'),(2,2,0,1,'散客','','walk-in'),(3,2,1,1,'散客步入',NULL,'walk-in'),(4,4,0,3,'集团订房热线',NULL,'agreement'),(5,5,0,1,'协议公司',NULL,'agreement'),(6,5,1,1,'协议公司',NULL,'agreement'),(7,7,1,2,'国外OTA',NULL,'OTA'),(8,8,1,2,'国内OTA',NULL,'OTA'),(9,7,1,2,'booking',NULL,'OTA'),(10,8,1,2,'携程',NULL,'OTA'),(11,8,1,2,'去哪儿',NULL,'OTA'),(12,1,1,1,'普通会员',NULL,'member'),(13,1,1,1,'金卡会员',NULL,'member'),(14,1,1,1,'银卡会员',NULL,'member'),(15,15,1,1,'长租房',NULL,'member'),(16,15,1,1,'长租房555',NULL,'member'),(17,2,1,1,'电话预订',NULL,'walk-in'),(18,4,1,3,'400电话',NULL,'agreement'),(19,19,1,1,'888',NULL,'member'),(20,20,1,1,'555',NULL,'member'),(21,21,1,1,'7777888',NULL,'member');
 
 /*Table structure for table `book_type_laguage` */
 

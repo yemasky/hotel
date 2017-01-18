@@ -35,7 +35,7 @@ $(document).ready(function(){
             url = add;
             if($('#book_type').val() > 0) url = edit;
             $.ajax({
-                url : url,
+                url : url+'&act=booktype',
                 type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
@@ -80,7 +80,7 @@ $(document).ready(function(){
             url = add;
             if($('#book_discount_id').val() > 0) url = edit;
             $.ajax({
-                url : url,
+                url : url+'&act=discount',
                 type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
@@ -139,6 +139,7 @@ $(document).ready(function(){
                     $('#discount_name').text($(this).parent().attr('data-name'));
                     $('#discount_form input').val('');
                     $('#discount_book_type_id').val($(this).parent().attr('data-id'));
+                    $('#book_type_father_id').val($(this).parent().attr('father-id'));
                 });
                 $('.add_data').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');

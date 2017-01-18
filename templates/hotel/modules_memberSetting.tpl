@@ -39,6 +39,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active" id=""><a data-toggle="tab" href="#tab1">客人来源</a></li>
                         <li id="discount_tab"><a data-toggle="tab" href="#tab2"><i class="am-icon-puzzle-piece am-red-FB0000"></i> 折扣管理</a></li>
+                        <li id="agreement_tab"><a data-toggle="tab" href="#tab3"><i class="am-icon-briefcase am-blue-2F93FF"></i> 协议公司管理</a></li>
                     </ul>
                 </div>
                 <div class="widget-content nopadding tab-content">
@@ -93,6 +94,7 @@
                               </tbody>
                               <tbody>
                               <%section name=i loop=$arrayDiscount%>
+                              <%if $arrayDiscount[i].book_type_father_id!='5'%>
                                 <tr class="discount_tr" id="discount_tr<%$arrayDiscount[i].book_discount_id%>">
                                   <td class="discount_td"><div class="checker" id="uniform-undefined"><span><%$smarty.section.i.index+1%></span></div></td>
                                   <td class="discount_td" btype="book_type_name"><%$arrayType[$arrayDiscount[i].book_type_id].book_type_name%></td>
@@ -150,6 +152,90 @@
                                       </table>
                                   </td>
                                 </tr>
+                              <%/if%>
+                              <%/section%>  
+                              </tbody>
+                            </table>
+                          </div>
+                    </div>
+                    <div id="tab3" class="tab-pane">
+                          <div class="widget-content nopadding">
+                            <table class="table table-bordered table-striped with-check">
+                              <tbody>
+                                <tr>
+                                  <td><i></i></td>
+                                  <td><%$arrayLaguage['apellation']['page_laguage_value']%></td>
+                                  <td>折扣名称</td>
+                                  <td>类别</td>
+                                  <td></td>
+                                  <td>单位</td>
+                                  <td>公司名称</td>
+                                  <td>开始时间</td>
+                                  <td>结束时间</td>
+                                  <td></td>
+                                </tr>
+                              </tbody>
+                              <tbody>
+                              <%section name=i loop=$arrayDiscount%>
+                              <%if $arrayDiscount[i].book_type_father_id=='5'%>
+                                <tr class="discount_tr" id="discount_tr<%$arrayDiscount[i].book_discount_id%>">
+                                  <td class="discount_td"><div class="checker" id="uniform-undefined"><span><%$smarty.section.i.index+1%></span></div></td>
+                                  <td class="discount_td" btype="book_type_name"><%$arrayType[$arrayDiscount[i].book_type_id].book_type_name%></td>
+                                  <td class="discount_td" btype="book_discount_name"><%$arrayDiscount[i].book_discount_name%></td>
+                                  <td class="discount_td"><%if $arrayDiscount[i].book_discount_type==1%>直减<%else%>折扣<%/if%></td>
+                                  <td class="discount_td" btype="book_discount"><%$arrayDiscount[i].book_discount%></td>
+                                  <td class="discount_td"><%if $arrayDiscount[i].book_discount_type==1%>元<%else%>%<%/if%></td>
+                                  <td class="discount_td" btype="agreement_company_name"><%$arrayDiscount[i].agreement_company_name%></td>
+                                  <td class="discount_td" btype="agreement_active_time_begin"><%$arrayDiscount[i].agreement_active_time_begin%></td>
+                                  <td class="discount_td" btype="agreement_active_time_end"><%$arrayDiscount[i].agreement_active_time_end%></td>
+                                  <td>
+                                    <div class="btn-group">
+                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>" class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
+                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" class="btn btn-mini btn-danger removeBtn"><i class="am-icon-minus-circle"></i> 删除</button>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr class="hide">
+                                  <td colspan="10">
+                                      <table class="table table-bordered table-striped with-check in-check">
+                                          <tbody>
+                                            <tr>
+                                              <th></th>
+                                              <th><%$arrayLaguage['contacts']['page_laguage_value']%></th>
+                                              <th><%$arrayLaguage['phone']['page_laguage_value']%></th>
+                                              <th><%$arrayLaguage['mobile']['page_laguage_value']%></th>
+                                              <th>Email</th>
+                                            </tr>
+                                            <tr>
+                                              <th></th>
+                                              <td btype="agreement_company_contacts"><%$arrayDiscount[i].agreement_company_contacts%></td>
+                                              <td btype="agreement_company_phone"><%$arrayDiscount[i].agreement_company_phone%></td>
+                                              <td btype="agreement_company_mobile"><%$arrayDiscount[i].agreement_company_mobile%></td>
+                                              <td btype="agreement_company_email"><%$arrayDiscount[i].agreement_company_email%></td>
+                                            </tr>
+                                            <tr>
+                                              <th>有效时间</th>
+                                              <td colspan="5" btype="agreement_active_time">
+                                                <%$arrayDiscount[i].agreement_active_time_begin%> <%$arrayDiscount[i].agreement_active_time_end%>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>介绍</th>
+                                              <td colspan="5" btype="agreement_company_introduction"><%$arrayDiscount[i].agreement_company_introduction%></td>
+                                            </tr>
+                                            <tr>
+                                              <th>协议</th>
+                                              <td colspan="5" btype="agreement_content"><%$arrayDiscount[i].agreement_content%></td>
+                                            </tr>
+                                            <tr>
+                                              <th><%$arrayLaguage['address']['page_laguage_value']%></th>
+                                              <td colspan="5" btype="agreement_company_address"><%$arrayDiscount[i].agreement_company_address%></td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+                                  </td>
+                                </tr>
+                              <%/if%>
                               <%/section%>  
                               </tbody>
                             </table>
@@ -210,6 +296,7 @@
                 <form method="post" class="form-horizontal" enctype="multipart/form-data" name="discount_form" id="discount_form" novalidate>
                     <input type="hidden" value="" name="book_discount_id" id="book_discount_id">
                     <input type="hidden" value="" name="discount_book_type_id" id="discount_book_type_id">
+                    <input id="book_type_father_id" name="book_type_father_id" value="" type="hidden">
                     <div class="control-group">
                         <label class="control-label"><span id="discount_name"></span><%$arrayLaguage['discount']['page_laguage_value']%></label>
                         <div class="controls"></div>
