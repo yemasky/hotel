@@ -46,7 +46,7 @@
                             </label>
                             <div class="controls ">
                             <%section name=j loop=$payment_type.children%>
-                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$payment_type.children[j].payment_type_name%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a><ul class="dropdown-menu" data-id="<%$payment_type.children[j].payment_type_id%>" data-name="<%$payment_type.children[j].payment_type_name%>" father-id="<%$payment_type.children[j].payment_type_father_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul></div>
+                                <div class="btn-group"><a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$payment_type.children[j].payment_type_name%></a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="<%if $payment_type.children[j].hotel_id>0%>caret<%else%>am-icon-genderless<%/if%>"></span></a><%if $payment_type.children[j].hotel_id>0%><ul class="dropdown-menu" data-id="<%$payment_type.children[j].payment_type_id%>" data-name="<%$payment_type.children[j].payment_type_name%>" father-id="<%$payment_type.children[j].payment_type_father_id%>"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li><li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li></ul><%/if%></div>
                             <%sectionelse%>
                             &#12288;
                             <%/section%>    
@@ -162,7 +162,7 @@ $(document).ready(function(){
                 $('._edit .edit_btn').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
                     $(this).parent().parent().find('i').first().addClass('am-icon-dot-circle-o');
-                    $('#book_type').val($(this).parent().attr('father-id'));
+                    $('#father_id').val($(this).parent().attr('father-id'));
                     $('#payment_type_name').val($(this).parent().attr('data-name'));
                     $('#payment_type_id').val($(this).parent().attr('data-id'));
                     $('#edit_data').collapse('show');

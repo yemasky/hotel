@@ -205,7 +205,7 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number,
                                      'IN'=>array('room_id'=>$room_id));
-        $field = 'book_id, room_id, book_room_sell_layout_price, book_cash_pledge, book_cash_pledge_returns, book_total_price, book_total_room_rate,
+        $field = 'book_id, room_id, book_room_price, book_room_price, book_extra_bed_price, book_cash_pledge, book_cash_pledge_returns, book_total_price, book_total_room_rate,
             book_need_service_price, book_service_charge, book_total_cash_pledge, book_is_pay, book_is_payment, payment_type_id, book_prepayment_price,
             book_is_prepayment, prepayment_type_id, book_order_number_main, book_order_number_main, book_order_number_main_status, book_order_number_status,
             book_half_price, book_days_total';
@@ -324,7 +324,7 @@ class BookActionServiceImpl extends \BaseService  {
 
     }
 
-    protected function returnBookPrice($objRequest, $objResponse) {
+    public function returnBookPrice($objRequest, $objResponse) {
 
     }
 }
