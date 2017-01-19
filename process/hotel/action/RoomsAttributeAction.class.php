@@ -67,6 +67,8 @@ class RoomsAttributeAction extends \BaseAction {
             unset($arrayPostValue['room_layout_attribute_id']);
             if($room_layout_attribute_id > 0) {
                 $arrayPostValue['room_layout_attribute_father_id'] = $room_layout_attribute_id;
+            } else {
+                $arrayPostValue['room_layout_attribute_father_id'] = '0';
             }
             $arrayPostValue['room_type'] = 'room';
             $attribute_id = RoomService::instance()->saveRoomLayoutAttr($arrayPostValue);

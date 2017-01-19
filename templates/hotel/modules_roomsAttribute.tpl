@@ -4,6 +4,9 @@
 <%include file="hotel/inc/head.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 </head>
+<style type="text/css">
+.form-horizontal .control-label {padding-top: 10px;}
+</style>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
 <div id="content">
@@ -41,6 +44,10 @@
                 <%section name=attr loop=$arrayAttribute%>
                     <div class="control-group">
                         <label class="control-label">
+                        <!--<div class="btn-group">
+                            <a class="btn btn-inverse edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayAttribute[attr].room_layout_attribute_name%></a><a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <ul class="dropdown-menu" data-id="21" data-name="客房布置" father-id="21" price="-1"><li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li></ul>
+                        </div>-->
                         <%if $arrayAttribute[attr].hotel_id==0%><%$arrayAttribute[attr].room_layout_attribute_name%><%else%>
                         <input type="text" class="span5" value="<%$arrayAttribute[attr].room_layout_attribute_name%>" name="<%$arrayAttribute[attr].room_layout_attribute_id%>" />
                         <%/if%> :
@@ -83,7 +90,7 @@
                     <div class="controls">
                         <select id="room_layout_attribute_id" name="room_layout_attribute_id" class="span2">
                             <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                            <!--<option value="0"><%$arrayLaguage['add_attr_classes']['page_laguage_value']%></option>-->
+                            <option value="0"><%$arrayLaguage['add_attr_classes']['page_laguage_value']%></option>
                             <%section name=attr loop=$arrayAttribute%>
                             <option value="<%$arrayAttribute[attr].room_layout_attribute_id%>"><%$arrayAttribute[attr].room_layout_attribute_name%></option>
                             <%/section%>

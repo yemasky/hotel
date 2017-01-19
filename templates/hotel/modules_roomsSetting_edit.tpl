@@ -58,11 +58,11 @@
                             <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_number']['page_laguage_value']%>" name="room_number" id="room_number" value="<%$arrayDataInfo['room_number']%>" /> </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['room_area']['page_laguage_value']%> :</label>
+                            <label class="control-label">使用面积 :</label>
                             <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_area']['page_laguage_value']%>" name="room_area" id="room_area" value="<%$arrayDataInfo['room_area']%>" /> </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label"><%$arrayLaguage['orientations']['page_laguage_value']%> :</label>
+                            <label class="control-label">空间朝向 :</label>
                             <div class="controls">
                                 <select name="room_orientations" id="room_orientations" class="span1">
                                     <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
@@ -71,6 +71,10 @@
                                     <%/section%>
                                 </select>
                             </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">景观朝向 :</label>
+                            <div class="controls"><input type="text" class="span1" placeholder="景观朝向" name="room_landscape" id="room_landscape" value="<%$arrayDataInfo['room_landscape']%>" /> </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label"><%$arrayLaguage['describe']['page_laguage_value']%></label>

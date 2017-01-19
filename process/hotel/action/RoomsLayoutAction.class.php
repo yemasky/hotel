@@ -171,7 +171,8 @@ class RoomsLayoutAction extends \BaseAction {
                     }
                 }
             }
-
+            $arrayPostValue['room_bed_type_wide'] = json_encode($arrayPostValue['room_bed_type_wide']);
+            if($arrayPostValue['room_bed_type'] != 'standard') $arrayPostValue['room_bed_type_wide'] = '';
             if ($room_layout_id > 0) {
                 RoomService::instance()->updateRoomLayout(array('room_layout_id' => $room_layout_id), $arrayPostValue);
             } else {
@@ -205,10 +206,29 @@ class RoomsLayoutAction extends \BaseAction {
             foreach($arrayAttribute as $attrKey => $arrayChild) {
                 foreach($arrayChild['children'] as $i => $arrayAttr) {
                     $arrayAttribute[$attrKey]['children'][$i]['values'] = array();
-                    if(isset($arrayAttributeValue[decode($arrayAttr['room_layout_attribute_id'])])) {
-                        $arrayValues = $arrayAttributeValue[decode($arrayAttr['room_layout_attribute_id'])];
-                        foreach($arrayValues as $attr => $attrVal) {
-                            $arrayAttribute[$attrKey]['children'][$i]['values'][] = $attrVal;
+                    if($arrayAttr['room_layout_attribute_is_appoint'] == '1') {
+                        if($arrayAttr['room_layout_attribute_value_type'] == 'radio') {
+                            $arrayAppoint = explode('|', $arrayAttr['room_layout_attribute_value_type_default']);
+                            $arrayHash = '';
+                            $room_layout_attribute_id = decode($arrayAttr['room_layout_attribute_id']);
+                            if(isset($arrayAttributeValue[$room_layout_attribute_id])) {
+                                $arrayValues = $arrayAttributeValue[$room_layout_attribute_id];
+                                foreach($arrayValues as $attr => $attrVal) {
+                                    $arrayHash[$attrVal['room_layout_attribute_value']] = 1;
+                                }
+                            }
+                            foreach($arrayAppoint as $attr => $attrVal) {
+                                $arrayAttribute[$attrKey]['children'][$i]['values'][$attr]['check'] = 0;
+                                $arrayAttribute[$attrKey]['children'][$i]['values'][$attr]['name'] = $attrVal;
+                                if(isset($arrayHash[$attrVal])) $arrayAttribute[$attrKey]['children'][$i]['values'][$attr]['check'] = 1;
+                            }
+                        }
+                    } else {
+                        if(isset($arrayAttributeValue[decode($arrayAttr['room_layout_attribute_id'])])) {
+                            $arrayValues = $arrayAttributeValue[decode($arrayAttr['room_layout_attribute_id'])];
+                            foreach($arrayValues as $attr => $attrVal) {
+                                $arrayAttribute[$attrKey]['children'][$i]['values'][] = $attrVal;
+                            }
                         }
                     }
                 }

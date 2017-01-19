@@ -7,6 +7,7 @@
 <style type="text/css">
 .quick-actions li {margin: 2px !important; padding:0 3px 0 3px; width:245px;}
 .quick-actions{text-align:left;}
+#add_room_layout_attr_form .radio input,#add_room_layout_form .radio input{margin-left:0px !important;}
 </style>
 </head>
 <body>
@@ -53,21 +54,21 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['room_layout_valid']['page_laguage_value']%> :</label>
+                    <label class="control-label">房型激活 :</label>
                     <div class="controls">
                     <label>
-                    	<div class="radio" id="room_layout_valid-1"><span><input value="1" name="room_layout_valid" type="radio"<%if $arrayDataInfo['room_layout_valid']=='1'%> checked<%/if%>></span><%$arrayLaguage['valid']['page_laguage_value']%></div> 
+                    	<div class="radio" id="room_layout_valid-1"><span><input value="1" name="room_layout_valid" type="radio"<%if $arrayDataInfo['room_layout_valid']=='1'%> checked<%/if%>></span>激活</div> 
                     
-                    	<div class="radio" id="room_layout_valid-0"><span><input value="0" name="room_layout_valid" type="radio"<%if $arrayDataInfo['room_layout_valid']=='0'%> checked<%/if%>></span><%$arrayLaguage['no_avail']['page_laguage_value']%></div> 
+                    	<div class="radio" id="room_layout_valid-0"><span><input value="0" name="room_layout_valid" type="radio"<%if $arrayDataInfo['room_layout_valid']=='0'%> checked<%/if%>></span>休眠</div> 
                     </label>
                     </div>
                 </div>
-                <div class="control-group">
+               <!-- <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['area']['page_laguage_value']%> :</label>
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['area']['page_laguage_value']%>" name="room_layout_area" id="room_layout_area" value="<%$arrayDataInfo['room_layout_area']%>" /> </div>
-                </div>
+                </div>-->
                 <div class="control-group">
-                    <label class="control-label"><%$arrayLaguage['room_layout_max_people']['page_laguage_value']%> :</label>
+                    <label class="control-label">容纳人数 :</label>
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_max_people']['page_laguage_value']%>" name="room_layout_max_people" id="room_layout_max_people" value="<%$arrayDataInfo['room_layout_max_people']%>" /> </div>
                 </div>
                 <div class="control-group">
@@ -76,10 +77,57 @@
                 </div>
                 <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%> :</label>
-                    <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>" name="room_layout_extra_bed" id="room_layout_extra_bed" value="<%$arrayDataInfo['room_layout_extra_bed']%>" /> </div>
+                    <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>" name="room_layout_extra_bed" id="room_layout_extra_bed" value="<%$arrayDataInfo['room_layout_extra_bed']%>" /> (0表示不可加床，阿拉伯数字表示加床数量)</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">床型 :</label>
+                    <div class="controls">
+                    <span class="input-prepend input-append text-center">
+                        <span class="add-on">数量</span>
+                        <select class="input-mini valid" name="room_bed_type_num" id="room_bed_type_num" aria-invalid="false">
+                        <%section name=i loop=10%>
+                         <option value="<%$smarty.section.i.index+1%>"<%if ($smarty.section.i.index+1)==$arrayDataInfo['room_bed_type_num']%>  selected<%/if%>><%$smarty.section.i.index+1%></option>
+                        <%/section%>
+                        </select>
+                        <span class="add-on">标准床型</span>
+                        <span class="add-on radio">
+                        <input name="room_bed_type" id="room_bed_type1" value="standard" class="bed" type="radio"<%if 'standard'==$arrayDataInfo['room_bed_type']%> checked<%/if%>> 
+                        </span>
+                        <span class="add-on">榻榻米</span>
+                        <span class="add-on radio">
+                        <input name="room_bed_type" id="room_bed_type2" value="tatami" class="special_bed" type="radio"<%if 'tatami'==$arrayDataInfo['room_bed_type']%> checked<%/if%>> 
+                        </span>
+                        <span class="add-on">圆床</span>
+                        <span class="add-on radio">
+                        <input name="room_bed_type" id="room_bed_type3" value="round_bed" class="special_bed" type="radio"<%if 'round_bed'==$arrayDataInfo['room_bed_type']%> checked<%/if%>> 
+                        </span>
+                        <span class="add-on">非标准床</span>
+                        <span class="add-on radio">
+                        <input name="room_bed_type" id="room_bed_type4" value="non_standard" class="special_bed" type="radio"<%if 'non_standard'==$arrayDataInfo['room_bed_type']%> checked<%/if%>> 
+                        </span>
+                    </span>
+                    </div>
+                    <div class="controls hide" id="bed_extra_div">
+                        <span class="input-prepend input-append text-center" id="bed_extra" data='<%$arrayDataInfo['room_bed_type_wide']%>'></span>
+                    </div>
+                    <div class="controls hide">
+                        <span class="input-prepend input-append text-center" id="bed_extra_demo">
+                            <span class="add-on">宽</span>
+                            <select name="room_bed_type_wide[]" class="input-small" >
+                            <option value="0.9">0.9米以下</option>
+                            <option value="1">1米</option>
+                            <option value="1.2">1.2米</option>
+                            <option value="1.35">1.35米</option>
+                            <option value="1.5">1.5米</option>
+                            <option value="1.8">1.8米</option>
+                            <option value="2.0">2.0米</option>
+                            <option value="2.2">2米以上</option>
+                            </select>
+                        </span>
+                    </div>
                 </div>
                 
-                <div class="control-group">
+                <!--<div class="control-group">
                     <label class="control-label"><%$arrayLaguage['orientations']['page_laguage_value']%> :</label>
                     <div class="controls">
                     	<select name="room_layout_orientations" id="room_layout_orientations" class="span1">
@@ -89,7 +137,7 @@
                             <%/section%>
                         </select>
                     </div>
-                </div>
+                </div>-->
                 <div class="form-actions pagination-centered btn-icon-pg">
             	<!--<ul><li class="btn btn-primary" id="hotel_attribute_setting_btn">  </li></ul>-->
                     <button type="submit" id="save_info" class="btn btn-primary pagination-centered save_info"><%$arrayLaguage['next_rooms_attribute_setting']['page_laguage_value']%></button>
@@ -105,11 +153,28 @@
                         	<%section name=attr_children loop=$arrayAttribute[attr].children%>
                         	 <label class="control-label"><%$arrayAttribute[attr].children[attr_children].room_layout_attribute_name%> :</label>
                              <div class="controls">
-                             	<%section name=attrValue loop=$arrayAttribute[attr].children[attr_children].values%>
-                             	<input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" class="span2" 
-                                	value="<%$arrayAttribute[attr].children[attr_children].values[attrValue].room_layout_attribute_value%>">
-                                <%/section%>
-                                <input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" class="span2" value=""> <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
+                                <%if $arrayAttribute[attr].children[attr_children].room_layout_attribute_is_appoint=='0'%>
+                                    <%section name=attrValue loop=$arrayAttribute[attr].children[attr_children].values%>
+                                    <input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" class="span2" 
+                                        value="<%$arrayAttribute[attr].children[attr_children].values[attrValue].room_layout_attribute_value%>">
+                                    <%/section%>
+                                    <input type="text" name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" class="span2" value=""> 
+                                    <a href="#addAttr" class="btn btn-primary btn-mini addAttr"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_attribute_value']['page_laguage_value']%></a>
+                                <%else%>
+                                <%if $arrayAttribute[attr].children[attr_children].room_layout_attribute_value_type=='radio'%>
+                                    <span class="input-prepend input-append text-center">
+                                    <%section name=attrValue loop=$arrayAttribute[attr].children[attr_children].values%>
+                                    <span class="add-on"><%$arrayAttribute[attr].children[attr_children].values[attrValue].name%></span>
+                                    <span class="add-on radio">
+                                    <input type="radio" <%if $arrayAttribute[attr].children[attr_children].values[attrValue].check==1%>checked<%/if%>
+                                    name="<%$arrayAttribute[attr].room_layout_attribute_id%>[<%$arrayAttribute[attr].children[attr_children].room_layout_attribute_id%>][]" 
+                                    value="<%$arrayAttribute[attr].children[attr_children].values[attrValue].name%>"
+                                    > 
+                                    </span>
+                                    <%/section%>
+                                    </span>
+                                <%/if%>
+                                <%/if%>
                              </div>
                         	<%/section%>
                         	<!--<label class="control-label"><span><a href="#add" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>-->
@@ -120,7 +185,7 @@
                 <div class="control-group">
                     <label class="control-label"></label>
                     <div class="controls">
-                        <label class="control-label"><span><a href="<%$room_attribute_url%>" target="_blank" class="btn btn-primary btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>
+                        <label class="control-label"><span><a href="<%$room_attribute_url%>" target="_blank" class="btn btn-primary btn-link btn-mini"><i class="icon-plus-sign"></i> <%$arrayLaguage['add_customize_attr']['page_laguage_value']%></a></span></label>
                         
                     </div>
                 </div>
@@ -203,240 +268,6 @@
 </div>
 <%include file="hotel/inc/footer.tpl"%>
 <%include file="hotel/inc/modal_box.tpl"%>
-<script language="javascript">
-var room_layout_id = '<%$room_layout_id%>';
-var url = '<%$add_room_layout_url%>';
-$(document).ready(function(){
-	// Form Validation
-    var v = $("#add_room_layout_form").validate({
-		rules:{
-			room_layout_name: {required:true,minlength:2,maxlength:50},
-			room_layout_valid:{required:true},
-			room_layout_area:{required:true,digits:true},
-			room_layout_orientations:{required:true},
-			room_layout_max_people:{required:true,number:true,minlength:1,maxlength:5},
-			room_layout_max_children:{required:true,number:true},
-			room_layout_extra_bed:{required:true,number:true},
-            room_layout_type_id:{required:true}
-		},
-		messages: {
-			room_layout_name:"请输入房型名称，2~50个字符",
-			room_layout_area:"必须是整数",
-			room_layout_orientations:"请选择朝向",
-			room_layout_max_people:"请输最多住几人，只能是整数",
-			room_layout_max_children:"请输最多住几个小孩，必须是0和整数",
-			room_layout_extra_bed:"请输可加床数，必须是0和整数",
-            room_layout_type_id:""
-		},
-		errorClass: "help-inline",
-		errorElement: "span",
-		highlight:function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('success');
-			$(element).parents('.control-group').addClass('error');
-		},
-		unhighlight: function(element, errorClass, validClass) {
-			$(element).parents('.control-group').removeClass('error');
-			$(element).parents('.control-group').addClass('success');
-		},
-		submitHandler: function() {
-			$('#room_layout_attr a').tab('show');
-		}
-	});
-	$('#room_layout_attr').click(function() {
-		if (v.form()) {
-			if(room_layout_id == '') return false;
-		} else {
-			return false;
-		}
-	});
-	$('#room_layout_images').click(function() {
-		if (v.form()) {
-			if(room_layout_id == '') return false;
-		} else {
-			return false;
-		}
-	});
-	$('#set_room').click(function() {
-		if (v.form()) {
-			if(room_layout_id == '') return false;
-		} else {
-			return false;
-		}
-	});
-	$('#room_layout_price_setting').click(function() {
-		if (v.form()) {
-			if(room_layout_id == '') return false;
-		} else {
-			return false;
-		}
-	});
-	var v_server = $('#add_room_layout_attr_form').validate({
-		submitHandler: function() {
-			var param = $("#add_room_layout_form").serialize();
-			$.ajax({
-			   url : url,
-			   type : "post",
-			   dataType : "json",
-			   data: param,
-			   success : function(data) {
-			       if(data.success == 1) {
-					   room_layout_id = data.itemData.room_layout_id;
-					   saveRoomLayoutAttrValue();
-					   /*$('#modal_fail').modal('hide');
-					   $('#modal_success').modal('show');
-					   $('#modal_success_message').html(data.message);
-					   $('#modal_success').on('hidden.bs.modal', function () {
-							
-					   })*/
-			       } else {
-					   $('#modal_fail').modal('show');
-					   $('#modal_fail_message').html(data.message);
-			       }
-			   }
-			 });
-			 
-			
-		}
-	});
-	function saveRoomLayoutAttrValue() {
-		var param = $("#add_room_layout_attr_form").serialize();
-        var view = '<%$view%>';
-		$.ajax({
-		   url : '<%$add_room_layout_attr_url%>&room_layout_id=' + room_layout_id,
-		   type : "post",
-		   dataType : "json",
-		   data: param,
-		   success : function(data) {
-			   if(data.success == 1) {
-				   //$('#modal_fail').modal('hide');
-				   $('#modal_success').modal('show');
-				   $('#modal_success_message').html(data.message)
-				   $('#modal_success').on('hidden.bs.modal', function () {
-					    if(view == 'add') {
-                            if(data.redirect != '') {
-                               window.location = data.redirect;
-                            }
-                        } else {
-							$('#set_room a').tab('show');
-                        }
-				   })
-			   } else {
-				   //$('#modal_success').modal('hide');
-				   $('#modal_fail').modal('show');
-				   $('#modal_fail_message').html(data.message);
-			   }
-		   }
-		 });
-	}
-    var step = '<%$step%>';
-	if(step == 'upload_images') {$('#room_layout_images a').tab('show');}
-	$('.addAttr').click(function(e) {
-		$(this).before(" ").prev().clone().insertBefore(this).after(" ");
-    });
-    $('#room_next').click(function(e) {
-        $('#room_layout_images a').tab('show');
-    });
-});
-</script>
-<%if $view!='1'%>
-<script language="javascript">
-    $('#rooms .selectRoom').click(function(e) {
-        $('.alert.alert-success.alert-block').hide();
-        var thisVal = $(this).attr('value');
-        var checked = $(this).attr('check') - 0 > 0 ? 'false' : 'true';
-        console.log(this);
-        var extra_bed = $('#extra_bed_' + thisVal).val();
-        var max_people = $('#max_people_' + thisVal).val();
-        var max_children = $('#max_children_' + thisVal).val();
-        if(typeof(extra_bed) == 'undefined') extra_bed = 0;
-        if(typeof(max_people) == 'undefined') max_people = 0;
-        if(typeof(max_children) == 'undefined') max_children = 0;
-        if(max_people == 0) {
-            $('#modal_info').modal('show');
-		    $('#modal_info_message').html("请先填写最多住几人！人数大于或等于1");
-            return;
-        }
-        $('#modal_save').show('slow');
-        var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=' + checked + '&room_id=' + thisVal 
-                + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
-        var _this = this;
-        $.getJSON(url, function(result) {
-            data = result;
-            $('#modal_save').hide();
-            $('.alert.alert-success.alert-block').show("slow");
-            setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 1000);
-            if(checked == 'false') {
-                $(_this).addClass('am-icon-square-o').removeClass('am-icon-check-square');
-                $(_this).attr('check', 0);
-            } else {
-                $(_this).addClass('am-icon-check-square').removeClass('am-icon-square-o');
-                $(_this).attr('check', 1);
-            }
-        })
-    });
-    $('#rooms :text').keyup(function(e) {
-        var key = e.which;
-        if((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
-            $('.alert.alert-success.alert-block').hide();
-            var data_id = $(this).attr('data-id');
-            var checked = $('#'+data_id).attr('check') - 0;
-            if(checked > 0) {
-                $('#modal_save').show();
-                var extra_bed = $('#extra_bed_' + data_id).val();
-                var max_people = $('#max_people_' + data_id).val();
-                var max_children = $('#max_children_' + data_id).val();
-                if(typeof(extra_bed) == 'undefined') extra_bed = 0;
-                if(typeof(max_people) == 'undefined') max_people = 0;
-                if(typeof(max_children) == 'undefined') max_children = 0;
-                var url = '<%$add_room_layout_url%>&act=setRoomLayoutRoom&checked=true&room_id=' + $(this).attr('data-id') 
-                        + '&extra_bed=' + extra_bed+ '&max_people=' + max_people+ '&max_children=' + max_children;
-                $.getJSON(url, function(result) {
-                    data = result;
-                    $('#modal_save').hide();
-                    $('.alert.alert-success.alert-block').show("slow");
-                    setTimeout(function(){$(".alert.alert-success.alert-block").hide("slow");}, 1000);
-                })
-            }
-        }
-    });
-</script>    
-<%/if%>
-<%if $view=='1'%>
-<script language="javascript">
-$("form input,textarea,select").prop("readonly", true);
-$('.save_info').hide();
-$('#upload_images').hide();
-</script>
-<%/if%>
-<script language="javascript">
-function uploadSuccess(img_url, id) {
-	if(id == '') {
-		img_url = img_url.replace('/data/images/', '');//<%$upload_images_url%>
-		$.getJSON(url + '&act=updateLayoutImages&room_layout_id=' 
-				  + room_layout_id + '&url=' + img_url, function(data){
-			if(data.success == 1) {
-			   id = data.itemData.room_layout_images_id;
-			   addLayoutImages(img_url, id);
-			} else {
-			   $('#modal_success').modal('hide');
-			   $('#modal_fail').modal('show');
-			   $('#modal_fail_message').html(data.message);
-			}
-		});
-	} else {
-		addLayoutImages(img_url, id);
-	}
-}
-
-function addLayoutImages(img_url, id) {
-	var html = '<li class="span2"><a class="thumbnail lightbox_trigger" href="'+img_url
-	          +'"><img id="room_layout_'+id+'" src="<%$__IMGWEB%>'+img_url+'" alt="" ></a>'
-              +'<div class="actions">'
-              +'<a title="" href="#"><i class="icon-pencil icon-white"></i></a>'
-              +'<a title="" href="#"><i class="icon-remove icon-white"></i></a>'
-              +'</div></li>';
-	$('.thumbnails').append(html);
-}
-</script>
+<%include file="hotel/inc_js/roomsLayout_js.tpl"%>
 </body>
 </html>
