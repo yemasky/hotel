@@ -152,7 +152,6 @@ $(document).ready(function(){
         }
         $('#bed_extra').html(bed_extra_html);
         $('#bed_extra_div').show('fast');
-        console.log(data);
     }
     function beginSetBedNum() {
         var data = JSON.parse($('#bed_extra').attr('data'));
