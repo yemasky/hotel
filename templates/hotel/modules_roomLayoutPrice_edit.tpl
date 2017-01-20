@@ -43,7 +43,7 @@
 							
                 <div class="widget-title">
                     <span class="icon"><i class="am-icon-cubes am-yellow-F58A17"></i></span>
-                    <h5><%$arrayLaguage['manager_room_layout_price']['page_laguage_value']%></h5>
+                    <h5><%$selfNavigation['hotel_modules_name']%></h5>
                     <div class="buttons" id="btn_room_layout">
                         <a class="btn btn-primary btn-mini" href="<%$back_lis_url%>" id="back"><i class="am-icon-plus-square"></i> 
                         &#12288;<%$arrayLaguage['back_list']['page_laguage_value']%></a>

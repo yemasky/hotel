@@ -328,13 +328,13 @@ $(document).ready(function(){
                                        }
                                        if(data.itemData.agreement_company_name != '') {
                                            var book_discount_id = ' <input readonly id="book_discount_id" value="'
-                                                + data.itemData.book_discount_name + data.itemData.agreement_company_name+'" type="text" class="span2"/> '
+                                                + data.itemData.book_discount_name + data.itemData.agreement_company_name+'" type="text" class="input-large"/> '
                                                 +' <input name="book_discount_id" value="'
                                                 + data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
                                            $('#book_type_id').after(book_discount_id);
                                        } else {
                                             var book_discount_id = ' <input readonly id="book_discount_id" value="'
-                                                + data.itemData.book_discount_name+'" type="text" class="span2"/> '
+                                                + data.itemData.book_discount_name+'" type="text" class="input-large"/> '
                                                 +' <input name="book_discount_id" value="'
                                                 + data.itemData.book_discount_id+'" type="hidden" class="book_discount_id" /> ';
                                             $('#book_type_id').after(book_discount_id);
@@ -364,7 +364,7 @@ $(document).ready(function(){
                         $.getJSON('<%$searchBookInfoUrl%>&search=discount&book_type_id='+book_type_id, function(result) {
                             data = result;
                             if(data.itemData != null && data.itemData != '') {
-                                var discount_html = ' <select name="book_discount_id" class="span2 book_discount_id select_discount">';
+                                var discount_html = '<select name="book_discount_id" id="book_discount_id" class="span2 book_discount_id select_discount">';
                                 var option = '';
                                 for(i in data.itemData) {
                                     option += '<option value="'+data.itemData[i].book_discount_id+'" type="'+data.itemData[i].book_discount_type+'">'
@@ -377,7 +377,8 @@ $(document).ready(function(){
                                 }
                                 discount_html += option + '</section>';
                                 book_discount_list[book_type_id] = discount_html;
-                                $('#book_type_id').after(discount_html);
+                                //$('#book_type_id_div').after(discount_html);
+                                $('#book_discount_id_div').html(discount_html);
                                 $('.select_discount').change(function(e) {
                                     $('#discount').val(book_discount_list[$(this).val() + '_0']);
                                     $('#discount_type').text('折扣');$('#book_discount_type').val('0');
@@ -397,11 +398,13 @@ $(document).ready(function(){
                                 $('#discount_type').text('折扣');$('#book_discount_type').val('0');
                             }
                             if(booktype == 'OTA') 
-                                $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input  name="book_order_number_ourter" value="" class="span2" type="text"></span>');
+                                $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input  name="book_order_number_ourter" value="" class="input-medium" type="text"></span>');
                             bookEdit.computeBookPrice(true);
+                            $('#book_discount_id').select2();
                         })
                     } else {
-                        $('#book_type_id').after(book_discount_list[book_type_id]);
+                        //$('#book_type_id').after(book_discount_list[book_type_id]);
+                        $('#book_discount_id_div').html(book_discount_list[book_type_id]);
                         $('.select_discount').change(function(e) {
                             $('#discount').val(book_discount_list[$(this).val() + '_0']);
                             $('#discount_type').text('折扣');$('#book_discount_type').val('0');
@@ -416,10 +419,10 @@ $(document).ready(function(){
                             $('#discount_type').text('直减');$('#book_discount_type').val('1');
                         }
                         if(booktype == 'OTA') 
-                            $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input name="book_order_number_ourter" value="" class="span2" type="text"></span>');
+                            $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input name="book_order_number_ourter" value="" class="input-medium" type="text"></span>');
                         bookEdit.computeBookPrice(true);
+                        $('#book_discount_id').select2();
                     }
-                    
                 });
                 //搜索客房价格
                 $('#search_room_layout').click(function(e) {

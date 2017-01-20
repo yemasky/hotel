@@ -8,6 +8,8 @@
 <script src="<%$__RESOURCE%>js/jquery.dataTables.min.1.10.12.js"></script>
 <!--<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>-->
 <link rel="stylesheet" href="<%$__RESOURCE%>css/jquery.dataTables.min.1.10.12.css" />
+<script src="<%$__RESOURCE%>js/select2.min.js"></script>
+<link rel="stylesheet" href="<%$__RESOURCE%>css/select2.css" />
 <style type="text/css">
 /*.modal-body{ padding:1px;}*/
 /*.widget-box{margin-bottom:1px; margin-top:1px;}*/
@@ -84,14 +86,17 @@ input, select {border-radius: 0 !important;}
 						<div class="control-group hide book_form_step1">
 							<label class="control-label"><%$arrayLaguage['book_type']['page_laguage_value']%> :</label>
 							<div class="controls">
-								 <select name="book_type_id" id="book_type_id" class="input-medium">
-								 <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-								 <%section name=type loop=$arrayBookType%>
-									<%if $arrayBookType[type].book_type_father_id!=$arrayBookType[type].book_type_id%>
-									<option value="<%$arrayBookType[type].book_type_id%>" bookType="<%$arrayBookType[type].type%>"><%$arrayBookType[type].book_type_name%></option>
-									<%/if%>
-								 <%/section%>
-								</select>
+                                <div id="book_type_id_div" class="fl">
+                                 <select name="book_type_id" id="book_type_id" class="input-medium">
+                                 <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
+                                 <%section name=type loop=$arrayBookType%>
+                                    <%if $arrayBookType[type].book_type_father_id!=$arrayBookType[type].book_type_id%>
+                                    <option value="<%$arrayBookType[type].book_type_id%>" bookType="<%$arrayBookType[type].type%>"><%$arrayBookType[type].book_type_name%></option>
+                                    <%/if%>
+                                 <%/section%>
+                                </select>
+                                 &nbsp;</div> 
+                                 <div id="book_discount_id_div"></div>
 							</div>
 						</div>
 						<div class="control-group hide book_form_step1">
@@ -125,6 +130,7 @@ input, select {border-radius: 0 !important;}
                                 <input value="1" type="text" class="input-mini" id="book_days_total" name="book_days_total" readonly />
                                 <!--<a href="#searchRoom" id="search_room_hour_layout" class="btn btn-primary btn-mini"><i class="am-icon-hourglass-2"></i> <%$arrayLaguage['find_hour_room']['page_laguage_value']%></a>-->
 							</div>
+                            <!--房型-->
                             <label class="control-label"><%$arrayLaguage['room_layout']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_sell_layout">
                                  <select id="sell_layout" class="input-medium">
