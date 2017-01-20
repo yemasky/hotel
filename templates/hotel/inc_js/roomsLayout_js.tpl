@@ -156,13 +156,13 @@ $(document).ready(function(){
                     break;
                 }
                 var html = setBedSelectHtml(data[i]);
-                bed_extra_html += '<span class="add-on">床'+ (i + 1) +'</span>' + html;
+                bed_extra_html += '<span class="add-on">'+ (i - 0 + 1) +'.床宽</span>' + html;
                 continue_num = i;
             }
         }
         continue_num++;
         for(var i = continue_num; i < num; i++) {
-            bed_extra_html += '<span class="add-on">床'+ (i + 1) +'</span>' + html;
+            bed_extra_html += '<span class="add-on">'+ (i - 0 + 1) +'.床宽</span>' + html;
         }
         $('#bed_extra').html(bed_extra_html);
         $('#bed_extra_div').show('fast');
@@ -173,7 +173,7 @@ $(document).ready(function(){
         if(data != '') {
             for(var i in data) {
                 var html = setBedSelectHtml(data[i]);
-                bed_extra_html += '<span class="add-on">床'+ (i + 1) +'</span>' + html;
+                bed_extra_html += '<span class="add-on">'+ (i - 0 + 1) +'.床宽</span>' + html;
             }
             $('#bed_extra').html(bed_extra_html);
             $('#bed_extra_div').show('fast');
