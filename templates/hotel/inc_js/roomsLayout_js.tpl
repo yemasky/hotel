@@ -145,9 +145,23 @@ $(document).ready(function(){
     });
     function setBedNum() {
         var num = $('#room_bed_type_num').val();//bed_extra_demo
-        var html = $('#bed_extra_demo').html();
+        var data = JSON.parse($('#bed_extra').attr('data'));
+        var html = setBedSelectHtml('');
         var bed_extra_html = '';
-        for(var i = 0; i < num; i++) {
+        var continue_num = 0;
+        if(data != '') {
+            for(var i in data) {
+                if(i >= num) {
+                    continue_num = num;
+                    break;
+                }
+                var html = setBedSelectHtml(data[i]);
+                bed_extra_html += '<span class="add-on">床'+ (i + 1) +'</span>' + html;
+                continue_num = i;
+            }
+        }
+        continue_num++;
+        for(var i = continue_num; i < num; i++) {
             bed_extra_html += '<span class="add-on">床'+ (i + 1) +'</span>' + html;
         }
         $('#bed_extra').html(bed_extra_html);
@@ -158,8 +172,7 @@ $(document).ready(function(){
         var bed_extra_html = '';
         if(data != '') {
             for(var i in data) {
-                $('#bed_extra_demo select').val(data[i]);
-                var html = $('#bed_extra_demo').html();
+                var html = setBedSelectHtml(data[i]);
                 bed_extra_html += '<span class="add-on">床'+ (i + 1) +'</span>' + html;
             }
             $('#bed_extra').html(bed_extra_html);
@@ -168,6 +181,19 @@ $(document).ready(function(){
     }
     if($('.bed').attr('checked') == 'checked') {
         beginSetBedNum();
+    }
+    function setBedSelectHtml(value) {
+        var option = JSON.parse('<%$layoutHouseConfig%>');
+        var html = '<select name="room_bed_type_wide[]" class="input-small" >';
+        var selected = '';
+        var option_html = '';
+        for(var val in option) {
+            if(val == value) selected = 'selected';
+            option_html += '<option value="'+val+'"' + selected +'>'+option[val]+'</option>';
+            selected = '';
+        }
+        html = html + option_html + '</select>';
+        return html;
     }
 });
 </script>

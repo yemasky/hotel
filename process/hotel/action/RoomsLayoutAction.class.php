@@ -272,7 +272,8 @@ class RoomsLayoutAction extends \BaseAction {
         $objResponse -> arrayDataInfo = $arrayRoomLayout[0];
         $objResponse -> arrayRoom = $arrayRoom;//真实房
         $objResponse -> arrayRoomLayoutType = $arrayRoomLayoutType;
-        //$objResponse -> arrayRoomType = $arrayRoomType;
+
+        $objResponse -> layoutHouseConfig = json_encode(ModulesConfig::$roomLayout['layoutHouseConfig']);
         $objResponse -> add_room_layout_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomsLayout']['edit']),
                 'room_layout_id'=>$objRequest->room_layout_id));

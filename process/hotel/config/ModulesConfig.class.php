@@ -51,4 +51,7 @@ class ModulesConfig extends \ModulesConfig {
 
     public $room_layout_price_system_id = 1;
 
+    public static $roomLayout = array('layoutHouseConfig' => array('0.9'=>'0.9米以下','1'=>'1米','1.2'=>'1.2米','1.35'=>'1.35米','1.5'=>'1.5米','1.8'=>'1.8米','2.0'=>'2.0米','2.2'=>'2米以上'))
+        ;
+
 }

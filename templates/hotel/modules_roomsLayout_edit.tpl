@@ -110,21 +110,6 @@
                     <div class="controls hide" id="bed_extra_div">
                         <span class="input-prepend input-append text-center" id="bed_extra" data='<%$arrayDataInfo['room_bed_type_wide']%>'></span>
                     </div>
-                    <div class="controls hide">
-                        <span class="input-prepend input-append text-center" id="bed_extra_demo">
-                            <span class="add-on">宽</span>
-                            <select name="room_bed_type_wide[]" class="input-small" >
-                            <option value="0.9">0.9米以下</option>
-                            <option value="1">1米</option>
-                            <option value="1.2">1.2米</option>
-                            <option value="1.35">1.35米</option>
-                            <option value="1.5">1.5米</option>
-                            <option value="1.8">1.8米</option>
-                            <option value="2.0">2.0米</option>
-                            <option value="2.2">2米以上</option>
-                            </select>
-                        </span>
-                    </div>
                 </div>
                 
                 <!--<div class="control-group">
