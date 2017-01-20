@@ -3,7 +3,30 @@
 <head>
 <%include file="hotel/inc/head.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.dataTables.min.js"></script>
-<script src="<%$__RESOURCE%>js/maruti.tables.js"></script>
+<script language="javascript">
+$(document).ready(function(){
+	
+	$('.data-table').dataTable({
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers",
+		"sDom": '<""l>t<"F"fp>'
+	});	
+	
+	$("span.icon input:checkbox, th input:checkbox").click(function() {
+		var checkedStatus = this.checked;
+		var checkbox = $(this).parents('.widget-box').find('tr td:first-child input:checkbox');		
+		checkbox.each(function() {
+			this.checked = checkedStatus;
+			if (checkedStatus == this.checked) {
+				$(this).closest('.checker > span').removeClass('checked');
+			}
+			if (this.checked) {
+				$(this).closest('.checker > span').addClass('checked');
+			}
+		});
+	});	
+});
+</script>
 </head>
 <body>
 <%include file="hotel/inc/top_menu.tpl"%>
@@ -44,7 +67,10 @@ select {width: 70px;}
                   	<code><%$arrayLaguage['orientations']['page_laguage_value']%>:<%$arrayLaguage[$arrayDataInfo[layout].room_layout_orientations]['page_laguage_value']%></code>
                     
                   </td>
-                  <td><%if $arrayDataInfo[layout].room_layout_valid==1%><i class="icon-ok-circle"></i><%else%><i class="icon-ban-circle"></i><%/if%></td>
+                  <td>
+                    <%if $arrayDataInfo[layout].room_layout_valid==1%><i class="icon-ok-circle"></i><%else%><i class="icon-ban-circle"></i><%/if%>
+                    <span class="hide"><%$arrayDataInfo[layout].room_layout_valid%></span>
+                  </td>
                   <td class="center">
                   	 <div class="fr">
                         <a href="<%$arrayDataInfo[layout].view_url%>" class="btn btn-primary btn-mini"><i class="am-icon-eye"></i> 
