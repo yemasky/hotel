@@ -45,7 +45,8 @@ class CompanyAction extends \BaseAction {
         $pn_rows = $objRequest->pn_rows;
 
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('employee_id'=>$objResponse->arrayLoginEmployeeInfo['employee_id']);
+        $employee_id = $objResponse->arrayLoginEmployeeInfo['employee_id'];
+        $conditions['where'] = array('employee_id'=>$employee_id);
         $parameters['module'] = encode(decode($objRequest->module));
         $arrayPageCompanyId = EmployeeService::instance()->pageEmployeeCompany($conditions, $pn, $pn_rows, $parameters);
         $arrayCompany = null;
