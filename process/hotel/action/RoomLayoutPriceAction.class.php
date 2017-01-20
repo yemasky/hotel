@@ -30,7 +30,7 @@ class RoomLayoutPriceAction extends \BaseAction {
                 $this->doEditRoomLayoutPriceSystem($objRequest, $objResponse);
                 break;
             case 'agreement_corp':
-                $this->doAdd($objRequest, $objResponse);
+                $this->doAgreementCorp($objRequest, $objResponse);
                 break;
             default:
                 $this->doDefault($objRequest, $objResponse);
@@ -220,5 +220,8 @@ class RoomLayoutPriceAction extends \BaseAction {
         $arraySystemPrice = RoomService::instance()->getRoomLayoutPrice($conditions, $field);
         $arrayExtraBedPrice = RoomService::instance()->getRoomLayoutExtraBedPrice($conditions, $field);
         return $this->successResponse('', array('room_price'=>$arraySystemPrice, 'extra_bed_price'=>$arrayExtraBedPrice));
+    }
+    protected  function doAgreementCorp($objRequest, $objResponse) {
+
     }
 }

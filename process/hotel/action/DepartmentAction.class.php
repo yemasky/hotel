@@ -33,7 +33,7 @@ class DepartmentAction extends \BaseAction {
     /**
      * 首页显示
      */
-    protected function doDefault($objRequest, $objResponse) {
+    public function doDefault($objRequest, $objResponse) {
         $act = $objRequest -> act;
         if(!empty($act)) {
             if($act == 'getPosition') {

@@ -724,17 +724,25 @@ class BookOperateService extends \BaseService {
         $thisDay = empty($thisDay) ? getDay() : $thisDay;
         $toDay = empty($toDay) ? getDay(7*24) : $toDay;
         $user_name = $objRequest -> user_name;
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
 
+        $arrayPostValue = $objRequest -> getPost();
         $conditions = DbConfig::$db_query_conditions;
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-            '>='=>array('book_check_in'=>$thisDay));//'<='=>array('book_check_out'=>$toDay)
-        if(!empty($user_name)) {
-            $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id'],
-                '>='=>array('book_check_in'=>$thisDay),
-                'LIKE'=>array('book_contact_name'=>$user_name));//'<='=>array('book_check_out'=>$toDay)
+        if(!empty($arrayPostValue)) {
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
+                '>='=>array('book_check_in'=>$thisDay));//'<='=>array('book_check_out'=>$toDay)
+            if(!empty($user_name)) {
+                $conditions['where'] = array('hotel_id'=>$hotel_id,
+                    '>='=>array('book_check_in'=>$thisDay),
+                    'LIKE'=>array('book_contact_name'=>$user_name));//'<='=>array('book_check_out'=>$toDay)
+            }
+        } else {
+            $conditions['where'] = array('hotel_id'=>$hotel_id,
+                '>='=>array('book_order_number_main_status'=>'0'));//'<='=>array('book_check_out'=>$toDay)
         }
         $conditions['order'] = 'book_check_in ASC, book_order_number ASC, book_order_number_main DESC';
         $arrayBookInfo = BookService::instance()->getBook($conditions);
+        $conditions['order'] = '';
         $arrayBookList = array();
         if(!empty($arrayBookInfo)) {
             foreach($arrayBookInfo as $i => $arrayBook) {

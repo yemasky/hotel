@@ -75,7 +75,7 @@
                     <div class="controls">
                         <select id="hotel_attribute_id" name="hotel_attribute_id" class="span2">
                             <option value=""><%$arrayLaguage['please_select']['page_laguage_value']%></option>
-                            <!--<option value="0"><%$arrayLaguage['add_attr_classes']['page_laguage_value']%></option>-->
+                            <option value="0">增加新属性类别</option>
                             <%section name=attr loop=$arrayAttribute%>
                             <option value="<%$arrayAttribute[attr].hotel_attribute_id%>"><%$arrayAttribute[attr].hotel_attribute_name%></option>
                             <%/section%>

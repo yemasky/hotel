@@ -52,6 +52,9 @@ class RoleAction extends \BaseAction {
             $arrayResult = array('RoleModules'=>$arrayRoleModules,'Modules'=>$arrayModules);
             return $this->successResponse('', $arrayResult);
         }
+        $objDepartment = new DepartmentAction();
+        $objResponse->setTplName("hotel/modules_department");
+        $objDepartment-> doDefault($objRequest, $objResponse);
     }
 
     protected function doAdd($objRequest, $objResponse) {

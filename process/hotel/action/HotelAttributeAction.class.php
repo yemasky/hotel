@@ -66,6 +66,8 @@ class HotelAttributeAction extends \BaseAction {
             unset($arrayPostValue['hotel_attribute_id']);
             if($hotel_attribute_id > 0) {
                 $arrayPostValue['hotel_attribute_father_id'] = $hotel_attribute_id;
+            } else {
+                $arrayPostValue['hotel_attribute_father_id'] = '0';
             }
             $attribute_id = HotelService::instance()->saveHotelAttr($arrayPostValue);
             if($objRequest -> hotel_attribute_id == '0') {
