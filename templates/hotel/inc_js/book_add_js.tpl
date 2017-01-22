@@ -382,23 +382,35 @@ $(document).ready(function(){
                                 //$('#book_type_id_div').after(discount_html);
                                 $('#book_discount_id_div').html(discount_html);
                                 $('.select_discount').change(function(e) {
+                                    var type = $(this).find('option:selected').attr('type');
                                     $('#discount').val(book_discount_list[$(this).val() + '_0']);
-                                    $('#discount_type').text('折扣');$('#book_discount_type').val('0');
-                                    if($(this).find('option:selected').attr('type') == 1) {
-                                        $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                                    if(type == 0) {
+                                        $('#discount_type').text('折扣');$('#book_discount_type').val('0');$('#discount').show();
+                                    }
+                                    if(type == 1) {
+                                        $('#discount_type').text('直减');$('#book_discount_type').val('1');$('#discount').show();
+                                    }
+                                    if(type == 2) {
+                                        $('#discount_type').html('<code>协议价</code>');$('#book_discount_type').val('2');$('#discount').hide();
                                     }
                                     BookEditClass.layout_corp = $(this).find('option:selected').attr('layout_corp');
                                     bookEdit.computeBookPrice(true);
                                 })
-                                $('#discount_type').text('折扣');$('#book_discount_type').val('0');
-                                if($('.select_discount').find('option:selected').attr('type') == 1) {
-                                    $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                                var type = $('.select_discount').find('option:selected').attr('type');
+                                if(type == 0) {
+                                    $('#discount_type').text('折扣');$('#book_discount_type').val('0');$('#discount').show();
+                                }
+                                if(type == 1) {
+                                    $('#discount_type').text('直减');$('#book_discount_type').val('1');$('#discount').show();
+                                }
+                                if(type == 2) {
+                                    $('#discount_type').html('<code>协议价</code>');$('#book_discount_type').val('2');$('#discount').hide();
                                 }
                             } else {
                                 book_discount_list[book_type_id] = '';
                                 book_discount_list[book_type_id + '_'] = 100;
                                 $('#discount').val(100);
-                                $('#discount_type').text('折扣');$('#book_discount_type').val('0');
+                                $('#discount_type').text('折扣');$('#book_discount_type').val('0');$('#discount').show();
                             }
                             if(booktype == 'OTA') 
                                 $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input  name="book_order_number_ourter" value="" class="input-medium" type="text"></span>');
@@ -409,18 +421,32 @@ $(document).ready(function(){
                         //$('#book_type_id').after(book_discount_list[book_type_id]);
                         $('#book_discount_id_div').html(book_discount_list[book_type_id]);
                         $('.select_discount').change(function(e) {
+                            var type = $(this).find('option:selected').attr('type');
                             $('#discount').val(book_discount_list[$(this).val() + '_0']);
-                            $('#discount_type').text('折扣');$('#book_discount_type').val('0');
-                            if($(this).find('option:selected').attr('type') == 1) {
-                                $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                            if(type == 0) {
+                                $('#discount_type').text('折扣');$('#book_discount_type').val('0');$('#discount').show();
                             }
+                            if(type == 1) {
+                                $('#discount_type').text('直减');$('#book_discount_type').val('1');$('#discount').show();
+                            }
+                            if(type == 2) {
+                                $('#discount_type').html('<code>协议价</code>');$('#book_discount_type').val('2');$('#discount').hide();
+                            }
+                            BookEditClass.layout_corp = $(this).find('option:selected').attr('layout_corp');
                             bookEdit.computeBookPrice(true);
                         })
                         $('#discount').val(book_discount_list[book_type_id + '_']);
-                        $('#discount_type').text('折扣');$('#book_discount_type').val('0');
-                        if($(this).find('option:selected').attr('type') == 1) {
-                            $('#discount_type').text('直减');$('#book_discount_type').val('1');
+                        var type = $('.select_discount').find('option:selected').attr('type');
+                        if(type == 0) {
+                            $('#discount_type').text('折扣');$('#book_discount_type').val('0');$('#discount').show();
                         }
+                        if(type == 1) {
+                            $('#discount_type').text('直减');$('#book_discount_type').val('1');$('#discount').show();
+                        }
+                        if(type == 2) {
+                            $('#discount_type').html('<code>协议价</code>');$('#book_discount_type').val('2');$('#discount').hide();
+                        }
+                        BookEditClass.layout_corp = $('.select_discount').find('option:selected').attr('layout_corp');
                         if(booktype == 'OTA') 
                             $('#book_type_id').after('<span id="order_number_ourter"> <%$arrayLaguage["order_number_ourter"]["page_laguage_value"]%> : <input name="book_order_number_ourter" value="" class="input-medium" type="text"></span>');
                         bookEdit.computeBookPrice(true);
