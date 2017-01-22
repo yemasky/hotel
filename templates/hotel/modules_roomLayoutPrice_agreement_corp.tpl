@@ -18,11 +18,9 @@
                 <div class="widget-title">
                     <span class="icon"><i class="am-icon-briefcase am-blue-2F93FF"></i></span>
                     <h5><%$selfNavigation.hotel_modules_name%></h5>
-                </div>
-                <div class="widget-content">
-                    <div class="btn-group">
-                    <button id="" class="btn btn-primary add"><i class="am-icon-plus-circle"></i> 添加价格种类</button>
-                    
+                    <div class="buttons">
+                        <a class="btn btn-primary btn-mini add" href="#addLayoutAttr" url="index.php?module=Dj1TYA==" id="add_attribute" data-toggle="modal"><i class="am-icon-plus-square"></i>
+                        &#12288;添加价格种类</a>
                     </div>
                 </div>
                 <div class="widget-content nopadding">
@@ -32,40 +30,48 @@
                                 <label class="control-label">价格种类名称:</label>
                                 <div class="controls">
                                     <input name="room_layout_corp_name" id="room_layout_corp_name" type="text">
+                                    <input name="room_layout_corp_id" id="room_layout_corp_id" type="hidden" value="0">                                    
                                 </div>
+                                
                             </div>
-                            <div class="form-actions">
-                            <div class="btn-group">
-                                <input value="确定" class="btn btn-warning" type="submit">
-                                <input value="取消" class="btn btn-success" type="button" id="cancel">
-                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <div class="btn-group">
+                                        <input value="确定" class="btn btn-mini btn-warning" type="submit">
+                                        <input value="取消" class="btn btn-mini btn-success" type="button" id="cancel">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                    </div>
                    <div class="row-fluid">
-                        <div class="span2 fl">
-                            <ul id="role_tree" class="ztree">
-                            <p>sss</p>
-                            <p>sss</p><p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            <p>sss</p>
-                            </ul>
+                        <div class="span2">
+                            <div class="widget-box">
+                                <div class="widget-title">
+                                    <span class="icon"><i class="icon-th-list"></i></span><h5>价格种类</h5>
+                                </div>
+                                <div class="widget-content text-right">
+                                    <%section name=i loop=$arrayDataInfo%>
+                                    <div class="btn-group this_edit">
+                                        <a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayDataInfo[i].room_layout_corp_name%> </a>
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu" data-id="<%$arrayDataInfo[i].room_layout_corp_id%>" data-name="<%$arrayDataInfo[i].room_layout_corp_name%>" valid="<%$arrayDataInfo[i].room_layout_corp_valid%>">
+                                            <li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>
+                                            <li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                    <%/section%>
+                                </div>
+                             </div>
                         </div>
-                        <div class="span10 fl">
+                        <div class="span10">
                             <div class="widget-box">
                                 <div class="widget-title">
                                     <span class="icon"><i class="icon-th-list"></i></span><h5>权限</h5>
                                 </div>
                                 <div class="widget-content nopadding form-horizontal">
                                     <div class="control-group">
-                                        <label class="control-label">菜单</label>
+                                        <label class="control-label"></label>
                                         <div class="controls"></div>
                                     </div>
                                 </div>
@@ -107,7 +113,7 @@ $(document).ready(function(){
 		submitHandler: function() {
             var param = $("#add_employee_form").serialize();
             $('#modal_save').show('fast');
-            var url = '<%$add_url%>';
+            var url = '<%$edit_corp_url%>';
             $.ajax({
                 url : url,type : "post",dataType : "json",data: param,
                 success : function(result) {
@@ -133,6 +139,7 @@ $(document).ready(function(){
             thisModule.init = function() {
                 $('.add').click(function(e) {
                     $('#add').show('fast');
+                    $('#room_layout_corp_id').val(0);
                 });
                 $('#cancel').click(function(e) {
                     $('#add').hide('fast');

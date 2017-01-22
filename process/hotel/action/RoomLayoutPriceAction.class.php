@@ -32,6 +32,9 @@ class RoomLayoutPriceAction extends \BaseAction {
             case 'agreement_corp':
                 $this->doAgreementCorp($objRequest, $objResponse);
                 break;
+            case 'editAgreement_corp':
+                $this->editAgreementCorp($objRequest, $objResponse);
+                break;
             default:
                 $this->doDefault($objRequest, $objResponse);
                 break;
@@ -221,7 +224,33 @@ class RoomLayoutPriceAction extends \BaseAction {
         $arrayExtraBedPrice = RoomService::instance()->getRoomLayoutExtraBedPrice($conditions, $field);
         return $this->successResponse('', array('room_price'=>$arraySystemPrice, 'extra_bed_price'=>$arrayExtraBedPrice));
     }
-    protected  function doAgreementCorp($objRequest, $objResponse) {
+    protected function doAgreementCorp($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $conditions = DbConfig::$db_query_conditions;
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayRoomLayoutCorp = RoomService::instance()->getRoomLayoutCorp($conditions);
 
+        $objResponse -> edit_corp_url =
+            \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['roomLayoutPrice']['editAgreement_corp'])));
+
+        $objResponse -> arrayDataInfo = $arrayRoomLayoutCorp;
+
+    }
+
+    protected function editAgreementCorp($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+        $this->setDisplay();
+        $room_layout_corp_id = $objRequest -> room_layout_corp_id;
+        $arrayPostValue = $objRequest -> getPost();
+        if(!empty($arrayPostValue)) {
+            unset($arrayPostValue['room_layout_corp_id']);
+            if($room_layout_corp_id == 0) {
+                RoomService::instance()->saveRoomLayoutCorp($arrayPostValue);
+            } else {
+                $where = array('hotel_id'=>$hotel_id, 'room_layout_corp_id'=>$room_layout_corp_id);
+                RoomService::instance()->updateRoomLayoutCorp($where, $arrayPostValue);
+            }
+        }
+        $this->successResponse('保存数据成功！');
     }
 }
