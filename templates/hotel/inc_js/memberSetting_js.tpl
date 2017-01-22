@@ -140,6 +140,13 @@ $(document).ready(function(){
                     $('#discount_form input').val('');
                     $('#discount_book_type_id').val($(this).parent().attr('data-id'));
                     $('#book_type_father_id').val($(this).parent().attr('father-id'));
+                    if($(this).parent().attr('father-id') == 5) {
+                        $('#more_option').collapse('show');$('#discount_span').hide();
+                        $('#layout_corp_div').show('fast');$('#book_discount_type').val(2);
+                    } else {
+                        $('#more_option').collapse('hide');$('#discount_span').show('fast');
+                        $('#layout_corp_div').hide('fast');$('#book_discount_type').val(0);
+                    }
                 });
                 $('.add_data').click(function(e) {
                     $('._edit .edit_checkbox i').removeClass('am-icon-dot-circle-o');
@@ -170,6 +177,7 @@ $(document).ready(function(){
                 $('.editBtn').click(function(e) {
                     var id = $(this).attr('data-id');
                     var type = $(this).attr('type');
+                    var layout_corp = $(this).attr('layout_corp');
                     $('#book_discount_id').val(id);
                     $('#book_discount_type').val(type);
                     $('#discount_tr'+id).find('td').each(function(index, element) {
@@ -184,12 +192,34 @@ $(document).ready(function(){
                         $('#book_discount_add_on').text('元');
                     }
                     $('#discount_name').text('')
+                    $('.layout_corp_class i').removeClass('am-icon-check-circle').addClass('am-icon-circle-thin');
+                    $('#discount_span').show('fast');
+                    $('#layout_corp_div').hide();
+                    if(type == 2) {
+                        $('#discount_span').hide('fast');
+                        $('#layout_corp_div').show('fast');
+                        if(layout_corp > 0) {
+                            $('.layout_corp_class').each(function(index, element) {
+                                if($(this).attr('data-id') == layout_corp) {
+                                    $(this).find('i').removeClass('am-icon-circle-thin').addClass('am-icon-check-circle');
+                                }
+                            });   
+                        }
+                    }
                 });
                 $('#book_discount_type').change(function () {
                     $('#book_discount_add_on').text('%');
+                    $('#discount_span').show();
+                    $('#layout_corp_div').hide('fast');
                     if(this.value == 1) {
                         $('#book_discount_add_on').text('元');
                     }
+                    if(this.value == 2) {
+                        $('#discount_span').hide('fast');
+                        $('#layout_corp_div').show('fast');
+                    }
+                    $('.layout_corp_class i').removeClass('am-icon-check-circle').addClass('am-icon-circle-thin');
+                    $('#room_layout_corp_id').val(0);
                 })
                 $('.removeBtn').click(function(e) {
                     //$(this).parent().parent().parent().next().addClass('hide');
@@ -205,7 +235,15 @@ $(document).ready(function(){
                 $('#book_type_select').change(function(){
                     $('#book_type').val(this.value);
                 });
+                $('.layout_corp_class').click(function(){
+                    memberSetting.setLayoutCorp(this);
+                });
             };
+            memberSetting.setLayoutCorp = function(_this) {
+                $('.layout_corp_class i').removeClass('am-icon-check-circle').addClass('am-icon-circle-thin');
+                $(_this).find('i').removeClass('am-icon-circle-thin').addClass('am-icon-check-circle');
+                $('#room_layout_corp_id').val($(_this).attr('data-id'));
+            }
             memberSetting.setType = function(_this) {
                 $('.set_type i').removeClass('am-icon-check-circle').addClass('am-icon-circle-thin');
                 $(_this).find('i').removeClass('am-icon-circle-thin').addClass('am-icon-check-circle');

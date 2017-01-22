@@ -107,7 +107,9 @@
                                   <td class="discount_td" btype="agreement_active_time_end"><%$arrayDiscount[i].agreement_active_time_end%></td>
                                   <td>
                                     <div class="btn-group">
-                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>" class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
+                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>"  
+                                       layout_corp="<%$arrayDiscount[i].room_layout_corp_id%>"
+                                       class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
                                        <button data-id="<%$arrayDiscount[i].book_discount_id%>" class="btn btn-mini btn-danger removeBtn"><i class="am-icon-minus-circle"></i> 删除</button>
                                     </div>
                                   </td>
@@ -182,15 +184,24 @@
                                   <td class="discount_td"><div class="checker" id="uniform-undefined"><span><%$smarty.section.i.index+1%></span></div></td>
                                   <td class="discount_td" btype="book_type_name"><%$arrayType[$arrayDiscount[i].book_type_id].book_type_name%></td>
                                   <td class="discount_td" btype="book_discount_name"><%$arrayDiscount[i].book_discount_name%></td>
-                                  <td class="discount_td"><%if $arrayDiscount[i].book_discount_type==1%>直减<%else%>折扣<%/if%></td>
+                                  <td class="discount_td"><%if $arrayDiscount[i].book_discount_type==1%>直减<%elseif $arrayDiscount[i].book_discount_type==0%>折扣<%else%>协议价<%/if%></td>
                                   <td class="discount_td" btype="book_discount"><%$arrayDiscount[i].book_discount%></td>
-                                  <td class="discount_td"><%if $arrayDiscount[i].book_discount_type==1%>元<%else%>%<%/if%></td>
+                                  <td class="discount_td">
+                                  <%if $arrayDiscount[i].book_discount_type==2%>
+                                  <%$arrayRoomLayoutCorp[$arrayDiscount[i].room_layout_corp_id].room_layout_corp_name%>
+                                  <%else%>
+                                    <%if $arrayDiscount[i].book_discount_type==1%>元<%else%>%<%/if%>
+                                  <%/if%>
+                                    
+                                  </td>
                                   <td class="discount_td" btype="agreement_company_name"><%$arrayDiscount[i].agreement_company_name%></td>
                                   <td class="discount_td" btype="agreement_active_time_begin"><%$arrayDiscount[i].agreement_active_time_begin%></td>
                                   <td class="discount_td" btype="agreement_active_time_end"><%$arrayDiscount[i].agreement_active_time_end%></td>
                                   <td>
                                     <div class="btn-group">
-                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>" class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
+                                       <button data-id="<%$arrayDiscount[i].book_discount_id%>" type="<%$arrayDiscount[i].book_discount_type%>"  
+                                       layout_corp="<%$arrayDiscount[i].room_layout_corp_id%>"
+                                       class="btn btn-mini btn-warning editBtn"><i class="am-icon-edit"></i> 编辑</button> 
                                        <button data-id="<%$arrayDiscount[i].book_discount_id%>" class="btn btn-mini btn-danger removeBtn"><i class="am-icon-minus-circle"></i> 删除</button>
                                     </div>
                                   </td>
@@ -310,12 +321,23 @@
                                 <option value="1">直减</option>
                                 <option value="2">协议价</option>
                             </select>
+                            <span id="discount_span">
                             折扣：
                             <div class="input-append">
                             <input id="book_discount" name="book_discount" class="input-small" value="" type="text">
                             <span class="add-on" id="book_discount_add_on">%</span>
                             </div>
+                            </span>
                             <a data-toggle="collapse" data-target="#more_option" class="btn btn-primary btn-mini"><i class="am-icon-chevron-circle-down"></i> 更多选项</a>
+                        </div>
+                    </div>
+                    <div class="control-group hide" id="layout_corp_div">
+                        <label class="control-label">协议价种类：</label>
+                        <div class="controls"><label class="inline">
+                        <%foreach key=i item=LayoutCorp from=$arrayRoomLayoutCorp%>
+                            <span data-id="<%$LayoutCorp.room_layout_corp_id%>" class="layout_corp_class"><i class="am-icon-circle-thin"></i> <%$LayoutCorp.room_layout_corp_name%></span>
+                        <%/foreach%></label>
+                        <input value="0" name="room_layout_corp_id" id="room_layout_corp_id" type="hidden">
                         </div>
                     </div>
                     <div class="control-group">

@@ -39,6 +39,7 @@ class MemberSettingAction extends \BaseAction {
      * 首页显示
      */
     protected function doDefault($objRequest, $objResponse) {
+        $hotel_id = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array(0, $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
         $conditions['order'] = 'book_sales_type_id ASC';
@@ -46,12 +47,12 @@ class MemberSettingAction extends \BaseAction {
         //print_r($arrayBookType);
         $arrayBookType = BookService::instance()->getBookType($conditions, '*', 'book_sales_type_id', false, 'book_type_father_id', 'book_type_id');
         // 折扣
-        $conditions['where'] = array('hotel_id'=>$objResponse->arrayLoginEmployeeInfo['hotel_id']);
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
         $conditions['order'] = 'book_type_id ASC';
         $arrayDiscount = BookService::instance()->getBookDiscount($conditions);
         $conditions['order'] = '';
         //销售来源
-        $conditions['where'] = array('IN'=>array('hotel_id'=>array('0', $objResponse->arrayLoginEmployeeInfo['hotel_id'])));
+        $conditions['where'] = array('IN'=>array('hotel_id'=>array('0', $hotel_id)));
         $arrayBookSalesType = BookService::instance()->getBookSalesType($conditions, '*', 'book_sales_type_id');
 
         $arrayType = '';
@@ -66,6 +67,9 @@ class MemberSettingAction extends \BaseAction {
                 }
             }
         }
+        //协议价
+        $conditions['where'] = array('hotel_id'=>$hotel_id);
+        $arrayRoomLayoutCorp = RoomService::instance()->getRoomLayoutCorp($conditions, '*', 'room_layout_corp_id');
         //print_r($arrayAccessorialService);
         //赋值
         //sort($arrayRoomAttribute, SORT_NUMERIC);
@@ -75,6 +79,7 @@ class MemberSettingAction extends \BaseAction {
         $objResponse -> arrayDiscount = $arrayDiscount;
         $objResponse -> arrayType = $arrayType;
         $objResponse -> arrayBookSalesType = $arrayBookSalesType;
+        $objResponse -> arrayRoomLayoutCorp = $arrayRoomLayoutCorp;
         $objResponse -> add_url =
             \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['memberSetting']['add'])));
         $objResponse -> edit_url =
