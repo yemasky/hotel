@@ -250,6 +250,7 @@ class RoomService extends \BaseService {
             $arrayRoomLayoutPriceSystem['room_layout_price_system_add_time'] = getTime();
             //$arrayRoomLayoutPriceSystem['room_layout_id'] = $arrayPostValue['room_layout_id'];
             $arrayRoomLayoutPriceSystem['room_sell_layout_id'] = $arrayPostValue['sell_layout_id'];
+            $arrayRoomLayoutPriceSystem['room_layout_corp_id'] = $arrayPostValue['room_layout_corp_id'];
             $room_layout_price_system_id = $this->saveRoomLayoutPriceSystem($arrayRoomLayoutPriceSystem);
         }
         if(isset($arrayPostValue['hotel_service_id']) && !empty($arrayPostValue['hotel_service_id'])) {

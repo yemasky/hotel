@@ -84,10 +84,13 @@
                     <span class="form-horizontal">
                         <%section name=system loop=$arrayRoomLayoutPriceList[layout].price_system%>
                             <div class="control-group">
-                            <label class="control-label"><!--<i class="am-icon-glass am-blue-2F93FF"></i>--><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> : </label>
+                            <label class="control-label"><!--<i class="am-icon-glass am-blue-2F93FF"></i>--><%$arrayRoomLayoutPriceList[layout].price_system[system].room_layout_price_system_name%> : 
+                            </label>
                                 <div class="controls">
                                 <%if $arrayRoomLayoutPriceList[layout].price_system[system].price != ''%>
+                                <%foreach key=i item=price from=$arrayRoomLayoutPriceList[layout].price_system[system].price%>
                                     <ul class="stat-boxes stat-boxes2 pull-left">
+                                        <li><div class="left"><span class=""><%$thisYear%></span><%$month%></div><div class="right"><%if $price.room_layout_corp_id>0%>协议价格<%else%>正常价格<%/if%></div></li>
                                         <%section name=price loop=$monthT%>
                                         <%if $smarty.section.price.iteration<10%>
                                             <%$day=0|cat:$smarty.section.price.iteration%>
@@ -97,10 +100,11 @@
                                         <li>
                                             <div class="left"><span class="month_price"><%$day%></span><%$month%></div>
                                             <%$day=$day|cat:'_day'%>
-                                            <div class="right"> <strong><%$arrayRoomLayoutPriceList[layout].price_system[system].price.$day%></strong> </div>
+                                            <div class="right"> <strong><%$price.$day%></strong> </div>
                                         </li>
                                         <%/section%>
                                     </ul>
+                                <%/foreach%>
                                 <%else%>
                                 <code><i class="am-icon-rmb am-red-EA5555"></i><%$year%>-<%$month%> <%$arrayLaguage['no_price']['page_laguage_value']%></code>
                                 <%/if%>

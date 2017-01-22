@@ -4,7 +4,7 @@
 <%include file="hotel/inc/head.tpl"%>
 <script src="<%$__RESOURCE%>js/jquery.validate.js"></script>
 <style type="text/css">
-
+.this_crop{margin-bottom:10px; margin-left:0px !important;}
 </style>
 </head>
 <body>
@@ -38,7 +38,7 @@
                                 <div class="controls">
                                     <div class="btn-group">
                                         <input value="确定" class="btn btn-mini btn-warning" type="submit">
-                                        <input value="取消" class="btn btn-mini btn-success" type="button" id="cancel">
+                                        <input value="取消" class="btn btn-mini btn-primary " type="button" id="cancel">
                                     </div>
                                 </div>
                             </div>
@@ -48,32 +48,30 @@
                         <div class="span2">
                             <div class="widget-box">
                                 <div class="widget-title">
-                                    <span class="icon"><i class="icon-th-list"></i></span><h5>价格种类</h5>
+                                    <span class="icon"><i class="icon-th-list"></i></span><h5></h5>
                                 </div>
-                                <div class="widget-content text-right">
-                                    <%section name=i loop=$arrayDataInfo%>
-                                    <div class="btn-group this_edit">
-                                        <a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayDataInfo[i].room_layout_corp_name%> </a>
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                        <ul class="dropdown-menu" data-id="<%$arrayDataInfo[i].room_layout_corp_id%>" data-name="<%$arrayDataInfo[i].room_layout_corp_name%>" valid="<%$arrayDataInfo[i].room_layout_corp_valid%>">
-                                            <li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>
-                                            <li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                    <%/section%>
+                                <div class="widget-content text-center">
+                                    <a class="btn btn-primary add" href="#addLayoutAttr" url="index.php?module=Dj1TYA==" id="add_attribute" data-toggle="modal"><i class="am-icon-plus-square"></i> 添加价格种类</a>
                                 </div>
                              </div>
                         </div>
                         <div class="span10">
                             <div class="widget-box">
                                 <div class="widget-title">
-                                    <span class="icon"><i class="icon-th-list"></i></span><h5>权限</h5>
+                                    <span class="icon"><i class="icon-th-list"></i></span><h5>价格种类</h5>
                                 </div>
-                                <div class="widget-content nopadding form-horizontal">
-                                    <div class="control-group">
-                                        <label class="control-label"></label>
-                                        <div class="controls"></div>
+                                <div class="widget-content form-horizontal">
+                                    <%section name=i loop=$arrayDataInfo%>
+                                    <div class="btn-group this_crop">
+                                        <a class="btn edit_checkbox" href="#view"><i class="am-icon-circle-o"></i> <%$arrayDataInfo[i].room_layout_corp_name%> </a>
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                        <ul class="dropdown-menu" data-id="<%$arrayDataInfo[i].room_layout_corp_id%>" data-name="<%$arrayDataInfo[i].room_layout_corp_name%>" valid="<%$arrayDataInfo[i].room_layout_corp_valid%>">
+                                            <li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>
+                                            <li><a href="<%$arrayDataInfo[i].layout_corp_url%>"><i class="am-icon-pencil am-yellow-FFAA3C"></i> 添加协议公价格种类</a></li>
+                                            <li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>
+                                        </ul>
                                     </div>
+                                    <%/section%>
                                 </div>
                                 <div class="widget-content nopadding form-horizontal" id="role_power">
                                 
@@ -91,6 +89,7 @@
     </div>
 </div>
 <%include file="hotel/inc/footer.tpl"%>
+<%include file="hotel/inc/modal_box.tpl"%>
 <script language="javascript">
 $(document).ready(function(){
     var layout_corp_validate = $("#layout_corp").validate({
@@ -111,17 +110,20 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		},
 		submitHandler: function() {
-            var param = $("#add_employee_form").serialize();
-            $('#modal_save').show('fast');
+            var param = $("#layout_corp").serialize();
+            $('#modal_save').modal('show');
             var url = '<%$edit_corp_url%>';
             $.ajax({
                 url : url,type : "post",dataType : "json",data: param,
                 success : function(result) {
                     data = result;
-                    $('#modal_save').hide('fast');
+                    $('#modal_save').modal('hide');
                     if(data.success == 1) {
                         $('#modal_success').modal('show');
                         $('#modal_success_message').html(data.message);
+                        $('#modal_success').on('hidden.bs.modal', function () {
+                            window.location.reload();
+                        })
                     } else {
                         $('#modal_fail').modal('show');
                         $('#modal_fail_message').html(data.message);
@@ -140,15 +142,29 @@ $(document).ready(function(){
                 $('.add').click(function(e) {
                     $('#add').show('fast');
                     $('#room_layout_corp_id').val(0);
+                    $('#room_layout_corp_name').val('');
                 });
                 $('#cancel').click(function(e) {
                     $('#add').hide('fast');
+                });
+                $('.edit_btn').click(function(e) {
+                    thisModule.edit(this);
+                });
+                $('.this_crop').click(function(e) {
+                    thisModule.thisCrop(this);
                 });
             };
             thisModule.checkError = function() {
                 
             };
-            
+            thisModule.edit = function(_this) {
+                $('#add').show('fast');
+                $('#room_layout_corp_name').val($(_this).parent().attr('data-name'));
+                $('#room_layout_corp_id').val($(_this).parent().attr('data-id'));
+            };
+            thisModule.thisCrop = function(_this) {
+                
+            };
             return thisModule;
         },
     
