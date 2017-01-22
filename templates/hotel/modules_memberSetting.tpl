@@ -185,10 +185,10 @@
                                   <td class="discount_td" btype="book_type_name"><%$arrayType[$arrayDiscount[i].book_type_id].book_type_name%></td>
                                   <td class="discount_td" btype="book_discount_name"><%$arrayDiscount[i].book_discount_name%></td>
                                   <td class="discount_td"><%if $arrayDiscount[i].book_discount_type==1%>直减<%elseif $arrayDiscount[i].book_discount_type==0%>折扣<%else%>协议价<%/if%></td>
-                                  <td class="discount_td" btype="book_discount"><%$arrayDiscount[i].book_discount%></td>
+                                  <td class="discount_td" btype="book_discount"><%if $arrayDiscount[i].book_discount_type==2%><%$arrayRoomLayoutCorp[$arrayDiscount[i].room_layout_corp_id].room_layout_corp_name%><%else%><%$arrayDiscount[i].book_discount%><%/if%></td>
                                   <td class="discount_td">
                                   <%if $arrayDiscount[i].book_discount_type==2%>
-                                  <%$arrayRoomLayoutCorp[$arrayDiscount[i].room_layout_corp_id].room_layout_corp_name%>
+                                  
                                   <%else%>
                                     <%if $arrayDiscount[i].book_discount_type==1%>元<%else%>%<%/if%>
                                   <%/if%>

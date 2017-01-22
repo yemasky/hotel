@@ -803,6 +803,8 @@ class BookOperateService extends \BaseService {
         if(empty($sell_layout_list)) {
             return '';
         }
+        $layout_corp = $objRequest -> layout_corp;
+        $layout_corp = empty($layout_corp) ? '0' : $layout_corp;
         $arraySellIdSystemID = explode(',', $sell_layout_list);
         $arraySellSystem = '';
         foreach($arraySellIdSystemID as $i => $value) {
@@ -821,7 +823,7 @@ class BookOperateService extends \BaseService {
         //step1 {end} 取得已住房间
 
         //{begin} 查找房型房价
-        $conditions['where'] = array('hotel_id'=>$hotel_id,
+        $conditions['where'] = array('hotel_id'=>$hotel_id,'room_layout_corp_id'=>$layout_corp,
             '>='=>array('room_layout_price_begin_datetime'=>$arrayBookCheckIn[0] . '-' . $arrayBookCheckIn[1] . '-01'),
             '<='=>array('room_layout_price_begin_datetime'=>$arrayBookMaxCheckOut[0] . '-' . $arrayBookMaxCheckOut[1] . '-28'),
             '-'=>$whereSqlStr);

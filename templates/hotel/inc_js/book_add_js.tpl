@@ -221,7 +221,7 @@ $(document).ready(function(){
     
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},sell_layout_list:{},
-        priceSystem: {},roomSellLayout: {},payment_type: {},
+        priceSystem: {},roomSellLayout: {},payment_type: {},layout_corp: 0,
         hotelCheckDate: {'hotel_checkin':'<%$hotel_checkin%>', 'hotel_checkout':'<%$hotel_checkout%>'},
 	    max_man: 0,//最多人数
         BookUser_num: 1,
@@ -367,12 +367,14 @@ $(document).ready(function(){
                                 var discount_html = '<select name="book_discount_id" id="book_discount_id" class="span2 book_discount_id select_discount">';
                                 var option = '';
                                 for(i in data.itemData) {
-                                    option += '<option value="'+data.itemData[i].book_discount_id+'" type="'+data.itemData[i].book_discount_type+'">'
+                                    option += '<option value="'+data.itemData[i].book_discount_id+'" type="'+data.itemData[i].book_discount_type+'" '
+                                           +'layout_corp="'+data.itemData[i].layout_corp+'">'
                                            +data.itemData[i].book_discount_name + data.itemData[i].agreement_company_name +'</option>';
                                     book_discount_list[data.itemData[i].book_discount_id + '_0'] = data.itemData[i].book_discount;
                                     if(i == 0) {
                                         $('#discount').val(data.itemData[i].book_discount);
                                         book_discount_list[book_type_id + '_'] = data.itemData[i].book_discount;
+                                        BookEditClass.layout_corp = data.itemData[i].layout_corp;
                                     }
                                 }
                                 discount_html += option + '</section>';
@@ -385,6 +387,7 @@ $(document).ready(function(){
                                     if($(this).find('option:selected').attr('type') == 1) {
                                         $('#discount_type').text('直减');$('#book_discount_type').val('1');
                                     }
+                                    BookEditClass.layout_corp = $(this).find('option:selected').attr('layout_corp');
                                     bookEdit.computeBookPrice(true);
                                 })
                                 $('#discount_type').text('折扣');$('#book_discount_type').val('0');
@@ -723,7 +726,8 @@ $(document).ready(function(){
                 }
                 //$('#book_form div').hide();
                 $.ajax({
-                    url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&sell_layout_list=' + sell_layout_list,
+                    url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() 
+                        + '&sell_layout_list=' + sell_layout_list + '&layout_corp='+BookEditClass.layout_corp,
                     type : "post",
                     data : 'book_check_in=' + check_in + '&book_check_out=' + check_out + '&max_check_out=' + max_check_out,
                     dataType : "json",
@@ -1040,10 +1044,12 @@ $(document).ready(function(){
                                     var now_date_time = now_date.getTime();
                                     if(now_date_time <= balance_date_time) {
                                         var price = $(this).val() - 0;
-                                        thenRoomPrice['room'][room_key][rdate] = price;//房费
+                                        thenRoomPrice['room'][room_key][rdate] = {};
+                                        thenRoomPrice['room'][room_key][rdate]['price'] = price;//原始房费
+                                        thenRoomPrice['room'][room_key][rdate]['discount_price'] = price;//打折价格
                                         if(now_date_time == balance_date_time && is_half) {
                                             price = price * 0.5;
-                                            thenRoomPrice['half'][rdate] = price;
+                                            thenRoomPrice['half'][rdate] = price;//半天价格
                                         }
                                         room_price += price;
                                         room_all_price += price;

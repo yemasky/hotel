@@ -101,7 +101,7 @@ class BookAction extends \BaseAction {
             if(empty($book_type_id)) return $this->errorResponse('数据错误，请重新选择！');
             $conditions['where'] = array('book_type_id'=>$book_type_id,
                 'hotel_id'=>$hotel_id);
-            $fieldid = 'book_discount_id, book_discount, book_discount_type, book_discount_name, agreement_company_name';
+            $fieldid = 'book_discount_id, union_id, book_type_father_id, room_layout_corp_id layout_corp, book_discount, book_discount_type, book_discount_name, agreement_company_name';
             $arrayDiscount = BookService::instance()->getBookDiscount($conditions, $fieldid);
             return $this->successResponse('', $arrayDiscount);
         }
@@ -114,7 +114,8 @@ class BookAction extends \BaseAction {
             $this->setDisplay();
             if(empty($arrayPostValue['room_layout_id'])) return $this->errorResponse('房型数据错误！');
             unset($arrayPostValue['room_layout_length']);
-            $order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
+            $order_number = 0;
+            //$order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
             if($order_number == 0) return $this->errorResponse('预定失败！', $arrayPostValue);
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),//edit

@@ -67,7 +67,7 @@
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                                         <ul class="dropdown-menu" data-id="<%$arrayDataInfo[i].room_layout_corp_id%>" data-name="<%$arrayDataInfo[i].room_layout_corp_name%>" valid="<%$arrayDataInfo[i].room_layout_corp_valid%>">
                                             <li class="edit_btn"><a href="#edit"><i class="am-icon-pencil am-yellow-FFAA3C"></i> Edit</a></li>
-                                            <li><a href="<%$arrayDataInfo[i].layout_corp_url%>"><i class="am-icon-pencil am-yellow-FFAA3C"></i> 添加协议公价格种类</a></li>
+                                            <li><a href="<%$arrayDataInfo[i].layout_corp_url%>"><i class="am-icon-pencil am-yellow-FFAA3C"></i> 添加协议价</a></li>
                                             <li><a href="#delete"><i class="am-icon-trash am-red-FB0000"></i> Delete</a></li>
                                         </ul>
                                     </div>
