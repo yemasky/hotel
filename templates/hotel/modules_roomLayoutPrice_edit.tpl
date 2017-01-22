@@ -53,7 +53,7 @@
                     <form method="post" class="form-horizontal" enctype="multipart/form-data" novalidate>
                     <%if $arrayLayoutCorp!=''%>
                     <div class="control-group">
-                        <label class="control-label">协议公司价格种类 :</label>
+                        <label class="control-label">协议价种类 :</label>
                         <div class="controls"><input class="input-large" value="<%$arrayLayoutCorp.0.room_layout_corp_name%>" type="text" readonly></div>
                     </div>
                     <%/if%>

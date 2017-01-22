@@ -308,6 +308,7 @@
                             <select name="book_discount_type" id="book_discount_type" class="input-small">
                                 <option value="0">打折</option>
                                 <option value="1">直减</option>
+                                <option value="2">协议价</option>
                             </select>
                             折扣：
                             <div class="input-append">
