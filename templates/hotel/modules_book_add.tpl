@@ -278,8 +278,8 @@ input, select {border-radius: 0 !important;}
 						  </div>
                           <div class="controls hide" id="pre_licensing">
                           预授权金额：<input value="" type="text" class="input-mini" id="book_credit_authorized_amount" name="book_credit_authorized_amount" />
-                          预授权单号：<input value="" type="text" class="input-mini" id="book_credit_authorized_number" name="book_credit_authorized_number" />
-                          预授权天数：<input value="" type="text" class="input-mini" id="book_credit_authorized_days" name="book_credit_authorized_days" />
+                          预授权单号： <input value="" type="text" class="input-medium" id="book_credit_authorized_number" name="book_credit_authorized_number" />
+                          预授权天数： <input value="" type="text" class="input-mini" id="book_credit_authorized_days" name="book_credit_authorized_days" />
                           预授权卡号：<input value="" type="text" class="input-large" id="book_credit_card_number" name="book_credit_card_number" />
                           </div>
 						</div>
