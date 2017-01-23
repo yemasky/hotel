@@ -361,7 +361,7 @@
                                       <td>
                                         <select id="price_system" class="input-medium">
                                         <%foreach key=system_id item=arraySystem from=$arrayPriceSystem%>
-                                            <option sell_id="<%$arraySystem.room_sell_layout_id%>" value="<%$system_id%>"><%$arraySystem.room_layout_price_system_name%></option>
+                                            <option sell_id="<%$arraySystem.room_sell_layout_id%>" layout_corp="<%$arraySystem.room_layout_corp_id%>" value="<%$system_id%>"><%$arraySystem.room_layout_price_system_name%></option>
                                         <%/foreach%>
                                         </select>
                                       </td>
