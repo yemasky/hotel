@@ -867,7 +867,7 @@ $(document).ready(function(){
                         td2 += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                             +'<input value="'+layoutPrice[i][day+'_day']+'" rdate="'+this_day+'" '
                             +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
-                            +'class="layout_price span12" type="text" readonly ></div></li>';
+                            +'class="layout_price span12" type="text" ></div></li>';
                         if(typeof(cash_pledge[sell_layout_id+'-'+system_id]) == 'undefined') {
                             cash_pledge[sell_layout_id+'-'+system_id] = layoutPrice[i][day+'_day'];
                         }
@@ -891,7 +891,7 @@ $(document).ready(function(){
                             td_bed += '<li><div class="left '+div_class+'"><span>'+day+'</span>'+weekday[week]+'</div><div class="right">'
                                 +'<input value="'+bed[day+'_day']+'" beddate="'+this_day+'" '
                                 +'room_layout="'+roomSellLayout[sell_layout_id].room_layout_id+'" system_id="'+system_id+'" sell_layout="'+sell_layout_id+'"'
-                                +'class="span12 extra_bed_price" type="text" readonly >'
+                                +'class="span12 extra_bed_price" type="text" >'
                                 +'</div></li>';
                         }    
                         td_bed += '</ul>';
