@@ -9,6 +9,8 @@
 namespace hotel;
 
 
+use vakata\database\Exception;
+
 class NightAuditAction extends \BaseAction {
     protected function check($objRequest, $objResponse) {
 
@@ -74,6 +76,7 @@ class NightAuditAction extends \BaseAction {
         $conditions = DbConfig::$db_query_conditions;
         $conditions['where'] = array('IN'=>array('hotel_id'=>array($hotel_id,0)), 'hotel_service_setting_type'=>'night_audit');
         $nightAuditTime = HotelService::instance()->getHotelServiceSetting($conditions);
+        if(empty($nightAuditTime)) throw new Exception('$nightAuditTime is Empty');
         $nightAuditTime = $nightAuditTime[0]['hotel_service_setting_value'];//夜审开始和截止时间
 
         //判断是否到时间开始夜审
