@@ -594,6 +594,7 @@ $(document).ready(function(){
                 var room_layout_id = $('#sell_layout').find("option:selected").attr('room_layout');
                 var sell_id = $('#sell_layout').val();var system_id = $('#price_system').val();
                 var check_in = $('#room_check_in').val(); var check_out = $('#room_check_out').val();
+                var layout_corp = '<%$arrayDataInfo[0].room_layout_corp_id%>';
                 if(check_in == '' || check_out == ''){
                     //$('#modal_info').modal('show');
                     //$('#modal_info_message').html('请选择入住日期/离店日期！');
@@ -609,7 +610,8 @@ $(document).ready(function(){
                 }
                 var max_check_out = bookEdit.maxCheckOut(check_out);
                 $.ajax({
-                    url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() + '&sell_layout_list=' + sell_id + '-' + system_id,
+                    url : '<%$searchBookInfoUrl%>&search=searchRoomLayout&discount=' + $('#discount').val() 
+                        + '&sell_layout_list=' + sell_id + '-' + system_id + '&layout_corp=' + layout_corp,
                     type : "post",
                     data : 'book_check_in=' + check_in + '&book_check_out=' + check_out + '&max_check_out=' + max_check_out,
                     dataType : "json",

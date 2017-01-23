@@ -33,6 +33,8 @@ class BookOperateService extends \BaseService {
         $employee_id = $objResponse->arrayLoginEmployeeInfo['employee_id'];
         $arrayThenRoomPrice = json_decode(stripslashes($objRequest->thenRoomPrice), true);
         $arrayUserLodger = json_decode(stripslashes($objRequest->user_lodger), true);
+        $room_layout_corp_id = $objRequest -> layout_corp;
+        $room_layout_corp_id = empty($room_layout_corp_id) ? '0' : $room_layout_corp_id;
         //联系信息 <!-- -->
         $arrayBill['book_contact_name']             = $arrayPostValue['book_contact_name'];//联系人
         if(!empty($arrayPostValue['book_contact_mobile']))
@@ -42,6 +44,7 @@ class BookOperateService extends \BaseService {
         $arrayBill['employee_id']                   = $employee_id;
         $arrayBill['hotel_id']                      = $hotel_id;
         //来源 <!-- -->
+        $arrayBill['room_layout_corp_id']           = $room_layout_corp_id;
         $arrayBill['book_type_id']                  = $arrayPostValue['book_type_id'];
         $arrayBill['book_order_number_ourter']      = $objRequest -> book_order_number_ourter;//如果是OTA 有外部订单号
         //折扣 <!-- -->

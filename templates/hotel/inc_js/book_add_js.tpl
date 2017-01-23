@@ -194,7 +194,7 @@ $(document).ready(function(){
 				var param = $("#book_form").serialize();
 				$.ajax({
 					url : '<%$book_url%>',type : "post",dataType : "json",
-                    data: param+'&thenRoomPrice='+JSON.stringify(BookEditClass.thenRoomPrice)+'&user_lodger='+JSON.stringify(user_lodger),
+                    data: param+'&thenRoomPrice='+JSON.stringify(BookEditClass.thenRoomPrice)+'&user_lodger='+JSON.stringify(user_lodger) + '&layout_corp=' + BookEditClass.layout_corp,
 					success : function(result) {
                         data = result;
 						if(data.success == 1) {
