@@ -107,6 +107,7 @@ class MemberSettingAction extends \BaseAction {
             $arrayData['book_type_name'] = $objRequest -> book_type_name;
             $arrayData['type'] = $objRequest -> type;
             $arrayData['book_sales_type_id'] = $objRequest -> book_sales_type_id;
+            $book_type_father_id = $objRequest -> book_type;
             if(empty($arrayPostValue['agreement_active_time_begin'])) unset($arrayPostValue['agreement_active_time_begin']);
             if(empty($arrayPostValue['agreement_active_time_end'])) unset($arrayPostValue['agreement_active_time_end']);
             if($act == 'booktype') {
@@ -121,9 +122,15 @@ class MemberSettingAction extends \BaseAction {
                     } else {
                         BookService::instance()->startTransaction();
                         $arrayData['hotel_id'] = $objResponse->arrayLoginEmployeeInfo['hotel_id'];
+                        if($book_type_father_id > 0 && is_numeric($book_type_father_id)) {
+                            $arrayData['book_type_father_id'] = $book_type_father_id;
+                        }
                         $book_type_id = BookService::instance()->saveBookType($arrayData);
-                        BookService::instance()->updateBookType(array('book_type_id'=>$book_type_id),
+                        if($book_type_father_id > 0 && is_numeric($book_type_father_id)) {
+                        } else {
+                            BookService::instance()->updateBookType(array('book_type_id'=>$book_type_id),
                                 array('book_type_father_id'=>$book_type_id));
+                        }
                         BookService::instance()->commit();
                         return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'],'',$url);
                     }
