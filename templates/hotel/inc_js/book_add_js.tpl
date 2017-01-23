@@ -628,9 +628,9 @@ $(document).ready(function(){
                     }
                     var sell_name = $(this).find("option:selected").attr('sell_name');
                     var price_system_name = $.trim($(this).find("option:selected").text());
-                    var html = ' <li><i class="am-icon-check-square"></i>'
+                    var html = ' <li><i class="am-icon-check-circle"></i> '
                           +sell_name+'-'+price_system_name
-                          +'<i class="am-icon-trash-o am-red-E43737 sell_layout_del" id="sell_del_'+sell_del_id+'"></i></li>';
+                          +' <i class="am-icon-trash-o am-red-E43737 sell_layout_del" id="sell_del_'+sell_del_id+'"></i></li>';
                     BookEditClass.sell_layout_list[sell_del_id] = sell_name + '-' + price_system_name;
                     $('#search_room_layout').before(html);
                     $('#sell_del_'+sell_del_id).click(function(e) {
@@ -1178,7 +1178,7 @@ $(document).ready(function(){
                 $('#need_service_price').val(service_price);
                 //room_price = days * room_price * ($('#discount').val() - 0) / 100;
                 var book_service_charge = $('#book_service_charge').val() - 0;//服务费
-                var total_price = book_service_charge + room_price +　service_price + pledge_price;//总价=服务费+房费+附加服务费+押金
+                var total_price = accAdd(accAdd(accAdd(book_service_charge, room_price), service_price), pledge_price);//总价=服务费+房费+附加服务费+押金
                 /////////
                 $('#total_price').val(total_price);
                 $('#prepayment').val(pledge_price + service_price);//预付金 = 押金+附加服务费
