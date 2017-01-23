@@ -50,8 +50,6 @@ class RoomsStatusAction extends \BaseAction {
         //房态
         $arrayCheckInRoom = RoomsStatusService::instance()->getBookRoomStatus($conditions, $hotel_id, $thisDay, $toDay);
         //入住信息
-
-
         //赋值
         $objResponse -> arrayRoom = $arrayRoom;
         $objResponse -> arrayRoomStatus = json_encode($arrayCheckInRoom);
