@@ -602,9 +602,9 @@ $(document).ready(function(){
                     }
                     //text = 
                     BookEditClass.sell_layout_list[sell_del_id] = sell_name;
-                    var html = ' <li data-id="'+this.value+'" data-text="'+sell_name+'"><i class="am-icon-check-square"></i>'
+                    var html = ' <li data-id="'+this.value+'" data-text="'+sell_name+'"><i class="am-icon-check-circle"></i> '
                               +sell_name+'-'+sellLayout[0][1]
-                              +'<i class="am-icon-trash-o am-red-E43737 sell_layout_del" id="sell_del_'+sell_del_id+'"></i></li>';
+                              +' <i class="am-icon-trash-o am-red-E43737 sell_layout_del" id="sell_del_'+sell_del_id+'"></i></li>';
                     $('#search_room_layout').before(html);
                     $('#sell_del_'+sell_del_id).click(function(e) {
                         BookEditClass.sell_layout_list[sell_del_id] = '';

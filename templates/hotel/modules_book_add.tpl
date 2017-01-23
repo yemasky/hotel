@@ -37,7 +37,8 @@
 #controls_sell_layout li{font-size:inherit !important; text-align:center; margin: 5px 0 0 0;}
 #controls_sell_layout select{ margin-top:-2px;}
 .btn-icon-pg li{min-width:auto !important;}
-#select_sell_layout li{margin:0 5px 5px 0;}
+#select_sell_layout li{margin:0 5px 5px 0;padding: 5px; cursor:pointer;}
+.quick-actions{margin:0px !important; padding:0px; text-align:left !important;}
 input, select {border-radius: 0 !important;}
 /*.table-bordered th, .table-bordered td {border-left: 0px solid #ddd !important;}*/
 @media (max-width: 480px){
@@ -153,8 +154,8 @@ input, select {border-radius: 0 !important;}
                                     <%/section%>
                                  </select> 
                             </div>
-                            <div class="controls btn-icon-pg">
-                                <ul id="select_sell_layout"><a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a></ul>
+                            <div class="controls">
+                                <ul id="select_sell_layout" class="quick-actions"><a href="#searchRoom" id="search_room_layout" class="btn btn-primary btn-mini"><i class="am-icon-search"></i> <%$arrayLaguage['find_room']['page_laguage_value']%></a></ul>
                             </div>
                             <!--<label class="control-label"><%$arrayLaguage['include_service']['page_laguage_value']%> :</label>
                             <div class="controls" id="controls_service">
