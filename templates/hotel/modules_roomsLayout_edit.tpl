@@ -67,7 +67,7 @@
                     <label class="control-label"><%$arrayLaguage['area']['page_laguage_value']%> :</label>
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['area']['page_laguage_value']%>" name="room_layout_area" id="room_layout_area" value="<%$arrayDataInfo['room_layout_area']%>" /> </div>
                 </div>-->
-                <div class="control-group">
+                <!--<div class="control-group">
                     <label class="control-label">容纳人数 :</label>
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_max_people']['page_laguage_value']%>" name="room_layout_max_people" id="room_layout_max_people" value="<%$arrayDataInfo['room_layout_max_people']%>" /> </div>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="control-group">
                     <label class="control-label"><%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%> :</label>
                     <div class="controls"><input type="text" class="span1" placeholder="<%$arrayLaguage['room_layout_extra_bed']['page_laguage_value']%>" name="room_layout_extra_bed" id="room_layout_extra_bed" value="<%$arrayDataInfo['room_layout_extra_bed']%>" /> (0表示不可加床，阿拉伯数字表示加床数量)</div>
-                </div>
+                </div>-->
                 <div class="control-group">
                     <label class="control-label">床型 :</label>
                     <div class="controls">
@@ -190,8 +190,8 @@
                     <span id="<%$arrayRoom[room].room_id%>" data-id="<%$arrayRoom[room].room_id%>" value="<%$arrayRoom[room].room_id%>" class="<%if $arrayRoom[room].checked!='0'%>am-icon-check-square<%else%>am-icon-square-o<%/if%> selectRoom am-blue-2F93FF" check="<%$arrayRoom[room].checked%>"></span>
                     <%$arrayRoom[room].room_name%>[<%$arrayRoom[room].room_number%>]
                     </a>
-                    <!--<%$arrayLaguage['orientations']['page_laguage_value']%>--><i class="am-icon-location-arrow"></i> <%$arrayLaguage[$arrayRoom[room].room_orientations]['page_laguage_value']%>
-                    <%$arrayLaguage['room_area']['page_laguage_value']%>:<%$arrayRoom[room].room_area%>
+                    <!--<%$arrayLaguage['orientations']['page_laguage_value']%><i class="am-icon-location-arrow"></i> <%$arrayLaguage[$arrayRoom[room].room_orientations]['page_laguage_value']%>
+                    <%$arrayLaguage['room_area']['page_laguage_value']%>:<%$arrayRoom[room].room_area%>-->
                     <table>
                     <tr>
                         <td align="right"><%$arrayLaguage['room_layout_max_people']['page_laguage_value']%> :</td>
