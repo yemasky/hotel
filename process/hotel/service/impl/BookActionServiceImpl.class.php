@@ -31,7 +31,15 @@ class BookActionServiceImpl extends \BaseService  {
         $conditions['where'] = array('hotel_id'=>$hotel_id, 'book_order_number'=>$order_number);
         $conditions['order'] = 'book_order_number_main DESC';
         $arrayBookInfo = BookService::instance()->getBook($conditions);
+        $conditions['order'] = '';
         if(!empty($arrayBookInfo)) {
+            //协议公司
+            $arrayLayoutCorp = '';
+            if($arrayBookInfo[0]['room_layout_corp_id'] > 0) {
+                $conditions['where'] = array('hotel_id'=>$hotel_id, 'room_layout_corp_id'=>$arrayBookInfo[0]['room_layout_corp_id']);
+                $arrayLayoutCorp = RoomService::instance()->getRoomLayoutCorp($conditions, '*', 'room_layout_corp_id');
+            }
+            $objResponse -> arrayLayoutCorp = $arrayLayoutCorp;
             $this -> showBookInfo($objRequest, $objResponse, $arrayBookInfo, $order_number);
         } else {
             $objResponse -> message_http404 = '没找到相关订单记录！';

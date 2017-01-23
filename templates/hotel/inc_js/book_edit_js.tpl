@@ -280,6 +280,16 @@ $(document).ready(function(){
                 $('#update_sumbit').click(function () {
                     bookEdit.returnUpdateSumbit()
                 });
+                $('#free_change_btn').click(function () {
+                    var free = $(this).hasClass('am-icon-square-o');
+                    if(free) {
+                        $(this).removeClass('am-icon-square-o').addClass('am-icon-check-square-o');
+                        $('#free_change').val(1);
+                    } else {
+                        $(this).removeClass('am-icon-check-square-o').addClass('am-icon-square-o');
+                        $('#free_change').val(0);
+                    }
+                });
             };
             bookEdit.returnRoomMoney = function() {
                 var return_book_cash_pledge = $('#return_book_cash_pledge').val();

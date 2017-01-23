@@ -394,12 +394,17 @@
                                            <span class="add-on">
                                                 <%if $arrayDataInfo[0].book_discount_type == 0%>
                                                 <%$arrayLaguage['discount']['page_laguage_value']%>
-                                                <%else%>
+                                                <%elseif $arrayDataInfo[0].book_discount_type == 1%>
                                                 直减
+                                                <%elseif $arrayDataInfo[0].book_discount_type == 2%>
+                                                协议价
                                                 <%/if%>
                                                 <input type="hidden" value="<%$arrayDataInfo[0].book_discount_type%>" name="book_discount_type" id="book_discount_type">
                                            </span>
-                                           <input id="discount" class="input-mini" type="text" value="<%$arrayDataInfo[0].book_discount%>">
+                                           <%if $arrayDataInfo[0].book_discount_type == 2%>
+                                           <span class="add-on"><%$arrayLayoutCorp[$arrayDataInfo[0].room_layout_corp_id].room_layout_corp_name%></span>
+                                           <%/if%>
+                                           <input id="discount" class="input-mini" type="<%if $arrayDataInfo[0].book_discount_type == 2%>hidden<%else%>text<%/if%>" value="<%$arrayDataInfo[0].book_discount%>">
                                            <span class="add-on"><%$arrayLaguage['total_room_rate']['page_laguage_value']%></span>
                                            <input value="0" class="input-mini" id="total_room_rate" name="total_room_rate" type="text">
                                            <span class="add-on">加床费</span>
@@ -410,7 +415,7 @@
                                            <input value="1" class="input-mini" id="book_days_total" name="book_days_total" aria-invalid="false" type="text">
                                            <span class="add-on">免费换房</span>
                                            <i class="am-icon-square-o btn" id="free_change_btn"></i>
-                                           <input value="1" class="input-mini" id="free_change" name="free_change" type="hidden">
+                                           <input value="0" class="input-mini" id="free_change" name="free_change" type="hidden">
                                            
                                            <a id="room_rate_calculation" class="btn btn-primary"><i class="am-icon-calculator" id="am-icon-calculator"></i> <%$arrayLaguage['room_rate_calculation']['page_laguage_value']%></a>
                                            <a id="save_add_room" class="btn btn-primary"><i class="am-icon-save"></i> <%$arrayLaguage['confirm']['page_laguage_value']%></a>
