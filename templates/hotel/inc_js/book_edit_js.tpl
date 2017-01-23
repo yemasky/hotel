@@ -92,7 +92,7 @@ $(document).ready(function(){
     var BookEditClass = {
         hotel_service: {},book_discount_list: {},bookSelectRoom: {},bookNeed_service:{},lastDate:{},thenRoomPrice:{},tempRoomPrice:{},
         hotelCheckDate: {},roomSellLayout: {},selectBed:{},tempRoomEdit:{},room_info_id:{},room_info :{},tempServicePrice: {},
-        returnRoom:{},returnRoomPrice:{},
+        returnRoom:{},returnRoomPrice:{},layout_corp: '<%$arrayDataInfo[0].room_layout_corp_id%>',
 	    max_man: 0,//最多人数
         BookUser_num: 1,
         priceSystem:{},payment_type:{},
@@ -594,7 +594,7 @@ $(document).ready(function(){
                 var room_layout_id = $('#sell_layout').find("option:selected").attr('room_layout');
                 var sell_id = $('#sell_layout').val();var system_id = $('#price_system').val();
                 var check_in = $('#room_check_in').val(); var check_out = $('#room_check_out').val();
-                var layout_corp = '<%$arrayDataInfo[0].room_layout_corp_id%>';
+                var layout_corp = BookEditClass.layout_corp;
                 if(check_in == '' || check_out == ''){
                     //$('#modal_info').modal('show');
                     //$('#modal_info_message').html('请选择入住日期/离店日期！');
