@@ -234,7 +234,9 @@ class BookOperateService extends \BaseService {
             $sell_id = $arrayLayoutSystem[0];
             $room_layout_id = $arrayLayoutSystem[1];
             $system_id = $arrayLayoutSystem[2];
-            foreach($arrayDatePrice as $date => $roomPrice) {
+            foreach($arrayDatePrice as $date => $roomKeyPrice) {
+                $roomPrice = $roomKeyPrice['price'];
+                $roomDiscountPrice = $roomKeyPrice['discount_price'];
                 if($date == 'room_price') continue;
                 $arrayDate = explode('-', $date);
                 $year = $arrayDate[0]; $month = trim($arrayDate[1] - 0); $day = $arrayDate[2];
@@ -287,12 +289,13 @@ class BookOperateService extends \BaseService {
                     $fiscal_day = date("Y-m-d", strtotime($year . '-' . $month . '-' . $day . ' - 24 HOUR'));
                     $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = $fiscal_day . ' 12:00:00';
                     $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = $year . '-' . $month . '-' . $day . ' 12:00:00';
+                    $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $roomDiscountPrice;
                     if(isset($arrayThenRoomPrice['half'][$date])) {
-                        $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayThenRoomPrice['half'][$date] * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
+                        //$arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $arrayThenRoomPrice['half'][$date] * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
                         $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_begin'] = $year . '-' . $month . '-' . $day . ' 12:00:00';//半天房费计算时间 ？
                         $arrayNightAudit[$iNightAudit]['book_fiscal_day_quantum_to'] = $year . '-' . $month . '-' . $day . ' 18:00:00';//半天房费计算时间 ？
                     } else {
-                        $arrayNightAudit[$iNightAudit]['book_night_audit_income'] = $roomPrice * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
+                        //$roomPrice * $arrayNightAudit[$iNightAudit]['book_discount'] / 100;
                     }
                     $arrayNightAudit[$iNightAudit]['book_night_audit_income_type'] = 'room';
                     $arrayNightAudit[$iNightAudit]['book_is_check_employee_id'] = $employee_id;

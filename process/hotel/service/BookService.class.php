@@ -97,7 +97,7 @@ class BookService extends \BaseService {
         $arrayBookType = null;
         if(!empty($arrayBookTypeId)) {
             $conditions['where'] = array('book_discount_id'=>$arrayBookTypeId[0]['book_discount_id']);
-            $arrayBookTypeDiscount = $this->getBookDiscount($conditions, 'book_discount, book_discount_type, book_discount_name, agreement_company_name');
+            $arrayBookTypeDiscount = $this->getBookDiscount($conditions, 'book_discount, book_discount_type, book_discount_name, agreement_company_name, room_layout_corp_id layout_corp');
         }
         if(!empty($arrayBookTypeDiscount)) {
             $arrayBookType['book_discount_id'] = $arrayBookTypeId[0]['book_discount_id'];
@@ -106,6 +106,7 @@ class BookService extends \BaseService {
             $arrayBookType['book_discount_name'] = $arrayBookTypeDiscount[0]['book_discount_name'];
             $arrayBookType['agreement_company_name'] = $arrayBookTypeDiscount[0]['agreement_company_name'];
             $arrayBookType['book_discount_type'] = $arrayBookTypeDiscount[0]['book_discount_type'];
+            $arrayBookType['layout_corp'] = $arrayBookTypeDiscount[0]['layout_corp'];
         }
         return $arrayBookType;
     }

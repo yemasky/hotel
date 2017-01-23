@@ -107,6 +107,10 @@ input, select {border-radius: 0 !important;}
 								 <input type="text" id="discount" name="book_discount" class="input-mini book_price" placeholder="<%$arrayLaguage['discount']['page_laguage_value']%>" value="100"  />
 								 <%$arrayLaguage['discount_describe']['page_laguage_value']%> :
 								 <input type="text" id="book_discount_describe" name="book_discount_describe" class="input-large" placeholder="<%$arrayLaguage['discount_describe']['page_laguage_value']%>"  />
+                                 <!--<div class="input-prepend input-append">
+                                     <span class="add-on">半天不打折</span>
+                                     <span class="add-on btn"><input type="checkbox" value="1" name="" id="half_discount" checked> </span>
+                                 </div>-->
 							</div>
 						</div>
 						<div class="control-group hide book_form_step1">
@@ -143,7 +147,7 @@ input, select {border-radius: 0 !important;}
                                  </select> 
                                  <select id="price_system" class="input-medium">
                                     <%section name=i loop=$arrayPriceSystem%>
-                                        <option sell_id="<%$arrayPriceSystem[i].room_sell_layout_id%>" value="<%$arrayPriceSystem[i].room_layout_price_system_id%>">
+                                        <option sell_id="<%$arrayPriceSystem[i].room_sell_layout_id%>" layout_corp="<%$arrayPriceSystem[i].room_layout_corp_id%>" value="<%$arrayPriceSystem[i].room_layout_price_system_id%>">
                                             <%$arrayPriceSystem[i].room_layout_price_system_name%>
                                         </option>
                                     <%/section%>

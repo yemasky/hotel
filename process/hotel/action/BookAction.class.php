@@ -114,8 +114,8 @@ class BookAction extends \BaseAction {
             $this->setDisplay();
             if(empty($arrayPostValue['room_layout_id'])) return $this->errorResponse('房型数据错误！');
             unset($arrayPostValue['room_layout_length']);
-            $order_number = 0;
-            //$order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
+            //$order_number = 0;
+            $order_number = BookOperateService::instance()->saveBookInfo($objRequest, $objResponse);
             if($order_number == 0) return $this->errorResponse('预定失败！', $arrayPostValue);
             $redirect_url =
                 \BaseUrlUtil::Url(array('module'=>encode(ModulesConfig::$modulesConfig['book']['edit']),//edit
