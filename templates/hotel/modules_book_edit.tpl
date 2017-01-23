@@ -148,7 +148,7 @@
 										</tr>
 										<tr>
 											<td>折扣</td>
-											<td><%$arrayDataInfo[0].book_discount%></td>
+											<td><%if $arrayDataInfo[0].book_discount_type==2%><code>协议价</code><%else%><%$arrayDataInfo[0].book_discount%><%/if%></td>
                                             <td></td>
 										</tr>
                                         <tr>
