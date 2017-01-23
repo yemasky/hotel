@@ -151,6 +151,8 @@ class MemberSettingAction extends \BaseAction {
                         BookService::instance()->updateBookDiscount($where, $arrayPostValue);
                         return $this->successResponse($objResponse->arrayLaguage['save_success']['page_laguage_value'], '', $url);
                     } else {
+                        if(empty($arrayPostValue['room_layout_corp_id'])) $arrayPostValue['room_layout_corp_id'] = '0';
+                        if(empty($arrayPostValue['book_discount'])) $arrayPostValue['book_discount'] = '100';
                         unset($arrayPostValue['book_discount_id']);
                         $arrayPostValue['book_type_id'] = $arrayPostValue['discount_book_type_id'];
                         unset($arrayPostValue['discount_book_type_id']);
