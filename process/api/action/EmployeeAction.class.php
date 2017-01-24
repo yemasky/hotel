@@ -29,7 +29,9 @@ class EmployeeAction extends \BaseAction {
     protected function doDefault($objRequest, $objResponse) {
         $conditions = \DbConfig::$db_query_conditions;
         $conditions['where'] = array('hotel_id'=>1);
-        $arrayDepartment = \hotel\EmployeeService::instance()->getEmployee($conditions);
+        $field = 'employee_id,company_id,hotel_id,department_id,department_position_id,role_id,employee_name,employee_sex,employee_birthday,employee_photo,'
+                .'employee_mobile,employee_email,employee_weixin,employee_add_date,employee_add_time';
+        $arrayDepartment = \hotel\EmployeeService::instance()->getEmployee($conditions, $field);
         $this->successResponse($arrayDepartment);
 
     }
