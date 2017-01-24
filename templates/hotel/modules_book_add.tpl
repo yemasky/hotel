@@ -68,7 +68,7 @@ input, select {border-radius: 0 !important;}
                 <div class="widget-content nopadding">
                     <form action="#" method="post" class="form-horizontal ui-formwizard" enctype="multipart/form-data" name="contact_form" id="contact_form">
                     	<div class="control-group" id="form-wizard-1">
-                            <label class="control-label"><%$arrayLaguage['checkin_name']['page_laguage_value']%> 
+                            <label class="control-label">预订人 
                             <i class="am-icon-user am-green-54B51C"></i> :</label>
                             <div class="controls">
                             <input type="text" id="contact_name" name="contact_name" class="input-medium" placeholder="<%$arrayLaguage['name']['page_laguage_value']%>"  />
