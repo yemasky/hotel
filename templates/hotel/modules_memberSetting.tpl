@@ -32,7 +32,7 @@
                     <h5><%$selfNavigation.hotel_modules_name%></h5>
                     <div class="buttons" id="btn_room_layout">
                         <a class="btn btn-primary btn-mini add_data" href="#add"><i class="am-icon-plus-square"></i> 
-                        &#12288;<%$arrayLaguage['add_category']['page_laguage_value']%></a>
+                        &#12288;添加来源</a>
                     </div>
                 </div>
                 <div class="widget-title">
@@ -69,7 +69,7 @@
                             </div>
                          <%/foreach%>
                          <div class="controls">
-                            <a class="btn btn-primary btn-mini add_data"><i class="am-icon-plus-circle"></i> <%$arrayLaguage['add_category']['page_laguage_value']%></a>
+                            <a class="btn btn-primary btn-mini add_data"><i class="am-icon-plus-circle"></i> 添加来源</a>
                          </div>
                          
                         </div>
