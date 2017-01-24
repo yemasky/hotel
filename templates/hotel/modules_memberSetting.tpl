@@ -83,7 +83,7 @@
                                   <td><i></i></td>
                                   <td><%$arrayLaguage['apellation']['page_laguage_value']%></td>
                                   <td>折扣名称</td>
-                                  <td>类别</td>
+                                  <td>折扣方式</td>
                                   <td></td>
                                   <td>单位</td>
                                   <td>公司名称</td>
