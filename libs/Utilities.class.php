@@ -72,12 +72,18 @@ class Utilities {
 	}
 
 	public static function getOrderNumber($billid, $length = 16, $type = 'DATE') {
-        $date = '';
 	    if($type == 'DATE') {
 	        $date = getDay();
+            if(strlen($billid) >= $length) return $billid;
+            $billno = $date . $billid.'0';
+            $id_lenght = strlen($billno) + 1;
+            for($i = $id_lenght; $i<=$length; $i++) {
+                $billno .= rand(1, 9);
+            }
+	        return $billno;
         }
 	    if(strlen($billid) >= $length) return $billid;
-        $billno = $date . $billid.'0';
+        $billno = $billid.'0';
         $id_lenght = strlen($billno) + 1;
         for($i = $id_lenght; $i<=$length; $i++) {
             $billno .= rand(1, 9);
