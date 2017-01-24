@@ -48,7 +48,16 @@ class RoomsStatusAction extends \BaseAction {
         $arrayRoom = RoomService::instance()->getRoom($conditions, '*', 'room_mansion', true, '', 'room_floor');
         $conditions['order'] = '';
         //房态
-        $arrayCheckInRoom = RoomsStatusService::instance()->getBookRoomStatus($conditions, $hotel_id, $thisDay, $toDay);
+        $thisHour = date("H:i:s");
+        $book_check_in = $thisDay;
+        if($thisDay == getDay()) {
+            $book_check_in = $thisDay . ' ' . $thisHour;
+        }
+        $book_check_out = $toDay;
+        if($toDay == getDay()) {
+            $book_check_out = $toDay . ' ' . $thisHour;
+        }
+        $arrayCheckInRoom = RoomsStatusService::instance()->getBookRoomStatus($conditions, $hotel_id, $book_check_in, $book_check_out);
         //入住信息
         //赋值
         $objResponse -> arrayRoom = $arrayRoom;
