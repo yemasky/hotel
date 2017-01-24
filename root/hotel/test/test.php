@@ -1,5 +1,10 @@
 <?php
 
+for($i = 190; $i < 200 ; $i++) {
+    echo $i % 999999 . "<br>";
+}
+
+return;
  phpinfo();
 return;
 require_once ("../config.php");
